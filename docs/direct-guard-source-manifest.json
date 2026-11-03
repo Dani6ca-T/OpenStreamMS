@@ -1,0 +1,145 @@
+{
+  "baseCommit": "f8a595cf7c17688b5e801f7be918e70bb54d2124",
+  "profile": "direct-guard-1.5.1",
+  "normalization": "UTF-8 source with CRLF normalized to LF",
+  "sources": [
+    {
+      "path": "Core/Api/RdpWrapperEndpoints.cs",
+      "normalizedLfSha256": "d22af07d9ddb3990b5eb47b8983317522e4f5d0ec9c76544f3ef37df136a227e"
+    },
+    {
+      "path": "Core/Api/StreamSessionService.cs",
+      "normalizedLfSha256": "0921293a481d94c744312cf86b0302f40d4cea128b13e511fadd843e0b19c92b"
+    },
+    {
+      "path": "Core/wwwroot/app.js",
+      "normalizedLfSha256": "dd7abffd26054ed3eef0ba15b4c85abefc9b5640dfb468ae6fbe54f6f26faf72"
+    },
+    {
+      "path": "Core/wwwroot/index.html",
+      "normalizedLfSha256": "0883e8caeb9db0c2a818e1e5d845f2865c5225d16d98c53928e09c53411f51f6"
+    },
+    {
+      "path": "Core/wwwroot/locales/bg.json",
+      "normalizedLfSha256": "bd46e85ba1ee09a61628bad553c7489d67d1a19fd33c48fde928e9bc06dd1f4f"
+    },
+    {
+      "path": "Core/wwwroot/locales/cs.json",
+      "normalizedLfSha256": "d19994074fcf19c5bfa80e413fafd4d9d4891041b443a7afa157c00ed3c030b8"
+    },
+    {
+      "path": "Core/wwwroot/locales/de.json",
+      "normalizedLfSha256": "3a02bda5159b63caca4cd95279af90516f494d13a841b20c31f474adbd99d308"
+    },
+    {
+      "path": "Core/wwwroot/locales/en.json",
+      "normalizedLfSha256": "ae93155f49cde011a1b63a96e4c881384c77dcfe1b0d5c4f86df7bf876d53d5f"
+    },
+    {
+      "path": "Core/wwwroot/locales/en_GB.json",
+      "normalizedLfSha256": "95dfe64ae4b61e3436b53358e5187e86538d264d0a4ba04dc72c9efcdf077467"
+    },
+    {
+      "path": "Core/wwwroot/locales/en_US.json",
+      "normalizedLfSha256": "84bde24998b4e090af26c96a54b8526f84f1ff13a712be365c5c69394701772b"
+    },
+    {
+      "path": "Core/wwwroot/locales/es.json",
+      "normalizedLfSha256": "d69a1fb9881d6aed2064c2696437626cb2f6079000dc7c7a351f6ea28c0d0439"
+    },
+    {
+      "path": "Core/wwwroot/locales/fr.json",
+      "normalizedLfSha256": "f4bc05dea97c0734869c1bd863a043463d0d8b0f4d058efdbe4ba604fa88fe2e"
+    },
+    {
+      "path": "Core/wwwroot/locales/hu.json",
+      "normalizedLfSha256": "7b3fcd1ffc5a6023e866717b1e076971e046f5c44ec9e38c0f9599bf7126af4e"
+    },
+    {
+      "path": "Core/wwwroot/locales/it.json",
+      "normalizedLfSha256": "38827cbf366e9d87557fb55312ff3d3d3f08e6c56fafaf504c170b3fccbb7400"
+    },
+    {
+      "path": "Core/wwwroot/locales/ja.json",
+      "normalizedLfSha256": "1513aa4eec0d0ce4528dc608fadd76a4c85d533197ae0635f317aca9476db8f5"
+    },
+    {
+      "path": "Core/wwwroot/locales/ko.json",
+      "normalizedLfSha256": "090995b3037f96bf944be7f13682b3ec042ec7fe11d8488f708b65ab99258422"
+    },
+    {
+      "path": "Core/wwwroot/locales/pl.json",
+      "normalizedLfSha256": "93b69fa884ac3d74ec11e6b60b837cc1614b60f9942bd6f93f810646a8fbe381"
+    },
+    {
+      "path": "Core/wwwroot/locales/pt.json",
+      "normalizedLfSha256": "022c488a576a4caedb6c25588fc3d08aede5c0b0b5782b5ddb3d0142a5c39739"
+    },
+    {
+      "path": "Core/wwwroot/locales/pt_BR.json",
+      "normalizedLfSha256": "0e46e38513f956c63fb4ba6942f03b1c1036ad79de6236c332a9315eb7bea4fd"
+    },
+    {
+      "path": "Core/wwwroot/locales/ru.json",
+      "normalizedLfSha256": "ecc36bfb1d08273f59e1aaaaaf767a6a694a68c5296d0fcb70190ccd7cc6b49d"
+    },
+    {
+      "path": "Core/wwwroot/locales/sv.json",
+      "normalizedLfSha256": "79137799970bdd26d00481556f790d65b918e3d87a9de9320f60598db1460fa1"
+    },
+    {
+      "path": "Core/wwwroot/locales/tr.json",
+      "normalizedLfSha256": "3929d0cfd0a05491b87940ed7442136c707a619200e516a012e39cc8231b80ab"
+    },
+    {
+      "path": "Core/wwwroot/locales/uk.json",
+      "normalizedLfSha256": "65581a6b685e97666a33dd17017f80fa9fe098b869daef88282c37fe87bd91e0"
+    },
+    {
+      "path": "Core/wwwroot/locales/vi.json",
+      "normalizedLfSha256": "de50a69cff6c0988b751dc782fae124258c4ace2bb24054dd0b30e0e1c571e3d"
+    },
+    {
+      "path": "Core/wwwroot/locales/zh.json",
+      "normalizedLfSha256": "1ef8d26e0319366bf03ee48db5f50110f9297854e4285df6021d9b36f7de24b2"
+    },
+    {
+      "path": "Core/wwwroot/locales/zh_TW.json",
+      "normalizedLfSha256": "6c03f153f053ca1fa7fd8556e7da47c457153002218ca3f97921d58c364e7962"
+    },
+    {
+      "path": "OpenStreamMS.csproj",
+      "normalizedLfSha256": "5c6a7c7e9f410489c06a4cae0282cf76bc0f11c35100477c83301c1c0827d253"
+    },
+    {
+      "path": "Services/Drivers/NefariusDriverManager.cs",
+      "normalizedLfSha256": "00a094cae377d3749aa0b70c7a00cc77f96089dee8051e1abc155fd2928bd00c"
+    },
+    {
+      "path": "Services/Gamepad/GamepadSessionIsolation.cs",
+      "normalizedLfSha256": "7ee29963a6bc524650c1a0992f026c866dc1458dd88434be4e381f0b92ed815a"
+    },
+    {
+      "path": "Services/OpenStream/OpenstreamService.cs",
+      "normalizedLfSha256": "ce20a06317cacc419b5ef025c28ecd613254434e058a10c5cfcf394a2e2d3ea3"
+    },
+    {
+      "path": "Services/Seats/SeatManager.cs",
+      "normalizedLfSha256": "92588a9c622892a1ecadf94f17fc84ce8a4ff1fe560c6a3033ce21628d9053fa"
+    },
+    {
+      "path": "Services/Session/RdpWrapperManager.cs",
+      "normalizedLfSha256": "05e84391cad534891f7d426332091863a769f6c7410842ed38cc93f040d33cb8"
+    },
+    {
+      "path": "Core/Helpers/StartupSafetyPolicy.cs",
+      "normalizedLfSha256": "ddff97cb8a2d3daa54852daf6c782a7637cd035623f5d972ea0593eb2fb3186d"
+    }
+  ],
+  "referenceDeployment": {
+    "version": "1.5.1+f8a595c.direct-guard",
+    "exeSha256": "ec310a10101bf3fa4e50b83d449ca68b71fa67a58032e6bc82e31bb871984ad2",
+    "dllSha256": "cbc48122126852d7f9f5e2bf95fef6ac964feb5fed5c9acadfb27ddc714c7fab",
+    "payloadFileCount": 599
+  }
+}
