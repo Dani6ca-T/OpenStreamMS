@@ -603,5 +603,6 @@
   "driver.log.yes": "是",
   "driver.log.no": "否",
   "driver.log.running": "正在运行",
-  "driver.log.stopped": "已停止"
+  "driver.log.stopped": "已停止",
+  "updateOnly.notice": "安全更新模式：已禁用自动 RDP 和驱动程序更改、设备恢复和会话自动启动。您的设置将保留。"
 }

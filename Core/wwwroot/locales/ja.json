@@ -603,5 +603,6 @@
   "driver.log.yes": "はい",
   "driver.log.no": "いいえ",
   "driver.log.running": "実行中",
-  "driver.log.stopped": "停止"
+  "driver.log.stopped": "停止",
+  "updateOnly.notice": "安全な更新モード：RDP とドライバーの自動変更、デバイスの復旧、セッションの自動開始は無効です。設定は保持されます。"
 }

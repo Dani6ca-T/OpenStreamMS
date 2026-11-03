@@ -24,13 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="service.config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="app.ico" Condition="Exists('$(MSBuildProjectDirectory)\app.ico')">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scripts\*.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LICENSE;THIRD_PARTY_NOTICES.md">
@@ -53,6 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="tests/**;tools/**;Core/Updates/**" />
+    <Content Remove="tests/**;tools/**;Core/Installer/update-only-payload/**" />
+    <None Remove="Core/Installer/update-only-payload/**" />
     <Folder Include="ExternalDeps\" />
     <EmbeddedResource Include="Services\TrayApp\Locales\*.json" LogicalName="OpenStreamMS.TrayLocales.%(Filename).json" />
   </ItemGroup>

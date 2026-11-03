@@ -27,6 +27,11 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+        {
+            Logger.Error("[DirectDeployment] Automatic seat startup and USB/Windows recovery paused by policy.");
+            return;
+        }
         SeatHostControl.StartServer(stoppingToken);
         try { UsbCapture.RestoreAll(); }
         catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron restaurar los drivers USB: {ex.Message}"); }

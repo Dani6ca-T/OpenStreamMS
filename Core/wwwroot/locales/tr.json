@@ -603,5 +603,6 @@
   "driver.log.yes": "Evet",
   "driver.log.no": "Hayır",
   "driver.log.running": "Çalışıyor",
-  "driver.log.stopped": "Durduruldu"
+  "driver.log.stopped": "Durduruldu",
+  "updateOnly.notice": "Güvenli güncelleme modu: otomatik RDP ve sürücü değişiklikleri, aygıt kurtarma ve oturumların otomatik başlatılması devre dışıdır. Ayarlarınız korunur."
 }

@@ -603,5 +603,6 @@
   "driver.log.yes": "Tak",
   "driver.log.no": "Nie",
   "driver.log.running": "Uruchomiona",
-  "driver.log.stopped": "Zatrzymana"
+  "driver.log.stopped": "Zatrzymana",
+  "updateOnly.notice": "Tryb bezpiecznej aktualizacji: automatyczne zmiany RDP i sterowników, przywracanie urządzeń i automatyczne uruchamianie sesji są wyłączone. Ustawienia zostają zachowane."
 }

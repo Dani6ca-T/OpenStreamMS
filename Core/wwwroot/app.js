@@ -787,6 +787,7 @@ async function rdpRefresh() {
 }
 
 function updateRdpPill(st) {
+  document.getElementById('update-only-notice')?.classList.toggle('hidden', !st.updateOnlyPolicyActive);
   const pill  = document.getElementById('rdp-pill');
   const state = document.getElementById('rdp-pill-state');
   if (!pill || !state) return;
@@ -813,8 +814,9 @@ function renderRdpStatus(st) {
   badge.innerHTML = `<span class="badge-dot"></span>${esc(t(`rdp.state.${key}`))}`;
   badge.title = '';
   const note = document.getElementById('rdp-pending-note');
-  note.textContent = key === 'pending' ? rdpPendingText(st) : '';
-  note.classList.toggle('hidden', key !== 'pending');
+  const restricted = st.automaticRdpRepairEnabled === false;
+  note.textContent = restricted ? t('updateOnly.notice') : key === 'pending' ? rdpPendingText(st) : '';
+  note.classList.toggle('hidden', !restricted && key !== 'pending');
 
   document.getElementById('rdp-install-dir').textContent = st.installDir     || '—';
   document.getElementById('rdp-bundle').textContent      =
@@ -824,7 +826,7 @@ function renderRdpStatus(st) {
 
   // Habilitar/deshabilitar botones según estado. Actualizar solo tiene sentido con asmtron
   // (con TermWrap no hay rdpwrap.ini que refrescar).
-  const busy = !!st.busy;
+  const busy = !!st.busy || restricted;
   document.getElementById('rdp-btn-install').disabled   = busy;
   document.getElementById('rdp-btn-update').disabled    = busy || st.wrapper !== 'asmtron' || !st.installed;
   document.getElementById('rdp-btn-uninstall').disabled = busy || st.wrapper !== 'asmtron';
@@ -888,6 +890,7 @@ async function rdpUninstall() {
 // hasta reiniciar Windows): no es un fallo. "broken": ServiceDll apunta a un wrapper cuyos
 // ficheros faltan.
 function rdpStateKey(st) {
+  if (st.automaticRdpRepairEnabled === false && st.repairDiagnostic) return 'broken';
   if (st.busy)      return 'working';
   if (st.installed) return 'ok';
   if (st.pending)   return 'pending';
@@ -1143,7 +1146,7 @@ function renderDriverStatus(k, st) {
 
   document.getElementById(`${k}-reboot-banner`).style.display = st.rebootRequired ? '' : 'none';
 
-  const busy = !!st.busy;
+  const busy = !!st.busy || st.changesAllowed === false;
   document.getElementById(`${k}-btn-install`).disabled   = busy;
   document.getElementById(`${k}-btn-uninstall`).disabled = busy || !st.installed;
 }

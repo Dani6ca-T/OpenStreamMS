@@ -52,6 +52,8 @@ public static class RdpWrapperEndpoints
     private static Task<Results<Accepted, BadRequest<string>>> RunAsync(
         RdpWrapperManager mgr, Func<CancellationToken, Task> op)
     {
+        if (!mgr.ChangesAllowed)
+            return Task.FromResult<Results<Accepted, BadRequest<string>>>(TypedResults.BadRequest("RDP changes are disabled by update policy."));
         if (mgr.IsBusy)
             return Task.FromResult<Results<Accepted, BadRequest<string>>>(
                 TypedResults.BadRequest("Ya hay una operación de RDP Wrapper en curso."));

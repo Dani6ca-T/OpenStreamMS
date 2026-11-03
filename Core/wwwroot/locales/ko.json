@@ -603,5 +603,6 @@
   "driver.log.yes": "예",
   "driver.log.no": "아니요",
   "driver.log.running": "실행 중",
-  "driver.log.stopped": "중지됨"
+  "driver.log.stopped": "중지됨",
+  "updateOnly.notice": "안전 업데이트 모드: 자동 RDP 및 드라이버 변경, 장치 복구, 세션 자동 시작이 비활성화됩니다. 설정은 유지됩니다."
 }

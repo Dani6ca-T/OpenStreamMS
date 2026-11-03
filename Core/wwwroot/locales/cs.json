@@ -603,5 +603,6 @@
   "driver.log.yes": "Ano",
   "driver.log.no": "Ne",
   "driver.log.running": "Spuštěno",
-  "driver.log.stopped": "Zastaveno"
+  "driver.log.stopped": "Zastaveno",
+  "updateOnly.notice": "Režim bezpečné aktualizace: automatické změny RDP a ovladačů, obnova zařízení a automatické spouštění relací jsou zakázány. Vaše nastavení jsou zachována."
 }

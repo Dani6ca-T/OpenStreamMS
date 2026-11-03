@@ -603,5 +603,6 @@
   "driver.log.yes": "Sí",
   "driver.log.no": "No",
   "driver.log.running": "En ejecución",
-  "driver.log.stopped": "Detenido"
+  "driver.log.stopped": "Detenido",
+  "updateOnly.notice": "Modo de actualización segura: los cambios automáticos de RDP y controladores, la recuperación de dispositivos y el inicio automático de sesiones están desactivados. Se conserva la configuración."
 }

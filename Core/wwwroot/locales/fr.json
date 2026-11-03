@@ -603,5 +603,6 @@
   "driver.log.yes": "Oui",
   "driver.log.no": "Non",
   "driver.log.running": "En cours d’exécution",
-  "driver.log.stopped": "Arrêté"
+  "driver.log.stopped": "Arrêté",
+  "updateOnly.notice": "Mise à jour sécurisée : les modifications automatiques de RDP et des pilotes, la récupération des périphériques et le démarrage automatique des sessions sont désactivés. Vos paramètres sont conservés."
 }

@@ -603,5 +603,6 @@
   "driver.log.yes": "Ja",
   "driver.log.no": "Nein",
   "driver.log.running": "Wird ausgeführt",
-  "driver.log.stopped": "Beendet"
+  "driver.log.stopped": "Beendet",
+  "updateOnly.notice": "Sicherer Aktualisierungsmodus: Automatische RDP- und Treiberänderungen, Gerätewiederherstellung und Sitzungsautostart sind deaktiviert. Ihre Einstellungen bleiben erhalten."
 }

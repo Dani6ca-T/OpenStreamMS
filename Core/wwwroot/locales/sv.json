@@ -603,5 +603,6 @@
   "driver.log.yes": "Ja",
   "driver.log.no": "Nej",
   "driver.log.running": "Körs",
-  "driver.log.stopped": "Stoppad"
+  "driver.log.stopped": "Stoppad",
+  "updateOnly.notice": "Säkert uppdateringsläge: automatiska RDP- och drivrutinsändringar, enhetsåterställning och automatisk sessionsstart är inaktiverade. Dina inställningar bevaras."
 }

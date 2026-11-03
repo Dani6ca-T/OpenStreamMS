@@ -603,5 +603,6 @@
   "driver.log.yes": "Có",
   "driver.log.no": "Không",
   "driver.log.running": "Đang chạy",
-  "driver.log.stopped": "Đã dừng"
+  "driver.log.stopped": "Đã dừng",
+  "updateOnly.notice": "Chế độ cập nhật an toàn: đã tắt thay đổi RDP và trình điều khiển tự động, khôi phục thiết bị và tự khởi động phiên. Cài đặt của bạn được giữ nguyên."
 }

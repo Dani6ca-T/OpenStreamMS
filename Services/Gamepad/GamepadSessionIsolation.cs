@@ -95,6 +95,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+        {
+            Logger.Error("[DirectDeployment] Background gamepad/HidHide changes paused by policy.");
+            return;
+        }
         DisableControllerToVKMapping();
 
         using var notification = Cm.WatchEnumeration((id, enumerated) => _arrivals.Writer.TryWrite((id, enumerated)));

@@ -603,5 +603,6 @@
   "driver.log.yes": "Yes",
   "driver.log.no": "No",
   "driver.log.running": "Running",
-  "driver.log.stopped": "Stopped"
+  "driver.log.stopped": "Stopped",
+  "updateOnly.notice": "Safe update mode: automatic RDP and driver changes, device recovery and session autostart are disabled. Your settings are preserved."
 }

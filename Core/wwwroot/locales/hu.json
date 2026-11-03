@@ -603,5 +603,6 @@
   "driver.log.yes": "Igen",
   "driver.log.no": "Nem",
   "driver.log.running": "Fut",
-  "driver.log.stopped": "Leállítva"
+  "driver.log.stopped": "Leállítva",
+  "updateOnly.notice": "Biztonságos frissítési mód: az RDP és az illesztőprogramok automatikus módosítása, az eszközök helyreállítása és a munkamenetek automatikus indítása le van tiltva. A beállítások megmaradnak."
 }

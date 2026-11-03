@@ -21,7 +21,8 @@ public record DriverStatus(
     /// <summary>true si hay una operación en curso.</summary>
     bool    Busy,
     /// <summary>Última acción ejecutada.</summary>
-    string? LastAction);
+    string? LastAction,
+    bool ChangesAllowed = true);
 
 /// <summary>
 /// Gestiona la instalación de un driver firmado de nefarius (ViGEmBus, HidHide):
@@ -58,8 +59,9 @@ public abstract class NefariusDriverManager
     // ── API pública ──────────────────────────────────────────────────────────
 
     public bool IsBusy => _busy;
+    protected virtual OpenStreamMS.Core.Helpers.StartupSafetyPolicy SafetyPolicy => OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read();
 
-    public DriverStatus GetStatus()
+    public virtual DriverStatus GetStatus()
     {
         var (imagePath, state) = ReadService();
         var (displayVersion, _) = ReadUninstallEntry();
@@ -77,7 +79,8 @@ public abstract class NefariusDriverManager
             DriverImagePath:  imagePath,
             RebootRequired:   _rebootRequired,
             Busy:             _busy,
-            LastAction:       _lastAction);
+            LastAction:       _lastAction,
+            ChangesAllowed:   !SafetyPolicy.RestrictedStartup);
     }
 
     public string[] GetLog()
@@ -87,6 +90,7 @@ public abstract class NefariusDriverManager
 
     public async Task InstallAsync(CancellationToken ct = default)
     {
+        if (SafetyPolicy.RestrictedStartup) throw new InvalidOperationException("Driver installation is disabled by update policy.");
         await RunExclusiveAsync("install", async () =>
         {
             string installer;
@@ -119,12 +123,14 @@ public abstract class NefariusDriverManager
     /// <summary>Instala el driver si no lo está. Para el registro del servicio (<c>--install</c>).</summary>
     public void EnsureInstalled()
     {
+        if (SafetyPolicy.RestrictedStartup) { Logger.Error("[DirectDeployment] Automatic driver installation skipped by policy: " + Name); return; }
         if (GetStatus().Installed) return;
         InstallAsync().GetAwaiter().GetResult();
     }
 
     public async Task UninstallAsync(CancellationToken ct = default)
     {
+        if (SafetyPolicy.RestrictedStartup) throw new InvalidOperationException("Driver removal is disabled by update policy.");
         await RunExclusiveAsync("uninstall", async () =>
         {
             var (_, uninstallCmd) = ReadUninstallEntry();

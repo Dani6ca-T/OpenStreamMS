@@ -819,7 +819,10 @@ public class StreamSessionService
             if (migrated)
             {
                 Logger.Log("[SessionService] Puertos WebRTC asignados a sesiones existentes.");
-                SaveSessions();
+                if (!OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+                    SaveSessions();
+                else
+                    Logger.Log("[DirectDeployment] Startup session migration kept in memory; saved sessions unchanged.");
             }
         }
         catch (Exception ex)

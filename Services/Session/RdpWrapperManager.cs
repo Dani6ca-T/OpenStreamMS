@@ -35,7 +35,10 @@ public record RdpWrapperStatus(
     /// <summary>true si hay una operación en curso (install/update/uninstall).</summary>
     bool    Busy,
     /// <summary>Última acción ejecutada (texto corto para mostrar).</summary>
-    string? LastAction);
+    string? LastAction,
+    bool AutomaticRdpRepairEnabled = true,
+    bool UpdateOnlyPolicyActive = false,
+    string? RepairDiagnostic = null);
 
 /// <summary>
 /// Gestiona la instalación de <see href="https://github.com/asmtron/rdpwrap"/>
@@ -61,6 +64,8 @@ public sealed class RdpWrapperManager
     // ── API pública ──────────────────────────────────────────────────────────
 
     public bool IsBusy => _busy;
+    public bool ChangesAllowed => OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().AutomaticRdpRepairEnabled;
+    private string? _repairDiagnostic;
 
     public RdpWrapperStatus GetStatus()
     {
@@ -92,7 +97,10 @@ public sealed class RdpWrapperManager
             TermsrvVersion:ReadTermsrvVersion(),
             ServiceDllPath:serviceDll,
             Busy:          _busy,
-            LastAction:    _lastAction);
+            LastAction:    _lastAction,
+            AutomaticRdpRepairEnabled: ChangesAllowed,
+            UpdateOnlyPolicyActive: OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup,
+            RepairDiagnostic: _repairDiagnostic);
     }
 
     public string[] GetLog()
@@ -194,7 +202,23 @@ public sealed class RdpWrapperManager
     /// </summary>
     public void EnsureMultiRdp(CancellationToken ct)
     {
-        try { EnsureMultiRdpCore(ct); }
+        EnsureMultiRdp(ct, OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read());
+    }
+
+    internal void EnsureMultiRdp(CancellationToken ct, OpenStreamMS.Core.Helpers.StartupSafetyPolicy policy, Func<string?>? diagnosticProbe = null)
+    {
+        try
+        {
+            if (!policy.AutomaticRdpRepairEnabled)
+            {
+                try { _repairDiagnostic = diagnosticProbe is null ? TermWrapProblem() : diagnosticProbe(); }
+                catch (Exception ex) { _repairDiagnostic = "Diagnostic check failed: " + ex.GetType().Name; }
+                if (_repairDiagnostic is not null) Logger.Error("[RdpWrap] Automatic RDP repair disabled by policy. Windows unchanged. Diagnostic: " + _repairDiagnostic);
+                else Logger.Log("[RdpWrap] Automatic RDP repair disabled by policy; current wrapper is ready.");
+                return;
+            }
+            throw new InvalidOperationException("Automatic RDP repair is permanently disabled in this deployment.");
+        }
         finally { MultiRdpCheckedSource.TrySetResult(); }
     }
 
@@ -364,6 +388,7 @@ public sealed class RdpWrapperManager
 
     private async Task RunExclusiveAsync(string action, Func<Task> work)
     {
+        if (!ChangesAllowed) throw new InvalidOperationException("RDP changes are disabled by update policy.");
         lock (_sync)
         {
             if (_busy) throw new InvalidOperationException("Ya hay una operación de RDP Wrapper en curso.");

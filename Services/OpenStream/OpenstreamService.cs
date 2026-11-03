@@ -43,6 +43,12 @@ namespace OpenStreamMS.Services.OpenStream
             // Antes de los puestos: si TermWrap no funciona, se vuelve a asmtron (reinicia TermService).
             try { await Task.Run(() => _rdpWrapper.EnsureMultiRdp(stoppingToken), stoppingToken); }
             catch (Exception ex) { Logger.Error($"[Service] Comprobación de multi-RDP fallida: {ex}"); }
+            if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+            {
+                Logger.Error("[DirectDeployment] Background session startup and recovery paused by policy. Dashboard remains available.");
+                await Task.Delay(Timeout.Infinite, stoppingToken).ContinueWith(_ => { }, TaskContinuationOptions.None);
+                return;
+            }
             _timer.Start();
             _sessionSvc.AutoStartEnabled();
             await Task.Delay(Timeout.Infinite, stoppingToken)
