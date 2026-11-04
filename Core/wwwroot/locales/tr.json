@@ -613,5 +613,6 @@
   "maintenance.save": "Çalışma modunu kaydet",
   "maintenance.blocked": "Güvenli mod: sistem değişiklikleri ve oturum işlemleri engellenir.",
   "maintenance.unavailable": "Mod durumu kullanılamıyor. İşlemler kısıtlı kalır.",
-  "maintenance.next": "Hizmet yeniden başlatıldıktan sonraki mod"
+  "maintenance.next": "Hizmet yeniden başlatıldıktan sonraki mod",
+  "maintenance.recovery": "Önceki USB yakalama veya konsol kilidi durumu kalmış olabilir. Güvenli mod bunu geri yüklemez; kurtarma için açık onay gerekir."
 }

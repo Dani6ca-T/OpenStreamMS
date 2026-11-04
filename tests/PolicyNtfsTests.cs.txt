@@ -1,0 +1,130 @@
+// Real NTFS access checks in a synthetic workspace application directory only.
+// No SCM, registry, account, device, installer, RDP or firewall calls.
+using OpenStreamMS.Core.Helpers;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Text.Json;
+
+if (args.Length != 2 || args[0] is not ("--elevated" or "--ordinary"))
+    throw new ArgumentException("Usage: --elevated|--ordinary <empty workspace evidence directory>");
+var evidence = Path.GetFullPath(args[1]);
+if (!Directory.Exists(evidence)) throw new ArgumentException("Create a dedicated evidence directory first.");
+var root = Path.Combine(evidence, "synthetic-app");
+var admin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+int checks = 0;
+void Check(bool condition, string message)
+{
+    if (!condition) throw new Exception(message);
+    checks++; Console.WriteLine("PASS " + message);
+}
+void PrivateAcl(string file)
+{
+    var security = new FileInfo(file).GetAccessControl();
+    var rules = security.GetAccessRules(true, true, typeof(SecurityIdentifier)).Cast<FileSystemAccessRule>().ToArray();
+    Check(security.AreAccessRulesProtected && rules.Length == 2 && rules.All(r =>
+        !r.IsInherited && r.AccessControlType == AccessControlType.Allow &&
+        r.FileSystemRights == FileSystemRights.FullControl &&
+        r.IdentityReference.Value is "S-1-5-18" or "S-1-5-32-544"),
+        "Protected SYSTEM/Administrators-only ACL: " + Path.GetFileName(file));
+}
+if (args[0] == "--elevated")
+{
+    Check(admin, "Elevated token available (not a mocked ACL adapter)");
+    Check(new DriveInfo(Path.GetPathRoot(root)!).DriveFormat == "NTFS", "Fixture is on NTFS");
+    if (Directory.Exists(root)) throw new ArgumentException("Use a fresh fixture; no existing directory is replaced.");
+    Directory.CreateDirectory(root);
+    var acl = new DirectorySecurity(); acl.SetAccessRuleProtection(true, false);
+    foreach (var sid in new[] { WellKnownSidType.LocalSystemSid, WellKnownSidType.BuiltinAdministratorsSid })
+        acl.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(sid, null), FileSystemRights.FullControl,
+            InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
+    acl.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null),
+        FileSystemRights.ReadAndExecute, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+        PropagationFlags.None, AccessControlType.Allow));
+    new DirectoryInfo(root).SetAccessControl(acl);
+    var store = new ModeConfiguration(root);
+    store.PrepareSafe();
+    foreach (var file in new[] { ModeConfiguration.FileName, ModeConfiguration.AnchorName, "operation-mode.lock" }) PrivateAcl(Path.Combine(root, file));
+    for (int i = 0; i < 8; i++)
+    {
+        var state = store.Read(); store.Request(i % 2 == 0 ? OperationMode.Normal : OperationMode.Safe, state.Revision, true);
+        Check(store.Read().Policy.RestrictedStartup, "Repeated save never activates Normal: " + i);
+        PrivateAcl(Path.Combine(root, ModeConfiguration.FileName));
+    }
+    store.PrepareSafe();
+    var destination = Path.Combine(root, "replacement.json"); File.WriteAllText(destination, "old");
+    var weak = new FileInfo(destination).GetAccessControl();
+    weak.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null),
+        FileSystemRights.ReadAndExecute, AccessControlType.Allow));
+    new FileInfo(destination).SetAccessControl(weak);
+    AtomicProtectedFile.Write(destination, "new");
+    PrivateAcl(destination);
+    Check(File.ReadAllText(destination) == "new", "NTFS overwrite moves protected source content and ACL over a permissive destination");
+    using (var held = new FileStream(destination, FileMode.Open, FileAccess.Read, FileShare.None))
+    {
+        try { AtomicProtectedFile.Write(destination, "must not commit"); throw new Exception("Sharing violation was ignored"); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        { Check(true, "Real sharing violation aborts replacement"); }
+    }
+    Check(File.ReadAllText(destination) == "new" && Directory.GetFiles(root, "*.tmp").Length == 0,
+        "Failed replacement preserves old data and leaves no temporary file");
+    PrivateAcl(destination);
+    var concurrent = Path.Combine(root, "concurrent.json"); AtomicProtectedFile.Write(concurrent, "{\"v\":0}");
+    int reads = 0; using var stop = new CancellationTokenSource();
+    var reader = Task.Run(() => {
+        while (!stop.IsCancellationRequested)
+        {
+            using var stream = new FileStream(concurrent, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+            using var json = JsonDocument.Parse(stream); _ = json.RootElement.GetProperty("v").GetInt32(); Interlocked.Increment(ref reads);
+        }
+    });
+    int committed = 0, rejected = 0;
+    try { for (int i = 1; i <= 100; i++) {
+        try { AtomicProtectedFile.Write(concurrent, "{\"v\":" + i + "}"); committed++; }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { rejected++; }
+    } }
+    finally { stop.Cancel(); await reader; }
+    Check(reads > 0 && committed + rejected == 100, $"Concurrent readers observed only complete JSON: {committed} commits, {rejected} explicit NTFS sharing refusals");
+    AtomicProtectedFile.Write(concurrent, "{\"v\":101}");
+    Check(JsonDocument.Parse(File.ReadAllText(concurrent)).RootElement.GetProperty("v").GetInt32() == 101 && Directory.GetFiles(root, "*.tmp").Length == 0,
+        "Write succeeds after readers close; failed concurrent attempts leave no temporary files"); PrivateAcl(concurrent);
+    var interrupted = Path.Combine(root, "interrupted"); Directory.CreateDirectory(interrupted);
+    var interruptedStore = new ModeConfiguration(interrupted, path => {
+        AtomicProtectedFile.Protect(path);
+        if (Path.GetFileName(path).StartsWith(ModeConfiguration.FileName + ".")) throw new IOException("Injected failure after real ACL, before first policy write");
+    });
+    try { interruptedStore.PrepareSafe(); throw new Exception("Injected failure not reached"); } catch (IOException) { }
+    Check(File.Exists(Path.Combine(interrupted, ModeConfiguration.AnchorName)) &&
+        !File.Exists(Path.Combine(interrupted, ModeConfiguration.FileName)) && interruptedStore.Read().Policy.RestrictedStartup,
+        "Interrupted first write leaves a real protected anchor and Safe policy fallback");
+    PrivateAcl(Path.Combine(interrupted, ModeConfiguration.AnchorName));
+    File.WriteAllText(Path.Combine(root, ModeConfiguration.FileName), "{");
+    Check(store.ActivatePending().Policy.RestrictedStartup, "Corrupt real policy cannot activate Normal");
+    File.Delete(Path.Combine(root, ModeConfiguration.FileName));
+    Check(store.ActivatePending().Policy.RestrictedStartup, "Missing policy with real anchor cannot activate Normal");
+    store.PrepareSafe();
+    File.WriteAllText(Path.Combine(evidence, "elevated.json"), JsonSerializer.Serialize(new { status = "PASS", checks, fileSystem = "NTFS", mode = "elevated", systemMutations = 0 }));
+}
+else
+{
+    Check(!admin, "Ordinary medium token (Administrators SID not enabled)");
+    Check(Directory.Exists(root), "Elevated fixture exists and is traversable");
+    void Denied(Action action, string name)
+    {
+        try { action(); throw new Exception("Unexpected ordinary-user access: " + name); }
+        catch (UnauthorizedAccessException) { Check(true, name + " denied by NTFS"); }
+    }
+    foreach (var name in new[] { ModeConfiguration.FileName, ModeConfiguration.AnchorName, "operation-mode.lock" })
+    {
+        var file = Path.Combine(root, name);
+        Denied(() => File.ReadAllText(file), "Read " + name);
+        Denied(() => { using var stream = new FileStream(file, FileMode.Open, FileAccess.Write); }, "Write " + name);
+        Denied(() => File.Delete(file), "Delete " + name);
+        Denied(() => AtomicProtectedFile.Protect(file), "Change ACL " + name);
+    }
+    Denied(() => AtomicProtectedFile.Write(Path.Combine(root, ModeConfiguration.FileName), "{}"), "Atomic policy replacement");
+    Denied(() => new ModeConfiguration(root).Request(OperationMode.Normal, 0, true), "Mode change via configuration API");
+    var state = new ModeConfiguration(root).Read();
+    Check(state.Policy.RestrictedStartup && state.Policy.Diagnostic == "policy_access_denied", "Real access denial fails closed to Safe");
+    File.WriteAllText(Path.Combine(evidence, "ordinary.json"), JsonSerializer.Serialize(new { status = "PASS", checks, mode = "ordinary", systemMutations = 0 }));
+}
+Console.WriteLine($"FINAL PASS {checks} real NTFS checks; only synthetic workspace files were used.");

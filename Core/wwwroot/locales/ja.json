@@ -613,5 +613,6 @@
   "maintenance.save": "動作モードを保存",
   "maintenance.blocked": "セーフモード：システムの変更とセッション操作は禁止されています。",
   "maintenance.unavailable": "モードの状態を取得できません。操作の制限は継続されます。",
-  "maintenance.next": "サービス再起動後のモード"
+  "maintenance.next": "サービス再起動後のモード",
+  "maintenance.recovery": "以前のUSBキャプチャまたはコンソールロックの状態が残っている可能性があります。セーフモードでは復元しません。復旧には明示的な許可が必要です。"
 }

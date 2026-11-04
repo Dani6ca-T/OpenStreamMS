@@ -27,6 +27,7 @@ function renderMaintenance() {
   banner.textContent = !state ? t('maintenance.unavailable') : state.restartRequired ? t('maintenance.restart') : t('maintenance.blocked');
   byId('maintenance-current').textContent = state ? t(state.activeMode === 'Safe' ? 'maintenance.safe' : 'maintenance.normal') : t('maintenance.unavailable');
   byId('maintenance-restart').hidden = !state?.restartRequired;
+  byId('maintenance-recovery').hidden = state?.activeMode !== 'Safe' || !state?.residualState?.needsAttention;
   byId('maintenance-save').disabled = !state;
   applyMaintenanceControls();
 }

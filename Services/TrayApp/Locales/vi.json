@@ -24,5 +24,6 @@
   "pair.deviceAt": "Một thiết bị tại {0}",
   "pair.tv": "TV có Moonlight WebRTC",
   "pair.device": "Một thiết bị Moonlight\nDịch vụ",
-  "maintenance.blocked": "Chế độ an toàn: thay đổi hệ thống và thao tác phiên bị chặn."
+  "maintenance.blocked": "Chế độ an toàn: thay đổi hệ thống và thao tác phiên bị chặn.",
+  "maintenance.unavailable": "Không có trạng thái an toàn. Các thao tác đã bị vô hiệu hóa; hãy kiểm tra bảng điều khiển và nhật ký dịch vụ."
 }

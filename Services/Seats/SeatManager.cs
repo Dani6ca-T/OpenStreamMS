@@ -30,6 +30,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
         {
             Logger.Log("[Maintenance] Background streaming/device operations paused.");
+            var residual = MaintenanceDiagnostics.Read();
+            if (residual.NeedsAttention)
+                Logger.Warning($"[Maintenance] Recovery journals require review: USB={residual.UsbCapture}, console lock={residual.ConsoleLock}. Safe Mode will not restore devices or user policy. Obtain explicit approval before recovery.");
             return;
         }
         SeatHostControl.StartServer(stoppingToken);

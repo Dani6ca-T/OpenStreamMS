@@ -24,5 +24,6 @@
   "pair.deviceAt": "Um dispositivo em {0}",
   "pair.tv": "Uma TV com Moonlight WebRTC",
   "pair.device": "Um dispositivo Moonlight",
-  "maintenance.blocked": "Modo seguro: alterações do sistema e operações de sessões bloqueadas."
+  "maintenance.blocked": "Modo seguro: alterações do sistema e operações de sessões bloqueadas.",
+  "maintenance.unavailable": "Estado de segurança indisponível. Ações desativadas; consulte o painel e os registos do serviço."
 }

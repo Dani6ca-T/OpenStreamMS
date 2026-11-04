@@ -31,7 +31,7 @@ if (command == "--prepare-safe-mode")
     try { if (service.Status != System.ServiceProcess.ServiceControllerStatus.Stopped)
         throw new InvalidOperationException("Stop OpenStreamMS through SCM before preparing the migration."); }
     catch (InvalidOperationException ex) when (ex.InnerException is System.ComponentModel.Win32Exception { NativeErrorCode: 1060 }) { }
-    var index = Array.IndexOf(args, "--policy-directory");
+    var index = Array.FindIndex(args, arg => arg.Equals("--policy-directory", StringComparison.OrdinalIgnoreCase));
     if (index < 0 || index + 1 >= args.Length) throw new ArgumentException("--policy-directory is required.");
     var target = Path.GetFullPath(args[index + 1]);
     if (!File.Exists(Path.Combine(target, "service.config.json"))) throw new InvalidOperationException("Existing configuration missing.");

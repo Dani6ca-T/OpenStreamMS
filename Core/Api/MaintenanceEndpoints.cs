@@ -11,7 +11,8 @@ public static class MaintenanceEndpoints
         nextMode = (state.PendingMode ?? state.Policy.Mode).ToString(), revision = state.Revision,
         restartRequired = (state.PendingMode ?? state.Policy.Mode) != StartupSafetyPolicy.Read().Mode,
         diagnostic = StartupSafetyPolicy.Read().Diagnostic ?? state.Policy.Diagnostic,
-        systemChangesAllowed = !StartupSafetyPolicy.Read().RestrictedStartup
+        systemChangesAllowed = !StartupSafetyPolicy.Read().RestrictedStartup,
+        residualState = MaintenanceDiagnostics.Read()
     };
     public static bool RequestAllowed(string method, string path)
     {
@@ -46,6 +47,7 @@ public static class MaintenanceEndpoints
             } catch (ArgumentException ex) { return Results.BadRequest(new { code = ex.Message }); }
             catch (InvalidOperationException) { return Results.Conflict(new { code = "policy_conflict" }); }
             catch (IOException) { return Results.Conflict(new { code = "policy_busy" }); }
+            catch (UnauthorizedAccessException) { return Results.Json(new { code = "policy_write_denied" }, statusCode: StatusCodes.Status503ServiceUnavailable); }
         });
         return app;
     }

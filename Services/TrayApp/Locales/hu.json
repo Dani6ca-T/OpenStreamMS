@@ -24,5 +24,6 @@
   "pair.deviceAt": "Eszköz {0}",
   "pair.tv": "A TV Moonlight WebRTC",
   "pair.device": "A Moonlight készülék",
-  "maintenance.blocked": "Biztonságos mód: a rendszermódosítások és a munkamenet-műveletek tiltva vannak."
+  "maintenance.blocked": "Biztonságos mód: a rendszermódosítások és a munkamenet-műveletek tiltva vannak.",
+  "maintenance.unavailable": "A biztonsági állapot nem érhető el. A műveletek letiltva; ellenőrizze a vezérlőpultot és a szolgáltatás naplóit."
 }

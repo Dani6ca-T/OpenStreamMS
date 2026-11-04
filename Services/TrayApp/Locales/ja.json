@@ -24,5 +24,6 @@
   "pair.deviceAt": "{0} のデバイス",
   "pair.tv": "Moonlight WebRTC を備えたテレビ",
   "pair.device": "Moonlight デバイス",
-  "maintenance.blocked": "セーフモード：システムの変更とセッション操作は禁止されています。"
+  "maintenance.blocked": "セーフモード：システムの変更とセッション操作は禁止されています。",
+  "maintenance.unavailable": "安全状態を取得できません。操作は無効です。ダッシュボードとサービスログを確認してください。"
 }

@@ -613,5 +613,6 @@
   "maintenance.save": "Uložit režim",
   "maintenance.blocked": "Bezpečný režim: systémové změny a operace s relacemi jsou blokovány.",
   "maintenance.unavailable": "Stav režimu není dostupný. Akce zůstávají omezené.",
-  "maintenance.next": "Režim po restartu služby"
+  "maintenance.next": "Režim po restartu služby",
+  "maintenance.recovery": "Může přetrvávat předchozí zachycení USB nebo stav zámku konzole. Bezpečný režim jej neobnoví; obnova vyžaduje výslovný souhlas."
 }

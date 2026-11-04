@@ -613,5 +613,6 @@
   "maintenance.save": "儲存運作模式",
   "maintenance.blocked": "安全模式：系統變更和工作階段操作已被禁止。",
   "maintenance.unavailable": "無法取得模式狀態。操作限制仍然有效。",
-  "maintenance.next": "服務重新啟動後的模式"
+  "maintenance.next": "服務重新啟動後的模式",
+  "maintenance.recovery": "可能仍保留先前的 USB 擷取或主控台鎖定狀態。安全模式不會自動還原；復原操作需要明確授權。"
 }

@@ -1,5 +1,9 @@
 # Maintenance Mode validation — 2026-11-04
 
+Historical baseline at `2fc5808`. The subsequent Hermes follow-up in
+[HERMES-FOLLOWUP.md](HERMES-FOLLOWUP.md) supersedes the dependency and NTFS test
+limitations below; actual SCM/streaming acceptance remains unperformed.
+
 Overall: **PARTIAL**. Implementation and automated fixture checks PASS; deployment
 and real streaming acceptance are BLOCKED. No installed OpenStreamMS service was
 stopped, started, updated or reconfigured. No installer was executed. RYZEN-PC's

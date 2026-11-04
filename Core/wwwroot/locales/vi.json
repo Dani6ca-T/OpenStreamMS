@@ -613,5 +613,6 @@
   "maintenance.save": "Lưu chế độ",
   "maintenance.blocked": "Chế độ an toàn: thay đổi hệ thống và thao tác phiên bị chặn.",
   "maintenance.unavailable": "Không có trạng thái chế độ. Các thao tác vẫn bị hạn chế.",
-  "maintenance.next": "Chế độ sau khi khởi động lại dịch vụ"
+  "maintenance.next": "Chế độ sau khi khởi động lại dịch vụ",
+  "maintenance.recovery": "Trạng thái chiếm giữ USB hoặc khóa bảng điều khiển trước đó có thể vẫn còn. Chế độ an toàn không tự khôi phục; cần có sự cho phép rõ ràng."
 }

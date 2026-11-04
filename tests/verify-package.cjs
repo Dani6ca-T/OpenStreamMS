@@ -8,6 +8,17 @@ const publish = path.resolve(process.argv[2] || path.join(root,'Core/Installer/p
 const build = path.join(root,'bin/Release/net10.0-windows/wwwroot');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const result = { dictionaries: [], installer: {}, package: [] };
+assert.equal(fs.existsSync(path.join(publish,'Core/Installer/publish')),false,'SDK must not republish installer staging output');
+function checkNoMachinePolicy(directory) {
+  for (const item of fs.readdirSync(directory,{withFileTypes:true})) {
+    if (item.isDirectory()) checkNoMachinePolicy(path.join(directory,item.name));
+    else assert.doesNotMatch(item.name,/^operation-mode(?:\..*)?$/i,'Do not distribute per-machine mode policy/status/anchor');
+  }
+}
+checkNoMachinePolicy(publish);
+for (const asset of ['index.html','login.html','setup.html','app.js','seats.js','maintenance.js','i18n.js','ui-messages.js','theme.js','style.css']) {
+  assert.equal(hash(path.join(source,asset)),hash(path.join(publish,'wwwroot',asset)),'publish asset:'+asset);
+}
 assert.equal(hash(path.join(root,'THIRD_PARTY_NOTICES.md')),hash(path.join(publish,'THIRD_PARTY_NOTICES.md')));
 assert.equal(hash(path.join(root,'Core/Installer/Languages/InnoSetup-LICENSE.txt')),hash(path.join(publish,'licenses/InnoSetup-LICENSE.txt')));
 const languages=JSON.parse(fs.readFileSync(path.join(root,'Core/Localization/locales.json'),'utf8')).locales;

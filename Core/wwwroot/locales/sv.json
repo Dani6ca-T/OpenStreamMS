@@ -613,5 +613,6 @@
   "maintenance.save": "Spara driftläge",
   "maintenance.blocked": "Säkert läge: systemändringar och sessionsåtgärder är blockerade.",
   "maintenance.unavailable": "Lägesstatus är inte tillgänglig. Åtgärder förblir begränsade.",
-  "maintenance.next": "Läge efter omstart av tjänsten"
+  "maintenance.next": "Läge efter omstart av tjänsten",
+  "maintenance.recovery": "Tidigare USB-infångning eller konsollåsning kan finnas kvar. Säkert läge återställer inte detta; återställning kräver uttryckligt godkännande."
 }

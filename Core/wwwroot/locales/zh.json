@@ -613,5 +613,6 @@
   "maintenance.save": "保存运行模式",
   "maintenance.blocked": "安全模式：系统更改和会话操作已被禁止。",
   "maintenance.unavailable": "无法获取模式状态。操作限制仍然有效。",
-  "maintenance.next": "服务重启后的模式"
+  "maintenance.next": "服务重启后的模式",
+  "maintenance.recovery": "可能仍保留之前的 USB 捕获或控制台锁定状态。安全模式不会自动恢复；恢复操作需要明确授权。"
 }

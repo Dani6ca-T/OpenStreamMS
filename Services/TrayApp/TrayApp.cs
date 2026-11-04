@@ -101,7 +101,8 @@ internal sealed class TrayApp : ApplicationContext
     {
         try
         {
-            var presenterAllowed = !OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup;
+            var safety = OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read();
+            var presenterAllowed = !safety.RestrictedStartup;
             if (_presenterEnabled != presenterAllowed)
             {
                 _seatHostClient.Dispose();
@@ -114,7 +115,7 @@ internal sealed class TrayApp : ApplicationContext
             try { seats = await _http.GetFromJsonAsync<TraySeatDto[]>($"{_baseUrl}/api/seats") ?? []; }
             catch (HttpRequestException) { seats = []; }   // servicio sin puestos para la bandeja
             await NotifyPairingsAsync(sessions);
-            var signature = presenterAllowed + "#" + string.Join("|", sessions.Select(s => $"{s.Id}:{s.Name}:{s.State}")) + "#" +
+            var signature = safety.Diagnostic + "#" + presenterAllowed + "#" + string.Join("|", sessions.Select(s => $"{s.Id}:{s.Name}:{s.State}")) + "#" +
                             string.Join("|", seats.Select(s => $"{s.Id}:{s.Name}:{s.State}:{s.SessionId}"));
             if (signature == _menuSignature) return;
             _menuSignature = signature;
@@ -168,8 +169,9 @@ internal sealed class TrayApp : ApplicationContext
         var menu = new ContextMenuStrip();
 
         menu.Items.Add(new ToolStripMenuItem("OpenStreamMS") { Enabled = false });
-        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
-            menu.Items.Add(new ToolStripMenuItem(TrayText.Get("maintenance.blocked")) { Enabled = false });
+        var safety = OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read();
+        if (safety.RestrictedStartup)
+            menu.Items.Add(new ToolStripMenuItem(TrayText.Get(safety.Diagnostic is null ? "maintenance.blocked" : "maintenance.unavailable")) { Enabled = false });
         menu.Items.Add(new ToolStripSeparator());
 
         menu.Items.Add(new ToolStripMenuItem(TrayText.Get("sessions")) { Enabled = false, Font = BoldFont(menu) });

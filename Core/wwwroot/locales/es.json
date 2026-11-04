@@ -613,5 +613,6 @@
   "maintenance.save": "Guardar modo",
   "maintenance.blocked": "Modo seguro: cambios del sistema y operaciones de sesiones bloqueados.",
   "maintenance.unavailable": "El estado del modo no está disponible. Las acciones siguen restringidas.",
-  "maintenance.next": "Modo tras reiniciar el servicio"
+  "maintenance.next": "Modo tras reiniciar el servicio",
+  "maintenance.recovery": "Puede quedar un estado anterior de captura USB o bloqueo de consola. El modo seguro no lo restaurará; la recuperación requiere autorización explícita."
 }

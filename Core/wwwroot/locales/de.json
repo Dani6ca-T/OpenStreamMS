@@ -613,5 +613,6 @@
   "maintenance.save": "Betriebsmodus speichern",
   "maintenance.blocked": "Sicherer Modus: Systemänderungen und Sitzungsaktionen sind gesperrt.",
   "maintenance.unavailable": "Modusstatus nicht verfügbar. Aktionen bleiben eingeschränkt.",
-  "maintenance.next": "Modus nach dem Dienstneustart"
+  "maintenance.next": "Modus nach dem Dienstneustart",
+  "maintenance.recovery": "Ein früherer USB-Zugriff oder Konsolensperrzustand kann fortbestehen. Der sichere Modus stellt ihn nicht wieder her; eine ausdrückliche Genehmigung ist erforderlich."
 }

@@ -613,5 +613,6 @@
   "maintenance.save": "Save operation mode",
   "maintenance.blocked": "Safe Mode: system changes and session operations are blocked.",
   "maintenance.unavailable": "Mode status is unavailable. Actions remain restricted.",
-  "maintenance.next": "Mode after service restart"
+  "maintenance.next": "Mode after service restart",
+  "maintenance.recovery": "Previous USB capture or console lock state may remain. Safe Mode will not restore it; recovery requires explicit approval."
 }

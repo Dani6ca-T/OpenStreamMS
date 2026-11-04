@@ -12,10 +12,21 @@ try {for(const file of fs.readdirSync(path.join(web,'locales')).filter(f=>f.ends
   if(url.pathname==='/api/settings/operation-mode') {if(req.method()==='PUT'){const data=req.postDataJSON();assert.equal(data.confirmNormal,true);writes.push(url.pathname);policy={...policy,nextMode:data.operationMode,revision:2,restartRequired:true};}body=policy;}
   else {if(req.method()!=='GET')writes.push(url.pathname);if(url.pathname==='/api/settings')body={logLevel:'Error'};if(url.pathname.endsWith('/status'))body={installed:false,active:false,busy:false};if(url.pathname.endsWith('/log'))body={lines:[],busy:false};if(url.pathname==='/api/seats/inventory')body={monitors:[],audioOutputs:[],audioInputs:[],devices:[]};}
   await route.fulfill({json:body});});
- await page.goto(origin);await page.waitForFunction(()=>typeof maintenanceStatus!=='undefined'&&maintenanceStatus!==null&&!document.documentElement.classList.contains('i18n-loading'));await page.locator('#maintenance-banner').waitFor({state:mode==='Safe'?'visible':'hidden'});assert.equal(await page.locator('#maintenance-banner').isVisible(),mode==='Safe',lang+':'+mode);checks++;
+ await page.goto(origin);
+ try {await page.waitForFunction(()=>typeof maintenanceStatus!=='undefined'&&maintenanceStatus!==null&&!document.documentElement.classList.contains('i18n-loading'));}
+ catch(error) {throw new Error(lang+':'+mode+' initialization failed; JS errors='+JSON.stringify(errors)+'; state='+await page.evaluate(()=>JSON.stringify({status:typeof maintenanceStatus==='undefined'?'missing':maintenanceStatus,i18n:typeof I18n,body:document.body?.className})),{cause:error});}
+ await page.locator('#maintenance-banner').waitFor({state:mode==='Safe'?'visible':'hidden'});assert.equal(await page.locator('#maintenance-banner').isVisible(),mode==='Safe',lang+':'+mode);checks++;
  await page.getByRole('button',{name:table['nav.more'],exact:true}).click();await page.locator('#more-pop').getByRole('button',{name:table['settings.title'],exact:true}).click();await page.locator('#settings-modal').waitFor({state:'visible'});
  assert.equal(await page.locator('#maintenance-current').textContent(),table['maintenance.'+mode.toLowerCase()]);assert.equal(await page.locator('#maintenance-mode').inputValue(),mode);checks++;
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);checks++;
+ if(mode==='Safe') {
+  await page.evaluate(()=>{maintenanceStatus.residualState={usbCapture:'pending',consoleLock:'unknown',needsAttention:true};renderMaintenance();});
+  assert.equal(await page.locator('#maintenance-recovery').textContent(),table['maintenance.recovery']);
+  assert.equal(await page.locator('#maintenance-recovery').isVisible(),true);assert.deepEqual(writes,[]);checks++;
+  assert.equal(await page.locator('#maintenance-recovery').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true);checks++;
+  if(['ru','en','de','ja','ko','zh','uk'].includes(lang))await page.screenshot({path:path.join(out,lang+'-Safe-recovery.png'),fullPage:true});
+  await page.evaluate(()=>{maintenanceStatus.residualState={needsAttention:false};renderMaintenance();});assert.equal(await page.locator('#maintenance-recovery').isVisible(),false);checks++;
+ }
  if(lang==='ru') {
   await page.locator('#maintenance-mode').selectOption(mode==='Safe'?'Normal':'Safe');
   await page.evaluate(()=>I18n.setLanguage('en'));

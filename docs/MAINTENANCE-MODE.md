@@ -38,6 +38,9 @@ A missing policy with this anchor, unsupported schema/version/enum, duplicate ke
 malformed JSON or an inaccessible policy results in Safe. Existing upstream
 installations with neither file retain their legacy Normal default. These files
 must be included in configuration backups; they are not distributed as defaults.
+Revision zero means no readable valid revision, both for legacy and damaged/missing
+policy. It is a concurrency value, not authorization: the anchored case stays Safe;
+Normal still requires authentication, explicit confirmation and a later SCM start.
 Deleting both files as an administrator intentionally resets this installation's
 configuration: this feature cannot defend against a hostile local administrator.
 
@@ -63,6 +66,11 @@ startup; RDP diagnostic completion is signalled even when its probe fails, so
 waiting components are not left hanging. There is no hot privilege flip while a
 native operation is in flight. A service restart still needs the normal assessment
 of active streams and independent Windows access.
+`Read()` snapshots policy only in the actual SCM process. Non-service CLI/Tray calls
+re-read policy and runtime status on every call; `_clientRuntime` selects that path,
+it does not cache its result. `--prepare-safe-mode` is an allowed offline operation,
+not permission to run while the service is active; it always requires a stopped
+service and administrator token. Flag matching preserves the directory argument.
 
 Tray and seat subprocesses cannot read the private configuration. The service
 publishes only active mode, PID and process creation ticks in
@@ -97,6 +105,28 @@ Live console-monitor enumeration is unavailable in Safe because it would launch 
 console helper; saved seat configuration remains readable. Device identification,
 microphone metering, Sunshine pairing and stopping a leftover stream are also
 unavailable until an explicitly approved Normal restart.
+
+### Leftover recovery journals
+
+The authenticated mode status includes `residualState`: `usbCapture`, `usbCount`,
+`consoleLock`, and `needsAttention`. Values are `clear`, `pending` or `unknown`.
+They describe the USB capture/console-lock journals, not an assertion of current
+hardware or registry state. No device ID, account SID, username or secret is returned.
+Unreadable, malformed and oversized journals report unknown; reads never rewrite
+or remove a journal. Safe startup logs a warning and Dashboard shows a localized
+notice. It deliberately does **not** call RestoreAll, Release or any RDP repair.
+
+Recovery requires a separate, specific owner approval. First ensure independent
+Windows access and a working keyboard/mouse. Back up both journals and relevant
+device/registry state; identify the exact still-captured USB nodes and affected
+console-user policy without changing them. A qualified operator must then propose
+the exact HID/WinUSB driver restoration and/or restoration of that user's saved
+DisableLockWorkstation value, with rollback and any reboot risk explicitly listed.
+Do not enable Normal merely to clear a warning: its upstream startup may perform
+other repairs/device operations. Do not delete journals to silence diagnostics.
+Only after approved recovery and verification of the resulting state may the
+corresponding journal be reconciled. A missing/unreadable journal requires manual
+investigation, not a guessed default or automatic driver action.
 It restricts the current installation's managed runtime, API, CLI and packaged
 installer/RemoteIdd entry points. Other applications, external administrative tools,
 arbitrary edited scripts, old installers, and another executable copy outside this
@@ -147,9 +177,10 @@ API interception. They never run an actual installer or mutate RDP/drivers/firew
 They exercise real policy persistence, auth, maintenance middleware and guarded
 backend entry points; they do not certify physical MultiSeat or streaming.
 
-The upstream dependency graph currently reports NU1903 for Microsoft.OpenApi 2.0.0
-([CVE-2026-49451](https://github.com/advisories/GHSA-v5pm-xwqc-g5wc)); the advisory lists
-2.7.5 as the patched 2.x version. This change does not silently upgrade unrelated
-dependencies or establish exploitability in OpenStreamMS. Review it before production
-deployment. WindowsBase/WebView2 resolution and ASP.NET analyzer warnings are recorded
-in the validation report, not hidden or treated as proof of a runtime failure.
+The Hermes follow-up explicitly pins the transitive Microsoft.OpenApi dependency
+to patched compatible 2.x version 2.7.5 for
+[CVE-2026-49451](https://github.com/advisories/GHSA-v5pm-xwqc-g5wc). Real endpoint
+schema generation and the existing document-transformer API are regression tested.
+This does not establish that OpenStreamMS exposed untrusted document parsing.
+WindowsBase/WebView2 resolution and ASP.NET analyzer warnings remain visible.
+See HERMES-FOLLOWUP.md for the NTFS tests, exact audit dispositions and limits.

@@ -14,6 +14,14 @@ using System.Net.Http.Json;
 using System.Text.Json;
 
 if(args is ["--probe", var directory]) { Console.WriteLine(new ModeConfiguration(directory,_=>{}).Read().Policy.Mode); return; }
+if(args is ["--rdp-order"])
+{
+ using var entered=new ManualResetEventSlim();using var release=new ManualResetEventSlim();
+ var work=Task.Run(()=>new RdpWrapperManager().EnsureMultiRdp(CancellationToken.None,new(OperationMode.Safe),()=>throw new Exception("Repair reached"),()=>{entered.Set();if(!release.Wait(TimeSpan.FromSeconds(5)))throw new Exception("Fixture timeout");}));
+ try {if(!entered.Wait(TimeSpan.FromSeconds(5))||RdpWrapperManager.MultiRdpChecked.IsCompleted)throw new Exception("Diagnostic completed out of order");}
+ finally {release.Set();}
+ await work;if(!RdpWrapperManager.MultiRdpChecked.IsCompleted)throw new Exception("Diagnostic did not release waiters");Console.WriteLine("RDP ORDER PASS");return;
+}
 if(args is ["--normal-fixture"])
 {
  var store=new ModeConfiguration(AppContext.BaseDirectory,_=>{});var state=store.Read();store.Request(OperationMode.Normal,state.Revision,true);store.ActivatePending();StartupSafetyPolicy.Initialize(false);
@@ -45,6 +53,21 @@ foreach(var malformed in new[]{"null","[]","{}","{","{\"Version\":2,\"OperationM
  var dir=Path.Combine(fixture,Guid.NewGuid().ToString("N"));Directory.CreateDirectory(dir);File.WriteAllText(Path.Combine(dir,ModeConfiguration.FileName),malformed);Check(new ModeConfiguration(dir,_=>{}).Read().Policy.RestrictedStartup,"invalid policy fails closed: "+malformed);
 }
 var missing=Path.Combine(fixture,"missing");Directory.CreateDirectory(missing);File.WriteAllText(Path.Combine(missing,ModeConfiguration.AnchorName),"1");Check(new ModeConfiguration(missing,_=>{}).Read().Policy.RestrictedStartup,"lost policy with persistent anchor cannot become Normal");
+var missingStore=new ModeConfiguration(missing,_=>{});Check(missingStore.ActivatePending().Policy.RestrictedStartup,"anchor-only startup cannot activate Normal at revision zero");
+try {missingStore.Request(OperationMode.Normal,0,false);throw new Exception("Unconfirmed recovery accepted");}catch(ArgumentException) {Check(missingStore.Read().Policy.RestrictedStartup,"revision zero is not authority to disable Safe");}
+var missingPending=missingStore.Request(OperationMode.Normal,0,true);Check(missingPending.Policy.RestrictedStartup&&missingPending.PendingMode==OperationMode.Normal,"explicit administrator recovery still requires a separate startup");
+missingStore.PrepareSafe();Check((await Child("--probe",missing))=="Safe","repaired anchor-only policy stays Safe in a cold process");
+var journals=Path.Combine(fixture,"journals");Directory.CreateDirectory(journals);
+Check(!MaintenanceDiagnostics.ReadFromDirectory(journals).NeedsAttention,"missing recovery journals are clear");
+var usbJournal=Path.Combine(journals,"usb-capture.json");var lockJournal=Path.Combine(journals,"console-lock.json");
+File.WriteAllText(usbJournal,"[\"synthetic-device\"]");File.WriteAllText(lockJournal,"{\"Sid\":\"fixture-sid\",\"User\":\"fixture\",\"Previous\":null}");
+var beforeUsb=File.ReadAllBytes(usbJournal);var beforeLock=File.ReadAllBytes(lockJournal);var residual=MaintenanceDiagnostics.ReadFromDirectory(journals);
+Check(residual.NeedsAttention&&residual.UsbCount==1&&residual.UsbCapture=="pending"&&residual.ConsoleLock=="pending","leftover USB and console state is diagnostic, not automatic recovery");
+Check(beforeUsb.SequenceEqual(File.ReadAllBytes(usbJournal))&&beforeLock.SequenceEqual(File.ReadAllBytes(lockJournal)),"diagnostics preserve both recovery journals byte-for-byte");
+File.WriteAllText(usbJournal,"{");File.WriteAllText(lockJournal,"null");residual=MaintenanceDiagnostics.ReadFromDirectory(journals);
+Check(residual.NeedsAttention&&residual.UsbCapture=="unknown"&&residual.ConsoleLock=="unknown","corrupt recovery journals warn without claiming recovery or clear state");
+File.WriteAllText(usbJournal,new string(' ',65537));Check(MaintenanceDiagnostics.ReadFromDirectory(journals).UsbCapture=="unknown","oversized journals are not parsed as safe/clear");
+Check((await Child("--rdp-order")).Contains("RDP ORDER PASS"),"synchronous RDP diagnostic finishes before initialization completion");
 var failure=Path.Combine(fixture,"atomic");Directory.CreateDirectory(failure);var target=Path.Combine(failure,"file.json");File.WriteAllText(target,"original");try{AtomicProtectedFile.Write(target,"replacement",_=>throw new IOException("fixture ACL failure"));}catch(IOException){}
 Check(File.ReadAllText(target)=="original"&&!Directory.GetFiles(failure,"*.tmp").Any(),"failed protected atomic write preserves existing configuration");
 Check(RuntimeMode.Read(fixture).RestrictedStartup,"unavailable service runtime cannot enable an unprivileged child");
@@ -61,6 +84,9 @@ Check(!StartupSafetyPolicy.ResolveClient(new(OperationMode.Safe,"policy_access_d
 Check(StartupSafetyPolicy.ResolveClient(new(OperationMode.Safe,"policy_unreadable"),new(OperationMode.Normal),()=>true).RestrictedStartup,"corrupt policy is not overridden by permissive runtime status");
 var baseStore=new ModeConfiguration(AppContext.BaseDirectory,_=>{});baseStore.PrepareSafe();StartupSafetyPolicy.Initialize(false);
 Check(StartupSafetyPolicy.Read().RestrictedStartup,"actual test process starts in Safe with persisted policy");
+var currentState=baseStore.Read();baseStore.Request(OperationMode.Normal,currentState.Revision,true);baseStore.ActivatePending();
+Check(!StartupSafetyPolicy.Read().RestrictedStartup,"same CLI process rereads a committed Normal policy");baseStore.PrepareSafe();
+Check(StartupSafetyPolicy.Read().RestrictedStartup,"same CLI process immediately rereads restored Safe policy");
 var sessionFile=Path.Combine(AppContext.BaseDirectory,"sessions.json");var sessionFixture="[{\"Id\":\"11111111-1111-1111-1111-111111111111\",\"Name\":\"Fixture\",\"Username\":\"fixture\",\"SunshineExePath\":\"fixture.exe\",\"Isolated\":true}]";File.WriteAllText(sessionFile,sessionFixture);
 var sessions=new StreamSessionService(new ServiceConfig());var seats=new SeatManager(sessions);var rdp=new RdpWrapperManager();
 Check(sessions.GetAll().Count()==1&&File.ReadAllText(sessionFile)==sessionFixture,"Safe startup reads legacy sessions without persisting migrations");
@@ -68,6 +94,7 @@ void Block(Action action,string name) {try {action();throw new Exception("native
 Block(()=>sessions.Start(Guid.Empty),"session start");Block(()=>sessions.Stop(Guid.Empty),"session stop");Block(()=>sessions.Delete(Guid.Empty),"session delete");Block(()=>sessions.MonitorAll(),"automatic recovery");Block(()=>seats.Start(Guid.Empty),"seat start");Block(()=>seats.Stop(Guid.Empty),"seat stop");
 Block(()=>RdpSessionCreator.GetOrCreateSession(new StreamUserConfig(),1920,1080,60,32,out _),"RDP session creation");Block(()=>RdpSessionCreator.EnsureRemoteDesktopEnabled(),"TermService/RDP enable");Block(()=>RdpSessionCreator.PreventSessionLock(),"Windows lock policy");
 Block(()=>UsbCapture.RestoreAll(),"USB restore");Block(()=>ConsoleLockGuard.Release(),"console policy recovery");Block(()=>GuideButtonGuard.Engage([]),"Guide/GameBar policy");Block(()=>DataPurge.Run(),"data purge");
+Block(()=>SeatHostControl.StartClient(),"Tray presenter client entry");
 Check(ConsoleDisplay.List().Count==0,"Safe monitor inventory never launches a console helper");
 Block(()=>new ProcessInSession().LaunchInSession(999,"fixture.exe"),"cross-session process launch");
 var sunshine=new OpenStreamMS.Services.Sunshine.SunshineManager("fixture.exe",false,new(47989));
@@ -85,18 +112,29 @@ try{rdp.EnsureMultiRdp(CancellationToken.None,new(OperationMode.Safe),()=>repair
 Check(RdpWrapperManager.MultiRdpChecked.IsCompleted&&repairs==0,"broken TermWrap does not leave initialization pending");rdp.EnsureMultiRdp(CancellationToken.None,new(OperationMode.Normal),()=>repairs++,()=>diagnostics++);Check(repairs==1&&diagnostics==1,"Normal RDP branch preserves upstream repair callback using a safe adapter");
 foreach(var service in new Microsoft.Extensions.Hosting.IHostedService[]{new OpenStreamService(sessions,rdp),seats,new OpenStreamMS.Services.Gamepad.GamepadSessionIsolation(sessions,seats),new ActiveStreamsMonitor(sessions,new SunshineProxy())}) {await service.StartAsync(CancellationToken.None);await service.StopAsync(new CancellationTokenSource(TimeSpan.FromSeconds(2)).Token);Check(true,service.GetType().Name+" starts/stops in Safe without native mutations");}
 foreach(var command in new[]{"--install","--uninstall","--remove-deps","--purge-data","--display","--identify","--seat-agent","--seat-host"})Check(!StartupSafetyPolicy.CommandAllowed(command,OperationMode.Safe)&&StartupSafetyPolicy.CommandAllowed(command,OperationMode.Normal),"CLI policy: "+command);
-var endpointStore=Store("http");endpointStore.PrepareSafe();var builder=WebApplication.CreateBuilder();builder.Logging.ClearProviders();builder.WebHost.UseUrls("http://127.0.0.1:0");builder.Services.AddSingleton(endpointStore);var app=builder.Build();
+var httpDirectory=Path.Combine(fixture,"http");Directory.CreateDirectory(httpDirectory);bool refusePolicyWrites=false;
+var endpointStore=new ModeConfiguration(httpDirectory,_=>{if(refusePolicyWrites)throw new UnauthorizedAccessException("Fixture ACL failure");});endpointStore.PrepareSafe();
+var builder=WebApplication.CreateBuilder();builder.Logging.ClearProviders();builder.WebHost.UseUrls("http://127.0.0.1:0");builder.Services.AddSingleton(endpointStore);
+builder.Services.AddOpenApi(options=>options.AddDocumentTransformer((document,_,_)=>{document.Info.Title="Maintenance fixture API";document.Info.Version="v1";return Task.CompletedTask;}));var app=builder.Build();
 var config=new ServiceConfig{AdminUsername="fixture-admin",AdminPasswordHash=AuthService.HashPassword("fixture-only-password"),AuthSecret=Guid.NewGuid().ToString("N")};
 app.Use(async(ctx,next)=>{if(!AuthService.IsAuthenticated(ctx,config)){ctx.Response.StatusCode=401;return;}await next();});
 app.UseMaintenancePolicy();app.MapMaintenanceApi();int mutations=0;foreach(var route in new[]{"/api/rdpwrap/install","/api/vigembus/install","/api/hidhide/uninstall","/api/sessions/test/start","/api/seats/test/start","/api/power/restart"})app.MapPost(route,()=>{mutations++;return Results.Ok();});
+app.MapOpenApi();
 await app.StartAsync();using var client=new HttpClient{BaseAddress=new Uri(app.Urls.Single())};var unauth=await client.GetAsync("/api/settings/operation-mode");Check(unauth.StatusCode==HttpStatusCode.Unauthorized,"unauthenticated mode API rejected by actual AuthService middleware");
 Check((await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Normal",revision=1,confirmNormal=true})).StatusCode==HttpStatusCode.Unauthorized&&endpointStore.Read().Revision==1,"unauthenticated writer cannot change mode or revision");
 client.DefaultRequestHeaders.Authorization=new("Basic",Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("fixture-admin:fixture-only-password")));
+var modeResponse=await client.GetFromJsonAsync<JsonElement>("/api/settings/operation-mode");Check(modeResponse.GetProperty("residualState").TryGetProperty("needsAttention",out _),"authenticated mode API includes non-secret recovery diagnostics");
+var openApi=await client.GetFromJsonAsync<JsonElement>("/openapi/v1.json");
+Check(openApi.GetProperty("paths").GetProperty("/api/settings/operation-mode").TryGetProperty("put",out _)&&openApi.GetProperty("info").GetProperty("title").GetString()=="Maintenance fixture API","patched OpenAPI generates real endpoint schemas and runs the existing transformer API");
+Check(typeof(Microsoft.OpenApi.OpenApiDocument).Assembly.GetName().Version! >= new Version(2,7,5,0),"runtime resolves patched Microsoft.OpenApi 2.7.5 or newer compatible 2.x");
+Check(MaintenanceEndpoints.RequestAllowed("PUT","/api/settings/logging")&&!MaintenanceEndpoints.RequestAllowed("POST","/api/settings/logging"),"Safe explicitly permits authenticated logging preference changes only");
 foreach(var route in new[]{"/api/rdpwrap/install","/api/vigembus/install","/api/hidhide/uninstall","/api/sessions/test/start","/api/seats/test/start","/api/power/restart"})Check((await client.PostAsync(route,null)).StatusCode==HttpStatusCode.Conflict,"actual HTTP maintenance middleware: "+route);
 Check(mutations==0,"no forbidden HTTP request reached a mutation adapter");
 var denied=await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Normal",revision=1,confirmNormal=false});Check(denied.StatusCode==HttpStatusCode.BadRequest,"HTTP Normal requires explicit administrator confirmation");
 var changed=await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Normal",revision=1,confirmNormal=true});Check(changed.IsSuccessStatusCode&&endpointStore.Read().Policy.RestrictedStartup,"HTTP mode save retains Safe until restart");
-Check((await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Safe",revision=1})).StatusCode==HttpStatusCode.Conflict,"stale HTTP revision rejected");await app.StopAsync();
+Check((await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Safe",revision=1})).StatusCode==HttpStatusCode.Conflict,"stale HTTP revision rejected");
+refusePolicyWrites=true;var refused=await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Safe",revision=2});
+Check(refused.StatusCode==HttpStatusCode.ServiceUnavailable&&(await refused.Content.ReadAsStringAsync()).Contains("policy_write_denied")&&endpointStore.Read().Revision==2,"NTFS access refusal returns an explicit failure without changing policy revision");await app.StopAsync();
 Console.WriteLine($"PASS {checks} maintenance checks. No real SCM, driver, RDP or firewall mutation was performed.");
 Check(File.ReadAllText(sessionFile)==sessionFixture&&sessions.GetAll().Count()==1,"blocked operations preserve session configuration and records");
 Check((await Child("--normal-fixture")).Contains("NORMAL FIXTURE PASS"),"Normal HTTP route reaches a pure adapter in a separate process");baseStore.PrepareSafe();

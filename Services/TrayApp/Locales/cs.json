@@ -24,5 +24,6 @@
   "pair.deviceAt": "A zařízení na {0}",
   "pair.tv": "TV s Moonlight WebRTC",
   "pair.device": "A Moonlight zařízení",
-  "maintenance.blocked": "Bezpečný režim: systémové změny a operace s relacemi jsou blokovány."
+  "maintenance.blocked": "Bezpečný režim: systémové změny a operace s relacemi jsou blokovány.",
+  "maintenance.unavailable": "Stav zabezpečení není dostupný. Akce jsou zakázány; zkontrolujte panel a protokoly služby."
 }

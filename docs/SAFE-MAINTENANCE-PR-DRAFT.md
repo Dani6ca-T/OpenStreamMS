@@ -28,6 +28,10 @@ acceptance must still be performed on separately authorized hardware. The previo
 unexplained service stop is not claimed to be fixed.
 
 Some new translations are machine assisted and need review by native speakers.
+The Hermes follow-up includes real Windows/NTFS ACL/replacement checks with elevated
+and unelevated tokens, read-only leftover-journal diagnostics, and a patched
+Microsoft.OpenApi 2.7.5 dependency with actual schema-generation tests. All review
+dispositions and remaining integration limits are in HERMES-FOLLOWUP.md.
 Safe is an application policy, not a Windows sandbox or protection against a local
 administrator running other binaries/tools. See MAINTENANCE-MODE.md for boundaries,
 migration, rollback and dependency warnings. No upstream PR or release is created

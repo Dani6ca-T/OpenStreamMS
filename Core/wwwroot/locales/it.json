@@ -613,5 +613,6 @@
   "maintenance.save": "Salva modalità",
   "maintenance.blocked": "Modalità sicura: modifiche al sistema e operazioni sulle sessioni bloccate.",
   "maintenance.unavailable": "Stato della modalità non disponibile. Le azioni restano limitate.",
-  "maintenance.next": "Modalità dopo il riavvio del servizio"
+  "maintenance.next": "Modalità dopo il riavvio del servizio",
+  "maintenance.recovery": "Potrebbe rimanere uno stato precedente di acquisizione USB o blocco della console. La modalità sicura non lo ripristina; serve un’autorizzazione esplicita."
 }

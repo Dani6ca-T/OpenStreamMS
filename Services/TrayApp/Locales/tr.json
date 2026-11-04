@@ -24,5 +24,6 @@
   "pair.deviceAt": "{0}'de bir cihaz",
   "pair.tv": "Moonlight WebRTC özelliğine sahip bir TV",
   "pair.device": "Bir Moonlight cihazı",
-  "maintenance.blocked": "Güvenli mod: sistem değişiklikleri ve oturum işlemleri engellenir."
+  "maintenance.blocked": "Güvenli mod: sistem değişiklikleri ve oturum işlemleri engellenir.",
+  "maintenance.unavailable": "Güvenlik durumu kullanılamıyor. İşlemler devre dışı; panoyu ve hizmet günlüklerini kontrol edin."
 }

@@ -24,5 +24,6 @@
   "pair.deviceAt": "Urządzenie w {0}",
   "pair.tv": "Telewizor z Moonlight WebRTC\nUrządzenie",
   "pair.device": "A Moonlight",
-  "maintenance.blocked": "Tryb bezpieczny: zmiany systemowe i operacje na sesjach są zablokowane."
+  "maintenance.blocked": "Tryb bezpieczny: zmiany systemowe i operacje na sesjach są zablokowane.",
+  "maintenance.unavailable": "Stan bezpieczeństwa jest niedostępny. Operacje są wyłączone; sprawdź panel i dzienniki usługi."
 }

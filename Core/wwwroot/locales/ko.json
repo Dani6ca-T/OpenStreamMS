@@ -613,5 +613,6 @@
   "maintenance.save": "작동 모드 저장",
   "maintenance.blocked": "안전 모드: 시스템 변경과 세션 작업이 차단됩니다.",
   "maintenance.unavailable": "모드 상태를 확인할 수 없습니다. 작업 제한이 유지됩니다.",
-  "maintenance.next": "서비스 재시작 후 모드"
+  "maintenance.next": "서비스 재시작 후 모드",
+  "maintenance.recovery": "이전 USB 캡처 또는 콘솔 잠금 상태가 남아 있을 수 있습니다. 안전 모드에서는 복원하지 않습니다. 복구하려면 명시적인 승인이 필요합니다."
 }

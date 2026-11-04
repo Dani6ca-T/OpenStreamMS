@@ -24,5 +24,6 @@
   "pair.deviceAt": "En enhet på {0}",
   "pair.tv": "En TV med Moonlight WebRTC",
   "pair.device": "En Moonlight enhet",
-  "maintenance.blocked": "Säkert läge: systemändringar och sessionsåtgärder är blockerade."
+  "maintenance.blocked": "Säkert läge: systemändringar och sessionsåtgärder är blockerade.",
+  "maintenance.unavailable": "Säkerhetsstatus är inte tillgänglig. Åtgärder är avstängda; kontrollera kontrollpanelen och tjänstens loggar."
 }

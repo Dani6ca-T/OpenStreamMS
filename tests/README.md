@@ -29,6 +29,31 @@ Real service restart, permissions under SYSTEM and an ordinary Windows user, Tra
 Normal streaming, Seats, and Moonlight video/audio/input are NOT fixture passes.
 They require separate authorized acceptance per `docs/MAINTENANCE-MODE.md`.
 
+### Real Windows/NTFS policy tests
+
+`PolicyNtfsTests.csproj` is separate from the fixture suite. It performs actual
+Windows ACL and replacement operations only in a **fresh synthetic workspace**
+application directory, with SYSTEM/Admin writes and Users read/traverse on the
+directory. It never uses SCM, account management, registry, drivers or firewall.
+
+Build with `dotnet build tests/PolicyNtfsTests.csproj -c Release`. Create a new
+evidence directory. From an explicitly elevated terminal run
+`dotnet tests/bin/Release/net10.0-windows/PolicyNtfsTests.dll --elevated <evidence>`.
+Then from a non-elevated terminal run the same DLL with `--ordinary <evidence>`.
+The second phase requires an existing successful elevated fixture and verifies
+real denial of reading, writing, deleting and changing private file ACLs. No Windows
+account is created. The executed acceptance used the owner's unelevated UAC token
+with Administrators disabled, not a separate standard-account login or SYSTEM.
+
+The elevated phase checks repeated writes, permissive-destination replacement,
+real sharing failure, concurrent readers, interrupted first publication and an
+anchored missing/corrupt policy. Windows may explicitly refuse a replacement while
+a reader holds it; the test requires complete old/new JSON, retained ACLs, no leaked
+temporary files and successful replacement after readers close. API access errors
+are returned explicitly, never reported as successful saves. Results/logs go in
+the evidence directory. Fixtures contain only synthetic data and may be retained
+for review; any later cleanup requires access to that exact workspace directory.
+
 The tests do not install or start OpenStreamMS, drivers, Windows services, or
 streaming sessions. Run from the repository root.
 

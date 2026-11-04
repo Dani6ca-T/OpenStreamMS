@@ -24,5 +24,6 @@
   "pair.deviceAt": "{0} 處的設備",
   "pair.tv": "配備 Moonlight WebRTC 的電視",
   "pair.device": "Moonlight 設備",
-  "maintenance.blocked": "安全模式：系統變更和工作階段操作已被禁止。"
+  "maintenance.blocked": "安全模式：系統變更和工作階段操作已被禁止。",
+  "maintenance.unavailable": "無法取得安全狀態。操作已停用；請檢查控制面板和服務記錄。"
 }

@@ -120,7 +120,11 @@ public abstract class NefariusDriverManager
     /// <summary>Instala el driver si no lo está. Para el registro del servicio (<c>--install</c>).</summary>
     public void EnsureInstalled()
     {
-        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup) return;
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+        {
+            Logger.Warning($"[Maintenance] {Name}: automatic driver installation skipped in Safe Mode.");
+            return;
+        }
         if (GetStatus().Installed) return;
         InstallAsync().GetAwaiter().GetResult();
     }

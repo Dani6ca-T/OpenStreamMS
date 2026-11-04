@@ -613,5 +613,6 @@
   "maintenance.save": "Zapisz tryb",
   "maintenance.blocked": "Tryb bezpieczny: zmiany systemowe i operacje na sesjach są zablokowane.",
   "maintenance.unavailable": "Stan trybu jest niedostępny. Działania pozostają ograniczone.",
-  "maintenance.next": "Tryb po restarcie usługi"
+  "maintenance.next": "Tryb po restarcie usługi",
+  "maintenance.recovery": "Może pozostać poprzedni stan przechwytywania USB lub blokady konsoli. Tryb bezpieczny go nie przywróci; odzyskanie wymaga wyraźnej zgody."
 }

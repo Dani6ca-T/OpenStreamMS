@@ -613,5 +613,6 @@
   "maintenance.save": "Mód mentése",
   "maintenance.blocked": "Biztonságos mód: a rendszermódosítások és a munkamenet-műveletek tiltva vannak.",
   "maintenance.unavailable": "A mód állapota nem érhető el. A műveletek korlátozva maradnak.",
-  "maintenance.next": "Mód a szolgáltatás újraindítása után"
+  "maintenance.next": "Mód a szolgáltatás újraindítása után",
+  "maintenance.recovery": "Korábbi USB-lefoglalás vagy konzolzárolási állapot maradhatott vissza. A biztonságos mód nem állítja helyre; ehhez kifejezett engedély kell."
 }

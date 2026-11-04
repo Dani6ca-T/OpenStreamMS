@@ -3,6 +3,7 @@
     <OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
     <AssemblyName>MaintenanceTests</AssemblyName><ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable><UseWindowsForms>true</UseWindowsForms><EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../OpenStreamMS.csproj" /><FrameworkReference Include="Microsoft.AspNetCore.App" />
     <Compile Include="MaintenanceTests.cs.txt" /></ItemGroup>
