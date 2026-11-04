@@ -603,5 +603,15 @@
   "driver.log.yes": "Ja",
   "driver.log.no": "Nej",
   "driver.log.running": "Körs",
-  "driver.log.stopped": "Stoppad"
+  "driver.log.stopped": "Stoppad",
+  "maintenance.title": "Driftläge",
+  "maintenance.normal": "Normalt",
+  "maintenance.safe": "Säkert / Underhåll",
+  "maintenance.summary": "Säkert läge blockerar systemändringar och sessionsåtgärder. Diagnostik är fortfarande tillgänglig.",
+  "maintenance.restart": "Tjänsten måste startas om. Det aktuella läget gäller tills dess.",
+  "maintenance.confirm": "Aktivera normalt läge efter nästa omstart av tjänsten? Vanliga åtgärder för sessioner, RDP, enheter och drivrutiner tillåts. Ingen reparation startar när du sparar.",
+  "maintenance.save": "Spara driftläge",
+  "maintenance.blocked": "Säkert läge: systemändringar och sessionsåtgärder är blockerade.",
+  "maintenance.unavailable": "Lägesstatus är inte tillgänglig. Åtgärder förblir begränsade.",
+  "maintenance.next": "Läge efter omstart av tjänsten"
 }

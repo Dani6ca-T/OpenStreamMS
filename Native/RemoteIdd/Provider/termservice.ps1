@@ -3,6 +3,26 @@
 # Copia un fichero que TermService puede tener cargado (el proveedor, TermWrap). Windows deja
 # renombrar una DLL en uso aunque no sobrescribirla: la vieja se aparta como .old-* (se borra en
 # la siguiente instalación) y la nueva entra con su nombre; TermService la carga al reiniciar.
+# Maintenance policy is checked before any privileged helper is defined or invoked.
+function Assert-OpenStreamNormalMode {
+    $roots = @((Split-Path $PSScriptRoot -Parent))
+    $service = Get-CimInstance Win32_Service -Filter "Name='OpenStreamMS'" -ErrorAction Stop
+    if ($service -and $service.PathName -match '^\s*"?(.+?OpenStreamMS\.exe)"?(?:\s|$)') {
+        $roots += Split-Path $Matches[1] -Parent
+    }
+    foreach ($root in $roots | Select-Object -Unique) {
+        $policy = Join-Path $root 'operation-mode.json'
+        $anchor = Join-Path $root 'operation-mode.required'
+        if ((Test-Path -LiteralPath $policy -ErrorAction Stop) -or (Test-Path -LiteralPath $anchor -ErrorAction Stop)) {
+            $exe = Join-Path $root 'OpenStreamMS.exe'
+            if (-not (Test-Path -LiteralPath $exe -ErrorAction Stop)) { throw 'maintenance_mode: policy checker unavailable.' }
+            $check = Start-Process -FilePath $exe -ArgumentList '--check-maintenance' -WindowStyle Hidden -Wait -PassThru -ErrorAction Stop
+            if ($check.ExitCode -ne 0) { throw 'maintenance_mode: RemoteIdd/RDP changes are blocked.' }
+        }
+    }
+}
+Assert-OpenStreamNormalMode
+
 function Copy-InUse([string] $Source, [string] $Destination) {
     $dir = Split-Path $Destination
     Get-ChildItem $dir -Filter '*.old-*' -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue

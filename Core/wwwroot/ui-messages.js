@@ -26,6 +26,7 @@
     let text = String(raw);
     try {
       const body = JSON.parse(text);
+      if (body?.code === 'maintenance_mode') return this.t('maintenance.blocked');
       if (body && typeof body === 'object' && body.code && this.has('sunmgr.err.' + body.code)) {
         return this.t('sunmgr.err.' + body.code, { detail: /^HTTP \d+$/.test(body.message || '') ? body.message : this.t('error.request') });
       }

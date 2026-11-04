@@ -23,5 +23,6 @@
   "pair.tvAt": "En TV på {0}",
   "pair.deviceAt": "En enhet på {0}",
   "pair.tv": "En TV med Moonlight WebRTC",
-  "pair.device": "En Moonlight enhet"
+  "pair.device": "En Moonlight enhet",
+  "maintenance.blocked": "Säkert läge: systemändringar och sessionsåtgärder är blockerade."
 }

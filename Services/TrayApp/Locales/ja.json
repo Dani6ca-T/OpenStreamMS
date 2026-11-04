@@ -23,5 +23,6 @@
   "pair.tvAt": "{0} のテレビ",
   "pair.deviceAt": "{0} のデバイス",
   "pair.tv": "Moonlight WebRTC を備えたテレビ",
-  "pair.device": "Moonlight デバイス"
+  "pair.device": "Moonlight デバイス",
+  "maintenance.blocked": "セーフモード：システムの変更とセッション操作は禁止されています。"
 }

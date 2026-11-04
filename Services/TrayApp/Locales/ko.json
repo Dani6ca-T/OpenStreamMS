@@ -23,5 +23,6 @@
   "pair.tvAt": "{0}의 TV",
   "pair.deviceAt": "{0}의 장치",
   "pair.tv": "Moonlight WebRTC가 탑재된 TV",
-  "pair.device": "Moonlight 장치"
+  "pair.device": "Moonlight 장치",
+  "maintenance.blocked": "안전 모드: 시스템 변경과 세션 작업이 차단됩니다."
 }

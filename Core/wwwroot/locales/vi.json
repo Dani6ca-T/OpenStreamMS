@@ -603,5 +603,15 @@
   "driver.log.yes": "Có",
   "driver.log.no": "Không",
   "driver.log.running": "Đang chạy",
-  "driver.log.stopped": "Đã dừng"
+  "driver.log.stopped": "Đã dừng",
+  "maintenance.title": "Chế độ hoạt động",
+  "maintenance.normal": "Bình thường",
+  "maintenance.safe": "An toàn / Bảo trì",
+  "maintenance.summary": "Chế độ an toàn chặn thay đổi hệ thống và thao tác phiên. Chẩn đoán vẫn khả dụng.",
+  "maintenance.restart": "Cần khởi động lại dịch vụ. Chế độ hiện tại vẫn hoạt động cho đến lúc đó.",
+  "maintenance.confirm": "Bật chế độ bình thường sau lần khởi động lại dịch vụ tiếp theo? Các thao tác thông thường với phiên, RDP, thiết bị và trình điều khiển sẽ được phép. Việc lưu không bắt đầu sửa chữa.",
+  "maintenance.save": "Lưu chế độ",
+  "maintenance.blocked": "Chế độ an toàn: thay đổi hệ thống và thao tác phiên bị chặn.",
+  "maintenance.unavailable": "Không có trạng thái chế độ. Các thao tác vẫn bị hạn chế.",
+  "maintenance.next": "Chế độ sau khi khởi động lại dịch vụ"
 }

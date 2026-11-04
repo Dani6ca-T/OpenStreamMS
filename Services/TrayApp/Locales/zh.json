@@ -23,5 +23,6 @@
   "pair.tvAt": "{0} 的电视",
   "pair.deviceAt": "{0} 处的设备",
   "pair.tv": "带有 Moonlight WebRTC 的电视",
-  "pair.device": "Moonlight 设备"
+  "pair.device": "Moonlight 设备",
+  "maintenance.blocked": "安全模式：系统更改和会话操作已被禁止。"
 }

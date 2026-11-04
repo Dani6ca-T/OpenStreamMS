@@ -603,5 +603,15 @@
   "driver.log.yes": "Evet",
   "driver.log.no": "Hayır",
   "driver.log.running": "Çalışıyor",
-  "driver.log.stopped": "Durduruldu"
+  "driver.log.stopped": "Durduruldu",
+  "maintenance.title": "Çalışma modu",
+  "maintenance.normal": "Normal",
+  "maintenance.safe": "Güvenli / Bakım",
+  "maintenance.summary": "Güvenli mod sistem değişikliklerini ve oturum işlemlerini engeller. Tanılama kullanılabilir kalır.",
+  "maintenance.restart": "Hizmetin yeniden başlatılması gerekir. O zamana kadar mevcut mod etkin kalır.",
+  "maintenance.confirm": "Hizmetin bir sonraki yeniden başlatılmasından sonra normal mod etkinleştirilsin mi? Standart oturum, RDP, aygıt ve sürücü işlemlerine izin verilir. Kaydetmek onarım başlatmaz.",
+  "maintenance.save": "Çalışma modunu kaydet",
+  "maintenance.blocked": "Güvenli mod: sistem değişiklikleri ve oturum işlemleri engellenir.",
+  "maintenance.unavailable": "Mod durumu kullanılamıyor. İşlemler kısıtlı kalır.",
+  "maintenance.next": "Hizmet yeniden başlatıldıktan sonraki mod"
 }

@@ -39,6 +39,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'termservice.ps1')
+try { Assert-OpenStreamNormalMode } catch { Write-Error $_; exit 1 }
 if ([bool]$Bin -eq [bool]$Package) { throw 'Indica -Bin (desarrollo) o -Package (paquete firmado), uno de los dos.' }
 # Desde el instalador no hay consola que mirar: lo que pase queda en un log.
 if ($Package) { Start-Transcript -Path (Join-Path $env:ProgramData 'OpenStreamMS\remoteidd-setup.log') -Append | Out-Null }

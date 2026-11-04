@@ -23,5 +23,6 @@
   "pair.tvAt": "Телевизор на {0}",
   "pair.deviceAt": "Устройство на {0}",
   "pair.tv": "Телевизор с Moonlight WebRTC",
-  "pair.device": "Устройство Moonlight"
+  "pair.device": "Устройство Moonlight",
+  "maintenance.blocked": "Безопасен режим: системните промени и операциите със сесии са блокирани."
 }

@@ -23,5 +23,6 @@
   "pair.tvAt": "Telewizor ustawiony na {0}",
   "pair.deviceAt": "Urządzenie w {0}",
   "pair.tv": "Telewizor z Moonlight WebRTC\nUrządzenie",
-  "pair.device": "A Moonlight"
+  "pair.device": "A Moonlight",
+  "maintenance.blocked": "Tryb bezpieczny: zmiany systemowe i operacje na sesjach są zablokowane."
 }

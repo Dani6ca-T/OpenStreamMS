@@ -23,5 +23,6 @@
   "pair.tvAt": "Một chiếc TV tại {0}",
   "pair.deviceAt": "Một thiết bị tại {0}",
   "pair.tv": "TV có Moonlight WebRTC",
-  "pair.device": "Một thiết bị Moonlight\nDịch vụ"
+  "pair.device": "Một thiết bị Moonlight\nDịch vụ",
+  "maintenance.blocked": "Chế độ an toàn: thay đổi hệ thống và thao tác phiên bị chặn."
 }

@@ -603,5 +603,15 @@
   "driver.log.yes": "是",
   "driver.log.no": "否",
   "driver.log.running": "執行中",
-  "driver.log.stopped": "已停止"
+  "driver.log.stopped": "已停止",
+  "maintenance.title": "運作模式",
+  "maintenance.normal": "正常",
+  "maintenance.safe": "安全 / 維護",
+  "maintenance.summary": "安全模式禁止系統變更和工作階段操作。診斷仍可使用。",
+  "maintenance.restart": "需要重新啟動服務。在此之前，目前模式保持生效。",
+  "maintenance.confirm": "是否在下次服務重新啟動後啟用正常模式？屆時將允許標準工作階段、RDP、裝置和驅動程式操作。儲存不會啟動修復。",
+  "maintenance.save": "儲存運作模式",
+  "maintenance.blocked": "安全模式：系統變更和工作階段操作已被禁止。",
+  "maintenance.unavailable": "無法取得模式狀態。操作限制仍然有效。",
+  "maintenance.next": "服務重新啟動後的模式"
 }

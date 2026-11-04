@@ -23,5 +23,6 @@
   "pair.tvAt": "A TV na {0}",
   "pair.deviceAt": "A zařízení na {0}",
   "pair.tv": "TV s Moonlight WebRTC",
-  "pair.device": "A Moonlight zařízení"
+  "pair.device": "A Moonlight zařízení",
+  "maintenance.blocked": "Bezpečný režim: systémové změny a operace s relacemi jsou blokovány."
 }

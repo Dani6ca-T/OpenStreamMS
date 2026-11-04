@@ -73,6 +73,10 @@ document.addEventListener('visibilitychange', () => {
 
 // ── API helper ─────────────────────────────────────────────────────────────
 async function api(method, path, body) {
+  if (typeof maintenanceLocked === 'function' && maintenanceLocked() && !maintenanceRequestAllowed(method,path)) {
+    toast(t('maintenance.blocked'),true);
+    return new Response(JSON.stringify({code:'maintenance_mode'}),{status:409});
+  }
   try {
     const opts = { method, credentials: 'same-origin', headers: {} };
     if (body !== undefined) {
@@ -1529,6 +1533,7 @@ document.addEventListener('change', e => { if (e.target.name === 'Effects') upda
 async function openSettingsModal() {
   document.querySelectorAll('.nav-pop').forEach(p => p.classList.add('hidden'));
   renderAppearance();
+  await refreshMaintenance();
   const res = await api('GET', '/api/settings');
   if (!res) return;
   if (!res.ok) { toast(t('toast.connectionError'), true); return; }
@@ -1536,7 +1541,8 @@ async function openSettingsModal() {
   const radio = document.querySelector(`#settings-log-level input[value="${st.logLevel}"]`);
   if (radio) radio.checked = true;
   show('settings-modal');
-  (radio || document.querySelector('#settings-log-level input')).focus();
+  byId('maintenance-mode').focus({preventScroll:true});
+  document.querySelector('#settings-modal .modal-body').scrollTop = 0;
 }
 
 async function saveSettings() {

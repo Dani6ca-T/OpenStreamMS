@@ -603,5 +603,15 @@
   "driver.log.yes": "Tak",
   "driver.log.no": "Nie",
   "driver.log.running": "Uruchomiona",
-  "driver.log.stopped": "Zatrzymana"
+  "driver.log.stopped": "Zatrzymana",
+  "maintenance.title": "Tryb pracy",
+  "maintenance.normal": "Normalny",
+  "maintenance.safe": "Bezpieczny / Konserwacja",
+  "maintenance.summary": "Tryb bezpieczny blokuje zmiany systemowe i operacje na sesjach. Diagnostyka pozostaje dostępna.",
+  "maintenance.restart": "Wymagany jest restart usługi. Do tego czasu działa bieżący tryb.",
+  "maintenance.confirm": "Włączyć tryb normalny po następnym restarcie usługi? Dozwolone będą standardowe operacje na sesjach, RDP, urządzeniach i sterownikach. Zapis nie uruchamia naprawy.",
+  "maintenance.save": "Zapisz tryb",
+  "maintenance.blocked": "Tryb bezpieczny: zmiany systemowe i operacje na sesjach są zablokowane.",
+  "maintenance.unavailable": "Stan trybu jest niedostępny. Działania pozostają ograniczone.",
+  "maintenance.next": "Tryb po restarcie usługi"
 }

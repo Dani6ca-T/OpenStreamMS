@@ -603,5 +603,15 @@
   "driver.log.yes": "Igen",
   "driver.log.no": "Nem",
   "driver.log.running": "Fut",
-  "driver.log.stopped": "Leállítva"
+  "driver.log.stopped": "Leállítva",
+  "maintenance.title": "Működési mód",
+  "maintenance.normal": "Normál",
+  "maintenance.safe": "Biztonságos / Karbantartás",
+  "maintenance.summary": "A biztonságos mód tiltja a rendszermódosításokat és a munkamenet-műveleteket. A diagnosztika elérhető marad.",
+  "maintenance.restart": "A szolgáltatást újra kell indítani. Addig a jelenlegi mód marad aktív.",
+  "maintenance.confirm": "Bekapcsolja a normál módot a következő szolgáltatás-újraindítás után? Engedélyezve lesznek a szokásos munkamenet-, RDP-, eszköz- és illesztőprogram-műveletek. A mentés nem indít javítást.",
+  "maintenance.save": "Mód mentése",
+  "maintenance.blocked": "Biztonságos mód: a rendszermódosítások és a munkamenet-műveletek tiltva vannak.",
+  "maintenance.unavailable": "A mód állapota nem érhető el. A műveletek korlátozva maradnak.",
+  "maintenance.next": "Mód a szolgáltatás újraindítása után"
 }

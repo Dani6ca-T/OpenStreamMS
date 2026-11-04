@@ -603,5 +603,15 @@
   "driver.log.yes": "Ja",
   "driver.log.no": "Nein",
   "driver.log.running": "Wird ausgeführt",
-  "driver.log.stopped": "Beendet"
+  "driver.log.stopped": "Beendet",
+  "maintenance.title": "Betriebsmodus",
+  "maintenance.normal": "Normal",
+  "maintenance.safe": "Sicher / Wartung",
+  "maintenance.summary": "Der sichere Modus blockiert Systemänderungen und Sitzungsaktionen. Die Diagnose bleibt verfügbar.",
+  "maintenance.restart": "Der Dienst muss neu gestartet werden. Bis dahin bleibt der aktuelle Modus aktiv.",
+  "maintenance.confirm": "Nach dem nächsten Dienstneustart den normalen Modus aktivieren? Übliche Sitzungs-, RDP-, Geräte- und Treiberaktionen werden erlaubt. Beim Speichern startet keine Reparatur.",
+  "maintenance.save": "Betriebsmodus speichern",
+  "maintenance.blocked": "Sicherer Modus: Systemänderungen und Sitzungsaktionen sind gesperrt.",
+  "maintenance.unavailable": "Modusstatus nicht verfügbar. Aktionen bleiben eingeschränkt.",
+  "maintenance.next": "Modus nach dem Dienstneustart"
 }

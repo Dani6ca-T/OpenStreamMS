@@ -603,5 +603,15 @@
   "driver.log.yes": "はい",
   "driver.log.no": "いいえ",
   "driver.log.running": "実行中",
-  "driver.log.stopped": "停止"
+  "driver.log.stopped": "停止",
+  "maintenance.title": "動作モード",
+  "maintenance.normal": "通常",
+  "maintenance.safe": "セーフ / メンテナンス",
+  "maintenance.summary": "セーフモードではシステムの変更とセッション操作が禁止されます。診断は引き続き利用できます。",
+  "maintenance.restart": "サービスの再起動が必要です。それまでは現在のモードが有効です。",
+  "maintenance.confirm": "次回のサービス再起動後に通常モードを有効にしますか？通常のセッション、RDP、デバイス、ドライバー操作が許可されます。保存時に修復は開始されません。",
+  "maintenance.save": "動作モードを保存",
+  "maintenance.blocked": "セーフモード：システムの変更とセッション操作は禁止されています。",
+  "maintenance.unavailable": "モードの状態を取得できません。操作の制限は継続されます。",
+  "maintenance.next": "サービス再起動後のモード"
 }

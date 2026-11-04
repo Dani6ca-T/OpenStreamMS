@@ -23,5 +23,6 @@
   "pair.tvAt": "А Телевізор на {0}",
   "pair.deviceAt": "A пристрій при {0}",
   "pair.tv": "A Телевізор з Moonlight WebRTC",
-  "pair.device": "A Moonlight пристрій"
+  "pair.device": "A Moonlight пристрій",
+  "maintenance.blocked": "Безпечний режим: зміни системи й операції із сеансами заборонені."
 }

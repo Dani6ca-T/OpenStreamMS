@@ -12,6 +12,7 @@
 <body>
 <div class="bg-glow" aria-hidden="true"><span></span><span></span><span></span></div>
 <div id="app">
+  <aside id="maintenance-banner" class="maintenance-banner" role="status" aria-live="polite" hidden></aside>
 
   <!-- Navbar -->
   <nav class="nav">
@@ -485,6 +486,15 @@
       <button class="modal-close" type="button" onclick="hide('settings-modal')" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
     </div>
     <div class="modal-body">
+      <section class="maintenance-settings" aria-labelledby="maintenance-title">
+        <h4 id="maintenance-title" class="settings-section" data-i18n="maintenance.title">Operation mode</h4>
+        <p><strong id="maintenance-current"></strong></p>
+        <p class="hint" data-i18n="maintenance.summary"></p>
+        <label for="maintenance-mode" data-i18n="maintenance.next"></label>
+        <select id="maintenance-mode"><option value="Safe" data-i18n="maintenance.safe">Safe</option><option value="Normal" data-i18n="maintenance.normal">Normal</option></select>
+        <p id="maintenance-restart" role="status" data-i18n="maintenance.restart" hidden></p>
+        <button id="maintenance-save" type="button" class="btn btn-ghost" onclick="saveOperationMode()" data-i18n="maintenance.save"></button>
+      </section>
       <h4 class="settings-section" data-i18n="appearance.title">Apariencia</h4>
       <div class="form-row">
         <label data-i18n="appearance.theme">Tema</label>
@@ -907,6 +917,7 @@
 
 <script src="/ui-messages.js"></script>
 <script src="/app.js"></script>
+<script src="/maintenance.js"></script>
 <script src="/seats.js"></script>
 </body>
 </html>

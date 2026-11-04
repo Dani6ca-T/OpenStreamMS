@@ -603,5 +603,15 @@
   "driver.log.yes": "Sí",
   "driver.log.no": "No",
   "driver.log.running": "En ejecución",
-  "driver.log.stopped": "Detenido"
+  "driver.log.stopped": "Detenido",
+  "maintenance.title": "Modo de funcionamiento",
+  "maintenance.normal": "Normal",
+  "maintenance.safe": "Seguro / Mantenimiento",
+  "maintenance.summary": "El modo seguro bloquea cambios del sistema y operaciones de sesiones. El diagnóstico sigue disponible.",
+  "maintenance.restart": "Hay que reiniciar el servicio. Hasta entonces sigue activo el modo actual.",
+  "maintenance.confirm": "¿Activar el modo normal tras el próximo reinicio del servicio? Se permitirán las operaciones habituales de sesiones, RDP, dispositivos y controladores. Guardar no inicia reparaciones.",
+  "maintenance.save": "Guardar modo",
+  "maintenance.blocked": "Modo seguro: cambios del sistema y operaciones de sesiones bloqueados.",
+  "maintenance.unavailable": "El estado del modo no está disponible. Las acciones siguen restringidas.",
+  "maintenance.next": "Modo tras reiniciar el servicio"
 }

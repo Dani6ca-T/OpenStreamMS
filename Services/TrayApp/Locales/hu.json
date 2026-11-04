@@ -23,5 +23,6 @@
   "pair.tvAt": "A TV a {0}-nál",
   "pair.deviceAt": "Eszköz {0}",
   "pair.tv": "A TV Moonlight WebRTC",
-  "pair.device": "A Moonlight készülék"
+  "pair.device": "A Moonlight készülék",
+  "maintenance.blocked": "Biztonságos mód: a rendszermódosítások és a munkamenet-műveletek tiltva vannak."
 }

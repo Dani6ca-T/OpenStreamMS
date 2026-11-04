@@ -23,5 +23,6 @@
   "pair.tvAt": "A TV at {0}",
   "pair.deviceAt": "A device at {0}",
   "pair.tv": "A TV with Moonlight WebRTC",
-  "pair.device": "A Moonlight device"
+  "pair.device": "A Moonlight device",
+  "maintenance.blocked": "Safe Mode: system changes and session operations are blocked."
 }

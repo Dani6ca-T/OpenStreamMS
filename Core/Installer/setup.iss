@@ -151,8 +151,24 @@ begin
       '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 end;
 
+// Fail BEFORE stopping any service, replacing files or running RemoteIdd scripts.
+function MaintenanceAllowsChanges(): Boolean;
+var
+  AppDir: String;
+  ExitCode: Integer;
+begin
+  AppDir := ExpandConstant('{app}');
+  Result := True;
+  if FileExists(AppDir + '\operation-mode.json') or FileExists(AppDir + '\operation-mode.required') then
+    Result := Exec(AppDir + '\{#AppExeName}', '--check-maintenance', AppDir, SW_HIDE, ewWaitUntilTerminated, ExitCode) and (ExitCode = 0);
+end;
+
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 begin
+  if not MaintenanceAllowsChanges() then begin
+    Result := CustomMessage('MaintenanceBlocked');
+    Exit;
+  end;
   StopAppProcesses(ExpandConstant('{app}'));
   Result := '';
 end;
@@ -189,6 +205,7 @@ end;
 
 function InitializeUninstall(): Boolean;
 begin
+  if not MaintenanceAllowsChanges() then begin Result := False; Exit; end;
   RemoteIddWasInstalled := FileExists(ExpandConstant('{commonappdata}\OpenStreamMS\remoteidd-install.json'));
   if UninstallSilent then
   begin
@@ -215,6 +232,7 @@ end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
+  if (CurUninstallStep = usUninstall) and not MaintenanceAllowsChanges() then Abort;
   if CurUninstallStep = usUninstall then
     StopAppProcesses(ExpandConstant('{app}'));
   // Lo que generó el programa (sessions\, sessions.json, seats.json, service.config.json…)

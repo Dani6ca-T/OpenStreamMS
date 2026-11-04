@@ -603,5 +603,15 @@
   "driver.log.yes": "Sì",
   "driver.log.no": "No",
   "driver.log.running": "In esecuzione",
-  "driver.log.stopped": "Arrestato"
+  "driver.log.stopped": "Arrestato",
+  "maintenance.title": "Modalità operativa",
+  "maintenance.normal": "Normale",
+  "maintenance.safe": "Sicura / Manutenzione",
+  "maintenance.summary": "La modalità sicura blocca modifiche al sistema e operazioni sulle sessioni. La diagnostica resta disponibile.",
+  "maintenance.restart": "È necessario riavviare il servizio. Fino ad allora resta attiva la modalità corrente.",
+  "maintenance.confirm": "Attivare la modalità normale al prossimo riavvio del servizio? Saranno consentite le normali operazioni su sessioni, RDP, dispositivi e driver. Il salvataggio non avvia riparazioni.",
+  "maintenance.save": "Salva modalità",
+  "maintenance.blocked": "Modalità sicura: modifiche al sistema e operazioni sulle sessioni bloccate.",
+  "maintenance.unavailable": "Stato della modalità non disponibile. Le azioni restano limitate.",
+  "maintenance.next": "Modalità dopo il riavvio del servizio"
 }

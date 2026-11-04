@@ -603,5 +603,15 @@
   "driver.log.yes": "Ano",
   "driver.log.no": "Ne",
   "driver.log.running": "Spuštěno",
-  "driver.log.stopped": "Zastaveno"
+  "driver.log.stopped": "Zastaveno",
+  "maintenance.title": "Provozní režim",
+  "maintenance.normal": "Normální",
+  "maintenance.safe": "Bezpečný / Údržba",
+  "maintenance.summary": "Bezpečný režim blokuje systémové změny a operace s relacemi. Diagnostika zůstává dostupná.",
+  "maintenance.restart": "Je nutné restartovat službu. Do té doby zůstává aktivní současný režim.",
+  "maintenance.confirm": "Zapnout normální režim po příštím restartu služby? Budou povoleny běžné operace s relacemi, RDP, zařízeními a ovladači. Uložení nespustí opravu.",
+  "maintenance.save": "Uložit režim",
+  "maintenance.blocked": "Bezpečný režim: systémové změny a operace s relacemi jsou blokovány.",
+  "maintenance.unavailable": "Stav režimu není dostupný. Akce zůstávají omezené.",
+  "maintenance.next": "Režim po restartu služby"
 }

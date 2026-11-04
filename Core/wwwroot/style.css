@@ -1746,3 +1746,12 @@ section#view-sessions, section#view-seats { animation: viewIn .35s var(--ease); 
   justify-content: center;
 }
 #i18n-error { padding: .8rem 1.2rem; color: var(--text); background: var(--surface); }
+
+/* Maintenance status is text-first, wraps at narrow widths and never obscures controls. */
+.maintenance-banner { padding: 12px 16px; border: 1px solid currentColor; border-radius: 10px; margin: 12px 0; overflow-wrap: anywhere; }
+.maintenance-banner[hidden], #maintenance-restart[hidden] { display: none; }
+.maintenance-settings { border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; }
+.maintenance-settings select { display: block; width: 100%; max-width: 100%; margin: 8px 0 12px; min-height: 40px; }
+.maintenance-settings p { overflow-wrap: anywhere; }
+#settings-modal .modal { overflow: hidden; }
+#settings-modal .modal-body { min-height: 0; overflow-y: auto; }

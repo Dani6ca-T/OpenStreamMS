@@ -23,5 +23,6 @@
   "pair.tvAt": "Una TV a {0}",
   "pair.deviceAt": "Un dispositivo a {0}",
   "pair.tv": "Una TV con Moonlight WebRTC\nDispositivo",
-  "pair.device": "A Moonlight"
+  "pair.device": "A Moonlight",
+  "maintenance.blocked": "Modalità sicura: modifiche al sistema e operazioni sulle sessioni bloccate."
 }

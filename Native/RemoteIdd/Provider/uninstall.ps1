@@ -8,6 +8,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     throw 'Hay que ejecutarlo como administrador.'
 }
 . (Join-Path $PSScriptRoot 'termservice.ps1')
+try { Assert-OpenStreamNormalMode } catch { Write-Error $_; exit 1 }
 $state = Join-Path $env:ProgramData 'OpenStreamMS\remoteidd-install.json'
 if (-not (Test-Path $state)) { Write-Host 'No hay nada instalado.'; return }
 # El instalador lo ejecuta sin consola: lo que pase queda junto al log de install.ps1 -Package.

@@ -603,5 +603,15 @@
   "driver.log.yes": "Yes",
   "driver.log.no": "No",
   "driver.log.running": "Running",
-  "driver.log.stopped": "Stopped"
+  "driver.log.stopped": "Stopped",
+  "maintenance.title": "Operation mode",
+  "maintenance.normal": "Normal",
+  "maintenance.safe": "Safe / Maintenance",
+  "maintenance.summary": "Safe Mode blocks system changes and session operations. Diagnostics remain available.",
+  "maintenance.restart": "A service restart is required. The current mode remains active until then.",
+  "maintenance.confirm": "Enable Normal Mode after the next service restart? Standard session, RDP, device and driver operations will be permitted. No repair starts when you save.",
+  "maintenance.save": "Save operation mode",
+  "maintenance.blocked": "Safe Mode: system changes and session operations are blocked.",
+  "maintenance.unavailable": "Mode status is unavailable. Actions remain restricted.",
+  "maintenance.next": "Mode after service restart"
 }
