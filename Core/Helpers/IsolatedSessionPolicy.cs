@@ -18,6 +18,7 @@ internal static class IsolatedSessionPolicy
 
     public static void Apply(string username, Guid sessionId, bool canShutdown)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("IsolatedSessionPolicy.Apply");
         try
         {
             var sid = new NTAccount(username).Translate(typeof(SecurityIdentifier)).Value;

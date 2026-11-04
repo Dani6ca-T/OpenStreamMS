@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using OpenStreamMS.Core.Api;
 using OpenStreamMS.Core.Helpers;
 using OpenStreamMS.Services;
@@ -17,6 +17,34 @@ const string ServiceDesc    = "Crea una sesión RDP para el usuario de streaming
 
 // Se instala y desinstala con OpenStreamMS-Setup.exe (Inno Setup), que llama a estos comandos.
 var command = args.Length > 0 ? args[0].ToLowerInvariant() : "--help";
+
+StartupSafetyPolicy.Initialize(scmStartup: command == "--run" && Microsoft.Extensions.Hosting.WindowsServices.WindowsServiceHelpers.IsWindowsService());
+if (command == "--check-maintenance")
+{
+    Environment.Exit(StartupSafetyPolicy.Read().RestrictedStartup ? 3 : 0);
+    return;
+}
+if (command == "--prepare-safe-mode")
+{
+    RequireAdmin();
+    using var service = new System.ServiceProcess.ServiceController(ServiceName);
+    try { if (service.Status != System.ServiceProcess.ServiceControllerStatus.Stopped)
+        throw new InvalidOperationException("Stop OpenStreamMS through SCM before preparing the migration."); }
+    catch (InvalidOperationException ex) when (ex.InnerException is System.ComponentModel.Win32Exception { NativeErrorCode: 1060 }) { }
+    var index = Array.IndexOf(args, "--policy-directory");
+    if (index < 0 || index + 1 >= args.Length) throw new ArgumentException("--policy-directory is required.");
+    var target = Path.GetFullPath(args[index + 1]);
+    if (!File.Exists(Path.Combine(target, "service.config.json"))) throw new InvalidOperationException("Existing configuration missing.");
+    new ModeConfiguration(target).PrepareSafe();
+    Console.WriteLine("Safe policy prepared. Verify operation-mode.json before replacing files or starting the service.");
+    return;
+}
+if (!StartupSafetyPolicy.CommandAllowed(command, StartupSafetyPolicy.Read().Mode))
+{
+    Console.Error.WriteLine("maintenance_mode: command blocked by Safe Mode.");
+    Environment.Exit(3);
+    return;
+}
 
 switch (command)
 {
@@ -102,6 +130,12 @@ switch (command)
 
 static async Task RunService(string[] args)
 {
+    if (Microsoft.Extensions.Hosting.WindowsServices.WindowsServiceHelpers.IsWindowsService())
+    {
+        try { RuntimeMode.Publish(StartupSafetyPolicy.Read()); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        { Logger.Warning("[Maintenance] Client status could not be published; child processes remain restricted."); }
+    }
     var config = ServiceConfig.Load();
     Logger.SetThreshold(config.LogThreshold);
 
@@ -121,6 +155,7 @@ static async Task RunService(string[] args)
     builder.WebHost.UseUrls($"http://0.0.0.0:{config.ApiPort}");
 
     builder.Services.AddSingleton(config);
+    builder.Services.AddSingleton(new ModeConfiguration(AppContext.BaseDirectory));
     builder.Services.AddSingleton<StreamSessionService>();
     builder.Services.AddSingleton<SunshineProxy>();
     builder.Services.AddSingleton<RdpWrapperManager>();
@@ -213,6 +248,7 @@ static async Task RunService(string[] args)
 
     // ── Archivos estáticos (wwwroot/) ─────────────────────────────────────────
     // UseDefaultFiles mapea / → /index.html y debe ir antes de UseStaticFiles
+    app.UseMaintenancePolicy(); // after authentication, before API handlers
     app.UseDefaultFiles();
     app.UseStaticFiles(new Microsoft.AspNetCore.Builder.StaticFileOptions
     {
@@ -308,6 +344,7 @@ static async Task RunService(string[] args)
 
     // ── Ajustes globales (nivel de log) y datos de red ───────────────────────
     app.MapSettingsApi();
+    app.MapMaintenanceApi();
 
     Logger.Log($"[Service] Web disponible en http://localhost:{config.ApiPort}");
     Logger.Log($"[Service] API docs en http://localhost:{config.ApiPort}/scalar/v1");
@@ -338,7 +375,7 @@ static void RunTray(bool showWindow = false)
 
 static bool IsPublicPath(string path) => path.ToLowerInvariant() is
     "/login" or "/login.html" or "/setup" or "/setup.html" or "/style.css" or
-    "/app.js" or "/seats.js" or "/i18n.js" or "/ui-messages.js" or "/theme.js" or "/favicon.svg" or "/favicon.ico" or
+    "/maintenance.js" or "/app.js" or "/seats.js" or "/i18n.js" or "/ui-messages.js" or "/theme.js" or "/favicon.svg" or "/favicon.ico" or
     "/locales/bg.json" or "/locales/cs.json" or "/locales/de.json" or "/locales/en.json" or
     "/locales/en_gb.json" or "/locales/en_us.json" or "/locales/es.json" or "/locales/fr.json" or
     "/locales/hu.json" or "/locales/it.json" or "/locales/ja.json" or "/locales/ko.json" or

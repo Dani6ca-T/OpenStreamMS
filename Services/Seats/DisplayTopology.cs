@@ -89,6 +89,7 @@ public static class DisplayTopology
     /// <summary>Activa el monitor (lo añade al escritorio). Windows elige el modo.</summary>
     public static bool Activate(string devicePath)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("DisplayTopology.Activate");
         var target = Enumerate().FirstOrDefault(d => d.DevicePath == devicePath);
         if (target is null) { Logger.Warning($"[Seats] Monitor no encontrado: {devicePath}"); return false; }
         if (target.Active) return true;
@@ -124,6 +125,7 @@ public static class DisplayTopology
     /// </summary>
     public static unsafe bool PlaceAtCorner(string devicePath)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("DisplayTopology.PlaceAtCorner");
         var target = Enumerate().FirstOrDefault(d => d.DevicePath == devicePath);
         if (target is null || !target.Active) return false;
         if (target.PosX == 0 && target.PosY == 0) return true;   // el principal (pantalla dividida con la consola) no se mueve
@@ -181,6 +183,7 @@ public static class DisplayTopology
     /// </summary>
     public static unsafe bool MakePrimary(string id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("DisplayTopology.MakePrimary");
         var target = Find(id);
         if (target is null || !target.Active) { Logger.Warning($"[Seats] MakePrimary: monitor no activo: {id}"); return false; }
         if (target.PosX == 0 && target.PosY == 0) return true;
@@ -213,6 +216,7 @@ public static class DisplayTopology
     /// <summary>Saca el monitor del escritorio (queda libre para el siguiente puesto).</summary>
     public static bool Deactivate(string devicePath)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("DisplayTopology.Deactivate");
         var target = Enumerate().FirstOrDefault(d => d.DevicePath == devicePath);
         if (target is null || !target.Active) return true;
         if (target.PosX == 0 && target.PosY == 0) return true;   // el principal es de la consola: nunca se saca

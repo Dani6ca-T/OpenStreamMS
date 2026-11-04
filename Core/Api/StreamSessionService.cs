@@ -57,6 +57,7 @@ public class StreamSessionService
                                 int webRtcPort = 0, int webRtcMediaPortMin = 0, int webRtcMediaPortMax = 0,
                                 bool local = false, string? reuseIsolatedUser = null)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.Create");
         // Solo hay un escritorio físico: dos sesiones locales lo capturarían a la vez.
         if (local && _sessions.Values.Any(s => s.Local))
             throw new InvalidOperationException("Ya existe una sesión local; edita esa en lugar de crear otra.");
@@ -164,6 +165,7 @@ public class StreamSessionService
     /// </param>
     public bool Delete(Guid id, bool keepUser = false)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.Delete");
         if (!_sessions.TryGetValue(id, out var session)) return false;
         if (session.State is SessionState.Starting or SessionState.Running or SessionState.Stopping)
             throw new InvalidOperationException("Detén la sesión antes de eliminarla.");
@@ -191,6 +193,7 @@ public class StreamSessionService
 
     public StreamSession SetEnabled(Guid id, bool enabled)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.SetEnabled");
         var session = RequireSession(id);
         session.Enabled = enabled;
         Logger.Log($"[{session.Name}] Sesión {(enabled ? "habilitada" : "deshabilitada")} para auto-arranque.");
@@ -212,6 +215,7 @@ public class StreamSessionService
                                       StreamProtocol? streamProtocol = null,
                                       int webRtcPort = 0, int webRtcMediaPortMin = 0, int webRtcMediaPortMax = 0)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.UpdateConfig");
         var session = RequireSession(id);
 
         if (session.State is SessionState.Starting or SessionState.Running or SessionState.Stopping)
@@ -311,6 +315,7 @@ public class StreamSessionService
 
     public void Start(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.Start");
         var session = RequireSession(id);
 
         if (session.State is SessionState.Starting or SessionState.Running)
@@ -333,6 +338,7 @@ public class StreamSessionService
     /// </summary>
     public StreamSession SetStreamProtocol(Guid id, StreamProtocol protocol)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.SetStreamProtocol");
         var session = RequireSession(id);
         if (session.StreamProtocol == protocol) return session;
 
@@ -410,6 +416,7 @@ public class StreamSessionService
     /// </summary>
     public void PauseSunshine(Guid id, string reason)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.PauseSunshine");
         var session = RequireSession(id);
         if (!_sunshinePaused.TryAdd(id, 0)) return;
         if (_sunshine.TryRemove(id, out var mgr))
@@ -424,6 +431,7 @@ public class StreamSessionService
     /// <summary>Quita la pausa: el monitor relanza Sunshine en su siguiente pasada.</summary>
     public void ResumeSunshine(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.ResumeSunshine");
         if (_sunshinePaused.TryRemove(id, out _) && _sessions.TryGetValue(id, out var session))
             Logger.Log($"[{session.Name}] Sunshine reanudado; se relanzará automáticamente.", id);
     }
@@ -437,6 +445,7 @@ public class StreamSessionService
     /// </param>
     public void ReconnectRdp(Guid id, int width, int height, int frameRate, string? microphone = null)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.ReconnectRdp");
         var session = RequireSession(id);
         if (session.State != SessionState.Running || session.RdpSessionId == 0 || session.Local)
             throw new InvalidOperationException($"La sesión '{session.Name}' no tiene una sesión RDP activa.");
@@ -469,6 +478,7 @@ public class StreamSessionService
 
     public void Stop(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.Stop");
         var session = RequireSession(id);
 
         if (session.State is not (SessionState.Starting or SessionState.Running))
@@ -485,6 +495,7 @@ public class StreamSessionService
     /// </summary>
     public void Restart(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.Restart");
         var session = RequireSession(id);
         Logger.Log($"[{session.Name}] Reinicio solicitado (estado actual: {session.State}).", session.Id);
         session.State        = SessionState.Stopping;
@@ -588,6 +599,7 @@ public class StreamSessionService
     /// </summary>
     public void ScheduleSunshineStateMirror(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.ScheduleSunshineStateMirror");
         if (!_sessions.TryGetValue(id, out var session)) return;
         if (session.State != SessionState.Running) return;
         if (!_sunshine.TryGetValue(id, out var mgr)) return;
@@ -651,6 +663,7 @@ public class StreamSessionService
     /// </summary>
     public void AutoStartEnabled()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.AutoStartEnabled");
         var toStart = _sessions.Values.Where(s => s.Enabled).ToList();
         if (toStart.Count == 0) return;
 
@@ -669,6 +682,7 @@ public class StreamSessionService
 
     public void MonitorAll()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.MonitorAll");
         foreach (var session in _sessions.Values.Where(s => s.State == SessionState.Running &&
                                                              !_sunshineRelaunching.ContainsKey(s.Id) &&
                                                              !_sunshinePaused.ContainsKey(s.Id)))
@@ -816,7 +830,7 @@ public class StreamSessionService
                 _sessions[session.Id] = session;
             }
             Logger.Log($"[SessionService] {data.Length} sesión(es) cargadas desde disco.");
-            if (migrated)
+            if (migrated && !OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
             {
                 Logger.Log("[SessionService] Puertos WebRTC asignados a sesiones existentes.");
                 SaveSessions();
@@ -832,6 +846,7 @@ public class StreamSessionService
 
     private void DoStart(StreamSession session)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.DoStart");
         Logger.SetSessionContext(session.Id);
         try
         {
@@ -1003,6 +1018,7 @@ public class StreamSessionService
     /// </summary>
     private void StartLocal(StreamSession session)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.StartLocal");
         if (!ConsoleSession.TryGetUser(out var consoleId, out var domain, out var username))
             throw new Exception("No hay ningún usuario con sesión iniciada en este PC.");
 
@@ -1122,6 +1138,7 @@ public class StreamSessionService
     /// </summary>
     public void ResetSunshineCredentials(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.ResetSunshineCredentials");
         var session = RequireSession(id);
         session.SunshineAuthUser = "";
         session.SunshineAuthPass = "";
@@ -1291,6 +1308,7 @@ public class StreamSessionService
     private static void EnsureSunshineInstance(StreamSession session,
                                                string effectiveDomain, string effectiveUsername)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.EnsureSunshineInstance");
         var instanceDir = GetSunshineInstanceDir(session.Id);
         var instanceExe = GetSunshineInstanceExe(session.Id);
 
@@ -1489,6 +1507,7 @@ public class StreamSessionService
     /// </summary>
     private static void AddFirewallRule(StreamSession session)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.AddFirewallRule");
         var name = FirewallRuleName(session.Id);
         try
         {
@@ -1522,6 +1541,7 @@ public class StreamSessionService
 
     private static void RemoveFirewallRule(Guid sessionId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamSessionService.RemoveFirewallRule");
         var name = FirewallRuleName(sessionId);
         try
         {

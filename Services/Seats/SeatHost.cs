@@ -37,6 +37,7 @@ public static class SeatHost
         string? audioOutId,
         IReadOnlyList<SeatDevice> devices)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHost.OpenSeat");
         CloseSeat(seatId);
         var host = new ActiveSeatHost(seatId, pipeName, monitor, audioOutId, devices);
         _activeSeats[seatId] = host;
@@ -46,6 +47,7 @@ public static class SeatHost
     /// <summary>Cierra el presentador de un puesto y libera sus recursos.</summary>
     public static void CloseSeat(Guid seatId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHost.CloseSeat");
         if (_activeSeats.TryRemove(seatId, out var host))
         {
             host.Stop();
@@ -59,6 +61,7 @@ public static class SeatHost
     /// </summary>
     public static void CloseAll(int timeoutMs = 3000)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHost.CloseAll");
         var hosts = _activeSeats.Values.ToList();
         _activeSeats.Clear();
         foreach (var h in hosts) h.Stop();
@@ -69,6 +72,7 @@ public static class SeatHost
     /// <summary>Ejecución como proceso independiente: <c>OpenStreamMS.exe --seat-host &lt;pipeName&gt; [seatId]</c>.</summary>
     public static int RunStandalone(string pipeName, Guid seatId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHost.RunStandalone");
         Logger.Log($"[SeatHost] Modo independiente iniciado para tubería '{pipeName}' (seatId={seatId})");
         var host = new ActiveSeatHost(seatId, pipeName, null, null, []);
         _activeSeats[seatId] = host;

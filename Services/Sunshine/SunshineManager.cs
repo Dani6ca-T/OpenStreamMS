@@ -80,6 +80,7 @@ namespace OpenStreamMS.Services.Sunshine
         /// </summary>
         public SunshineRunResult EnsureRunning(uint sessionId)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SunshineManager.EnsureRunning");
             // Camino caliente: el monitor pasa por aqui cada 5 s por sesion. Sin log:
             // antes escribia una linea por tick (~17k/dia) en disco y en el log de sesion.
             if (_sunshinePid > 0 && IsProcessAlive(_sunshinePid))
@@ -395,6 +396,7 @@ namespace OpenStreamMS.Services.Sunshine
 
         public void Stop()
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SunshineManager.Stop");
             if (_sunshinePid > 0 && IsProcessAlive(_sunshinePid))
                 RequestGracefulStateFlushAndExit(_sunshinePid);
 

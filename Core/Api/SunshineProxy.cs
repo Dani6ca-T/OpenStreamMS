@@ -37,6 +37,7 @@ public sealed class SunshineProxy
         StreamSession session, HttpMethod method, string path, object? body = null,
         CancellationToken ct = default)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SunshineProxy.SendJsonAsync");
         if (string.IsNullOrEmpty(session.SunshineAuthUser) ||
             string.IsNullOrEmpty(session.SunshineAuthPass))
             throw new InvalidOperationException("La sesión no tiene credenciales de Sunshine generadas (¿se ha iniciado al menos una vez?).");

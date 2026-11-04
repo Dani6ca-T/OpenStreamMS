@@ -17,7 +17,7 @@ public static class ConsoleDisplay
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenStreamMS", "display");
 
     public static List<DisplayInfo> List() =>
-        Run<List<DisplayInfo>>("list") ?? [];
+        StartupSafetyPolicy.Read().RestrictedStartup ? [] : Run<List<DisplayInfo>>("list") ?? [];
 
     public static bool Activate(string devicePath) =>
         Run<bool>("activate", devicePath);
@@ -32,6 +32,7 @@ public static class ConsoleDisplay
 
     private static T? Run<T>(string command, params string[] ids)
     {
+        StartupSafetyPolicy.RequireNormal("ConsoleDisplay.Run");
         if (!ConsoleSession.TryGetUser(out var consoleId, out _, out _))
         {
             Logger.Warning("[Seats] No hay nadie con sesión en la consola: no se pueden gestionar los monitores.");
@@ -100,6 +101,7 @@ public static class ConsoleDisplay
     /// </summary>
     public static int RunCommand(string[] args)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("ConsoleDisplay.RunCommand");
         if (args.Length < 3) return 2;
         string command = args[1], outFile = args[2];
         string? devicePath = args.Length > 3 ? args[3] : null;

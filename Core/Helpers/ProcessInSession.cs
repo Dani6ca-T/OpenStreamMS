@@ -154,6 +154,7 @@ namespace OpenStreamMS.Core.Helpers
                                    uint priorityClass = 0,
                                    bool asSystem = false)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("ProcessInSession.LaunchInSession");
             EnablePrivilege("SeTcbPrivilege");
             EnablePrivilege("SeAssignPrimaryTokenPrivilege");
             EnablePrivilege("SeIncreaseQuotaPrivilege");

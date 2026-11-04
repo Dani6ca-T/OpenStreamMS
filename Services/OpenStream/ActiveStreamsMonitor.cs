@@ -14,6 +14,11 @@ public sealed class ActiveStreamsMonitor(StreamSessionService sessions, Sunshine
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+        {
+            Logger.Log("[Maintenance] Background streaming/device operations paused.");
+            return;
+        }
         using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {

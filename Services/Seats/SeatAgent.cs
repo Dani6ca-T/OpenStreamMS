@@ -42,6 +42,7 @@ public static class SeatAgent
     /// <param name="audio">false en la consola: su audio ya suena en local.</param>
     public static int Run(string pipeName, string? outputName = null, bool audio = true)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatAgent.Run");
         Logger.Log($"[SeatAgent] Iniciando agente en sesión {Process.GetCurrentProcess().SessionId} (pid={Environment.ProcessId})");
         SeatChannel channel;
         try

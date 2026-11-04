@@ -87,6 +87,7 @@ public abstract class NefariusDriverManager
 
     public async Task InstallAsync(CancellationToken ct = default)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("NefariusDriverManager.InstallAsync");
         await RunExclusiveAsync("install", async () =>
         {
             string installer;
@@ -119,12 +120,14 @@ public abstract class NefariusDriverManager
     /// <summary>Instala el driver si no lo está. Para el registro del servicio (<c>--install</c>).</summary>
     public void EnsureInstalled()
     {
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup) return;
         if (GetStatus().Installed) return;
         InstallAsync().GetAwaiter().GetResult();
     }
 
     public async Task UninstallAsync(CancellationToken ct = default)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("NefariusDriverManager.UninstallAsync");
         await RunExclusiveAsync("uninstall", async () =>
         {
             var (_, uninstallCmd) = ReadUninstallEntry();

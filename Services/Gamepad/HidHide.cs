@@ -52,6 +52,7 @@ internal static class HidHide
 
     public static void SetActive(SafeFileHandle device, bool active)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("HidHide.SetActive");
         if (!DeviceIoControl(device, SetActiveCode, [(byte)(active ? 1 : 0)], 1, null, 0, out _, IntPtr.Zero)) throw new Win32Exception();
     }
 
@@ -65,6 +66,7 @@ internal static class HidHide
 
     public static void SetBlacklist(SafeFileHandle device, IEnumerable<string> entries)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("HidHide.SetBlacklist");
         // MULTI_SZ: cada cadena con su NUL y un NUL final
         var sb = new StringBuilder();
         foreach (var e in entries) sb.Append(e).Append('\0');

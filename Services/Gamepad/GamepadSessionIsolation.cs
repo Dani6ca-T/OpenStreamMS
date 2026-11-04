@@ -95,6 +95,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+        {
+            Logger.Log("[Maintenance] Background streaming/device operations paused.");
+            return;
+        }
         DisableControllerToVKMapping();
 
         using var notification = Cm.WatchEnumeration((id, enumerated) => _arrivals.Writer.TryWrite((id, enumerated)));

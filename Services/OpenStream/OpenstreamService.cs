@@ -34,6 +34,7 @@ namespace OpenStreamMS.Services.OpenStream
         {
             if (Interlocked.Exchange(ref _monitoring, 1) == 1) return;
             try { _sessionSvc.MonitorAll(); }
+            catch (Exception ex) { Logger.Error($"[Service] Session monitor failed: {ex}"); }
             finally { Volatile.Write(ref _monitoring, 0); }
         }
 
@@ -43,6 +44,11 @@ namespace OpenStreamMS.Services.OpenStream
             // Antes de los puestos: si TermWrap no funciona, se vuelve a asmtron (reinicia TermService).
             try { await Task.Run(() => _rdpWrapper.EnsureMultiRdp(stoppingToken), stoppingToken); }
             catch (Exception ex) { Logger.Error($"[Service] Comprobación de multi-RDP fallida: {ex}"); }
+            if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+            {
+                Logger.Log("[Maintenance] Session autostart and recovery paused.");
+                return;
+            }
             _timer.Start();
             _sessionSvc.AutoStartEnabled();
             await Task.Delay(Timeout.Infinite, stoppingToken)

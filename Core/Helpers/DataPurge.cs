@@ -31,6 +31,7 @@ namespace OpenStreamMS.Core.Helpers
 
         public static int Run()
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("DataPurge.Run");
             Console.WriteLine("[Purge] Borrando los datos de OpenStreamMS fuera de la carpeta de instalación...");
 
             // Lo que los puestos cambian en el sistema se restaura antes de borrar los ficheros

@@ -30,6 +30,7 @@ internal static class ConsoleLockGuard
     /// <summary>Impide bloquear la consola (idempotente).</summary>
     public static void Engage()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("ConsoleLockGuard.Engage");
         lock (_lock)
         {
             if (File.Exists(JournalPath)) return;   // ya aplicado
@@ -61,6 +62,7 @@ internal static class ConsoleLockGuard
     /// <summary>Devuelve el bloqueo de la consola a como estaba (sin efecto si no se aplicó).</summary>
     public static void Release()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("ConsoleLockGuard.Release");
         lock (_lock)
         {
             if (!File.Exists(JournalPath)) return;

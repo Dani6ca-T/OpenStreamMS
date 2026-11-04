@@ -29,6 +29,7 @@ internal static class ShutdownRight
     /// </summary>
     public static void SetForUser(string username, bool allow)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("ShutdownRight.SetForUser");
         try
         {
             var sid = (SecurityIdentifier)new NTAccount(username).Translate(typeof(SecurityIdentifier));
@@ -68,6 +69,7 @@ internal static class ShutdownRight
     /// <summary>Devuelve el derecho al grupo Usuarios si OpenStreamMS se lo quitó (sin puestos exclusivos o al desinstalar).</summary>
     public static void Restore()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("ShutdownRight.Restore");
         if (!File.Exists(JournalPath)) return;
         try
         {

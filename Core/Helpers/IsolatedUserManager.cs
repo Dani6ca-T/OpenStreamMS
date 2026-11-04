@@ -127,6 +127,7 @@ internal static class IsolatedUserManager
     /// </summary>
     internal static IsolatedCredentials EnsureUser(string username, string sessionName)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("IsolatedUserManager.EnsureUser");
         if (!IsManagedName(username))
             throw new InvalidOperationException($"[IsolatedUser] '{username}' no es un usuario gestionado por OpenStreamMS.");
         var password = GeneratePassword();
@@ -181,6 +182,7 @@ internal static class IsolatedUserManager
     /// </summary>
     internal static bool TryDeleteProfile(string username, out string? error)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("IsolatedUserManager.TryDeleteProfile");
         error = null;
         var sid = TryGetSid(username);
         if (sid is null)
@@ -238,6 +240,7 @@ internal static class IsolatedUserManager
     /// </summary>
     internal static void RemoveUser(string username)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("IsolatedUserManager.RemoveUser");
         if (!IsManagedName(username))
             throw new InvalidOperationException($"[IsolatedUser] '{username}' no es un usuario gestionado por OpenStreamMS.");
 
@@ -381,6 +384,7 @@ internal static class IsolatedUserManager
     /// </summary>
     internal static void DeleteOrphan(string key, IEnumerable<string> inUse)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("IsolatedUserManager.DeleteOrphan");
         var entry = ListOrphans(inUse, withSizes: false).FirstOrDefault(e => e.Key == key)
             ?? throw new InvalidOperationException("Ese usuario o perfil ya no existe o lo usa una sesión.");
         if (entry.SignedIn)

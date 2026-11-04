@@ -68,6 +68,7 @@ internal static class StreamProfileSetup
     /// </summary>
     internal static Dictionary<string, string> BuildOverrides(uint sessionId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamProfileSetup.BuildOverrides");
         var sessionVars = new ProcessInSession().GetSessionEnvVars(sessionId);
 
         var localAppData = sessionVars.GetValueOrDefault("LOCALAPPDATA", "");
@@ -145,6 +146,7 @@ internal static class StreamProfileSetup
     /// </summary>
     internal static void RestartExplorer(uint sessionId, Dictionary<string, string> overrides)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamProfileSetup.RestartExplorer");
         var killed = KillInSession(sessionId, "explorer.exe");
         if (killed.Count == 0)
             Logger.Warning($"[StreamProfile] No había Explorer que reiniciar en la sesión {sessionId}.");
@@ -176,6 +178,7 @@ internal static class StreamProfileSetup
     /// </remarks>
     internal static bool LogoffSession(uint sessionId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("StreamProfileSetup.LogoffSession");
         if (sessionId == 0) return false;
 
         var account = RdpSessionCreator.GetSessionAccount(sessionId);

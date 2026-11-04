@@ -126,6 +126,7 @@ namespace OpenStreamMS.Core.Helpers
                                               bool preferMstsc = true,
                                               bool remoteIdd = false)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.GetOrCreateSession");
             freeRdpPid = 0;
             string address = RdpAddress(remoteIdd);
 
@@ -187,6 +188,7 @@ namespace OpenStreamMS.Core.Helpers
                                      bool remoteIdd = false,
                                      string? microphone = null)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.Reconnect");
             clientPid = 0;
             // mstsc no deja elegir el micrófono: con uno asignado, FreeRDP.
             if (microphone is not null && preferMstsc)
@@ -233,6 +235,7 @@ namespace OpenStreamMS.Core.Helpers
         /// </summary>
         public static void SetFrameRate(int frameRate)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.SetFrameRate");
             frameRate = NormalizeFrameRate(frameRate);
             ApplyFrameRatePolicy(frameRate);
             ApplyDisplayRefreshRateRegistry(frameRate);
@@ -259,6 +262,7 @@ namespace OpenStreamMS.Core.Helpers
         /// <summary>Desconecta el cliente FreeRDP pero mantiene la sesion Windows viva.</summary>
         public static void DisconnectRdpClient(uint sessionId)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.DisconnectRdpClient");
             if (WTSDisconnectSession(IntPtr.Zero, (int)sessionId, false))
                 Logger.Log($"[RDP] Cliente FreeRDP desconectado; sesion {sessionId} sigue activa (VDD).");
             else
@@ -274,6 +278,7 @@ namespace OpenStreamMS.Core.Helpers
         /// </summary>
         public static bool LogoffAndWait(uint sessionId, TimeSpan timeout)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.LogoffAndWait");
             if (sessionId == 0) return false;
             var before = EnumerateSessions(logSessions: false).FirstOrDefault(s => s.SessionId == sessionId);
             if (before is null || string.IsNullOrEmpty(before.Username)) return true;
@@ -325,6 +330,7 @@ namespace OpenStreamMS.Core.Helpers
         /// <summary>Cierra la sesion Windows del usuario (logoff).</summary>
         public static void LogoffSession(uint sessionId)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.LogoffSession");
             if (sessionId == 0) return;
             if (WTSLogoffSession(IntPtr.Zero, (int)sessionId, false))
                 Logger.Log($"[RDP] Sesion {sessionId} cerrada (logoff).");
@@ -929,6 +935,7 @@ namespace OpenStreamMS.Core.Helpers
         /// </summary>
         public static void ApplyDisplayFrequency(uint sessionId, int frameRate)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.ApplyDisplayFrequency");
             frameRate = NormalizeFrameRate(frameRate);
 
             // Fichero de resultado en el TEMP del usuario de la sesion: el usuario puede
@@ -1247,6 +1254,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         /// </summary>
         public static void PreventSessionLock()
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.PreventSessionLock");
             const string system = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System";
             WriteRegistry(system, "InactivityTimeoutSecs", 0, RegistryValueKind.DWord);
             WriteRegistry(system, "DisableLockWorkstation", 1, RegistryValueKind.DWord);
@@ -1276,6 +1284,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         /// </summary>
         public static void EnsureRemoteDesktopEnabled()
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpSessionCreator.EnsureRemoteDesktopEnabled");
             WriteRegistry(@"SYSTEM\CurrentControlSet\Control\Terminal Server",
                           "fDenyTSConnections", 0, RegistryValueKind.DWord);
             WriteRegistry(@"SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp",

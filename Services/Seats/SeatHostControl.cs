@@ -24,6 +24,7 @@ public static class SeatHostControl
 
     public static void StartServer(CancellationToken stoppingToken)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHostControl.StartServer");
         _serverRunning = true;
         _ = Task.Run(() => ServerLoop(stoppingToken), stoppingToken);
     }
@@ -116,6 +117,7 @@ public static class SeatHostControl
         string? audioOutId,
         IReadOnlyList<SeatDevice> devices)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHostControl.RequestOpenSeat");
         var msg = new JsonObject
         {
             ["op"] = "open_seat",
@@ -160,6 +162,7 @@ public static class SeatHostControl
 
     public static void RequestCloseSeat(Guid seatId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHostControl.RequestCloseSeat");
         lock (_serverLock)
         {
             if (_serverChannel is not null && _serverPipe is { IsConnected: true })
@@ -182,6 +185,7 @@ public static class SeatHostControl
 
     public static IDisposable StartClient()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatHostControl.StartClient");
         var cts = new CancellationTokenSource();
         _ = Task.Run(() => ClientLoop(cts.Token), cts.Token);
         return new ActionDisposable(() => cts.Cancel());

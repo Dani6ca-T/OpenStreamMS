@@ -12,6 +12,7 @@ internal sealed class TrayApp : ApplicationContext
     /// Marca las peticiones del icono de bandeja. El servicio solo las acepta sin contraseña si
     /// vienen de la sesión de la consola, y solo para listar, iniciar y detener sesiones y puestos.
     /// </summary>
+    private sealed class NoopDisposable : IDisposable { public void Dispose() { } }
     internal const string LocalHeader = "X-OpenStreamMS-Tray";
 
     private readonly string _baseUrl;
@@ -21,7 +22,8 @@ internal sealed class TrayApp : ApplicationContext
     // Firma del ultimo menu pintado: solo se reconstruye (handles GDI/USER) si cambia.
     private string? _menuSignature;
     private const string OfflineSignature = "<offline>";
-    private readonly IDisposable _seatHostClient;
+    private IDisposable _seatHostClient;
+    private bool _presenterEnabled;
     private AppWindow? _window;
 
     /// <summary>
@@ -43,7 +45,7 @@ internal sealed class TrayApp : ApplicationContext
         _baseUrl = baseUrl;
         _http    = new HttpClient { Timeout = TimeSpan.FromSeconds(3) };
         _http.DefaultRequestHeaders.Add(LocalHeader, "1");
-        _seatHostClient = OpenStreamMS.Services.Seats.SeatHostControl.StartClient();
+        _seatHostClient = new NoopDisposable();
 
         _icon = new NotifyIcon
         {
@@ -99,13 +101,20 @@ internal sealed class TrayApp : ApplicationContext
     {
         try
         {
+            var presenterAllowed = !OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup;
+            if (_presenterEnabled != presenterAllowed)
+            {
+                _seatHostClient.Dispose();
+                _seatHostClient = presenterAllowed ? OpenStreamMS.Services.Seats.SeatHostControl.StartClient() : new NoopDisposable();
+                _presenterEnabled = presenterAllowed;
+            }
             var sessions = await _http.GetFromJsonAsync<TraySessionDto[]>($"{_baseUrl}/api/sessions")
                            ?? [];
             TraySeatDto[] seats;
             try { seats = await _http.GetFromJsonAsync<TraySeatDto[]>($"{_baseUrl}/api/seats") ?? []; }
             catch (HttpRequestException) { seats = []; }   // servicio sin puestos para la bandeja
             await NotifyPairingsAsync(sessions);
-            var signature = string.Join("|", sessions.Select(s => $"{s.Id}:{s.Name}:{s.State}")) + "#" +
+            var signature = presenterAllowed + "#" + string.Join("|", sessions.Select(s => $"{s.Id}:{s.Name}:{s.State}")) + "#" +
                             string.Join("|", seats.Select(s => $"{s.Id}:{s.Name}:{s.State}:{s.SessionId}"));
             if (signature == _menuSignature) return;
             _menuSignature = signature;
@@ -159,6 +168,8 @@ internal sealed class TrayApp : ApplicationContext
         var menu = new ContextMenuStrip();
 
         menu.Items.Add(new ToolStripMenuItem("OpenStreamMS") { Enabled = false });
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+            menu.Items.Add(new ToolStripMenuItem(TrayText.Get("maintenance.blocked")) { Enabled = false });
         menu.Items.Add(new ToolStripSeparator());
 
         menu.Items.Add(new ToolStripMenuItem(TrayText.Get("sessions")) { Enabled = false, Font = BoldFont(menu) });
@@ -204,7 +215,7 @@ internal sealed class TrayApp : ApplicationContext
         var item = new ToolStripMenuItem($"{name} — {TrayText.State(state)}")
         {
             Image   = StateDot(state),
-            Enabled = !busy,
+            Enabled = !busy && !OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup,
         };
         if (!busy)
         {

@@ -38,6 +38,7 @@ internal static class GuideButtonGuard
 
     public static void Engage(IReadOnlyList<string> sids)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("GuideButtonGuard.Engage");
         lock (_lock)
             foreach (var sid in sids)
             {
@@ -48,6 +49,7 @@ internal static class GuideButtonGuard
 
     public static void Release(IReadOnlyList<string> sids)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("GuideButtonGuard.Release");
         lock (_lock)
             foreach (var sid in sids)
             {

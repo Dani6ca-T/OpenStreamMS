@@ -53,6 +53,7 @@ public sealed class VirtualDisplay : IDisposable
     /// <summary>Crea la pantalla; null si SudoVDA no está instalado o la rechaza.</summary>
     public static VirtualDisplay? TryCreate(int width, int height, int hz)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("VirtualDisplay.TryCreate");
         SafeFileHandle? dev = null;
         try
         {

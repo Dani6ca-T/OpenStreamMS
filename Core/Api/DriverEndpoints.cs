@@ -52,6 +52,7 @@ public static class DriverEndpoints
     private static Results<Accepted, BadRequest<string>> Run(
         NefariusDriverManager mgr, string route, Func<CancellationToken, Task> op)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("driver operation");
         if (mgr.IsBusy)
             return TypedResults.BadRequest($"Ya hay una operación de {mgr.Name} en curso.");
 

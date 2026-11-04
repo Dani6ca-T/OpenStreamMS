@@ -58,6 +58,7 @@ internal static class UsbCapture
     /// <summary>Pasa el nodo a WinUSB. Devuelve false si no se pudo (el puesto sigue con Raw Input).</summary>
     public static bool Capture(string instanceId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatUsbCapture.Capture");
         Journal(add: instanceId);
         try
         {
@@ -80,6 +81,7 @@ internal static class UsbCapture
     /// <summary>Devuelve el nodo a su driver HID de Windows.</summary>
     public static bool Release(string instanceId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatUsbCapture.Release");
         bool ok = false;
         try { ok = Setup.Install(instanceId, winUsb: false); }
         catch (Exception ex) { Logger.Warning($"[SeatUsb] No se pudo restaurar el driver de {instanceId}: {ex.Message}"); }
@@ -91,6 +93,7 @@ internal static class UsbCapture
     /// <summary>Restaura lo que quedara capturado de una ejecución anterior (caída, apagado brusco).</summary>
     public static void RestoreAll()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatUsbCapture.RestoreAll");
         foreach (var id in ReadJournal())
         {
             if (!GamepadSessionIsolation.Cm.Exists(id)) continue;   // desconectado: se reintenta en el próximo arranque
@@ -150,6 +153,7 @@ internal static class UsbCapture
         /// </summary>
         public static bool Install(string instanceId, bool winUsb)
         {
+            OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatUsbCapture.Install");
             IntPtr set = SetupDiCreateDeviceInfoList(IntPtr.Zero, IntPtr.Zero);
             try
             {

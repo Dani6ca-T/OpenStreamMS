@@ -102,6 +102,7 @@ public sealed class RdpWrapperManager
 
     public async Task InstallAsync(CancellationToken ct = default)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpWrapperManager.InstallAsync");
         await RunExclusiveAsync("install", async () =>
         {
             AppendLog("Descargando última release de asmtron/rdpwrap…");
@@ -130,6 +131,7 @@ public sealed class RdpWrapperManager
 
     public async Task UpdateAsync(CancellationToken ct = default)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpWrapperManager.UpdateAsync");
         await RunExclusiveAsync("update", async () =>
         {
             var autoupdate = Path.Combine(_installDir, "autoupdate.bat");
@@ -147,6 +149,7 @@ public sealed class RdpWrapperManager
 
     public async Task UninstallAsync(CancellationToken ct = default)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("RdpWrapperManager.UninstallAsync");
         await RunExclusiveAsync("uninstall", async () =>
         {
             var rdpwinst = Path.Combine(_installDir, "RDPWInst.exe");
@@ -193,8 +196,22 @@ public sealed class RdpWrapperManager
     /// arrancan entonces con la captura de siempre. Para volver a RemoteIdd: install.ps1.
     /// </summary>
     public void EnsureMultiRdp(CancellationToken ct)
+        => EnsureMultiRdp(ct, OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read(),
+            () => EnsureMultiRdpCore(ct), () => { _ = GetStatus(); });
+
+    internal void EnsureMultiRdp(CancellationToken ct, OpenStreamMS.Core.Helpers.StartupSafetyPolicy policy,
+                                Action repair, Action diagnostic)
     {
-        try { EnsureMultiRdpCore(ct); }
+        try
+        {
+            if (policy.RestrictedStartup)
+            {
+                Logger.Log("[Maintenance] Automatic RDP repair disabled; diagnostics only.");
+                diagnostic();
+                return;
+            }
+            repair();
+        }
         finally { MultiRdpCheckedSource.TrySetResult(); }
     }
 

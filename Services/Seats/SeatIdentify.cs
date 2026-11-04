@@ -43,6 +43,7 @@ public static class SeatIdentify
     /// </summary>
     public static List<string> ActiveInputPorts()
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatIdentify.ActiveInputPorts");
         try { File.WriteAllText(KeepAliveFile, ""); } catch { /* el escucha ya se cerrará solo */ }
         EnsureListener();
         try
@@ -75,6 +76,7 @@ public static class SeatIdentify
 
     private static int Launch(string command, bool wait)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatIdentify.Launch");
         if (!ConsoleSession.TryGetUser(out var consoleId, out _, out _))
             throw new InvalidOperationException("No hay nadie con sesión iniciada en la consola.");
         if (!wait)
@@ -96,6 +98,7 @@ public static class SeatIdentify
 
     public static int RunCommand(string[] args)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatIdentify.RunCommand");
         try
         {
             return args.ElementAtOrDefault(1) switch

@@ -22,6 +22,7 @@ internal static class SteamIsolation
 
     public static void PrepareSession(uint rdpSessionId, string username, Guid sessionId)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SteamIsolation.PrepareSession");
         if (!File.Exists(Launcher) || SteamExe() is not { } steamExe) return;
         try
         {

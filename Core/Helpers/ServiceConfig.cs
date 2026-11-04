@@ -76,7 +76,7 @@ namespace OpenStreamMS.Core.Helpers
                     RdpBackground = true,
                     VddEnabled    = false,
                 };
-                File.WriteAllText(ConfigFile, JsonSerializer.Serialize(def, JsonOpts));
+                AtomicProtectedFile.Write(ConfigFile, JsonSerializer.Serialize(def, JsonOpts));
                 SecureFile.RestrictToAdmins(ConfigFile);
                 Console.WriteLine($"[Config] Creado config por defecto en: {ConfigFile}");
                 return def;
@@ -96,7 +96,7 @@ namespace OpenStreamMS.Core.Helpers
         /// <summary>Persiste la configuración actual en service.config.json.</summary>
         public void Save()
         {
-            File.WriteAllText(ConfigFile, JsonSerializer.Serialize(this, JsonOpts));
+            AtomicProtectedFile.Write(ConfigFile, JsonSerializer.Serialize(this, JsonOpts));
             SecureFile.RestrictToAdmins(ConfigFile);
         }
 

@@ -27,6 +27,11 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (OpenStreamMS.Core.Helpers.StartupSafetyPolicy.Read().RestrictedStartup)
+        {
+            Logger.Log("[Maintenance] Background streaming/device operations paused.");
+            return;
+        }
         SeatHostControl.StartServer(stoppingToken);
         try { UsbCapture.RestoreAll(); }
         catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron restaurar los drivers USB: {ex.Message}"); }
@@ -130,6 +135,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     /// <summary>El monitor de un puesto encendido muestra su sesión: no se puede probar.</summary>
     public void TestMonitor(string devicePath)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.TestMonitor");
         if (_seats.Values.FirstOrDefault(s => s.State is SeatState.Running or SeatState.Starting
                                               && s.Monitor?.DevicePath == devicePath) is { } busy)
             throw new InvalidOperationException($"El monitor lo está usando el puesto '{busy.Name}'.");
@@ -143,6 +149,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     public Seat Create(Seat seat)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.Create");
         if (string.IsNullOrWhiteSpace(seat.Name)) throw new ArgumentException("El puesto necesita un nombre.");
         seat.Id = seat.Id == Guid.Empty ? Guid.NewGuid() : seat.Id;
         Validate(seat, seat.Id);
@@ -154,6 +161,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     public Seat Update(Guid id, Seat changes)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.Update");
         var seat = Require(id);
         if (string.IsNullOrWhiteSpace(changes.Name)) throw new ArgumentException("El puesto necesita un nombre.");
         if (seat.State is SeatState.Running or SeatState.Starting)
@@ -200,6 +208,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     /// <summary>El autoarranque solo afecta al próximo arranque del servicio: se puede cambiar con el puesto encendido.</summary>
     public Seat SetAutoStart(Guid id, bool autoStart)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.SetAutoStart");
         var seat = Require(id);
         if (autoStart && UsesConsoleUser(seat.SessionId)) throw new ArgumentException(ConsoleUserAutoStartError);
         seat.AutoStart = autoStart;
@@ -238,6 +247,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     public void Delete(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.Delete");
         var seat = Require(id);
         if (seat.State == SeatState.Running) Stop(id);
         _seats.TryRemove(id, out _);
@@ -249,6 +259,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     public void Start(Guid id)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.Start");
         var seat = Require(id);
         if (seat.State == SeatState.Running) return;
         if (seat.SessionId is not { } sessionId) throw new InvalidOperationException("El puesto no tiene sesión asignada.");
@@ -467,6 +478,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     public void Stop(Guid id, bool disconnectedFromSeat = false, bool restarting = false)
     {
+        OpenStreamMS.Core.Helpers.StartupSafetyPolicy.RequireNormal("SeatManager.Stop");
         var seat = Require(id);
 
         // Antes que nada: el monitor físico vuelve a ser el principal de la consola.
