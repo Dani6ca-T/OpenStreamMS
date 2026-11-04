@@ -375,3 +375,9 @@ Core/Installer/publish/
 # Runtime de Sunshine: credenciales, logs y estado de cada instancia
 Sunshine/config/
 Sunshine/*.bak-*
+
+# Protected runtime policy/status; never publish per-machine state.
+**/operation-mode*.json
+**/operation-mode.required
+**/operation-mode.lock
+artifacts/

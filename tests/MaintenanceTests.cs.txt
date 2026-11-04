@@ -1,0 +1,112 @@
+using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Core.Api;
+using OpenStreamMS.Services.Drivers;
+using OpenStreamMS.Services.Session;
+using OpenStreamMS.Services.OpenStream;
+using OpenStreamMS.Services.Seats;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Http.Json;
+using System.Text.Json;
+
+if(args is ["--probe", var directory]) { Console.WriteLine(new ModeConfiguration(directory,_=>{}).Read().Policy.Mode); return; }
+if(args is ["--normal-fixture"])
+{
+ var store=new ModeConfiguration(AppContext.BaseDirectory,_=>{});var state=store.Read();store.Request(OperationMode.Normal,state.Revision,true);store.ActivatePending();StartupSafetyPolicy.Initialize(false);
+ var b=WebApplication.CreateBuilder();b.Logging.ClearProviders();b.WebHost.UseUrls("http://127.0.0.1:0");var a=b.Build();a.UseMaintenancePolicy();int calls=0;
+ a.MapPost("/api/sessions/fixture/start",()=>{StartupSafetyPolicy.RequireNormal("fixture adapter");calls++;return Results.Ok();});await a.StartAsync();using var c=new HttpClient();var r=await c.PostAsync(a.Urls.Single()+"/api/sessions/fixture/start",null);await a.StopAsync();
+ if(!r.IsSuccessStatusCode||calls!=1||StartupSafetyPolicy.Read().RestrictedStartup)throw new Exception("Normal fixture regression");Console.WriteLine("NORMAL FIXTURE PASS");return;
+}
+
+int checks=0;
+void Check(bool condition,string name) { if(!condition) throw new Exception(name); checks++;Console.WriteLine("PASS "+name); }
+async Task<string> Child(params string[] parameters) {
+ var info=new System.Diagnostics.ProcessStartInfo(Environment.ProcessPath!){UseShellExecute=false,RedirectStandardOutput=true,RedirectStandardError=true,CreateNoWindow=true};
+ if(Path.GetFileNameWithoutExtension(Environment.ProcessPath).Equals("dotnet",StringComparison.OrdinalIgnoreCase))info.ArgumentList.Add(System.Reflection.Assembly.GetExecutingAssembly().Location);
+ foreach(var p in parameters)info.ArgumentList.Add(p);using var child=System.Diagnostics.Process.Start(info)!;var output=await child.StandardOutput.ReadToEndAsync();var error=await child.StandardError.ReadToEndAsync();await child.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(20));if(child.ExitCode!=0)throw new Exception(error);return output.Trim();
+}
+var fixture=Path.Combine(AppContext.BaseDirectory,"fixtures-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(fixture);
+ModeConfiguration Store(string name) {var dir=Path.Combine(fixture,name);Directory.CreateDirectory(dir);return new(dir,_=>{});}
+var legacy=Store("legacy");Check(legacy.Read().Policy.Mode==OperationMode.Normal,"legacy upstream installation defaults to Normal");
+var pendingSafe=legacy.Request(OperationMode.Safe,0,false);Check(pendingSafe.Policy.Mode==OperationMode.Normal&&pendingSafe.PendingMode==OperationMode.Safe,"Normal to Safe is explicitly pending, not a mid-operation privilege flip");Check(legacy.ActivatePending().Policy.RestrictedStartup,"pending Safe persists at next activation");
+var safe=Store("safe");var first=safe.PrepareSafe();Check(first.Policy.RestrictedStartup && first.PendingMode is null,"explicit direct-guard migration commits Safe before service startup");
+var deferred=safe.Request(OperationMode.Normal,first.Revision,true);Check(deferred.Policy.RestrictedStartup&&deferred.PendingMode==OperationMode.Normal,"saving Normal cannot enable repair or bypass via another CLI process");
+for(int restart=0;restart<3;restart++)Check(await Child("--probe",Path.Combine(fixture,"safe"))=="Safe","cold CLI process retains Safe with pending Normal: "+restart);
+var activated=safe.ActivatePending();Check(activated.Policy.Mode==OperationMode.Normal && activated.PendingMode is null,"only explicit SCM activation commits pending Normal");
+var requireConfirmation=Store("confirmation");requireConfirmation.PrepareSafe();try {requireConfirmation.Request(OperationMode.Normal,1,false);throw new Exception("missing confirmation accepted");}catch(ArgumentException){Check(requireConfirmation.Read().Policy.RestrictedStartup,"Normal requires explicit confirmation");}
+var concurrency=Store("concurrency");concurrency.PrepareSafe();int accepted=0,rejected=0;
+await Task.WhenAll(Enumerable.Range(0,8).Select(_=>Task.Run(()=>{try{concurrency.Request(OperationMode.Normal,1,true);Interlocked.Increment(ref accepted);}catch(Exception e)when(e is IOException or InvalidOperationException){Interlocked.Increment(ref rejected);}})));
+Check(accepted==1&&rejected==7,"concurrent policy writes use file lock and revision CAS");
+foreach(var malformed in new[]{"null","[]","{}","{","{\"Version\":2,\"OperationMode\":\"Normal\",\"Revision\":1}","{\"Version\":1,\"OperationMode\":\"Unknown\",\"Revision\":1}","{\"Version\":1,\"OperationMode\":0,\"Revision\":1}","{\"Version\":1,\"OperationMode\":\"Safe\",\"OperationMode\":\"Normal\",\"Revision\":1}"}) {
+ var dir=Path.Combine(fixture,Guid.NewGuid().ToString("N"));Directory.CreateDirectory(dir);File.WriteAllText(Path.Combine(dir,ModeConfiguration.FileName),malformed);Check(new ModeConfiguration(dir,_=>{}).Read().Policy.RestrictedStartup,"invalid policy fails closed: "+malformed);
+}
+var missing=Path.Combine(fixture,"missing");Directory.CreateDirectory(missing);File.WriteAllText(Path.Combine(missing,ModeConfiguration.AnchorName),"1");Check(new ModeConfiguration(missing,_=>{}).Read().Policy.RestrictedStartup,"lost policy with persistent anchor cannot become Normal");
+var failure=Path.Combine(fixture,"atomic");Directory.CreateDirectory(failure);var target=Path.Combine(failure,"file.json");File.WriteAllText(target,"original");try{AtomicProtectedFile.Write(target,"replacement",_=>throw new IOException("fixture ACL failure"));}catch(IOException){}
+Check(File.ReadAllText(target)=="original"&&!Directory.GetFiles(failure,"*.tmp").Any(),"failed protected atomic write preserves existing configuration");
+Check(RuntimeMode.Read(fixture).RestrictedStartup,"unavailable service runtime cannot enable an unprivileged child");
+using(var self=System.Diagnostics.Process.GetCurrentProcess()) {
+ var runtimePath=Path.Combine(fixture,RuntimeMode.FileName);File.WriteAllText(runtimePath,JsonSerializer.Serialize(new{ActiveMode="Normal",ProcessId=self.Id,StartedAtUtcTicks=self.StartTime.ToUniversalTime().Ticks}));
+ Check(!RuntimeMode.Read(fixture).RestrictedStartup,"runtime reader accepts a live PID with matching creation time");
+ File.WriteAllText(runtimePath,JsonSerializer.Serialize(new{ActiveMode="Normal",ProcessId=self.Id,StartedAtUtcTicks=self.StartTime.ToUniversalTime().Ticks-1}));
+ Check(RuntimeMode.Read(fixture).RestrictedStartup,"reused or stale PID status cannot enable a client");
+}
+Check(StartupSafetyPolicy.ResolveClient(new(OperationMode.Normal),new(OperationMode.Safe),()=>false).RestrictedStartup,"live service Safe also restricts privileged CLI clients");
+Check(StartupSafetyPolicy.ResolveClient(new(OperationMode.Normal),new(OperationMode.Safe,"runtime_unavailable"),()=>true).RestrictedStartup,"missing runtime status of a running installation fails closed");
+Check(!StartupSafetyPolicy.ResolveClient(new(OperationMode.Normal),new(OperationMode.Safe,"runtime_unavailable"),()=>false).RestrictedStartup,"stopped Normal installation retains ordinary CLI behavior");
+Check(!StartupSafetyPolicy.ResolveClient(new(OperationMode.Safe,"policy_access_denied"),new(OperationMode.Normal),()=>true).RestrictedStartup,"ordinary Tray users can consume service-owned Normal status");
+Check(StartupSafetyPolicy.ResolveClient(new(OperationMode.Safe,"policy_unreadable"),new(OperationMode.Normal),()=>true).RestrictedStartup,"corrupt policy is not overridden by permissive runtime status");
+var baseStore=new ModeConfiguration(AppContext.BaseDirectory,_=>{});baseStore.PrepareSafe();StartupSafetyPolicy.Initialize(false);
+Check(StartupSafetyPolicy.Read().RestrictedStartup,"actual test process starts in Safe with persisted policy");
+var sessionFile=Path.Combine(AppContext.BaseDirectory,"sessions.json");var sessionFixture="[{\"Id\":\"11111111-1111-1111-1111-111111111111\",\"Name\":\"Fixture\",\"Username\":\"fixture\",\"SunshineExePath\":\"fixture.exe\",\"Isolated\":true}]";File.WriteAllText(sessionFile,sessionFixture);
+var sessions=new StreamSessionService(new ServiceConfig());var seats=new SeatManager(sessions);var rdp=new RdpWrapperManager();
+Check(sessions.GetAll().Count()==1&&File.ReadAllText(sessionFile)==sessionFixture,"Safe startup reads legacy sessions without persisting migrations");
+void Block(Action action,string name) {try {action();throw new Exception("native operation reached: "+name);}catch(MaintenanceModeException){Check(true,name+" blocked before native side effects");}}
+Block(()=>sessions.Start(Guid.Empty),"session start");Block(()=>sessions.Stop(Guid.Empty),"session stop");Block(()=>sessions.Delete(Guid.Empty),"session delete");Block(()=>sessions.MonitorAll(),"automatic recovery");Block(()=>seats.Start(Guid.Empty),"seat start");Block(()=>seats.Stop(Guid.Empty),"seat stop");
+Block(()=>RdpSessionCreator.GetOrCreateSession(new StreamUserConfig(),1920,1080,60,32,out _),"RDP session creation");Block(()=>RdpSessionCreator.EnsureRemoteDesktopEnabled(),"TermService/RDP enable");Block(()=>RdpSessionCreator.PreventSessionLock(),"Windows lock policy");
+Block(()=>UsbCapture.RestoreAll(),"USB restore");Block(()=>ConsoleLockGuard.Release(),"console policy recovery");Block(()=>GuideButtonGuard.Engage([]),"Guide/GameBar policy");Block(()=>DataPurge.Run(),"data purge");
+Check(ConsoleDisplay.List().Count==0,"Safe monitor inventory never launches a console helper");
+Block(()=>new ProcessInSession().LaunchInSession(999,"fixture.exe"),"cross-session process launch");
+var sunshine=new OpenStreamMS.Services.Sunshine.SunshineManager("fixture.exe",false,new(47989));
+Block(()=>sunshine.EnsureRunning(999),"direct Sunshine launch");Block(()=>sunshine.Stop(),"direct Sunshine termination");
+Block(()=>new SunshineProxy().SendJsonAsync(new StreamSession(),HttpMethod.Post,"/fixture").GetAwaiter().GetResult(),"Sunshine proxy mutation");
+foreach(var driver in new NefariusDriverManager[]{new ViGEmBusManager(),new HidHideManager()}) {
+ driver.EnsureInstalled();Check(!driver.IsBusy,"missing driver is not auto-installed in Safe");
+ Block(()=>driver.InstallAsync().GetAwaiter().GetResult(),"driver install");Block(()=>driver.UninstallAsync().GetAwaiter().GetResult(),"driver uninstall");
+}
+Block(()=>rdp.InstallAsync().GetAwaiter().GetResult(),"manual RDP install");Block(()=>rdp.UninstallAsync().GetAwaiter().GetResult(),"manual RDP uninstall");
+foreach(var name in new[]{"ViGEmBus absent","HidHide absent"}) {var absent=new AbsentDriver(name);absent.EnsureInstalled();Block(()=>absent.InstallAsync().GetAwaiter().GetResult(),name);Check(absent.ProbeReads==0,"no native or installer probe for "+name);}
+int repairs=0,diagnostics=0;rdp.EnsureMultiRdp(CancellationToken.None,new(OperationMode.Safe),()=>repairs++,()=>diagnostics++);
+await RdpWrapperManager.MultiRdpChecked.WaitAsync(TimeSpan.FromSeconds(1));Check(repairs==0&&diagnostics==1,"Safe RDP startup diagnoses without repair and releases waiters");
+try{rdp.EnsureMultiRdp(CancellationToken.None,new(OperationMode.Safe),()=>repairs++,()=>throw new IOException("broken TermWrap fixture"));}catch(IOException){}
+Check(RdpWrapperManager.MultiRdpChecked.IsCompleted&&repairs==0,"broken TermWrap does not leave initialization pending");rdp.EnsureMultiRdp(CancellationToken.None,new(OperationMode.Normal),()=>repairs++,()=>diagnostics++);Check(repairs==1&&diagnostics==1,"Normal RDP branch preserves upstream repair callback using a safe adapter");
+foreach(var service in new Microsoft.Extensions.Hosting.IHostedService[]{new OpenStreamService(sessions,rdp),seats,new OpenStreamMS.Services.Gamepad.GamepadSessionIsolation(sessions,seats),new ActiveStreamsMonitor(sessions,new SunshineProxy())}) {await service.StartAsync(CancellationToken.None);await service.StopAsync(new CancellationTokenSource(TimeSpan.FromSeconds(2)).Token);Check(true,service.GetType().Name+" starts/stops in Safe without native mutations");}
+foreach(var command in new[]{"--install","--uninstall","--remove-deps","--purge-data","--display","--identify","--seat-agent","--seat-host"})Check(!StartupSafetyPolicy.CommandAllowed(command,OperationMode.Safe)&&StartupSafetyPolicy.CommandAllowed(command,OperationMode.Normal),"CLI policy: "+command);
+var endpointStore=Store("http");endpointStore.PrepareSafe();var builder=WebApplication.CreateBuilder();builder.Logging.ClearProviders();builder.WebHost.UseUrls("http://127.0.0.1:0");builder.Services.AddSingleton(endpointStore);var app=builder.Build();
+var config=new ServiceConfig{AdminUsername="fixture-admin",AdminPasswordHash=AuthService.HashPassword("fixture-only-password"),AuthSecret=Guid.NewGuid().ToString("N")};
+app.Use(async(ctx,next)=>{if(!AuthService.IsAuthenticated(ctx,config)){ctx.Response.StatusCode=401;return;}await next();});
+app.UseMaintenancePolicy();app.MapMaintenanceApi();int mutations=0;foreach(var route in new[]{"/api/rdpwrap/install","/api/vigembus/install","/api/hidhide/uninstall","/api/sessions/test/start","/api/seats/test/start","/api/power/restart"})app.MapPost(route,()=>{mutations++;return Results.Ok();});
+await app.StartAsync();using var client=new HttpClient{BaseAddress=new Uri(app.Urls.Single())};var unauth=await client.GetAsync("/api/settings/operation-mode");Check(unauth.StatusCode==HttpStatusCode.Unauthorized,"unauthenticated mode API rejected by actual AuthService middleware");
+Check((await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Normal",revision=1,confirmNormal=true})).StatusCode==HttpStatusCode.Unauthorized&&endpointStore.Read().Revision==1,"unauthenticated writer cannot change mode or revision");
+client.DefaultRequestHeaders.Authorization=new("Basic",Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("fixture-admin:fixture-only-password")));
+foreach(var route in new[]{"/api/rdpwrap/install","/api/vigembus/install","/api/hidhide/uninstall","/api/sessions/test/start","/api/seats/test/start","/api/power/restart"})Check((await client.PostAsync(route,null)).StatusCode==HttpStatusCode.Conflict,"actual HTTP maintenance middleware: "+route);
+Check(mutations==0,"no forbidden HTTP request reached a mutation adapter");
+var denied=await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Normal",revision=1,confirmNormal=false});Check(denied.StatusCode==HttpStatusCode.BadRequest,"HTTP Normal requires explicit administrator confirmation");
+var changed=await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Normal",revision=1,confirmNormal=true});Check(changed.IsSuccessStatusCode&&endpointStore.Read().Policy.RestrictedStartup,"HTTP mode save retains Safe until restart");
+Check((await client.PutAsJsonAsync("/api/settings/operation-mode",new{operationMode="Safe",revision=1})).StatusCode==HttpStatusCode.Conflict,"stale HTTP revision rejected");await app.StopAsync();
+Console.WriteLine($"PASS {checks} maintenance checks. No real SCM, driver, RDP or firewall mutation was performed.");
+Check(File.ReadAllText(sessionFile)==sessionFixture&&sessions.GetAll().Count()==1,"blocked operations preserve session configuration and records");
+Check((await Child("--normal-fixture")).Contains("NORMAL FIXTURE PASS"),"Normal HTTP route reaches a pure adapter in a separate process");baseStore.PrepareSafe();
+Check(StartupSafetyPolicy.Read().RestrictedStartup,"CLI policy returns Safe after restoring the fixture policy");
+Console.WriteLine($"FINAL PASS {checks} maintenance checks.");
+
+sealed class AbsentDriver(string name):NefariusDriverManager {
+ public int ProbeReads;
+ string Forbidden(){ProbeReads++;throw new Exception("Native capability reached");}
+ public override string Name=>name;
+ protected override string GithubRepo=>Forbidden();protected override string ServiceName=>Forbidden();
+ protected override string DisplayNameMatch=>Forbidden();protected override string InstallArgs=>Forbidden();protected override string InstallerPrefix=>Forbidden();
+}

@@ -44,6 +44,7 @@ const driverFixture = require('./fixtures/driver-log.json');
             ? { installed: true, installedVersion: '1.22.0', serviceState: 'Running', driverImagePath: `C:\\Tests\\drivers\\${name}.sys`, busy: false, rebootRequired: false }
             : { lines: [...driverFixture.slice(0,10),driverFixture.at(-1)].map(row => row.raw.replaceAll('ViGEmBus',name)) };
         }
+        if (url.pathname === '/api/settings/operation-mode') body = {activeMode:'Normal',nextMode:'Normal',restartRequired:false,revision:0};
         if (url.pathname === '/api/settings') body = { logLevel: 'Error' };
         if (url.pathname === '/api/seats/inventory') body = { monitors: [], audioOutputs: [], audioInputs: [], devices: [] };
         return route.fulfill({ json: body });

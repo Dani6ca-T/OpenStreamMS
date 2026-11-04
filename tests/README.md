@@ -1,5 +1,34 @@
 # Localization validation
 
+## Safe / Maintenance Mode
+
+Run only the fixture tests below, not the real product `--run` or installer on a
+working machine. These checks do not start/stop SCM services or change Windows:
+
+```powershell
+dotnet run --project tests/MaintenanceTests.csproj -c Release
+./tests/remoteidd-maintenance.test.ps1 -FixtureDirectory C:/path/to/workspace-fixtures
+node tests/maintenance-browser.cjs
+```
+
+The C# suite references the actual policy, guarded backend methods, AuthService
+and HTTP middleware. Native repair in the Normal branch uses an injected callback;
+Safe checks reject before native adapters, including absent-driver fixtures.
+Persistence tests include cold processes, corrupt policies, concurrent requests,
+atomic failure, pending Normal and preserved session data. The PowerShell suite
+replaces WMI/process capabilities and never executes a driver/helper operation.
+The browser suite intercepts every API request and checks both modes in 22 locales,
+confirmation, disabled actions and responsive layouts. Set `NODE_PATH` to an
+existing Playwright installation and `MAINTENANCE_TEST_OUTPUT` for screenshots.
+
+The immutable legacy `DirectGuardTests` on `feature/direct-guard-1.5.1` remain a
+reference for that old binary; constant getter assertions do not apply to the new
+configurable policy. The maintenance suite replaces those assertions for this branch.
+
+Real service restart, permissions under SYSTEM and an ordinary Windows user, Tray,
+Normal streaming, Seats, and Moonlight video/audio/input are NOT fixture passes.
+They require separate authorized acceptance per `docs/MAINTENANCE-MODE.md`.
+
 The tests do not install or start OpenStreamMS, drivers, Windows services, or
 streaming sessions. Run from the repository root.
 
