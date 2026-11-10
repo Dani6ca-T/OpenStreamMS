@@ -133,6 +133,7 @@
   "seat.devicesHint": "Atribuídos por porta USB: se trocar o aparelho dessa porta, continua no posto.",
   "seat.deviceMissing": "desligado",
   "seat.noInputWarning": "Sem teclado, rato nem comando o posto só mostrará a imagem.",
+  "seat.gamepadsNotIsolated": "O HidHide não está instalado ou não isola por sessão: os comandos deste posto são visíveis em todas as sessões. Instale o HidHide 1.4.181 ou posterior.",
   "seat.created": "Posto \"{name}\" criado",
   "seat.saved": "Posto \"{name}\" guardado",
   "btn.cancel": "Cancelar",

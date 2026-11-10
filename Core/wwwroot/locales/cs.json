@@ -133,6 +133,7 @@
   "seat.devicesHint": "Přiděleno portem USB: pokud zařízení vyměníte na tomto portu, zůstane v pracovní stanici.",
   "seat.deviceMissing": "odpojeno",
   "seat.noInputWarning": "Bez klávesnice, myši nebo gamepadu bude pracovní stanice zobrazovat pouze obraz.",
+  "seat.gamepadsNotIsolated": "HidHide není nainstalován nebo neumí izolovat podle relace: gamepady této pracovní stanice jsou vidět ve všech relacích. Nainstalujte HidHide 1.4.181 nebo novější.",
   "seat.created": "Pracovní stanice „{name}“ vytvořena",
   "seat.saved": "Pracovní stanice „{name}“ uložena",
   "btn.cancel": "Zrušit",

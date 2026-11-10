@@ -133,6 +133,7 @@
   "seat.devicesHint": "Assigned by USB port: if you swap the device on that port, it stays in the seat.",
   "seat.deviceMissing": "disconnected",
   "seat.noInputWarning": "Without a keyboard, mouse or gamepad the seat will only show the picture.",
+  "seat.gamepadsNotIsolated": "HidHide is not installed or cannot isolate per session: this seat's gamepads are visible in every session. Install HidHide 1.4.181 or later.",
   "seat.created": "Seat \"{name}\" created",
   "seat.saved": "Seat \"{name}\" saved",
   "btn.cancel": "Cancel",

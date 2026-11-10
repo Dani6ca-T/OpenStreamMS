@@ -133,6 +133,7 @@
   "seat.devicesHint": "Được gán bởi cổng USB: nếu bạn đổi thiết bị trên cổng đó, nó vẫn ở trong máy trạm.",
   "seat.deviceMissing": "bị ngắt kết nối",
   "seat.noInputWarning": "Nếu không có bàn phím, chuột hoặc gamepad thì máy trạm sẽ chỉ hiển thị hình ảnh.",
+  "seat.gamepadsNotIsolated": "HidHide chưa được cài đặt hoặc không thể cách ly theo phiên: gamepad của máy trạm này hiển thị trong mọi phiên. Hãy cài HidHide 1.4.181 trở lên.",
   "seat.created": "Máy trạm \"{name}\" đã được tạo\nĐã lưu",
   "seat.saved": "Máy trạm \"{name}\"",
   "btn.cancel": "Hủy",

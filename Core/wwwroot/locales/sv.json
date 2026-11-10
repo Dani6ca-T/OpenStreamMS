@@ -133,6 +133,7 @@
   "seat.devicesHint": "Tilldelad av USB-port: om du byter enheten på den porten stannar den kvar på arbetsstationen.",
   "seat.deviceMissing": "kopplad",
   "seat.noInputWarning": "Utan tangentbord, mus eller gamepad visar arbetsstationen bara bilden.",
+  "seat.gamepadsNotIsolated": "HidHide är inte installerat eller kan inte isolera per session: arbetsstationens gamepads syns i alla sessioner. Installera HidHide 1.4.181 eller senare.",
   "seat.created": "Arbetsstationen \"{name}\" skapad",
   "seat.saved": "Arbetsstationen \"{name}\" har sparats",
   "btn.cancel": "Avbryt",

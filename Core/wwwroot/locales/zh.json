@@ -133,6 +133,7 @@
   "seat.devicesHint": "由 USB 端口分配：如果您交换该端口上的设备，它会保留在工作站中。",
   "seat.deviceMissing": "已断开",
   "seat.noInputWarning": "如果没有键盘、鼠标或游戏手柄，工作站将仅显示图片。\n创建",
+  "seat.gamepadsNotIsolated": "未安装 HidHide 或其无法按会话隔离：此工作站的游戏手柄在所有会话中可见。请安装 HidHide 1.4.181 或更高版本。",
   "seat.created": "工作站“{name}”",
   "seat.saved": "工作站“{name}”已保存",
   "btn.cancel": "取消",

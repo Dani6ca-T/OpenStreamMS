@@ -80,6 +80,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private DateTime _lastHidHideTry = DateTime.MinValue;
     private bool _hidHideWarned;
 
+    /// <summary>
+    /// HidHide está instalado y su driver aísla por sesión. False hasta que se abre: el panel
+    /// lo muestra para que un mando "asignado" que se ve en todas las sesiones no pase inadvertido.
+    /// </summary>
+    public static bool SessionJailSupported { get; private set; }
+
     // Mandos físicos ocultados → sesión (de consola, o del puesto que los reclama) con la que se ocultaron
     private readonly Dictionary<string, uint> _physical = new(StringComparer.OrdinalIgnoreCase);
     private uint _console = NoSession;
@@ -163,7 +169,15 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             return false;
         }
         _hidHide = h;
-        Logger.Log("[Gamepad] HidHide disponible: mandos aislados por sesión.");
+        // Una versión sin "jail" de sesión trata "instancia!N" como un id que no existe: el mando
+        // no se oculta a nadie, y sin este aviso falla en silencio.
+        var version = HidHide.DriverVersion();
+        SessionJailSupported = version is null || version >= HidHide.MinSessionJailVersion;
+        if (SessionJailSupported)
+            Logger.Log($"[Gamepad] HidHide {version?.ToString() ?? "(versión desconocida)"} disponible: mandos aislados por sesión.");
+        else
+            Logger.Warning($"[Gamepad] HidHide {version} no aísla por sesión (hace falta {HidHide.MinSessionJailVersion} o posterior): " +
+                           "los mandos serán visibles en todas las sesiones. Actualiza HidHide.");
         RemoveStaleJails();
         return true;
     }
@@ -420,9 +434,14 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
     /// <summary>
     /// Deja cada mando físico visible solo en su sesión destino: la del puesto que lo reclama
-    /// (por puerto USB), o la de consola si ningún puesto lo tiene asignado. Si alguno estaba
-    /// arrancado con sesiones de stream en marcha, se reinicia una vez para cerrar los handles
-    /// que esas sesiones pudieran tener.
+    /// (por puerto USB), o la de consola si ningún puesto lo tiene asignado.
+    /// <para>
+    /// HidHide decide al abrir y no revoca handles: un mando arrancado que cambia de destino
+    /// (puesto encendido o apagado, otra sesión de consola) se reinicia para cerrar los que
+    /// tenga la sesión anterior; si no, Steam o el juego de esa sesión lo siguen leyendo.
+    /// Uno visto por primera vez solo se reinicia si otra sesión pudo abrirlo antes (hay
+    /// sesiones de stream o puestos encendidos).
+    /// </para>
     /// </summary>
     private void HidePhysical(IReadOnlyList<string> ids)
     {
@@ -435,23 +454,27 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                        .ToList();
         if (nodes.Count == 0) return;
 
-        bool streaming = _sessions.GetRunningSunshineSessions().Count > 0;
+        bool otherSessions = _sessions.GetRunningSunshineSessions().Count > 0 || _seats.AnyRunning;
         var started = nodes.Where(n => Cm.IsOpenableAndStarted(n.Id)).Select(n => n.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
         if (!UpdateJails(add: nodes.Select(n => HidHide.JailEntry(n.Id, n.Target)), remove: nodes.Select(n => n.Id))) return;
 
         foreach (var (node, target) in nodes)
         {
-            bool first = !_physical.ContainsKey(node);
+            bool moved = _physical.TryGetValue(node, out var previous);
             _physical[node] = target;
             Logger.Log(target == _console
                 ? $"[Gamepad] Mando físico {node} visible solo en la sesión de consola ({target})."
                 : $"[Gamepad] Mando físico {node} asignado a un puesto: visible solo en la sesión {target}.");
-            if (!(first && streaming && started.Contains(node))) continue;
-            try { DevSetup.Restart(node); }
+            if (!started.Contains(node) || !(moved || otherSessions)) continue;
+            try
+            {
+                DevSetup.Restart(node);
+                if (moved) Logger.Log($"[Gamepad] {node} reiniciado: la sesión {previous} deja de leerlo.");
+            }
             catch (Win32Exception ex)
             {
                 Logger.Warning($"[Gamepad] No se pudo reiniciar {node}: {ex.Message}. " +
-                               "Una sesión de stream que ya lo tuviera abierto lo sigue viendo.");
+                               "La sesión que ya lo tuviera abierto lo sigue viendo hasta que lo cierre.");
             }
         }
     }

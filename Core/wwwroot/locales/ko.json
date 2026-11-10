@@ -133,6 +133,7 @@
   "seat.devicesHint": "USB 포트에 의해 할당됨: 해당 포트에서 장치를 교체하면 워크스테이션에 유지됩니다.",
   "seat.deviceMissing": "연결이 끊어졌습니다.",
   "seat.noInputWarning": "키보드, 마우스 또는 게임패드가 없으면 워크스테이션에는 그림만 표시됩니다.",
+  "seat.gamepadsNotIsolated": "HidHide가 설치되지 않았거나 세션별로 격리할 수 없습니다. 이 워크스테이션의 게임패드가 모든 세션에 표시됩니다. HidHide 1.4.181 이상을 설치하세요.",
   "seat.created": "워크스테이션 \"{name}\"가 생성되었습니다.",
   "seat.saved": "워크스테이션 \"{name}\"가 저장되었습니다.",
   "btn.cancel": "취소",

@@ -133,6 +133,7 @@
   "seat.devicesHint": "由 USB 連接埠指派：如果您交換該連接埠上的設備，它會保留在工作站中。",
   "seat.deviceMissing": "已斷開",
   "seat.noInputWarning": "如果沒有鍵盤、滑鼠或遊戲手柄，工作站將只顯示圖片。\n建立",
+  "seat.gamepadsNotIsolated": "未安裝 HidHide 或其無法依工作階段隔離：此工作站的遊戲手柄在所有工作階段中可見。請安裝 HidHide 1.4.181 或更新版本。",
   "seat.created": "工作站“{name}”",
   "seat.saved": "工作站「{name}」已儲存",
   "btn.cancel": "取消",

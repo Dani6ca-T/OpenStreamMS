@@ -74,6 +74,22 @@ internal static class HidHide
         if (!DeviceIoControl(device, SetBlacklistCode, buf, buf.Length, null, 0, out _, IntPtr.Zero)) throw new Win32Exception();
     }
 
+    /// <summary>Primera versión del driver con el "jail" de sesión (<c>instancia!N</c>, PR #125 de HidHide).</summary>
+    public static readonly Version MinSessionJailVersion = new(1, 4, 181);
+
+    /// <summary>Versión de <c>HidHide.sys</c> instalada, o null si no se puede leer.</summary>
+    public static Version? DriverVersion()
+    {
+        try
+        {
+            string sys = Path.Combine(Environment.SystemDirectory, "drivers", "HidHide.sys");
+            if (!File.Exists(sys)) return null;
+            var v = System.Diagnostics.FileVersionInfo.GetVersionInfo(sys);
+            return new Version(v.FileMajorPart, v.FileMinorPart, v.FileBuildPart);
+        }
+        catch { return null; }
+    }
+
     /// <summary>Entrada de lista negra que deja el dispositivo visible solo en <paramref name="sessionId"/>.</summary>
     public static string JailEntry(string instanceId, uint sessionId) => $"{instanceId}!{sessionId}";
 

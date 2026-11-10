@@ -6,13 +6,15 @@ namespace OpenStreamMS.Core.Api;
 // ── DTOs ──
 public record SeatMonitorDto(string DevicePath, string FriendlyName, int Width, int Height, int RefreshHz,
                              SeatScreenArea Area = SeatScreenArea.Full);
-public record SeatDeviceDto(SeatDeviceKind Kind, string UsbPort, string Label);
+/// <param name="Present">Hay algo conectado en ese puerto (solo en respuestas; se ignora al guardar).</param>
+public record SeatDeviceDto(SeatDeviceKind Kind, string UsbPort, string Label, bool Present = true);
 
 public record SeatDto(
     Guid Id, string Name, SeatMonitorDto? Monitor, string? AudioOutId, string? AudioOutName,
     List<SeatDeviceDto> Devices, Guid? SessionId, bool AutoStart, bool ExclusiveSession,
     string State, string? StatusDetail, string? ErrorMessage,
-    string? AudioInId = null, string? AudioInName = null);
+    string? AudioInId = null, string? AudioInName = null,
+    bool GamepadsIsolated = true);
 
 public record SeatUpsertRequest(
     string Name, SeatMonitorDto? Monitor, string? AudioOutId, string? AudioOutName,
@@ -137,8 +139,10 @@ public static class SeatEndpoints
         s.Id, s.Name,
         s.Monitor is { } m ? new SeatMonitorDto(m.DevicePath, m.FriendlyName, m.Width, m.Height, m.RefreshHz, m.Area) : null,
         s.AudioOutId, s.AudioOutName,
-        s.Devices.Select(d => new SeatDeviceDto(d.Kind, d.UsbPort, d.Label)).ToList(),
+        s.Devices.Select(d => new SeatDeviceDto(d.Kind, d.UsbPort, d.Label,
+            OpenStreamMS.Core.Helpers.DeviceTopology.IsPortPresent(d.UsbPort))).ToList(),
         s.SessionId, s.AutoStart, s.ExclusiveSession,
         s.State.ToString(), s.StatusDetail, s.ErrorMessage,
-        s.AudioInId, s.AudioInName);
+        s.AudioInId, s.AudioInName,
+        OpenStreamMS.Services.Gamepad.GamepadSessionIsolation.SessionJailSupported);
 }

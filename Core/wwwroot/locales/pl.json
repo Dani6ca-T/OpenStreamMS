@@ -133,6 +133,7 @@
   "seat.devicesHint": "Przypisane przez USB port: jeśli zamienisz urządzenie na tym porcie, pozostanie ono na stacji roboczej.",
   "seat.deviceMissing": "odłączony",
   "seat.noInputWarning": "Bez klawiatury, myszy lub gamepada stacja robocza pokaże tylko obraz.\nUtworzono",
+  "seat.gamepadsNotIsolated": "HidHide nie jest zainstalowany lub nie izoluje według sesji: gamepady tej stacji roboczej są widoczne we wszystkich sesjach. Zainstaluj HidHide 1.4.181 lub nowszy.",
   "seat.created": "Stanowisko robocze „{name}”.",
   "seat.saved": "Stacja robocza „{name}” zapisana",
   "btn.cancel": "Anuluj",

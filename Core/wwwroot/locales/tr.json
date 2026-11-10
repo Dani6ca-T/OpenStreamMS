@@ -133,6 +133,7 @@
   "seat.devicesHint": "USB bağlantı noktası tarafından atanır: aygıtı bu bağlantı noktasında değiştirirseniz iş istasyonunda kalır.",
   "seat.deviceMissing": "'nin bağlantısı kesildi",
   "seat.noInputWarning": "Klavye, fare veya gamepad olmadan iş istasyonu yalnızca resmi gösterecektir.",
+  "seat.gamepadsNotIsolated": "HidHide yüklü değil veya oturum başına yalıtım yapamıyor: bu iş istasyonunun gamepadleri tüm oturumlarda görünüyor. HidHide 1.4.181 veya üzerini yükleyin.",
   "seat.created": "İş İstasyonu \"{name}\" oluşturuldu",
   "seat.saved": "İş İstasyonu \"{name}\" kaydedildi",
   "btn.cancel": "İptal",

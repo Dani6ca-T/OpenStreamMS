@@ -88,12 +88,14 @@ let hwDragging = false;
 let hwActivePorts = new Set();   // puertos USB que se acaban de pulsar (se iluminan)
 
 // Una ficha: kind = Keyboard | Mouse | Gamepad | Audio; id = puerto USB o id de la salida de audio.
-function hwChip(kind, id, label, from, draggable) {
+// missing: asignado a un puerto en el que ahora no hay nada (desenchufado, o el puerto cambió de ruta).
+function hwChip(kind, id, label, from, draggable, missing = false) {
   const active = kind !== 'Audio' && hwActivePorts.has(id) ? ' hw-active' : '';
+  const gone = missing ? ' hw-missing' : '';
   return `
-    <span class="hw-chip hw-${kind.toLowerCase()}${active}" ${draggable ? 'draggable="true" ondragstart="hwDragStart(event)" ondragend="hwDragEnd(event)"' : ''}
+    <span class="hw-chip hw-${kind.toLowerCase()}${active}${gone}" ${draggable ? 'draggable="true" ondragstart="hwDragStart(event)" ondragend="hwDragEnd(event)"' : ''}
           data-kind="${kind}" data-id="${esc(id)}" data-label="${esc(label)}" data-from="${from}" data-port="${kind === 'Audio' ? '' : esc(id)}"
-          title="${esc(t(kind === 'Audio' ? 'seat.audioLabel' : 'seat.kind.' + kind))}: ${esc(label)}">
+          title="${esc(t(kind === 'Audio' ? 'seat.audioLabel' : 'seat.kind.' + kind))}: ${esc(label)}${missing ? ` (${esc(t('seat.deviceMissing'))})` : ''}">
       ${seatIcon(kind)}<span class="hw-label">${esc(label)}</span>
     </span>`;
 }
@@ -109,7 +111,7 @@ function renderSeatHardware(s, locked) {
   const chips = [
     ...(s.audioOutId ? [hwChip('Audio', s.audioOutId, s.audioOutName || s.audioOutId, s.id, !locked)] : []),
     ...(s.audioInId ? [micChip(s)] : []),
-    ...SEAT_KINDS.flatMap(k => s.devices.filter(d => d.kind === k).map(d => hwChip(k, d.usbPort, d.label, s.id, !locked))),
+    ...SEAT_KINDS.flatMap(k => s.devices.filter(d => d.kind === k).map(d => hwChip(k, d.usbPort, d.label, s.id, !locked, d.present === false))),
   ];
   return `
     <div class="hw-drop ${locked ? 'hw-locked' : ''}" data-drop="${s.id}"
@@ -395,6 +397,9 @@ function renderSeatCard(s) {
     warning = `<div class="card-warning">${esc(warning)}</div>`;
   const noInput = !s.devices.some(d => SEAT_KINDS.includes(d.kind))
     ? `<div class="card-warning">${esc(t('seat.noInputWarning'))}</div>` : '';
+  // Mandos asignados pero HidHide no los aísla (no instalado o sin "jail" de sesión): se verían en todas las sesiones.
+  const padsShared = s.gamepadsIsolated === false && s.devices.some(d => d.kind === 'Gamepad')
+    ? `<div class="card-warning">${esc(t('seat.gamepadsNotIsolated'))}</div>` : '';
 
   const power = starting
     ? `<button type="button" class="power-btn busy" disabled title="${esc(t('btn.starting'))}" aria-label="${esc(t('btn.starting'))}">${uiIcon('power')}</button>`
@@ -424,6 +429,7 @@ function renderSeatCard(s) {
       ${(starting || s.state === 'Stopped') && s.statusDetail ? `<div class="card-detail">${esc(I18n.status(s.statusDetail))}</div>` : ''}
       ${warning}
       ${noInput}
+      ${padsShared}
       ${s.errorMessage ? `<div class="card-error">${esc(I18n.message(s.errorMessage))}</div>` : ''}
       <div class="card-footer">
         <label class="toggle" title="${esc(t('seat.autostart'))}">

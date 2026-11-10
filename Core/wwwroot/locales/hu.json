@@ -133,6 +133,7 @@
   "seat.devicesHint": "USB port hozzárendelve: ha ezen a porton cseréli ki az eszközt, az a munkaállomáson marad.",
   "seat.deviceMissing": "lekapcsolva",
   "seat.noInputWarning": "Billentyűzet, egér vagy gamepad nélkül a munkaállomás csak a képet mutatja.",
+  "seat.gamepadsNotIsolated": "A HidHide nincs telepítve, vagy nem tud munkamenetenként elkülöníteni: a munkaállomás gamepadjei minden munkamenetben láthatók. Telepítse a HidHide 1.4.181-es vagy újabb verzióját.",
   "seat.created": "A \"{name}\" munkaállomás létrehozva",
   "seat.saved": "A \"{name}\" munkaállomás mentve",
   "btn.cancel": "Mégse",

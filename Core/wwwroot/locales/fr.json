@@ -133,6 +133,7 @@
   "seat.devicesHint": "Affectés par port USB : si vous changez l'appareil de ce port, il reste dans le poste.",
   "seat.deviceMissing": "déconnecté",
   "seat.noInputWarning": "Sans clavier, souris ni manette, le poste n'affichera que l'image.",
+  "seat.gamepadsNotIsolated": "HidHide n'est pas installé ou ne peut pas isoler par session : les manettes de ce poste sont visibles dans toutes les sessions. Installez HidHide 1.4.181 ou une version ultérieure.",
   "seat.created": "Poste « {name} » créé",
   "seat.saved": "Poste « {name} » enregistré",
   "btn.cancel": "Annuler",

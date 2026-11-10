@@ -44,6 +44,31 @@ public static class DeviceTopology
         return result;
     }
 
+    private static readonly object _portsLock = new();
+    private static HashSet<string> _presentPorts = new(StringComparer.OrdinalIgnoreCase);
+    private static long _presentPortsAt = -1;
+
+    /// <summary>
+    /// Puertos USB con algo conectado ahora (caché de 2 s: el panel lo consulta a menudo). Un
+    /// puerto asignado que no aparece es un dispositivo desenchufado, o un puerto que cambió de
+    /// ruta (hub o dock distinto, otra ranura PCI): el puesto arrancaría sin él sin avisar.
+    /// </summary>
+    public static bool IsPortPresent(string usbPort)
+    {
+        lock (_portsLock)
+        {
+            if (_presentPortsAt < 0 || Environment.TickCount64 - _presentPortsAt > 2000)
+            {
+                _presentPorts = GamepadSessionIsolation.Cm.DeviceIds("USB")
+                    .Where(id => !id.Contains("&MI_", StringComparison.OrdinalIgnoreCase))
+                    .Select(id => LocationPath(id) ?? id)
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+                _presentPortsAt = Environment.TickCount64;
+            }
+            return _presentPorts.Contains(usbPort);
+        }
+    }
+
     /// <summary>Puerto USB de cualquier nodo (colección HID, XUSB…), o null si no cuelga de un USB.</summary>
     public static string? UsbPortOf(string instanceId) =>
         UsbDeviceOf(instanceId) is { } usb ? LocationPath(usb) ?? usb : null;

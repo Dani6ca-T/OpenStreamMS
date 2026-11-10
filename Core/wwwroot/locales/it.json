@@ -133,6 +133,7 @@
   "seat.devicesHint": "Assegnato dalla porta USB: se si scambia il dispositivo su quella porta, rimane nella workstation.",
   "seat.deviceMissing": "disconnesso",
   "seat.noInputWarning": "Senza tastiera, mouse o gamepad la workstation mostrerà solo l'immagine.",
+  "seat.gamepadsNotIsolated": "HidHide non è installato o non può isolare per sessione: i gamepad di questa workstation sono visibili in tutte le sessioni. Installa HidHide 1.4.181 o successivo.",
   "seat.created": "Postazione di lavoro \"{name}\" creata",
   "seat.saved": "Postazione di lavoro \"{name}\" salvata",
   "btn.cancel": "Annulla",
