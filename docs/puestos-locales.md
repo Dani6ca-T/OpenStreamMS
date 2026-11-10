@@ -14,7 +14,8 @@ si fuera un PC independiente. Varias personas pueden usar el mismo PC a la vez.
 | Resolución/Hz por puesto | Reconectar el cliente RDP (desconectar antes) | La pantalla RDP solo cambia al conectar; ~1,2 s |
 | Frecuencia RDP | Global (`DWMFRAMEINTERVAL`) | No se puede fijar por sesión; FreeSync adapta cada monitor |
 | Teclado/ratón | Mientras el puesto está encendido, su dispositivo USB pasa a WinUSB (`winusb.inf`, de Windows); el servicio lee los informes HID y los inyecta en la sesión. Si no se puede, Raw Input en la consola + escudo | Separación total sin drivers de terceros: la consola deja de ver el dispositivo. HidHide no permite leer HID de teclado/ratón, y la colección HID con `input.inf` queda detenida (hidclass no da acceso en crudo a ratón/teclado) |
-| Mandos | HidHide: jail a la sesión del puesto | Ya lo usaba OpenStreamMS para la consola |
+| Mandos | HidHide: jail a la sesión del puesto; al cambiar de sesión se reinicia el mando para cerrar los handles de la anterior. Sin jail de sesión (HidHide ausente o anterior a 1.4.181), ACL del dispositivo | Ya lo usaba OpenStreamMS para la consola |
+| Otros USB | ACL del dispositivo (`SPDRP_SECURITY_SDS`): solo SYSTEM y el usuario del puesto pueden abrirlo; se reinicia el nodo para aplicarla | Sin drivers y para cualquier clase. No aísla lo que abre un servicio del sistema (disco, cámara, audio): el panel lo avisa. Ver `docs/asignacion-dispositivos.md` |
 | Audio | Loopback de "Audio remoto" → salida del puesto | ~70 ms con búferes de 10 ms |
 | Micrófono | Redirección de micrófono de RDP (canal `audin`): el cliente FreeRDP abre el micrófono del puesto y en la sesión aparece como «Remote Audio» | Sin drivers propios. El `wfreerdp` original ignora `dev:` y usa siempre el micrófono predeterminado: va parcheado (`FreeRDP/patches`) para elegirlo por id de endpoint |
 | Consola | Solo anfitriona (usuario técnico, autologon) | Recomendado; con WinUSB los periféricos del puesto ya no llegan a la consola |
@@ -67,6 +68,7 @@ Servicio (SYSTEM, sesión 0)
  ├─ SeatManager ............ puestos, inventario, encendido/apagado          [hecho]
  ├─ StreamSessionService ... ReconnectRdp, PauseSunshine/ResumeSunshine       [hecho]
  ├─ GamepadSessionIsolation  mandos → sesión del puesto (por puerto USB)      [hecho]
+ ├─ SeatDeviceAccess ....... otros USB → usuario del puesto (ACL)             [hecho]
  ├─ HandleBroker ........... duplica texturas agente → presentador            [hecho]
  ├─ UsbCapture/UsbHidReader  ratón/teclado del puesto en WinUSB → sesión      [hecho]
  ├─ SeatIdentify ........... identificar: logo en el monitor, aviso de audio,
@@ -94,6 +96,7 @@ Sesión del puesto
 | `Services/Seats/SeatAudio.cs` | Salidas de audio y micrófonos disponibles |
 | `FreeRDP/patches/0001-audin-winmm-choose-microphone.patch` | Parche de FreeRDP 3.32.0: `/microphone:sys:winmm,dev:<id de endpoint>` abre ese micrófono |
 | `Services/Seats/SeatUsbCapture.cs` | Cambio de driver a WinUSB y vuelta (con registro en `%ProgramData%\OpenStreamMS\usb-capture.json`) y lectura de los informes USB |
+| `Services/Seats/SeatDeviceAccess.cs` | ACL de los otros dispositivos USB del puesto (y de los mandos sin jail de HidHide), con registro en `%ProgramData%\OpenStreamMS\device-access.json` |
 | `Services/Seats/SeatHid.cs` | Descriptor de informe HID → eventos de ratón y scancodes de teclado |
 | `Services/Seats/SeatInput.cs` | Respaldo: Raw Input en la consola y escudo del cursor |
 | `Services/Seats/SeatIpc.cs` | Tuberías (ACL SYSTEM + usuario) y formato de mensajes binarios/JSON |
@@ -120,14 +123,16 @@ Sesión del puesto
 2. Si es exclusivo, pausa Sunshine (deja de servirse por Moonlight/WebRTC).
 3. Activa el monitor (lo añade al escritorio) y lo coloca tocando solo la esquina inferior derecha.
 4. Reconecta la sesión RDP a la resolución/Hz del puesto (la fijada o, si no hay, la que Windows le dio al monitor) y, si el puesto tiene micrófono, con él redirigido (siempre con FreeRDP: mstsc no deja elegirlo). Al apagar se restaura la de la sesión, sin micrófono.
-5. Los mandos del puesto pasan a su sesión (HidHide).
+5. Los mandos del puesto pasan a su sesión (HidHide) y los otros dispositivos USB quedan reservados para su usuario (ACL).
+   Un dispositivo asignado cuyo puerto está vacío se avisa en el log y sale marcado en el panel.
 6. Lanza `SeatAgent` en la sesión, duplica los handles NT de textura con `HandleBroker` y conecta `SeatHost` en la consola para presentar y enrutar entrada y audio.
 7. Pasa los ratones y teclados del puesto a WinUSB (el dispositivo, o solo las interfaces con ratón/teclado si es compuesto) y empieza a leerlos.
 
-Al apagar: se devuelven los ratones y teclados a su driver HID, se para el agente y
-el presentador, se saca el monitor del escritorio, se reanuda Sunshine y los mandos
-vuelven a la consola. Si el servicio se cae con un puesto encendido, los drivers se
-restauran en su siguiente arranque.
+Al apagar: se devuelven los ratones y teclados a su driver (el del fabricante si lo tenían),
+se liberan los otros USB, se para el agente y el presentador, se saca el monitor del
+escritorio, se reanuda Sunshine y los mandos vuelven a la consola. Si el servicio se cae con
+un puesto encendido, los drivers y las ACL se restauran en su siguiente arranque, o al
+conectarse el dispositivo si entonces estaba desenchufado.
 
 ## Requisitos y trampas conocidas
 

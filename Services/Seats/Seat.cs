@@ -5,7 +5,11 @@ namespace OpenStreamMS.Services.Seats;
 
 public enum SeatState { Stopped, Starting, Running, Error }
 
-public enum SeatDeviceKind { Mouse, Keyboard, Gamepad }
+/// <summary>
+/// Tipo de dispositivo de un puesto. <see cref="Other"/>: cualquier otro USB externo (mando sin HID,
+/// lector, llave, impresora…), reservado para el usuario del puesto con la ACL del dispositivo.
+/// </summary>
+public enum SeatDeviceKind { Mouse, Keyboard, Gamepad, Other }
 
 /// <summary>
 /// Parte del monitor que ocupa el puesto. El monitor es una cuadrícula de 2×2: entero, una mitad

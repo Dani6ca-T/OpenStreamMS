@@ -20,7 +20,7 @@ public static class DeviceTopology
     private const int CM_GETIDLIST_FILTER_PRESENT = 0x100;
     private const int CM_GETIDLIST_FILTER_CLASS   = 0x200;
 
-    /// <summary>Teclados, ratones y mandos físicos conectados por USB, uno por puerto y tipo.</summary>
+    /// <summary>Teclados, ratones, mandos y otros dispositivos USB externos, uno por puerto y tipo.</summary>
     public static List<InputDeviceInfo> EnumerateInputDevices()
     {
         var result = new List<InputDeviceInfo>();
@@ -41,7 +41,42 @@ public static class DeviceTopology
         Add(GamepadSessionIsolation.Cm.DeviceIds(KeyboardClass, CM_GETIDLIST_FILTER_CLASS | CM_GETIDLIST_FILTER_PRESENT)
                 .Where(IsBootKeyboard), SeatDeviceKind.Keyboard);
         Add(GamepadSessionIsolation.Cm.GameControllers(), SeatDeviceKind.Gamepad);
+
+        // El resto de USB externos, uno por puerto: los que ya salen como teclado, ratón o mando
+        // no se repiten, y se dejan fuera hubs, radios Bluetooth y lo que va dentro del equipo
+        // (controladores RGB, lectores de tarjetas internos…), que no tiene sentido dar a un puesto.
+        var taken = result.Select(d => d.UsbPort).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var usb in GamepadSessionIsolation.Cm.DeviceIds("USB"))
+        {
+            if (usb.Contains("&MI_", StringComparison.OrdinalIgnoreCase) || usb.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase)) continue;
+            if (IsHubOrRadio(usb) || IsInternal(usb)) continue;
+            var port = LocationPath(usb) ?? usb;
+            if (!taken.Add(port)) continue;
+            result.Add(new InputDeviceInfo(usb, SeatDeviceKind.Other, port, DisplayName(usb)));
+        }
         return result;
+    }
+
+    private const string UsbHubClassGuid   = "{36fc9e60-c465-11cf-8056-444553540000}";   // clase USB (hubs y controladoras)
+    private const string BluetoothClassGuid = "{e0cbf06c-cd8b-4647-bb8a-263b43f0f974}";
+
+    /// <summary>Hub USB o radio Bluetooth: darlos a un puesto arrastraría todo lo que cuelga de ellos.</summary>
+    private static bool IsHubOrRadio(string usb)
+    {
+        var cls = GamepadSessionIsolation.Cm.ClassGuidOf(usb);
+        if (string.Equals(cls, BluetoothClassGuid, StringComparison.OrdinalIgnoreCase)) return true;
+        return string.Equals(cls, UsbHubClassGuid, StringComparison.OrdinalIgnoreCase) &&
+               Strings(usb, CompatibleIds).Any(c => c.StartsWith(@"USB\Class_09", StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>Va dentro del equipo (DEVPKEY_Device_InLocalMachineContainer).</summary>
+    private static bool IsInternal(string usb)
+    {
+        var key = InLocalMachineContainer;
+        if (CM_Locate_DevNodeW(out int inst, usb, 0) != 0) return false;
+        int size = 1;
+        var buf = new byte[1];
+        return CM_Get_DevNode_PropertyW(inst, ref key, out _, buf, ref size, 0) == 0 && buf[0] != 0;
     }
 
     private static readonly object _portsLock = new();
@@ -114,6 +149,7 @@ public static class DeviceTopology
     private static DEVPROPKEY BusReportedDesc => new() { fmtid = new Guid("540b947e-8b40-45bc-a8a2-6a0b894cbda2"), pid = 4 };
 
     private static DEVPROPKEY CompatibleIds => new() { fmtid = DeviceProps, pid = 4 };
+    private static DEVPROPKEY InLocalMachineContainer => new() { fmtid = new Guid("8c7ed206-3f8a-4827-b3ab-ae9e1faefc6c"), pid = 4 };
 
     /// <summary>La colección de teclado cuelga de una interfaz USB de teclado "boot".</summary>
     private static bool IsBootKeyboard(string keyboardInstance) =>

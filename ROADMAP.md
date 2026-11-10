@@ -17,16 +17,20 @@ Grouped by priority, highest first.
   raise it with `SendSAS`.
 - **Keyboard LEDs on seats.** Caps Lock, Num Lock and Scroll Lock LEDs stay off on keyboards captured
   with WinUSB. Send the keyboard its LED output report over the same WinUSB connection.
-- **Hot-plug into a running seat.** A device plugged into one of a running seat's USB ports should be
-  captured and routed to the seat automatically, without turning the seat off and on.
+- **Hot-plug into a running seat.** A keyboard or mouse plugged into one of a running seat's USB
+  ports should be captured and routed to the seat automatically, without turning the seat off and on.
+  (Other USB devices and gamepads without HidHide's session jail are already reserved on arrival.)
 
 ### 2. More useful seats
 
 - **Assign a whole USB hub to a seat.** Everything plugged into that hub goes to the seat, with no
   per-device setup.
-- **Bluetooth and legacy XInput gamepads.** Bluetooth gamepads have no USB port, so they can't be
-  assigned today; assign them by Bluetooth address instead. Identify XInput pads that expose no HID
-  interface (e.g. wired Xbox 360) in the seat editor.
+- **Bluetooth gamepads and shared receivers.** Bluetooth gamepads inherit the port of the Bluetooth
+  radio, and every pad on a wireless receiver (Xbox, Unifying) shares the receiver's port: assign them
+  by Bluetooth address or by child device instead.
+- **USB storage, cameras and audio on a seat.** The device ACL doesn't isolate what a Windows service
+  opens on the session's behalf: give removable drives a per-session drive letter, and evaluate RDP
+  USB redirection (URBDRC) for cameras and other devices that need their driver inside the session.
 - **Schedules and time limits.** Per seat or session: turn off at a set time (e.g. a kids' seat at
   21:00), daily time allowance, and turn off after a period without input.
 

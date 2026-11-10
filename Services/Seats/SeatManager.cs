@@ -37,6 +37,11 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             Logger.Warning("[Seats] No se pudo vigilar la llegada de dispositivos USB: un teclado o ratón que quedó capturado se restaurará en el próximo arranque.");
         try { UsbCapture.RestoreAll(); }
         catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron restaurar los drivers USB: {ex.Message}"); }
+        // Dispositivos reservados para un puesto (ACL): se liberan los que quedaran de una caída,
+        // y se vigila la llegada para reservar lo que se enchufe en un puerto de un puesto encendido.
+        using var accessArrivals = Gamepad.GamepadSessionIsolation.Cm.WatchEnumeration((id, _) => SeatDeviceAccess.OnDeviceArrived(id));
+        try { SeatDeviceAccess.RestoreAll(); }
+        catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron liberar los dispositivos reservados: {ex.Message}"); }
         ConsoleLockGuard.Release();   // si el servicio se cayó con un puesto encendido
         // Sin puestos exclusivos nadie necesita quedarse sin apagar: el grupo Usuarios recupera el derecho.
         if (!_seats.Values.Any(s => s.ExclusiveSession)) ShutdownRight.Restore();
@@ -329,6 +334,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             foreach (var d in seat.Devices.Where(d => !DeviceTopology.IsPortPresent(d.UsbPort)))
                 Logger.Warning($"[Seats] '{seat.Name}': no hay nada conectado en el puerto de '{d.Label}' ({d.Kind}, {d.UsbPort}). " +
                                "Si lo cambiaste de puerto, de hub o de dock, vuelve a asignarlo.");
+            ReserveDevices(seat, session.RdpSessionId);
 
             // 6. Lanzar agente en la sesión y presentador en la consola.
             //    Si el puesto pide contraseña, el agente corre como SYSTEM en la sesión: es la única
@@ -500,6 +506,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             foreach (var node in active.Captured)
                 UsbCapture.Release(node);
         }
+        if (_reservedPorts.TryRemove(id, out var reserved))
+            foreach (var port in reserved)
+                SeatDeviceAccess.Free(port);
         SeatHostControl.RequestCloseSeat(id);
 
         // Con pantalla dividida, el monitor sigue en el escritorio mientras la otra mitad esté en uso.
@@ -528,6 +537,33 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         if (!restarting && seat.Monitor is { } m &&
             _seats.Values.FirstOrDefault(s => s.Id != id && s.State == SeatState.Running && s.Monitor?.DevicePath == m.DevicePath) is { } other)
             _ = Task.Run(() => TryStartConsoleArea(other.Monitor!));
+    }
+
+    /// <summary>Puertos reservados por ACL para cada puesto encendido (ver <see cref="SeatDeviceAccess"/>).</summary>
+    private readonly ConcurrentDictionary<Guid, List<string>> _reservedPorts = new();
+
+    /// <summary>
+    /// Reserva para el usuario del puesto (ACL del dispositivo) sus otros dispositivos USB y, si
+    /// HidHide no puede aislar por sesión, también sus mandos. Teclados y ratones no: van por WinUSB.
+    /// </summary>
+    private void ReserveDevices(Seat seat, uint windowsSession)
+    {
+        var ports = seat.Devices
+            .Where(d => d.Kind == SeatDeviceKind.Other ||
+                        (d.Kind == SeatDeviceKind.Gamepad && !Gamepad.GamepadSessionIsolation.SessionJailSupported))
+            .Select(d => d.UsbPort).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        if (ports.Count == 0) return;
+
+        if (SeatDeviceAccess.UserSidOfSession(windowsSession) is not { } sid)
+        {
+            Logger.Warning($"[Seats] '{seat.Name}': no se pudo saber el usuario de la sesión {windowsSession}; " +
+                           "sus otros dispositivos USB quedan visibles en todas las sesiones.");
+            return;
+        }
+        Status(seat, "Reservando los dispositivos USB del puesto…");
+        foreach (var port in ports)
+            SeatDeviceAccess.Reserve(port, sid, seat.Name);
+        _reservedPorts[seat.Id] = ports;
     }
 
     /// <summary>
