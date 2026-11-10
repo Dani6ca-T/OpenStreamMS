@@ -146,6 +146,14 @@ public class StreamSession
     /// </summary>
     public string?      IsolatedUsername { get; set; }
 
+    /// <summary>
+    /// Mandos físicos (por puerto USB, como en los puestos) que juegan en esta sesión: mientras
+    /// está en marcha solo los ve su sesión de Windows, y el juego los lee directamente por USB, sin
+    /// pasar por el cliente, la red y el mando virtual de Sunshine (menos latencia). Al pararla
+    /// vuelven a la consola. Un puesto encendido que reclame el mismo puerto tiene prioridad.
+    /// </summary>
+    public List<OpenStreamMS.Services.Seats.SeatDevice> Gamepads { get; set; } = [];
+
     /// <summary>Usuario de Windows dedicado de una sesión aislada.</summary>
     public string GetIsolatedUser() =>
         IsolatedUsername ?? OpenStreamMS.Core.Helpers.IsolatedUserManager.GetUsername(Id);

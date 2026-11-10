@@ -80,3 +80,18 @@ dotnet build tests/DeviceSessionProbe -c Release -o <carpeta>\probe
 (tarea programada) porque fijan propiedades, reinician el dispositivo y lanzan la
 comprobación con el token del usuario de cada sesión. Usar un dispositivo de prueba que no
 sea el teclado ni el ratón de la consola: se reinicia varias veces.
+
+## Mandos físicos en sesiones de stream
+
+Una sesión de stream (Moonlight/WebRTC) también puede tener mandos físicos de este PC
+(menú ⋯ de la sesión → **Mandos físicos**). Mientras está en marcha, el mando solo se ve en
+su sesión de Windows y el juego lo lee directamente por USB: sin pasar por el cliente, la red
+ni el mando virtual de Sunshine, así que con menos latencia. Útil con el receptor inalámbrico
+o el cable del mando junto al PC y la imagen en otra pantalla.
+
+- Lo aplica `GamepadSessionIsolation` con el mismo mecanismo que los puestos (jail de
+  HidHide y reinicio del mando al cambiar de sesión). Funciona en caliente: al guardar, al
+  arrancar o al parar la sesión, el mando se mueve en la siguiente pasada (≤ 1 s).
+- Destino de cada mando: puesto encendido → sesión de stream en marcha → consola.
+- Las sesiones locales no lo necesitan (ya corren en la consola).
+- `PUT /api/sessions/{id}/gamepads` con `{ "gamepads": [{ "usbPort": "...", "label": "..." }] }`.

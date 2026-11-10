@@ -142,8 +142,11 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     /// <param name="forSeat">Puesto que se está editando: sus propios dispositivos cuentan como libres.</param>
     public IReadOnlyList<InputDeviceInfo> AvailableInputDevices(Guid? forSeat = null)
     {
+        // Los mandos asignados a una sesión de stream tampoco se ofrecen: el mismo mando en dos
+        // sitios solo confunde (si coincidieran, el puesto encendido tendría prioridad).
         var used = _seats.Values.Where(s => s.Id != forSeat)
                                 .SelectMany(s => s.Devices).Select(d => d.UsbPort)
+                                .Concat(sessions.GetAll().SelectMany(s => s.Gamepads).Select(g => g.UsbPort))
                                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
         return DeviceTopology.EnumerateInputDevices().Where(d => !used.Contains(d.UsbPort)).ToList();
     }

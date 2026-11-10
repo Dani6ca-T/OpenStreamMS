@@ -91,6 +91,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private uint _console = NoSession;
     private DateTime _lastPhysicalScan = DateTime.MinValue;
     private int _seatGeneration = -1;
+    private string _streamPads = "";
     private const uint NoSession = 0xFFFFFFFF;
 
     public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats)
@@ -413,12 +414,15 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         uint console = WTSGetActiveConsoleSessionId();
         if (console == NoSession) return;   // transición de sesión: se reintenta luego
 
-        // Un puesto encendido o apagado cambia a qué sesión va cada mando: fuerza una pasada.
+        // Un puesto encendido o apagado, o una sesión de stream con mandos que arranca, para o
+        // cambia sus mandos, cambia a qué sesión va cada mando: fuerza una pasada.
         int seatGen = _seats.Generation;
-        bool seatsChanged = seatGen != _seatGeneration;
-        if (console == _console && !seatsChanged && DateTime.UtcNow - _lastPhysicalScan < PhysicalRescan) return;
+        string streamPads = _sessions.GamepadAssignmentSignature();
+        bool assignmentsChanged = seatGen != _seatGeneration || streamPads != _streamPads;
+        if (console == _console && !assignmentsChanged && DateTime.UtcNow - _lastPhysicalScan < PhysicalRescan) return;
         _lastPhysicalScan = DateTime.UtcNow;
         _seatGeneration = seatGen;
+        _streamPads = streamPads;
 
         if (console != _console)
         {
@@ -464,7 +468,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             _physical[node] = target;
             Logger.Log(target == _console
                 ? $"[Gamepad] Mando físico {node} visible solo en la sesión de consola ({target})."
-                : $"[Gamepad] Mando físico {node} asignado a un puesto: visible solo en la sesión {target}.");
+                : $"[Gamepad] Mando físico {node} asignado a un puesto o sesión de stream: visible solo en la sesión {target}.");
             if (!started.Contains(node) || !(moved || otherSessions)) continue;
             try
             {
@@ -479,11 +483,17 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
     }
 
-    /// <summary>Sesión de Windows a la que debe ir un mando físico: la de su puesto, o la consola.</summary>
-    private uint TargetSessionFor(string node) =>
-        DeviceTopology.UsbPortOf(node) is { } usb && _seats.TryGetSeatWindowsSession(usb, out var seatSession)
-            ? seatSession
-            : _console;
+    /// <summary>
+    /// Sesión de Windows a la que debe ir un mando físico: la de su puesto encendido; si no, la de
+    /// la sesión de stream en marcha que lo tenga asignado; si no, la consola.
+    /// </summary>
+    private uint TargetSessionFor(string node)
+    {
+        if (DeviceTopology.UsbPortOf(node) is not { } usb) return _console;
+        if (_seats.TryGetSeatWindowsSession(usb, out var seatSession)) return seatSession;
+        if (_sessions.TryGetGamepadWindowsSession(usb, out var streamSession)) return streamSession;
+        return _console;
+    }
 
     [DllImport("kernel32.dll")]
     private static extern uint WTSGetActiveConsoleSessionId();

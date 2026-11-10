@@ -173,6 +173,13 @@ public record SetStreamProtocolRequest(
 );
 
 /// <summary>Cuerpo para activar o desactivar el auto-arranque de una sesión.</summary>
+/// <summary>Mando físico asignado a una sesión de stream.</summary>
+/// <param name="Present">Hay algo conectado en ese puerto (solo en respuestas).</param>
+public record SessionGamepadDto(string UsbPort, string Label, bool Present = true);
+
+/// <summary>Mandos físicos de la sesión (sustituye la lista entera; vacía = ninguno).</summary>
+public record SetGamepadsRequest(List<SessionGamepadDto> Gamepads);
+
 public record SetEnabledRequest(
     /// <summary>true para habilitar el auto-arranque al reiniciar el servicio; false para deshabilitarlo.</summary>
     bool Enabled
@@ -256,7 +263,11 @@ public record SessionResponse(
     /// <summary>Ritmo de composición de la sesión RDP.</summary>
     RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth,
     /// <summary>Paso del arranque en el que falló (user, rdp, profile, unlock, sunshine); null si no hay error.</summary>
-    string?      FailedPhase = null
+    string?      FailedPhase = null,
+    /// <summary>Mandos físicos asignados a la sesión.</summary>
+    List<SessionGamepadDto>? Gamepads = null,
+    /// <summary>HidHide puede aislar los mandos por sesión (si no, los asignados se ven en todas).</summary>
+    bool         GamepadsIsolated = true
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
@@ -468,6 +479,17 @@ public static class SessionEndpoints
                 aplica los cambios y la vuelve a iniciar.
                 """);
 
+        // PUT /api/sessions/{id}/gamepads
+        group.MapPut("/{id:guid}/gamepads", SetGamepads)
+             .WithName("SetSessionGamepads")
+             .WithSummary("Asignar mandos físicos a la sesión")
+             .WithDescription("""
+                Mandos conectados a este PC (por puerto USB) que juegan en la sesión: mientras está
+                en marcha solo los ve su sesión de Windows y el juego los lee directamente, sin pasar
+                por el cliente ni la red. Funciona en caliente, sin reiniciar la sesión. Un puesto
+                encendido que tenga el mismo puerto tiene prioridad.
+                """);
+
         // PUT /api/sessions/{id}/protocol
         group.MapPut("/{id:guid}/protocol", SetStreamProtocol)
              .WithName("SetSessionStreamProtocol")
@@ -670,6 +692,27 @@ public static class SessionEndpoints
         if (session is null) return TypedResults.NotFound();
         svc.Restart(id);
         return TypedResults.Accepted($"/api/sessions/{id}", ToResponse(session));
+    }
+
+    static Results<Ok<SessionResponse>, NotFound> SetGamepads(
+        Guid id, SetGamepadsRequest req, StreamSessionService svc)
+    {
+        try
+        {
+            var pads = (req.Gamepads ?? [])
+                .Where(g => !string.IsNullOrWhiteSpace(g.UsbPort))
+                .DistinctBy(g => g.UsbPort, StringComparer.OrdinalIgnoreCase)
+                .Select(g => new OpenStreamMS.Services.Seats.SeatDevice
+                {
+                    Kind = OpenStreamMS.Services.Seats.SeatDeviceKind.Gamepad, UsbPort = g.UsbPort, Label = g.Label ?? "",
+                })
+                .ToList();
+            return TypedResults.Ok(ToResponse(svc.SetGamepads(id, pads)));
+        }
+        catch (KeyNotFoundException)
+        {
+            return TypedResults.NotFound();
+        }
     }
 
     static Results<Ok<SessionResponse>, NotFound> SetEnabled(
@@ -963,5 +1006,8 @@ public static class SessionEndpoints
         s.Isolated ? s.GetIsolatedUser() : null,
         StreamSessionService.SteamLoginState(s),
         s.RdpDisplayScale, s.RdpComposition,
-        s.ErrorMessage is null ? null : s.FailedPhase);
+        s.ErrorMessage is null ? null : s.FailedPhase,
+        s.Gamepads.Select(g => new SessionGamepadDto(g.UsbPort, g.Label,
+            OpenStreamMS.Core.Helpers.DeviceTopology.IsPortPresent(g.UsbPort))).ToList(),
+        OpenStreamMS.Services.Gamepad.GamepadSessionIsolation.SessionJailSupported);
 }
