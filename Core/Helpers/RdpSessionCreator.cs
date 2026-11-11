@@ -419,6 +419,14 @@ namespace OpenStreamMS.Core.Helpers
                 .Select(s => $"{s.SessionId} ({s.Username})")
                 .ToList();
 
+        /// <summary>
+        /// Sesiones de usuario activas a la vez (WTSActive). En Windows cliente sin nada que lo
+        /// permita solo puede haber una: al entrar otro usuario, la anterior pasa a desconectada.
+        /// </summary>
+        public static int CountActiveUserSessions() =>
+            EnumerateSessions(logSessions: false)
+                .Count(s => s.SessionId != 0 && !string.IsNullOrEmpty(s.Username) && s.State == 0 /* WTSActive */);
+
         /// <summary>Cierra la sesion Windows del usuario (logoff).</summary>
         public static void LogoffSession(uint sessionId)
         {
@@ -1436,7 +1444,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         /// <summary>
         /// Pone fSingleSessionPerUser = 0. Windows lo trae a 1 en todas las ediciones: con 1,
         /// si el usuario del puesto ya tiene una sesión (por ejemplo, la de consola), termsrv
-        /// le devuelve esa en vez de crear otra, aunque TermWrap permita sesiones
+        /// le devuelve esa en vez de crear otra, aunque el equipo permita sesiones
         /// simultáneas (el parche quita el límite de sesiones, no esta opción). Es lo mismo
         /// que la casilla "Single session per user" de RDPConf.
         /// <para>

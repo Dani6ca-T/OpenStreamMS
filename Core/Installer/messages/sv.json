@@ -7,5 +7,8 @@
   "StatusInstallRemoteIdd": "Installera arbetsstationens bildskärmsdrivrutin (RemoteIdd)...",
   "StatusStartService": "Startar tjänsten...",
   "AskPurgeData": "Radera också alla OpenStreamMS-data?%n%nSessioner, lokala arbetsstationer och inställningar; osms--användarna av isolerade sessioner och deras profiler (inklusive spel och inställningar som sparats i dem); stream-profiler, ProgramData\\OpenStreamMS och temporära filer.%n%nOm du svarar Nej, sparas sessioner och inställningar för en ominstallation.",
-  "AskRemoveDeps": "Avinstallera även TermWrap, ViGEmBus och HidHide?%n%nAsvara Nej om andra program använder dem."
+  "AskRemoveDeps": "Avinstallera även ViGEmBus och HidHide?%n%nAsvara Nej om andra program använder dem.",
+  "MultiSessionTitle": "Flera sessioner samtidigt",
+  "MultiSessionSubtitle": "Viktig ändring i den här versionen",
+  "MultiSessionNotice": "OpenStreamMS installerar inte längre TermWrap eller något annat verktyg som tillåter flera Windows-sessioner samtidigt. Om det redan finns ett på den här datorn blir det kvar: OpenStreamMS tar inte bort det.%n%nOfficiellt stöds flera samtidiga Windows-sessioner bara i Windows Server med rollen Värd för fjärrskrivbordssession och RDS-CAL per användare.%n%nI Windows Home eller Pro är det ditt beslut och ditt ansvar att använda ett verktyg från tredje part för detta: Windows licensvillkor kanske inte tillåter det. OpenStreamMS kontrollerar bara om datorn tillåter det."
 }

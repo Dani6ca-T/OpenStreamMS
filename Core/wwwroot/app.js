@@ -839,7 +839,7 @@ function closeModal(id) {
   if (close) close(); else hide(id);
 }
 
-// ── RDP Wrapper ────────────────────────────────────────────────────────────
+// ── Multi-RDP: si el equipo admite varias sesiones a la vez (solo lectura) ──
 let rdpLogTimer = null;
 let rdpLastStatus = null;
 
@@ -853,10 +853,7 @@ async function rdpRefreshPillOnly() {
 
 async function rdpRefresh() {
   await rdpRefreshPillOnly();
-  if (!document.getElementById('rdp-modal').classList.contains('hidden')) {
-    renderRdpStatus(rdpLastStatus);
-    await rdpFetchLog();
-  }
+  if (!document.getElementById('rdp-modal').classList.contains('hidden')) renderRdpStatus(rdpLastStatus);
 }
 
 function updateRdpPill(st) {
@@ -867,12 +864,11 @@ function updateRdpPill(st) {
   pill.classList.remove('status-pill-ok','status-pill-missing','status-pill-broken','status-pill-working','status-pill-warn','status-pill-pending');
 
   const key = rdpStateKey(st);
-  const cls = { working: 'status-pill-working', ok: 'status-pill-ok', pending: 'status-pill-pending',
-                broken: 'status-pill-broken', missing: 'status-pill-missing' }[key];
+  const cls = { ok: 'status-pill-ok', pending: 'status-pill-pending', single: 'status-pill-missing' }[key];
 
   pill.classList.add(cls);
   state.textContent = t(`rdp.state.${key}`);
-  pill.title = key === 'pending' ? rdpPendingText(st) : '';
+  pill.title = key === 'pending' ? t('rdp.pendingNote') : '';
   updateSystemPill();
   renderSessions();
 }
@@ -881,35 +877,22 @@ function renderRdpStatus(st) {
   if (!st) return;
   const badge = document.getElementById('rdp-status-badge');
   const key   = rdpStateKey(st);
-  const cls   = { working: 'badge-starting', ok: 'badge-running', pending: 'badge-pending' }[key] || 'badge-error';
+  const cls   = { ok: 'badge-running', pending: 'badge-pending' }[key] || 'badge-error';
   badge.className = `badge ${cls}`;
   badge.innerHTML = `<span class="badge-dot"></span>${esc(t(`rdp.state.${key}`))}`;
   badge.title = '';
   const note = document.getElementById('rdp-pending-note');
-  note.textContent = key === 'pending' ? rdpPendingText(st) : '';
+  note.textContent = key === 'pending' ? t('rdp.pendingNote') : '';
   note.classList.toggle('hidden', key !== 'pending');
 
-  document.getElementById('rdp-install-dir').textContent = st.installDir     || '—';
-  document.getElementById('rdp-bundle').textContent      =
-    st.wrapper ? `${st.wrapper} ${st.bundleVersion || ''}`.trim() : (st.bundleVersion || '—');
-  document.getElementById('rdp-termsrv').textContent     = st.termsrvVersion || '—';
-  document.getElementById('rdp-service-dll').textContent = st.serviceDllPath || '—';
-
-  document.getElementById('rdp-btn-install').disabled = !!st.busy;
-}
-
-async function rdpFetchLog() {
-  const res = await api('GET', '/api/rdpwrap/log');
-  if (!res || !res.ok) return;
-  const data = await res.json();
-  const box  = document.getElementById('rdp-log-box');
-  if (!data.lines || data.lines.length === 0) {
-    box.innerHTML = `<span class="log-empty">${esc(t('rdp.log.empty'))}</span>`;
-    return;
-  }
-  const wasAtBottom = box.scrollHeight - box.scrollTop <= box.clientHeight + 10;
-  box.textContent = data.lines.join('\n');
-  if (wasAtBottom) box.scrollTop = box.scrollHeight;
+  document.getElementById('rdp-source').textContent   = t(`rdp.source.${st.source || 'none'}`);
+  document.getElementById('rdp-edition').textContent  = st.edition || '—';
+  document.getElementById('rdp-sessions').textContent = String(st.activeSessions ?? '—');
+  document.getElementById('rdp-termsrv').textContent  = st.termsrvVersion || '—';
+  document.getElementById('rdp-licensing-row').classList.toggle('hidden', !st.isServer);
+  document.getElementById('rdp-licensing').textContent = st.isServer
+    ? `${t(st.sessionHostRole ? 'rdp.rdsh.yes' : 'rdp.rdsh.no')} · ${t(`rdp.licensing.${st.licensingMode || 'notConfigured'}`)}`
+    : '—';
 }
 
 function openRdpModal() {
@@ -926,28 +909,18 @@ function closeRdpModal() {
   rdpLogTimer = null;
 }
 
-async function rdpInstall() {
-  if (!await ask(t('rdp.confirm.install'), { ok: t('rdp.btn.install') })) return;
-  const res = await api('POST', '/api/rdpwrap/install');
-  if (!res) return;
-  if (!res.ok) { toast(await I18n.responseError(res), true); return; }
-  rdpRefresh();
-}
-
-// Estado del multi-RDP. "pending": instalado pero TermService aún no lo ha cargado. Es lo
-// normal recién instalado (TermService parado hasta la primera conexión, o con la DLL anterior
-// hasta reiniciar Windows): no es un fallo. "broken": ServiceDll apunta a un wrapper cuyos
-// ficheros faltan.
+// Estado del multi-RDP: "ok" si el equipo admite varias sesiones a la vez (Windows Server con
+// RDS, Enterprise multisesión o lo que haya instalado el usuario); "pending" si está configurado
+// pero el servicio de Escritorio remoto aún no lo ha cargado; "single" si solo admite una.
 function rdpStateKey(st) {
-  if (st.busy)      return 'working';
-  if (st.installed) return 'ok';
-  if (st.pending)   return 'pending';
-  if (st.wrapper)   return 'broken';
-  return 'missing';
+  if (st.allowed) return 'ok';
+  if (st.pending) return 'pending';
+  return 'single';
 }
 
-function rdpPendingText(st) {
-  return t(st.loaded === false ? 'rdp.pendingReboot' : 'rdp.pendingFirstUse');
+// Estado para las listas de componentes (primeros pasos y guía).
+function rdpDepState(st) {
+  return !st ? 'checking' : st.allowed ? 'ok' : st.pending ? 'activates' : 'single';
 }
 
 // ── Sunshine management (proxied through OpenStreamMS) ────────────────────
@@ -1759,9 +1732,9 @@ function errorBox(s) { return errorBoxHtml(s); }
 function rdpWarning(s) {
   if (s.local || !rdpLastStatus) return '';
   const key = rdpStateKey(rdpLastStatus);
-  if (key !== 'missing' && key !== 'broken') return '';
+  if (key !== 'single') return '';
   return `<div class="card-warning card-warning-action">
-      <span>${esc(t(key === 'broken' ? 'ux.rdpBroken' : 'ux.rdpMissing'))}</span>
+      <span>${esc(t('ux.rdpMissing'))}</span>
       <button type="button" class="btn btn-ghost btn-xs" onclick="openRdpModal()">${esc(t('ux.review'))}</button>
     </div>`;
 }
@@ -1884,16 +1857,16 @@ function onboardingHtml() {
     { name: 'ViGEmBus',    st: drivers.vigem.lastStatus,   open: "openDriverModal('vigem')" },
     { name: 'HidHide',     st: drivers.hidhide.lastStatus, open: "openDriverModal('hidhide')" },
   ];
-  const depState = d => !d.st ? 'checking' : d.st.busy ? 'working' : d.st.rebootRequired ? 'reboot'
-                     : d.st.installed ? 'ok' : d.rdp && d.st.pending ? 'activates'
-                     : d.rdp && d.st.wrapper ? 'broken' : 'missing';
+  const depState = d => d.rdp ? rdpDepState(d.st)
+                     : !d.st ? 'checking' : d.st.busy ? 'working' : d.st.rebootRequired ? 'reboot'
+                     : d.st.installed ? 'ok' : 'missing';
   const depsOk = deps.every(d => ['ok', 'activates'].includes(depState(d)));
   const depRow = d => {
     const state = depState(d);
-    return `<li class="dep-line dep-${state}" ${state === 'activates' ? `title="${esc(rdpPendingText(d.st))}"` : ''}>
+    return `<li class="dep-line dep-${state}" ${state === 'activates' ? `title="${esc(t('rdp.pendingNote'))}"` : ''}>
         <span class="dep-dot"></span><span>${esc(d.name)}</span>
         <span class="dep-state">${esc(t('ux.dep.' + state))}</span>
-        ${['missing', 'broken', 'reboot'].includes(state)
+        ${['missing', 'broken', 'reboot', 'single'].includes(state)
           ? `<button type="button" class="btn btn-ghost btn-xs" onclick="${d.open}">${esc(t(state === 'missing' ? 'ux.install' : 'ux.review'))}</button>` : ''}
       </li>`;
   };

@@ -5,105 +5,83 @@ using OpenStreamMS.Services.Localization;
 namespace OpenStreamMS.Services.Session;
 
 /// <summary>
-/// Estado del multi-RDP (TermWrap) en la máquina.
+/// Si el equipo admite varias sesiones de Windows a la vez. OpenStreamMS no instala ni configura
+/// nada para conseguirlo: solo mira si el equipo ya lo permite.
 /// </summary>
 public record RdpWrapperStatus(
-    /// <summary>true si ServiceDll apunta a un wrapper conocido, el archivo existe y TermService lo tiene cargado.</summary>
-    bool    Installed,
+    /// <summary>true si el equipo admite varias sesiones a la vez (verde en el panel).</summary>
+    bool    Allowed,
     /// <summary>
-    /// Wrapper al que apunta ServiceDll: <c>"TermWrap"</c>, <c>"asmtron"</c> (instalación antigua:
-    /// el arranque de OpenStreamMS lo cambia a TermWrap) o null si es el termsrv.dll de Windows u otro.
+    /// Por qué: <c>"server"</c> (Windows Server con Host de sesión de Escritorio remoto),
+    /// <c>"multiSessionEdition"</c> (Windows Enterprise multisesión), <c>"thirdParty"</c> (el
+    /// servicio de Escritorio remoto usa otro componente instalado por el usuario),
+    /// <c>"observed"</c> (ahora mismo hay varias sesiones activas) o null.
     /// </summary>
-    string? Wrapper,
-    /// <summary>true si la DLL del wrapper está cargada en el proceso de TermService; null si no se pudo comprobar.</summary>
-    bool?   Loaded,
+    string? Source,
     /// <summary>
-    /// Instalado pero aún sin cargar: TermService está parado (en Windows cliente arranca con la
-    /// primera conexión RDP) o sigue con la DLL anterior hasta reiniciar Windows. Es lo normal
-    /// justo después de instalar; no es un fallo.
+    /// El componente del usuario está configurado pero el servicio de Escritorio remoto aún no lo
+    /// ha cargado (se carga con la primera conexión o al reiniciar Windows).
     /// </summary>
     bool    Pending,
+    /// <summary>true en Windows Server.</summary>
+    bool    IsServer,
+    /// <summary>Windows Server con el rol Host de sesión de Escritorio remoto. Null fuera de Server.</summary>
+    bool?   SessionHostRole,
+    /// <summary>Modo de licencias RDS: <c>"perUser"</c>, <c>"perDevice"</c>, <c>"notConfigured"</c> o null.</summary>
+    string? LicensingMode,
+    /// <summary>Sesiones de usuario activas ahora mismo.</summary>
+    int     ActiveSessions,
+    /// <summary>Edición de Windows (EditionID del registro).</summary>
+    string? Edition,
     /// <summary>true si RDP-Tcp pasa por el proveedor de RemoteIdd (captura remoteidd disponible).</summary>
     bool    RemoteIdd,
-    /// <summary>Directorio canónico de instalación (<c>%ProgramFiles%\RDP Wrapper</c>).</summary>
-    string  InstallDir,
-    /// <summary>Versión de TermWrap.dll. Null si ServiceDll no apunta a TermWrap.</summary>
-    string? BundleVersion,
     /// <summary>Versión de <c>termsrv.dll</c> del sistema (file version).</summary>
-    string? TermsrvVersion,
-    /// <summary>Valor actual del registro <c>ServiceDll</c> de TermService.</summary>
-    string? ServiceDllPath,
-    /// <summary>true si hay una operación en curso (instalar/reparar).</summary>
-    bool    Busy,
-    /// <summary>Última acción ejecutada (texto corto para mostrar).</summary>
-    string? LastAction);
+    string? TermsrvVersion);
 
 /// <summary>
-/// Multi-RDP con TermWrap (llccd) como única opción: varias sesiones RDP en Windows cliente,
-/// Home incluido, y el parche IsAllowNonRDPStack que necesita el proveedor de RemoteIdd. Ya no
-/// se usa el RDP Wrapper de asmtron: si una instalación antigua lo tiene puesto, el arranque lo
-/// cambia a TermWrap y desactiva su tarea de autoupdate. Ver <see cref="TermWrapInstaller"/>.
+/// Multi-RDP: varias sesiones de Windows a la vez. Oficialmente es Windows Server con el rol Host
+/// de sesión de Escritorio remoto y CAL de RDS. En Windows cliente (Home/Pro) depende de lo que
+/// el usuario haya instalado por su cuenta y bajo su responsabilidad; OpenStreamMS no instala,
+/// cambia ni quita nada de eso.
 /// </summary>
 public sealed class RdpWrapperManager
 {
-    private const int MaxLogLines = 500;
-
-    private readonly string _installDir = TermWrapInstaller.InstallDir;
-
-    private readonly object _sync = new();
-    private readonly List<string> _log = new();
-    private volatile bool   _busy;
-    private          string? _lastAction;
-
-    // ── API pública ──────────────────────────────────────────────────────────
-
-    public bool IsBusy => _busy;
+    private const string StockServiceDll = @"%SystemRoot%\System32\termsrv.dll";
 
     public RdpWrapperStatus GetStatus()
     {
-        var serviceDll = ReadServiceDll();
-        var wrapper = Path.GetFileName(serviceDll ?? "").ToLowerInvariant() switch
-        {
-            "termwrap.dll" => "TermWrap",
-            "rdpwrap.dll"  => "asmtron",
-            _              => null,
-        };
-        var filesOk = wrapper is not null && File.Exists(serviceDll);
-        var loaded  = wrapper is null ? null : IsLoadedInTermService(serviceDll!);
+        var isServer = IsServer();
+        var edition  = ReadEdition();
+        var rdsh     = isServer ? IsSessionHostInstalled() : (bool?)null;
+        var thirdParty = !isServer && !IsStockServiceDll(ReadServiceDll());
+        var loaded   = thirdParty ? IsServiceDllLoaded() : null;
+        var active   = SafeCountActiveSessions();
+
+        string? source =
+            rdsh == true                                                             ? "server" :
+            string.Equals(edition, "ServerRdsh", StringComparison.OrdinalIgnoreCase) ? "multiSessionEdition" :
+            thirdParty                                                               ? "thirdParty" :
+            active >= 2                                                              ? "observed" :
+            null;
+        // Componente del usuario configurado pero sin cargar: TermService parado (en Windows
+        // cliente arranca con la primera conexión) o con la DLL anterior hasta reiniciar. Si ya
+        // hay varias sesiones activas, funciona aunque no se haya podido mirar.
+        var pending = source == "thirdParty" && loaded != true && active < 2;
 
         return new RdpWrapperStatus(
-            Installed:     filesOk && loaded == true,
-            Wrapper:       wrapper,
-            Loaded:        loaded,
-            Pending:       filesOk && loaded != true,
-            RemoteIdd:     IsRemoteIddActive(),
-            InstallDir:    _installDir,
-            BundleVersion: wrapper == "TermWrap" ? ReadFileVersion(serviceDll!) : null,
-            TermsrvVersion:ReadTermsrvVersion(),
-            ServiceDllPath:serviceDll,
-            Busy:          _busy,
-            LastAction:    _lastAction);
+            Allowed:         source is not null && !pending,
+            Source:          source,
+            Pending:         pending,
+            IsServer:        isServer,
+            SessionHostRole: rdsh,
+            LicensingMode:   isServer ? ReadLicensingMode() : null,
+            ActiveSessions:  active,
+            Edition:         edition,
+            RemoteIdd:       IsRemoteIddActive(),
+            TermsrvVersion:  ReadTermsrvVersion());
     }
 
-    public string[] GetLog()
-    {
-        lock (_sync) return _log.ToArray();
-    }
-
-    /// <summary>Instala o repara TermWrap: ficheros con su hash, ServiceDll y TermService.</summary>
-    public Task InstallAsync(CancellationToken ct = default) =>
-        RunExclusiveAsync("install", async () =>
-        {
-            await TermWrapInstaller.EnsureFilesAsync(AppendLog, ct);
-            TermWrapInstaller.DisableAsmtronAutoupdate(AppendLog);
-            TermWrapInstaller.PointServiceDll(AppendLog);
-            if (GetStatus().Loaded != true) ApplyTermServiceChange();
-            AppendLog(GetStatus().Installed
-                ? "✓ Multi-RDP (TermWrap) instalado y activo."
-                : "✗ TermWrap aún no está cargado: se cargará al reiniciar el equipo.");
-        });
-
-    // ── Arranque: TermWrap y RemoteIdd ───────────────────────────────────────
+    // ── Arranque: RemoteIdd ──────────────────────────────────────────────────
 
     /// <summary>Proveedor de protocolo de RemoteIdd (Native/RemoteIdd/Provider/install.ps1).</summary>
     public const string RemoteIddProviderClsid = "{8B0F3C51-2D7A-4F6E-A1C9-5E4D2B7F0A36}";
@@ -123,10 +101,11 @@ public sealed class RdpWrapperManager
     }
 
     /// <summary>
-    /// Al arrancar, antes de levantar puestos: pone TermWrap como multi-RDP si ServiceDll apunta a
-    /// otra cosa, y si RemoteIdd está puesto pero TermWrap no funciona (no cargado o un Windows
-    /// Update rompió sus parches y RDP-Tcp no escucha) quita RemoteIdd de RDP-Tcp. Los puestos con
-    /// captura remoteidd arrancan entonces con la captura de siempre. Para volver a RemoteIdd: install.ps1.
+    /// Al arrancar, antes de levantar puestos: deja en el log si el equipo admite varias sesiones
+    /// y, si RemoteIdd está puesto en RDP-Tcp pero RDP-Tcp no escucha (Windows cliente sin nada
+    /// que admita su proveedor, o un Windows Update que lo rompió), quita RemoteIdd de RDP-Tcp
+    /// para no dejar el equipo sin Escritorio remoto. Los puestos con captura remoteidd arrancan
+    /// entonces con la captura de siempre. Para volver a RemoteIdd: install.ps1.
     /// </summary>
     public void EnsureMultiRdp(CancellationToken ct)
     {
@@ -146,8 +125,8 @@ public sealed class RdpWrapperManager
 
     /// <summary>
     /// RemoteIdd instalado después de que arrancara TermService: install.ps1 no reinicia TermService
-    /// (se quedaba colgado al pararse), así que TermWrap y el proveedor entran al reiniciar el
-    /// equipo. Mientras tanto no está roto, está pendiente: ni se usa ni se deshace.
+    /// (se quedaba colgado al pararse), así que el proveedor entra al reiniciar el equipo. Mientras
+    /// tanto no está roto, está pendiente: ni se usa ni se deshace.
     /// </summary>
     public static bool IsRemoteIddPendingRestart()
     {
@@ -169,66 +148,44 @@ public sealed class RdpWrapperManager
 
     private void EnsureMultiRdpCore(CancellationToken ct)
     {
-        EnsureTermWrap(ct);
+        var st = GetStatus();
+        if (st.Allowed)
+            Logger.Log($"[MultiRdp] Varias sesiones a la vez: sí ({st.Source}). Estado: {st}");
+        else if (st.Pending)
+            Logger.Warning($"[MultiRdp] Varias sesiones a la vez: pendiente de que se cargue el servicio de Escritorio remoto. Estado: {st}");
+        else
+            Logger.Warning($"[MultiRdp] Este equipo no admite varias sesiones a la vez: solo funciona una sesión RDP. Estado: {st}");
+
         if (!IsRemoteIddActive()) return;
         if (IsRemoteIddPendingRestart())
         {
-            Logger.Error("[RdpWrap] RemoteIdd instalado y pendiente de reiniciar el equipo: hasta entonces los " +
+            Logger.Error("[MultiRdp] RemoteIdd instalado y pendiente de reiniciar el equipo: hasta entonces los " +
                          "puestos usan la captura de siempre.");
             return;
         }
         // En el arranque del PC TermService puede tardar en abrir el listener.
         var deadline = DateTime.UtcNow.AddSeconds(60);
         string? problem;
-        while ((problem = TermWrapProblem()) is not null && DateTime.UtcNow < deadline && !ct.IsCancellationRequested)
+        while ((problem = RemoteIddProblem()) is not null && DateTime.UtcNow < deadline && !ct.IsCancellationRequested)
             Thread.Sleep(2000);
         if (problem is null)
         {
-            Logger.Log("[RdpWrap] TermWrap activo y RDP-Tcp escuchando: RemoteIdd disponible.");
+            Logger.Log("[MultiRdp] RDP-Tcp escuchando con el proveedor de RemoteIdd: RemoteIdd disponible.");
             return;
         }
-        Logger.Error($"[RdpWrap] RemoteIdd sin TermWrap funcional ({problem}). Se quita RemoteIdd de RDP-Tcp; el multi-RDP sigue siendo TermWrap.");
+        Logger.Error($"[MultiRdp] RemoteIdd sin funcionar ({problem}). Se quita RemoteIdd de RDP-Tcp.");
         LeaveRemoteIdd();
         ApplyTermServiceChange();
-        Logger.Log($"[RdpWrap] RemoteIdd fuera de RDP-Tcp. Estado: {GetStatus()}");
+        Logger.Log($"[MultiRdp] RemoteIdd fuera de RDP-Tcp. Estado: {GetStatus()}");
     }
 
-    /// <summary>
-    /// Si ServiceDll apunta a otra cosa (termsrv.dll de Windows, rdpwrap.dll de asmtron de una
-    /// instalación antigua, o un Windows Update que lo cambió) se vuelve a poner TermWrap,
-    /// descargándolo si faltan sus ficheros.
-    /// </summary>
-    private void EnsureTermWrap(CancellationToken ct)
-    {
-        try
-        {
-            var st = GetStatus();
-            if (st.Wrapper == "TermWrap" && TermWrapInstaller.FilesOk())
-            {
-                if (st.Loaded != true)
-                    Logger.Warning("[RdpWrap] TermWrap puesto pero no cargado en TermService (se cargará al reiniciarlo).");
-                return;
-            }
-            Logger.Log($"[RdpWrap] Multi-RDP: ServiceDll = {st.ServiceDllPath}; se pone TermWrap.");
-            TermWrapInstaller.EnsureFilesAsync(AppendLog, ct).GetAwaiter().GetResult();
-            TermWrapInstaller.DisableAsmtronAutoupdate(AppendLog);
-            if (TermWrapInstaller.PointServiceDll(AppendLog) || GetStatus().Loaded != true)
-                ApplyTermServiceChange();
-            Logger.Log($"[RdpWrap] Multi-RDP con TermWrap. Estado: {GetStatus()}");
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(BackendText.Get("rdpwrap.failedToSetTermWrap", ex.Message));
-        }
-    }
-
-    /// <summary>Null si TermWrap está cargado y RDP-Tcp escucha; si no, el motivo.</summary>
-    private string? TermWrapProblem()
+    /// <summary>Null si el equipo admite varias sesiones y RDP-Tcp escucha; si no, el motivo.</summary>
+    private string? RemoteIddProblem()
     {
         var st = GetStatus();
-        if (st.Wrapper != "TermWrap") return BackendText.Get("rdpwrap.serviceDllMismatch", st.ServiceDllPath);
-        if (st.Loaded != true)        return BackendText.Get("rdpwrap.termwrapNotLoaded");
-        if (!IsRdpTcpListening())     return BackendText.Get("rdpwrap.rdpTcpNotListening");
+        if (st.Pending)           return BackendText.Get("rdpwrap.notLoaded");
+        if (!st.Allowed)          return BackendText.Get("rdpwrap.singleSession");
+        if (!IsRdpTcpListening()) return BackendText.Get("rdpwrap.rdpTcpNotListening");
         return null;
     }
 
@@ -247,17 +204,16 @@ public sealed class RdpWrapperManager
 
     /// <summary>
     /// Quita el proveedor de RemoteIdd de RDP-Tcp. El driver y la DLL del proveedor se quedan
-    /// instalados; uninstall.ps1 los quita. Las tareas de autoupdate de asmtron que install.ps1
-    /// desactivó siguen desactivadas: reactivarlas volvería a poner rdpwrap.dll al arrancar.
+    /// instalados; uninstall.ps1 los quita.
     /// </summary>
-    private void LeaveRemoteIdd()
+    private static void LeaveRemoteIdd()
     {
         using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(RdpTcpKey, writable: true);
         if (key is null) return;
         var inner = key.GetValue("OsmsInnerProtocol_Object") as string;
         if (string.IsNullOrWhiteSpace(inner)) inner = RdpCoreTsClsid;
         key.SetValue("LoadableProtocol_Object", inner, Microsoft.Win32.RegistryValueKind.String);
-        AppendLog($"RDP-Tcp devuelto a {inner} (RemoteIdd fuera).");
+        Logger.Log($"[MultiRdp] RDP-Tcp devuelto a {inner} (RemoteIdd fuera).");
     }
 
     /// <summary>
@@ -265,19 +221,14 @@ public sealed class RdpWrapperManager
     /// abiertas: pararlo así puede dejarlo a medias (StopPending) y colgar el apagado. Entonces el
     /// cambio queda en el registro y se aplica en el próximo arranque del equipo.
     /// </summary>
-    private void ApplyTermServiceChange()
+    private static void ApplyTermServiceChange()
     {
         var live = OpenStreamMS.Core.Helpers.RdpSessionCreator.DescribeNonConsoleUserSessions();
         if (live.Count > 0)
         {
-            AppendLog(BackendText.Get("rdpwrap.openSessionsPreventRestart", string.Join(", ", live)));
+            Logger.Log("[MultiRdp] " + BackendText.Get("rdpwrap.openSessionsPreventRestart", string.Join(", ", live)));
             return;
         }
-        RestartTermService();
-    }
-
-    private void RestartTermService()
-    {
         using var sc = new System.ServiceProcess.ServiceController("TermService");
         if (sc.Status != System.ServiceProcess.ServiceControllerStatus.Stopped)
         {
@@ -286,48 +237,62 @@ public sealed class RdpWrapperManager
         }
         sc.Start();
         sc.WaitForStatus(System.ServiceProcess.ServiceControllerStatus.Running, TimeSpan.FromSeconds(60));
-        AppendLog(BackendText.Get("rdpwrap.termServiceRestarted"));
+        Logger.Log("[MultiRdp] " + BackendText.Get("rdpwrap.termServiceRestarted"));
     }
 
-    // ── Implementación interna ───────────────────────────────────────────────
+    // ── Detección ────────────────────────────────────────────────────────────
 
-    private async Task RunExclusiveAsync(string action, Func<Task> work)
+    /// <summary>ProductType del registro: WinNT es Windows cliente; ServerNT y LanmanNT, Server.</summary>
+    private static bool IsServer()
     {
-        lock (_sync)
-        {
-            if (_busy) throw new InvalidOperationException(BackendText.Get("rdpwrap.multiRdpBusy"));
-            _busy       = true;
-            _lastAction = action;
-            _log.Clear();
-        }
-        AppendLog(BackendText.Get("rdpwrap.log.start", action, DateTime.Now.ToString("HH:mm:ss")));
         try
         {
-            await work();
+            using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\ProductOptions");
+            var type = key?.GetValue("ProductType") as string;
+            return type is not null && !type.Equals("WinNT", StringComparison.OrdinalIgnoreCase);
         }
-        catch (Exception ex)
-        {
-            AppendLog($"ERROR: {ex.Message}");
-            Logger.Error($"[RdpWrap] Error en {action}: {ex}");
-        }
-        finally
-        {
-            AppendLog(BackendText.Get("rdpwrap.log.end", action, DateTime.Now.ToString("HH:mm:ss")));
-            _busy = false;
-        }
+        catch { return false; }
     }
 
-    private void AppendLog(string line)
+    private static string? ReadEdition()
     {
-        lock (_sync)
+        try
         {
-            _log.Add($"[{DateTime.Now:HH:mm:ss}] {line}");
-            if (_log.Count > MaxLogLines) _log.RemoveRange(0, _log.Count - MaxLogLines);
+            using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+            return key?.GetValue("EditionID") as string;
         }
-        Logger.Log($"[RdpWrap] {line}");
+        catch { return null; }
     }
 
-    // ── Detección de estado ──────────────────────────────────────────────────
+    /// <summary>
+    /// Rol Host de sesión de Escritorio remoto: con él, TSAppCompat = 1. Sin el rol, Windows Server
+    /// solo admite dos sesiones de administración.
+    /// </summary>
+    private static bool IsSessionHostInstalled()
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Terminal Server");
+            return key?.GetValue("TSAppCompat") is int v && v == 1;
+        }
+        catch { return false; }
+    }
+
+    /// <summary>Modo de licencias RDS: primero la directiva de grupo, luego la configuración local.</summary>
+    private static string? ReadLicensingMode()
+    {
+        int? mode = null;
+        try
+        {
+            using (var gpo = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"))
+                if (gpo?.GetValue("LicensingMode") is int g) mode = g;
+            if (mode is null)
+                using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Terminal Server\RCM\Licensing Core"))
+                    if (key?.GetValue("LicensingMode") is int l) mode = l;
+        }
+        catch { }
+        return mode switch { 2 => "perDevice", 4 => "perUser", null => null, _ => "notConfigured" };
+    }
 
     private static string? ReadServiceDll()
     {
@@ -335,29 +300,46 @@ public sealed class RdpWrapperManager
         {
             using var key = Microsoft.Win32.Registry.LocalMachine
                 .OpenSubKey(@"SYSTEM\CurrentControlSet\Services\TermService\Parameters");
-            return key?.GetValue("ServiceDll") as string;
+            return key?.GetValue("ServiceDll", null, Microsoft.Win32.RegistryValueOptions.DoNotExpandEnvironmentNames) as string;
         }
         catch { return null; }
     }
 
+    private static bool IsStockServiceDll(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return true;
+        var full  = Environment.ExpandEnvironmentVariables(value);
+        var stock = Environment.ExpandEnvironmentVariables(StockServiceDll);
+        return string.Equals(Path.GetFullPath(full), Path.GetFullPath(stock), StringComparison.OrdinalIgnoreCase);
+    }
+
     /// <summary>
-    /// Mira si la DLL está en los módulos del svchost de TermService. Que ServiceDll apunte a ella
-    /// no basta: hasta el siguiente reinicio del servicio sigue cargada la anterior. Null si
-    /// TermService está parado o no se puede leer el proceso.
+    /// Mira si la DLL de ServiceDll está en los módulos del svchost de TermService: que el
+    /// registro apunte a ella no basta, hasta reiniciar el servicio sigue cargada la anterior.
+    /// Null si TermService está parado o no se puede leer el proceso.
     /// </summary>
-    private static bool? IsLoadedInTermService(string dllPath)
+    private static bool? IsServiceDllLoaded()
     {
         try
         {
+            var value = ReadServiceDll();
+            if (value is null) return null;
+            var dll = Path.GetFullPath(Environment.ExpandEnvironmentVariables(value));
             var pid = GetServicePid("TermService");
             if (pid == 0) return null;
             using var p = Process.GetProcessById((int)pid);
             foreach (ProcessModule m in p.Modules)
-                if (string.Equals(m.FileName, dllPath, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(m.FileName, dll, StringComparison.OrdinalIgnoreCase))
                     return true;
             return false;
         }
         catch { return null; }
+    }
+
+    private static int SafeCountActiveSessions()
+    {
+        try { return OpenStreamMS.Core.Helpers.RdpSessionCreator.CountActiveUserSessions(); }
+        catch { return 0; }
     }
 
     private static uint GetServicePid(string name)
@@ -391,12 +373,6 @@ public sealed class RdpWrapperManager
     private static extern bool QueryServiceStatusEx(IntPtr svc, int infoLevel, byte[] buffer, int size, out int needed);
     [System.Runtime.InteropServices.DllImport("advapi32.dll")]
     private static extern bool CloseServiceHandle(IntPtr h);
-
-    private static string? ReadFileVersion(string path)
-    {
-        try { return File.Exists(path) ? FileVersionInfo.GetVersionInfo(path).FileVersion : null; }
-        catch { return null; }
-    }
 
     private static string? ReadTermsrvVersion()
     {

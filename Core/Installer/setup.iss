@@ -191,12 +191,21 @@ var
 //  - Borrar todos los datos: sesiones, puestos y configuración de {app}, y lo que OpenStreamMS
 //    deja fuera (usuarios osms- y sus perfiles, carpetas _OpenStreamMS_Stream,
 //    %ProgramData%\OpenStreamMS, registro y temporales). Si no, se conservan para reinstalar.
-//  - Quitar también TermWrap, ViGEmBus y HidHide (otras aplicaciones pueden usarlos).
+//  - Quitar también ViGEmBus y HidHide (otras aplicaciones pueden usarlos). El multi-RDP no:
+//    OpenStreamMS no lo instala, así que tampoco lo quita.
 // Texto de [CustomMessages] con los %n convertidos en saltos de línea.
 function Msg(const Name: String): String;
 begin
   Result := CustomMessage(Name);
   StringChangeEx(Result, '%n', #13#10, True);
+end;
+
+// Aviso tras la bienvenida: OpenStreamMS ya no instala nada para tener varias sesiones a la vez;
+// la vía oficial es Windows Server con RDS y CAL, y lo demás es responsabilidad del usuario.
+procedure InitializeWizard();
+begin
+  CreateOutputMsgPage(wpWelcome, CustomMessage('MultiSessionTitle'), CustomMessage('MultiSessionSubtitle'),
+    Msg('MultiSessionNotice'));
 end;
 
 function InitializeUninstall(): Boolean;

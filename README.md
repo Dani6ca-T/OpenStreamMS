@@ -68,10 +68,15 @@ Each session serves Moonlight apps, Samsung TVs running Moonlight WebRTC, or bot
 ## 🚀 Quick start
 
 1. **Download** `OpenStreamMS-Setup-x.x.x.exe` from [Releases](https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases/latest).
-2. **Install** it as Administrator. It sets up the service, the tray icon and everything it needs (TermWrap, ViGEmBus, HidHide).
+2. **Install** it as Administrator. It sets up the service, the tray icon and the drivers it needs (ViGEmBus, HidHide).
 3. **Open OpenStreamMS** from the Start menu, create your admin account and follow the built-in guide to your first session.
 
 Then add the PC in Moonlight (or on your TV) — **Connect** in the dashboard shows the name, addresses and ports to use.
+
+> [!IMPORTANT]
+> **Several sessions at once.** Officially, several Windows sessions at the same time are only supported on **Windows Server with the Remote Desktop Session Host role and RDS user CALs**.
+> OpenStreamMS does **not** install or configure anything to allow several sessions on Windows Home or Pro (it used to install TermWrap; it no longer does). If you use a third-party tool for that, it is **your decision and your responsibility**: it may not be permitted by the Windows license terms.
+> OpenStreamMS only checks whether the PC allows it: the **Multi-RDP** indicator turns green when it does.
 
 ---
 
@@ -124,7 +129,7 @@ Then add the PC in Moonlight (or on your TV) — **Connect** in the dashboard sh
 To uninstall, use **Apps & Features** → *OpenStreamMS* → Uninstall. It asks two questions:
 
 - **Delete all data?** Yes removes sessions, seats and settings, the isolated `osms-…` users with their profiles (including games and settings stored in them), stream profiles, `%ProgramData%\OpenStreamMS` and temporary files. No keeps sessions and settings for a reinstall.
-- **Also uninstall TermWrap, ViGEmBus and HidHide?** Answer No if other applications use them.
+- **Also uninstall ViGEmBus and HidHide?** Answer No if other applications use them. Whatever allows several sessions on the PC is not touched: OpenStreamMS did not install it.
 
 Silent uninstall: `unins000.exe /VERYSILENT [/PURGEDATA] [/REMOVEDEPS]`.
 
@@ -421,4 +426,4 @@ The bundled Sunshine (GPL-3.0) and FreeRDP (Apache-2.0) binaries keep their own 
 "MS" stands for *Multi-Seat*. OpenStreamMS is an independent project, not affiliated with or endorsed by Microsoft. Windows is a trademark of Microsoft Corporation.
 
 > [!IMPORTANT]
-> On Windows client editions (Home/Pro), concurrent sessions and local seats rely on [TermWrap](https://github.com/llccd/TermWrap), which patches `termsrv`. This is not permitted by the Windows license terms; using it is each user's decision and responsibility. The supported way to run multiple concurrent sessions is Windows Server with RDS CALs.
+> The official way to run several Windows sessions at once is Windows Server with the Remote Desktop Session Host role and RDS user CALs. OpenStreamMS does not install, bundle or configure any tool that patches `termsrv` or otherwise enables concurrent sessions on Windows client editions (Home/Pro). Using such a tool is each user's decision and responsibility, and it may not be permitted by the Windows license terms.

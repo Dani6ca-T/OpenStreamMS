@@ -21,7 +21,7 @@ namespace OpenStreamMS.Core.Helpers;
 
 /// <summary>
 /// Paquete de diagnóstico (.zip) para depurar un equipo ajeno: datos del equipo y de Windows
-/// (versión y compilación), estado de OpenStreamMS (RDP Wrapper, RemoteIdd, drivers, sesiones,
+/// (versión y compilación), estado de OpenStreamMS (multi-RDP, RemoteIdd, drivers, sesiones,
 /// puestos), sus logs y los de cada Sunshine (también el de la ejecución anterior, que Sunshine
 /// rota a <c>sunshine.log.1</c> al arrancar) y los errores del registro de eventos de Windows.
 /// <para>
@@ -279,7 +279,7 @@ internal static partial class DiagnosticsBundle
         root["remoteIddActive"] = RdpWrapperManager.IsRemoteIddActive();
         root["remoteIddPendingRestart"] = RdpWrapperManager.IsRemoteIddPendingRestart();
         root["remoteIddUsable"] = RdpWrapperManager.IsRemoteIddUsable();
-        summary.AppendLine($"Multi-RDP:     {rdpStatus.Wrapper ?? "ninguno"} (cargado: {rdpStatus.Loaded?.ToString() ?? "?"}, termsrv {rdpStatus.TermsrvVersion})");
+        summary.AppendLine($"Multi-RDP:     {(rdpStatus.Allowed ? $"sí ({rdpStatus.Source})" : rdpStatus.Pending ? "pendiente de cargar" : "no, una sola sesión")} (sesiones activas: {rdpStatus.ActiveSessions}, {rdpStatus.Edition}, termsrv {rdpStatus.TermsrvVersion})");
         summary.AppendLine($"RemoteIdd:     {(RdpWrapperManager.IsRemoteIddUsable() ? "en uso" : RdpWrapperManager.IsRemoteIddActive() ? "instalado, pendiente de reinicio" : "no")}");
 
         var drivers = new JsonObject();
@@ -343,8 +343,7 @@ internal static partial class DiagnosticsBundle
                                                                            f.EndsWith(".json", StringComparison.OrdinalIgnoreCase)))
                 TryAddFile(zip, $"programdata/{Path.GetFileName(f)}", f, redact, errors);
 
-        // Registros en memoria de las instalaciones (RDP Wrapper, ViGEmBus, HidHide).
-        if (src.RdpWrapper is { } rdp) AddText(zip, "logs/rdpwrapper-operations.log", string.Join('\n', rdp.GetLog()), redact);
+        // Registros en memoria de las instalaciones (ViGEmBus, HidHide).
         foreach (var d in src.Drivers ?? [])
             AddText(zip, $"logs/{d.Name.ToLowerInvariant()}-operations.log", string.Join('\n', d.GetLog()), redact);
     }
@@ -420,7 +419,7 @@ internal static partial class DiagnosticsBundle
           - 00-summary.txt: Windows version and build, OpenStreamMS version, drivers, sessions.
           - system.txt, services.txt, rdp-registry.txt, windows-sessions.txt, processes.txt,
             listening-ports.txt, pnputil-*.txt: PC hardware, Windows and driver information.
-          - openstreamms.json: state of OpenStreamMS (RDP Wrapper, RemoteIdd, drivers, sessions, seats).
+          - openstreamms.json: state of OpenStreamMS (multi-RDP, RemoteIdd, drivers, sessions, seats).
           - logs/, sunshine/, programdata/: OpenStreamMS logs and each Sunshine log, including
             the previous run (sunshine.log.1).
           - events/: Windows Event Log errors and warnings from the last {days} day(s).

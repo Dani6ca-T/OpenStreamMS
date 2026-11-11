@@ -7,5 +7,8 @@
   "StatusInstallRemoteIdd": "A munkaállomás kijelző-illesztőprogramjának telepítése (RemoteIdd)...",
   "StatusStartService": "A szolgáltatás indítása...",
   "AskPurgeData": "Töröl továbbá minden OpenStreamMS adatot?%n%nSessions, helyi munkaállomások és beállítások; az elszigetelt munkamenetek osms- felhasználói és profiljaik (beleértve a bennük elmentett játékokat és beállításokat); streamprofilok, ProgramData\\OpenStreamMS és ideiglenes fájlok.%n%nHa nemmel válaszol, a munkamenetek és a beállítások megmaradnak az újratelepítéshez.",
-  "AskRemoveDeps": "Távolítsa el a TermWrap, ViGEmBus és HidHide?%n%nA elemeket is. Nem, ha más alkalmazások használják őket."
+  "AskRemoveDeps": "Távolítsa el a ViGEmBus és HidHide?%n%nA elemeket is. Nem, ha más alkalmazások használják őket.",
+  "MultiSessionTitle": "Több munkamenet egyszerre",
+  "MultiSessionSubtitle": "Fontos változás ebben a verzióban",
+  "MultiSessionNotice": "Az OpenStreamMS már nem telepíti a TermWrapet vagy más eszközt, amely egyszerre több Windows-munkamenetet tesz lehetővé. Ha ezen a gépen már van ilyen, megmarad: az OpenStreamMS nem távolítja el.%n%nHivatalosan egyszerre több Windows-munkamenet csak Windows Serveren támogatott, a Távoli asztali munkamenetgazda szerepkörrel és felhasználónkénti RDS CAL-licencekkel.%n%nWindows Home vagy Pro rendszeren külső eszköz használata erre az Ön döntése és felelőssége: lehet, hogy a Windows licencfeltételei nem engedik. Az OpenStreamMS csak azt ellenőrzi, hogy a gép lehetővé teszi-e."
 }

@@ -216,7 +216,7 @@ select option { background-color: var(--surface); color: var(--text); }
   right: 1rem;
 }
 
-/* ── Status pill (RDP Wrapper, ViGEmBus, etc.) ─────────────────────────── */
+/* ── Status pill (Multi-RDP, ViGEmBus, etc.) ─────────────────────────── */
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -247,7 +247,7 @@ select option { background-color: var(--surface); color: var(--text); }
 @keyframes status-pulse { 0%,100% { opacity: 1 } 50% { opacity: .3 } }
 .status-pill-state { font-weight: 600; color: var(--text); }
 
-/* ── Dependency modal (RDP Wrapper, ViGEmBus, …) ───────────────────────── */
+/* ── Dependency modal (Multi-RDP, ViGEmBus, …) ───────────────────────── */
 .dep-desc { color: var(--muted-h); font-size: .82rem; line-height: 1.45; margin-bottom: 1rem; }
 .dep-status {
   width: 100%;
@@ -1459,7 +1459,7 @@ section#view-sessions, section#view-seats { animation: viewIn .35s var(--ease); 
 .dep-line { display: flex; align-items: center; gap: .55rem; font-size: .84rem; min-height: 28px; }
 .dep-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
 .dep-ok .dep-dot { background: var(--green); }
-.dep-missing .dep-dot { background: var(--red); }
+.dep-missing .dep-dot, .dep-single .dep-dot { background: var(--red); }
 .dep-working .dep-dot, .dep-reboot .dep-dot { background: var(--orange); }
 .dep-state { color: var(--muted); font-size: .78rem; }
 .dep-line .btn-xs { margin-left: auto; }
@@ -2003,7 +2003,7 @@ section#view-sessions, section#view-seats { animation: viewIn .35s var(--ease); 
   animation: guide-pop .45s calc(var(--i, 0) * 80ms + 100ms) both; transition: border-color .3s;
 }
 .guide-dep-ok, .guide-dep-activates { border-color: rgba(var(--glow-green),.45); }
-.guide-dep-missing, .guide-dep-broken { border-color: rgba(239,68,68,.45); }
+.guide-dep-missing, .guide-dep-broken, .guide-dep-single { border-color: rgba(239,68,68,.45); }
 .guide-dep-mark { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(var(--c-accent),.1); }
 .guide-dep-ok .guide-dep-mark, .guide-dep-activates .guide-dep-mark { background: rgba(var(--glow-green),.18); color: var(--green); }
 .guide-dep-mark svg { width: 18px; height: 18px; }
