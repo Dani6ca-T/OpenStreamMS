@@ -148,20 +148,50 @@ public sealed class RdpWrapperManager
     /// RemoteIdd instalado después de que arrancara TermService: install.ps1 no reinicia TermService
     /// (se quedaba colgado al pararse), así que TermWrap y el proveedor entran al reiniciar el
     /// equipo. Mientras tanto no está roto, está pendiente: ni se usa ni se deshace.
+    /// Lo que cuenta es si TermService tiene el proveedor cargado, no la fecha de la instalación:
+    /// al actualizar OpenStreamMS se reinstala RemoteIdd con TermService en marcha, y el proveedor
+    /// anterior sigue cargado y dando RemoteIdd a las conexiones locales. Si se tomara por
+    /// pendiente, Sunshine arrancaría con la captura de siempre sobre una pantalla RemoteIdd y
+    /// Moonlight no llegaría a ver imagen.
     /// </summary>
     public static bool IsRemoteIddPendingRestart()
     {
         try
         {
+            if (!IsRemoteIddActive()) return false;
+            if (IsRemoteIddProviderLoaded() == true) return false;
+
+            // Sin el proveedor cargado (o sin poder mirarlo) se decide por la fecha de la instalación:
+            // en el arranque del PC TermService puede no haberlo cargado aún y no está pendiente.
             var state = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
                                      "OpenStreamMS", "remoteidd-install.json");
-            if (!IsRemoteIddActive() || !File.Exists(state)) return false;
+            if (!File.Exists(state)) return false;
             var pid = GetServicePid("TermService");
             if (pid == 0) return false;
             using var p = Process.GetProcessById((int)pid);
             return File.GetLastWriteTime(state) > p.StartTime;
         }
         catch { return false; }
+    }
+
+    /// <summary>
+    /// true si el proceso de TermService tiene cargado OsmsRdsProvider.dll (de cualquier
+    /// instalación: install.ps1 renombra el que está en uso a .old-*); null si TermService no está
+    /// en marcha o no se pudo comprobar.
+    /// </summary>
+    private static bool? IsRemoteIddProviderLoaded()
+    {
+        try
+        {
+            var pid = GetServicePid("TermService");
+            if (pid == 0) return null;
+            using var p = Process.GetProcessById((int)pid);
+            foreach (ProcessModule m in p.Modules)
+                if (Path.GetFileName(m.FileName).StartsWith("OsmsRdsProvider.dll", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            return false;
+        }
+        catch { return null; }
     }
 
     /// <summary>RemoteIdd puesto en RDP-Tcp y ya cargado (no pendiente de reiniciar el equipo).</summary>
