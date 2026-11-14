@@ -7,5 +7,6 @@
   "StatusInstallRemoteIdd": "A instalar o controlador de ecrã dos postos (RemoteIdd)...",
   "StatusStartService": "A iniciar o serviço...",
   "AskPurgeData": "Eliminar também todos os dados do OpenStreamMS?%n%nSessões, postos e definições; os utilizadores osms- das sessões isoladas e os respetivos perfis (incluindo jogos e definições guardados neles); perfis de stream, ProgramData\\OpenStreamMS e ficheiros temporários.%n%nSe responder Não, as sessões e as definições são mantidas para uma reinstalação.",
-  "AskRemoveDeps": "Desinstalar também o TermWrap, o ViGEmBus e o HidHide?%n%nResponda Não se outras aplicações os utilizarem."
+  "AskRemoveDeps": "Desinstalar também o TermWrap, o ViGEmBus e o HidHide?%n%nResponda Não se outras aplicações os utilizarem.",
+  "WindowsTooOld": "O OpenStreamMS precisa do Windows 10 versão 1607 (compilação 14393) ou posterior.%nEste PC tem a compilação %1. Atualize o Windows e execute novamente o instalador."
 }
