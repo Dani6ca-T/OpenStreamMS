@@ -140,7 +140,7 @@ function renderSessions() {
 function renderCard(s) {
   const isRunning = s.state === 'Running';
   const isBusy    = s.state === 'Starting' || s.state === 'Stopping';
-  const screen = s.local
+  const screen = s.composite ? compositeThumb(s) : s.local
     ? `<div class="screen-thumb screen-local">${uiIcon('pc')}<span class="screen-res">${esc(t('card.localShort'))}</span></div>`
     : `<div class="screen-thumb"><span class="screen-res">${s.rdpWidth}×${s.rdpHeight}</span>
          <span class="screen-fps">${s.rdpFrameRate || 60} ${esc(t('unit.fps'))}</span></div>`;
@@ -161,7 +161,7 @@ function renderCard(s) {
         ${screen}
         <div class="card-title">
           <div class="card-name">${esc(s.name)}</div>
-          <div class="card-user">${s.local ? esc(t('card.localUser'))
+          <div class="card-user">${s.composite ? compositeCardUser(s) : s.local ? esc(t('card.localUser'))
             : s.isolated ? (s.isolatedUser
                 ? `${esc(t('card.isolatedUserNamed'))} <code class="card-username" title="${esc(t('card.isolatedUser_title'))}">${esc(s.isolatedUser)}</code>`
                 : esc(t('card.isolatedUser')))
@@ -170,7 +170,7 @@ function renderCard(s) {
         </div>
         ${power}
       </div>
-      <div class="card-chips">${protos.join('')}${sessionSeatLine(s)}${clientsChip(s)}${mosaicChip(s)}</div>
+      <div class="card-chips">${protos.join('')}${sessionSeatLine(s)}${clientsChip(s)}${compositeMemberChip(s)}</div>
       ${metricsSlot(s)}
       ${startProgress(s)}
       ${rdpWarning(s)}
@@ -185,7 +185,7 @@ function renderCard(s) {
           ${esc(t('card.autostart'))}
         </label>
         <div class="card-footer-actions">
-          ${isRunning ? `<button type="button" class="btn btn-ghost btn-sm" onclick="openSunMgrModal('${s.id}')">${uiIcon('link')}${esc(t('ux.connect.btn'))}</button>` : ''}
+          ${isRunning && !s.compositeOf ? `<button type="button" class="btn btn-ghost btn-sm" onclick="openSunMgrModal('${s.id}')">${uiIcon('link')}${esc(t('ux.connect.btn'))}</button>` : ''}
           <button type="button" class="icon-btn more-btn" onclick="sessionMenu(event, '${s.id}')" title="${esc(t('nav.more'))}" aria-label="${esc(t('nav.more'))}: ${esc(s.name)}" aria-haspopup="menu">${uiIcon('more')}</button>
         </div>
       </div>
@@ -197,22 +197,14 @@ function sessionMenu(e, id) {
   const s = sessions.find(x => x.id === id);
   if (!s) return;
   const running = s.state === 'Running', busy = s.state === 'Starting' || s.state === 'Stopping';
-  const btn = e.currentTarget;
-  const mosaic = s.mosaicHost
-    ? { icon: 'grid', label: t(s.mosaicHost === s.id ? 'mosaic.dissolve' : 'mosaic.leave'), run: () => leaveMosaic(s) }
-    : { icon: 'grid', label: t('mosaic.join'), run: () => mosaicHostMenu(btn, s), disabled: s.local || busy, hint: t('mosaic.join_disabled') };
-  // Con dos sesiones, la anfitriona elige una al lado de otra o una encima de otra.
-  const layout = s.mosaicHost === s.id && s.mosaicCount === 2
-    ? [{ icon: 'grid', label: t(s.mosaicStacked ? 'mosaic.sideBySide' : 'mosaic.stack'), run: () => setMosaicStacked(s, !s.mosaicStacked) }]
-    : [];
   openMenu(e, [
     { icon: 'restart',  label: t('btn.restart'),  run: () => restartSession(s.id, s.name) },
-    mosaic,
-    ...layout,
     { icon: 'link',     label: t('ux.connect.btn'), run: () => openSunMgrModal(s.id), disabled: !running, hint: t('btn.sunshine_disabled_title') },
     { icon: 'external', label: t('btn.panel'),    run: () => openSunshinePanel(s.id), disabled: !running, hint: t('btn.panel_disabled_title') },
     { icon: 'log',      label: t('btn.log'),      run: () => openLogModal(s.id, s.name) },
-    { icon: 'gear',     label: t('btn.settings'), run: () => openEditModal(s.id) },
+    s.composite
+      ? { icon: 'grid', label: t('comp.edit'), run: () => openCompositeModal(s.id), disabled: running || busy, hint: t('comp.stopToEdit') }
+      : { icon: 'gear', label: t('btn.settings'), run: () => openEditModal(s.id) },
     { sep: true },
     { icon: 'trash',    label: t('btn.delete'),   run: () => deleteSession(s.id, s.name), danger: true, disabled: running || busy },
   ]);
@@ -225,74 +217,6 @@ function clientsChip(s) {
   const title = t('ux.clients.detail', { moonlight: s.clientsMoonlight, webrtc: s.clientsWebRtc });
   return `<span class="chip chip-clients${n ? ' active' : ''}" title="${esc(title)}">${uiIcon('users')}${esc(
     n === 0 ? t('ux.clients.none') : n === 1 ? t('ux.clients.one') : t('ux.clients.many', { n }))}</span>`;
-}
-
-// ── Mosaico: hasta cuatro sesiones en el stream de una (ver MosaicService) ─────
-// Partes por número de sesiones, como MosaicLayout.Areas: celdas 0 arriba-izq., 1 arriba-der.,
-// 2 abajo-izq., 3 abajo-der.
-const MOSAIC_CELLS = { 1: [[0, 1, 2, 3]], 2: [[0, 2], [1, 3]], 3: [[0], [1], [2]], 4: [[0], [1], [2], [3]] };
-const MOSAIC_CELLS_STACKED = [[0, 1], [2, 3]];
-
-function mosaicMembers(hostId) {
-  return sessions.filter(x => x.mosaicHost === hostId).sort((a, b) => (a.mosaicIndex ?? 0) - (b.mosaicIndex ?? 0));
-}
-
-// Etiqueta con un mapa 2×2: la parte de esta sesión resaltada; el título dice qué mando va a cada una.
-function mosaicChip(s) {
-  if (!s.mosaicHost) return '';
-  const members = mosaicMembers(s.mosaicHost);
-  const host = sessions.find(x => x.id === s.mosaicHost);
-  if (!host || members.length < 2) return '';
-  const parts = members.length === 2 && host.mosaicStacked ? MOSAIC_CELLS_STACKED : MOSAIC_CELLS[Math.min(members.length, 4)];
-  const own = parts[s.mosaicIndex ?? 0] || [];
-  const used = new Set(parts.flat());
-  const cells = [0, 1, 2, 3].map(c =>
-    `<i class="${own.includes(c) ? 'own' : used.has(c) ? 'used' : ''}"></i>`).join('');
-  const list = members.map((m, i) => t('mosaic.member', { n: i + 1, name: m.name })).join(' · ');
-  const label = s.id === host.id
-    ? t('mosaic.hostChip', { n: members.length })
-    : t('mosaic.guestChip', { name: host.name });
-  return `<span class="chip chip-mosaic active" title="${esc(t('mosaic.chip_title', { list }))}"><span class="mosaic-map" aria-hidden="true">${cells}</span>${esc(label)}</span>`;
-}
-
-// Sesiones a cuyo stream se puede unir s: en marcha, retransmitiendo (o sin dato), sin mosaico
-// o anfitrionas con hueco. s no puede ser ya anfitriona de otras.
-function mosaicHostMenu(btn, s) {
-  const hosts = sessions.filter(h => h.id !== s.id && h.state === 'Running' && !h.local &&
-    (!h.mosaicHost || h.mosaicHost === h.id) && (h.mosaicCount || 1) < 4 &&
-    (h.clientsMoonlight == null || h.clientsWebRtc == null || h.clientsMoonlight + h.clientsWebRtc > 0));
-  if (!hosts.length) { toast(t('mosaic.noHosts'), true); return; }
-  // Después del clic actual: si se abre dentro de él, el clic llega al document, que cierra
-  // cualquier menú cuando el clic no fue dentro (el botón pulsado ya no está en la página).
-  // Si la tarjeta se repintó entretanto, el botón "⋯" es otro.
-  const anchor = () => btn.isConnected ? btn : document.querySelector(`#card-${s.id} .more-btn`) || btn;
-  setTimeout(() => openMenu({ stopPropagation() {}, currentTarget: anchor() },
-    hosts.map(h => ({ icon: 'grid', label: t('mosaic.joinTo', { name: h.name, n: (h.mosaicCount || 1) + 1 }), run: () => joinMosaic(h, s) }))));
-}
-
-async function joinMosaic(host, guest) {
-  toast(t('mosaic.joining', { name: guest.name, host: host.name }));
-  const res = await api('POST', `/api/sessions/${host.id}/mosaic/${guest.id}`);
-  if (!res) return;
-  if (!res.ok) { toast(await I18n.responseError(res), true); loadSessions(); return; }
-  toast(t('mosaic.joined', { name: guest.name, host: host.name }));
-  loadSessions();
-}
-
-async function setMosaicStacked(host, stacked) {
-  toast(t('mosaic.relayout'));
-  const res = await api('PUT', `/api/sessions/${host.id}/mosaic/layout`, { stacked });
-  if (!res) return;
-  if (!res.ok) { toast(await I18n.responseError(res), true); return; }
-  loadSessions();
-}
-
-async function leaveMosaic(s) {
-  const res = await api('DELETE', `/api/sessions/${s.mosaicHost}/mosaic/${s.id}`);
-  if (!res) return;
-  if (!res.ok) { toast(await I18n.responseError(res), true); return; }
-  toast(t(s.mosaicHost === s.id ? 'mosaic.dissolved' : 'mosaic.left', { name: s.name }));
-  loadSessions();
 }
 
 // Puesto local asociado a la sesión: su nombre y si ahora mismo la está usando.
@@ -563,6 +487,7 @@ async function suggestPorts() {
 function openEditModal(id) {
   const s = sessions.find(x => x.id === id);
   if (!s) return;
+  if (s.composite) { openCompositeModal(id); return; }
   sessEditingId = s.id;
   sessEditLocal = !!s.local;
 
@@ -904,6 +829,7 @@ function handleBackdropClick(e, id) {
 function closeModal(id) {
   const close = {
     'sess-modal':     closeSessionModal,
+    'comp-modal':     closeCompositeModal,
     'log-modal':      closeLogModal,
     'rdp-modal':      closeRdpModal,
     'vigem-modal':    () => closeDriverModal('vigem'),
@@ -1402,6 +1328,7 @@ const UI_ICONS = {
   users:    '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
   link:     '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
   pc:       '<rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5"/><path d="M7 8h4"/>',
+  gamepad:  '<path d="M6 11h4M8 9v4"/><circle cx="15.5" cy="10.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="12.5" r=".9" fill="currentColor"/><path d="M7.5 6h9a5 5 0 0 1 4.9 6l-.8 4a2.6 2.6 0 0 1-4.6 1.1L14.5 15h-5l-1.5 2.1a2.6 2.6 0 0 1-4.6-1.1l-.8-4A5 5 0 0 1 7.5 6z"/>',
   seat:     '<rect x="3" y="4" width="18" height="11" rx="2"/><path d="M7 19h10M9 15v4M15 15v4"/>',
 };
 

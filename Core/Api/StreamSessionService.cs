@@ -19,7 +19,7 @@ namespace OpenStreamMS.Core.Api;
 /// Hilo-seguro; el estado de cada sesión se actualiza desde tareas en segundo plano.
 /// Las sesiones se persisten en sessions.json para sobrevivir reinicios del servicio.
 /// </summary>
-public class StreamSessionService
+public partial class StreamSessionService
 {
     private readonly ServiceConfig    _defaultConfig;
     private readonly ConcurrentDictionary<Guid, StreamSession>   _sessions = new();
@@ -173,6 +173,8 @@ public class StreamSessionService
         if (!_sessions.TryGetValue(id, out var session)) return false;
         if (session.State is SessionState.Starting or SessionState.Running or SessionState.Stopping)
             throw new InvalidOperationException(RequestCulture.T("error.stopSession"));
+        if (CompositesUsing(id).FirstOrDefault() is { } composite)
+            throw new InvalidOperationException(RequestCulture.T("error.compositeMemberDelete", session.Name, composite.Name));
 
         _sessions.TryRemove(id, out _);
         _sunshine.TryRemove(id, out _);
@@ -546,7 +548,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         Logger.SetSessionContext(session.Id);
         try
         {
-            ForceStopInternal(session);
+            ForceStopInternal(session, restarting: true);
 
             // Pausa breve para que Windows libere el sessionId y los locks del usuario
             Thread.Sleep(1500);
@@ -565,7 +567,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     /// Lógica de force-kill compartida por Stop y Restart. Mata FreeRDP, Sunshine y hace logoff
     /// de la sesión Windows. Siempre deja la sesión en estado Stopped al terminar.
     /// </summary>
-    private void ForceStopInternal(StreamSession session)
+    private void ForceStopInternal(StreamSession session, bool restarting = false)
     {
         try
         {
@@ -588,7 +590,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             // quien usa el PC: de ella solo se para Sunshine.
             if (session.RdpSessionId > 0)
             {
-                if (!session.Local && !StreamProfileSetup.LogoffSession(session.RdpSessionId))
+                // La compuesta corre en la sesión de Windows de uno de sus miembros: tampoco se cierra.
+                if (!session.Local && !session.IsComposite && !StreamProfileSetup.LogoffSession(session.RdpSessionId))
                     Logger.Warning($"[{session.Name}] La sesión Windows {session.RdpSessionId} no terminó de cerrarse.", session.Id);
                 session.RdpSessionId = 0;
             }
@@ -607,6 +610,9 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 catch { }
                 session.FreeRdpPid = 0;
             }
+
+            if (session.IsComposite)
+                ReleaseComposite(session, restarting);
 
             // Modo efímero: borrar el perfil del usuario aislado en segundo plano
             // (profsvc tarda unos segundos en descargar el hive tras el logoff)
@@ -717,6 +723,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
 
     public void MonitorAll()
     {
+        WatchComposites();
         foreach (var session in _sessions.Values.Where(s => s.State == SessionState.Running &&
                                                              !_sunshineRelaunching.ContainsKey(s.Id) &&
                                                              !_sunshinePaused.ContainsKey(s.Id)))
@@ -788,7 +795,9 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 Local: s.Local,
                 IsolatedUsername: s.IsolatedUsername,
                 RdpDisplayScale: s.RdpDisplayScale,
-                RdpComposition: s.RdpComposition));
+                RdpComposition: s.RdpComposition,
+                Composite: s.Composite,
+                CompositeInput: s.CompositeInput));
             File.WriteAllText(SessionsFile, JsonSerializer.Serialize(data, JsonOpts));
             SecureFile.RestrictToAdmins(SessionsFile);
         }
@@ -852,6 +861,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     WebRtcMediaPortMin = d.WebRtcMediaPortMin,
                     WebRtcMediaPortMax = d.WebRtcMediaPortMax,
                     Local              = d.Local,
+                    Composite          = d.Composite is { Count: > 0 } slots ? slots.ToList() : null,
+                    CompositeInput     = d.CompositeInput,
                     State              = SessionState.Stopped,
                 };
 
@@ -890,6 +901,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             if (session.Local)
             {
                 StartLocal(session);
+                return;
+            }
+            if (session.IsComposite)
+            {
+                StartComposite(session);
                 return;
             }
 
@@ -1307,7 +1323,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     private static bool UsesRemoteIdd(StreamSession session) =>
         WantsRemoteIdd(session) && RdpWrapperManager.IsRemoteIddUsable();
 
-    /// <summary>La sesión se captura con RemoteIdd (requisito del mosaico).</summary>
+    /// <summary>La sesión se captura con RemoteIdd (requisito de las sesiones compuestas).</summary>
     public static bool CapturesWithRemoteIdd(StreamSession session) => UsesRemoteIdd(session);
 
     /// <summary>Carpeta <c>config</c> del Sunshine de la sesión (la de <c>sunshine.conf</c>).</summary>
@@ -1725,5 +1741,9 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         /// <summary>Escala de la pantalla en %. 0 en sesiones anteriores = 100.</summary>
         int      RdpDisplayScale = 100,
         /// <summary>Ritmo de composición. Null en sesiones anteriores = Smooth.</summary>
-        RdpCompositionMode? RdpComposition = null);
+        RdpCompositionMode? RdpComposition = null,
+        /// <summary>Huecos de una sesión compuesta. Null en las sesiones normales.</summary>
+        List<CompositeSlot>? Composite = null,
+        /// <summary>Sesión del teclado, el ratón y el audio de una compuesta.</summary>
+        Guid?    CompositeInput = null);
 }

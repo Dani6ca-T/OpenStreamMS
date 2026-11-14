@@ -103,6 +103,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1" fill="currentColor"/><circle cx="3.5" cy="12" r="1" fill="currentColor"/><circle cx="3.5" cy="18" r="1" fill="currentColor"/></svg>
             </button>
           </div>
+          <button class="btn btn-ghost btn-sm" onclick="openCompositeModal()" data-i18n="toolbar.newComposite" data-i18n-title="comp.intro" title="">+ Sesión compuesta</button>
           <button class="btn btn-primary btn-sm" onclick="openNewModal()" data-i18n="toolbar.newSession">+ Nueva sesión</button>
         </div>
       </div>
@@ -510,6 +511,61 @@
               onclick="document.getElementById('sess-form').requestSubmit()">
         <span id="sess-submit-spinner" class="spinner" style="display:none"></span>
         <span id="sess-submit-label" data-i18n="new.create">Crear sesión</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Modal: sesión compuesta (composites.js) ────────────────────────── -->
+<div class="modal-backdrop hidden" id="comp-modal" onclick="handleBackdropClick(event,'comp-modal')">
+  <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="comp-title" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="comp-title" data-i18n="comp.title_new">Nueva sesión compuesta</h3>
+      <button class="modal-close" type="button" onclick="closeCompositeModal()" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="comp-form" onsubmit="submitComposite(event)" novalidate>
+        <p class="hint comp-intro" data-i18n="comp.intro">Junta varias sesiones en un solo stream, cada una en su hueco.</p>
+        <div class="form-row">
+          <label for="comp-name" data-i18n="comp.name">Nombre</label>
+          <input type="text" id="comp-name" required data-i18n-placeholder="comp.namePlaceholder" placeholder="Salón 2×2">
+        </div>
+        <div class="form-row">
+          <label data-i18n="comp.template">Plantilla</label>
+          <div class="comp-templates" id="comp-templates" role="group"></div>
+        </div>
+        <div class="comp-grid" id="comp-grid"></div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="comp-input" data-i18n="comp.input">Teclado, ratón y audio</label>
+            <select id="comp-input"></select>
+            <div class="hint" data-i18n="comp.input_hint">Los de esta sesión. Los mandos van cada uno a su hueco.</div>
+          </div>
+          <div class="form-row">
+            <label for="comp-res" data-i18n="comp.resolution">Resolución del stream</label>
+            <select id="comp-res">
+              <option value="1280x720">1280×720</option>
+              <option value="1920x1080">1920×1080</option>
+              <option value="2560x1440">2560×1440</option>
+              <option value="3840x2160">3840×2160</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="comp-fps" data-i18n="ux.fpsLabel">Fotogramas por segundo</label>
+            <input type="number" id="comp-fps" value="60" min="1" max="240" step="1">
+          </div>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" id="comp-enabled">
+          <label for="comp-enabled" data-i18n="comp.autostart">Arrancar con el servicio</label>
+        </div>
+        <div id="comp-error" class="auth-alert error" style="display:none" role="alert"></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" type="button" onclick="closeCompositeModal()" data-i18n="btn.cancel">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="comp-submit" onclick="document.getElementById('comp-form').requestSubmit()">
+        <span id="comp-submit-label" data-i18n="comp.create">Crear</span>
       </button>
     </div>
   </div>
@@ -996,6 +1052,7 @@
 <script src="/app.js"></script>
 <script src="/insights.js"></script>
 <script src="/seats.js"></script>
+<script src="/composites.js"></script>
 <script src="/guide.js"></script>
 </body>
 </html>

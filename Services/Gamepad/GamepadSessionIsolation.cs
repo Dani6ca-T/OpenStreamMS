@@ -35,12 +35,11 @@ namespace OpenStreamMS.Services.Gamepad;
 /// "Gamepad N will be ..." justo antes de enchufarlo en ViGEmBus. Los de OsmsPad (driver
 /// propio, Native/OsmsPad) no hace falta adivinarlos: el driver pone en su ID de instancia la
 /// sesión de Windows de quien lo creó (<c>...OSMS_S&lt;sesión&gt;_P&lt;n&gt;</c>). Del log solo
-/// se saca su número en ese Sunshine, para el mosaico.
+/// se saca su número en ese Sunshine, para la sesión compuesta.
 /// </para>
 /// <para>
-/// Mosaico (<see cref="Mosaic.MosaicService"/>): el mando N que crea el Sunshine de la
-/// anfitriona va a la sesión N del mosaico por orden de llegada (N del log, 0 = anfitriona).
-/// Si el mosaico cambia, los mandos ya creados se reasignan.
+/// Sesión compuesta: el mando N que crea su Sunshine va a la sesión del hueco N (N del log).
+/// Si un miembro cambia de sesión de Windows, los mandos ya creados se reasignan.
 /// </para>
 /// </summary>
 public sealed partial class GamepadSessionIsolation : BackgroundService
@@ -69,8 +68,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
     private readonly StreamSessionService _sessions;
     private readonly Seats.SeatManager _seats;
-    private readonly Mosaic.MosaicService _mosaic;
-    private int _mosaicGeneration;
+    private int _compositeGeneration = -1;
 
     private sealed class Pad
     {
@@ -111,11 +109,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private int _seatGeneration = -1;
     private const uint NoSession = 0xFFFFFFFF;
 
-    public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats, Mosaic.MosaicService mosaic)
+    public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats)
     {
         _sessions = sessions;
         _seats    = seats;
-        _mosaic   = mosaic;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -283,10 +280,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (pad.Session is not null) Hide(pad);
         }
 
-        int generation = _mosaic.Generation;
-        if (generation != _mosaicGeneration)
+        int generation = _sessions.CompositeGeneration;
+        if (generation != _compositeGeneration)
         {
-            _mosaicGeneration = generation;
+            _compositeGeneration = generation;
             foreach (var pad in _pads.Values) Retarget(pad);
         }
     }
@@ -353,14 +350,21 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
     /// <summary>
     /// Mando de OsmsPad: la sesión de Windows viene en su ID. Si es la de una sesión de
-    /// OpenStreamMS en marcha, se trata como un mando de su Sunshine (mosaico incluido); si no
+    /// OpenStreamMS en marcha, se trata como un mando de su Sunshine (sesión compuesta incluida); si no
     /// (p. ej. OsmsPadTest), se aísla igualmente en esa sesión de Windows.
     /// </summary>
     private void AssignOsmsPad(Pad pad,
         IReadOnlyList<(Guid Id, string Name, uint RdpSessionId, string SunshineLog)> running,
         DateTime now, uint windowsSession, int driverPad)
     {
-        var session = running.FirstOrDefault(s => s.RdpSessionId == windowsSession);
+        // La compuesta corre en la sesión de Windows de uno de sus miembros: de las dos, la que
+        // creó el mando es la que lo tiene en su log; sin log aún, la compuesta.
+        var candidates = running.Where(s => s.RdpSessionId == windowsSession).ToList();
+        var session = candidates.FirstOrDefault(s => _cursors.TryGetValue(s.Id, out var c) && c.OsmsPadIndex.ContainsKey(driverPad));
+        if (session.Id == Guid.Empty)
+            session = candidates.FirstOrDefault(s => _sessions.Get(s.Id)?.IsComposite == true);
+        if (session.Id == Guid.Empty)
+            session = candidates.FirstOrDefault();
         if (session.Id == Guid.Empty)
         {
             pad.Session = Guid.Empty;
@@ -369,7 +373,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             Logger.Log($"[Gamepad] Mando OsmsPad {pad.InstanceId} → sesión de Windows {windowsSession} (no es de ninguna sesión de OpenStreamMS)");
             return;
         }
-        // El número del mando en su Sunshine solo hace falta para el mosaico: se espera un poco
+        // El número del mando en su Sunshine solo hace falta para la sesión compuesta: se espera un poco
         // a que salga en el log y, si no, el mando se queda en la sesión que lo creó.
         if (_cursors.TryGetValue(session.Id, out var cursor) && cursor.OsmsPadIndex.TryGetValue(driverPad, out int index))
             pad.Index = index;
@@ -383,14 +387,14 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         Guid owner = session.Id;
         pad.Creator = owner;
 
-        // Mosaico: el mando N de la anfitriona es de la sesión N.
-        if (_mosaic.PadTarget(session.Id, pad.Index) is { } target && target != session.Id &&
+        // Sesión compuesta: el mando N es de la sesión del hueco N.
+        if (_sessions.CompositePadTarget(session.Id, pad.Index) is { } target && target != session.Id &&
             _sessions.Get(target) is { RdpSessionId: > 0 } member)
         {
             pad.Session = target;
             pad.SessionName = member.Name;
             pad.WindowsSession = member.RdpSessionId;
-            Logger.Log($"[Gamepad] Mando {pad.Index} de '{session.Name}' ({pad.InstanceId}) → sesión '{member.Name}' del mosaico (sesión de Windows {member.RdpSessionId})", target);
+            Logger.Log($"[Gamepad] Mando {pad.Index} de '{session.Name}' ({pad.InstanceId}) → sesión '{member.Name}' (sesión de Windows {member.RdpSessionId})", target);
             return;
         }
         pad.Session = owner;
@@ -400,14 +404,14 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     }
 
     /// <summary>
-    /// El mosaico cambió: el mando va a la sesión que le toca ahora (o vuelve a la que lo creó)
+    /// La sesión compuesta cambió: el mando va a la sesión que le toca ahora (o vuelve a la que lo creó)
     /// y, si cambia, se oculta de nuevo con la sesión nueva y se reinicia para cerrar los handles
     /// que tuviera abiertos la anterior.
     /// </summary>
     private void Retarget(Pad pad)
     {
         if (pad.Creator is not { } creator || pad.Session is null) return;
-        var target = _mosaic.PadTarget(creator, pad.Index) ?? creator;
+        var target = _sessions.CompositePadTarget(creator, pad.Index) ?? creator;
         if (_sessions.Get(target) is not { RdpSessionId: > 0 } session) return;
         if (target == pad.Session && session.RdpSessionId == pad.WindowsSession) return;
 
@@ -417,7 +421,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         pad.Session = target;
         pad.SessionName = session.Name;
         pad.WindowsSession = session.RdpSessionId;
-        Logger.Log($"[Gamepad] Mando {pad.Index} ({pad.InstanceId}) pasa a la sesión '{session.Name}' (sesión de Windows {session.RdpSessionId}) por un cambio en el mosaico.", target);
+        Logger.Log($"[Gamepad] Mando {pad.Index} ({pad.InstanceId}) pasa a la sesión '{session.Name}' (sesión de Windows {session.RdpSessionId}) por un cambio en la sesión compuesta.", target);
         Hide(pad);
     }
 

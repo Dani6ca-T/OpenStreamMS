@@ -4,31 +4,48 @@ using OpenStreamMS.Services.Seats;
 namespace OpenStreamMS.Services.Mosaic;
 
 /// <summary>
-/// Reparto del mosaico: qué parte de la cuadrícula de 2×2 ocupa cada sesión según cuántas
-/// haya, qué tamaño tiene esa parte y el fichero <c>osms-mosaic.txt</c> que lee Sunshine.
-/// Las partes son las mismas que las de la pantalla dividida de los puestos
-/// (<see cref="SeatScreenArea"/>) y se calculan igual (<see cref="SeatMonitor.Region"/>).
+/// Reparto de una sesión compuesta: plantillas de huecos, tamaño de cada hueco y el fichero
+/// <c>osms-mosaic.txt</c> que lee Sunshine. Los huecos son las partes de la pantalla dividida de
+/// los puestos (<see cref="SeatScreenArea"/>), celdas de una cuadrícula de 2×2, y se calculan igual
+/// (<see cref="SeatMonitor.Region"/>); Sunshine (<c>parse_mosaic_layout</c>, <c>mosaic_rect</c>)
+/// reparte el lienzo con las mismas celdas.
 /// </summary>
 public static class MosaicLayout
 {
-    /// <summary>Sesiones como máximo en un mosaico (la anfitriona incluida).</summary>
+    /// <summary>Sesiones como máximo en una compuesta.</summary>
     public const int MaxMembers = 4;
+    /// <summary>Sesiones como mínimo en una compuesta.</summary>
+    public const int MinMembers = 2;
 
-    /// <summary>Nombre del fichero de control, junto a <c>sunshine.conf</c> de la anfitriona.</summary>
+    /// <summary>Nombre del fichero de control, junto a <c>sunshine.conf</c> de la compuesta.</summary>
     public const string FileName = "osms-mosaic.txt";
 
     /// <summary>
-    /// Partes por orden de llegada: 1 sesión, pantalla entera; 2, mitades izquierda/derecha
-    /// (o arriba/abajo con <paramref name="stacked"/>); 3 o 4, cuartos (con 3, el de abajo a la
-    /// derecha queda en negro).
+    /// Plantillas que ofrece el panel, con sus huecos en orden (el mando N va al hueco N). Una
+    /// compuesta puede dejar huecos sin sesión (salen en negro), pero no inventar otros.
     /// </summary>
-    public static SeatScreenArea[] Areas(int count, bool stacked = false) => count switch
+    public static readonly IReadOnlyDictionary<string, SeatScreenArea[]> Templates =
+        new Dictionary<string, SeatScreenArea[]>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["sideBySide"] = [SeatScreenArea.Left, SeatScreenArea.Right],
+            ["stacked"]    = [SeatScreenArea.Top, SeatScreenArea.Bottom],
+            ["quad"]       = [SeatScreenArea.TopLeft, SeatScreenArea.TopRight, SeatScreenArea.BottomLeft, SeatScreenArea.BottomRight],
+            ["bigLeft"]    = [SeatScreenArea.Left, SeatScreenArea.TopRight, SeatScreenArea.BottomRight],
+            ["bigTop"]     = [SeatScreenArea.Top, SeatScreenArea.BottomLeft, SeatScreenArea.BottomRight],
+        };
+
+    /// <summary>True si ningún par de huecos comparte celda de la cuadrícula.</summary>
+    public static bool Disjoint(IEnumerable<SeatScreenArea> areas)
     {
-        <= 1 => [SeatScreenArea.Full],
-        2    => stacked ? [SeatScreenArea.Top, SeatScreenArea.Bottom] : [SeatScreenArea.Left, SeatScreenArea.Right],
-        3    => [SeatScreenArea.TopLeft, SeatScreenArea.TopRight, SeatScreenArea.BottomLeft],
-        _    => [SeatScreenArea.TopLeft, SeatScreenArea.TopRight, SeatScreenArea.BottomLeft, SeatScreenArea.BottomRight],
-    };
+        int used = 0;
+        foreach (var a in areas)
+        {
+            int cells = SeatAreas.Cells(a);
+            if ((used & cells) != 0) return false;
+            used |= cells;
+        }
+        return true;
+    }
 
     /// <summary>Tamaño de una parte en un lienzo de <paramref name="width"/>×<paramref name="height"/>.</summary>
     public static (int Width, int Height) PartSize(SeatScreenArea area, int width, int height)
@@ -38,17 +55,16 @@ public static class MosaicLayout
     }
 
     /// <summary>
-    /// Contenido de <c>osms-mosaic.txt</c>: el lienzo y una línea por sesión
-    /// ("&lt;id de sesión de Windows&gt; &lt;parte&gt;"), en orden de llegada.
+    /// Contenido de <c>osms-mosaic.txt</c>: el lienzo y una línea por hueco con sesión de Windows
+    /// ("&lt;id de sesión de Windows&gt; &lt;parte&gt;"). Un hueco sin sesión (0) no se escribe y sale en negro.
     /// </summary>
-    public static string Render(int canvasWidth, int canvasHeight, IReadOnlyList<uint> windowsSessions, bool stacked = false)
+    public static string Render(int canvasWidth, int canvasHeight, IReadOnlyList<(uint WindowsSession, SeatScreenArea Area)> parts)
     {
-        var areas = Areas(windowsSessions.Count, stacked);
         var sb = new StringBuilder();
         sb.Append("# OpenStreamMS mosaic: <Windows session id> <part>\n");
         sb.Append($"canvas {canvasWidth} {canvasHeight}\n");
-        for (int i = 0; i < windowsSessions.Count && i < areas.Length; i++)
-            sb.Append($"{windowsSessions[i]} {areas[i]}\n");
+        foreach (var (session, area) in parts)
+            if (session > 0) sb.Append($"{session} {area}\n");
         return sb.ToString();
     }
 }
