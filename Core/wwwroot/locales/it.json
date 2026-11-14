@@ -710,5 +710,8 @@
   "log.noMatches": "Nessuna riga corrisponde al filtro.",
   "view.toggle": "Vista sessioni",
   "view.cards": "Schede",
-  "view.list": "Elenco"
+  "view.list": "Elenco",
+  "new.userNoneLocal": "Su questo PC non ci sono utenti locali abilitati. Creane uno in Impostazioni di Windows › Account.",
+  "new.userTagConsole": "desktop di questo PC",
+  "new.userTagInUse": "in uso: {name}"
 }

@@ -710,5 +710,8 @@
   "log.noMatches": "フィルターに一致する行はありません。",
   "view.toggle": "セッションの表示",
   "view.cards": "カード",
-  "view.list": "リスト"
+  "view.list": "リスト",
+  "new.userNoneLocal": "この PC に有効なローカル ユーザーがありません。Windows の設定 › アカウントで作成してください。",
+  "new.userTagConsole": "この PC のデスクトップ",
+  "new.userTagInUse": "使用中: {name}"
 }

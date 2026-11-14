@@ -260,6 +260,12 @@ public record SessionResponse(
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
+/// <summary>Cuenta local de Windows elegible para una sesión RDP.</summary>
+/// <param name="Name">Nombre de la cuenta (SAM).</param>
+/// <param name="FullName">Nombre completo, vacío si no tiene.</param>
+/// <param name="Console">true si es el usuario del escritorio físico de este PC.</param>
+public record LocalUserResponse(string Name, string FullName, bool Console);
+
 public record OrphanUserResponse(
     /// <summary>Identificador para borrarlo (user:..., sid:... o dir:...).</summary>
     string  Key,
@@ -381,6 +387,16 @@ public static class SessionEndpoints
                 sesión aislada), perfiles de cuentas osms-* ya borradas y carpetas osms-* sueltas en
                 el directorio de perfiles. Los que tienen cuenta se pueden reutilizar al crear una
                 sesión aislada (ReuseIsolatedUser). ?sizes=true calcula el tamaño de cada perfil.
+                """);
+
+        // GET /api/sessions/local-users  (antes que /{id:guid})
+        group.MapGet("/local-users", ListLocalUsers)
+             .WithName("ListLocalUsers")
+             .WithSummary("Usuarios locales de Windows para una sesión RDP")
+             .WithDescription("""
+                Cuentas locales normales, habilitadas y sin bloquear de este PC, sin los usuarios
+                dedicados osms-*. La UI las ofrece en una lista al crear una sesión RDP no aislada.
+                Console=true marca el usuario que tiene abierto el escritorio físico.
                 """);
 
         // DELETE /api/sessions/isolated-users?key=...
@@ -617,6 +633,15 @@ public static class SessionEndpoints
         TypedResults.Ok(svc.ListOrphanUsers(sizes).Select(o => new OrphanUserResponse(
             o.Key, o.Name, o.AccountExists, o.ProfilePath, o.SizeBytes, o.SignedIn,
             o.AccountExists ? SteamLoginProbe.GetState(o.Name) : null)));
+
+    static Ok<IEnumerable<LocalUserResponse>> ListLocalUsers()
+    {
+        ConsoleSession.TryGetUser(out _, out var consoleDomain, out var consoleUser);
+        bool consoleIsLocal = string.Equals(consoleDomain, Environment.MachineName, StringComparison.OrdinalIgnoreCase);
+        return TypedResults.Ok(IsolatedUserManager.ListLocalAccounts().Select(u => new LocalUserResponse(
+            u.Name, u.FullName,
+            consoleIsLocal && string.Equals(u.Name, consoleUser, StringComparison.OrdinalIgnoreCase))));
+    }
 
     static Results<NoContent, BadRequest<string>> DeleteOrphanUser(string key, StreamSessionService svc)
     {

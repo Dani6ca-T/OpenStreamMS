@@ -710,5 +710,8 @@
   "log.noMatches": "Keine Zeile entspricht dem Filter.",
   "view.toggle": "Sitzungsansicht",
   "view.cards": "Karten",
-  "view.list": "Liste"
+  "view.list": "Liste",
+  "new.userNoneLocal": "Auf diesem PC gibt es keine aktivierten lokalen Benutzer. Lege einen unter Windows-Einstellungen › Konten an.",
+  "new.userTagConsole": "Desktop dieses PCs",
+  "new.userTagInUse": "belegt: {name}"
 }

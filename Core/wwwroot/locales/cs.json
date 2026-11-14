@@ -710,5 +710,8 @@
   "log.noMatches": "Filtru neodpovídá žádný řádek.",
   "view.toggle": "Zobrazení relací",
   "view.cards": "Karty",
-  "view.list": "Seznam"
+  "view.list": "Seznam",
+  "new.userNoneLocal": "Na tomto počítači nejsou žádní povolení místní uživatelé. Vytvořte ho v Nastavení Windows › Účty.",
+  "new.userTagConsole": "plocha tohoto počítače",
+  "new.userTagInUse": "používá: {name}"
 }

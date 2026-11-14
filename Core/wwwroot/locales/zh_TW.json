@@ -710,5 +710,8 @@
   "log.noMatches": "沒有符合篩選條件的行。",
   "view.toggle": "工作階段檢視",
   "view.cards": "卡片",
-  "view.list": "清單"
+  "view.list": "清單",
+  "new.userNoneLocal": "此電腦上沒有已啟用的本機使用者。請在 Windows 設定 › 帳戶中建立一個。",
+  "new.userTagConsole": "此電腦的桌面",
+  "new.userTagInUse": "使用中：{name}"
 }

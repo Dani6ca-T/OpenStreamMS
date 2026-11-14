@@ -710,5 +710,8 @@
   "log.noMatches": "Żadna linia nie pasuje do filtra.",
   "view.toggle": "Widok sesji",
   "view.cards": "Karty",
-  "view.list": "Lista"
+  "view.list": "Lista",
+  "new.userNoneLocal": "Na tym komputerze nie ma włączonych użytkowników lokalnych. Utwórz go w Ustawieniach systemu Windows › Konta.",
+  "new.userTagConsole": "pulpit tego komputera",
+  "new.userTagInUse": "w użyciu: {name}"
 }

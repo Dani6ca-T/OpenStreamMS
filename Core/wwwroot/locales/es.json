@@ -710,5 +710,8 @@
   "log.noMatches": "Ninguna línea coincide con el filtro.",
   "view.toggle": "Vista de sesiones",
   "view.cards": "Tarjetas",
-  "view.list": "Lista"
+  "view.list": "Lista",
+  "new.userNoneLocal": "No hay usuarios locales habilitados en este PC. Crea uno en Configuración de Windows › Cuentas.",
+  "new.userTagConsole": "escritorio de este PC",
+  "new.userTagInUse": "en uso: {name}"
 }

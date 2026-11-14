@@ -710,5 +710,8 @@
   "log.noMatches": "Inga rader matchar filtret.",
   "view.toggle": "Sessionsvy",
   "view.cards": "Kort",
-  "view.list": "Lista"
+  "view.list": "Lista",
+  "new.userNoneLocal": "Det finns inga aktiverade lokala användare på den här datorn. Skapa en i Windows-inställningar › Konton.",
+  "new.userTagConsole": "den här datorns skrivbord",
+  "new.userTagInUse": "används: {name}"
 }

@@ -710,5 +710,8 @@
   "log.noMatches": "필터와 일치하는 줄이 없습니다.",
   "view.toggle": "세션 보기",
   "view.cards": "카드",
-  "view.list": "목록"
+  "view.list": "목록",
+  "new.userNoneLocal": "이 PC에 사용 가능한 로컬 사용자가 없습니다. Windows 설정 › 계정에서 만드세요.",
+  "new.userTagConsole": "이 PC의 데스크톱",
+  "new.userTagInUse": "사용 중: {name}"
 }

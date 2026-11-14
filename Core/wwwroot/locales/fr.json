@@ -710,5 +710,8 @@
   "log.noMatches": "Aucune ligne ne correspond au filtre.",
   "view.toggle": "Vue des sessions",
   "view.cards": "Cartes",
-  "view.list": "Liste"
+  "view.list": "Liste",
+  "new.userNoneLocal": "Aucun utilisateur local activé sur ce PC. Créez-en un dans Paramètres Windows › Comptes.",
+  "new.userTagConsole": "bureau de ce PC",
+  "new.userTagInUse": "utilisé par : {name}"
 }

@@ -710,5 +710,8 @@
   "log.noMatches": "Filtreyle eşleşen satır yok.",
   "view.toggle": "Oturum görünümü",
   "view.cards": "Kartlar",
-  "view.list": "Liste"
+  "view.list": "Liste",
+  "new.userNoneLocal": "Bu bilgisayarda etkin yerel kullanıcı yok. Windows Ayarları › Hesaplar bölümünden bir tane oluşturun.",
+  "new.userTagConsole": "bu bilgisayarın masaüstü",
+  "new.userTagInUse": "kullanımda: {name}"
 }

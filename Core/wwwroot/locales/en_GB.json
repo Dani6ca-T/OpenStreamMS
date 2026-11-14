@@ -710,5 +710,8 @@
   "log.noMatches": "No lines match the filter.",
   "view.toggle": "Sessions view",
   "view.cards": "Cards",
-  "view.list": "List"
+  "view.list": "List",
+  "new.userNoneLocal": "There are no enabled local users on this PC. Create one in Windows Settings › Accounts.",
+  "new.userTagConsole": "this PC's desktop",
+  "new.userTagInUse": "in use: {name}"
 }

@@ -710,5 +710,8 @@
   "log.noMatches": "Nenhuma linha corresponde ao filtro.",
   "view.toggle": "Visualização das sessões",
   "view.cards": "Cartões",
-  "view.list": "Lista"
+  "view.list": "Lista",
+  "new.userNoneLocal": "Não há usuários locais ativos neste PC. Crie um em Configurações do Windows › Contas.",
+  "new.userTagConsole": "área de trabalho deste PC",
+  "new.userTagInUse": "em uso: {name}"
 }

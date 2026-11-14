@@ -710,5 +710,8 @@
   "log.noMatches": "Egy sor sem felel meg a szűrőnek.",
   "view.toggle": "Munkamenetek nézete",
   "view.cards": "Kártyák",
-  "view.list": "Lista"
+  "view.list": "Lista",
+  "new.userNoneLocal": "Ezen a gépen nincs engedélyezett helyi felhasználó. Hozzon létre egyet a Windows Gépház › Fiókok részben.",
+  "new.userTagConsole": "a gép asztala",
+  "new.userTagInUse": "használja: {name}"
 }

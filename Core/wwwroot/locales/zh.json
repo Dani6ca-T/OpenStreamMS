@@ -710,5 +710,8 @@
   "log.noMatches": "没有符合筛选条件的行。",
   "view.toggle": "会话视图",
   "view.cards": "卡片",
-  "view.list": "列表"
+  "view.list": "列表",
+  "new.userNoneLocal": "此电脑上没有已启用的本地用户。请在 Windows 设置 › 帐户中创建一个。",
+  "new.userTagConsole": "此电脑的桌面",
+  "new.userTagInUse": "使用中：{name}"
 }
