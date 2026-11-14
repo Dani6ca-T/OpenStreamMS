@@ -23,6 +23,34 @@ The corresponding source code for the Sunshine binaries is available at the comm
 linked above. If that link ever becomes unavailable, open an issue in this repository
 and the maintainer will provide the corresponding source for the distributed version.
 
+## libvirtualgamepad (OsmsPad)
+
+The OsmsPad virtual gamepad driver (`Native/OsmsPad`) is an independent, reduced
+adaptation of ideas from [libvirtualgamepad](https://github.com/Nonary/libvirtualgamepad):
+a UMDF filter above Windows' Virtual HID Framework, controllers owned by the handle
+that created them, and the Xbox Series HID report descriptor and hardware IDs that
+put the device on the XInput path (`XboxSeries.cpp`, `OsmsPad.inf`). Those parts
+are used under the MIT License:
+
+> Copyright (c) 2026 Chase Payne
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this
+> software and associated documentation files (the "Software"), to deal in the Software
+> without restriction, including without limitation the rights to use, copy, modify,
+> merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+> permit persons to whom the Software is furnished to do so, subject to the following
+> conditions:
+>
+> The above copyright notice and this permission notice shall be included in all copies
+> or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+> INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+> PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+> HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+> CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+> OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 ## Inno Setup language resources
 
 The installer uses official Inno Setup language files and additional unmodified

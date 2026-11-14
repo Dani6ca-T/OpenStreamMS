@@ -375,3 +375,5 @@ Core/Installer/publish/
 # Runtime de Sunshine: credenciales, logs y estado de cada instancia
 Sunshine/config/
 Sunshine/*.bak-*
+
+Native/OsmsPad/pkg/
