@@ -428,6 +428,13 @@ namespace OpenStreamMS.Services.Sunshine
                 ["amd_quality"] = "speed",
             };
 
+            // Con el driver propio de mandos (OsmsPad) instalado, Sunshine crea con él mandos Xbox
+            // Series: HID como los DS4, así que GamepadSessionIsolation los aísla igual, y sin
+            // ViGEmBus. Se fuerza (no es un valor por defecto) para que las instalaciones que ya
+            // tenían "vigembus" pasen a OsmsPad; si el driver falta, Sunshine vuelve a ViGEmBus.
+            if (Gamepad.OsmsPad.IsInstalled())
+                overrides["gamepad_driver"] = "osmspad";
+
             // Puertos WebRTC: los gestiona OpenStreamMS (firewall y choques entre sesiones).
             if (cfg.WebRtcPort > 0)
                 overrides["webrtc_port"] = cfg.WebRtcPort.ToString();

@@ -11,5 +11,6 @@
   "MultiSessionTitle": "여러 세션 동시 실행",
   "MultiSessionSubtitle": "이 버전의 중요한 변경 사항",
   "MultiSessionNotice": "OpenStreamMS는 더 이상 TermWrap이나 여러 Windows 세션을 동시에 허용하는 다른 도구를 설치하지 않습니다. 이 PC에 이미 있는 경우 그대로 유지되며 OpenStreamMS가 제거하지 않습니다.%n%n공식적으로 여러 Windows 세션의 동시 실행은 원격 데스크톱 세션 호스트 역할과 사용자당 RDS CAL이 있는 Windows Server에서만 지원됩니다.%n%nWindows Home 또는 Pro에서 이를 위해 타사 도구를 사용하는 것은 사용자의 결정이며 책임입니다. Windows 사용 조건에서 허용되지 않을 수 있습니다. OpenStreamMS는 PC가 이를 허용하는지만 확인합니다.",
-  "WindowsTooOld": "OpenStreamMS를 사용하려면 Windows 10 버전 1607(빌드 14393) 이상이 필요합니다.%n이 PC의 빌드는 %1입니다. Windows를 업데이트한 후 설치 프로그램을 다시 실행하세요."
+  "WindowsTooOld": "OpenStreamMS를 사용하려면 Windows 10 버전 1607(빌드 14393) 이상이 필요합니다.%n이 PC의 빌드는 %1입니다. Windows를 업데이트한 후 설치 프로그램을 다시 실행하세요.",
+  "StatusInstallOsmsPad": "게임패드 드라이버 설치 중 (OsmsPad)..."
 }

@@ -11,5 +11,6 @@
   "MultiSessionTitle": "Több munkamenet egyszerre",
   "MultiSessionSubtitle": "Fontos változás ebben a verzióban",
   "MultiSessionNotice": "Az OpenStreamMS már nem telepíti a TermWrapet vagy más eszközt, amely egyszerre több Windows-munkamenetet tesz lehetővé. Ha ezen a gépen már van ilyen, megmarad: az OpenStreamMS nem távolítja el.%n%nHivatalosan egyszerre több Windows-munkamenet csak Windows Serveren támogatott, a Távoli asztali munkamenetgazda szerepkörrel és felhasználónkénti RDS CAL-licencekkel.%n%nWindows Home vagy Pro rendszeren külső eszköz használata erre az Ön döntése és felelőssége: lehet, hogy a Windows licencfeltételei nem engedik. Az OpenStreamMS csak azt ellenőrzi, hogy a gép lehetővé teszi-e.",
-  "WindowsTooOld": "Az OpenStreamMS-hez Windows 10 1607-es verzió (14393-as build) vagy újabb szükséges.%nEzen a gépen a %1 build fut. Frissítse a Windowst, majd futtassa újra a telepítőt."
+  "WindowsTooOld": "Az OpenStreamMS-hez Windows 10 1607-es verzió (14393-as build) vagy újabb szükséges.%nEzen a gépen a %1 build fut. Frissítse a Windowst, majd futtassa újra a telepítőt.",
+  "StatusInstallOsmsPad": "A játékvezérlő-illesztőprogram telepítése (OsmsPad)..."
 }

@@ -106,6 +106,16 @@ Filename: "powershell.exe"; \
   MinVersion: 10.0.18362; \
   StatusMsg: "{cm:StatusInstallRemoteIdd}"
 
+; 1c. Driver de mandos propio (OsmsPad, ver Native\OsmsPad): Sunshine lo usa en lugar de
+;     ViGEmBus (gamepad_driver = osmspad). Firma de prueba como RemoteIdd; install.ps1 quita
+;     antes la instalación anterior. Necesita Windows 10 2004: en uno anterior se sigue con
+;     ViGEmBus. Log en %ProgramData%\OpenStreamMS\osmspad-setup.log.
+Filename: "powershell.exe"; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\osmspad-pkg\install.ps1"""; \
+  Flags: runhidden waituntilterminated; \
+  MinVersion: 10.0.19041; \
+  StatusMsg: "{cm:StatusInstallOsmsPad}"
+
 ; 2. Iniciar el servicio (solo si el usuario marcó la tarea)
 Filename: "net.exe"; Parameters: "start ""{#AppService}"""; \
   Flags: runhidden waituntilterminated; \
@@ -124,6 +134,12 @@ Filename: "powershell.exe"; \
   Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\remoteidd-pkg\uninstall.ps1"""; \
   Flags: runhidden waituntilterminated; \
   RunOnceId: "UninstallRemoteIdd"
+
+; Driver de mandos: dispositivo ROOT\OSMSPAD, su paquete y su certificado de prueba.
+Filename: "powershell.exe"; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\osmspad-pkg\uninstall.ps1"""; \
+  Flags: runhidden waituntilterminated; \
+  RunOnceId: "UninstallOsmsPad"
 
 ; Detener y eliminar el servicio antes de borrar archivos
 Filename: "{app}\{#AppExeName}"; Parameters: "--uninstall --silent"; \

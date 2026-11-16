@@ -11,5 +11,6 @@
   "MultiSessionTitle": "同时多个会话",
   "MultiSessionSubtitle": "此版本的重要变更",
   "MultiSessionNotice": "OpenStreamMS 不再安装 TermWrap 或任何其他允许同时运行多个 Windows 会话的工具。如果此电脑上已有此类工具，它会保留：OpenStreamMS 不会将其删除。%n%n官方仅在安装了“远程桌面会话主机”角色并配有按用户 RDS CAL 的 Windows Server 上支持同时运行多个 Windows 会话。%n%n在 Windows 家庭版或专业版上，是否为此使用第三方工具由你自行决定并自行承担责任：Windows 许可条款可能不允许这样做。OpenStreamMS 只检查电脑是否允许。",
-  "WindowsTooOld": "OpenStreamMS 需要 Windows 10 版本 1607（内部版本 14393）或更高版本。%n此电脑的内部版本为 %1。请更新 Windows 后重新运行安装程序。"
+  "WindowsTooOld": "OpenStreamMS 需要 Windows 10 版本 1607（内部版本 14393）或更高版本。%n此电脑的内部版本为 %1。请更新 Windows 后重新运行安装程序。",
+  "StatusInstallOsmsPad": "正在安装手柄驱动程序 (OsmsPad)..."
 }

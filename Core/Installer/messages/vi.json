@@ -11,5 +11,6 @@
   "MultiSessionTitle": "Nhiều phiên cùng lúc",
   "MultiSessionSubtitle": "Thay đổi quan trọng trong phiên bản này",
   "MultiSessionNotice": "OpenStreamMS không còn cài đặt TermWrap hay bất kỳ công cụ nào khác cho phép nhiều phiên Windows cùng lúc. Nếu máy này đã có một công cụ như vậy, nó vẫn được giữ lại: OpenStreamMS không gỡ bỏ.%n%nChính thức, nhiều phiên Windows cùng lúc chỉ được hỗ trợ trên Windows Server có vai trò Máy chủ Phiên Máy tính Từ xa và giấy phép RDS CAL theo người dùng.%n%nTrên Windows Home hoặc Pro, dùng công cụ của bên thứ ba cho việc này là quyết định và trách nhiệm của bạn: điều khoản giấy phép Windows có thể không cho phép. OpenStreamMS chỉ kiểm tra xem máy có cho phép hay không.",
-  "WindowsTooOld": "OpenStreamMS cần Windows 10 phiên bản 1607 (bản dựng 14393) trở lên.%nMáy này đang dùng bản dựng %1. Hãy cập nhật Windows rồi chạy lại trình cài đặt."
+  "WindowsTooOld": "OpenStreamMS cần Windows 10 phiên bản 1607 (bản dựng 14393) trở lên.%nMáy này đang dùng bản dựng %1. Hãy cập nhật Windows rồi chạy lại trình cài đặt.",
+  "StatusInstallOsmsPad": "Đang cài trình điều khiển tay cầm (OsmsPad)..."
 }

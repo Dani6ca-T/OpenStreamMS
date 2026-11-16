@@ -31,8 +31,11 @@ namespace OpenStreamMS.Services.Gamepad;
 /// (ya arrancado), se reinicia ese nodo HID para cerrar los handles ya abiertos.
 /// </para>
 /// <para>
-/// Qué Sunshine creó cada mando se deduce del log: Sunshine escribe
-/// "Gamepad N will be ..." justo antes de enchufarlo en ViGEmBus.
+/// Qué Sunshine creó cada mando de ViGEmBus se deduce del log: Sunshine escribe
+/// "Gamepad N will be ..." justo antes de enchufarlo en ViGEmBus. Los de OsmsPad (driver
+/// propio, Native/OsmsPad) no hace falta adivinarlos: el driver pone en su ID de instancia la
+/// sesión de Windows de quien lo creó (<c>...OSMS_S&lt;sesión&gt;_P&lt;n&gt;</c>). Del log solo
+/// se saca su número en ese Sunshine, para el mosaico.
 /// </para>
 /// <para>
 /// Mosaico (<see cref="Mosaic.MosaicService"/>): el mando N que crea el Sunshine de la
@@ -43,6 +46,8 @@ namespace OpenStreamMS.Services.Gamepad;
 public sealed partial class GamepadSessionIsolation : BackgroundService
 {
     private const string ViGEmBusHardwareId = @"Nefarius\ViGEmBus\Gen1";
+    /// <summary>Dispositivo raíz de OsmsPad: sus hijos directos son los mandos, como en un bus ViGEm.</summary>
+    private const string OsmsPadHardwareId = @"ROOT\OSMSPAD";
     private static readonly TimeSpan Fallback      = TimeSpan.FromSeconds(1);
     private static readonly TimeSpan BusRescan     = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan MatchBefore   = TimeSpan.FromSeconds(20);
@@ -53,6 +58,14 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
     [GeneratedRegex(@"^\[(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d{3})\]: \w+: Gamepad (\d+) will be", RegexOptions.Multiline)]
     private static partial Regex GamepadCreatedRegex();
+
+    /// <summary>"OsmsPad controller P created for gamepad N": mando P del driver = mando N de ese Sunshine.</summary>
+    [GeneratedRegex(@"OsmsPad controller (\d+) created for gamepad (\d+)")]
+    private static partial Regex OsmsPadCreatedRegex();
+
+    /// <summary>Sesión de Windows y número de mando en el ID de instancia de un mando OsmsPad.</summary>
+    [GeneratedRegex(@"OSMS_S(\d+)_P(\d+)$", RegexOptions.IgnoreCase)]
+    internal static partial Regex OsmsPadInstanceRegex();
 
     private readonly StreamSessionService _sessions;
     private readonly Seats.SeatManager _seats;
@@ -79,6 +92,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         public long Offset;
         public byte[] Head = [];
         public readonly List<(DateTime At, int Index)> Pending = [];   // creaciones aún sin mando asignado
+        public readonly Dictionary<int, int> OsmsPadIndex = [];          // mando del driver → mando de este Sunshine
     }
 
     private readonly Dictionary<string, Pad>     _pads    = new(StringComparer.OrdinalIgnoreCase);
@@ -297,6 +311,14 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private void TryAssign(Pad pad,
         IReadOnlyList<(Guid Id, string Name, uint RdpSessionId, string SunshineLog)> running, DateTime now)
     {
+        if (OsmsPadInstanceRegex().Match(pad.InstanceId) is { Success: true } osms)
+        {
+            AssignOsmsPad(pad, running, now,
+                          uint.Parse(osms.Groups[1].ValueSpan, CultureInfo.InvariantCulture),
+                          int.Parse(osms.Groups[2].ValueSpan, CultureInfo.InvariantCulture));
+            return;
+        }
+
         Guid? owner = null;
         (DateTime At, int Index) best = (DateTime.MaxValue, -1);
         foreach (var (sessionId, cursor) in _cursors)
@@ -326,6 +348,39 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
         var session = running.FirstOrDefault(s => s.Id == owner);
         if (session.Id == Guid.Empty) return;         // la sesión del log ya no está en marcha
+        AssignTo(pad, session);
+    }
+
+    /// <summary>
+    /// Mando de OsmsPad: la sesión de Windows viene en su ID. Si es la de una sesión de
+    /// OpenStreamMS en marcha, se trata como un mando de su Sunshine (mosaico incluido); si no
+    /// (p. ej. OsmsPadTest), se aísla igualmente en esa sesión de Windows.
+    /// </summary>
+    private void AssignOsmsPad(Pad pad,
+        IReadOnlyList<(Guid Id, string Name, uint RdpSessionId, string SunshineLog)> running,
+        DateTime now, uint windowsSession, int driverPad)
+    {
+        var session = running.FirstOrDefault(s => s.RdpSessionId == windowsSession);
+        if (session.Id == Guid.Empty)
+        {
+            pad.Session = Guid.Empty;
+            pad.SessionName = $"Windows {windowsSession}";
+            pad.WindowsSession = windowsSession;
+            Logger.Log($"[Gamepad] Mando OsmsPad {pad.InstanceId} → sesión de Windows {windowsSession} (no es de ninguna sesión de OpenStreamMS)");
+            return;
+        }
+        // El número del mando en su Sunshine solo hace falta para el mosaico: se espera un poco
+        // a que salga en el log y, si no, el mando se queda en la sesión que lo creó.
+        if (_cursors.TryGetValue(session.Id, out var cursor) && cursor.OsmsPadIndex.TryGetValue(driverPad, out int index))
+            pad.Index = index;
+        else if (now - pad.FirstSeen < MatchAfter)
+            return;
+        AssignTo(pad, session);
+    }
+
+    private void AssignTo(Pad pad, (Guid Id, string Name, uint RdpSessionId, string SunshineLog) session)
+    {
+        Guid owner = session.Id;
         pad.Creator = owner;
 
         // Mosaico: el mando N de la anfitriona es de la sesión N.
@@ -386,6 +441,9 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             cur.Head = head;
 
             var cutoff = DateTime.Now - MatchBefore - AssignTimeout;
+            foreach (Match m in OsmsPadCreatedRegex().Matches(chunk))
+                cur.OsmsPadIndex[int.Parse(m.Groups[1].ValueSpan, CultureInfo.InvariantCulture)] =
+                    int.Parse(m.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
             foreach (Match m in GamepadCreatedRegex().Matches(chunk))
             {
                 if (DateTime.TryParseExact(m.Groups[1].Value, "yyyy-MM-dd HH:mm:ss.fff",
@@ -598,9 +656,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
     }
 
+    /// <summary>Buses de ViGEm y dispositivos raíz de OsmsPad: sus hijos directos son mandos.</summary>
     private static List<string> FindViGEmBuses() =>
         Cm.DeviceIds(@"ROOT\SYSTEM")
-          .Where(id => Cm.HardwareIds(id).Any(h => h.Equals(ViGEmBusHardwareId, StringComparison.OrdinalIgnoreCase)))
+          .Where(id => Cm.HardwareIds(id).Any(h => h.Equals(ViGEmBusHardwareId, StringComparison.OrdinalIgnoreCase) ||
+                                                    h.Equals(OsmsPadHardwareId, StringComparison.OrdinalIgnoreCase)))
           .ToList();
 
     // ── Interop ──────────────────────────────────────────────────────────────
