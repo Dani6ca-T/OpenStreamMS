@@ -532,8 +532,20 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         foreach (var gone in _physical.Keys.Where(id => !Cm.Exists(id)).ToList())
             _physical.Remove(gone);
 
-        HidePhysical(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null).ToList());
+        HidePhysical(WithHidHideChildren(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null)));
     }
+
+    /// <summary>
+    /// Cada mando con sus nodos hijos de las clases que filtra HidHide. Un mando Xbox One (GIP)
+    /// puede publicar la entrada también por colecciones HID hijas que Windows no marca como
+    /// mando (p. ej. "definidas por el fabricante"): sin ocultarlas, otras sesiones lo leían
+    /// por ahí aunque el nodo del mando estuviera oculto (issue #11).
+    /// </summary>
+    private static List<string> WithHidHideChildren(IEnumerable<string> controllers) =>
+        controllers
+            .SelectMany(id => Cm.Descendants(id).Where(Cm.IsHidHideClass).Prepend(id))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
 
     /// <summary>
     /// Deja cada mando físico visible solo en su sesión destino: la del puesto que lo reclama
@@ -739,7 +751,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             finally { Marshal.FreeHGlobal(filter); }
         }
 
-        public static IEnumerable<string> DeviceIds(string filter,
+        public static IEnumerable<string> DeviceIds(string? filter,
             int flags = CM_GETIDLIST_FILTER_ENUMERATOR | CM_GETIDLIST_FILTER_PRESENT)
         {
             if (CM_Get_Device_ID_List_SizeW(out int len, filter, flags) != CR_SUCCESS || len <= 1) return [];
@@ -844,6 +856,69 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             }
             return result;
         }
+
+        private const int CM_DRP_DEVICEDESC   = 0x1;
+        private const int CM_DRP_SERVICE      = 0x5;
+        private const int CM_DRP_FRIENDLYNAME = 0xD;
+        private const int CM_DRP_UPPERFILTERS = 0x12;
+        private const int CM_DRP_LOWERFILTERS = 0x13;
+
+        /// <summary>Todos los nodos presentes.</summary>
+        public static IEnumerable<string> AllPresent() => DeviceIds(null, CM_GETIDLIST_FILTER_PRESENT);
+
+        /// <summary>Servicio (driver de función) del nodo, o null.</summary>
+        public static string? ServiceOf(string deviceId) => RegistryStrings(deviceId, CM_DRP_SERVICE).FirstOrDefault();
+
+        /// <summary>
+        /// Una línea con lo que hace falta para saber por dónde llega un mando a una sesión:
+        /// nombre, clase, driver, filtros y estado (o código de problema).
+        /// </summary>
+        public static string Describe(string deviceId)
+        {
+            string name = RegistryStrings(deviceId, CM_DRP_FRIENDLYNAME).FirstOrDefault()
+                       ?? RegistryStrings(deviceId, CM_DRP_DEVICEDESC).FirstOrDefault() ?? "";
+            int semi = name.LastIndexOf(';');
+            if (semi >= 0) name = name[(semi + 1)..];   // "@oem12.inf,%desc%;Nombre"
+            string cls = ClassGuid(deviceId) switch
+            {
+                null => "-",
+                var c when c.Equals(HidClass, StringComparison.OrdinalIgnoreCase) => "HID",
+                var c when c.Equals(XnaCompositeClass, StringComparison.OrdinalIgnoreCase) => "XUSB (Xbox 360)",
+                var c when c.Equals(XboxCompositeClass, StringComparison.OrdinalIgnoreCase) => "XboxComposite (Xbox One/GIP)",
+                var c => c,
+            };
+            string state = "?";
+            if (CM_Locate_DevNodeW(out int inst, deviceId, CM_LOCATE_DEVNODE_NORMAL) == CR_SUCCESS &&
+                CM_Get_DevNode_Status(out uint status, out uint problem, inst, 0) == CR_SUCCESS)
+                state = problem != 0 ? $"problema {problem}" : (status & DN_STARTED) != 0 ? "arrancado" : "sin arrancar";
+            string Join(int prop) => string.Join(",", RegistryStrings(deviceId, prop)) is { Length: > 0 } v ? v : "-";
+            return $"{deviceId} | {name} | clase {cls} | driver {ServiceOf(deviceId) ?? "-"} | " +
+                   $"filtros sup. {Join(CM_DRP_UPPERFILTERS)} inf. {Join(CM_DRP_LOWERFILTERS)} | {state}";
+        }
+
+        /// <summary>
+        /// Dispositivo físico del que cuelga un nodo: se sube mientras el padre no sea un hub
+        /// USB, un bus o la raíz (máximo 8 niveles).
+        /// </summary>
+        public static string RootOf(string deviceId)
+        {
+            string current = deviceId;
+            for (int i = 0; i < 8 && Parent(current) is { } parent; i++)
+            {
+                if (IsBusOrHub(parent)) break;
+                current = parent;
+            }
+            return current;
+        }
+
+        private static bool IsBusOrHub(string deviceId) =>
+            deviceId.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"PCI", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"ACPI", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"ROOT", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"HTREE", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"BTH", StringComparison.OrdinalIgnoreCase) ||
+            HardwareIds(deviceId).Any(h => h.StartsWith(@"USB\Class_09", StringComparison.OrdinalIgnoreCase));
 
         private static string? Id(int devInst)
         {

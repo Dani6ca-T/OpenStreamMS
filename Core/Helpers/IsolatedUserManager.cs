@@ -101,6 +101,16 @@ internal static class IsolatedUserManager
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    struct USER_INFO_20
+    {
+        public string? usri20_name;
+        public string? usri20_full_name;
+        public string? usri20_comment;
+        public uint    usri20_flags;
+        public uint    usri20_user_id;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     struct USER_INFO_1003
     {
         public string usri1003_password;
@@ -123,6 +133,8 @@ internal static class IsolatedUserManager
     const int  MAX_PREFERRED_LENGTH  = -1;
     const uint USER_PRIV_USER        = 1;
     const uint UF_SCRIPT             = 0x0001;  // obligatorio en NetUserAdd
+    const uint UF_ACCOUNTDISABLE     = 0x0002;
+    const uint UF_LOCKOUT            = 0x0010;
     const uint UF_DONT_EXPIRE_PASSWD = 0x10000;
 
     const string UserListKey =
@@ -401,6 +413,39 @@ internal static class IsolatedUserManager
             finally { NetApiBufferFree(buf); }
         } while (rc == ERROR_MORE_DATA);
         return names;
+    }
+
+    /// <summary>Cuenta local de Windows que se puede elegir para una sesión RDP.</summary>
+    internal sealed record LocalAccount(string Name, string FullName);
+
+    /// <summary>
+    /// Cuentas locales normales habilitadas y sin bloquear, sin las osms-* que gestiona
+    /// OpenStreamMS (esas van por la sesión aislada). Ordenadas por nombre.
+    /// </summary>
+    internal static List<LocalAccount> ListLocalAccounts()
+    {
+        var result = new List<LocalAccount>();
+        int resume = 0, rc;
+        int size = Marshal.SizeOf<USER_INFO_20>();
+        do
+        {
+            rc = NetUserEnum(null, 20, FILTER_NORMAL_ACCOUNT, out var buf, MAX_PREFERRED_LENGTH,
+                             out int read, out _, ref resume);
+            if (rc is not (NERR_Success or ERROR_MORE_DATA)) break;
+            try
+            {
+                for (int i = 0; i < read; i++)
+                {
+                    var u = Marshal.PtrToStructure<USER_INFO_20>(buf + i * size);
+                    if (string.IsNullOrEmpty(u.usri20_name) || IsManagedName(u.usri20_name)) continue;
+                    if ((u.usri20_flags & (UF_ACCOUNTDISABLE | UF_LOCKOUT)) != 0) continue;
+                    result.Add(new LocalAccount(u.usri20_name, u.usri20_full_name ?? ""));
+                }
+            }
+            finally { NetApiBufferFree(buf); }
+        } while (rc == ERROR_MORE_DATA);
+        result.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
+        return result;
     }
 
     /// <summary>

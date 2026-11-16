@@ -36,7 +36,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         // Sin puestos exclusivos nadie necesita quedarse sin apagar: el grupo Usuarios recupera el derecho.
         if (!_seats.Values.Any(s => s.ExclusiveSession)) ShutdownRight.Restore();
         Logger.Log($"[Seats] Gestor de puestos iniciado ({_seats.Count} puesto(s)).");
-        // Antes de autoarrancar, que termine la comprobación de TermWrap/RemoteIdd: decide la
+        // Antes de autoarrancar, que termine la comprobación de multi-RDP/RemoteIdd: decide la
         // captura de los puestos y puede quitar RemoteIdd de RDP-Tcp.
         try { await OpenStreamMS.Services.Session.RdpWrapperManager.MultiRdpChecked.WaitAsync(TimeSpan.FromSeconds(120), stoppingToken); }
         catch (TimeoutException) { Logger.Warning("[Seats] La comprobación de multi-RDP no terminó en 120 s; se autoarrancan los puestos igualmente."); }

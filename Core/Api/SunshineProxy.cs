@@ -37,9 +37,12 @@ public sealed class SunshineProxy
         StreamSession session, HttpMethod method, string path, object? body = null,
         CancellationToken ct = default)
     {
+        // Sin credenciales (la sesión aún no se ha iniciado nunca) o con Sunshine sin responder
+        // (en pausa por un puesto, relanzándose): 503 sin cuerpo, que cada endpoint convierte en
+        // su error estructurado, en vez de una excepción que acababa en un 500 genérico.
         if (string.IsNullOrEmpty(session.SunshineAuthUser) ||
             string.IsNullOrEmpty(session.SunshineAuthPass))
-            throw new InvalidOperationException("La sesión no tiene credenciales de Sunshine generadas (¿se ha iniciado al menos una vez?).");
+            return (StatusCodes.Status503ServiceUnavailable, null);
 
         var url = $"https://127.0.0.1:{session.SunshineWebPort}{path}";
         using var req = new HttpRequestMessage(method, url);
@@ -52,8 +55,20 @@ public sealed class SunshineProxy
             req.Content = new StringContent(
                 JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
 
-        using var resp = await _http.SendAsync(req, HttpCompletionOption.ResponseContentRead, ct);
-        var text = await resp.Content.ReadAsStringAsync(ct);
+        HttpResponseMessage resp;
+        string text;
+        try
+        {
+            resp = await _http.SendAsync(req, HttpCompletionOption.ResponseContentRead, ct);
+        }
+        catch (Exception ex) when (ex is HttpRequestException ||
+                                   (ex is OperationCanceledException && !ct.IsCancellationRequested))
+        {
+            return (StatusCodes.Status503ServiceUnavailable, null);
+        }
+        using (resp)
+            text = await resp.Content.ReadAsStringAsync(ct);
+        var statusCode = (int)resp.StatusCode;
 
         JsonElement? parsed = null;
         if (!string.IsNullOrWhiteSpace(text))
@@ -66,6 +81,6 @@ public sealed class SunshineProxy
             catch { /* no-JSON response */ }
         }
 
-        return ((int)resp.StatusCode, parsed);
+        return (statusCode, parsed);
     }
 }
