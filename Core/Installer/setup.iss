@@ -7,7 +7,7 @@
 #define AppName      "OpenStreamMS"
 ; La CI pasa la versión con /DAppVersion=x.y.z (sale del tag de la release).
 #ifndef AppVersion
-  #define AppVersion "1.5.1"
+  #define AppVersion "1.6.1"
 #endif
 #define AppPublisher "OpenstreamCo"
 #define AppURL       "https://github.com/OpenstreamCo/OpenStreamMultiSeat"
