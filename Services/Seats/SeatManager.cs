@@ -368,6 +368,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             seat.StatusDetail = "Activo: imagen, audio y periféricos conectados.";
             Interlocked.Increment(ref _generation);   // que GamepadSessionIsolation reasigne los mandos
             Logger.Log($"[Seats] Puesto '{seat.Name}' activo.");
+            OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
+                OpenStreamMS.Services.Extensions.ExtensionEvent.SeatStart,
+                StreamSessionService.HookContextFor(session) with { SeatId = seat.Id, SeatName = seat.Name });
 
             if (seat.Monitor is not null) TryStartConsoleArea(seat.Monitor);
         }
@@ -499,6 +502,12 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     public void Stop(Guid id, bool disconnectedFromSeat = false, bool restarting = false)
     {
         var seat = Require(id);
+
+        // Ganchos de extensiones: con el puesto y su sesión aún en marcha.
+        if (seat.State == SeatState.Running && seat.SessionId is { } hookSid && sessions.Get(hookSid) is { } hookSession)
+            OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
+                OpenStreamMS.Services.Extensions.ExtensionEvent.SeatStop,
+                StreamSessionService.HookContextFor(hookSession) with { SeatId = seat.Id, SeatName = seat.Name });
 
         // Antes que nada: el monitor físico vuelve a ser el principal de la consola.
         if (seat.Monitor is { } sm && _consoleHalf?.MonitorPath == sm.DevicePath) StopConsoleHalf();

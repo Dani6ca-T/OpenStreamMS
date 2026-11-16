@@ -572,6 +572,21 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         AudioSessionMuter.StartPersistentMute((uint)clientPid);
     }
 
+    /// <summary>Lo que reciben los ganchos de extensiones de esta sesión.</summary>
+    internal static OpenStreamMS.Services.Extensions.HookContext HookContextFor(StreamSession session, string? windowsUser = null)
+    {
+        if (windowsUser is null && !session.Local)
+        {
+            try
+            {
+                var u = ResolveUser(session);
+                windowsUser = string.IsNullOrWhiteSpace(u.Domain) || u.Domain == "." ? u.Username : $"{u.Domain}\\{u.Username}";
+            }
+            catch { }
+        }
+        return new(session.Id, session.Name, session.RdpSessionId, windowsUser, session.Local);
+    }
+
     private static StreamUserConfig ResolveUser(StreamSession session)
     {
         if (session.Isolated)
@@ -654,6 +669,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     {
         try
         {
+            // Ganchos de extensiones: antes de cerrar nada, con la sesión de Windows aún viva.
+            if (session.RdpSessionId > 0 && !session.IsComposite)
+                OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
+                    OpenStreamMS.Services.Extensions.ExtensionEvent.SessionStop, HookContextFor(session));
+
             // Sunshine corre dentro de la sesión RDP. Si matamos FreeRDP primero,
             // Windows puede tirar abajo Sunshine antes de que escriba named_devices.
             // Pararlo primero permite /api/restart -> save_state -> mirror.
@@ -1252,6 +1272,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             if (running)
             {
                 Logger.Log($"[{session.Name}] Sesión activa (RDP={rdpId}).", session.Id);
+                OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
+                    OpenStreamMS.Services.Extensions.ExtensionEvent.SessionStart, HookContextFor(session));
             }
             else
             {
@@ -1320,6 +1342,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
 
         Logger.Log($"[{session.Name}] Sesión local activa (sesión de Windows {consoleId}).", session.Id);
+        OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
+            OpenStreamMS.Services.Extensions.ExtensionEvent.SessionStart, HookContextFor(session, $"{domain}\\{username}"));
     }
 
     private SunshineManager GetOrCreateSunshineManager(StreamSession session,

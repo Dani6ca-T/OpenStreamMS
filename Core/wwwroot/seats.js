@@ -335,14 +335,22 @@ function openMapZone(el) {
 }
 
 function switchTab(tab) {
+  // "ext:<id>" es la pestaña propia de una extensión (un iframe aislado en view-ext).
+  const extId = tab.startsWith('ext:') ? tab.slice(4) : null;
   activeTab = tab;
   document.getElementById('tab-sessions').classList.toggle('active', tab === 'sessions');
   document.getElementById('tab-seats').classList.toggle('active', tab === 'seats');
+  document.getElementById('tab-extensions').classList.toggle('active', tab === 'extensions');
+  document.querySelectorAll('.tabs .tab[data-ext]').forEach(b => b.classList.toggle('active', b.dataset.ext === extId));
   document.getElementById('view-sessions').classList.toggle('hidden', tab !== 'sessions');
   document.getElementById('view-seats').classList.toggle('hidden', tab !== 'seats');
+  document.getElementById('view-extensions').classList.toggle('hidden', tab !== 'extensions');
+  document.getElementById('view-ext').classList.toggle('hidden', !extId);
   // La pestaña va en la URL para que recargar o compartir el enlace no la pierda.
-  history.replaceState(null, '', tab === 'seats' ? '#seats' : location.pathname + location.search);
+  history.replaceState(null, '', tab === 'sessions' ? location.pathname + location.search : `#${tab}`);
   moveTabIndicator();
+  if (tab === 'extensions') enterExtensionsTab(); else leaveExtensionsTab();
+  if (extId) showExtensionPanel(extId);
   if (tab === 'seats') {
     loadSeats();
     loadMonitorMap();

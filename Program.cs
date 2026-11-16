@@ -134,6 +134,7 @@ static async Task RunService(string[] args)
     builder.Services.AddSingleton<HidHideManager>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Seats.SeatManager>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Metrics.SystemMetrics>();
+    builder.Services.AddSingleton<OpenStreamMS.Services.Extensions.ExtensionManager>();
     builder.Services.AddHostedService<OpenStreamService>();
     builder.Services.AddHostedService<OpenStreamMS.Services.OpenStream.ActiveStreamsMonitor>();
     builder.Services.AddHostedService<OpenStreamMS.Services.Gamepad.GamepadSessionIsolation>();
@@ -315,6 +316,10 @@ static async Task RunService(string[] args)
     // ── Sesiones compuestas (varias sesiones en un mismo stream) ──────────────
     app.MapCompositeApi();
 
+    // ── Extensiones (GitHub: componentes, ganchos, apps y pestañas) ──────────
+    app.MapExtensionApi();
+    app.Services.GetRequiredService<OpenStreamMS.Services.Extensions.ExtensionManager>().DetectAllInBackground();
+
     // ── Multi-RDP API (si el equipo admite varias sesiones a la vez) ──
     app.MapRdpWrapperApi();
 
@@ -371,7 +376,9 @@ static void RunTray(bool showWindow = false)
 
 // ── Rutas públicas (sin autenticación) ───────────────────────────────────────
 
-static bool IsPublicPath(string path) => path.ToLowerInvariant() is
+// /ext/…: pestañas de extensiones. No usan la cookie (el iframe está aislado); las protege
+// un token aleatorio en la ruta que solo da el panel autenticado (ExtensionManager.ResolvePanelFile).
+static bool IsPublicPath(string path) => path.StartsWith("/ext/", StringComparison.Ordinal) || path.ToLowerInvariant() is
     "/login" or "/login.html" or "/setup" or "/setup.html" or "/style.css" or
     "/app.js" or "/seats.js" or "/i18n.js" or "/ui-messages.js" or "/theme.js" or "/favicon.svg" or "/favicon.ico" or
     "/locales/bg.json" or "/locales/cs.json" or "/locales/de.json" or "/locales/en.json" or

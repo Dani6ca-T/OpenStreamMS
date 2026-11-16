@@ -88,6 +88,7 @@
       <span class="tab-indicator" id="tab-indicator"></span>
       <button class="tab active" id="tab-sessions" onclick="switchTab('sessions')" data-i18n="tab.sessions">Sesiones</button>
       <button class="tab" id="tab-seats" onclick="switchTab('seats')" data-i18n="tab.seats">Puestos</button>
+      <button class="tab" id="tab-extensions" onclick="switchTab('extensions')" data-i18n="tab.extensions">Extensiones</button>
     </div>
 
     <!-- Vista: Sesiones -->
@@ -123,6 +124,36 @@
       <div class="sessions-grid" id="seats-grid">
         <div class="empty-state"><p data-i18n="empty.loading">Cargando…</p></div>
       </div>
+    </section>
+
+    <!-- Vista: Extensiones -->
+    <section id="view-extensions" class="hidden">
+      <div class="toolbar">
+        <span class="toolbar-title"><span data-i18n="toolbar.extensions">Extensiones</span> — <strong id="ext-count">0</strong></span>
+        <div class="toolbar-actions">
+          <button class="btn btn-ghost btn-sm" type="button" onclick="openCatalogs()" data-i18n="ext.catalogs">Catálogos</button>
+          <button class="btn btn-primary btn-sm" type="button" onclick="openExtInstall()" data-i18n="ext.installLink">+ Instalar desde enlace</button>
+        </div>
+      </div>
+      <h3 class="ext-section-title" data-i18n="ext.installed">Instaladas</h3>
+      <div class="sessions-grid" id="ext-installed-grid">
+        <div class="empty-state"><p data-i18n="empty.loading">Cargando…</p></div>
+      </div>
+      <div class="toolbar ext-available-bar">
+        <h3 class="ext-section-title" data-i18n="ext.available">Disponibles en tus catálogos</h3>
+        <div class="toolbar-actions">
+          <input type="search" id="ext-search" class="log-search" oninput="renderExtensions()" data-i18n-placeholder="ext.search" placeholder="Buscar…" data-i18n-aria="ext.search" aria-label="Buscar…">
+          <button class="btn btn-ghost btn-sm" type="button" onclick="loadExtensionCatalogs(true)" data-i18n="ext.refresh">Actualizar</button>
+        </div>
+      </div>
+      <div class="sessions-grid" id="ext-available-grid">
+        <div class="empty-state"><p data-i18n="empty.loading">Cargando…</p></div>
+      </div>
+    </section>
+
+    <!-- Vista: pestaña propia de una extensión (aislada: sandbox sin allow-same-origin) -->
+    <section id="view-ext" class="hidden">
+      <iframe id="ext-frame" class="ext-frame" sandbox="allow-scripts allow-forms allow-popups allow-downloads" referrerpolicy="no-referrer" title=""></iframe>
     </section>
   </main>
 </div>
@@ -643,6 +674,68 @@
   </div>
 </div>
 
+<!-- ─── Modal: instalar o actualizar una extensión ────────────────────────── -->
+<div class="modal-backdrop hidden" id="ext-install-modal" onclick="handleBackdropClick(event,'ext-install-modal')">
+  <div class="modal modal-wide" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="ext-install-title" data-i18n="ext.installTitle">Instalar extensión</h3>
+      <button class="modal-close" type="button" data-i18n-aria="btn.close" aria-label="Cerrar" onclick="closeExtInstall()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="ext-install-error" class="auth-alert error" style="display:none"></div>
+      <form id="ext-link-row" class="ext-link-row" onsubmit="event.preventDefault(); checkExt()">
+        <label for="ext-link" data-i18n="ext.linkLabel">Enlace de GitHub</label>
+        <div class="ext-link-input">
+          <input type="text" id="ext-link" autocomplete="off" spellcheck="false" placeholder="https://github.com/owner/repo">
+        </div>
+        <p class="muted" data-i18n="ext.linkHint">Un repositorio, una carpeta (…/tree/rama/carpeta) o una release (…/releases/tag/v1).</p>
+      </form>
+      <div id="ext-preview" class="ext-preview"></div>
+      <div id="ext-op" class="hidden">
+        <p id="ext-op-state" class="muted"></p>
+        <pre id="ext-op-log" class="ext-log"></pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" type="button" onclick="closeExtInstall()" data-i18n="btn.cancel">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="ext-check-btn" onclick="checkExt()" data-i18n="ext.check">Comprobar</button>
+      <button class="btn btn-primary hidden" type="button" id="ext-install-btn" onclick="installExt()" disabled data-i18n="ext.install">Instalar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Modal: catálogos de extensiones ───────────────────────────────────── -->
+<div class="modal-backdrop hidden" id="ext-catalogs-modal" onclick="handleBackdropClick(event,'ext-catalogs-modal')">
+  <div class="modal modal-wide" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 data-i18n="ext.catalogsTitle">Catálogos</h3>
+      <button class="modal-close" type="button" data-i18n-aria="btn.close" aria-label="Cerrar" onclick="hide('ext-catalogs-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="muted" data-i18n="ext.catalogsIntro">Un catálogo es un repositorio de GitHub con un osms-catalog.json que enlaza extensiones. Añade solo catálogos en los que confíes.</p>
+      <div id="ext-catalog-list" class="ext-catalog-list"></div>
+      <div id="ext-catalog-error" class="auth-alert error" style="display:none"></div>
+      <form class="ext-link-input" onsubmit="addCatalog(event)">
+        <input type="text" id="ext-catalog-url" autocomplete="off" spellcheck="false" placeholder="https://github.com/owner/catalog" data-i18n-aria="ext.catalogUrl" aria-label="Enlace del catálogo">
+        <button class="btn btn-primary btn-sm" type="submit" id="ext-catalog-add" data-i18n="ext.catalogAdd">Añadir</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Modal: registro de una extensión ──────────────────────────────────── -->
+<div class="modal-backdrop hidden" id="ext-log-modal" onclick="handleBackdropClick(event,'ext-log-modal')">
+  <div class="modal modal-lg" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="ext-log-title">Log</h3>
+      <button class="modal-close" type="button" data-i18n-aria="btn.close" aria-label="Cerrar" onclick="hide('ext-log-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <pre id="ext-log-body" class="ext-log ext-log-tall"></pre>
+    </div>
+  </div>
+</div>
+
 <!-- ─── Diálogo de confirmación (sustituye a confirm() del navegador) ────── -->
 <div class="modal-backdrop hidden" id="confirm-modal" onclick="handleBackdropClick(event,'confirm-modal')">
   <div class="modal modal-confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-msg" onclick="event.stopPropagation()">
@@ -1062,6 +1155,7 @@
 <script src="/insights.js"></script>
 <script src="/seats.js"></script>
 <script src="/composites.js"></script>
+<script src="/extensions.js"></script>
 <script src="/guide.js"></script>
 </body>
 </html>

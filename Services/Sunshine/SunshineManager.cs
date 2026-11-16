@@ -183,6 +183,16 @@ namespace OpenStreamMS.Services.Sunshine
                     Logger.Warning($"[Sunshine] No se pudieron configurar las entradas Reboot/Power Off en apps.json: {ex.Message}");
                 }
 
+                try
+                {
+                    SunshineConfigurator.ConfigureExtensionApps(_sunshineExe,
+                        OpenStreamMS.Services.Extensions.ExtensionManager.Instance?.GetSunshineApps() ?? []);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warning($"[Sunshine] No se pudieron configurar las apps de extensiones en apps.json: {ex.Message}");
+                }
+
                 _configured = true;
             }
 
