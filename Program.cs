@@ -133,11 +133,13 @@ static async Task RunService(string[] args)
     builder.Services.AddSingleton<ViGEmBusManager>();
     builder.Services.AddSingleton<HidHideManager>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Seats.SeatManager>();
+    builder.Services.AddSingleton<OpenStreamMS.Services.Mosaic.MosaicService>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Metrics.SystemMetrics>();
     builder.Services.AddHostedService<OpenStreamService>();
     builder.Services.AddHostedService<OpenStreamMS.Services.OpenStream.ActiveStreamsMonitor>();
     builder.Services.AddHostedService<OpenStreamMS.Services.Gamepad.GamepadSessionIsolation>();
     builder.Services.AddHostedService(sp => sp.GetRequiredService<OpenStreamMS.Services.Seats.SeatManager>());
+    builder.Services.AddHostedService(sp => sp.GetRequiredService<OpenStreamMS.Services.Mosaic.MosaicService>());
 
     builder.Services.ConfigureHttpJsonOptions(options =>
         options.SerializerOptions.Converters.Add(
@@ -194,7 +196,12 @@ static async Task RunService(string[] args)
         // Icono de bandeja de la consola: solo lo que muestra su menú, sin contraseña.
         // "Viene de este PC" no basta: los puestos y las sesiones de streaming también son
         // este PC, con otros usuarios. Se exige que el proceso esté en la sesión de la consola.
-        if (IsTrayRequest(ctx) && IsConsoleLocal(ctx)) { await next(); return; }
+        if (IsTrayRequest(ctx) && IsConsoleLocal(ctx))
+        {
+            ctx.Items[SessionEndpoints.TrayRequestItem] = true;   // la respuesta va sin credenciales de Sunshine
+            await next();
+            return;
+        }
 
         // Primera vez: aún no se han configurado credenciales → pantalla de setup
         if (string.IsNullOrEmpty(cfg.AdminUsername))
@@ -306,6 +313,9 @@ static async Task RunService(string[] args)
 
     // ── Seats API (puestos locales) ───────────────────────────────────────────
     app.MapSeatApi();
+
+    // ── Mosaic API (hasta cuatro sesiones en un mismo stream) ─────────────────
+    app.MapMosaicApi();
 
     // ── Multi-RDP API (si el equipo admite varias sesiones a la vez) ──
     app.MapRdpWrapperApi();
@@ -565,7 +575,11 @@ static void RunNetsh(string args)
         CreateNoWindow         = true,
     };
     using var p = Process.Start(psi)!;
-    p.WaitForExit();
+    // Leer la salida mientras corre: si nadie vacía la tubería y se llena, el proceso no termina.
+    var out_ = p.StandardOutput.ReadToEndAsync();
+    var err_ = p.StandardError.ReadToEndAsync();
+    if (!p.WaitForExit(30_000)) { try { p.Kill(true); } catch { } }
+    Task.WaitAll([out_, err_], 2_000);
 }
 
 static void RunSc(string scArgs)
@@ -578,9 +592,13 @@ static void RunSc(string scArgs)
         CreateNoWindow         = true,
     };
     using var p = Process.Start(psi)!;
-    p.WaitForExit();
-    var out_ = p.StandardOutput.ReadToEnd().Trim();
-    var err_ = p.StandardError.ReadToEnd().Trim();
+    // Leer la salida mientras corre: si nadie vacía la tubería y se llena, el proceso no termina.
+    var outTask = p.StandardOutput.ReadToEndAsync();
+    var errTask = p.StandardError.ReadToEndAsync();
+    if (!p.WaitForExit(60_000)) { try { p.Kill(true); } catch { } }
+    Task.WaitAll([outTask, errTask], 2_000);
+    var out_ = outTask.IsCompletedSuccessfully ? outTask.Result.Trim() : "";
+    var err_ = errTask.IsCompletedSuccessfully ? errTask.Result.Trim() : "";
     if (!string.IsNullOrEmpty(out_)) Console.WriteLine(out_);
     if (!string.IsNullOrEmpty(err_)) Console.WriteLine(err_);
 }

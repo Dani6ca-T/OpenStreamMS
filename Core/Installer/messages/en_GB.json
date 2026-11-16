@@ -10,5 +10,6 @@
   "AskRemoveDeps": "Also uninstall ViGEmBus and HidHide?%n%nAnswer No if other applications use them.",
   "MultiSessionTitle": "Several sessions at once",
   "MultiSessionSubtitle": "Important change in this version",
-  "MultiSessionNotice": "OpenStreamMS no longer installs TermWrap or any other tool that allows several Windows sessions at once. If one is already on this PC, it stays: OpenStreamMS does not remove it.%n%nOfficially, several Windows sessions at once are only supported on Windows Server with the Remote Desktop Session Host role and RDS user CALs.%n%nOn Windows Home or Pro, using a third-party tool for this is your decision and your responsibility: it may not be permitted by the Windows license terms. OpenStreamMS only checks whether the PC allows it."
+  "MultiSessionNotice": "OpenStreamMS no longer installs TermWrap or any other tool that allows several Windows sessions at once. If one is already on this PC, it stays: OpenStreamMS does not remove it.%n%nOfficially, several Windows sessions at once are only supported on Windows Server with the Remote Desktop Session Host role and RDS user CALs.%n%nOn Windows Home or Pro, using a third-party tool for this is your decision and your responsibility: it may not be permitted by the Windows license terms. OpenStreamMS only checks whether the PC allows it.",
+  "WindowsTooOld": "OpenStreamMS needs Windows 10 version 1607 (build 14393) or later.%nThis PC has build %1. Update Windows and run the installer again."
 }

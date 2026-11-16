@@ -32,7 +32,7 @@
 param(
     [string] $Bin,
     [string] $Package,
-    [ValidateRange(24, 500)] [int] $RefreshHz = 60,
+    [ValidateRange(24, 1000)] [int] $RefreshHz = 60,
     [switch] $AllConnections,
     [switch] $RestartTermService,
     [switch] $SkipTestSigningCheck

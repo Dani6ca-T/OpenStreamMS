@@ -61,6 +61,10 @@ public class StreamSessionService
                                 int rdpDisplayScale = 100,
                                 RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth)
     {
+        name = (StripControlChars(name) ?? "").Trim();
+        if (name.Length == 0)
+            throw new InvalidOperationException(RequestCulture.T("session.nameRequired"));
+
         // Solo hay un escritorio físico: dos sesiones locales lo capturarían a la vez.
         if (local && _sessions.Values.Any(s => s.Local))
             throw new InvalidOperationException(RequestCulture.T("error.localExists"));
@@ -174,6 +178,14 @@ public class StreamSessionService
         if (session.State is SessionState.Starting or SessionState.Running or SessionState.Stopping)
             throw new InvalidOperationException(RequestCulture.T("error.stopSession"));
 
+        // Una sesión que acabó en Error puede conservar la sesión de Windows, el cliente RDP o
+        // Sunshine: se cierran antes de borrarla, o quedarían sin dueño (y la carpeta, bloqueada).
+        if (session.RdpSessionId > 0 || session.FreeRdpPid > 0 || _sunshine.ContainsKey(id))
+        {
+            Interlocked.Increment(ref session.LifecycleGeneration);
+            ForceStopInternal(session);
+        }
+
         _sessions.TryRemove(id, out _);
         _sunshine.TryRemove(id, out _);
         RemoveFirewallRule(id);
@@ -236,6 +248,15 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             isolated          = false;
             isolatedEphemeral = false;
         }
+
+        name = (StripControlChars(name) ?? "").Trim();
+        if (name.Length == 0)
+            throw new InvalidOperationException(RequestCulture.T("session.nameRequired"));
+
+        // Quitar el aislamiento a una sesión que se creó aislada la dejaría sin usuario con el que
+        // iniciar (y borraría el dedicado y su perfil): no arrancaría nunca más.
+        if (session.Isolated && !isolated && !session.Local && string.IsNullOrWhiteSpace(session.Username))
+            throw new InvalidOperationException(RequestCulture.T("session.usernameRequired"));
 
         // Validar los puertos nuevos antes de tocar nada (0/null = mantener el valor actual).
         var candidate = new StreamSession
@@ -349,17 +370,24 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     {
         var session = RequireSession(id);
 
-        if (session.State is SessionState.Starting or SessionState.Running)
-            throw new InvalidOperationException($"La sesión ya está en estado '{session.State}'.");
+        int generation;
+        lock (session.LifecycleLock)
+        {
+            // También mientras se detiene: arrancar a la vez que se cierra dejaba dos operaciones
+            // peleando por la misma sesión de Windows.
+            if (session.State is SessionState.Starting or SessionState.Running or SessionState.Stopping)
+                throw new InvalidOperationException($"La sesión ya está en estado '{session.State}'.");
 
-        // Dos Sunshine activos no pueden compartir puertos: el segundo no arrancaría bien.
-        EnsurePortsAvailable(session, ActiveSessions());
+            // Dos Sunshine activos no pueden compartir puertos: el segundo no arrancaría bien.
+            EnsurePortsAvailable(session, ActiveSessions());
 
-        session.State        = SessionState.Starting;
-        session.ErrorMessage = null;
+            session.State        = SessionState.Starting;
+            session.ErrorMessage = null;
+            generation = Interlocked.Increment(ref session.LifecycleGeneration);
+        }
 
         // Operación bloqueante (hasta 30 s) → ejecutar en hilo del pool
-        _ = Task.Run(() => DoStart(session));
+        _ = Task.Run(() => DoStart(session, generation));
     }
 
     /// <summary>
@@ -486,14 +514,25 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                                                 display: DisplayOptions(session));
         session.RdpSessionId = rdpId;
         session.FreeRdpPid   = clientPid;
-        // El audio sale por el cliente RDP del host: el nuevo cliente también se silencia.
-        if (clientPid > 0) AudioSessionMuter.StartPersistentMute((uint)clientPid);
+        if (clientPid > 0) MuteRdpClientOnHost(session, clientPid);
         RdpSessionCreator.ApplyDisplayFrequency(rdpId, frameRate);
         Logger.Log($"[{session.Name}] Pantalla RDP: {width}x{height} @ {frameRate} fps" +
                    (microphone is null ? "." : $", micrófono '{microphone}'."), id);
     }
 
     /// <summary>Usuario de Windows de la sesión (el dedicado si está aislada).</summary>
+    /// <summary>
+    /// Evita que el host oiga el audio de la sesión. mstsc reproduce el audio redirigido, así
+    /// que se silencia su sesión de audio (por proceso, no toca el volumen global). wfreerdp
+    /// ya lo descarta con <c>/sound:sys:fake</c> y no necesita nada.
+    /// </summary>
+    private static void MuteRdpClientOnHost(StreamSession session, int clientPid)
+    {
+        if (RdpSessionCreator.IsFreeRdpProcess(clientPid)) return;
+        Logger.Log($"[{session.Name}] Silenciando el cliente RDP (PID={clientPid}) en el host...", session.Id);
+        AudioSessionMuter.StartPersistentMute((uint)clientPid);
+    }
+
     private static StreamUserConfig ResolveUser(StreamSession session)
     {
         if (session.Isolated)
@@ -508,10 +547,14 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     {
         var session = RequireSession(id);
 
-        if (session.State is not (SessionState.Starting or SessionState.Running))
-            throw new InvalidOperationException(RequestCulture.T("error.request"));
+        lock (session.LifecycleLock)
+        {
+            if (session.State is not (SessionState.Starting or SessionState.Running))
+                throw new InvalidOperationException(RequestCulture.T("error.request"));
 
-        session.State = SessionState.Stopping;
+            session.State = SessionState.Stopping;
+            Interlocked.Increment(ref session.LifecycleGeneration);
+        }
         Logger.Log($"[{session.Name}] Deteniendo...", session.Id);
         ForceStopInternal(session);
     }
@@ -524,13 +567,18 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     {
         var session = RequireSession(id);
         Logger.Log($"[{session.Name}] Reinicio solicitado (estado actual: {session.State}).", session.Id);
-        session.State        = SessionState.Stopping;
-        session.ErrorMessage = null;
+        int generation;
+        lock (session.LifecycleLock)
+        {
+            session.State        = SessionState.Stopping;
+            session.ErrorMessage = null;
+            generation = Interlocked.Increment(ref session.LifecycleGeneration);
+        }
 
-        _ = Task.Run(() => DoRestart(session));
+        _ = Task.Run(() => DoRestart(session, generation));
     }
 
-    private void DoRestart(StreamSession session)
+    private void DoRestart(StreamSession session, int generation)
     {
         Logger.SetSessionContext(session.Id);
         try
@@ -540,9 +588,18 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             // Pausa breve para que Windows libere el sessionId y los locks del usuario
             Thread.Sleep(1500);
 
-            session.State        = SessionState.Starting;
-            session.ErrorMessage = null;
-            DoStart(session);
+            lock (session.LifecycleLock)
+            {
+                // Otra orden (detener, otro reinicio) llegó mientras tanto: manda ella.
+                if (Volatile.Read(ref session.LifecycleGeneration) != generation)
+                {
+                    Logger.Log($"[{session.Name}] Reinicio abandonado: llegó otra orden mientras se detenía.", session.Id);
+                    return;
+                }
+                session.State        = SessionState.Starting;
+                session.ErrorMessage = null;
+            }
+            DoStart(session, generation);
         }
         finally
         {
@@ -586,7 +643,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             {
                 try
                 {
-                    var client = System.Diagnostics.Process.GetProcessById(session.FreeRdpPid);
+                    using var client = System.Diagnostics.Process.GetProcessById(session.FreeRdpPid);
                     if (!client.WaitForExit(2_000))
                     {
                         client.Kill();
@@ -673,11 +730,18 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             : $"{reason} {BackendText.Get("error.request")}";
 
         Logger.Log($"[{session.Name}] {message}", session.Id);
-        session.State = SessionState.Stopping;
-        session.ErrorMessage = message;
-        session.SunshinePid = 0;
+        int generation;
+        lock (session.LifecycleLock)
+        {
+            // Detenida o reiniciada por otra orden entre la comprobación y aquí.
+            if (session.State != SessionState.Running) return;
+            session.State = SessionState.Stopping;
+            session.ErrorMessage = message;
+            session.SunshinePid = 0;
+            generation = Interlocked.Increment(ref session.LifecycleGeneration);
+        }
 
-        _ = Task.Run(() => DoRestart(session));
+        _ = Task.Run(() => DoRestart(session, generation));
     }
 
     // ── AUTO-ARRANQUE (llamado al iniciar el servicio) ────────────────────────
@@ -725,21 +789,35 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
 
                 if (result.Status == SunshineRunStatus.LaunchFailed)
                 {
-                    session.State = SessionState.Error;
-                    session.ErrorMessage = result.Message ?? BackendText.Get("error.request");
-                    Logger.Error($"[{session.Name}] Sunshine no pudo arrancar: {session.ErrorMessage}", session.Id);
+                    var launchError = result.Message ?? BackendText.Get("error.request");
+                    if (FailIfStillRunning(session, launchError))
+                        Logger.Error($"[{session.Name}] Sunshine no pudo arrancar: {launchError}", session.Id);
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error($"[{session.Name}] Error en monitorización: {ex.Message}", session.Id);
-                session.State        = SessionState.Error;
-                session.ErrorMessage = ex.Message;
+                FailIfStillRunning(session, ex.Message);
             }
             finally
             {
                 Logger.SetSessionContext(null);
             }
+        }
+    }
+
+    /// <summary>
+    /// Marca la sesión como fallida solo si sigue en marcha: la comprobación del monitor puede
+    /// tardar, y mientras tanto la sesión pudo detenerse o reiniciarse (no se pisa ese estado).
+    /// </summary>
+    private static bool FailIfStillRunning(StreamSession session, string message)
+    {
+        lock (session.LifecycleLock)
+        {
+            if (session.State != SessionState.Running) return false;
+            session.State        = SessionState.Error;
+            session.ErrorMessage = message;
+            return true;
         }
     }
 
@@ -778,12 +856,42 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 IsolatedUsername: s.IsolatedUsername,
                 RdpDisplayScale: s.RdpDisplayScale,
                 RdpComposition: s.RdpComposition));
-            File.WriteAllText(SessionsFile, JsonSerializer.Serialize(data, JsonOpts));
-            SecureFile.RestrictToAdmins(SessionsFile);
+            var json = JsonSerializer.Serialize(data, JsonOpts);
+            // Fichero temporal + cambio de nombre: un corte a mitad de escritura no deja
+            // sessions.json truncado (se perderían todas las sesiones). El lock evita que dos
+            // guardados a la vez choquen entre sí.
+            lock (_saveLock)
+            {
+                var tmp = SessionsFile + ".tmp";
+                File.WriteAllText(tmp, json);
+                SecureFile.RestrictToAdmins(tmp);   // lleva contraseñas: protegido antes de ocupar su sitio
+                File.Move(tmp, SessionsFile, overwrite: true);
+            }
         }
         catch (Exception ex)
         {
             Logger.Warning($"[SessionService] No se pudieron guardar las sesiones: {ex.Message}");
+        }
+    }
+
+    private readonly object _saveLock = new();
+
+    /// <summary>
+    /// Aparta un sessions.json ilegible antes de que el siguiente guardado lo pise: así las
+    /// sesiones (y sus contraseñas) se pueden recuperar a mano.
+    /// </summary>
+    private static void BackupUnreadableSessionsFile()
+    {
+        try
+        {
+            var backup = $"{SessionsFile}.corrupt-{DateTime.Now:yyyyMMdd-HHmmss}";
+            File.Copy(SessionsFile, backup, overwrite: true);
+            SecureFile.RestrictToAdmins(backup);
+            Logger.Warning($"[SessionService] Copia del fichero ilegible guardada en '{backup}'.");
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[SessionService] No se pudo apartar el fichero de sesiones ilegible: {ex.Message}");
         }
     }
 
@@ -866,19 +974,79 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         catch (Exception ex)
         {
             Logger.Warning($"[SessionService] No se pudieron cargar las sesiones: {ex.Message}");
+            BackupUnreadableSessionsFile();
         }
     }
 
     // ── PRIVATE ──────────────────────────────────────────────────────────────
 
-    private void DoStart(StreamSession session)
+    /// <summary>Si este arranque sigue siendo el vigente: nadie lo ha detenido ni sustituido.</summary>
+    private static bool StartStillWanted(StreamSession session, int generation) =>
+        Volatile.Read(ref session.LifecycleGeneration) == generation &&
+        session.State == SessionState.Starting;
+
+    /// <summary>
+    /// Recoge lo que un arranque abandonado dejó a medias. Quien lo detuvo ya limpió lo que
+    /// conocía en ese momento; aquí se cierra lo que apareció después (la sesión de Windows
+    /// recién creada, su cliente RDP, el Sunshine lanzado).
+    /// </summary>
+    private void CleanUpAbandonedStart(StreamSession session, uint rdpId, int freeRdpPid)
+    {
+        if (_sunshine.TryRemove(session.Id, out var stale))
+        {
+            try { stale.Stop(); }
+            catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al parar Sunshine de un arranque abandonado: {ex.Message}", session.Id); }
+        }
+        session.SunshinePid = 0;
+
+        if (session.Local)   // el escritorio del usuario no se cierra
+        {
+            session.RdpSessionId = 0;
+            return;
+        }
+
+        if (rdpId > 0)
+        {
+            try { StreamProfileSetup.LogoffSession(rdpId); }
+            catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al cerrar la sesión Windows {rdpId}: {ex.Message}", session.Id); }
+            if (session.RdpSessionId == rdpId) session.RdpSessionId = 0;
+        }
+        if (freeRdpPid > 0)
+        {
+            try
+            {
+                using var client = System.Diagnostics.Process.GetProcessById(freeRdpPid);
+                if (!client.WaitForExit(2_000)) client.Kill();
+            }
+            catch { }
+            if (session.FreeRdpPid == freeRdpPid) session.FreeRdpPid = 0;
+        }
+    }
+
+    private void DoStart(StreamSession session, int generation)
+    {
+        // Un arranque a la vez por sesión: si llega otro mientras este espera a RDP, entra cuando
+        // este termina (o se abandona) y encuentra la sesión limpia.
+        lock (session.StartGate)
+            DoStartLocked(session, generation);
+    }
+
+    private void DoStartLocked(StreamSession session, int generation)
     {
         Logger.SetSessionContext(session.Id);
+        uint startedRdpId = 0;
+        int  startedClientPid = 0;
         try
         {
+            if (!StartStillWanted(session, generation))
+            {
+                Logger.Log($"[{session.Name}] Inicio abandonado antes de empezar (llegó otra orden).", session.Id);
+                return;
+            }
+
             if (session.Local)
             {
-                StartLocal(session);
+                StartLocal(session, generation);
                 return;
             }
 
@@ -931,39 +1099,36 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                                                               remoteIdd: UsesRemoteIdd(session),
                                                               display: DisplayOptions(session));
 
-            // Stop() pudo haber sido llamado mientras esperábamos la sesión RDP
-            if (session.State != SessionState.Starting)
+            startedRdpId     = rdpId;
+            startedClientPid = freeRdpPid;
+
+            // Stop() pudo haber sido llamado mientras esperábamos la sesión RDP. Quien detuvo no
+            // conocía aún esta sesión de Windows: se cierra aquí, o quedaría abierta sin dueño.
+            if (!StartStillWanted(session, generation))
             {
                 Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida durante la creación RDP).", session.Id);
-                if (freeRdpPid > 0) try { System.Diagnostics.Process.GetProcessById(freeRdpPid).Kill(); } catch { }
+                CleanUpAbandonedStart(session, rdpId, freeRdpPid);
                 return;
             }
 
             session.RdpSessionId = rdpId;
             session.FreeRdpPid   = freeRdpPid;
 
-            // ── Audio: aislamiento via mute per-process de wfreerdp ───────────
-            // FreeRDP /audio-mode:redirect + /sound: RDP server intercepta el audio
-            // del juego dentro de la sesión RDP y lo redirige por canal a wfreerdp.exe,
-            // que lo reproduce en el host (típicamente en el endpoint físico).
-            // Sunshine, dentro de la sesión RDP, hace WASAPI loopback en "Remote Audio"
-            // (endpoint virtual que crea Windows automáticamente cuando hay redirect),
-            // capturando el SOURCE del audio antes del transporte RDP. Moonlight oye.
-            // Para que el host NO oiga: mute persistente de la audio session de
-            // wfreerdp.exe via ISimpleAudioVolume.SetMute. Mute es per-process por
-            // endpoint, no toca volumen global ni el de otros procesos. Sunshine no
-            // se ve afectado porque captura el source, no el output de wfreerdp.
+            // ── Audio: que el host no oiga la sesión ──────────────────────────
+            // Con audio redirigido, el servidor RDP saca el audio de la sesión por
+            // "Remote Audio" (donde Sunshine hace loopback: Moonlight oye) y además lo
+            // manda por el canal al cliente RDP del host. wfreerdp lo descarta
+            // (/sound:sys:fake); mstsc lo reproduciría, así que se silencia su sesión
+            // de audio (ver MuteRdpClientOnHost).
             if (freeRdpPid > 0)
             {
-                Logger.Log($"[{session.Name}] Silenciando wfreerdp.exe (PID={freeRdpPid}) en host para evitar fuga de audio...", session.Id);
-                AudioSessionMuter.StartPersistentMute((uint)freeRdpPid);
+                MuteRdpClientOnHost(session, freeRdpPid);
             }
             else
             {
-                // Sesión RDP reutilizada (no se lanzó FreeRDP). Sin PID de wfreerdp no
-                // hay nada que silenciar en el host; el audio debería seguir confinado
-                // al wfreerdp.exe original (si sigue vivo y muteado por su thread).
-                Logger.Warning($"[{session.Name}] Sin PID de FreeRDP, no se puede aplicar mute en host esta vez.", session.Id);
+                // Sesión RDP reutilizada: el cliente original sigue conectado y, si era
+                // mstsc, su hilo de silenciado sigue activo.
+                Logger.Log($"[{session.Name}] Sesión RDP reutilizada: no se lanzó cliente RDP nuevo.", session.Id);
             }
 
             session.StartPhase = "profile";
@@ -1007,9 +1172,10 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             if (sunshineResult.Status == SunshineRunStatus.LaunchFailed)
                 throw new Exception(sunshineResult.Message ?? RequestCulture.T("error.request"));
 
-            if (session.State != SessionState.Starting)
+            if (!StartStillWanted(session, generation))
             {
                 Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida durante el lanzamiento de Sunshine).", session.Id);
+                CleanUpAbandonedStart(session, rdpId, freeRdpPid);
                 return;
             }
 
@@ -1020,19 +1186,42 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             // El throttle de frame-acks se mitiga en el cliente (ver /frame-ack en
             // RdpSessionCreator).
 
-            session.State     = SessionState.Running;
-            session.StartedAt = DateTime.UtcNow;
-            Logger.Log($"[{session.Name}] Sesión activa (RDP={rdpId}).", session.Id);
+            bool running;
+            lock (session.LifecycleLock)
+            {
+                running = StartStillWanted(session, generation);
+                if (running)
+                {
+                    session.State     = SessionState.Running;
+                    session.StartedAt = DateTime.UtcNow;
+                }
+            }
+            if (running)
+            {
+                Logger.Log($"[{session.Name}] Sesión activa (RDP={rdpId}).", session.Id);
+            }
+            else
+            {
+                Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida al terminar el arranque).", session.Id);
+                CleanUpAbandonedStart(session, rdpId, freeRdpPid);
+            }
         }
         catch (Exception ex)
         {
-            if (session.State == SessionState.Starting)
+            bool failed;
+            lock (session.LifecycleLock)
             {
-                session.State        = SessionState.Error;
-                session.ErrorMessage = ex.Message;
-                session.FailedPhase  = session.StartPhase ?? (session.Local ? "sunshine" : "user");
+                failed = StartStillWanted(session, generation);
+                if (failed)
+                {
+                    session.State        = SessionState.Error;
+                    session.ErrorMessage = ex.Message;
+                    session.FailedPhase  = session.StartPhase ?? (session.Local ? "sunshine" : "user");
+                }
             }
             Logger.Error($"[{session.Name}] Error al iniciar: {ex.Message}", session.Id);
+            // Detenida mientras arrancaba: el fallo es consecuencia de eso; se recoge lo que quedara.
+            if (!failed) CleanUpAbandonedStart(session, startedRdpId, startedClientPid);
         }
         finally
         {
@@ -1045,7 +1234,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     /// Arranca la sesión local: lanza Sunshine directamente en la sesión de Windows del escritorio
     /// físico, con el usuario que la tenga abierta. Sin RDP.
     /// </summary>
-    private void StartLocal(StreamSession session)
+    private void StartLocal(StreamSession session, int generation)
     {
         if (!ConsoleSession.TryGetUser(out var consoleId, out var domain, out var username))
             throw new Exception(RequestCulture.T("error.noConsoleUser"));
@@ -1060,14 +1249,23 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (result.Status == SunshineRunStatus.LaunchFailed)
             throw new Exception(result.Message ?? RequestCulture.T("error.request"));
 
-        if (session.State != SessionState.Starting)
+        bool running;
+        lock (session.LifecycleLock)
+        {
+            running = StartStillWanted(session, generation);
+            if (running)
+            {
+                session.State     = SessionState.Running;
+                session.StartedAt = DateTime.UtcNow;
+            }
+        }
+        if (!running)
         {
             Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida durante el lanzamiento de Sunshine).", session.Id);
+            CleanUpAbandonedStart(session, 0, 0);
             return;
         }
 
-        session.State     = SessionState.Running;
-        session.StartedAt = DateTime.UtcNow;
         Logger.Log($"[{session.Name}] Sesión local activa (sesión de Windows {consoleId}).", session.Id);
     }
 
@@ -1194,7 +1392,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             OutputName:               s.OutputName,
             OriginWebUiAllowed:       s.OriginWebUiAllowed,
             // Sin audio_sink → Sunshine usa el default de la sesión RDP donde corre.
-            // Con FreeRDP /audio-mode:redirect + /sound, ese default es "Remote Audio"
+            // Con el audio redirigido (mstsc, o FreeRDP /audio-mode:redirect), es "Remote Audio"
             // (endpoint que crea Windows para el redirect). Loopback ahí captura el
             // source del juego.
             AudioSink: null,
@@ -1290,8 +1488,19 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         AddFirewallRule(session);
     }
 
-    private static string? NullIfBlank(string? s) =>
-        string.IsNullOrWhiteSpace(s) ? null : s.Trim();
+    private static string? NullIfBlank(string? s)
+    {
+        s = StripControlChars(s);
+        return string.IsNullOrWhiteSpace(s) ? null : s.Trim();
+    }
+
+    /// <summary>
+    /// Quita saltos de línea y demás caracteres de control: estos textos acaban como
+    /// <c>clave = valor</c> en sunshine.conf, y un salto de línea pegado sin querer añadiría
+    /// claves o rompería el fichero.
+    /// </summary>
+    private static string? StripControlChars(string? s) =>
+        s is null || !s.Any(char.IsControl) ? s : new string(s.Where(c => !char.IsControl(c)).ToArray());
 
     /// <summary>
     /// Captura RemoteIdd: el proveedor de RDP-Tcp da a la sesión del puesto el driver propio
@@ -1302,6 +1511,13 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     /// </summary>
     private static bool UsesRemoteIdd(StreamSession session) =>
         WantsRemoteIdd(session) && RdpWrapperManager.IsRemoteIddUsable();
+
+    /// <summary>La sesión se captura con RemoteIdd (requisito del mosaico).</summary>
+    public static bool CapturesWithRemoteIdd(StreamSession session) => UsesRemoteIdd(session);
+
+    /// <summary>Carpeta <c>config</c> del Sunshine de la sesión (la de <c>sunshine.conf</c>).</summary>
+    public static string SunshineConfigDir(Guid sessionId) =>
+        Path.Combine(GetSunshineInstanceDir(sessionId), "config");
 
     private static bool WantsRemoteIdd(StreamSession session) =>
         !session.Local &&
@@ -1322,7 +1538,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         new(session.RdpDisplayScale, session.RdpComposition);
 
     private static int NormalizeRdpFrameRate(int frameRate) =>
-        Math.Clamp(frameRate > 0 ? frameRate : 60, 1, 240);
+        Math.Clamp(frameRate > 0 ? frameRate : 60, 1, RdpSessionCreator.MaxFrameRate);
 
     private static int NormalizeRdpColorDepth(int colorDepth) => colorDepth switch
     {

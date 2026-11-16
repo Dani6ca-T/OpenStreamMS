@@ -86,6 +86,22 @@ namespace OpenStreamMS.Core.Helpers
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FreeRDP", "wfreerdp.exe");
 
         /// <summary>
+        /// True si el PID es el wfreerdp incluido. Ese cliente descarta el audio redirigido
+        /// (<c>/sound:sys:fake</c>), así que, a diferencia de mstsc, no hay que silenciarlo.
+        /// </summary>
+        public static bool IsFreeRdpProcess(int pid)
+        {
+            try
+            {
+                using var process = Process.GetProcessById(pid);
+                return string.Equals(process.ProcessName, Path.GetFileNameWithoutExtension(FreeRdpExe),
+                                     StringComparison.OrdinalIgnoreCase);
+            }
+            catch (ArgumentException) { return false; }      // ya terminó
+            catch (InvalidOperationException) { return false; }
+        }
+
+        /// <summary>
         /// Loopback alternativo: permite que el RDP local no choque con conexiones
         /// RDP reales a 127.0.0.1 y que cmdkey guarde credenciales para un target
         /// que no afecta a otros usos de TERMSRV.
@@ -504,8 +520,11 @@ namespace OpenStreamMS.Core.Helpers
             psi.ArgumentList.Add("/network:lan");
 
             // ── Audio ─────────────────────────────────────────────────────────────
+            // redirect: el audio de la sesión sale por "Remote Audio", donde lo captura Sunshine.
+            // El backend fake confirma cada bloque al servidor y lo descarta: el host no lo oye
+            // y no hace falta silenciar wfreerdp (mstsc sí, ver AudioSessionMuter).
             psi.ArgumentList.Add("/audio-mode:redirect");
-            psi.ArgumentList.Add("/sound:sys:winmm");
+            psi.ArgumentList.Add("/sound:sys:fake");
             if (microphone is not null)
                 psi.ArgumentList.Add($"/microphone:sys:winmm,dev:{microphone}");
 
@@ -806,8 +825,10 @@ namespace OpenStreamMS.Core.Helpers
         /// frame al llegar con tope de fps (display_base.cpp). Cada frame del juego sale en el
         /// siguiente tic de composicion: con 8 ms (125 Hz) salian a 16/24 ms y Moonlight
         /// descartaba hasta un 10 % por jitter; con 4 ms el desfase maximo es la mitad. No se
-        /// baja de 4 ms (500 Hz con 120 fps): el coste de componer y de RDP crece con el ritmo.
-        /// Windows ignora intervalos por debajo de 2 ms.
+        /// baja de 4 ms (250 Hz) mientras eso alcance a los fps: el coste de componer y de RDP crece
+        /// con el ritmo. Por encima de 250 fps se compone al intervalo entero que no se quede por
+        /// debajo de los fps (300 -> 3 ms, 334 Hz; 400 -> 2 ms, 500 Hz). Windows ignora intervalos
+        /// por debajo de 2 ms, así que 500 Hz es el techo.
         /// </para>
         /// <para>
         /// <see cref="RdpCompositionMode.Efficient"/> compone a los fps, redondeando al ms mas
@@ -823,6 +844,8 @@ namespace OpenStreamMS.Core.Helpers
                 return Math.Max(2, 1000 / frameRate);
             if (mode == RdpCompositionMode.Efficient)
                 return Math.Max(2, (int)Math.Round(1000.0 / frameRate, MidpointRounding.AwayFromZero));
+            if (frameRate > 250)
+                return Math.Max(2, 1000 / frameRate);
             return Math.Max(4, 1000 / (4 * frameRate));
         }
 
@@ -1554,8 +1577,15 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                 ? Environment.MachineName
                 : domain.Trim();
 
+        /// <summary>
+        /// Tope de fps de la sesión (y de Hz de RemoteIdd, que son los mismos). Windows no compone
+        /// una sesión RDP por debajo de 2 ms (<see cref="CompositionIntervalMs"/>): 500 es lo más
+        /// que puede llegar a salir.
+        /// </summary>
+        internal const int MaxFrameRate = 500;
+
         static int NormalizeFrameRate(int frameRate) =>
-            Math.Clamp(frameRate > 0 ? frameRate : 60, 1, 240);
+            Math.Clamp(frameRate > 0 ? frameRate : 60, 1, MaxFrameRate);
 
         static int NormalizeColorDepth(int colorDepth) => colorDepth switch
         {

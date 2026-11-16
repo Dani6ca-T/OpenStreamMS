@@ -10,5 +10,6 @@
   "AskRemoveDeps": "還要卸載 ViGEmBus 和 HidHide？ %n%n 回答否，如果其他應用程式使用它們。",
   "MultiSessionTitle": "同時多個工作階段",
   "MultiSessionSubtitle": "此版本的重要變更",
-  "MultiSessionNotice": "OpenStreamMS 不再安裝 TermWrap 或任何其他允許同時執行多個 Windows 工作階段的工具。如果這台電腦上已有此類工具，它會保留：OpenStreamMS 不會將其移除。%n%n官方僅在安裝了「遠端桌面工作階段主機」角色並配有每位使用者 RDS CAL 的 Windows Server 上支援同時執行多個 Windows 工作階段。%n%n在 Windows 家用版或專業版上，是否為此使用第三方工具由你自行決定並自行承擔責任：Windows 授權條款可能不允許這樣做。OpenStreamMS 只檢查電腦是否允許。"
+  "MultiSessionNotice": "OpenStreamMS 不再安裝 TermWrap 或任何其他允許同時執行多個 Windows 工作階段的工具。如果這台電腦上已有此類工具，它會保留：OpenStreamMS 不會將其移除。%n%n官方僅在安裝了「遠端桌面工作階段主機」角色並配有每位使用者 RDS CAL 的 Windows Server 上支援同時執行多個 Windows 工作階段。%n%n在 Windows 家用版或專業版上，是否為此使用第三方工具由你自行決定並自行承擔責任：Windows 授權條款可能不允許這樣做。OpenStreamMS 只檢查電腦是否允許。",
+  "WindowsTooOld": "OpenStreamMS 需要 Windows 10 版本 1607（組建 14393）或更新版本。%n此電腦的組建為 %1。請更新 Windows 後重新執行安裝程式。"
 }
