@@ -41,9 +41,12 @@ test('all original effective translations survive extraction unchanged', () => {
   const original = cp.execFileSync('git', ['show', '79a032e5d00efb37bb53a71991408acbd94c3a11:Core/wwwroot/i18n.js'], { cwd: root, encoding: 'utf8' });
   const context = vm.createContext({});
   vm.runInContext(original.slice(0, original.indexOf('const SUPPORTED')) + '\nglobalThis.catalogs = MESSAGES;', context);
-  // Textos cambiados a propósito después de la extracción: asmtron se quitó y TermWrap es el único multi-RDP.
+  // Textos cambiados a propósito después de la extracción: asmtron se quitó, y después OpenStreamMS
+  // dejó de instalar nada para el multi-RDP (solo comprueba si el equipo admite varias sesiones).
   const changed = new Set(['about.credit.rdpwrap', 'rdp.title', 'rdp.description', 'rdp.btn.install', 'rdp.row.bundle', 'rdp.confirm.install',
-    'rdp.btn.update', 'rdp.confirm.update', 'rdp.btn.uninstall', 'rdp.confirm.uninstall', 'rdp.confirm.leaveRemoteIdd']);
+    'rdp.btn.update', 'rdp.confirm.update', 'rdp.btn.uninstall', 'rdp.confirm.uninstall', 'rdp.confirm.leaveRemoteIdd',
+    'rdp.state.broken', 'rdp.state.pending', 'rdp.notLoaded', 'rdp.row.installDir', 'rdp.row.serviceDll', 'rdp.log.title', 'rdp.log.empty',
+    'rdp.pendingFirstUse', 'rdp.pendingReboot', 'ux.rdpBroken', 'ux.rdpMissing', 'guide.install.rdp']);
   for (const [lang, table] of Object.entries(context.catalogs)) for (const [key, value] of Object.entries(table)) if (!changed.has(key)) assert.equal(catalogs[lang][key], value, lang + ':' + key);
 });
 

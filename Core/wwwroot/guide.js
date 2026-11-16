@@ -131,11 +131,11 @@ const GUIDE_RENDER = {
 // Componentes: qué hace cada uno, cuándo hace falta y su estado real ahora mismo.
 function guideDepsHtml() {
   const rdp = rdpLastStatus, vg = drivers.vigem.lastStatus, hh = drivers.hidhide.lastStatus;
-  const state = (st, isRdp) => !st ? 'checking' : st.busy ? 'working' : st.rebootRequired ? 'reboot'
-    : st.installed ? 'ok' : isRdp && st.pending ? 'activates' : isRdp && st.wrapper ? 'broken' : 'missing';
+  const state = st => !st ? 'checking' : st.busy ? 'working' : st.rebootRequired ? 'reboot'
+    : st.installed ? 'ok' : 'missing';
   const ridd = !rdp ? 'checking' : rdp.remoteIdd ? 'ok' : 'optional';
   const rows = [
-    { name: 'TermWrap',  what: t('guide.install.rdp'),      need: t('guide.install.needSessions'), st: state(rdp, true), open: 'closeGuide(); openRdpModal()' },
+    { name: t('rdp.pill'), what: t('guide.install.rdp'),    need: t('guide.install.needSessions'), st: rdpDepState(rdp), open: 'closeGuide(); openRdpModal()' },
     { name: 'ViGEmBus',  what: t('guide.install.vigem'),    need: t('guide.install.needPads'),     st: state(vg),        open: "closeGuide(); openDriverModal('vigem')" },
     { name: 'HidHide',   what: t('guide.install.hidhide'),  need: t('guide.install.needPads'),     st: state(hh),        open: "closeGuide(); openDriverModal('hidhide')" },
     { name: 'RemoteIdd', what: t('guide.install.remoteidd'), need: t('guide.install.needSeats'),   st: ridd },
@@ -145,7 +145,7 @@ function guideDepsHtml() {
                : r.st === 'checking' || r.st === 'working' ? '<span class="guide-spin"></span>'
                : r.st === 'optional' ? '<span class="guide-dash"></span>' : '<span class="guide-bang">!</span>';
     const label = r.st === 'optional' ? t('guide.install.optional') : t('ux.dep.' + r.st);
-    const btn = r.open && ['missing', 'broken', 'reboot'].includes(r.st)
+    const btn = r.open && ['missing', 'broken', 'reboot', 'single'].includes(r.st)
       ? `<button type="button" class="btn btn-primary btn-xs" onclick="${r.open}">${esc(t(r.st === 'missing' ? 'ux.install' : 'ux.review'))}</button>` : '';
     return `<li class="guide-dep guide-dep-${r.st}" style="--i:${i}">
         <span class="guide-dep-mark">${mark}</span>

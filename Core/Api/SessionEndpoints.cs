@@ -268,6 +268,12 @@ public record SessionResponse(
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
+/// <summary>Cuenta local de Windows elegible para una sesión RDP.</summary>
+/// <param name="Name">Nombre de la cuenta (SAM).</param>
+/// <param name="FullName">Nombre completo, vacío si no tiene.</param>
+/// <param name="Console">true si es el usuario del escritorio físico de este PC.</param>
+public record LocalUserResponse(string Name, string FullName, bool Console);
+
 public record OrphanUserResponse(
     /// <summary>Identificador para borrarlo (user:..., sid:... o dir:...).</summary>
     string  Key,
@@ -389,6 +395,16 @@ public static class SessionEndpoints
                 sesión aislada), perfiles de cuentas osms-* ya borradas y carpetas osms-* sueltas en
                 el directorio de perfiles. Los que tienen cuenta se pueden reutilizar al crear una
                 sesión aislada (ReuseIsolatedUser). ?sizes=true calcula el tamaño de cada perfil.
+                """);
+
+        // GET /api/sessions/local-users  (antes que /{id:guid})
+        group.MapGet("/local-users", ListLocalUsers)
+             .WithName("ListLocalUsers")
+             .WithSummary("Usuarios locales de Windows para una sesión RDP")
+             .WithDescription("""
+                Cuentas locales normales, habilitadas y sin bloquear de este PC, sin los usuarios
+                dedicados osms-*. La UI las ofrece en una lista al crear una sesión RDP no aislada.
+                Console=true marca el usuario que tiene abierto el escritorio físico.
                 """);
 
         // DELETE /api/sessions/isolated-users?key=...
@@ -537,8 +553,18 @@ public static class SessionEndpoints
 
     // ── handlers ─────────────────────────────────────────────────────────────
 
-    static Ok<IEnumerable<SessionResponse>> GetAll(StreamSessionService svc) =>
-        TypedResults.Ok(svc.GetAll().Select(ToResponse));
+    static Ok<IEnumerable<SessionResponse>> GetAll(StreamSessionService svc, HttpContext ctx)
+    {
+        var all = svc.GetAll().Select(ToResponse);
+        // El icono de bandeja entra sin contraseña (ver Program.cs): recibe la lista para su
+        // menú, pero no las credenciales del panel de Sunshine de cada sesión.
+        if (ctx.Items.ContainsKey(TrayRequestItem))
+            all = all.Select(r => r with { SunshineAuthUser = "", SunshineAuthPass = "" });
+        return TypedResults.Ok(all);
+    }
+
+    /// <summary>Marca en <c>HttpContext.Items</c> de las peticiones del icono de bandeja admitidas sin autenticar.</summary>
+    internal const string TrayRequestItem = "osms.tray";
 
     static Ok<SuggestedPortsResponse> SuggestPorts(StreamSessionService svc) =>
         TypedResults.Ok(svc.SuggestPorts());
@@ -625,6 +651,15 @@ public static class SessionEndpoints
         TypedResults.Ok(svc.ListOrphanUsers(sizes).Select(o => new OrphanUserResponse(
             o.Key, o.Name, o.AccountExists, o.ProfilePath, o.SizeBytes, o.SignedIn,
             o.AccountExists ? SteamLoginProbe.GetState(o.Name) : null)));
+
+    static Ok<IEnumerable<LocalUserResponse>> ListLocalUsers()
+    {
+        ConsoleSession.TryGetUser(out _, out var consoleDomain, out var consoleUser);
+        bool consoleIsLocal = string.Equals(consoleDomain, Environment.MachineName, StringComparison.OrdinalIgnoreCase);
+        return TypedResults.Ok(IsolatedUserManager.ListLocalAccounts().Select(u => new LocalUserResponse(
+            u.Name, u.FullName,
+            consoleIsLocal && string.Equals(u.Name, consoleUser, StringComparison.OrdinalIgnoreCase))));
+    }
 
     static Results<NoContent, BadRequest<string>> DeleteOrphanUser(string key, StreamSessionService svc)
     {
@@ -858,7 +893,7 @@ public static class SessionEndpoints
             return Results.Json(rotated, statusCode: 409);
 
         if (status is >= 200 and < 300 &&
-            body?.TryGetProperty("status", out var ok) == true && ok.GetBoolean())
+            body?.TryGetProperty("status", out var ok) == true && IsTrue(ok))
         {
             // /api/pin sólo desbloquea el handshake con Moonlight. El state se escribe
             // cuando Moonlight completa la fase final, así que no reiniciamos Sunshine aquí.
@@ -877,6 +912,12 @@ public static class SessionEndpoints
             : $"HTTP {status}";
         return Results.Json(new SunshineError("proxy_error", detail), statusCode: 502);
     }
+
+    /// <summary>Sunshine devuelve <c>status</c> como booleano; versiones antiguas, como la cadena "true".</summary>
+    static bool IsTrue(System.Text.Json.JsonElement e) =>
+        e.ValueKind == System.Text.Json.JsonValueKind.True ||
+        (e.ValueKind == System.Text.Json.JsonValueKind.String &&
+         string.Equals(e.GetString(), "true", StringComparison.OrdinalIgnoreCase));
 
     static async Task<IResult> ListClients(
         Guid id, StreamSessionService svc, SunshineProxy proxy)
@@ -899,8 +940,8 @@ public static class SessionEndpoints
         {
             foreach (var item in list.EnumerateArray())
             {
-                var uuid = item.TryGetProperty("uuid", out var u) ? u.GetString() ?? "" : "";
-                var name = item.TryGetProperty("name", out var n) ? n.GetString() ?? "" : "";
+                var uuid = item.TryGetProperty("uuid", out var u) && u.ValueKind == System.Text.Json.JsonValueKind.String ? u.GetString() ?? "" : "";
+                var name = item.TryGetProperty("name", out var n) && n.ValueKind == System.Text.Json.JsonValueKind.String ? n.GetString() ?? "" : "";
                 if (!string.IsNullOrEmpty(uuid))
                     clients.Add(new SunshineClient(uuid, string.IsNullOrEmpty(name) ? uuid : name));
             }

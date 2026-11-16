@@ -33,13 +33,11 @@
   "session.passwordRequired": "Le champ 'Password' est obligatoire.",
   "session.stopBeforeConfig": "Arrêtez la session avant de modifier sa configuration.",
   "session.stoppingWait": "La session s'arrête : attendez qu'elle se termine avant de changer sa configuration.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll no está cargada en TermService",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp no escucha",
+  "rdpwrap.notLoaded": "Le service Bureau à distance n'a pas encore chargé le composant qui permet plusieurs sessions",
+  "rdpwrap.singleSession": "Ce PC n'autorise qu'une seule session à la fois",
   "rdpwrap.openSessionsPreventRestart": "Hay sesiones abiertas ({0}): TermService no se reinicia ahora; el cambio se aplica al reiniciar el equipo.",
   "rdpwrap.termServiceRestarted": "TermService reiniciado.",
-  "rdpwrap.multiRdpBusy": "Ya hay una operación de multi-RDP en curso.",
-  "rdpwrap.failedToSetTermWrap": "No se pudo poner TermWrap como multi-RDP: {0}",
   "driver.bundledInstaller": "Usando el instalador incluido: {0}",
   "driver.downloadingLatest": "Descargando última release de {0}...",
   "driver.asset": "Asset: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "No se encontró el instalador .exe en la última release de {0}.",
   "driver.running": "Running",
   "driver.stopped": "Stopped",
-  "rdpwrap.log.start": "--- Inicio: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- Fin: {0} ({1}) ---",
   "isolatedUser.notManaged": "El usuario '{0}' no es un usuario gestionado por OpenStreamMS.",
   "isolatedUser.passwordRotationFailed": "No se pudo rotar la contraseña de '{0}' (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd falló para '{0}': error {1}. Posibles causas: política de complejidad de contraseñas no estándar o límite de cuentas locales.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' est déjà dans une mosaïque.",
   "error.mosaicFull": "La mosaïque compte déjà 4 sessions.",
   "error.mosaicGuestStart": "'{0}' n'a pas démarré à temps.",
-  "error.mosaicApply": "Impossible de réorganiser les sessions : {0}"
+  "error.mosaicApply": "Impossible de réorganiser les sessions : {0}",
   "isolatedUser.passwordKept": "L'utilisateur '{0}' existait déjà ; son mot de passe est conservé (Steam et les autres connexions enregistrées restent valides).",
   "isolatedUser.passwordStoreFailed": "Impossible d'enregistrer ou de lire le mot de passe de '{0}' dans LSA : {1}. Il sera réinitialisé au prochain démarrage."
 }

@@ -7,6 +7,10 @@
   "StatusInstallRemoteIdd": "A instalar o controlador de ecrã dos postos (RemoteIdd)...",
   "StatusStartService": "A iniciar o serviço...",
   "AskPurgeData": "Eliminar também todos os dados do OpenStreamMS?%n%nSessões, postos e definições; os utilizadores osms- das sessões isoladas e os respetivos perfis (incluindo jogos e definições guardados neles); perfis de stream, ProgramData\\OpenStreamMS e ficheiros temporários.%n%nSe responder Não, as sessões e as definições são mantidas para uma reinstalação.",
-  "AskRemoveDeps": "Desinstalar também o TermWrap, o ViGEmBus e o HidHide?%n%nResponda Não se outras aplicações os utilizarem.",
+  "AskRemoveDeps": "Desinstalar também o ViGEmBus e o HidHide?%n%nResponda Não se outras aplicações os utilizarem.",
+  "MultiSessionTitle": "Várias sessões ao mesmo tempo",
+  "MultiSessionSubtitle": "Alteração importante nesta versão",
+  "MultiSessionNotice": "O OpenStreamMS deixou de instalar o TermWrap ou qualquer outra ferramenta que permita várias sessões do Windows ao mesmo tempo. Se já existir uma neste PC, fica: o OpenStreamMS não a remove.%n%nOficialmente, várias sessões do Windows em simultâneo só são suportadas no Windows Server com a função Anfitrião de Sessão de Ambiente de Trabalho Remoto e CAL de RDS por utilizador.%n%nNo Windows Home ou Pro, usar uma ferramenta de terceiros para isso é decisão e responsabilidade sua: os termos de licença do Windows podem não o permitir. O OpenStreamMS só verifica se o PC o permite.",
+  "WindowsTooOld": "O OpenStreamMS precisa do Windows 10 versão 1607 (compilação 14393) ou posterior.%nEste PC tem a compilação %1. Atualize o Windows e execute novamente o instalador.",
   "StatusInstallOsmsPad": "A instalar o controlador de comandos (OsmsPad)..."
 }

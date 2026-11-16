@@ -275,15 +275,11 @@
           <div class="hint" data-i18n="new.reuseHint">Un usuario conservado mantiene su perfil: el login de Steam, las partidas guardadas y los ajustes de los juegos.</div>
         </div>
         <div id="sess-creds-block" class="create-only">
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="sess-user" data-i18n="new.userLabel">Usuario Windows *</label>
-            <input type="text" id="sess-user" autocomplete="off" data-i18n-placeholder="new.userPlaceholder" placeholder="streamuser" oninput="resetCredTest()">
-          </div>
-          <div class="form-row">
-            <label for="sess-domain" data-i18n="new.domainLabel">Dominio</label>
-            <input type="text" id="sess-domain" value="." placeholder="." oninput="resetCredTest()">
-          </div>
+        <div class="form-row">
+          <label for="sess-user" data-i18n="new.userLabel">Usuario Windows *</label>
+          <select id="sess-user" onchange="resetCredTest()"></select>
+          <div class="hint" id="sess-user-none" style="display:none" data-i18n="new.userNoneLocal">No hay usuarios locales habilitados en este PC. Crea uno en Configuración de Windows › Cuentas.</div>
+          <input type="hidden" id="sess-domain" value=".">
         </div>
         <div class="form-row">
           <label for="sess-pass" data-i18n="new.passwordLabel">Contraseña *</label>
@@ -396,7 +392,7 @@
           <div class="form-grid">
             <div class="form-row">
               <label for="sess-fps" data-i18n="ux.fpsLabel">Fotogramas por segundo</label>
-              <input type="number" id="sess-fps" value="60" min="1" max="240" step="1">
+              <input type="number" id="sess-fps" value="60" min="1" max="500" step="1">
               <div class="hint" data-i18n="ux.fpsHint">60 es lo recomendado. Más solo si el cliente y la red lo aguantan.</div>
             </div>
             <div class="form-row">
@@ -746,10 +742,6 @@
             <span class="about-credit-name">ViGEmBus</span>
             <span class="about-credit-desc" data-i18n="about.credit.vigem">Driver de gamepad virtual para el mando remoto</span>
           </a>
-          <a href="https://github.com/llccd/TermWrap" target="_blank" rel="noopener" class="about-credit">
-            <span class="about-credit-name">TermWrap (llccd)</span>
-            <span class="about-credit-desc" data-i18n="about.credit.termwrap">Habilita varias sesiones RDP simultáneas en Windows cliente, Home incluido, y permite conectar RemoteIdd a RDP.</span>
-          </a>
         </div>
       </div>
     </div>
@@ -839,11 +831,11 @@
   </div>
 </div>
 
-<!-- ─── Modal: RDP Wrapper ──────────────────────────────────────────────── -->
+<!-- ─── Modal: Multi-RDP ──────────────────────────────────────────────── -->
 <div class="modal-backdrop hidden" id="rdp-modal" onclick="handleBackdropClick(event,'rdp-modal')">
   <div class="modal modal-lg" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h3 data-i18n="rdp.title">RDP multi-sesión (TermWrap)</h3>
+      <h3 data-i18n="rdp.title">Varias sesiones a la vez</h3>
       <button class="modal-close" type="button" data-i18n-aria="btn.close" aria-label="Cerrar" onclick="closeRdpModal()">×</button>
     </div>
     <div class="modal-body">
@@ -854,21 +846,20 @@
           <td data-i18n="rdp.row.status">Estado</td>
           <td><span id="rdp-status-badge" class="badge badge-created"><span class="badge-dot"></span>—</span></td>
         </tr>
-        <tr><td data-i18n="rdp.row.installDir">Directorio</td><td id="rdp-install-dir">—</td></tr>
-        <tr><td data-i18n="rdp.row.bundle">Versión</td>      <td id="rdp-bundle">—</td></tr>
+        <tr><td data-i18n="rdp.row.source">Motivo</td><td id="rdp-source">—</td></tr>
+        <tr><td data-i18n="rdp.row.edition">Edición de Windows</td><td id="rdp-edition">—</td></tr>
+        <tr><td data-i18n="rdp.row.sessions">Sesiones activas</td><td id="rdp-sessions">—</td></tr>
+        <tr id="rdp-licensing-row" class="hidden"><td data-i18n="rdp.row.licensing">Escritorio remoto (RDS)</td><td id="rdp-licensing">—</td></tr>
         <tr><td data-i18n="rdp.row.termsrv">termsrv.dll</td><td id="rdp-termsrv">—</td></tr>
-        <tr><td data-i18n="rdp.row.serviceDll">ServiceDll</td><td id="rdp-service-dll">—</td></tr>
       </table>
 
       <div id="rdp-pending-note" class="info-note hidden" role="status"></div>
 
+      <div class="info-note" role="note" data-i18n="rdp.disclaimer"></div>
+
       <div class="dep-actions">
-        <button class="btn btn-primary btn-sm" id="rdp-btn-install" onclick="rdpInstall()" data-i18n="rdp.btn.install">Instalar / reparar</button>
         <button class="btn btn-ghost btn-sm" onclick="rdpRefresh()" data-i18n="rdp.btn.refresh">↻ Refrescar</button>
       </div>
-
-      <div class="dep-log-label" data-i18n="rdp.log.title">Log</div>
-      <div class="log-box" id="rdp-log-box"><span class="log-empty" data-i18n="rdp.log.empty">Aún no hay log.</span></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeRdpModal()" data-i18n="rdp.btn.close">Cerrar</button>

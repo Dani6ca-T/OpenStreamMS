@@ -7,6 +7,10 @@
   "StatusInstallRemoteIdd": "Instalace ovladače zobrazení pracovní stanice (RemoteIdd)...",
   "StatusStartService": "Spouštění služby...",
   "AskPurgeData": "Smazat také všechna data OpenStreamMS?%n%nSRelace, místní pracovní stanice a nastavení; uživatelé osms- izolovaných relací a jejich profily (včetně her a nastavení v nich uložených); profily streamu, ProgramData\\OpenStreamMS a dočasné soubory.%n%nPokud odpovíte Ne, relace a nastavení budou zachovány pro přeinstalaci.",
-  "AskRemoveDeps": "Odinstalujte také TermWrap, ViGEmBus a HidHide?%n%nAOdpověď Ne, pokud je používají jiné aplikace.",
+  "AskRemoveDeps": "Odinstalujte také ViGEmBus a HidHide?%n%nAOdpověď Ne, pokud je používají jiné aplikace.",
+  "MultiSessionTitle": "Více relací najednou",
+  "MultiSessionSubtitle": "Důležitá změna v této verzi",
+  "MultiSessionNotice": "OpenStreamMS už neinstaluje TermWrap ani žádný jiný nástroj, který umožňuje více relací Windows najednou. Pokud už na tomto počítači nějaký je, zůstane: OpenStreamMS ho neodebere.%n%nOficiálně je více současných relací Windows podporováno jen ve Windows Serveru s rolí Hostitel relací vzdálené plochy a s licencemi RDS CAL na uživatele.%n%nVe Windows Home nebo Pro je použití nástroje třetí strany k tomuto účelu vaše rozhodnutí a vaše odpovědnost: licenční podmínky Windows to nemusí povolovat. OpenStreamMS pouze kontroluje, zda to počítač umožňuje.",
+  "WindowsTooOld": "OpenStreamMS vyžaduje Windows 10 verze 1607 (sestavení 14393) nebo novější.%nTento počítač má sestavení %1. Aktualizujte Windows a spusťte instalační program znovu.",
   "StatusInstallOsmsPad": "Instalace ovladače herních ovladačů (OsmsPad)..."
 }

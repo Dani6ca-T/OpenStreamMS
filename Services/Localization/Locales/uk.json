@@ -33,13 +33,11 @@
   "session.passwordRequired": "Поле 'Password' обов'язкове.",
   "session.stopBeforeConfig": "Зупиніть сеанс перед зміною його конфігурації.",
   "session.stoppingWait": "Сеанс зупиняється: зачекайте, поки він завершиться, перед тим як змінювати його конфігурацію.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll не завантажено в TermService",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp не прослуховує",
+  "rdpwrap.notLoaded": "Служба віддаленого робочого стола ще не завантажила компонент, що дозволяє кілька сеансів",
+  "rdpwrap.singleSession": "Цей ПК дозволяє лише один сеанс одночасно",
   "rdpwrap.openSessionsPreventRestart": "Є відкриті сесії ({0}): TermService не перезапускається зараз; зміна набуде чинності при перезавантаженні.",
   "rdpwrap.termServiceRestarted": "TermService перезапущено.",
-  "rdpwrap.multiRdpBusy": "Операція multi-RDP вже виконується.",
-  "rdpwrap.failedToSetTermWrap": "Не вдалося встановити TermWrap як multi-RDP: {0}",
   "driver.bundledInstaller": "Використовується вбудований інсталятор: {0}",
   "driver.downloadingLatest": "Завантаження останньої версії з {0}...",
   "driver.asset": "Файл: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "У останньому випуску {0} не знайдено інсталятор .exe.",
   "driver.running": "Працює",
   "driver.stopped": "Зупинено",
-  "rdpwrap.log.start": "--- Початок: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- Кінець: {0} ({1}) ---",
   "isolatedUser.notManaged": "Користувач '{0}' не керується OpenStreamMS.",
   "isolatedUser.passwordRotationFailed": "Не вдалося обернути пароль для '{0}' (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd не вдалося для '{0}': помилка {1}. Можливі причини: нестандартна політика складності паролів або ліміт локальних облікових записів.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' вже в мозаїці.",
   "error.mosaicFull": "У мозаїці вже 4 сеанси.",
   "error.mosaicGuestStart": "'{0}' не запустився вчасно.",
-  "error.mosaicApply": "Не вдалося переставити сеанси: {0}"
+  "error.mosaicApply": "Не вдалося переставити сеанси: {0}",
   "isolatedUser.passwordKept": "Користувач '{0}' уже існував; його пароль зберігається (Steam та інші збережені входи залишаються дійсними).",
   "isolatedUser.passwordStoreFailed": "Не вдалося зберегти або прочитати пароль '{0}' в LSA: {1}. Його буде скинуто під час наступного запуску."
 }

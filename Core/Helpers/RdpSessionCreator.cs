@@ -435,6 +435,14 @@ namespace OpenStreamMS.Core.Helpers
                 .Select(s => $"{s.SessionId} ({s.Username})")
                 .ToList();
 
+        /// <summary>
+        /// Sesiones de usuario activas a la vez (WTSActive). En Windows cliente sin nada que lo
+        /// permita solo puede haber una: al entrar otro usuario, la anterior pasa a desconectada.
+        /// </summary>
+        public static int CountActiveUserSessions() =>
+            EnumerateSessions(logSessions: false)
+                .Count(s => s.SessionId != 0 && !string.IsNullOrEmpty(s.Username) && s.State == 0 /* WTSActive */);
+
         /// <summary>Cierra la sesion Windows del usuario (logoff).</summary>
         public static void LogoffSession(uint sessionId)
         {
@@ -817,8 +825,10 @@ namespace OpenStreamMS.Core.Helpers
         /// frame al llegar con tope de fps (display_base.cpp). Cada frame del juego sale en el
         /// siguiente tic de composicion: con 8 ms (125 Hz) salian a 16/24 ms y Moonlight
         /// descartaba hasta un 10 % por jitter; con 4 ms el desfase maximo es la mitad. No se
-        /// baja de 4 ms (500 Hz con 120 fps): el coste de componer y de RDP crece con el ritmo.
-        /// Windows ignora intervalos por debajo de 2 ms.
+        /// baja de 4 ms (250 Hz) mientras eso alcance a los fps: el coste de componer y de RDP crece
+        /// con el ritmo. Por encima de 250 fps se compone al intervalo entero que no se quede por
+        /// debajo de los fps (300 -> 3 ms, 334 Hz; 400 -> 2 ms, 500 Hz). Windows ignora intervalos
+        /// por debajo de 2 ms, así que 500 Hz es el techo.
         /// </para>
         /// <para>
         /// <see cref="RdpCompositionMode.Efficient"/> compone a los fps, redondeando al ms mas
@@ -834,6 +844,8 @@ namespace OpenStreamMS.Core.Helpers
                 return Math.Max(2, 1000 / frameRate);
             if (mode == RdpCompositionMode.Efficient)
                 return Math.Max(2, (int)Math.Round(1000.0 / frameRate, MidpointRounding.AwayFromZero));
+            if (frameRate > 250)
+                return Math.Max(2, 1000 / frameRate);
             return Math.Max(4, 1000 / (4 * frameRate));
         }
 
@@ -1455,7 +1467,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         /// <summary>
         /// Pone fSingleSessionPerUser = 0. Windows lo trae a 1 en todas las ediciones: con 1,
         /// si el usuario del puesto ya tiene una sesión (por ejemplo, la de consola), termsrv
-        /// le devuelve esa en vez de crear otra, aunque TermWrap permita sesiones
+        /// le devuelve esa en vez de crear otra, aunque el equipo permita sesiones
         /// simultáneas (el parche quita el límite de sesiones, no esta opción). Es lo mismo
         /// que la casilla "Single session per user" de RDPConf.
         /// <para>
@@ -1565,8 +1577,15 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                 ? Environment.MachineName
                 : domain.Trim();
 
+        /// <summary>
+        /// Tope de fps de la sesión (y de Hz de RemoteIdd, que son los mismos). Windows no compone
+        /// una sesión RDP por debajo de 2 ms (<see cref="CompositionIntervalMs"/>): 500 es lo más
+        /// que puede llegar a salir.
+        /// </summary>
+        internal const int MaxFrameRate = 500;
+
         static int NormalizeFrameRate(int frameRate) =>
-            Math.Clamp(frameRate > 0 ? frameRate : 60, 1, 240);
+            Math.Clamp(frameRate > 0 ? frameRate : 60, 1, MaxFrameRate);
 
         static int NormalizeColorDepth(int colorDepth) => colorDepth switch
         {

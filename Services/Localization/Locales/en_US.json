@@ -33,13 +33,11 @@
   "session.passwordRequired": "The 'Password' field is required.",
   "session.stopBeforeConfig": "Stop the session before modifying its configuration.",
   "session.stoppingWait": "The session is stopping: wait for it to finish before changing its configuration.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll is not loaded in TermService",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp is not listening",
+  "rdpwrap.notLoaded": "The Remote Desktop service has not loaded the component that allows several sessions yet",
+  "rdpwrap.singleSession": "This PC only allows one session at a time",
   "rdpwrap.openSessionsPreventRestart": "There are open sessions ({0}): TermService will not be restarted now; the change applies on reboot.",
   "rdpwrap.termServiceRestarted": "TermService restarted.",
-  "rdpwrap.multiRdpBusy": "A multi-RDP operation is already in progress.",
-  "rdpwrap.failedToSetTermWrap": "Could not set TermWrap as multi-RDP: {0}",
   "driver.bundledInstaller": "Using bundled installer: {0}",
   "driver.downloadingLatest": "Downloading latest release from {0}...",
   "driver.asset": "Asset: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "No .exe installer was found in the latest release from {0}.",
   "driver.running": "Running",
   "driver.stopped": "Stopped",
-  "rdpwrap.log.start": "--- Start: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- End: {0} ({1}) ---",
   "isolatedUser.notManaged": "User '{0}' is not managed by OpenStreamMS.",
   "isolatedUser.passwordRotationFailed": "Could not rotate password for '{0}' (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd failed for '{0}': error {1}. Possible causes: non-standard password complexity policy or local account limit.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' is already in a mosaic.",
   "error.mosaicFull": "The mosaic already has 4 sessions.",
   "error.mosaicGuestStart": "'{0}' did not start in time.",
-  "error.mosaicApply": "The sessions could not be rearranged: {0}"
+  "error.mosaicApply": "The sessions could not be rearranged: {0}",
   "isolatedUser.passwordKept": "User '{0}' already existed; its password is kept (Steam and other saved logins stay valid).",
   "isolatedUser.passwordStoreFailed": "Could not save or read the password of '{0}' in LSA: {1}. It will be reset on the next start."
 }

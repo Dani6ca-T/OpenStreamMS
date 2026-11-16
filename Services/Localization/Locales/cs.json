@@ -33,13 +33,11 @@
   "session.passwordRequired": "Pole 'Password' je povinné.",
   "session.stopBeforeConfig": "Před úpravou konfigurace zastavte relaci.",
   "session.stoppingWait": "Relace se zastavuje: čekejte, než skončí, než změníte její konfiguraci.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll není načtena v TermService",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp neposlouchá",
+  "rdpwrap.notLoaded": "Služba Vzdálená plocha zatím nenačetla komponentu, která umožňuje více relací",
+  "rdpwrap.singleSession": "Tento počítač umožňuje jen jednu relaci najednou",
   "rdpwrap.openSessionsPreventRestart": "Existují otevřené relace ({0}): TermService se nerestartuje nyní; změna se projeví po restartu.",
   "rdpwrap.termServiceRestarted": "TermService restartován.",
-  "rdpwrap.multiRdpBusy": "Multi-RDP operace již probíhá.",
-  "rdpwrap.failedToSetTermWrap": "Nepodařilo se nastavit TermWrap jako multi-RDP: {0}",
   "driver.bundledInstaller": "Používán vestavěný instalátor: {0}",
   "driver.downloadingLatest": "Stahování nejnovější verze z {0}...",
   "driver.asset": "Soubor: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "V nejnovější verzi {0} nebyl nalezen .exe instalátor.",
   "driver.running": "Běží",
   "driver.stopped": "Zastaveno",
-  "rdpwrap.log.start": "--- Začátek: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- Konec: {0} ({1}) ---",
   "isolatedUser.notManaged": "Uživatel '{0}' nespravuje OpenStreamMS.",
   "isolatedUser.passwordRotationFailed": "Nepodařilo se změnit heslo pro '{0}' (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd selhal pro '{0}': chyba {1}. Možné příčiny: nestandardní politika složitosti hesel nebo limit lokálních účtů.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' už je v mozaice.",
   "error.mosaicFull": "Mozaika už má 4 relace.",
   "error.mosaicGuestStart": "'{0}' se nespustila včas.",
-  "error.mosaicApply": "Relace se nepodařilo přeskládat: {0}"
+  "error.mosaicApply": "Relace se nepodařilo přeskládat: {0}",
   "isolatedUser.passwordKept": "Uživatel '{0}' již existoval; jeho heslo se zachovává (Steam a další uložená přihlášení zůstávají platná).",
   "isolatedUser.passwordStoreFailed": "Heslo uživatele '{0}' nelze uložit ani přečíst v LSA: {1}. Při příštím spuštění bude obnoveno."
 }

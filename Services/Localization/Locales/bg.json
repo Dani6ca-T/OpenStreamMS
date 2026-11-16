@@ -33,13 +33,11 @@
   "session.passwordRequired": "Полето 'Password' е задължително.",
   "session.stopBeforeConfig": "Спринете сесията преди да модифицирате нейната конфигурация.",
   "session.stoppingWait": "Сесията се спира: изчакайте да приключи, за да промените нейната конфигурация.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll не е зареден в TermService",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp не слуша",
+  "rdpwrap.notLoaded": "Услугата за отдалечен работен плот още не е заредила компонента, който позволява няколко сесии",
+  "rdpwrap.singleSession": "Този компютър позволява само една сесия наведнъж",
   "rdpwrap.openSessionsPreventRestart": "Има отворени сесии ({0}): TermService не се рестартира сега; промяната влиза в сила при рестарт.",
   "rdpwrap.termServiceRestarted": "TermService рестартиран.",
-  "rdpwrap.multiRdpBusy": "Multi-RDP операция вече е в ход.",
-  "rdpwrap.failedToSetTermWrap": "Неуспешно задаване на TermWrap като multi-RDP: {0}",
   "driver.bundledInstaller": "Използван е включеният инсталатор: {0}",
   "driver.downloadingLatest": "Изтегляне на последната версия от {0}...",
   "driver.asset": "Файл: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "Няма .exe инсталатор в последната версия на {0}.",
   "driver.running": "Работи",
   "driver.stopped": "Сприл",
-  "rdpwrap.log.start": "--- Старт: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- Край: {0} ({1}) ---",
   "isolatedUser.notManaged": "Потребителят '{0}' не се управлява от OpenStreamMS.",
   "isolatedUser.passwordRotationFailed": "Неуспешна смяна на паролата за '{0}' (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd неуспешен за '{0}': грешка {1}. Възможни причини: нестандартна политика за сложност на пароли или лимит на локални акаунти.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' вече е в мозайка.",
   "error.mosaicFull": "Мозайката вече има 4 сесии.",
   "error.mosaicGuestStart": "'{0}' не стартира навреме.",
-  "error.mosaicApply": "Сесиите не можаха да бъдат пренаредени: {0}"
+  "error.mosaicApply": "Сесиите не можаха да бъдат пренаредени: {0}",
   "isolatedUser.passwordKept": "Потребителят '{0}' вече съществуваше; паролата му се запазва (Steam и другите запазени влизания остават валидни).",
   "isolatedUser.passwordStoreFailed": "Паролата на '{0}' не можа да бъде запазена или прочетена в LSA: {1}. Тя ще бъде нулирана при следващото стартиране."
 }

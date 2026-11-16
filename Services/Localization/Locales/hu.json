@@ -33,13 +33,11 @@
   "session.passwordRequired": "A 'Password' mező kötelező.",
   "session.stopBeforeConfig": "Állítsa le a munkamenetet a konfiguráció módosítása előtt.",
   "session.stoppingWait": "A munkamenet leáll: várjon, amíg befejeződik, mielőtt megváltoztatná a konfigurációját.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll nincs betöltve a TermService-be",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp nem hallgat",
+  "rdpwrap.notLoaded": "A Távoli asztal szolgáltatás még nem töltötte be a több munkamenetet engedélyező összetevőt",
+  "rdpwrap.singleSession": "Ez a gép egyszerre csak egy munkamenetet enged",
   "rdpwrap.openSessionsPreventRestart": "Megnyitott munkamenetek vannak ({0}): a TermService most nem indul újra; a változás a újraindításkor érvényesül.",
   "rdpwrap.termServiceRestarted": "TermService újraindítva.",
-  "rdpwrap.multiRdpBusy": "Multi-RDP művelet már folyamatban van.",
-  "rdpwrap.failedToSetTermWrap": "Nem sikerült beállítani a TermWrap-ot multi-RDP-ként: {0}",
   "driver.bundledInstaller": "Beépített telepítő használata: {0}",
   "driver.downloadingLatest": "Legújabb kiadás letöltése a {0} helyről...",
   "driver.asset": "Fájl: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "Nincs .exe telepítő a {0} legújabb kiadásában.",
   "driver.running": "Fut",
   "driver.stopped": "Állítva",
-  "rdpwrap.log.start": "--- Kezdés: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- Vége: {0} ({1}) ---",
   "isolatedUser.notManaged": "A '{0}' felhasználó nem OpenStreamMS által kezelt.",
   "isolatedUser.passwordRotationFailed": "A '{0}' jelszava nem fordítható meg (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd sikertelen a '{0}' számára: hiba {1}. Lehetséges okok: nem standard jelszó-szabályzat vagy helyi fiókkorlát.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' már egy mozaikban van.",
   "error.mosaicFull": "A mozaikban már 4 munkamenet van.",
   "error.mosaicGuestStart": "'{0}' nem indult el időben.",
-  "error.mosaicApply": "Nem sikerült átrendezni a munkameneteket: {0}"
+  "error.mosaicApply": "Nem sikerült átrendezni a munkameneteket: {0}",
   "isolatedUser.passwordKept": "A(z) '{0}' felhasználó már létezett; a jelszava megmarad (a Steam és más mentett bejelentkezések érvényesek maradnak).",
   "isolatedUser.passwordStoreFailed": "Nem sikerült menteni vagy olvasni a(z) '{0}' jelszavát az LSA-ban: {1}. A következő indításkor alaphelyzetbe áll."
 }

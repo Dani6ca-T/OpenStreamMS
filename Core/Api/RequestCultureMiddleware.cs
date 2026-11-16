@@ -23,12 +23,9 @@ internal sealed class RequestCultureMiddleware
     {
         string? cultureCode = null;
 
-        // 1. Try to get user's saved language preference (if authenticated)
-        if (AuthService.IsAuthenticated(context, config))
-        {
-            // For now, we don't store user language preference in config.
-            // This could be extended to read from a user profile in the future.
-        }
+        // 1. No per-user saved language yet. Authentication is deliberately NOT checked here:
+        //    it ran PBKDF2 and counted a failed login attempt on every request (twice with the
+        //    auth middleware), even for public paths.
 
         // 2. Accept-Language header
         if (string.IsNullOrEmpty(cultureCode))

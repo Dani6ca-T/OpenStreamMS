@@ -208,6 +208,15 @@ public class StreamSession
     public uint         RdpSessionId    { get; set; }
     public int          SunshinePid     { get; set; }
     internal int        FreeRdpPid      { get; set; }   // no expuesto en la API ni persistido
+    /// <summary>
+    /// Número de la última orden de ciclo de vida (iniciar, detener, reiniciar). Un arranque en
+    /// curso que ya no lleva el número vigente se abandona: otra orden lo ha sustituido.
+    /// </summary>
+    internal int        LifecycleGeneration;
+    /// <summary>Protege la comprobación y el cambio de estado al aceptar una orden.</summary>
+    internal readonly object LifecycleLock = new();
+    /// <summary>Solo un arranque a la vez por sesión: el siguiente espera a que el anterior acabe o se abandone.</summary>
+    internal readonly object StartGate = new();
     public DateTime     CreatedAt       { get; set; } = DateTime.UtcNow;
     public DateTime?    StartedAt       { get; set; }
     public DateTime?    StoppedAt       { get; set; }

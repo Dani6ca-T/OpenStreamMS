@@ -33,13 +33,11 @@
   "session.passwordRequired": "O campo 'Password' é obrigatório.",
   "session.stopBeforeConfig": "Pare a sessão antes de modificar a sua configuração.",
   "session.stoppingWait": "A sessão está a parar: aguarde que termine antes de alterar a sua configuração.",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll não está carregado no TermService",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp não está a escutar",
+  "rdpwrap.notLoaded": "O serviço Ambiente de Trabalho Remoto ainda não carregou o componente que permite várias sessões",
+  "rdpwrap.singleSession": "Este PC só permite uma sessão de cada vez",
   "rdpwrap.openSessionsPreventRestart": "Existem sessões abertas ({0}): TermService não será reiniciado agora; a alteração aplica-se no reinício.",
   "rdpwrap.termServiceRestarted": "TermService reiniciado.",
-  "rdpwrap.multiRdpBusy": "Já existe uma operação multi-RDP em curso.",
-  "rdpwrap.failedToSetTermWrap": "Não foi possível definir TermWrap como multi-RDP: {0}",
   "driver.bundledInstaller": "A usar instalador incluído: {0}",
   "driver.downloadingLatest": "A transferir última versão de {0}...",
   "driver.asset": "Ficheiro: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "Nenhum instalador .exe encontrado na última versão de {0}.",
   "driver.running": "A correr",
   "driver.stopped": "Parado",
-  "rdpwrap.log.start": "--- Início: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- Fim: {0} ({1}) ---",
   "isolatedUser.notManaged": "O utilizador '{0}' não é gerido pelo OpenStreamMS.",
   "isolatedUser.passwordRotationFailed": "Não foi possível rodar a palavra-passe de '{0}' (NetUserSetInfo={1}).",
   "isolatedUser.netUserAddFailed": "NetUserAdd falhou para '{0}': erro {1}. Possíveis causas: política de complexidade de palavra-passe não padrão ou limite de contas locais.",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' já está num mosaico.",
   "error.mosaicFull": "O mosaico já tem 4 sessões.",
   "error.mosaicGuestStart": "'{0}' não iniciou a tempo.",
-  "error.mosaicApply": "Não foi possível reorganizar as sessões: {0}"
+  "error.mosaicApply": "Não foi possível reorganizar as sessões: {0}",
   "isolatedUser.passwordKept": "O utilizador '{0}' já existia; a sua palavra-passe é mantida (o Steam e outros inícios de sessão guardados continuam válidos).",
   "isolatedUser.passwordStoreFailed": "Não foi possível guardar ou ler a palavra-passe de '{0}' no LSA: {1}. Será reposta no próximo arranque."
 }

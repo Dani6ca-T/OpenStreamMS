@@ -7,6 +7,10 @@
   "StatusInstallRemoteIdd": "Installing the seat display driver (RemoteIdd)...",
   "StatusStartService": "Starting the service...",
   "AskPurgeData": "Also delete all OpenStreamMS data?%n%nSessions, seats and settings; the osms- users of isolated sessions and their profiles (including games and settings saved in them); stream profiles, ProgramData\\OpenStreamMS and temporary files.%n%nIf you answer No, sessions and settings are kept for a reinstall.",
-  "AskRemoveDeps": "Also uninstall TermWrap, ViGEmBus and HidHide?%n%nAnswer No if other applications use them.",
+  "AskRemoveDeps": "Also uninstall ViGEmBus and HidHide?%n%nAnswer No if other applications use them.",
+  "MultiSessionTitle": "Several sessions at once",
+  "MultiSessionSubtitle": "Important change in this version",
+  "MultiSessionNotice": "OpenStreamMS no longer installs TermWrap or any other tool that allows several Windows sessions at once. If one is already on this PC, it stays: OpenStreamMS does not remove it.%n%nOfficially, several Windows sessions at once are only supported on Windows Server with the Remote Desktop Session Host role and RDS user CALs.%n%nOn Windows Home or Pro, using a third-party tool for this is your decision and your responsibility: it may not be permitted by the Windows license terms. OpenStreamMS only checks whether the PC allows it.",
+  "WindowsTooOld": "OpenStreamMS needs Windows 10 version 1607 (build 14393) or later.%nThis PC has build %1. Update Windows and run the installer again.",
   "StatusInstallOsmsPad": "Installing the gamepad driver (OsmsPad)..."
 }

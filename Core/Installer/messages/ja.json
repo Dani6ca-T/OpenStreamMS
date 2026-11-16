@@ -7,6 +7,10 @@
   "StatusInstallRemoteIdd": "ワークステーション ディスプレイ ドライバー (RemoteIdd) をインストールしています...",
   "StatusStartService": "サービスを開始しています...",
   "AskPurgeData": "OpenStreamMS のすべてのデータも削除しますか？%n%nセッション、ワークステーション、設定、分離セッションの osms- ユーザーとそのプロファイル（保存されたゲームと設定を含む）、ストリーミングプロファイル、ProgramData\\OpenStreamMS、一時ファイルが対象です。%n%n「いいえ」を選ぶと、再インストールに備えてセッションと設定を保持します。",
-  "AskRemoveDeps": "TermWrap、ViGEmBus、HidHide もアンインストールしますか？%n%nほかのアプリケーションが使用している場合は「いいえ」を選んでください。",
+  "AskRemoveDeps": "ViGEmBus、HidHide もアンインストールしますか？%n%nほかのアプリケーションが使用している場合は「いいえ」を選んでください。",
+  "MultiSessionTitle": "複数セッションの同時実行",
+  "MultiSessionSubtitle": "このバージョンでの重要な変更",
+  "MultiSessionNotice": "OpenStreamMS は、TermWrap など複数の Windows セッションを同時に可能にするツールをインストールしなくなりました。この PC に既にある場合はそのまま残り、OpenStreamMS が削除することはありません。%n%n公式には、複数の Windows セッションの同時実行は、リモート デスクトップ セッション ホストの役割とユーザー単位の RDS CAL を備えた Windows Server でのみサポートされています。%n%nWindows Home や Pro でそのためにサードパーティ製ツールを使うかどうかは、ご自身の判断と責任です。Windows のライセンス条項で許可されていない可能性があります。OpenStreamMS は PC が対応しているかを確認するだけです。",
+  "WindowsTooOld": "OpenStreamMS には Windows 10 バージョン 1607 (ビルド 14393) 以降が必要です。%nこの PC のビルドは %1 です。Windows を更新してから、もう一度インストーラーを実行してください。",
   "StatusInstallOsmsPad": "ゲームパッド ドライバーをインストールしています (OsmsPad)..."
 }

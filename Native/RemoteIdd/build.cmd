@@ -6,7 +6,7 @@
 ::   2) compila y ejecuta RemoteIddPerf.exe: rendimiento entre procesos en la GPU real
 ::      (se salta con la variable RIDD_NOPERF=1, p. ej. en una máquina sin GPU)
 ::   2b) compila y prueba el proveedor de protocolo (OsmsRdsProvider.dll)
-::   3) compila RemoteIdd.dll (IddCx 1.4, UMDF 2.33) y sella + valida RemoteIdd.inf
+::   3) compila RemoteIdd.dll (IddCx 1.4, UMDF 2.31) y sella + valida RemoteIdd.inf
 :: No firma ni instala nada.
 setlocal
 set OUT=%~1
@@ -68,16 +68,16 @@ if not exist "%WINC%\um\iddcx\1.4\IddCx.h" (
 :: C4324 sale de las cabeceras de WDF (wdfrequest.h), no del código del driver.
 cl /nologo /utf-8 /c /O2 /W4 /WX /wd4324 /EHsc /std:c++17 /MT /GS /guard:cf /Zi /Fo"%OBJ%\\" /Fd"%OBJ%\\" ^
   /DUNICODE /D_UNICODE /D_WINDLL /DWIN32_LEAN_AND_MEAN ^
-  /DUMDF_VERSION_MAJOR=2 /DUMDF_VERSION_MINOR=33 /DUMDF_USING_NTSTATUS ^
+  /DUMDF_VERSION_MAJOR=2 /DUMDF_VERSION_MINOR=31 /DUMDF_USING_NTSTATUS ^
   /DIDDCX_VERSION_MAJOR=1 /DIDDCX_VERSION_MINOR=4 /DIDDCX_MINIMUM_VERSION_REQUIRED=4 ^
-  /I"%WINC%\um\iddcx\1.4" /I"%W%\Include\wdf\umdf\2.33" /I"%WINC%\um" /I"%WINC%\shared" ^
+  /I"%WINC%\um\iddcx\1.4" /I"%W%\Include\wdf\umdf\2.31" /I"%WINC%\um" /I"%WINC%\shared" ^
   "%~dp0Driver.cpp" || exit /b 1
 :: FramePublisher no es código UMDF: sin UMDF_USING_NTSTATUS (ocultaría los STATUS_* de winnt.h).
 cl /nologo /utf-8 /c /O2 /W4 /WX /EHsc /std:c++17 /MT /GS /guard:cf /Zi /Fo"%OBJ%\\" /Fd"%OBJ%\\" ^
   /DUNICODE /D_UNICODE /DWIN32_LEAN_AND_MEAN "%~dp0FramePublisher.cpp" || exit /b 1
 link /nologo /DLL /OUT:"%OUT%\RemoteIdd.dll" /PDB:"%OUT%\RemoteIdd.pdb" /DEBUG /INCREMENTAL:NO /GUARD:CF ^
   /NODEFAULTLIB:kernel32.lib "%OBJ%\Driver.obj" "%OBJ%\FramePublisher.obj" ^
-  "%W%\Lib\wdf\umdf\x64\2.33\WdfDriverStubUm.lib" "%WLIB%\iddcx\1.4\iddcxstub.lib" ^
+  "%W%\Lib\wdf\umdf\x64\2.31\WdfDriverStubUm.lib" "%WLIB%\iddcx\1.4\iddcxstub.lib" ^
   OneCoreUAP.lib d3d11.lib dxgi.lib avrt.lib ntdll.lib || exit /b 1
 del /q "%OUT%\RemoteIdd.lib" "%OUT%\RemoteIdd.exp" 2>nul
 
@@ -86,7 +86,7 @@ copy /y "%~dp0RemoteIdd.inf" "%OUT%\RemoteIdd.inf" >nul
 :: Fecha UTC, no la local (-d *): Inf2Cat compara con UTC y entre medianoche y la 1-2 h en
 :: España rechazaba el INF ("DriverVer set to a date in the future").
 for /f %%d in ('powershell -NoProfile -Command "(Get-Date).ToUniversalTime().ToString('MM/dd/yyyy', [Globalization.CultureInfo]::InvariantCulture)"') do set DRIVER_DATE=%%d
-"%W%\bin\10.0.26100.0\x64\stampinf.exe" -f "%OUT%\RemoteIdd.inf" -a amd64 -u 2.33.0 -d %DRIVER_DATE% -v 0.1.0.0 >nul || exit /b 1
+"%W%\bin\10.0.26100.0\x64\stampinf.exe" -f "%OUT%\RemoteIdd.inf" -a amd64 -u 2.31.0 -d %DRIVER_DATE% -v 0.1.0.0 >nul || exit /b 1
 "%W%\tools\10.0.26100.0\x64\infverif.exe" /w "%OUT%\RemoteIdd.inf" || exit /b 1
 
 echo RemoteIdd compilado en %OUT% (sin firmar, sin instalar).

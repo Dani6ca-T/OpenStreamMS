@@ -40,7 +40,7 @@ namespace OpenStreamMS.Services.OpenStream
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Logger.Log("[Service] OpenStreamMS iniciado. API disponible en el puerto configurado.");
-            // Antes de los puestos: TermWrap como multi-RDP y, si no funciona, RemoteIdd fuera de RDP-Tcp.
+            // Antes de los puestos: estado del multi-RDP y, si RDP-Tcp no funciona con RemoteIdd, RemoteIdd fuera.
             try { await Task.Run(() => _rdpWrapper.EnsureMultiRdp(stoppingToken), stoppingToken); }
             catch (Exception ex) { Logger.Error($"[Service] Comprobación de multi-RDP fallida: {ex}"); }
             _timer.Start();

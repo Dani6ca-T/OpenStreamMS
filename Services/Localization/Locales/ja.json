@@ -33,13 +33,11 @@
   "session.passwordRequired": "'Password' フィールドは必須です。",
   "session.stopBeforeConfig": "設定を変更する前にセッションを停止してください。",
   "session.stoppingWait": "セッションが停止中です：設定を変更する前に終了するまでお待ちください。",
-  "rdpwrap.serviceDllMismatch": "ServiceDll = {0}",
-  "rdpwrap.termwrapNotLoaded": "TermWrap.dll が TermService に読み込まれていません",
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp がリッスンしていません",
+  "rdpwrap.notLoaded": "リモート デスクトップ サービスは、複数セッションを可能にするコンポーネントをまだ読み込んでいません",
+  "rdpwrap.singleSession": "この PC では同時に 1 つのセッションしか使えません",
   "rdpwrap.openSessionsPreventRestart": "開いているセッションがあります ({0}): TermService は今再起動しません; 変更は再起動後に反映されます。",
   "rdpwrap.termServiceRestarted": "TermService を再起動しました。",
-  "rdpwrap.multiRdpBusy": "マルチ RDP 操作が既に進行中です。",
-  "rdpwrap.failedToSetTermWrap": "TermWrap をマルチ RDP として設定できませんでした: {0}",
   "driver.bundledInstaller": "バンドルされたインストーラーを使用: {0}",
   "driver.downloadingLatest": "{0} から最新リリースをダウンロード中...",
   "driver.asset": "アセット: {0}",
@@ -58,8 +56,6 @@
   "driver.noInstallerFound": "{0} の最新リリースに .exe インストーラーが見つかりません。",
   "driver.running": "実行中",
   "driver.stopped": "停止",
-  "rdpwrap.log.start": "--- 開始: {0} ({1}) ---",
-  "rdpwrap.log.end": "--- 終了: {0} ({1}) ---",
   "isolatedUser.notManaged": "ユーザー '{0}' は OpenStreamMS で管理されていません。",
   "isolatedUser.passwordRotationFailed": "'{0}' のパスワードをローテーションできませんでした (NetUserSetInfo={1})。",
   "isolatedUser.netUserAddFailed": "'{0}' の NetUserAdd が失敗しました: エラー {1}。考えられる原因: 標準でないパスワード ポリシーまたはローカル アカウントの制限。",
@@ -92,7 +88,7 @@
   "error.mosaicBusy": "'{0}' はすでにモザイクに参加しています。",
   "error.mosaicFull": "モザイクにはすでに 4 セッションあります。",
   "error.mosaicGuestStart": "'{0}' が時間内に起動しませんでした。",
-  "error.mosaicApply": "セッションを再配置できませんでした: {0}"
+  "error.mosaicApply": "セッションを再配置できませんでした: {0}",
   "isolatedUser.passwordKept": "ユーザー '{0}' は既に存在していました。パスワードはそのまま保持されます (Steam などの保存済みログインは引き続き有効です)。",
   "isolatedUser.passwordStoreFailed": "'{0}' のパスワードを LSA に保存または読み取りできませんでした: {1}。次回の起動時にリセットされます。"
 }
