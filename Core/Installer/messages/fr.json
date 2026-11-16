@@ -7,6 +7,9 @@
   "StatusInstallRemoteIdd": "Installation du pilote d'affichage des postes (RemoteIdd)...",
   "StatusStartService": "Démarrage du service...",
   "AskPurgeData": "Supprimer aussi toutes les données d'OpenStreamMS ?%n%nSessions, postes et paramètres ; les utilisateurs osms- des sessions isolées et leurs profils (y compris les jeux et réglages qui y sont enregistrés) ; les profils de stream, ProgramData\\OpenStreamMS et les fichiers temporaires.%n%nSi vous répondez Non, les sessions et les paramètres sont conservés pour une réinstallation.",
-  "AskRemoveDeps": "Désinstaller aussi TermWrap, ViGEmBus et HidHide ?%n%nRépondez Non si d'autres applications les utilisent.",
+  "AskRemoveDeps": "Désinstaller aussi ViGEmBus et HidHide ?%n%nRépondez Non si d'autres applications les utilisent.",
+  "MultiSessionTitle": "Plusieurs sessions à la fois",
+  "MultiSessionSubtitle": "Changement important dans cette version",
+  "MultiSessionNotice": "OpenStreamMS n'installe plus TermWrap ni aucun autre outil permettant plusieurs sessions Windows à la fois. S'il y en a déjà un sur ce PC, il reste : OpenStreamMS ne le supprime pas.%n%nOfficiellement, plusieurs sessions Windows simultanées ne sont prises en charge que sur Windows Server avec le rôle Hôte de session Bureau à distance et des CAL RDS par utilisateur.%n%nSur Windows Famille ou Professionnel, utiliser un outil tiers pour cela relève de votre décision et de votre responsabilité : les termes de la licence Windows peuvent ne pas l'autoriser. OpenStreamMS se contente de vérifier si le PC le permet.",
   "WindowsTooOld": "OpenStreamMS nécessite Windows 10 version 1607 (build 14393) ou ultérieure.%nCe PC est en build %1. Mettez Windows à jour et relancez l'installation."
 }

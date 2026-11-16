@@ -7,6 +7,9 @@
   "StatusInstallRemoteIdd": "Installazione del driver del display della workstation (RemoteIdd)...",
   "StatusStartService": "Avvio del servizio...",
   "AskPurgeData": "Elimina anche tutti i dati OpenStreamMS?%n%nSessioni, workstation locali e impostazioni; gli utenti osms- di sessioni isolate e i loro profili (compresi i giochi e le impostazioni in essi salvati); profili di streaming, ProgramData\\OpenStreamMS e file temporanei.%n%nIe rispondi No, le sessioni e le impostazioni vengono conservate per una reinstallazione.",
-  "AskRemoveDeps": "Disinstalla anche TermWrap, ViGEmBus e HidHide?%n%nRispondi No se altre applicazioni li utilizzano.",
+  "AskRemoveDeps": "Disinstalla anche ViGEmBus e HidHide?%n%nRispondi No se altre applicazioni li utilizzano.",
+  "MultiSessionTitle": "Più sessioni contemporaneamente",
+  "MultiSessionSubtitle": "Modifica importante in questa versione",
+  "MultiSessionNotice": "OpenStreamMS non installa più TermWrap né altri strumenti che consentono più sessioni di Windows contemporaneamente. Se ce n'è già uno su questo PC, rimane: OpenStreamMS non lo rimuove.%n%nUfficialmente, più sessioni di Windows contemporanee sono supportate solo su Windows Server con il ruolo Host sessione Desktop remoto e CAL RDS per utente.%n%nSu Windows Home o Pro, usare uno strumento di terze parti per questo è una tua decisione e una tua responsabilità: i termini di licenza di Windows potrebbero non consentirlo. OpenStreamMS si limita a controllare se il PC lo consente.",
   "WindowsTooOld": "OpenStreamMS richiede Windows 10 versione 1607 (build 14393) o successiva.%nQuesto PC ha la build %1. Aggiorna Windows ed esegui di nuovo l'installazione."
 }
