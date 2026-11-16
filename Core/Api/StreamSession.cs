@@ -208,6 +208,15 @@ public class StreamSession
     public uint         RdpSessionId    { get; set; }
     public int          SunshinePid     { get; set; }
     internal int        FreeRdpPid      { get; set; }   // no expuesto en la API ni persistido
+    /// <summary>
+    /// Número de la última orden de ciclo de vida (iniciar, detener, reiniciar). Un arranque en
+    /// curso que ya no lleva el número vigente se abandona: otra orden lo ha sustituido.
+    /// </summary>
+    internal int        LifecycleGeneration;
+    /// <summary>Protege la comprobación y el cambio de estado al aceptar una orden.</summary>
+    internal readonly object LifecycleLock = new();
+    /// <summary>Solo un arranque a la vez por sesión: el siguiente espera a que el anterior acabe o se abandone.</summary>
+    internal readonly object StartGate = new();
     public DateTime     CreatedAt       { get; set; } = DateTime.UtcNow;
     public DateTime?    StartedAt       { get; set; }
     public DateTime?    StoppedAt       { get; set; }
@@ -226,4 +235,15 @@ public class StreamSession
     /// </summary>
     public int?         ClientsMoonlight { get; set; }
     public int?         ClientsWebRtc    { get; set; }
+    /// <summary>
+    /// Sesión anfitriona del mosaico en el que está esta sesión (la propia si es la anfitriona);
+    /// null fuera de un mosaico. Lo mantiene <see cref="OpenStreamMS.Services.Mosaic.MosaicService"/>. No se persiste.
+    /// </summary>
+    public Guid?        MosaicHost       { get; set; }
+    /// <summary>Posición en el mosaico por orden de llegada (0 = anfitriona; el mando N va a la N). No se persiste.</summary>
+    public int?         MosaicIndex      { get; set; }
+    /// <summary>Sesiones en el mosaico, solo en la anfitriona. No se persiste.</summary>
+    public int?         MosaicCount      { get; set; }
+    /// <summary>Solo en la anfitriona: con dos sesiones, una encima de otra. No se persiste.</summary>
+    public bool         MosaicStacked    { get; set; }
 }

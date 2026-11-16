@@ -256,7 +256,15 @@ public record SessionResponse(
     /// <summary>Ritmo de composición de la sesión RDP.</summary>
     RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth,
     /// <summary>Paso del arranque en el que falló (user, rdp, profile, unlock, sunshine); null si no hay error.</summary>
-    string?      FailedPhase = null
+    string?      FailedPhase = null,
+    /// <summary>Anfitriona del mosaico en el que está la sesión (la propia si es la anfitriona); null fuera de un mosaico.</summary>
+    Guid?        MosaicHost = null,
+    /// <summary>Posición en el mosaico por orden de llegada (0 = anfitriona; el mando N va a la N).</summary>
+    int?         MosaicIndex = null,
+    /// <summary>Sesiones en el mosaico de la anfitriona (solo en la anfitriona).</summary>
+    int?         MosaicCount = null,
+    /// <summary>Solo en la anfitriona: con dos sesiones, una encima de otra en vez de una al lado de otra.</summary>
+    bool         MosaicStacked = false
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
@@ -529,8 +537,18 @@ public static class SessionEndpoints
 
     // ── handlers ─────────────────────────────────────────────────────────────
 
-    static Ok<IEnumerable<SessionResponse>> GetAll(StreamSessionService svc) =>
-        TypedResults.Ok(svc.GetAll().Select(ToResponse));
+    static Ok<IEnumerable<SessionResponse>> GetAll(StreamSessionService svc, HttpContext ctx)
+    {
+        var all = svc.GetAll().Select(ToResponse);
+        // El icono de bandeja entra sin contraseña (ver Program.cs): recibe la lista para su
+        // menú, pero no las credenciales del panel de Sunshine de cada sesión.
+        if (ctx.Items.ContainsKey(TrayRequestItem))
+            all = all.Select(r => r with { SunshineAuthUser = "", SunshineAuthPass = "" });
+        return TypedResults.Ok(all);
+    }
+
+    /// <summary>Marca en <c>HttpContext.Items</c> de las peticiones del icono de bandeja admitidas sin autenticar.</summary>
+    internal const string TrayRequestItem = "osms.tray";
 
     static Ok<SuggestedPortsResponse> SuggestPorts(StreamSessionService svc) =>
         TypedResults.Ok(svc.SuggestPorts());
@@ -850,7 +868,7 @@ public static class SessionEndpoints
             return Results.Json(rotated, statusCode: 409);
 
         if (status is >= 200 and < 300 &&
-            body?.TryGetProperty("status", out var ok) == true && ok.GetBoolean())
+            body?.TryGetProperty("status", out var ok) == true && IsTrue(ok))
         {
             // /api/pin sólo desbloquea el handshake con Moonlight. El state se escribe
             // cuando Moonlight completa la fase final, así que no reiniciamos Sunshine aquí.
@@ -869,6 +887,12 @@ public static class SessionEndpoints
             : $"HTTP {status}";
         return Results.Json(new SunshineError("proxy_error", detail), statusCode: 502);
     }
+
+    /// <summary>Sunshine devuelve <c>status</c> como booleano; versiones antiguas, como la cadena "true".</summary>
+    static bool IsTrue(System.Text.Json.JsonElement e) =>
+        e.ValueKind == System.Text.Json.JsonValueKind.True ||
+        (e.ValueKind == System.Text.Json.JsonValueKind.String &&
+         string.Equals(e.GetString(), "true", StringComparison.OrdinalIgnoreCase));
 
     static async Task<IResult> ListClients(
         Guid id, StreamSessionService svc, SunshineProxy proxy)
@@ -891,8 +915,8 @@ public static class SessionEndpoints
         {
             foreach (var item in list.EnumerateArray())
             {
-                var uuid = item.TryGetProperty("uuid", out var u) ? u.GetString() ?? "" : "";
-                var name = item.TryGetProperty("name", out var n) ? n.GetString() ?? "" : "";
+                var uuid = item.TryGetProperty("uuid", out var u) && u.ValueKind == System.Text.Json.JsonValueKind.String ? u.GetString() ?? "" : "";
+                var name = item.TryGetProperty("name", out var n) && n.ValueKind == System.Text.Json.JsonValueKind.String ? n.GetString() ?? "" : "";
                 if (!string.IsNullOrEmpty(uuid))
                     clients.Add(new SunshineClient(uuid, string.IsNullOrEmpty(name) ? uuid : name));
             }
@@ -963,5 +987,6 @@ public static class SessionEndpoints
         s.Isolated ? s.GetIsolatedUser() : null,
         StreamSessionService.SteamLoginState(s),
         s.RdpDisplayScale, s.RdpComposition,
-        s.ErrorMessage is null ? null : s.FailedPhase);
+        s.ErrorMessage is null ? null : s.FailedPhase,
+        s.MosaicHost, s.MosaicIndex, s.MosaicCount, s.MosaicStacked);
 }
