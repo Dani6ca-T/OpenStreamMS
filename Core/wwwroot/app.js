@@ -488,6 +488,40 @@ function updateIsolatedUi() {
   if (reusing) byId('sess-ephemeral').checked = false;
 }
 
+// ── Usuarios locales para la sesión RDP ────────────────────────────────────
+let localUsers = [];            // GET /api/sessions/local-users
+
+async function loadLocalUsers() {
+  const res = await api('GET', '/api/sessions/local-users');
+  if (!res || !res.ok) return;
+  localUsers = await res.json();
+}
+
+// Rellena la lista de usuarios de Windows. Propone el primero que no use ninguna sesión
+// ni tenga abierto el escritorio de este PC; si no hay ninguno así, el primero.
+function fillLocalUserOptions() {
+  const sel = byId('sess-user');
+  if (!sel) return;
+  const current = sel.value;
+  const usedBy = new Map();
+  for (const s of sessions) {
+    if (s.username && (!s.domain || s.domain === '.')) usedBy.set(s.username.toLowerCase(), s.name);
+  }
+  const tag = u => {
+    const session = usedBy.get(u.name.toLowerCase());
+    if (session) return t('new.userTagInUse', { name: session });
+    return u.console ? t('new.userTagConsole') : '';
+  };
+  sel.innerHTML = localUsers.map(u => {
+    const label = u.fullName && u.fullName !== u.name ? `${u.name} (${u.fullName})` : u.name;
+    const extra = tag(u);
+    return `<option value="${esc(u.name)}">${esc(label)}${extra ? ` — ${esc(extra)}` : ''}</option>`;
+  }).join('');
+  const free = localUsers.find(u => !usedBy.has(u.name.toLowerCase()) && !u.console);
+  sel.value = localUsers.some(u => u.name === current) ? current : (free || localUsers[0] || {}).name || '';
+  byId('sess-user-none').style.display = localUsers.length ? 'none' : '';
+}
+
 // Usuarios dedicados conservados que se pueden asignar a una sesión nueva.
 function reusableUsers() {
   return orphanUsers.filter(o => o.accountExists && !o.signedIn);
@@ -546,6 +580,8 @@ function openNewModal() {
   stopRefresh();
   suggestPorts();
   loadOrphans().then(() => { fillReuseOptions(); updateIsolatedUi(); });
+  fillLocalUserOptions();
+  loadLocalUsers().then(() => { fillLocalUserOptions(); resetCredTest(); });
   byId('sess-name').focus();
 }
 
@@ -656,7 +692,7 @@ async function submitSession(e) {
     if (needsCreds() && !credentialsTested) {
       if (!byId('sess-user').value.trim() || !byId('sess-pass').value) {
         fail(t('credTest.needCreds'));
-        byId(byId('sess-user').value.trim() ? 'sess-pass' : 'sess-user').focus();
+        if (byId('sess-user').value) byId('sess-pass').focus();
         return;
       }
       if (!await testCredentials()) { fail(t('new.errorTestCreds')); return; }
