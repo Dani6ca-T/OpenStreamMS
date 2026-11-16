@@ -27,9 +27,11 @@ public static class DiagnosticsEndpoints
                     return Results.Conflict(RequestCulture.T("diagnostics.busy"));
                 var path = Path.Combine(Path.GetTempPath(), $"osms-diag-{Guid.NewGuid():N}.zip");
                 // DeleteOnClose: el fichero desaparece cuando ASP.NET termina de enviarlo y cierra el stream.
-                var fs = new FileStream(path, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, 81920, FileOptions.DeleteOnClose);
+                FileStream? fs = null;
                 try
                 {
+                    fs = new FileStream(path, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, 81920, FileOptions.DeleteOnClose);
+                    var stream = fs;
                     var d = Math.Clamp(days ?? 3, 1, 30);
                     var src = new DiagnosticsBundle.Sources(
                         Sessions:   () => sessions.GetAll().Select(SessionEndpoints.ToResponse).ToList(),
@@ -38,14 +40,14 @@ public static class DiagnosticsEndpoints
                         Drivers:    [vigem, hidhide],
                         LogLevel:   cfg.LogThreshold.ToString(),
                         ExtraUsers: [cfg.AdminUsername]);
-                    await Task.Run(() => DiagnosticsBundle.Write(fs, src, d));
+                    await Task.Run(() => DiagnosticsBundle.Write(stream, src, d));
                     fs.Position = 0;
                     Logger.Log($"[Diag] Paquete de diagnóstico generado ({fs.Length / 1024} KB, eventos de {d} día(s)).");
                     return Results.File(fs, "application/zip", $"openstreamms-diag-{DateTime.Now:yyyyMMdd-HHmmss}.zip");
                 }
                 catch (Exception ex)
                 {
-                    fs.Dispose();
+                    fs?.Dispose();
                     Logger.Error($"[Diag] No se pudo generar el paquete de diagnóstico: {ex.Message}");
                     return Results.Problem(ex.Message);
                 }

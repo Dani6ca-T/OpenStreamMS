@@ -96,9 +96,19 @@ namespace OpenStreamMS.Core.Helpers
         /// <summary>Persiste la configuración actual en service.config.json.</summary>
         public void Save()
         {
-            File.WriteAllText(ConfigFile, JsonSerializer.Serialize(this, JsonOpts));
-            SecureFile.RestrictToAdmins(ConfigFile);
+            var json = JsonSerializer.Serialize(this, JsonOpts);
+            // Temporal + cambio de nombre: un corte a mitad de escritura no deja el fichero
+            // truncado (el servicio no arrancaría). El lock evita que dos guardados choquen.
+            lock (SaveLock)
+            {
+                var tmp = ConfigFile + ".tmp";
+                File.WriteAllText(tmp, json);
+                SecureFile.RestrictToAdmins(tmp);   // lleva el hash y el secreto: protegido antes de ocupar su sitio
+                File.Move(tmp, ConfigFile, overwrite: true);
+            }
         }
+
+        private static readonly object SaveLock = new();
 
         public static string FilePath => ConfigFile;
 
