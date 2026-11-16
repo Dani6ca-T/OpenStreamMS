@@ -1538,7 +1538,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         new(session.RdpDisplayScale, session.RdpComposition);
 
     private static int NormalizeRdpFrameRate(int frameRate) =>
-        Math.Clamp(frameRate > 0 ? frameRate : 60, 1, 240);
+        Math.Clamp(frameRate > 0 ? frameRate : 60, 1, RdpSessionCreator.MaxFrameRate);
 
     private static int NormalizeRdpColorDepth(int colorDepth) => colorDepth switch
     {
