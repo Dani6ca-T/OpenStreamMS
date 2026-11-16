@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' 有用戶端連線。請先中斷連線。",
   "error.compositeMemberStart": "'{0}' 未能及時啟動。",
   "error.compositeMemberDelete": "'{0}' 在組合工作階段 '{1}' 中。刪除前請先將其移出。",
-  "error.compositeInUse": "'{0}' 在一個執行中的組合工作階段中。"
+  "error.compositeInUse": "'{0}' 在一個執行中的組合工作階段中。",
+  "ext.busy": "另一項擴充功能作業正在進行中。請等待其完成。",
+  "ext.notFound": "擴充功能「{0}」未安裝。",
+  "ext.invalidSource": "「{0}」不是有效的 GitHub 連結。",
+  "ext.previewExpired": "檢查已逾期。請重新檢查擴充功能。",
+  "ext.hashMismatch": "套件與你檢查的不一致。請重新檢查擴充功能。",
+  "ext.catalogHashMismatch": "套件與目錄不符（預期 SHA-256 {0}，實際 {1}）。未安裝任何內容。",
+  "ext.idMismatch": "目錄中列出的是「{0}」，但套件是「{1}」。",
+  "ext.otherSource": "擴充功能「{0}」已從 {1} 安裝。請確認要取代它。",
+  "ext.incompatible": "此擴充功能需要 OpenStreamMS {0} 或更新版本（目前為 {1}）。",
+  "ext.scriptFailed": "{0} 失敗（結束代碼 {1}）。請查看擴充功能的記錄。",
+  "ext.catalogExists": "該目錄已在清單中。",
+  "ext.catalogNotFound": "該目錄不在清單中。",
+  "ext.catalogEntryMissing": "目錄中已不再列出 {0}。",
+  "ext.invalidPackage": "套件不是有效的擴充功能：{0}",
+  "ext.noManifest": "套件中沒有 {0}。"
 }

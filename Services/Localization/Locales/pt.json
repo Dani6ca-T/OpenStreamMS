@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' tem um cliente ligado. Desligue-o primeiro.",
   "error.compositeMemberStart": "'{0}' não arrancou a tempo.",
   "error.compositeMemberDelete": "'{0}' está na sessão composta '{1}'. Retire-a de lá antes de a eliminar.",
-  "error.compositeInUse": "'{0}' está numa sessão composta em execução."
+  "error.compositeInUse": "'{0}' está numa sessão composta em execução.",
+  "ext.busy": "Está em curso outra operação de extensões. Aguarde que termine.",
+  "ext.notFound": "A extensão '{0}' não está instalada.",
+  "ext.invalidSource": "'{0}' não é uma ligação do GitHub válida.",
+  "ext.previewExpired": "A verificação expirou. Verifique a extensão novamente.",
+  "ext.hashMismatch": "O pacote não é o que verificou. Verifique a extensão novamente.",
+  "ext.catalogHashMismatch": "O pacote não coincide com o catálogo (SHA-256 esperado {0}, recebido {1}). Não foi instalado nada.",
+  "ext.idMismatch": "O catálogo indica '{0}', mas o pacote é '{1}'.",
+  "ext.otherSource": "A extensão '{0}' já está instalada a partir de {1}. Confirme que a quer substituir.",
+  "ext.incompatible": "Esta extensão requer o OpenStreamMS {0} ou posterior (este é {1}).",
+  "ext.scriptFailed": "{0} falhou (código de saída {1}). Consulte o registo da extensão.",
+  "ext.catalogExists": "Esse catálogo já está na lista.",
+  "ext.catalogNotFound": "Esse catálogo não está na lista.",
+  "ext.catalogEntryMissing": "O catálogo já não inclui {0}.",
+  "ext.invalidPackage": "O pacote não é uma extensão válida: {0}",
+  "ext.noManifest": "O pacote não tem {0}."
 }

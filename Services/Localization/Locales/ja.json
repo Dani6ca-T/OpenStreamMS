@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' にクライアントが接続しています。先に切断してください。",
   "error.compositeMemberStart": "'{0}' が時間内に起動しませんでした。",
   "error.compositeMemberDelete": "'{0}' は合成セッション '{1}' に入っています。削除する前にそこから外してください。",
-  "error.compositeInUse": "'{0}' は実行中の合成セッションに入っています。"
+  "error.compositeInUse": "'{0}' は実行中の合成セッションに入っています。",
+  "ext.busy": "別の拡張機能の操作が進行中です。完了するまでお待ちください。",
+  "ext.notFound": "拡張機能「{0}」はインストールされていません。",
+  "ext.invalidSource": "「{0}」は有効な GitHub リンクではありません。",
+  "ext.previewExpired": "確認の有効期限が切れました。拡張機能をもう一度確認してください。",
+  "ext.hashMismatch": "パッケージが確認したものと異なります。拡張機能をもう一度確認してください。",
+  "ext.catalogHashMismatch": "パッケージがカタログと一致しません (期待した SHA-256 {0}、取得した値 {1})。何もインストールされていません。",
+  "ext.idMismatch": "カタログでは「{0}」ですが、パッケージは「{1}」です。",
+  "ext.otherSource": "拡張機能「{0}」は既に {1} からインストールされています。置き換えることを確認してください。",
+  "ext.incompatible": "この拡張機能には OpenStreamMS {0} 以降が必要です (現在は {1})。",
+  "ext.scriptFailed": "{0} が失敗しました (終了コード {1})。拡張機能のログを確認してください。",
+  "ext.catalogExists": "そのカタログは既に一覧にあります。",
+  "ext.catalogNotFound": "そのカタログは一覧にありません。",
+  "ext.catalogEntryMissing": "カタログに {0} が含まれなくなりました。",
+  "ext.invalidPackage": "パッケージは有効な拡張機能ではありません: {0}",
+  "ext.noManifest": "パッケージに {0} がありません。"
 }

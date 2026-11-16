@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' has a client connected. Disconnect it first.",
   "error.compositeMemberStart": "'{0}' didn't start in time.",
   "error.compositeMemberDelete": "'{0}' is in the composite session '{1}'. Remove it from there before deleting it.",
-  "error.compositeInUse": "'{0}' is in a running composite session."
+  "error.compositeInUse": "'{0}' is in a running composite session.",
+  "ext.busy": "Another extension operation is in progress. Wait for it to finish.",
+  "ext.notFound": "Extension '{0}' isn't installed.",
+  "ext.invalidSource": "'{0}' isn't a valid GitHub link.",
+  "ext.previewExpired": "The check has expired. Check the extension again.",
+  "ext.hashMismatch": "The package isn't the one you checked. Check the extension again.",
+  "ext.catalogHashMismatch": "The package doesn't match the catalogue (expected SHA-256 {0}, got {1}). Nothing was installed.",
+  "ext.idMismatch": "The catalogue lists '{0}', but the package is '{1}'.",
+  "ext.otherSource": "Extension '{0}' is already installed from {1}. Confirm that you want to replace it.",
+  "ext.incompatible": "This extension needs OpenStreamMS {0} or later (this is {1}).",
+  "ext.scriptFailed": "{0} failed (exit code {1}). See the extension's log.",
+  "ext.catalogExists": "That catalogue is already in the list.",
+  "ext.catalogNotFound": "That catalogue isn't in the list.",
+  "ext.catalogEntryMissing": "The catalogue no longer lists {0}.",
+  "ext.invalidPackage": "The package isn't a valid extension: {0}",
+  "ext.noManifest": "The package has no {0}."
 }

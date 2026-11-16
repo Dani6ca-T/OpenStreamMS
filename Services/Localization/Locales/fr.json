@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' a un client connecté. Déconnectez-le d’abord.",
   "error.compositeMemberStart": "'{0}' n’a pas démarré à temps.",
   "error.compositeMemberDelete": "'{0}' fait partie de la session composée '{1}'. Retirez-la avant de la supprimer.",
-  "error.compositeInUse": "'{0}' fait partie d’une session composée en cours."
+  "error.compositeInUse": "'{0}' fait partie d’une session composée en cours.",
+  "ext.busy": "Une autre opération sur les extensions est en cours. Attendez qu'elle se termine.",
+  "ext.notFound": "L'extension '{0}' n'est pas installée.",
+  "ext.invalidSource": "'{0}' n'est pas un lien GitHub valide.",
+  "ext.previewExpired": "La vérification a expiré. Vérifiez à nouveau l'extension.",
+  "ext.hashMismatch": "Le paquet n'est pas celui que vous avez vérifié. Vérifiez à nouveau l'extension.",
+  "ext.catalogHashMismatch": "Le paquet ne correspond pas au catalogue (SHA-256 attendu {0}, reçu {1}). Rien n'a été installé.",
+  "ext.idMismatch": "Le catalogue indique '{0}', mais le paquet est '{1}'.",
+  "ext.otherSource": "L'extension '{0}' est déjà installée depuis {1}. Confirmez que vous voulez la remplacer.",
+  "ext.incompatible": "Cette extension nécessite OpenStreamMS {0} ou ultérieur (version actuelle : {1}).",
+  "ext.scriptFailed": "{0} a échoué (code de sortie {1}). Consultez le journal de l'extension.",
+  "ext.catalogExists": "Ce catalogue est déjà dans la liste.",
+  "ext.catalogNotFound": "Ce catalogue n'est pas dans la liste.",
+  "ext.catalogEntryMissing": "Le catalogue ne liste plus {0}.",
+  "ext.invalidPackage": "Le paquet n'est pas une extension valide : {0}",
+  "ext.noManifest": "Le paquet ne contient pas de {0}."
 }

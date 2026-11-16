@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' có một máy khách đang kết nối. Hãy ngắt kết nối trước.",
   "error.compositeMemberStart": "'{0}' không khởi động kịp.",
   "error.compositeMemberDelete": "'{0}' nằm trong phiên ghép '{1}'. Hãy gỡ nó ra trước khi xóa.",
-  "error.compositeInUse": "'{0}' nằm trong một phiên ghép đang chạy."
+  "error.compositeInUse": "'{0}' nằm trong một phiên ghép đang chạy.",
+  "ext.busy": "Một thao tác tiện ích mở rộng khác đang diễn ra. Hãy đợi nó hoàn tất.",
+  "ext.notFound": "Tiện ích mở rộng '{0}' chưa được cài đặt.",
+  "ext.invalidSource": "'{0}' không phải là liên kết GitHub hợp lệ.",
+  "ext.previewExpired": "Lần kiểm tra đã hết hạn. Hãy kiểm tra lại tiện ích mở rộng.",
+  "ext.hashMismatch": "Gói không phải là gói bạn đã kiểm tra. Hãy kiểm tra lại tiện ích mở rộng.",
+  "ext.catalogHashMismatch": "Gói không khớp với danh mục (SHA-256 mong đợi {0}, nhận được {1}). Không có gì được cài đặt.",
+  "ext.idMismatch": "Danh mục ghi '{0}', nhưng gói là '{1}'.",
+  "ext.otherSource": "Tiện ích mở rộng '{0}' đã được cài đặt từ {1}. Hãy xác nhận bạn muốn thay thế nó.",
+  "ext.incompatible": "Tiện ích mở rộng này cần OpenStreamMS {0} trở lên (phiên bản hiện tại là {1}).",
+  "ext.scriptFailed": "{0} thất bại (mã thoát {1}). Xem nhật ký của tiện ích mở rộng.",
+  "ext.catalogExists": "Danh mục đó đã có trong danh sách.",
+  "ext.catalogNotFound": "Danh mục đó không có trong danh sách.",
+  "ext.catalogEntryMissing": "Danh mục không còn liệt kê {0}.",
+  "ext.invalidPackage": "Gói không phải là tiện ích mở rộng hợp lệ: {0}",
+  "ext.noManifest": "Gói không có {0}."
 }

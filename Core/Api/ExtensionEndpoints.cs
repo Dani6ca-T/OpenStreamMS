@@ -92,5 +92,6 @@ public static class ExtensionEndpoints
         catch (GitHubException ex) { return Results.Problem(ex.Message, statusCode: StatusCodes.Status502BadGateway); }
         catch (HttpRequestException ex) { return Results.Problem(ex.Message, statusCode: StatusCodes.Status502BadGateway); }
         catch (ExtensionFormatException ex) { return Results.Problem(ex.Message, statusCode: StatusCodes.Status400BadRequest); }
+        catch (TaskCanceledException ex) { return Results.Problem(ex.Message, statusCode: StatusCodes.Status504GatewayTimeout); }
     }
 }

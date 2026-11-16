@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' munkamenethez kliens csatlakozik. Előbb bontsa a kapcsolatot.",
   "error.compositeMemberStart": "'{0}' nem indult el időben.",
   "error.compositeMemberDelete": "'{0}' szerepel a(z) '{1}' összetett munkamenetben. Törlés előtt vegye ki onnan.",
-  "error.compositeInUse": "'{0}' egy futó összetett munkamenetben van."
+  "error.compositeInUse": "'{0}' egy futó összetett munkamenetben van.",
+  "ext.busy": "Egy másik bővítményművelet van folyamatban. Várd meg, amíg befejeződik.",
+  "ext.notFound": "A(z) '{0}' bővítmény nincs telepítve.",
+  "ext.invalidSource": "'{0}' nem érvényes GitHub-hivatkozás.",
+  "ext.previewExpired": "Az ellenőrzés lejárt. Ellenőrizd újra a bővítményt.",
+  "ext.hashMismatch": "A csomag nem az, amelyet ellenőriztél. Ellenőrizd újra a bővítményt.",
+  "ext.catalogHashMismatch": "A csomag nem egyezik a katalógussal (várt SHA-256 {0}, kapott {1}). Semmi sem lett telepítve.",
+  "ext.idMismatch": "A katalógus szerint '{0}', de a csomag '{1}'.",
+  "ext.otherSource": "A(z) '{0}' bővítmény már telepítve van innen: {1}. Erősítsd meg, hogy le szeretnéd cserélni.",
+  "ext.incompatible": "Ehhez a bővítményhez OpenStreamMS {0} vagy újabb kell (ez a verzió: {1}).",
+  "ext.scriptFailed": "{0} sikertelen (kilépési kód: {1}). Nézd meg a bővítmény naplóját.",
+  "ext.catalogExists": "Ez a katalógus már szerepel a listában.",
+  "ext.catalogNotFound": "Ez a katalógus nem szerepel a listában.",
+  "ext.catalogEntryMissing": "A katalógus már nem tartalmazza ezt: {0}.",
+  "ext.invalidPackage": "A csomag nem érvényes bővítmény: {0}",
+  "ext.noManifest": "A csomagban nincs {0}."
 }

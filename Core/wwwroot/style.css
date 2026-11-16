@@ -533,7 +533,8 @@ main {
 .form-row input[type=password],
 .form-row input[type=number],
 .form-row select,
-.comp-slot select {
+.comp-slot select,
+.ext-link-input input {
   width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);

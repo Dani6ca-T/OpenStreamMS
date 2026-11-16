@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' 有客户端连接。请先断开。",
   "error.compositeMemberStart": "'{0}' 未能及时启动。",
   "error.compositeMemberDelete": "'{0}' 在组合会话 '{1}' 中。删除前请先将其移出。",
-  "error.compositeInUse": "'{0}' 在一个正在运行的组合会话中。"
+  "error.compositeInUse": "'{0}' 在一个正在运行的组合会话中。",
+  "ext.busy": "另一个扩展操作正在进行。请等待其完成。",
+  "ext.notFound": "扩展「{0}」未安装。",
+  "ext.invalidSource": "「{0}」不是有效的 GitHub 链接。",
+  "ext.previewExpired": "检查已过期。请重新检查扩展。",
+  "ext.hashMismatch": "软件包与你检查的不一致。请重新检查扩展。",
+  "ext.catalogHashMismatch": "软件包与目录不符（预期 SHA-256 {0}，实际 {1}）。未安装任何内容。",
+  "ext.idMismatch": "目录中列出的是「{0}」，但软件包是「{1}」。",
+  "ext.otherSource": "扩展「{0}」已从 {1} 安装。请确认要替换它。",
+  "ext.incompatible": "此扩展需要 OpenStreamMS {0} 或更高版本（当前为 {1}）。",
+  "ext.scriptFailed": "{0} 失败（退出代码 {1}）。请查看扩展的日志。",
+  "ext.catalogExists": "该目录已在列表中。",
+  "ext.catalogNotFound": "该目录不在列表中。",
+  "ext.catalogEntryMissing": "目录中已不再列出 {0}。",
+  "ext.invalidPackage": "软件包不是有效的扩展：{0}",
+  "ext.noManifest": "软件包中没有 {0}。"
 }
