@@ -170,7 +170,9 @@ function renderCard(s) {
         </div>
         ${power}
       </div>
-      <div class="card-chips">${protos.join('')}${sessionSeatLine(s)}${clientsChip(s)}${compositeMemberChip(s)}</div>
+      <div class="card-chips">${protos.join('')}${sessionSeatLine(s)}${padsChip(s)}${clientsChip(s)}${compositeMemberChip(s)}</div>
+      ${s.gamepads && s.gamepads.length && s.gamepadsIsolated === false
+        ? `<div class="card-warning">${esc(t('pads.notIsolated'))}</div>` : ''}
       ${metricsSlot(s)}
       ${startProgress(s)}
       ${rdpWarning(s)}
@@ -202,6 +204,9 @@ function sessionMenu(e, id) {
     { icon: 'link',     label: t('ux.connect.btn'), run: () => openSunMgrModal(s.id), disabled: !running, hint: t('btn.sunshine_disabled_title') },
     { icon: 'external', label: t('btn.panel'),    run: () => openSunshinePanel(s.id), disabled: !running, hint: t('btn.panel_disabled_title') },
     { icon: 'log',      label: t('btn.log'),      run: () => openLogModal(s.id, s.name) },
+    ...(s.composite ? [] : [
+      { icon: 'gamepad',  label: t('pads.menu'),    run: () => openPadsModal(s.id), disabled: s.local, hint: t('pads.localDisabled') },
+    ]),
     s.composite
       ? { icon: 'grid', label: t('comp.edit'), run: () => openCompositeModal(s.id), disabled: running || busy, hint: t('comp.stopToEdit') }
       : { icon: 'gear', label: t('btn.settings'), run: () => openEditModal(s.id) },
@@ -217,6 +222,57 @@ function clientsChip(s) {
   const title = t('ux.clients.detail', { moonlight: s.clientsMoonlight, webrtc: s.clientsWebRtc });
   return `<span class="chip chip-clients${n ? ' active' : ''}" title="${esc(title)}">${uiIcon('users')}${esc(
     n === 0 ? t('ux.clients.none') : n === 1 ? t('ux.clients.one') : t('ux.clients.many', { n }))}</span>`;
+}
+
+// Mandos físicos asignados a la sesión (los lee el juego directamente, sin pasar por el cliente).
+function padsChip(s) {
+  const pads = s.gamepads || [];
+  if (!pads.length) return '';
+  const missing = pads.filter(p => p.present === false).map(p => p.label);
+  const title = pads.map(p => p.label + (p.present === false ? ` (${t('seat.deviceMissing')})` : '')).join(', ');
+  return `<span class="chip chip-pads${missing.length ? ' chip-missing' : ''}" title="${esc(title)}">${uiIcon('gamepad')}${esc(
+    pads.length === 1 ? t('pads.chip.one') : t('pads.chip.many', { n: pads.length }))}</span>`;
+}
+
+// ── Mandos físicos de una sesión ──────────────────────────────────────────
+let padsSessionId = null;
+
+async function openPadsModal(id) {
+  const s = sessions.find(x => x.id === id);
+  if (!s) return;
+  padsSessionId = id;
+  byId('pads-title').textContent = `${t('pads.title')} · ${s.name}`;
+  const box = byId('pads-list');
+  box.innerHTML = `<span class="muted">${esc(t('log.updating'))}</span>`;
+  show('pads-modal');
+
+  // Libres (sin puesto ni otra sesión) más los que ya tiene esta sesión, aunque estén desconectados.
+  const res = await api('GET', '/api/seats/inventory');
+  const inv = res && res.ok ? await res.json() : { devices: [] };
+  const pads = inv.devices.filter(d => d.kind === 'Gamepad').map(d => ({ usbPort: d.usbPort, name: d.name, missing: false }));
+  const mine = new Set((s.gamepads || []).map(g => g.usbPort));
+  for (const g of (s.gamepads || []))
+    if (!pads.some(p => p.usbPort === g.usbPort)) pads.push({ usbPort: g.usbPort, name: g.label, missing: g.present === false });
+
+  box.innerHTML = pads.length
+    ? pads.map(p => `<label class="dev-check" title="${esc(p.usbPort)}">
+          <input type="checkbox" value="${esc(p.usbPort)}" data-name="${esc(p.name)}" ${mine.has(p.usbPort) ? 'checked' : ''}>
+          <span>${esc(p.name)}</span>
+          ${p.missing ? `<span class="dev-kind">${esc(t('seat.deviceMissing'))}</span>` : ''}
+        </label>`).join('')
+    : `<span class="muted">${esc(t('pads.none'))}</span>`;
+}
+
+async function saveSessionPads() {
+  const id = padsSessionId;
+  const s = sessions.find(x => x.id === id);
+  const gamepads = [...byId('pads-list').querySelectorAll('input:checked')]
+    .map(el => ({ usbPort: el.value, label: el.dataset.name }));
+  const res = await api('PUT', `/api/sessions/${id}/gamepads`, { gamepads });
+  if (!res || !res.ok) { toast(t('pads.saveError'), true); return; }
+  hide('pads-modal');
+  toast(t('pads.saved', { name: s ? s.name : '' }));
+  loadSessions();
 }
 
 // Puesto local asociado a la sesión: su nombre y si ahora mismo la está usando.
@@ -1320,6 +1376,7 @@ async function powerAction(kind) {
 
 // Iconos de trazo (heredan el color del texto).
 const UI_ICONS = {
+  gamepad:  '<path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-3.9 3.2l-1 5.2A3 3 0 0 0 7 16.8L8.6 15h6.8l1.6 1.8a3 3 0 0 0 5.2-3.4l-1-5.2A4 4 0 0 0 17.3 5z"/>',
   power:    '<path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>',
   grid:     '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
   copy:     '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',

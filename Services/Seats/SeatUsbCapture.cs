@@ -16,14 +16,25 @@ namespace OpenStreamMS.Services.Seats;
 /// servicio lee sus informes USB directamente (<see cref="UsbHidReader"/>). Al apagar el puesto
 /// vuelve a su driver (<c>input.inf</c>).
 ///
-/// Cada cambio se anota en disco antes de hacerse: si el servicio se cae o se apaga el PC con
-/// un puesto encendido, <see cref="RestoreAll"/> lo deshace en el siguiente arranque.
+/// Cada cambio se anota en disco antes de hacerse, con la clase y el driver que tenía el
+/// dispositivo: si el servicio se cae o se apaga el PC con un puesto encendido,
+/// <see cref="RestoreAll"/> lo deshace en el siguiente arranque, y <see cref="WatchArrivals"/>
+/// lo deshace en cuanto vuelva a conectarse uno que estaba desenchufado entonces.
 /// </summary>
 internal static class UsbCapture
 {
     private static readonly string JournalPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenStreamMS", "usb-capture.json");
     private static readonly object _journalLock = new();
+
+    /// <summary>Un nodo pasado a WinUSB y lo que tenía antes (null si no se pudo saber).</summary>
+    internal sealed record CaptureRecord(string Id, string? ClassGuid = null, string? Inf = null);
+
+    /// <summary>Nodos capturados por un puesto encendido en esta ejecución: no se restauran al llegar.</summary>
+    private static readonly HashSet<string> _active = new(StringComparer.OrdinalIgnoreCase);
+    /// <summary>Copia en memoria de los ids anotados, para el aviso de llegada (tiene que ser rápido).</summary>
+    private static HashSet<string> _journalIds = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly HashSet<string> _restoring = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>GUID de interfaz propio que se le da a WinUSB para poder abrir el dispositivo.</summary>
     public static readonly Guid InterfaceGuid = new("6b1e3c4a-3f2b-4d77-9c41-0a1b2c3d4e5f");
@@ -58,32 +69,52 @@ internal static class UsbCapture
     /// <summary>Pasa el nodo a WinUSB. Devuelve false si no se pudo (el puesto sigue con Raw Input).</summary>
     public static bool Capture(string instanceId)
     {
-        Journal(add: instanceId);
+        // Lo que tenía antes, para devolvérselo al apagar. Si ya estaba anotado (quedó capturado
+        // de una ejecución anterior) se conserva esa anotación: ahora mismo tendría WinUSB.
+        var (cls, inf) = OriginalDriver(instanceId);
+        bool fresh = Journal(add: new CaptureRecord(instanceId, cls, inf));
+        if (!fresh)
+            cls = ReadJournal().FirstOrDefault(r => r.Id.Equals(instanceId, StringComparison.OrdinalIgnoreCase))?.ClassGuid ?? cls;
+        // Activo antes de instalar: el cambio de driver dispara el aviso de llegada, y
+        // WatchArrivals no debe tomarlo por uno que quedó capturado y devolverlo.
+        lock (_journalLock) _active.Add(instanceId);
         try
         {
             // WinUSB lee DeviceInterfaceGUIDs al arrancar: sin él no expone interfaz que abrir.
             using (var k = Registry.LocalMachine.CreateSubKey($@"SYSTEM\CurrentControlSet\Enum\{instanceId}\Device Parameters"))
                 k.SetValue("DeviceInterfaceGUIDs", new[] { InterfaceGuid.ToString("B") }, RegistryValueKind.MultiString);
 
-            bool ok = Setup.Install(instanceId, winUsb: true);
-            if (!ok) Journal(remove: instanceId);
-            return ok;
+            Setup.Install(instanceId, winUsb: true, rollbackClass: cls);
+            return true;
         }
         catch (Exception ex)
         {
+            lock (_journalLock) _active.Remove(instanceId);
             Logger.Warning($"[SeatUsb] No se pudo pasar {instanceId} a WinUSB: {ex.Message}");
-            Journal(remove: instanceId);
+            // Install deja la clase como estaba si falla: el nodo sigue con su driver. Solo se
+            // olvida si la anotación era nueva; una anterior sigue pendiente de restaurar.
+            if (fresh) Journal(remove: instanceId);
             return false;
         }
     }
 
-    /// <summary>Devuelve el nodo a su driver HID de Windows.</summary>
+    /// <summary>
+    /// Devuelve el nodo a su driver de antes (el del fabricante si lo tenía), o al HID de
+    /// Windows (<c>input.inf</c>) si aquel ya no está disponible.
+    /// </summary>
     public static bool Release(string instanceId)
     {
+        var record = ReadJournal().FirstOrDefault(r => r.Id.Equals(instanceId, StringComparison.OrdinalIgnoreCase))
+                     ?? new CaptureRecord(instanceId);
         bool ok = false;
-        try { ok = Setup.Install(instanceId, winUsb: false); }
+        try
+        {
+            Setup.Install(instanceId, winUsb: false, preferInf: record.Inf);
+            ok = true;
+        }
         catch (Exception ex) { Logger.Warning($"[SeatUsb] No se pudo restaurar el driver de {instanceId}: {ex.Message}"); }
-        // Si falla queda en el registro y se reintenta en el próximo arranque del servicio.
+        lock (_journalLock) _active.Remove(instanceId);
+        // Si falla queda anotado y se reintenta al volver a conectarse o en el próximo arranque.
         if (ok) Journal(remove: instanceId);
         return ok;
     }
@@ -91,33 +122,103 @@ internal static class UsbCapture
     /// <summary>Restaura lo que quedara capturado de una ejecución anterior (caída, apagado brusco).</summary>
     public static void RestoreAll()
     {
-        foreach (var id in ReadJournal())
+        var pending = new List<string>();
+        foreach (var r in ReadJournal())
         {
-            if (!GamepadSessionIsolation.Cm.Exists(id)) continue;   // desconectado: se reintenta en el próximo arranque
-            Logger.Log($"[SeatUsb] Restaurando el driver de {id} (quedó capturado).");
-            Release(id);
+            if (!GamepadSessionIsolation.Cm.Exists(r.Id)) { pending.Add(r.Id); continue; }
+            Logger.Log($"[SeatUsb] Restaurando el driver de {r.Id} (quedó capturado).");
+            Release(r.Id);
         }
+        if (pending.Count > 0)
+            Logger.Log($"[SeatUsb] {pending.Count} dispositivo(s) capturados están desconectados; se restaurarán al conectarse: {string.Join(", ", pending)}");
     }
 
-    private static List<string> ReadJournal()
+    /// <summary>
+    /// Vigila la llegada de dispositivos: uno que quedó en WinUSB de una ejecución anterior y
+    /// estaba desenchufado al arrancar vuelve a su driver en cuanto se conecta. Sin esto, la
+    /// consola se quedaba sin ese teclado o ratón hasta el siguiente arranque del servicio.
+    /// </summary>
+    public static IDisposable? WatchArrivals() =>
+        GamepadSessionIsolation.Cm.WatchEnumeration((id, _) =>
+        {
+            // Aviso en un hilo del sistema: aquí solo se decide; el cambio de driver va aparte.
+            lock (_journalLock)
+            {
+                if (!_journalIds.Contains(id) || _active.Contains(id) || !_restoring.Add(id)) return;
+            }
+            Task.Run(() =>
+            {
+                try
+                {
+                    Logger.Log($"[SeatUsb] {id} se ha conectado y quedó capturado de antes: se devuelve a su driver.");
+                    Release(id);
+                }
+                finally { lock (_journalLock) _restoring.Remove(id); }
+            });
+        });
+
+    /// <summary>Clase y INF del driver actual del nodo (de su clave de driver), o null si no se sabe.</summary>
+    private static (string? ClassGuid, string? Inf) OriginalDriver(string instanceId)
+    {
+        try
+        {
+            using var dev = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\{instanceId}");
+            string? cls = dev?.GetValue("ClassGUID") as string;
+            string? inf = null;
+            if (dev?.GetValue("Driver") is string driverKey)
+            {
+                using var drv = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Control\Class\{driverKey}");
+                inf = drv?.GetValue("InfPath") as string;
+            }
+            // Ya en WinUSB (quedó así por un fallo): no es el driver original.
+            if (inf is not null && inf.Equals("winusb.inf", StringComparison.OrdinalIgnoreCase)) return (null, null);
+            return (cls, inf);
+        }
+        catch { return (null, null); }
+    }
+
+    private static List<CaptureRecord> ReadJournal()
     {
         lock (_journalLock)
         {
-            try { return File.Exists(JournalPath) ? JsonSerializer.Deserialize<List<string>>(File.ReadAllText(JournalPath)) ?? [] : []; }
+            if (!File.Exists(JournalPath)) return [];
+            string json;
+            try { json = File.ReadAllText(JournalPath); }
             catch { return []; }
+            try { return JsonSerializer.Deserialize<List<CaptureRecord>>(json) ?? []; }
+            catch (JsonException)
+            {
+                // Formato anterior: solo los ids.
+                try { return (JsonSerializer.Deserialize<List<string>>(json) ?? []).Select(id => new CaptureRecord(id)).ToList(); }
+                catch { return []; }
+            }
         }
     }
 
-    private static void Journal(string? add = null, string? remove = null)
+    /// <summary>Añade o quita una anotación. Devuelve true si <paramref name="add"/> no estaba ya.</summary>
+    private static bool Journal(CaptureRecord? add = null, string? remove = null)
     {
         lock (_journalLock)
         {
             var list = ReadJournal();
-            if (add is not null && !list.Contains(add, StringComparer.OrdinalIgnoreCase)) list.Add(add);
-            if (remove is not null) list.RemoveAll(i => i.Equals(remove, StringComparison.OrdinalIgnoreCase));
+            bool added = false;
+            if (add is not null && !list.Any(r => r.Id.Equals(add.Id, StringComparison.OrdinalIgnoreCase)))
+            {
+                list.Add(add);
+                added = true;
+            }
+            if (remove is not null) list.RemoveAll(r => r.Id.Equals(remove, StringComparison.OrdinalIgnoreCase));
             Directory.CreateDirectory(Path.GetDirectoryName(JournalPath)!);
             File.WriteAllText(JournalPath, JsonSerializer.Serialize(list));
+            _journalIds = list.Select(r => r.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            return added;
         }
+    }
+
+    /// <summary>Carga la copia en memoria de las anotaciones (para <see cref="WatchArrivals"/>).</summary>
+    public static void LoadJournal()
+    {
+        lock (_journalLock) _journalIds = ReadJournal().Select(r => r.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
     }
 
     // ── SetupAPI ─────────────────────────────────────────────────────────────
@@ -145,26 +246,27 @@ internal static class UsbCapture
 
         /// <summary>
         /// winUsb: fuerza el modelo de <c>winusb.inf</c> (cambiando antes la clase a USBDevice, como
-        /// hace el Administrador de dispositivos al elegir "Dispositivo WinUsb"). Si no, instala
-        /// el driver compatible de <c>input.inf</c>, que vuelve a poner la clase HID.
+        /// hace el Administrador de dispositivos al elegir "Dispositivo WinUsb"); si falla después
+        /// de cambiar la clase, la devuelve a <paramref name="rollbackClass"/> para no dejar el nodo
+        /// sin driver. Si no, instala el driver compatible de <paramref name="preferInf"/> (el que
+        /// tenía antes) o, si ya no está, el de <c>input.inf</c>, que vuelve a poner la clase HID.
+        /// Lanza una excepción si no se pudo.
         /// </summary>
-        public static bool Install(string instanceId, bool winUsb)
+        public static void Install(string instanceId, bool winUsb, string? rollbackClass = null, string? preferInf = null)
         {
             IntPtr set = SetupDiCreateDeviceInfoList(IntPtr.Zero, IntPtr.Zero);
+            var dev = new SP_DEVINFO_DATA { cbSize = Marshal.SizeOf<SP_DEVINFO_DATA>() };
+            bool classChanged = false;
             try
             {
-                var dev = new SP_DEVINFO_DATA { cbSize = Marshal.SizeOf<SP_DEVINFO_DATA>() };
                 if (!SetupDiOpenDeviceInfoW(set, instanceId, IntPtr.Zero, 0, ref dev))
                     throw new InvalidOperationException($"dispositivo no encontrado ({Marshal.GetLastWin32Error()})");
 
                 int listType = SPDIT_COMPATDRIVER;
                 if (winUsb)
                 {
-                    string cls = UsbDeviceClass + "\0";
-                    fixed (char* pc = cls)
-                        if (!SetupDiSetDeviceRegistryPropertyW(set, ref dev, SPDRP_CLASSGUID, (byte*)pc, cls.Length * 2))
-                            throw new InvalidOperationException($"no se pudo cambiar la clase ({Marshal.GetLastWin32Error()})");
-                    dev.ClassGuid = new Guid(UsbDeviceClass);
+                    SetClass(set, ref dev, UsbDeviceClass);
+                    classChanged = true;
 
                     byte* dip = stackalloc byte[DIP_SIZE];
                     new Span<byte>(dip, DIP_SIZE).Clear();
@@ -182,27 +284,56 @@ internal static class UsbCapture
                 if (!SetupDiBuildDriverInfoList(set, ref dev, listType))
                     throw new InvalidOperationException($"SetupDiBuildDriverInfoList ({Marshal.GetLastWin32Error()})");
 
+                // Por orden de preferencia: winusb.inf, o el driver de antes y si no input.inf.
+                string[] wanted = winUsb ? ["winusb.inf"]
+                    : new[] { preferInf, "input.inf" }
+                        .Where(f => !string.IsNullOrEmpty(f) && !f.Equals("winusb.inf", StringComparison.OrdinalIgnoreCase))
+                        .Select(f => f!).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+
                 byte* drv = stackalloc byte[DRVINFO_SIZE];
                 byte* det = stackalloc byte[8192];
-                string wanted = winUsb ? "winusb.inf" : "input.inf";
+                int best = -1, bestRank = int.MaxValue;
                 for (int i = 0; ; i++)
                 {
                     new Span<byte>(drv, DRVINFO_SIZE).Clear();
                     *(int*)drv = DRVINFO_SIZE;
-                    if (!SetupDiEnumDriverInfoW(set, ref dev, listType, i, drv))
-                        throw new InvalidOperationException($"no hay driver {wanted} para este dispositivo");
+                    if (!SetupDiEnumDriverInfoW(set, ref dev, listType, i, drv)) break;
                     *(int*)det = DETAIL_SIZE;
                     SetupDiGetDriverInfoDetailW(set, ref dev, drv, det, 8192, out _);
                     string infName = Path.GetFileName(new string((char*)(det + DETAIL_INF_OFFSET)));
-                    if (!infName.Equals(wanted, StringComparison.OrdinalIgnoreCase)) continue;
-
-                    if (!DiInstallDevice(IntPtr.Zero, set, ref dev, drv, 0, out _))
-                        throw new InvalidOperationException($"DiInstallDevice ({Marshal.GetLastWin32Error():X})");
-                    Logger.Log($"[SeatUsb] {instanceId} → {new string((char*)(drv + 16))} ({wanted}).");
-                    return true;
+                    int rank = Array.FindIndex(wanted, w => w.Equals(infName, StringComparison.OrdinalIgnoreCase));
+                    if (rank >= 0 && rank < bestRank) { best = i; bestRank = rank; }
                 }
+                if (best < 0)
+                    throw new InvalidOperationException($"no hay driver {string.Join(" ni ", wanted)} para este dispositivo");
+
+                new Span<byte>(drv, DRVINFO_SIZE).Clear();
+                *(int*)drv = DRVINFO_SIZE;
+                if (!SetupDiEnumDriverInfoW(set, ref dev, listType, best, drv))
+                    throw new InvalidOperationException($"SetupDiEnumDriverInfo ({Marshal.GetLastWin32Error()})");
+                if (!DiInstallDevice(IntPtr.Zero, set, ref dev, drv, 0, out _))
+                    throw new InvalidOperationException($"DiInstallDevice ({Marshal.GetLastWin32Error():X})");
+                classChanged = false;
+                Logger.Log($"[SeatUsb] {instanceId} → {new string((char*)(drv + 16))} ({wanted[bestRank]}).");
+            }
+            catch when (classChanged && rollbackClass is not null)
+            {
+                // La clase cambió pero WinUSB no se instaló: el nodo quedaría como "USBDevice" sin
+                // driver y nadie lo restauraría. Se devuelve su clase; el driver anterior sigue.
+                try { SetClass(set, ref dev, rollbackClass); }
+                catch (Exception ex) { Logger.Warning($"[SeatUsb] {instanceId}: no se pudo devolver su clase ({ex.Message})."); }
+                throw;
             }
             finally { SetupDiDestroyDeviceInfoList(set); }
+        }
+
+        private static void SetClass(IntPtr set, ref SP_DEVINFO_DATA dev, string classGuid)
+        {
+            string cls = classGuid + "\0";
+            fixed (char* pc = cls)
+                if (!SetupDiSetDeviceRegistryPropertyW(set, ref dev, SPDRP_CLASSGUID, (byte*)pc, cls.Length * 2))
+                    throw new InvalidOperationException($"no se pudo cambiar la clase ({Marshal.GetLastWin32Error()})");
+            dev.ClassGuid = new Guid(classGuid);
         }
     }
 }

@@ -980,6 +980,10 @@ main {
 .hw-gamepad  .seat-icon { color: var(--green-soft); }
 .hw-audio    .seat-icon { color: var(--amber); }
 /* El dispositivo que se está pulsando ahora mismo. */
+/* Mandos de una sesión con alguno desconectado */
+.chip.chip-missing { opacity: .7; border-style: dashed; }
+/* Asignado a un puerto en el que ahora no hay nada */
+.hw-chip.hw-missing { opacity: .55; border-style: dashed; }
 .hw-chip.hw-active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--c-accent),.35); transition: none; }
 /* Que la línea del monitor (larga con los cuartos) se recorte en vez de empujar la etiqueta de estado. */
 #seats-grid .card-header > div:first-child { min-width: 0; flex: 1; }

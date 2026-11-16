@@ -663,6 +663,24 @@
   </div>
 </div>
 
+<!-- ─── Modal: mandos físicos de una sesión ──────────────────────────────── -->
+<div class="modal-backdrop hidden" id="pads-modal" onclick="handleBackdropClick(event,'pads-modal')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pads-title" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="pads-title" data-i18n="pads.title">Mandos físicos</h3>
+      <button class="modal-close" type="button" data-i18n-aria="btn.close" aria-label="Cerrar" onclick="hide('pads-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="hint" data-i18n="pads.hint">Los mandos conectados a este PC que marques juegan en esta sesión mientras esté en marcha.</p>
+      <div id="pads-list" class="dev-group"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" type="button" onclick="hide('pads-modal')" data-i18n="btn.cancel">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="pads-save" onclick="saveSessionPads()" data-i18n="btn.save">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ─── Modal: log de sesión ────────────────────────────────────────────── -->
 <div class="modal-backdrop hidden" id="log-modal" onclick="handleBackdropClick(event,'log-modal')">
   <div class="modal modal-lg" onclick="event.stopPropagation()">

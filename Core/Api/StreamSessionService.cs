@@ -209,6 +209,43 @@ public partial class StreamSessionService
         return true;
     }
 
+    /// <summary>Mandos físicos de la sesión; GamepadSessionIsolation los mueve en su siguiente pasada.</summary>
+    public StreamSession SetGamepads(Guid id, List<OpenStreamMS.Services.Seats.SeatDevice> gamepads)
+    {
+        var session = RequireSession(id);
+        session.Gamepads = gamepads;
+        Logger.Log($"[{session.Name}] Mandos físicos asignados: {(gamepads.Count == 0 ? "ninguno" : string.Join(", ", gamepads.Select(g => g.Label)))}.", id);
+        SaveSessions();
+        return session;
+    }
+
+    /// <summary>
+    /// Sesión de Windows de la sesión de stream en marcha que tiene ese mando asignado, o false.
+    /// Las sesiones locales corren en la consola: no cuentan (el mando ya va a la consola).
+    /// </summary>
+    public bool TryGetGamepadWindowsSession(string usbPort, out uint windowsSession)
+    {
+        windowsSession = 0;
+        foreach (var s in _sessions.Values)
+        {
+            if (s.Local || s.State != SessionState.Running || s.RdpSessionId == 0) continue;
+            if (!s.Gamepads.Any(g => g.UsbPort.Equals(usbPort, StringComparison.OrdinalIgnoreCase))) continue;
+            windowsSession = s.RdpSessionId;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Huella de las asignaciones de mandos en vigor (puerto → sesión de Windows): si cambia
+    /// (sesión arrancada o parada, mandos editados), GamepadSessionIsolation reasigna al momento.
+    /// </summary>
+    public string GamepadAssignmentSignature() =>
+        string.Join('|', _sessions.Values
+            .Where(s => !s.Local && s.State == SessionState.Running && s.RdpSessionId != 0 && s.Gamepads.Count > 0)
+            .OrderBy(s => s.Id)
+            .Select(s => $"{s.RdpSessionId}:{string.Join(',', s.Gamepads.Select(g => g.UsbPort))}"));
+
     public StreamSession SetEnabled(Guid id, bool enabled)
     {
         var session = RequireSession(id);

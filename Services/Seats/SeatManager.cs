@@ -30,8 +30,18 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         SeatHostControl.StartServer(stoppingToken);
+        UsbCapture.LoadJournal();
+        // Antes de restaurar: uno que se conecte mientras tanto también vuelve a su driver.
+        using var usbArrivals = UsbCapture.WatchArrivals();
+        if (usbArrivals is null)
+            Logger.Warning("[Seats] No se pudo vigilar la llegada de dispositivos USB: un teclado o ratón que quedó capturado se restaurará en el próximo arranque.");
         try { UsbCapture.RestoreAll(); }
         catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron restaurar los drivers USB: {ex.Message}"); }
+        // Dispositivos reservados para un puesto (ACL): se liberan los que quedaran de una caída,
+        // y se vigila la llegada para reservar lo que se enchufe en un puerto de un puesto encendido.
+        using var accessArrivals = Gamepad.GamepadSessionIsolation.Cm.WatchEnumeration((id, _) => SeatDeviceAccess.OnDeviceArrived(id));
+        try { SeatDeviceAccess.RestoreAll(); }
+        catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron liberar los dispositivos reservados: {ex.Message}"); }
         ConsoleLockGuard.Release();   // si el servicio se cayó con un puesto encendido
         // Sin puestos exclusivos nadie necesita quedarse sin apagar: el grupo Usuarios recupera el derecho.
         if (!_seats.Values.Any(s => s.ExclusiveSession)) ShutdownRight.Restore();
@@ -74,6 +84,15 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     /// </summary>
     private volatile int _generation;
     public int Generation => _generation;
+
+    /// <summary>Hay algún puesto encendido (otra sesión que pudo abrir ya un mando).</summary>
+    public bool AnyRunning => _seats.Values.Any(s => s.State == SeatState.Running);
+
+    /// <summary>
+    /// Sesión de Windows con la que se vio cada puesto encendido. Si cambia (la sesión se cerró y
+    /// se abrió otra, o Windows reutilizó el número) los mandos tienen que seguirla.
+    /// </summary>
+    private readonly ConcurrentDictionary<Guid, uint> _seatWindowsSession = new();
 
     /// <summary>Usuarios a los que cada puesto encendido apagó la Game Bar del mando (ver <see cref="GuideButtonGuard"/>).</summary>
     private readonly ConcurrentDictionary<Guid, IReadOnlyList<string>> _guideUsers = new();
@@ -123,8 +142,11 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     /// <param name="forSeat">Puesto que se está editando: sus propios dispositivos cuentan como libres.</param>
     public IReadOnlyList<InputDeviceInfo> AvailableInputDevices(Guid? forSeat = null)
     {
+        // Los mandos asignados a una sesión de stream tampoco se ofrecen: el mismo mando en dos
+        // sitios solo confunde (si coincidieran, el puesto encendido tendría prioridad).
         var used = _seats.Values.Where(s => s.Id != forSeat)
                                 .SelectMany(s => s.Devices).Select(d => d.UsbPort)
+                                .Concat(sessions.GetAll().SelectMany(s => s.Gamepads).Select(g => g.UsbPort))
                                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
         return DeviceTopology.EnumerateInputDevices().Where(d => !used.Contains(d.UsbPort)).ToList();
     }
@@ -313,6 +335,11 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             // 5. Mandos del puesto → la sesión (lo aplica GamepadSessionIsolation con los
             //    puertos USB de seat.Devices; aquí solo se registra la intención).
             Logger.Log($"[Seats] '{seat.Name}': {seat.Devices.Count} dispositivo(s) asignados a la sesión {session.RdpSessionId}.");
+            // Un puerto vacío arranca el puesto sin ese aparato: que quede claro por qué.
+            foreach (var d in seat.Devices.Where(d => !DeviceTopology.IsPortPresent(d.UsbPort)))
+                Logger.Warning($"[Seats] '{seat.Name}': no hay nada conectado en el puerto de '{d.Label}' ({d.Kind}, {d.UsbPort}). " +
+                               "Si lo cambiaste de puerto, de hub o de dock, vuelve a asignarlo.");
+            ReserveDevices(seat, session.RdpSessionId);
 
             // 6. Lanzar agente en la sesión y presentador en la consola.
             //    Si el puesto pide contraseña, el agente corre como SYSTEM en la sesión: es la única
@@ -484,6 +511,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             foreach (var node in active.Captured)
                 UsbCapture.Release(node);
         }
+        if (_reservedPorts.TryRemove(id, out var reserved))
+            foreach (var port in reserved)
+                SeatDeviceAccess.Free(port);
         SeatHostControl.RequestCloseSeat(id);
 
         // Con pantalla dividida, el monitor sigue en el escritorio mientras la otra mitad esté en uso.
@@ -512,6 +542,33 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         if (!restarting && seat.Monitor is { } m &&
             _seats.Values.FirstOrDefault(s => s.Id != id && s.State == SeatState.Running && s.Monitor?.DevicePath == m.DevicePath) is { } other)
             _ = Task.Run(() => TryStartConsoleArea(other.Monitor!));
+    }
+
+    /// <summary>Puertos reservados por ACL para cada puesto encendido (ver <see cref="SeatDeviceAccess"/>).</summary>
+    private readonly ConcurrentDictionary<Guid, List<string>> _reservedPorts = new();
+
+    /// <summary>
+    /// Reserva para el usuario del puesto (ACL del dispositivo) sus otros dispositivos USB y, si
+    /// HidHide no puede aislar por sesión, también sus mandos. Teclados y ratones no: van por WinUSB.
+    /// </summary>
+    private void ReserveDevices(Seat seat, uint windowsSession)
+    {
+        var ports = seat.Devices
+            .Where(d => d.Kind == SeatDeviceKind.Other ||
+                        (d.Kind == SeatDeviceKind.Gamepad && !Gamepad.GamepadSessionIsolation.SessionJailSupported))
+            .Select(d => d.UsbPort).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        if (ports.Count == 0) return;
+
+        if (SeatDeviceAccess.UserSidOfSession(windowsSession) is not { } sid)
+        {
+            Logger.Warning($"[Seats] '{seat.Name}': no se pudo saber el usuario de la sesión {windowsSession}; " +
+                           "sus otros dispositivos USB quedan visibles en todas las sesiones.");
+            return;
+        }
+        Status(seat, "Reservando los dispositivos USB del puesto…");
+        foreach (var port in ports)
+            SeatDeviceAccess.Reserve(port, sid, seat.Name);
+        _reservedPorts[seat.Id] = ports;
     }
 
     /// <summary>
@@ -749,6 +806,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     {
         foreach (var seat in _seats.Values)
         {
+            TrackSeatWindowsSession(seat);
             if (seat.State != SeatState.Running || seat.SessionId is not { } sid ||
                 sessions.Get(sid) is not { RdpSessionId: > 0 } session || IsSessionConnected(session.RdpSessionId))
             {
@@ -763,6 +821,26 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             try { Stop(seat.Id, disconnectedFromSeat: true); }
             catch (Exception ex) { Logger.Warning($"[Seats] '{seat.Name}': no se pudo apagar tras la desconexión: {ex.Message}"); }
         }
+    }
+
+    /// <summary>
+    /// Sube <see cref="Generation"/> si la sesión de Windows de un puesto encendido cambia, para
+    /// que GamepadSessionIsolation mueva sus mandos al momento en vez de en su rescan de 30 s.
+    /// </summary>
+    private void TrackSeatWindowsSession(Seat seat)
+    {
+        uint current = seat.State == SeatState.Running && seat.SessionId is { } sid &&
+                       sessions.Get(sid) is { State: SessionState.Running, RdpSessionId: > 0 } s ? s.RdpSessionId : 0;
+        if (current == 0)
+        {
+            _seatWindowsSession.TryRemove(seat.Id, out _);
+            return;
+        }
+        uint previous = _seatWindowsSession.GetOrAdd(seat.Id, current);
+        if (previous == current) return;
+        _seatWindowsSession[seat.Id] = current;
+        Logger.Log($"[Seats] '{seat.Name}': la sesión de Windows pasa de {previous} a {current}; se reasignan sus mandos.");
+        Interlocked.Increment(ref _generation);
     }
 
     /// <summary>
