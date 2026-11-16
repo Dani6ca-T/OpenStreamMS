@@ -72,6 +72,20 @@ if errorlevel 1 (
     exit /b 1
 )
 
+:: Driver de mandos (OsmsPad): igual que RemoteIdd, compilado, probado y firmado aquí con un
+:: certificado de un solo uso. Usa el WDK NuGet que acaba de descargar RemoteIdd.
+echo [2e/3] Compilando y firmando OsmsPad...
+call "%~dp0..\..\Native\OsmsPad\build.cmd"
+if errorlevel 1 (
+    echo ERROR: no se pudo compilar Native\OsmsPad.
+    exit /b 1
+)
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\..\Native\OsmsPad\package.ps1" -Bin "%~dp0..\..\Native\OsmsPad\bin" -OutDir "%PUBLISH_DIR%\osmspad-pkg"
+if errorlevel 1 (
+    echo ERROR: no se pudo preparar el paquete de OsmsPad.
+    exit /b 1
+)
+
 echo [3/3] Compilando instalador con Inno Setup...
 if not exist %ISCC% (
     echo ERROR: No se encontro Inno Setup en %ISCC%

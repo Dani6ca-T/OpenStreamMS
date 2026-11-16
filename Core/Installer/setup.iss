@@ -9,8 +9,8 @@
 #ifndef AppVersion
   #define AppVersion "1.5.1"
 #endif
-#define AppPublisher "mlopezsegura"
-#define AppURL       "https://github.com/mlopezsegura/OpenStreamMS"
+#define AppPublisher "OpenstreamCo"
+#define AppURL       "https://github.com/OpenstreamCo/OpenStreamMultiSeat"
 #define AppExeName   "OpenStreamMS.exe"
 #define AppService   "OpenStreamMS"
 
@@ -42,8 +42,10 @@ ArchitecturesInstallIn64BitMode=x64compatible
 UninstallDisplayName={#AppName}
 UninstallDisplayIcon={app}\{#AppExeName}
 CloseApplications=yes
-; Requiere Windows 10 1809+
-MinVersion=10.0.17763
+; Windows 10 1607 (compilación 14393) o posterior: lo comprueba InitializeSetup con un mensaje
+; traducido (el de MinVersion solo da el número de versión). RemoteIdd necesita 1903 y en un
+; Windows anterior no se instala (MinVersion en sus entradas de [Run]).
+MinVersion=10.0
 
 [Languages]
 #include "languages.generated.iss"
@@ -96,11 +98,23 @@ Filename: "{app}\{#AppExeName}"; Parameters: "--install --silent"; \
 Filename: "powershell.exe"; \
   Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\remoteidd-pkg\uninstall.ps1"""; \
   Flags: runhidden waituntilterminated; \
+  MinVersion: 10.0.18362; \
   StatusMsg: "{cm:StatusRemoveRemoteIdd}"
 Filename: "powershell.exe"; \
   Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\remoteidd-pkg\install.ps1"" -Package ""{app}\remoteidd-pkg"" -RefreshHz 60 -SkipTestSigningCheck"; \
   Flags: runhidden waituntilterminated; \
+  MinVersion: 10.0.18362; \
   StatusMsg: "{cm:StatusInstallRemoteIdd}"
+
+; 1c. Driver de mandos propio (OsmsPad, ver Native\OsmsPad): Sunshine lo usa en lugar de
+;     ViGEmBus (gamepad_driver = osmspad). Firma de prueba como RemoteIdd; install.ps1 quita
+;     antes la instalación anterior. Necesita Windows 10 2004: en uno anterior se sigue con
+;     ViGEmBus. Log en %ProgramData%\OpenStreamMS\osmspad-setup.log.
+Filename: "powershell.exe"; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\osmspad-pkg\install.ps1"""; \
+  Flags: runhidden waituntilterminated; \
+  MinVersion: 10.0.19041; \
+  StatusMsg: "{cm:StatusInstallOsmsPad}"
 
 ; 2. Iniciar el servicio (solo si el usuario marcó la tarea)
 Filename: "net.exe"; Parameters: "start ""{#AppService}"""; \
@@ -120,6 +134,12 @@ Filename: "powershell.exe"; \
   Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\remoteidd-pkg\uninstall.ps1"""; \
   Flags: runhidden waituntilterminated; \
   RunOnceId: "UninstallRemoteIdd"
+
+; Driver de mandos: dispositivo ROOT\OSMSPAD, su paquete y su certificado de prueba.
+Filename: "powershell.exe"; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\osmspad-pkg\uninstall.ps1"""; \
+  Flags: runhidden waituntilterminated; \
+  RunOnceId: "UninstallOsmsPad"
 
 ; Detener y eliminar el servicio antes de borrar archivos
 Filename: "{app}\{#AppExeName}"; Parameters: "--uninstall --silent"; \
@@ -191,12 +211,33 @@ var
 //  - Borrar todos los datos: sesiones, puestos y configuración de {app}, y lo que OpenStreamMS
 //    deja fuera (usuarios osms- y sus perfiles, carpetas _OpenStreamMS_Stream,
 //    %ProgramData%\OpenStreamMS, registro y temporales). Si no, se conservan para reinstalar.
-//  - Quitar también TermWrap, ViGEmBus y HidHide (otras aplicaciones pueden usarlos).
+//  - Quitar también ViGEmBus y HidHide (otras aplicaciones pueden usarlos). El multi-RDP no:
+//    OpenStreamMS no lo instala, así que tampoco lo quita.
 // Texto de [CustomMessages] con los %n convertidos en saltos de línea.
 function Msg(const Name: String): String;
 begin
   Result := CustomMessage(Name);
   StringChangeEx(Result, '%n', #13#10, True);
+end;
+
+// Aviso tras la bienvenida: OpenStreamMS ya no instala nada para tener varias sesiones a la vez;
+// la vía oficial es Windows Server con RDS y CAL, y lo demás es responsabilidad del usuario.
+procedure InitializeWizard();
+begin
+  CreateOutputMsgPage(wpWelcome, CustomMessage('MultiSessionTitle'), CustomMessage('MultiSessionSubtitle'),
+    Msg('MultiSessionNotice'));
+end;
+
+// Antes que nada: en un Windows anterior a 10 1607 se avisa y no se instala.
+function InitializeSetup(): Boolean;
+var
+  Version: TWindowsVersion;
+begin
+  GetWindowsVersionEx(Version);
+  Result := (Version.Major > 10) or ((Version.Major = 10) and (Version.Build >= 14393));
+  if not Result then
+    SuppressibleMsgBox(FmtMessage(Msg('WindowsTooOld'), [IntToStr(Version.Build)]),
+      mbCriticalError, MB_OK, IDOK);
 end;
 
 function InitializeUninstall(): Boolean;

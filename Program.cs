@@ -80,7 +80,7 @@ switch (command)
         Environment.Exit(OpenStreamMS.Services.Seats.SeatHost.RunStandalone(args[1], hostSeatId));
         break;
     case "--remove-deps":
-        // Desinstalación con "quitar también las dependencias": TermWrap, ViGEmBus y HidHide.
+        // Desinstalación con "quitar también las dependencias": ViGEmBus y HidHide.
         AttachParentConsole();
         RequireAdmin();
         RemoveDependencies();
@@ -194,7 +194,12 @@ static async Task RunService(string[] args)
         // Icono de bandeja de la consola: solo lo que muestra su menú, sin contraseña.
         // "Viene de este PC" no basta: los puestos y las sesiones de streaming también son
         // este PC, con otros usuarios. Se exige que el proceso esté en la sesión de la consola.
-        if (IsTrayRequest(ctx) && IsConsoleLocal(ctx)) { await next(); return; }
+        if (IsTrayRequest(ctx) && IsConsoleLocal(ctx))
+        {
+            ctx.Items[SessionEndpoints.TrayRequestItem] = true;   // la respuesta va sin credenciales de Sunshine
+            await next();
+            return;
+        }
 
         // Primera vez: aún no se han configurado credenciales → pantalla de setup
         if (string.IsNullOrEmpty(cfg.AdminUsername))
@@ -307,7 +312,10 @@ static async Task RunService(string[] args)
     // ── Seats API (puestos locales) ───────────────────────────────────────────
     app.MapSeatApi();
 
-    // ── Multi-RDP API (TermWrap: varias sesiones RDP simultáneas en Windows cliente) ──
+    // ── Sesiones compuestas (varias sesiones en un mismo stream) ──────────────
+    app.MapCompositeApi();
+
+    // ── Multi-RDP API (si el equipo admite varias sesiones a la vez) ──
     app.MapRdpWrapperApi();
 
     // ── Drivers (ViGEmBus, HidHide) API ───────────────────────────────────────
@@ -524,24 +532,7 @@ static void Uninstall(bool silent = false)
 
 static void RemoveDependencies()
 {
-    // Multi-RDP (TermWrap, or asmtron from an old install): ServiceDll reverts to Windows termsrv.dll
-    // before deleting the folder, so TermService never points to a missing DLL.
-    // Takes effect on reboot.
-    var rdpDir = OpenStreamMS.Services.Session.TermWrapInstaller.InstallDir;
-    if (Directory.Exists(rdpDir))
-    {
-        using (var svc = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\TermService\Parameters"))
-        {
-            var dll = svc?.GetValue("ServiceDll", null, RegistryValueOptions.DoNotExpandEnvironmentNames) as string;
-            var full = dll is null ? null : Environment.ExpandEnvironmentVariables(dll);
-            if (full is not null && full.StartsWith(rdpDir, StringComparison.OrdinalIgnoreCase))
-                OpenStreamMS.Services.Session.TermWrapInstaller.RestoreWindowsServiceDll(Console.WriteLine);
-        }
-        var rdpInst = Path.Combine(rdpDir, "RDPWInst.exe");
-        if (File.Exists(rdpInst)) RunProcess(rdpInst, "-u"); // old asmtron: removes its service and tasks
-        try { Directory.Delete(rdpDir, recursive: true); } catch { /* DLL loaded in TermService until reboot */ }
-        Console.WriteLine("[Uninstall] Multi-RDP (TermWrap) uninstalled.");
-    }
+    // Multi-RDP: OpenStreamMS no lo instala, así que tampoco lo quita (sería del usuario).
 
     foreach (NefariusDriverManager driver in new NefariusDriverManager[] { new ViGEmBusManager(), new HidHideManager() })
     {
@@ -582,7 +573,11 @@ static void RunNetsh(string args)
         CreateNoWindow         = true,
     };
     using var p = Process.Start(psi)!;
-    p.WaitForExit();
+    // Leer la salida mientras corre: si nadie vacía la tubería y se llena, el proceso no termina.
+    var out_ = p.StandardOutput.ReadToEndAsync();
+    var err_ = p.StandardError.ReadToEndAsync();
+    if (!p.WaitForExit(30_000)) { try { p.Kill(true); } catch { } }
+    Task.WaitAll([out_, err_], 2_000);
 }
 
 static void RunSc(string scArgs)
@@ -595,9 +590,13 @@ static void RunSc(string scArgs)
         CreateNoWindow         = true,
     };
     using var p = Process.Start(psi)!;
-    p.WaitForExit();
-    var out_ = p.StandardOutput.ReadToEnd().Trim();
-    var err_ = p.StandardError.ReadToEnd().Trim();
+    // Leer la salida mientras corre: si nadie vacía la tubería y se llena, el proceso no termina.
+    var outTask = p.StandardOutput.ReadToEndAsync();
+    var errTask = p.StandardError.ReadToEndAsync();
+    if (!p.WaitForExit(60_000)) { try { p.Kill(true); } catch { } }
+    Task.WaitAll([outTask, errTask], 2_000);
+    var out_ = outTask.IsCompletedSuccessfully ? outTask.Result.Trim() : "";
+    var err_ = errTask.IsCompletedSuccessfully ? errTask.Result.Trim() : "";
     if (!string.IsNullOrEmpty(out_)) Console.WriteLine(out_);
     if (!string.IsNullOrEmpty(err_)) Console.WriteLine(err_);
 }
@@ -631,7 +630,7 @@ static void PrintHelp()
           OpenStreamMS.exe --run               Ejecutar el servicio con web y API REST
           OpenStreamMS.exe --install           Instalar y registrar el servicio de Windows
           OpenStreamMS.exe --uninstall         Detener y eliminar el servicio de Windows
-          OpenStreamMS.exe --remove-deps       Desinstalar TermWrap, ViGEmBus y HidHide
+          OpenStreamMS.exe --remove-deps       Desinstalar ViGEmBus y HidHide
           OpenStreamMS.exe --purge-data        Borrar los datos fuera de la carpeta del programa
                                                (ProgramData, usuarios osms-, perfiles de stream, temporales)
           OpenStreamMS.exe --tray              Mostrar icono en la bandeja del sistema

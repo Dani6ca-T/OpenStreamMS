@@ -23,15 +23,18 @@ namespace OpenStreamMS.Core.Helpers;
 ///   - Sin driver kernel, sin licencias, sin binarios externos.
 ///
 /// SEGURIDAD:
-///   - Contraseña aleatoria (24 chars, 4 clases) ROTADA en cada arranque y nunca
-///     persistida en disco — solo vive en memoria durante el arranque de la sesión.
+///   - Contraseña aleatoria (24 chars, 4 clases), guardada como secreto local de LSA
+///     (<see cref="IsolatedUserSecret"/>, solo legible por SYSTEM) y reutilizada en cada
+///     arranque. No se rota: restablecer la contraseña de una cuenta local deja inservibles
+///     sus claves DPAPI, y con ellas el inicio de sesión guardado de Steam y las contraseñas
+///     de los navegadores. Solo se restablece si no hay secreto o ya no vale.
 ///   - Usuario oculto de la pantalla de login (SpecialAccounts\UserList).
 ///   - Miembro únicamente de Users + Remote Desktop Users. Donde no existe ese grupo
 ///     (Windows Home), recibe directamente el derecho de inicio de sesión remoto y
 ///     acceso a la escucha RDP-Tcp; se le quitan al borrar la cuenta.
 ///
 /// CICLO DE VIDA:
-///   - EnsureUser            → crea el usuario (o rota la contraseña si ya existe).
+///   - EnsureUser            → crea el usuario (o reutiliza su contraseña si ya existe).
 ///   - TryDeleteProfile      → borra C:\Users\osms-... + hive de registro (modo efímero).
 ///   - RemoveUser            → perfil + cuenta + entrada de registro (al eliminar la sesión,
 ///                             salvo que se pida conservarlo para reutilizarlo en otra).
@@ -71,6 +74,16 @@ internal static class IsolatedUserManager
     [DllImport("netapi32.dll")]
     static extern int NetApiBufferFree(IntPtr buffer);
 
+    [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern bool LogonUser(string user, string domain, string password, int logonType, int provider, out IntPtr token);
+
+    [DllImport("kernel32.dll")]
+    static extern bool CloseHandle(IntPtr handle);
+
+    const int LOGON32_LOGON_NETWORK    = 3;
+    const int LOGON32_PROVIDER_DEFAULT = 0;
+    const int ERROR_LOGON_FAILURE      = 1326;
+
     [DllImport("userenv.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     static extern bool DeleteProfile(string lpSidString, string? lpProfilePath, string? lpComputerName);
 
@@ -85,6 +98,16 @@ internal static class IsolatedUserManager
         public string? usri1_comment;
         public uint    usri1_flags;
         public string? usri1_script_path;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    struct USER_INFO_20
+    {
+        public string? usri20_name;
+        public string? usri20_full_name;
+        public string? usri20_comment;
+        public uint    usri20_flags;
+        public uint    usri20_user_id;
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -110,6 +133,8 @@ internal static class IsolatedUserManager
     const int  MAX_PREFERRED_LENGTH  = -1;
     const uint USER_PRIV_USER        = 1;
     const uint UF_SCRIPT             = 0x0001;  // obligatorio en NetUserAdd
+    const uint UF_ACCOUNTDISABLE     = 0x0002;
+    const uint UF_LOCKOUT            = 0x0010;
     const uint UF_DONT_EXPIRE_PASSWD = 0x10000;
 
     const string UserListKey =
@@ -128,9 +153,9 @@ internal static class IsolatedUserManager
     }
 
     /// <summary>
-    /// Crea el usuario local dedicado de la sesión (o rota su contraseña si ya existe),
-    /// lo añade a Users + Remote Desktop Users y lo oculta de la pantalla de login.
-    /// Devuelve credenciales listas para FreeRDP. La contraseña no se persiste nunca.
+    /// Crea el usuario local dedicado de la sesión (o reutiliza su contraseña guardada si ya
+    /// existe), lo añade a Users + Remote Desktop Users y lo oculta de la pantalla de login.
+    /// Devuelve credenciales listas para FreeRDP. Ver <see cref="IsolatedUserSecret"/>.
     /// </summary>
     internal static IsolatedCredentials EnsureUser(string username, string sessionName)
     {
@@ -153,15 +178,24 @@ internal static class IsolatedUserManager
         {
             case NERR_Success:
                 Logger.Log(BackendText.Get("isolatedUser.userCreated", username, sessionName));
+                KeepPassword(username, password);
                 break;
 
             case NERR_UserExists:
+                // La de la vez anterior, si sigue valiendo: así no se pierden las claves DPAPI.
+                if (TryGetSecret(username) is { } kept && PasswordWorks(username, kept))
+                {
+                    password = kept;
+                    Logger.Log(BackendText.Get("isolatedUser.passwordKept", username));
+                    break;
+                }
                 var reset = new USER_INFO_1003 { usri1003_password = password };
                 int rcSet = NetUserSetInfo(null, username, 1003, ref reset, out _);
                 if (rcSet != NERR_Success)
                     throw new InvalidOperationException(
                         BackendText.Get("isolatedUser.passwordRotationFailed", username, rcSet));
                 Logger.Log(BackendText.Get("isolatedUser.passwordRotated", username));
+                KeepPassword(username, password);
                 break;
 
             default:
@@ -178,6 +212,37 @@ internal static class IsolatedUserManager
         RemoveLegacySteamDeny(username);
 
         return new IsolatedCredentials(username, password);
+    }
+
+    static string? TryGetSecret(string username)
+    {
+        try { return IsolatedUserSecret.TryGet(username); }
+        catch (Exception ex)
+        {
+            Logger.Warning(BackendText.Get("isolatedUser.passwordStoreFailed", username, ex.Message));
+            return null;
+        }
+    }
+
+    static void KeepPassword(string username, string password)
+    {
+        try { IsolatedUserSecret.Store(username, password); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("isolatedUser.passwordStoreFailed", username, ex.Message)); }
+    }
+
+    /// <summary>
+    /// La contraseña sigue siendo la de la cuenta. Inicio de sesión de red: no crea perfil ni
+    /// sesión. Solo "usuario o contraseña incorrectos" cuenta como no válida; otro error (por
+    /// ejemplo, que la directiva no permita ese tipo de inicio) ya implica que era correcta.
+    /// </summary>
+    static bool PasswordWorks(string username, string password)
+    {
+        if (LogonUser(username, ".", password, LOGON32_LOGON_NETWORK, LOGON32_PROVIDER_DEFAULT, out var token))
+        {
+            CloseHandle(token);
+            return true;
+        }
+        return Marshal.GetLastWin32Error() != ERROR_LOGON_FAILURE;
     }
 
     /// <summary>
@@ -280,6 +345,8 @@ internal static class IsolatedUserManager
             Logger.Warning(BackendText.Get("isolatedUser.netUserDelFailed", username, rc));
 
         UnhideFromLoginScreen(username);
+        try { IsolatedUserSecret.Delete(username); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("isolatedUser.passwordStoreFailed", username, ex.Message)); }
 
         // Justo tras el logoff profsvc aún tiene el perfil cargado y DeleteProfile falla:
         // antes eso dejaba la carpeta C:\Users\osms-... para siempre. Se reintenta por SID,
@@ -346,6 +413,39 @@ internal static class IsolatedUserManager
             finally { NetApiBufferFree(buf); }
         } while (rc == ERROR_MORE_DATA);
         return names;
+    }
+
+    /// <summary>Cuenta local de Windows que se puede elegir para una sesión RDP.</summary>
+    internal sealed record LocalAccount(string Name, string FullName);
+
+    /// <summary>
+    /// Cuentas locales normales habilitadas y sin bloquear, sin las osms-* que gestiona
+    /// OpenStreamMS (esas van por la sesión aislada). Ordenadas por nombre.
+    /// </summary>
+    internal static List<LocalAccount> ListLocalAccounts()
+    {
+        var result = new List<LocalAccount>();
+        int resume = 0, rc;
+        int size = Marshal.SizeOf<USER_INFO_20>();
+        do
+        {
+            rc = NetUserEnum(null, 20, FILTER_NORMAL_ACCOUNT, out var buf, MAX_PREFERRED_LENGTH,
+                             out int read, out _, ref resume);
+            if (rc is not (NERR_Success or ERROR_MORE_DATA)) break;
+            try
+            {
+                for (int i = 0; i < read; i++)
+                {
+                    var u = Marshal.PtrToStructure<USER_INFO_20>(buf + i * size);
+                    if (string.IsNullOrEmpty(u.usri20_name) || IsManagedName(u.usri20_name)) continue;
+                    if ((u.usri20_flags & (UF_ACCOUNTDISABLE | UF_LOCKOUT)) != 0) continue;
+                    result.Add(new LocalAccount(u.usri20_name, u.usri20_full_name ?? ""));
+                }
+            }
+            finally { NetApiBufferFree(buf); }
+        } while (rc == ERROR_MORE_DATA);
+        result.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
+        return result;
     }
 
     /// <summary>

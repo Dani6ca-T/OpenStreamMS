@@ -140,7 +140,7 @@ function renderSessions() {
 function renderCard(s) {
   const isRunning = s.state === 'Running';
   const isBusy    = s.state === 'Starting' || s.state === 'Stopping';
-  const screen = s.local
+  const screen = s.composite ? compositeThumb(s) : s.local
     ? `<div class="screen-thumb screen-local">${uiIcon('pc')}<span class="screen-res">${esc(t('card.localShort'))}</span></div>`
     : `<div class="screen-thumb"><span class="screen-res">${s.rdpWidth}×${s.rdpHeight}</span>
          <span class="screen-fps">${s.rdpFrameRate || 60} ${esc(t('unit.fps'))}</span></div>`;
@@ -161,7 +161,7 @@ function renderCard(s) {
         ${screen}
         <div class="card-title">
           <div class="card-name">${esc(s.name)}</div>
-          <div class="card-user">${s.local ? esc(t('card.localUser'))
+          <div class="card-user">${s.composite ? compositeCardUser(s) : s.local ? esc(t('card.localUser'))
             : s.isolated ? (s.isolatedUser
                 ? `${esc(t('card.isolatedUserNamed'))} <code class="card-username" title="${esc(t('card.isolatedUser_title'))}">${esc(s.isolatedUser)}</code>`
                 : esc(t('card.isolatedUser')))
@@ -170,7 +170,7 @@ function renderCard(s) {
         </div>
         ${power}
       </div>
-      <div class="card-chips">${protos.join('')}${sessionSeatLine(s)}${padsChip(s)}${clientsChip(s)}</div>
+      <div class="card-chips">${protos.join('')}${sessionSeatLine(s)}${padsChip(s)}${clientsChip(s)}${compositeMemberChip(s)}</div>
       ${s.gamepads && s.gamepads.length && s.gamepadsIsolated === false
         ? `<div class="card-warning">${esc(t('pads.notIsolated'))}</div>` : ''}
       ${metricsSlot(s)}
@@ -187,7 +187,7 @@ function renderCard(s) {
           ${esc(t('card.autostart'))}
         </label>
         <div class="card-footer-actions">
-          ${isRunning ? `<button type="button" class="btn btn-ghost btn-sm" onclick="openSunMgrModal('${s.id}')">${uiIcon('link')}${esc(t('ux.connect.btn'))}</button>` : ''}
+          ${isRunning && !s.compositeOf ? `<button type="button" class="btn btn-ghost btn-sm" onclick="openSunMgrModal('${s.id}')">${uiIcon('link')}${esc(t('ux.connect.btn'))}</button>` : ''}
           <button type="button" class="icon-btn more-btn" onclick="sessionMenu(event, '${s.id}')" title="${esc(t('nav.more'))}" aria-label="${esc(t('nav.more'))}: ${esc(s.name)}" aria-haspopup="menu">${uiIcon('more')}</button>
         </div>
       </div>
@@ -204,8 +204,12 @@ function sessionMenu(e, id) {
     { icon: 'link',     label: t('ux.connect.btn'), run: () => openSunMgrModal(s.id), disabled: !running, hint: t('btn.sunshine_disabled_title') },
     { icon: 'external', label: t('btn.panel'),    run: () => openSunshinePanel(s.id), disabled: !running, hint: t('btn.panel_disabled_title') },
     { icon: 'log',      label: t('btn.log'),      run: () => openLogModal(s.id, s.name) },
-    { icon: 'gamepad',  label: t('pads.menu'),    run: () => openPadsModal(s.id), disabled: s.local, hint: t('pads.localDisabled') },
-    { icon: 'gear',     label: t('btn.settings'), run: () => openEditModal(s.id) },
+    ...(s.composite ? [] : [
+      { icon: 'gamepad',  label: t('pads.menu'),    run: () => openPadsModal(s.id), disabled: s.local, hint: t('pads.localDisabled') },
+    ]),
+    s.composite
+      ? { icon: 'grid', label: t('comp.edit'), run: () => openCompositeModal(s.id), disabled: running || busy, hint: t('comp.stopToEdit') }
+      : { icon: 'gear', label: t('btn.settings'), run: () => openEditModal(s.id) },
     { sep: true },
     { icon: 'trash',    label: t('btn.delete'),   run: () => deleteSession(s.id, s.name), danger: true, disabled: running || busy },
   ]);
@@ -464,6 +468,40 @@ function updateIsolatedUi() {
   if (reusing) byId('sess-ephemeral').checked = false;
 }
 
+// ── Usuarios locales para la sesión RDP ────────────────────────────────────
+let localUsers = [];            // GET /api/sessions/local-users
+
+async function loadLocalUsers() {
+  const res = await api('GET', '/api/sessions/local-users');
+  if (!res || !res.ok) return;
+  localUsers = await res.json();
+}
+
+// Rellena la lista de usuarios de Windows. Propone el primero que no use ninguna sesión
+// ni tenga abierto el escritorio de este PC; si no hay ninguno así, el primero.
+function fillLocalUserOptions() {
+  const sel = byId('sess-user');
+  if (!sel) return;
+  const current = sel.value;
+  const usedBy = new Map();
+  for (const s of sessions) {
+    if (s.username && (!s.domain || s.domain === '.')) usedBy.set(s.username.toLowerCase(), s.name);
+  }
+  const tag = u => {
+    const session = usedBy.get(u.name.toLowerCase());
+    if (session) return t('new.userTagInUse', { name: session });
+    return u.console ? t('new.userTagConsole') : '';
+  };
+  sel.innerHTML = localUsers.map(u => {
+    const label = u.fullName && u.fullName !== u.name ? `${u.name} (${u.fullName})` : u.name;
+    const extra = tag(u);
+    return `<option value="${esc(u.name)}">${esc(label)}${extra ? ` — ${esc(extra)}` : ''}</option>`;
+  }).join('');
+  const free = localUsers.find(u => !usedBy.has(u.name.toLowerCase()) && !u.console);
+  sel.value = localUsers.some(u => u.name === current) ? current : (free || localUsers[0] || {}).name || '';
+  byId('sess-user-none').style.display = localUsers.length ? 'none' : '';
+}
+
 // Usuarios dedicados conservados que se pueden asignar a una sesión nueva.
 function reusableUsers() {
   return orphanUsers.filter(o => o.accountExists && !o.signedIn);
@@ -522,6 +560,8 @@ function openNewModal() {
   stopRefresh();
   suggestPorts();
   loadOrphans().then(() => { fillReuseOptions(); updateIsolatedUi(); });
+  fillLocalUserOptions();
+  loadLocalUsers().then(() => { fillLocalUserOptions(); resetCredTest(); });
   byId('sess-name').focus();
 }
 
@@ -539,6 +579,7 @@ async function suggestPorts() {
 function openEditModal(id) {
   const s = sessions.find(x => x.id === id);
   if (!s) return;
+  if (s.composite) { openCompositeModal(id); return; }
   sessEditingId = s.id;
   sessEditLocal = !!s.local;
 
@@ -632,7 +673,7 @@ async function submitSession(e) {
     if (needsCreds() && !credentialsTested) {
       if (!byId('sess-user').value.trim() || !byId('sess-pass').value) {
         fail(t('credTest.needCreds'));
-        byId(byId('sess-user').value.trim() ? 'sess-pass' : 'sess-user').focus();
+        if (byId('sess-user').value) byId('sess-pass').focus();
         return;
       }
       if (!await testCredentials()) { fail(t('new.errorTestCreds')); return; }
@@ -880,6 +921,7 @@ function handleBackdropClick(e, id) {
 function closeModal(id) {
   const close = {
     'sess-modal':     closeSessionModal,
+    'comp-modal':     closeCompositeModal,
     'log-modal':      closeLogModal,
     'rdp-modal':      closeRdpModal,
     'vigem-modal':    () => closeDriverModal('vigem'),
@@ -893,7 +935,7 @@ function closeModal(id) {
   if (close) close(); else hide(id);
 }
 
-// ── RDP Wrapper ────────────────────────────────────────────────────────────
+// ── Multi-RDP: si el equipo admite varias sesiones a la vez (solo lectura) ──
 let rdpLogTimer = null;
 let rdpLastStatus = null;
 
@@ -907,10 +949,7 @@ async function rdpRefreshPillOnly() {
 
 async function rdpRefresh() {
   await rdpRefreshPillOnly();
-  if (!document.getElementById('rdp-modal').classList.contains('hidden')) {
-    renderRdpStatus(rdpLastStatus);
-    await rdpFetchLog();
-  }
+  if (!document.getElementById('rdp-modal').classList.contains('hidden')) renderRdpStatus(rdpLastStatus);
 }
 
 function updateRdpPill(st) {
@@ -921,12 +960,11 @@ function updateRdpPill(st) {
   pill.classList.remove('status-pill-ok','status-pill-missing','status-pill-broken','status-pill-working','status-pill-warn','status-pill-pending');
 
   const key = rdpStateKey(st);
-  const cls = { working: 'status-pill-working', ok: 'status-pill-ok', pending: 'status-pill-pending',
-                broken: 'status-pill-broken', missing: 'status-pill-missing' }[key];
+  const cls = { ok: 'status-pill-ok', pending: 'status-pill-pending', single: 'status-pill-missing' }[key];
 
   pill.classList.add(cls);
   state.textContent = t(`rdp.state.${key}`);
-  pill.title = key === 'pending' ? rdpPendingText(st) : '';
+  pill.title = key === 'pending' ? t('rdp.pendingNote') : '';
   updateSystemPill();
   renderSessions();
 }
@@ -935,35 +973,22 @@ function renderRdpStatus(st) {
   if (!st) return;
   const badge = document.getElementById('rdp-status-badge');
   const key   = rdpStateKey(st);
-  const cls   = { working: 'badge-starting', ok: 'badge-running', pending: 'badge-pending' }[key] || 'badge-error';
+  const cls   = { ok: 'badge-running', pending: 'badge-pending' }[key] || 'badge-error';
   badge.className = `badge ${cls}`;
   badge.innerHTML = `<span class="badge-dot"></span>${esc(t(`rdp.state.${key}`))}`;
   badge.title = '';
   const note = document.getElementById('rdp-pending-note');
-  note.textContent = key === 'pending' ? rdpPendingText(st) : '';
+  note.textContent = key === 'pending' ? t('rdp.pendingNote') : '';
   note.classList.toggle('hidden', key !== 'pending');
 
-  document.getElementById('rdp-install-dir').textContent = st.installDir     || '—';
-  document.getElementById('rdp-bundle').textContent      =
-    st.wrapper ? `${st.wrapper} ${st.bundleVersion || ''}`.trim() : (st.bundleVersion || '—');
-  document.getElementById('rdp-termsrv').textContent     = st.termsrvVersion || '—';
-  document.getElementById('rdp-service-dll').textContent = st.serviceDllPath || '—';
-
-  document.getElementById('rdp-btn-install').disabled = !!st.busy;
-}
-
-async function rdpFetchLog() {
-  const res = await api('GET', '/api/rdpwrap/log');
-  if (!res || !res.ok) return;
-  const data = await res.json();
-  const box  = document.getElementById('rdp-log-box');
-  if (!data.lines || data.lines.length === 0) {
-    box.innerHTML = `<span class="log-empty">${esc(t('rdp.log.empty'))}</span>`;
-    return;
-  }
-  const wasAtBottom = box.scrollHeight - box.scrollTop <= box.clientHeight + 10;
-  box.textContent = data.lines.join('\n');
-  if (wasAtBottom) box.scrollTop = box.scrollHeight;
+  document.getElementById('rdp-source').textContent   = t(`rdp.source.${st.source || 'none'}`);
+  document.getElementById('rdp-edition').textContent  = st.edition || '—';
+  document.getElementById('rdp-sessions').textContent = String(st.activeSessions ?? '—');
+  document.getElementById('rdp-termsrv').textContent  = st.termsrvVersion || '—';
+  document.getElementById('rdp-licensing-row').classList.toggle('hidden', !st.isServer);
+  document.getElementById('rdp-licensing').textContent = st.isServer
+    ? `${t(st.sessionHostRole ? 'rdp.rdsh.yes' : 'rdp.rdsh.no')} · ${t(`rdp.licensing.${st.licensingMode || 'notConfigured'}`)}`
+    : '—';
 }
 
 function openRdpModal() {
@@ -980,28 +1005,18 @@ function closeRdpModal() {
   rdpLogTimer = null;
 }
 
-async function rdpInstall() {
-  if (!await ask(t('rdp.confirm.install'), { ok: t('rdp.btn.install') })) return;
-  const res = await api('POST', '/api/rdpwrap/install');
-  if (!res) return;
-  if (!res.ok) { toast(await I18n.responseError(res), true); return; }
-  rdpRefresh();
-}
-
-// Estado del multi-RDP. "pending": instalado pero TermService aún no lo ha cargado. Es lo
-// normal recién instalado (TermService parado hasta la primera conexión, o con la DLL anterior
-// hasta reiniciar Windows): no es un fallo. "broken": ServiceDll apunta a un wrapper cuyos
-// ficheros faltan.
+// Estado del multi-RDP: "ok" si el equipo admite varias sesiones a la vez (Windows Server con
+// RDS, Enterprise multisesión o lo que haya instalado el usuario); "pending" si está configurado
+// pero el servicio de Escritorio remoto aún no lo ha cargado; "single" si solo admite una.
 function rdpStateKey(st) {
-  if (st.busy)      return 'working';
-  if (st.installed) return 'ok';
-  if (st.pending)   return 'pending';
-  if (st.wrapper)   return 'broken';
-  return 'missing';
+  if (st.allowed) return 'ok';
+  if (st.pending) return 'pending';
+  return 'single';
 }
 
-function rdpPendingText(st) {
-  return t(st.loaded === false ? 'rdp.pendingReboot' : 'rdp.pendingFirstUse');
+// Estado para las listas de componentes (primeros pasos y guía).
+function rdpDepState(st) {
+  return !st ? 'checking' : st.allowed ? 'ok' : st.pending ? 'activates' : 'single';
 }
 
 // ── Sunshine management (proxied through OpenStreamMS) ────────────────────
@@ -1363,6 +1378,7 @@ async function powerAction(kind) {
 const UI_ICONS = {
   gamepad:  '<path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-3.9 3.2l-1 5.2A3 3 0 0 0 7 16.8L8.6 15h6.8l1.6 1.8a3 3 0 0 0 5.2-3.4l-1-5.2A4 4 0 0 0 17.3 5z"/>',
   power:    '<path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>',
+  grid:     '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
   copy:     '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
   download: '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>',
   help:     '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17.2" r=".6" fill="currentColor"/>',
@@ -1378,6 +1394,7 @@ const UI_ICONS = {
   users:    '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
   link:     '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
   pc:       '<rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5"/><path d="M7 8h4"/>',
+  gamepad:  '<path d="M6 11h4M8 9v4"/><circle cx="15.5" cy="10.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="12.5" r=".9" fill="currentColor"/><path d="M7.5 6h9a5 5 0 0 1 4.9 6l-.8 4a2.6 2.6 0 0 1-4.6 1.1L14.5 15h-5l-1.5 2.1a2.6 2.6 0 0 1-4.6-1.1l-.8-4A5 5 0 0 1 7.5 6z"/>',
   seat:     '<rect x="3" y="4" width="18" height="11" rx="2"/><path d="M7 19h10M9 15v4M15 15v4"/>',
 };
 
@@ -1814,9 +1831,9 @@ function errorBox(s) { return errorBoxHtml(s); }
 function rdpWarning(s) {
   if (s.local || !rdpLastStatus) return '';
   const key = rdpStateKey(rdpLastStatus);
-  if (key !== 'missing' && key !== 'broken') return '';
+  if (key !== 'single') return '';
   return `<div class="card-warning card-warning-action">
-      <span>${esc(t(key === 'broken' ? 'ux.rdpBroken' : 'ux.rdpMissing'))}</span>
+      <span>${esc(t('ux.rdpMissing'))}</span>
       <button type="button" class="btn btn-ghost btn-xs" onclick="openRdpModal()">${esc(t('ux.review'))}</button>
     </div>`;
 }
@@ -1939,16 +1956,16 @@ function onboardingHtml() {
     { name: 'ViGEmBus',    st: drivers.vigem.lastStatus,   open: "openDriverModal('vigem')" },
     { name: 'HidHide',     st: drivers.hidhide.lastStatus, open: "openDriverModal('hidhide')" },
   ];
-  const depState = d => !d.st ? 'checking' : d.st.busy ? 'working' : d.st.rebootRequired ? 'reboot'
-                     : d.st.installed ? 'ok' : d.rdp && d.st.pending ? 'activates'
-                     : d.rdp && d.st.wrapper ? 'broken' : 'missing';
+  const depState = d => d.rdp ? rdpDepState(d.st)
+                     : !d.st ? 'checking' : d.st.busy ? 'working' : d.st.rebootRequired ? 'reboot'
+                     : d.st.installed ? 'ok' : 'missing';
   const depsOk = deps.every(d => ['ok', 'activates'].includes(depState(d)));
   const depRow = d => {
     const state = depState(d);
-    return `<li class="dep-line dep-${state}" ${state === 'activates' ? `title="${esc(rdpPendingText(d.st))}"` : ''}>
+    return `<li class="dep-line dep-${state}" ${state === 'activates' ? `title="${esc(t('rdp.pendingNote'))}"` : ''}>
         <span class="dep-dot"></span><span>${esc(d.name)}</span>
         <span class="dep-state">${esc(t('ux.dep.' + state))}</span>
-        ${['missing', 'broken', 'reboot'].includes(state)
+        ${['missing', 'broken', 'reboot', 'single'].includes(state)
           ? `<button type="button" class="btn btn-ghost btn-xs" onclick="${d.open}">${esc(t(state === 'missing' ? 'ux.install' : 'ux.review'))}</button>` : ''}
       </li>`;
   };

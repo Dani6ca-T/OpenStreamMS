@@ -7,5 +7,10 @@
   "StatusInstallRemoteIdd": "Installieren des Workstation-Anzeigetreibers (RemoteIdd)...",
   "StatusStartService": "Dienst starten...",
   "AskPurgeData": "Außerdem alle OpenStreamMS-Daten löschen?%n%nSitzungen, lokale Workstations und Einstellungen; die osms--Benutzer isolierter Sitzungen und ihre Profile (einschließlich der darin gespeicherten Spiele und Einstellungen); Stream-Profile, ProgramData\\OpenStreamMS und temporäre Dateien.%n%nWenn Sie mit „Nein“ antworten, bleiben Sitzungen und Einstellungen für eine Neuinstallation erhalten.",
-  "AskRemoveDeps": "Deinstallieren Sie auch TermWrap, ViGEmBus und HidHide?%n%nAnswer Nein, wenn andere Anwendungen sie verwenden."
+  "AskRemoveDeps": "Deinstallieren Sie auch ViGEmBus und HidHide?%n%nAnswer Nein, wenn andere Anwendungen sie verwenden.",
+  "MultiSessionTitle": "Mehrere Sitzungen gleichzeitig",
+  "MultiSessionSubtitle": "Wichtige Änderung in dieser Version",
+  "MultiSessionNotice": "OpenStreamMS installiert TermWrap oder andere Tools, die mehrere Windows-Sitzungen gleichzeitig erlauben, nicht mehr. Ist auf diesem PC bereits eines vorhanden, bleibt es: OpenStreamMS entfernt es nicht.%n%nOffiziell werden mehrere Windows-Sitzungen gleichzeitig nur unter Windows Server mit der Rolle Remotedesktop-Sitzungshost und RDS-Benutzer-CALs unterstützt.%n%nUnter Windows Home oder Pro ist die Verwendung eines Drittanbieter-Tools dafür Ihre Entscheidung und Ihre Verantwortung: Die Windows-Lizenzbedingungen erlauben es möglicherweise nicht. OpenStreamMS prüft nur, ob der PC es zulässt.",
+  "WindowsTooOld": "OpenStreamMS benötigt Windows 10 Version 1607 (Build 14393) oder neuer.%nDieser PC hat Build %1. Aktualisiere Windows und starte das Setup erneut.",
+  "StatusInstallOsmsPad": "Gamepad-Treiber wird installiert (OsmsPad)..."
 }

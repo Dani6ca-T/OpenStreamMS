@@ -216,6 +216,15 @@ public class StreamSession
     public uint         RdpSessionId    { get; set; }
     public int          SunshinePid     { get; set; }
     internal int        FreeRdpPid      { get; set; }   // no expuesto en la API ni persistido
+    /// <summary>
+    /// Número de la última orden de ciclo de vida (iniciar, detener, reiniciar). Un arranque en
+    /// curso que ya no lleva el número vigente se abandona: otra orden lo ha sustituido.
+    /// </summary>
+    internal int        LifecycleGeneration;
+    /// <summary>Protege la comprobación y el cambio de estado al aceptar una orden.</summary>
+    internal readonly object LifecycleLock = new();
+    /// <summary>Solo un arranque a la vez por sesión: el siguiente espera a que el anterior acabe o se abandone.</summary>
+    internal readonly object StartGate = new();
     public DateTime     CreatedAt       { get; set; } = DateTime.UtcNow;
     public DateTime?    StartedAt       { get; set; }
     public DateTime?    StoppedAt       { get; set; }
@@ -234,4 +243,25 @@ public class StreamSession
     /// </summary>
     public int?         ClientsMoonlight { get; set; }
     public int?         ClientsWebRtc    { get; set; }
+    /// <summary>
+    /// Sesión compuesta: en vez de una sesión de Windows propia, junta en un stream las pantallas
+    /// de 2 a 4 sesiones RDP, cada una en su hueco (<see cref="CompositeSlot"/>; ver
+    /// <c>StreamSessionService.Composite.cs</c>). Tiene su propio Sunshine (puertos, emparejamiento,
+    /// nombre en Moonlight). Null en las sesiones normales.
+    /// </summary>
+    public List<CompositeSlot>? Composite { get; set; }
+    /// <summary>Solo en una compuesta: sesión que recibe teclado y ratón y de la que sale el audio.</summary>
+    public Guid?        CompositeInput   { get; set; }
+    /// <summary>True si es una sesión compuesta.</summary>
+    public bool         IsComposite      => Composite is not null;
+    /// <summary>
+    /// En un miembro: la sesión compuesta en marcha que lo está usando (su Sunshine propio queda
+    /// en pausa). Null si no está en ninguna. No se persiste.
+    /// </summary>
+    public Guid?        CompositeOf      { get; set; }
 }
+
+/// <summary>Hueco de una sesión compuesta: qué sesión se ve en qué parte de la pantalla.</summary>
+/// <param name="Session">Sesión RDP que se ve en el hueco.</param>
+/// <param name="Area">Parte de la pantalla (las de la pantalla dividida de los puestos).</param>
+public sealed record CompositeSlot(Guid Session, OpenStreamMS.Services.Seats.SeatScreenArea Area);

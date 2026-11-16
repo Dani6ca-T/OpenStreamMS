@@ -7,5 +7,10 @@
   "StatusInstallRemoteIdd": "Instalowanie sterownika ekranu stacji roboczej (RemoteIdd)...",
   "StatusStartService": "Uruchamianie usługi...",
   "AskPurgeData": "Usunąć także wszystkie dane OpenStreamMS?%n%nSesje, lokalne stacje robocze i ustawienia; użytkownicy osms- izolowanych sesji i ich profile (w tym gry i zapisane w nich ustawienia); profile strumieniowe, ProgramData\\OpenStreamMS i pliki tymczasowe.%n%nJeśli odpowiesz Nie, sesje i ustawienia zostaną zachowane na potrzeby ponownej instalacji.",
-  "AskRemoveDeps": "Odinstaluj także TermWrap, ViGEmBus i HidHide?%n%nAOdpowiedź Nie, jeśli używają ich inne aplikacje."
+  "AskRemoveDeps": "Odinstaluj także ViGEmBus i HidHide?%n%nAOdpowiedź Nie, jeśli używają ich inne aplikacje.",
+  "MultiSessionTitle": "Wiele sesji jednocześnie",
+  "MultiSessionSubtitle": "Ważna zmiana w tej wersji",
+  "MultiSessionNotice": "OpenStreamMS nie instaluje już TermWrap ani żadnego innego narzędzia, które pozwala na wiele sesji systemu Windows jednocześnie. Jeśli na tym komputerze już jest takie narzędzie, zostaje: OpenStreamMS go nie usuwa.%n%nOficjalnie wiele jednoczesnych sesji systemu Windows jest obsługiwanych tylko w systemie Windows Server z rolą Host sesji usług pulpitu zdalnego i licencjami RDS CAL na użytkownika.%n%nW systemie Windows Home lub Pro użycie do tego narzędzia innej firmy to Twoja decyzja i Twoja odpowiedzialność: warunki licencji systemu Windows mogą na to nie zezwalać. OpenStreamMS tylko sprawdza, czy komputer na to pozwala.",
+  "WindowsTooOld": "OpenStreamMS wymaga systemu Windows 10 w wersji 1607 (kompilacja 14393) lub nowszej.%nTen komputer ma kompilację %1. Zaktualizuj system Windows i uruchom instalator ponownie.",
+  "StatusInstallOsmsPad": "Instalowanie sterownika kontrolerów (OsmsPad)..."
 }

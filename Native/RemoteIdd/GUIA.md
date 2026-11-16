@@ -70,7 +70,7 @@ también las sesiones RDP que llegan por la red reciben RemoteIdd (valor
   restaura), sin dispositivo raíz (el dispositivo lo crea Terminal Services por sesión),
   driver solo en el Driver Store, objetos efímeros con DACL mínima (SYSTEM, LocalService,
   administradores), desinstalación completa.
-- **Base de SO mínima**: IddCx 1.4 + UMDF 2.33 (Windows 10 1903+).
+- **Base de SO mínima**: IddCx 1.4 + UMDF 2.31 (Windows 10 2004+, también 22H2). No subir a UMDF 2.33: es solo de Windows 11 y en Windows 10 el driver no llega a cargarse (WUDF 10101, 0x57, CM_PROB_PHANTOM, sin log).
 - **Limitador por llegada**: el driver nunca espera a Sunshine. Si Sunshine tiene la
   textura (keyed mutex ocupado) el frame se pierde; la sesión no se frena.
 - **Sin WDK instalado**: se compila contra el paquete NuGet oficial del WDK.

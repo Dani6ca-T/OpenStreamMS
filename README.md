@@ -4,16 +4,18 @@
 
 ### One Windows PC. Many players. Each with their own desktop.
 
+<sub><b>OpenStreamMS</b> = OpenStream <b>M</b>ulti-<b>S</b>eat</sub>
+
 Isolated streaming sessions for **Moonlight** and **WebRTC TVs**, and **local seats** that turn one PC into several —
 managed from a web dashboard, a tray icon or a REST API.
 
-[![Latest release](https://img.shields.io/github/v/release/mlopezsegura/OpenStreamMS?style=flat-square&color=7c5cff)](https://github.com/mlopezsegura/OpenStreamMS/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/mlopezsegura/OpenStreamMS/total?style=flat-square&color=2dd4bf)](https://github.com/mlopezsegura/OpenStreamMS/releases)
+[![Latest release](https://img.shields.io/github/v/release/OpenstreamCo/OpenStreamMultiSeat?style=flat-square&color=7c5cff)](https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/OpenstreamCo/OpenStreamMultiSeat/total?style=flat-square&color=2dd4bf)](https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases)
 [![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4?style=flat-square&logo=windows)](#installation)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512bd4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/download)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-**[⬇ Download](https://github.com/mlopezsegura/OpenStreamMS/releases/latest)** ·
+**[⬇ Download](https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases/latest)** ·
 [Quick start](#-quick-start) ·
 [Features](#-features) ·
 [Local seats](#local-seats) ·
@@ -65,11 +67,16 @@ Each session serves Moonlight apps, Samsung TVs running Moonlight WebRTC, or bot
 
 ## 🚀 Quick start
 
-1. **Download** `OpenStreamMS-Setup-x.x.x.exe` from [Releases](https://github.com/mlopezsegura/OpenStreamMS/releases/latest).
-2. **Install** it as Administrator. It sets up the service, the tray icon and everything it needs (TermWrap, ViGEmBus, HidHide).
+1. **Download** `OpenStreamMS-Setup-x.x.x.exe` from [Releases](https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases/latest).
+2. **Install** it as Administrator. It sets up the service, the tray icon and the drivers it needs (ViGEmBus, HidHide).
 3. **Open OpenStreamMS** from the Start menu, create your admin account and follow the built-in guide to your first session.
 
 Then add the PC in Moonlight (or on your TV) — **Connect** in the dashboard shows the name, addresses and ports to use.
+
+> [!IMPORTANT]
+> **Several sessions at once.** Officially, several Windows sessions at the same time are only supported on **Windows Server with the Remote Desktop Session Host role and RDS user CALs**.
+> OpenStreamMS does **not** install or configure anything to allow several sessions on Windows Home or Pro (it used to install TermWrap; it no longer does). If you use a third-party tool for that, it is **your decision and your responsibility**: it may not be permitted by the Windows license terms.
+> OpenStreamMS only checks whether the PC allows it: the **Multi-RDP** indicator turns green when it does.
 
 ---
 
@@ -87,6 +94,7 @@ Then add the PC in Moonlight (or on your TV) — **Connect** in the dashboard sh
 - ⚡ **Low latency to TVs** — zero playout delay: 1080p60 from 54 → 38 ms screen to screen
 - 🎞️ **A true 60 fps** in RDP sessions (instead of 58.8 Hz)
 - 🧬 **RemoteIdd display** *(experimental)* — our own IddCx driver hands frames to Sunshine as a GPU texture, no screen capture
+- 🧩 **Composite sessions** *(experimental)* — two to four sessions in one stream of their own (side by side, stacked, 2×2 or one large and two small), set up on a visual grid; controller N goes to slot N ([details](docs/sesiones-compuestas.md))
 
 **Local seats**
 - 🖱️ Monitor, keyboard, mouse, gamepads, audio and microphone per seat — drag and drop in the dashboard
@@ -115,14 +123,14 @@ Then add the PC in Moonlight (or on your TV) — **Connect** in the dashboard sh
 
 ### Option A — Installer (recommended)
 
-1. Download `OpenStreamMS-Setup-x.x.x.exe` from [Releases](https://github.com/mlopezsegura/OpenStreamMS/releases)
+1. Download `OpenStreamMS-Setup-x.x.x.exe` from [Releases](https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases)
 2. Run it as Administrator and follow the wizard
 3. The installer registers the Windows service, adds the tray icon to Windows startup, and optionally starts everything immediately
 
 To uninstall, use **Apps & Features** → *OpenStreamMS* → Uninstall. It asks two questions:
 
 - **Delete all data?** Yes removes sessions, seats and settings, the isolated `osms-…` users with their profiles (including games and settings stored in them), stream profiles, `%ProgramData%\OpenStreamMS` and temporary files. No keeps sessions and settings for a reinstall.
-- **Also uninstall TermWrap, ViGEmBus and HidHide?** Answer No if other applications use them.
+- **Also uninstall ViGEmBus and HidHide?** Answer No if other applications use them. Whatever allows several sessions on the PC is not touched: OpenStreamMS did not install it.
 
 Silent uninstall: `unins000.exe /VERYSILENT [/PURGEDATA] [/REMOVEDEPS]`.
 
@@ -226,7 +234,7 @@ shows what is missing (components, first session, how to connect). After that, t
 <summary><b>Streaming protocols and ports</b> — Moonlight, WebRTC, firewall</summary>
 
 Sessions run the Sunshine in `Sunshine\` (or the one set in `SunshineExePath`). With the
-[sunshine-webrtc](https://github.com/mlopezsegura/Sunshine-Web-RTC) build, a session can serve:
+[sunshine-webrtc](https://github.com/OpenstreamCo/Sunshine-Web-RTC) build, a session can serve:
 
 | Protocol | Clients | Ports opened in the firewall |
 |---|---|---|
@@ -415,3 +423,8 @@ OpenStreamMS.exe  (Windows Service, SYSTEM)
 
 OpenStreamMS is released under the [MIT License](LICENSE).
 The bundled Sunshine (GPL-3.0) and FreeRDP (Apache-2.0) binaries keep their own licenses — see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+"MS" stands for *Multi-Seat*. OpenStreamMS is an independent project, not affiliated with or endorsed by Microsoft. Windows is a trademark of Microsoft Corporation.
+
+> [!IMPORTANT]
+> The official way to run several Windows sessions at once is Windows Server with the Remote Desktop Session Host role and RDS user CALs. OpenStreamMS does not install, bundle or configure any tool that patches `termsrv` or otherwise enables concurrent sessions on Windows client editions (Home/Pro). Using such a tool is each user's decision and responsibility, and it may not be permitted by the Windows license terms.
