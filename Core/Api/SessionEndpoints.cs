@@ -257,14 +257,12 @@ public record SessionResponse(
     RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth,
     /// <summary>Paso del arranque en el que falló (user, rdp, profile, unlock, sunshine); null si no hay error.</summary>
     string?      FailedPhase = null,
-    /// <summary>Anfitriona del mosaico en el que está la sesión (la propia si es la anfitriona); null fuera de un mosaico.</summary>
-    Guid?        MosaicHost = null,
-    /// <summary>Posición en el mosaico por orden de llegada (0 = anfitriona; el mando N va a la N).</summary>
-    int?         MosaicIndex = null,
-    /// <summary>Sesiones en el mosaico de la anfitriona (solo en la anfitriona).</summary>
-    int?         MosaicCount = null,
-    /// <summary>Solo en la anfitriona: con dos sesiones, una encima de otra en vez de una al lado de otra.</summary>
-    bool         MosaicStacked = false
+    /// <summary>Solo en una sesión compuesta: sus huecos en orden (el mando N va al hueco N).</summary>
+    IReadOnlyList<CompositeSlot>? Composite = null,
+    /// <summary>Solo en una sesión compuesta: sesión del teclado, el ratón y el audio.</summary>
+    Guid?        CompositeInput = null,
+    /// <summary>En un miembro: la sesión compuesta en marcha que lo usa; null si ninguna.</summary>
+    Guid?        CompositeOf = null
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
@@ -1013,5 +1011,5 @@ public static class SessionEndpoints
         StreamSessionService.SteamLoginState(s),
         s.RdpDisplayScale, s.RdpComposition,
         s.ErrorMessage is null ? null : s.FailedPhase,
-        s.MosaicHost, s.MosaicIndex, s.MosaicCount, s.MosaicStacked);
+        s.Composite, s.CompositeInput, s.CompositeOf);
 }

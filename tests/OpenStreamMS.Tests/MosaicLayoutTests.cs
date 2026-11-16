@@ -1,64 +1,49 @@
 using OpenStreamMS.Services.Mosaic;
 using OpenStreamMS.Services.Seats;
+using Xunit;
 
 namespace OpenStreamMS.Tests;
 
 public class MosaicLayoutTests
 {
     [Fact]
-    public void Areas_AdaptToTheNumberOfSessions()
+    public void Templates_NeverOverlapAndFitTheGrid()
     {
-        Assert.Equal([SeatScreenArea.Full], MosaicLayout.Areas(1));
-        Assert.Equal([SeatScreenArea.Left, SeatScreenArea.Right], MosaicLayout.Areas(2));
-        Assert.Equal([SeatScreenArea.TopLeft, SeatScreenArea.TopRight, SeatScreenArea.BottomLeft], MosaicLayout.Areas(3));
-        Assert.Equal([SeatScreenArea.TopLeft, SeatScreenArea.TopRight, SeatScreenArea.BottomLeft, SeatScreenArea.BottomRight],
-                     MosaicLayout.Areas(4));
+        foreach (var (id, areas) in MosaicLayout.Templates)
+        {
+            Assert.True(MosaicLayout.Disjoint(areas), id);
+            Assert.InRange(areas.Length, MosaicLayout.MinMembers, MosaicLayout.MaxMembers);
+            Assert.Equal(SeatAreas.AllCells, areas.Aggregate(0, (used, a) => used | SeatAreas.Cells(a)));
+        }
     }
 
     [Fact]
-    public void Areas_Stacked_OnlyChangesTwoSessions()
+    public void Templates_OfferTheExpectedLayouts()
     {
-        Assert.Equal([SeatScreenArea.Top, SeatScreenArea.Bottom], MosaicLayout.Areas(2, stacked: true));
-        Assert.Equal([SeatScreenArea.Full], MosaicLayout.Areas(1, stacked: true));
-        Assert.Equal(MosaicLayout.Areas(3), MosaicLayout.Areas(3, stacked: true));
-        Assert.Equal(MosaicLayout.Areas(4), MosaicLayout.Areas(4, stacked: true));
-    }
-
-    [Fact]
-    public void Render_Stacked_PutsSessionsTopAndBottom()
-    {
-        var lines = MosaicLayout.Render(1920, 1080, [7u, 9u], stacked: true).Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        Assert.Equal(["canvas 1920 1080", "7 Top", "9 Bottom"], lines[1..]);
-        Assert.Equal((1920, 540), MosaicLayout.PartSize(SeatScreenArea.Top, 1920, 1080));
+        Assert.Equal([SeatScreenArea.Left, SeatScreenArea.Right], MosaicLayout.Templates["sideBySide"]);
+        Assert.Equal([SeatScreenArea.Top, SeatScreenArea.Bottom], MosaicLayout.Templates["stacked"]);
+        Assert.Equal(4, MosaicLayout.Templates["quad"].Length);
+        Assert.Equal([SeatScreenArea.Left, SeatScreenArea.TopRight, SeatScreenArea.BottomRight], MosaicLayout.Templates["bigLeft"]);
+        Assert.Equal([SeatScreenArea.Top, SeatScreenArea.BottomLeft, SeatScreenArea.BottomRight], MosaicLayout.Templates["bigTop"]);
     }
 
     [Theory]
-    [InlineData(1, 0b1111)]
-    [InlineData(2, 0b1111)]
-    [InlineData(3, 0b0111)]
-    [InlineData(4, 0b1111)]
-    public void Areas_NeverOverlap(int count, int expectedCells)
-    {
-        int used = 0;
-        foreach (var a in MosaicLayout.Areas(count))
-        {
-            int cells = SeatAreas.Cells(a);
-            Assert.Equal(0, used & cells);
-            used |= cells;
-        }
-        Assert.Equal(expectedCells, used);
-    }
+    [InlineData(new[] { SeatScreenArea.Left, SeatScreenArea.TopLeft }, false)]      // la mitad pisa el cuarto
+    [InlineData(new[] { SeatScreenArea.Top, SeatScreenArea.Left }, false)]
+    [InlineData(new[] { SeatScreenArea.Full, SeatScreenArea.BottomRight }, false)]
+    [InlineData(new[] { SeatScreenArea.Left, SeatScreenArea.TopRight }, true)]      // con un hueco libre abajo a la derecha
+    [InlineData(new[] { SeatScreenArea.TopLeft, SeatScreenArea.BottomRight }, true)]
+    public void Disjoint_DetectsOverlaps(SeatScreenArea[] areas, bool expected) =>
+        Assert.Equal(expected, MosaicLayout.Disjoint(areas));
 
     [Theory]
     [InlineData(SeatScreenArea.Full, 1920, 1080)]
     [InlineData(SeatScreenArea.Left, 960, 1080)]
-    [InlineData(SeatScreenArea.Right, 960, 1080)]
+    [InlineData(SeatScreenArea.Top, 1920, 540)]
     [InlineData(SeatScreenArea.TopLeft, 960, 540)]
     [InlineData(SeatScreenArea.BottomRight, 960, 540)]
-    public void PartSize_SplitsTheCanvas(SeatScreenArea area, int w, int h)
-    {
+    public void PartSize_SplitsTheCanvas(SeatScreenArea area, int w, int h) =>
         Assert.Equal((w, h), MosaicLayout.PartSize(area, 1920, 1080));
-    }
 
     [Fact]
     public void PartSize_GivesTheOddPixelToTheRightAndBottom()
@@ -69,17 +54,24 @@ public class MosaicLayoutTests
     }
 
     [Fact]
-    public void Render_ListsCanvasAndSessionsInArrivalOrder()
+    public void Render_ListsCanvasAndSlotsInOrder()
     {
-        var text = MosaicLayout.Render(2560, 1440, [7u, 9u, 12u]);
+        var text = MosaicLayout.Render(2560, 1440, [(7u, SeatScreenArea.Left), (9u, SeatScreenArea.TopRight), (12u, SeatScreenArea.BottomRight)]);
         var lines = text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         Assert.StartsWith("#", lines[0]);
-        Assert.Equal(["canvas 2560 1440", "7 TopLeft", "9 TopRight", "12 BottomLeft"], lines[1..]);
+        Assert.Equal(["canvas 2560 1440", "7 Left", "9 TopRight", "12 BottomRight"], lines[1..]);
     }
 
     [Fact]
-    public void Render_UsesLfOnly()
+    public void Render_SkipsSlotsWithoutWindowsSession()
     {
-        Assert.DoesNotContain('\r', MosaicLayout.Render(1920, 1080, [1u, 2u]));
+        // Un miembro parado: su hueco queda en negro.
+        var lines = MosaicLayout.Render(1920, 1080, [(7u, SeatScreenArea.Top), (0u, SeatScreenArea.Bottom)])
+                                .Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        Assert.Equal(["canvas 1920 1080", "7 Top"], lines[1..]);
     }
+
+    [Fact]
+    public void Render_UsesLfOnly() =>
+        Assert.DoesNotContain('\r', MosaicLayout.Render(1920, 1080, [(1u, SeatScreenArea.Left), (2u, SeatScreenArea.Right)]));
 }

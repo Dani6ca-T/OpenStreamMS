@@ -133,13 +133,11 @@ static async Task RunService(string[] args)
     builder.Services.AddSingleton<ViGEmBusManager>();
     builder.Services.AddSingleton<HidHideManager>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Seats.SeatManager>();
-    builder.Services.AddSingleton<OpenStreamMS.Services.Mosaic.MosaicService>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Metrics.SystemMetrics>();
     builder.Services.AddHostedService<OpenStreamService>();
     builder.Services.AddHostedService<OpenStreamMS.Services.OpenStream.ActiveStreamsMonitor>();
     builder.Services.AddHostedService<OpenStreamMS.Services.Gamepad.GamepadSessionIsolation>();
     builder.Services.AddHostedService(sp => sp.GetRequiredService<OpenStreamMS.Services.Seats.SeatManager>());
-    builder.Services.AddHostedService(sp => sp.GetRequiredService<OpenStreamMS.Services.Mosaic.MosaicService>());
 
     builder.Services.ConfigureHttpJsonOptions(options =>
         options.SerializerOptions.Converters.Add(
@@ -314,8 +312,8 @@ static async Task RunService(string[] args)
     // ── Seats API (puestos locales) ───────────────────────────────────────────
     app.MapSeatApi();
 
-    // ── Mosaic API (hasta cuatro sesiones en un mismo stream) ─────────────────
-    app.MapMosaicApi();
+    // ── Sesiones compuestas (varias sesiones en un mismo stream) ──────────────
+    app.MapCompositeApi();
 
     // ── Multi-RDP API (si el equipo admite varias sesiones a la vez) ──
     app.MapRdpWrapperApi();
