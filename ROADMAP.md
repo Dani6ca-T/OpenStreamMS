@@ -59,6 +59,21 @@ network as separate hosts.
 Programs usually bind to "any address" (`0.0.0.0`) and Windows picks the source IP from the routing
 table, never by session. Two copies of a game then collide on the same port and announce the same IP.
 
+**Chosen direction (2026-11-11): one virtual network adapter per session.** Each session gets its own
+Hyper-V host virtual NIC (`Add-VMNetworkAdapter -ManagementOS`, signed Microsoft adapters, no driver of
+our own), connected to the outside through an interface picked in the dashboard. Two modes, chosen per
+installation in the dashboard:
+
+- *Bridge*: an external switch bound to the chosen interface; every session gets an IP from the router
+  and is a separate host on the LAN (LAN games work with other PCs). The PC itself moves to `vEthernet`.
+- *NAT*: an internal switch plus `New-NetNat`; sessions live in a private subnet and go out through the
+  chosen interface. Does not touch the PC's own networking, but other PCs do not see the sessions.
+
+Sessions should not see the main network card. Windows has one network stack, so this is done in user
+mode by the hook in point 2: it lists only the session's adapter and binds sockets to it. Kernel-level
+isolation is out of scope (see *Ruled out*). Requires Windows Pro, Enterprise or Server with Hyper-V;
+Windows Home keeps the PC's IP. The secondary-IP option below stays as the fallback.
+
 **Design (research done, not started):**
 
 1. **The address.** Two ways, chosen per installation:
