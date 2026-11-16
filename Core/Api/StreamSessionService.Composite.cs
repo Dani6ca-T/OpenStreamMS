@@ -135,7 +135,7 @@ public partial class StreamSessionService
     // ── Arrancar y parar ─────────────────────────────────────────────────────
 
     /// <summary>Arranque de una compuesta (desde <see cref="DoStart"/>). Si falla, deja los miembros como estaban.</summary>
-    private void StartComposite(StreamSession c)
+    private void StartComposite(StreamSession c, int generation)
     {
         var slots = c.Composite!;
         var members = slots.Select(s => _sessions.TryGetValue(s.Session, out var m) ? m
@@ -187,13 +187,22 @@ public partial class StreamSessionService
             if (result.Status == Services.Sunshine.SunshineRunStatus.LaunchFailed)
                 throw new Exception(result.Message ?? RequestCulture.T("error.request"));
 
-            if (c.State != SessionState.Starting)
+            bool running;
+            lock (c.LifecycleLock)
+            {
+                // Detenida o sustituida por otra orden mientras arrancaba.
+                running = StartStillWanted(c, generation);
+                if (running)
+                {
+                    c.State     = SessionState.Running;
+                    c.StartedAt = DateTime.UtcNow;
+                }
+            }
+            if (!running)
             {
                 Logger.Log($"[{c.Name}] Inicio abortado (sesión detenida mientras arrancaba).", c.Id);
                 return;
             }
-            c.State     = SessionState.Running;
-            c.StartedAt = DateTime.UtcNow;
             Logger.Log($"[{c.Name}] Sesión compuesta activa: {string.Join(", ", members.Select(m => m.Name))}; " +
                        $"teclado, ratón y audio de '{owner.Name}' (sesión de Windows {c.RdpSessionId}).", c.Id);
         }

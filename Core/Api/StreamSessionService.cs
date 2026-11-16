@@ -1062,7 +1062,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             }
             if (session.IsComposite)
             {
-                StartComposite(session);
+                StartComposite(session, generation);
                 return;
             }
 
