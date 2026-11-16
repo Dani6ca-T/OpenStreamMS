@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using OpenStreamMS.Services.Gamepad;
 using OpenStreamMS.Core.Api;
 using OpenStreamMS.Services;
 using OpenStreamMS.Services.Drivers;
@@ -76,6 +77,7 @@ internal static partial class DiagnosticsBundle
         Section("procs",    () => AddText(zip, "processes.txt", Processes(), redact));
         Section("ports",    () => AddText(zip, "listening-ports.txt", ListeningPorts(), redact));
         Section("pnp",      () => AddText(zip, "pnputil-problem-devices.txt", Run("pnputil.exe", "/enum-devices /problem"), redact));
+        Section("controllers", () => AddText(zip, "controllers.txt", Controllers(), redact));
         Section("drivers",  () => AddText(zip, "pnputil-drivers.txt", Run("pnputil.exe", "/enum-drivers"), redact));
         Section("openstreamms", () => AddText(zip, "openstreamms.json", OpenStreamState(src, summary), redact));
 
@@ -185,6 +187,83 @@ internal static partial class DiagnosticsBundle
                 sb.AppendLine($"  {v} = {(val is byte[] b ? Convert.ToHexString(b) : val is string[] m ? string.Join(" | ", m) : val)}");
             }
         }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Mandos conectados y lo que hace falta para ver por dónde llega uno a otra sesión aunque
+    /// HidHide lo oculte (issue #11, mandos Xbox One): en qué clases está instalado el filtro de
+    /// HidHide, su configuración, y el árbol completo de cada mando (todos los nodos, de
+    /// cualquier clase, con driver, filtros y estado). Los nodos ocultados llevan [oculto].
+    /// </summary>
+    private static string Controllers()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("== Filtro de HidHide por clase (UpperFilters) ==");
+        foreach (var (name, guid) in new[]
+                 {
+                     ("HID", "{745a17a0-74d3-11d0-b6fe-00a0c90f57da}"),
+                     ("XUSB (Xbox 360)", "{d61ca365-5af4-4486-998b-9db4734c6ca3}"),
+                     ("XboxComposite (Xbox One/GIP)", "{05f5cfe2-4733-4950-a6bb-07aad01a3a84}"),
+                 })
+        {
+            using var key = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Control\Class\{guid}");
+            var filters = key?.GetValue("UpperFilters") is string[] f ? string.Join(",", f) : "-";
+            sb.AppendLine($"{name,-30} {filters}");
+        }
+
+        sb.AppendLine().AppendLine("== Configuración de HidHide (registro) ==");
+        var jailed = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        try
+        {
+            using var key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\HidHide\Parameters");
+            if (key is null) sb.AppendLine("(sin clave Parameters)");
+            else
+                foreach (var value in key.GetValueNames())
+                {
+                    var data = key.GetValue(value);
+                    var lines = data is string[] multi ? multi : [data?.ToString() ?? ""];
+                    sb.AppendLine($"{value}:");
+                    foreach (var line in lines)
+                    {
+                        sb.AppendLine($"  {line}");
+                        jailed.Add(line.Split('!')[0]);
+                    }
+                }
+        }
+        catch (Exception ex) { sb.AppendLine($"(no se pudo leer: {ex.Message})"); }
+
+        sb.AppendLine().AppendLine("== Mandos conectados (árbol completo de cada uno) ==");
+        var controllers = GamepadSessionIsolation.Cm.GameControllers().ToList();
+        var roots = controllers.Select(GamepadSessionIsolation.Cm.RootOf).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        var listed = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        if (roots.Count == 0) sb.AppendLine("(ninguno)");
+        foreach (var root in roots)
+        {
+            void Node(string id, int depth)
+            {
+                listed.Add(id);
+                sb.Append(' ', depth * 2).Append(jailed.Contains(id) ? "[oculto] " : "").AppendLine(GamepadSessionIsolation.Cm.Describe(id));
+                foreach (var child in GamepadSessionIsolation.Cm.Children(id)) Node(child, depth + 1);
+            }
+            Node(root, 0);
+            sb.AppendLine();
+        }
+
+        // Nodos de la pila de mandos de Windows que no cuelgan de ningún mando de arriba
+        // (bus sintético de Xbox, GameInput, adaptadores inalámbricos sin mando…).
+        string[] services = ["xboxgip", "dc1-controller", "xinputhid", "xusb22", "gameinput", "xboxgipsynthetic"];
+        var others = GamepadSessionIsolation.Cm.AllPresent()
+            .Where(id => !listed.Contains(id))
+            .Where(id => GamepadSessionIsolation.Cm.ServiceOf(id) is { } svc && services.Any(x => svc.StartsWith(x, StringComparison.OrdinalIgnoreCase))
+                      || id.Contains("Gip", StringComparison.OrdinalIgnoreCase)
+                      || id.Contains("SyntheticGamepad", StringComparison.OrdinalIgnoreCase)
+                      || id.Contains("GameInput", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        sb.AppendLine("== Otros nodos de la pila de mandos de Windows ==");
+        if (others.Count == 0) sb.AppendLine("(ninguno)");
+        foreach (var id in others)
+            sb.Append(jailed.Contains(id) ? "[oculto] " : "").AppendLine(GamepadSessionIsolation.Cm.Describe(id));
         return sb.ToString();
     }
 
@@ -420,6 +499,8 @@ internal static partial class DiagnosticsBundle
           - 00-summary.txt: Windows version and build, OpenStreamMS version, drivers, sessions.
           - system.txt, services.txt, rdp-registry.txt, windows-sessions.txt, processes.txt,
             listening-ports.txt, pnputil-*.txt: PC hardware, Windows and driver information.
+          - controllers.txt: connected controllers with their full device tree (driver, filters,
+            state) and the HidHide filter and settings, to see how a controller reaches a session.
           - openstreamms.json: state of OpenStreamMS (RDP Wrapper, RemoteIdd, drivers, sessions, seats).
           - logs/, sunshine/, programdata/: OpenStreamMS logs and each Sunshine log, including
             the previous run (sunshine.log.1).
