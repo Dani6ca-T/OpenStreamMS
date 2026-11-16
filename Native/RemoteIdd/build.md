@@ -13,8 +13,8 @@ Qué hace, en orden (para en el primer fallo):
 1. Compila y ejecuta `test\SharedFrameTest.exe` (contrato de `SharedFrame.h`).
 2. Compila y ejecuta `RemoteIddPerf.exe` (rendimiento entre procesos en la GPU real; se
    salta con `set RIDD_NOPERF=1`).
-3. Compila `RemoteIdd.dll` con `/W4 /WX` contra **IddCx 1.4** y **UMDF 2.33**: la base
-   más baja con IDD remotos (Windows 10 1903), para no exigir un Windows más nuevo.
+3. Compila `RemoteIdd.dll` con `/W4 /WX` contra **IddCx 1.4** y **UMDF 2.31**: la base
+   más baja con IDD remotos (Windows 10 2004–22H2; 2.33 ya es de Windows 11 y Windows 10 rechaza el driver).
 4. Sella `RemoteIdd.inf` con `stampinf` y lo valida con `infverif`.
 
 **No firma ni instala nada.**

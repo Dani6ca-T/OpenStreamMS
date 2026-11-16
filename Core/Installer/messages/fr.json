@@ -7,5 +7,6 @@
   "StatusInstallRemoteIdd": "Installation du pilote d'affichage des postes (RemoteIdd)...",
   "StatusStartService": "Démarrage du service...",
   "AskPurgeData": "Supprimer aussi toutes les données d'OpenStreamMS ?%n%nSessions, postes et paramètres ; les utilisateurs osms- des sessions isolées et leurs profils (y compris les jeux et réglages qui y sont enregistrés) ; les profils de stream, ProgramData\\OpenStreamMS et les fichiers temporaires.%n%nSi vous répondez Non, les sessions et les paramètres sont conservés pour une réinstallation.",
-  "AskRemoveDeps": "Désinstaller aussi TermWrap, ViGEmBus et HidHide ?%n%nRépondez Non si d'autres applications les utilisent."
+  "AskRemoveDeps": "Désinstaller aussi TermWrap, ViGEmBus et HidHide ?%n%nRépondez Non si d'autres applications les utilisent.",
+  "WindowsTooOld": "OpenStreamMS nécessite Windows 10 version 1607 (build 14393) ou ultérieure.%nCe PC est en build %1. Mettez Windows à jour et relancez l'installation."
 }

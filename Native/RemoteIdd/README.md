@@ -61,7 +61,7 @@ Lo que se hace y lo que no, para que el puesto no cambie nada del Windows anfitr
   desinstalable del todo con `pnputil` (ver `build.md`).
 - **Recursos efímeros**: objetos con nombre y textura compartida viven lo que vive el
   WUDFHost; DACL limitada a SYSTEM y LocalService.
-- **Base mínima de SO**: IddCx 1.4 / UMDF 2.33 (Windows 10 1903+).
+- **Base mínima de SO**: IddCx 1.4 / UMDF 2.31 (Windows 10 2004+, también 22H2). UMDF 2.33 es solo de Windows 11: con él Windows 10 no carga el driver (WUDF 10101, 0x57, CM_PROB_PHANTOM).
 - **Para D1**: el proveedor de protocolo debe registrarse como un *listener* aparte solo
   para los puestos, **sin sustituir RDP-Tcp**. La consola y el RDP normal siguen con el
   `RdpIdd` de Microsoft; si se quita OpenStreamMS, Windows queda como estaba.

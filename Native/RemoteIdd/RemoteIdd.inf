@@ -16,9 +16,9 @@ DriverVer   = 10/26/2026,0.1.0.0 ; stampinf la sobrescribe al empaquetar
 PnpLockdown = 1
 
 [Manufacturer]
-%ManufacturerName% = Standard,NT$ARCH$.10.0...18362
+%ManufacturerName% = Standard,NT$ARCH$.10.0...19041
 
-[Standard.NT$ARCH$.10.0...18362]
+[Standard.NT$ARCH$.10.0...19041]
 %DeviceName% = RemoteIdd_Install, OsmsRemoteIdd_IndirectDisplay
 
 [SourceDisksFiles]
