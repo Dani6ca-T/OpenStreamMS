@@ -94,6 +94,12 @@ static void KeepSharedObjects(UINT32 session)
 // va también partido como los puestos en pantalla dividida: mitades (vertical: ancho/2;
 // horizontal: alto/2) y cuartos (ancho/2 y alto/2). Ver AllModes.
 struct ModeDef { DWORD Width, Height, VSync; };
+
+// Hz que se aceptan del registro (OsmsRefreshHz) o del IOCTL. OpenStreamMS no pasa de 500 (en
+// una sesión RDP Windows no compone más rápido), pero el driver admite hasta 1000 para probar
+// un monitor a 1000 Hz que saque cada fotograma del juego en cuanto se presenta.
+constexpr DWORD kMinHz = 24;
+constexpr DWORD kMaxHz = 1000;
 static const ModeDef kBaseModes[] = {
     { 3840, 2160,  60 }, { 3840, 2160, 120 },
     { 2560, 1440,  60 }, { 2560, 1440, 120 }, { 2560, 1440, 144 },
@@ -195,7 +201,7 @@ static void SeatFromDevice(WDFDEVICE device)
     DWORD scale = read(L"OsmsScalePercent");
 
     AcquireSRWLockExclusive(&g_modeLock);
-    if (hz >= 24 && hz <= 500)
+    if (hz >= kMinHz && hz <= kMaxHz)
         g_seatMode.VSync = hz;
     if (width >= 640 && width <= 7680 && height >= 360 && height <= 4320)
     {
@@ -632,7 +638,7 @@ void EvtDeviceIoControl(WDFDEVICE, WDFREQUEST request, size_t, size_t inputLengt
                     g_seatMode.Width = in->Width;
                     g_seatMode.Height = in->Height;
                 }
-                if (in->RefreshHz >= 24 && in->RefreshHz <= 500)
+                if (in->RefreshHz >= kMinHz && in->RefreshHz <= kMaxHz)
                     g_seatMode.VSync = in->RefreshHz;
                 ReleaseSRWLockExclusive(&g_modeLock);
             }

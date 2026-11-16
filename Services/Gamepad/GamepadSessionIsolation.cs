@@ -34,6 +34,11 @@ namespace OpenStreamMS.Services.Gamepad;
 /// Qué Sunshine creó cada mando se deduce del log: Sunshine escribe
 /// "Gamepad N will be ..." justo antes de enchufarlo en ViGEmBus.
 /// </para>
+/// <para>
+/// Mosaico (<see cref="Mosaic.MosaicService"/>): el mando N que crea el Sunshine de la
+/// anfitriona va a la sesión N del mosaico por orden de llegada (N del log, 0 = anfitriona).
+/// Si el mosaico cambia, los mandos ya creados se reasignan.
+/// </para>
 /// </summary>
 public sealed partial class GamepadSessionIsolation : BackgroundService
 {
@@ -46,11 +51,13 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private static readonly TimeSpan HidHideRetry  = TimeSpan.FromSeconds(15);
     private static readonly TimeSpan PhysicalRescan = TimeSpan.FromSeconds(30);
 
-    [GeneratedRegex(@"^\[(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d{3})\]: \w+: Gamepad \d+ will be", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\[(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d{3})\]: \w+: Gamepad (\d+) will be", RegexOptions.Multiline)]
     private static partial Regex GamepadCreatedRegex();
 
     private readonly StreamSessionService _sessions;
     private readonly Seats.SeatManager _seats;
+    private readonly Mosaic.MosaicService _mosaic;
+    private int _mosaicGeneration;
 
     private sealed class Pad
     {
@@ -59,6 +66,9 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         public Guid? Session;
         public string SessionName = "";
         public uint WindowsSession;
+        /// <summary>Sesión cuyo Sunshine lo creó y su número en ese Sunshine (-1 si no se sabe).</summary>
+        public Guid? Creator;
+        public int Index = -1;
         public bool GaveUp;
         public readonly HashSet<string> Hidden    = new(StringComparer.OrdinalIgnoreCase);
         public readonly HashSet<string> Restarted = new(StringComparer.OrdinalIgnoreCase);
@@ -68,7 +78,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     {
         public long Offset;
         public byte[] Head = [];
-        public readonly List<DateTime> Pending = [];   // creaciones aún sin mando asignado
+        public readonly List<(DateTime At, int Index)> Pending = [];   // creaciones aún sin mando asignado
     }
 
     private readonly Dictionary<string, Pad>     _pads    = new(StringComparer.OrdinalIgnoreCase);
@@ -87,10 +97,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private int _seatGeneration = -1;
     private const uint NoSession = 0xFFFFFFFF;
 
-    public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats)
+    public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats, Mosaic.MosaicService mosaic)
     {
         _sessions = sessions;
         _seats    = seats;
+        _mosaic   = mosaic;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -257,6 +268,13 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             var pad = Track(id, running);
             if (pad.Session is not null) Hide(pad);
         }
+
+        int generation = _mosaic.Generation;
+        if (generation != _mosaicGeneration)
+        {
+            _mosaicGeneration = generation;
+            foreach (var pad in _pads.Values) Retarget(pad);
+        }
     }
 
     private Pad Track(string padId,
@@ -280,18 +298,21 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         IReadOnlyList<(Guid Id, string Name, uint RdpSessionId, string SunshineLog)> running, DateTime now)
     {
         Guid? owner = null;
-        DateTime best = DateTime.MaxValue;
+        (DateTime At, int Index) best = (DateTime.MaxValue, -1);
         foreach (var (sessionId, cursor) in _cursors)
         {
-            foreach (var t in cursor.Pending)
+            foreach (var e in cursor.Pending)
             {
-                if (t < pad.FirstSeen - MatchBefore || t > pad.FirstSeen + MatchAfter) continue;
-                if (t < best) { best = t; owner = sessionId; }
+                if (e.At < pad.FirstSeen - MatchBefore || e.At > pad.FirstSeen + MatchAfter) continue;
+                if (e.At < best.At) { best = e; owner = sessionId; }
             }
         }
 
         if (owner is { } o)
+        {
             _cursors[o].Pending.Remove(best);
+            pad.Index = best.Index;
+        }
         else if (running.Count == 1)
             owner = running[0].Id;                    // sin línea en el log, pero solo hay una sesión
         else if (now - pad.FirstSeen < AssignTimeout)
@@ -305,10 +326,44 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
         var session = running.FirstOrDefault(s => s.Id == owner);
         if (session.Id == Guid.Empty) return;         // la sesión del log ya no está en marcha
+        pad.Creator = owner;
+
+        // Mosaico: el mando N de la anfitriona es de la sesión N.
+        if (_mosaic.PadTarget(session.Id, pad.Index) is { } target && target != session.Id &&
+            _sessions.Get(target) is { RdpSessionId: > 0 } member)
+        {
+            pad.Session = target;
+            pad.SessionName = member.Name;
+            pad.WindowsSession = member.RdpSessionId;
+            Logger.Log($"[Gamepad] Mando {pad.Index} de '{session.Name}' ({pad.InstanceId}) → sesión '{member.Name}' del mosaico (sesión de Windows {member.RdpSessionId})", target);
+            return;
+        }
         pad.Session = owner;
         pad.SessionName = session.Name;
         pad.WindowsSession = session.RdpSessionId;
         Logger.Log($"[Gamepad] Mando {pad.InstanceId} → sesión '{session.Name}' (sesión de Windows {session.RdpSessionId})", owner);
+    }
+
+    /// <summary>
+    /// El mosaico cambió: el mando va a la sesión que le toca ahora (o vuelve a la que lo creó)
+    /// y, si cambia, se oculta de nuevo con la sesión nueva y se reinicia para cerrar los handles
+    /// que tuviera abiertos la anterior.
+    /// </summary>
+    private void Retarget(Pad pad)
+    {
+        if (pad.Creator is not { } creator || pad.Session is null) return;
+        var target = _mosaic.PadTarget(creator, pad.Index) ?? creator;
+        if (_sessions.Get(target) is not { RdpSessionId: > 0 } session) return;
+        if (target == pad.Session && session.RdpSessionId == pad.WindowsSession) return;
+
+        if (pad.Hidden.Count > 0 && !UpdateJails(add: [], remove: pad.Hidden)) return;
+        pad.Hidden.Clear();
+        pad.Restarted.Clear();
+        pad.Session = target;
+        pad.SessionName = session.Name;
+        pad.WindowsSession = session.RdpSessionId;
+        Logger.Log($"[Gamepad] Mando {pad.Index} ({pad.InstanceId}) pasa a la sesión '{session.Name}' (sesión de Windows {session.RdpSessionId}) por un cambio en el mosaico.", target);
+        Hide(pad);
     }
 
     private void ReadGamepadEvents(Guid sessionId, string logPath)
@@ -335,9 +390,9 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             {
                 if (DateTime.TryParseExact(m.Groups[1].Value, "yyyy-MM-dd HH:mm:ss.fff",
                         CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var t) && t >= cutoff)
-                    cur.Pending.Add(t);
+                    cur.Pending.Add((t, int.TryParse(m.Groups[2].ValueSpan, CultureInfo.InvariantCulture, out var n) ? n : -1));
             }
-            cur.Pending.RemoveAll(t => t < cutoff);
+            cur.Pending.RemoveAll(e => e.At < cutoff);
         }
         catch (IOException) { /* Sunshine escribiendo; se reintenta en la siguiente pasada */ }
     }
@@ -415,8 +470,20 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         foreach (var gone in _physical.Keys.Where(id => !Cm.Exists(id)).ToList())
             _physical.Remove(gone);
 
-        HidePhysical(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null).ToList());
+        HidePhysical(WithHidHideChildren(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null)));
     }
+
+    /// <summary>
+    /// Cada mando con sus nodos hijos de las clases que filtra HidHide. Un mando Xbox One (GIP)
+    /// puede publicar la entrada también por colecciones HID hijas que Windows no marca como
+    /// mando (p. ej. "definidas por el fabricante"): sin ocultarlas, otras sesiones lo leían
+    /// por ahí aunque el nodo del mando estuviera oculto (issue #11).
+    /// </summary>
+    private static List<string> WithHidHideChildren(IEnumerable<string> controllers) =>
+        controllers
+            .SelectMany(id => Cm.Descendants(id).Where(Cm.IsHidHideClass).Prepend(id))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
 
     /// <summary>
     /// Deja cada mando físico visible solo en su sesión destino: la del puesto que lo reclama
@@ -620,7 +687,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             finally { Marshal.FreeHGlobal(filter); }
         }
 
-        public static IEnumerable<string> DeviceIds(string filter,
+        public static IEnumerable<string> DeviceIds(string? filter,
             int flags = CM_GETIDLIST_FILTER_ENUMERATOR | CM_GETIDLIST_FILTER_PRESENT)
         {
             if (CM_Get_Device_ID_List_SizeW(out int len, filter, flags) != CR_SUCCESS || len <= 1) return [];
@@ -725,6 +792,69 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             }
             return result;
         }
+
+        private const int CM_DRP_DEVICEDESC   = 0x1;
+        private const int CM_DRP_SERVICE      = 0x5;
+        private const int CM_DRP_FRIENDLYNAME = 0xD;
+        private const int CM_DRP_UPPERFILTERS = 0x12;
+        private const int CM_DRP_LOWERFILTERS = 0x13;
+
+        /// <summary>Todos los nodos presentes.</summary>
+        public static IEnumerable<string> AllPresent() => DeviceIds(null, CM_GETIDLIST_FILTER_PRESENT);
+
+        /// <summary>Servicio (driver de función) del nodo, o null.</summary>
+        public static string? ServiceOf(string deviceId) => RegistryStrings(deviceId, CM_DRP_SERVICE).FirstOrDefault();
+
+        /// <summary>
+        /// Una línea con lo que hace falta para saber por dónde llega un mando a una sesión:
+        /// nombre, clase, driver, filtros y estado (o código de problema).
+        /// </summary>
+        public static string Describe(string deviceId)
+        {
+            string name = RegistryStrings(deviceId, CM_DRP_FRIENDLYNAME).FirstOrDefault()
+                       ?? RegistryStrings(deviceId, CM_DRP_DEVICEDESC).FirstOrDefault() ?? "";
+            int semi = name.LastIndexOf(';');
+            if (semi >= 0) name = name[(semi + 1)..];   // "@oem12.inf,%desc%;Nombre"
+            string cls = ClassGuid(deviceId) switch
+            {
+                null => "-",
+                var c when c.Equals(HidClass, StringComparison.OrdinalIgnoreCase) => "HID",
+                var c when c.Equals(XnaCompositeClass, StringComparison.OrdinalIgnoreCase) => "XUSB (Xbox 360)",
+                var c when c.Equals(XboxCompositeClass, StringComparison.OrdinalIgnoreCase) => "XboxComposite (Xbox One/GIP)",
+                var c => c,
+            };
+            string state = "?";
+            if (CM_Locate_DevNodeW(out int inst, deviceId, CM_LOCATE_DEVNODE_NORMAL) == CR_SUCCESS &&
+                CM_Get_DevNode_Status(out uint status, out uint problem, inst, 0) == CR_SUCCESS)
+                state = problem != 0 ? $"problema {problem}" : (status & DN_STARTED) != 0 ? "arrancado" : "sin arrancar";
+            string Join(int prop) => string.Join(",", RegistryStrings(deviceId, prop)) is { Length: > 0 } v ? v : "-";
+            return $"{deviceId} | {name} | clase {cls} | driver {ServiceOf(deviceId) ?? "-"} | " +
+                   $"filtros sup. {Join(CM_DRP_UPPERFILTERS)} inf. {Join(CM_DRP_LOWERFILTERS)} | {state}";
+        }
+
+        /// <summary>
+        /// Dispositivo físico del que cuelga un nodo: se sube mientras el padre no sea un hub
+        /// USB, un bus o la raíz (máximo 8 niveles).
+        /// </summary>
+        public static string RootOf(string deviceId)
+        {
+            string current = deviceId;
+            for (int i = 0; i < 8 && Parent(current) is { } parent; i++)
+            {
+                if (IsBusOrHub(parent)) break;
+                current = parent;
+            }
+            return current;
+        }
+
+        private static bool IsBusOrHub(string deviceId) =>
+            deviceId.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"PCI", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"ACPI", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"ROOT", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"HTREE", StringComparison.OrdinalIgnoreCase) ||
+            deviceId.StartsWith(@"BTH", StringComparison.OrdinalIgnoreCase) ||
+            HardwareIds(deviceId).Any(h => h.StartsWith(@"USB\Class_09", StringComparison.OrdinalIgnoreCase));
 
         private static string? Id(int devInst)
         {

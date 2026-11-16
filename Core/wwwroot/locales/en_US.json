@@ -713,5 +713,22 @@
   "view.list": "List",
   "new.userNoneLocal": "There are no enabled local users on this PC. Create one in Windows Settings › Accounts.",
   "new.userTagConsole": "this PC's desktop",
-  "new.userTagInUse": "in use: {name}"
+  "new.userTagInUse": "in use: {name}",
+  "mosaic.join": "Join another session's stream…",
+  "mosaic.join_disabled": "Not available for a local session or while it is starting or stopping.",
+  "mosaic.joinTo": "Join {name} (part {n} of 4)",
+  "mosaic.leave": "Leave the mosaic",
+  "mosaic.dissolve": "End the mosaic",
+  "mosaic.noHosts": "No other session is streaming to a client right now.",
+  "mosaic.joining": "Joining {name} to {host}'s stream… The sessions reconnect to the size of their part.",
+  "mosaic.joined": "{name} is now in {host}'s stream.",
+  "mosaic.left": "{name} left the mosaic.",
+  "mosaic.dissolved": "Mosaic ended: {name} is back to full screen.",
+  "mosaic.hostChip": "Mosaic {n}/4",
+  "mosaic.guestChip": "In {name}'s mosaic",
+  "mosaic.member": "Controller {n} → {name}",
+  "mosaic.chip_title": "Up to 4 sessions share this stream. Each controller goes to one session in order of arrival: {list}",
+  "mosaic.stack": "Put one above the other",
+  "mosaic.sideBySide": "Put them side by side",
+  "mosaic.relayout": "Rearranging… both sessions reconnect to their new half."
 }
