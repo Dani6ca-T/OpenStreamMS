@@ -164,8 +164,9 @@ internal static class SeatDeviceAccess
                 Security.Set(n, sddl);
             }
             // La ACL solo cuenta para el objeto de dispositivo nuevo: reiniciar el nodo raíz rehace
-            // el árbol y cierra lo que tuviera abierto la consola u otra sesión.
-            GamepadSessionIsolation.DevSetup.Restart(device);
+            // el árbol y cierra lo que tuviera abierto la consola u otra sesión. Si alguien lo tiene
+            // abierto y Windows aplaza el reinicio, se recicla el puerto USB.
+            GamepadSessionIsolation.DevSetup.RestartOrCycle(device, $"para reservarlo al puesto '{seatName}'");
             // Los hijos que aparezcan con otro id al reiniciar (raro) los cubre OnDeviceArrived.
             Logger.Log($"[SeatAccess] '{seatName}': {device} reservado ({nodes.Count} nodo(s)); las demás sesiones no pueden abrirlo.");
             return true;
@@ -192,7 +193,7 @@ internal static class SeatDeviceAccess
                     Security.Set(n, byId[n].OriginalSds);
                 Journal(remove: n);
             }
-            GamepadSessionIsolation.DevSetup.Restart(device);
+            GamepadSessionIsolation.DevSetup.RestartOrCycle(device, "para devolverlo a todas las sesiones");
             Logger.Log($"[SeatAccess] {device} vuelve a estar disponible para todas las sesiones.");
         }
         catch (Exception ex)

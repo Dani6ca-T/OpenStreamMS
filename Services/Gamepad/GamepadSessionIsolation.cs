@@ -752,8 +752,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (!started.Contains(node) || !(moved || otherSessions)) continue;
             try
             {
-                DevSetup.Restart(node);
-                if (moved) Logger.Log($"[Gamepad] {node} reiniciado: la sesión {previous} deja de leerlo.");
+                // Al cambiar de sesión, si alguien lo tiene abierto (Steam) se recicla el puerto: el
+                // jail no revoca handles. Al aparecer no: lo abriría enseguida la sesión destino y se
+                // entraría en bucle.
+                bool ok = moved ? DevSetup.RestartOrCycle(node, $"para que la sesión {previous} deje de leerlo")
+                                : DevSetup.Restart(node);
+                if (moved && ok) Logger.Log($"[Gamepad] {node} reiniciado: la sesión {previous} deja de leerlo.");
             }
             catch (Win32Exception ex)
             {
@@ -1029,6 +1033,18 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             return Encoding.Unicode.GetString(buf, 0, len).Split('\0', StringSplitOptions.RemoveEmptyEntries);
         }
 
+        private const int CM_DRP_ADDRESS = 0x1D;
+
+        /// <summary>Dirección del nodo en su bus (para un USB, el número de puerto del hub).</summary>
+        public static uint? Address(string deviceId)
+        {
+            if (CM_Locate_DevNodeW(out int inst, deviceId, CM_LOCATE_DEVNODE_NORMAL) != CR_SUCCESS) return null;
+            var buf = new byte[4];
+            int len = 4;
+            return CM_Get_DevNode_Registry_PropertyW(inst, CM_DRP_ADDRESS, out _, buf, ref len, 0) == CR_SUCCESS
+                ? BitConverter.ToUInt32(buf, 0) : null;
+        }
+
         public static string? Parent(string deviceId) =>
             CM_Locate_DevNodeW(out int inst, deviceId, CM_LOCATE_DEVNODE_NORMAL) == CR_SUCCESS
             && CM_Get_Parent(out int parent, inst, 0) == CR_SUCCESS
@@ -1211,9 +1227,18 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         private static extern bool SetupDiCallClassInstaller(int function, IntPtr set, ref SP_DEVINFO_DATA data);
         [DllImport("setupapi.dll")]
         private static extern bool SetupDiDestroyDeviceInfoList(IntPtr set);
+        [DllImport("setupapi.dll", SetLastError = true)]
+        private static extern bool SetupDiGetDeviceInstallParamsW(IntPtr set, ref SP_DEVINFO_DATA data, IntPtr p);
 
-        /// <summary>Reinicia el dispositivo (DIF_PROPERTYCHANGE), como "deshabilitar y habilitar".</summary>
-        public static void Restart(string instanceId)
+        private const int DI_NEEDRESTART = 0x80;
+        private const int DI_NEEDREBOOT = 0x100;
+
+        /// <summary>
+        /// Reinicia el dispositivo (DIF_PROPERTYCHANGE), como "deshabilitar y habilitar". Devuelve
+        /// false si Windows lo aplazó al próximo arranque: alguien lo tiene abierto y no lo suelta
+        /// (Steam), así que sigue funcionando con sus handles. Ver <see cref="RestartOrCycle"/>.
+        /// </summary>
+        public static bool Restart(string instanceId)
         {
             IntPtr set = SetupDiCreateDeviceInfoList(IntPtr.Zero, IntPtr.Zero);
             if (set == new IntPtr(-1)) throw new Win32Exception();
@@ -1230,8 +1255,78 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 if (!SetupDiSetClassInstallParamsW(set, ref d, ref p, Marshal.SizeOf<SP_PROPCHANGE_PARAMS>()) ||
                     !SetupDiCallClassInstaller(DIF_PROPERTYCHANGE, set, ref d))
                     throw new Win32Exception();
+                return !NeedsReboot(set, ref d);
             }
             finally { SetupDiDestroyDeviceInfoList(set); }
+        }
+
+        private static bool NeedsReboot(IntPtr set, ref SP_DEVINFO_DATA d)
+        {
+            // SP_DEVINSTALL_PARAMS_W: cbSize, Flags, … DriverPath[260]; solo se leen los dos primeros campos.
+            int size = IntPtr.Size == 8 ? 584 : 556;
+            IntPtr buf = Marshal.AllocHGlobal(size);
+            try
+            {
+                for (int i = 0; i < size; i++) Marshal.WriteByte(buf, i, 0);
+                Marshal.WriteInt32(buf, size);
+                if (!SetupDiGetDeviceInstallParamsW(set, ref d, buf)) return false;
+                return (Marshal.ReadInt32(buf, 4) & (DI_NEEDRESTART | DI_NEEDREBOOT)) != 0;
+            }
+            finally { Marshal.FreeHGlobal(buf); }
+        }
+
+        /// <summary>
+        /// Reinicia el nodo; si Windows lo aplaza porque alguien lo tiene abierto, desconecta y
+        /// reconecta su puerto USB (como desenchufarlo): eso no se puede rechazar y cierra todos
+        /// los handles. Devuelve false si no se consiguió ninguna de las dos cosas.
+        /// </summary>
+        public static bool RestartOrCycle(string instanceId, string why)
+        {
+            if (Restart(instanceId)) return true;
+            if (UsbPort.Cycle(instanceId, out var detail))
+            {
+                Logger.Log($"[Gamepad] {instanceId}: alguien lo tenía abierto y Windows aplazó el reinicio; " +
+                           $"se ha desconectado y reconectado su puerto USB ({detail}) {why}.");
+                return true;
+            }
+            Logger.Warning($"[Gamepad] {instanceId}: Windows aplazó el reinicio (lo tiene abierto otro proceso) y no se pudo " +
+                           $"reciclar su puerto USB ({detail}). Lo sigue leyendo quien ya lo tuviera abierto hasta que lo cierre.");
+            return false;
+        }
+    }
+
+    /// <summary>Desconexión y reconexión por software del puerto de un hub (IOCTL_USB_HUB_CYCLE_PORT).</summary>
+    internal static class UsbPort
+    {
+        private const uint IOCTL_USB_HUB_CYCLE_PORT = 0x220444;
+        private static readonly Guid HubInterface = new("f18a0e88-c30c-11d0-8815-00a0c906bed8");
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern SafeFileHandle CreateFileW(string name, uint access, uint share, IntPtr sa, uint disposition, uint flags, IntPtr template);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool DeviceIoControl(SafeFileHandle device, uint code, byte[] inBuf, int inSize, byte[] outBuf, int outSize, out int returned, IntPtr overlapped);
+        [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)]
+        private static extern int CM_Get_Device_Interface_List_SizeW(out int len, ref Guid g, string device, int flags);
+        [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)]
+        private static extern int CM_Get_Device_Interface_ListW(ref Guid g, string device, char[] buffer, int len, int flags);
+
+        /// <summary>Recicla el puerto del hub donde está el dispositivo USB del que cuelga el nodo.</summary>
+        public static bool Cycle(string instanceId, out string detail)
+        {
+            if (DeviceTopology.UsbDeviceRootOf(instanceId) is not { } usb) { detail = "no cuelga de un USB"; return false; }
+            if (Cm.Parent(usb) is not { } hub || Cm.Address(usb) is not { } port) { detail = $"sin hub ni puerto para {usb}"; return false; }
+            var g = HubInterface;
+            if (CM_Get_Device_Interface_List_SizeW(out int len, ref g, hub, 0) != 0 || len < 2) { detail = $"{hub} no es un hub"; return false; }
+            var chars = new char[len];
+            if (CM_Get_Device_Interface_ListW(ref g, hub, chars, len, 0) != 0) { detail = $"{hub} no es un hub"; return false; }
+            string path = new string(chars).Split('\0', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+            using var h = CreateFileW(path, 0xC0000000, 3, IntPtr.Zero, 3, 0, IntPtr.Zero);
+            if (h.IsInvalid) { detail = $"abrir {hub}: error {Marshal.GetLastWin32Error()}"; return false; }
+            var buf = new byte[8];
+            BitConverter.GetBytes(port).CopyTo(buf, 0);
+            bool ok = DeviceIoControl(h, IOCTL_USB_HUB_CYCLE_PORT, buf, 8, buf, 8, out _, IntPtr.Zero);
+            detail = ok ? $"{hub}, puerto {port}" : $"{hub}, puerto {port}: error {Marshal.GetLastWin32Error()}";
+            return ok;
         }
     }
 }
