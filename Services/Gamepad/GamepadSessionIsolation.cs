@@ -562,6 +562,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
         HidePhysical(WithHidHideChildren(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null)));
         SyncSideInputs();
+        SyncGuideButton();
     }
 
     /// <summary>
@@ -613,6 +614,32 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         foreach (var node in _sideInputs)
             if (Cm.Exists(node)) Seats.UsbCapture.Release(node);
         _sideInputs.Clear();
+        Seats.GuideButtonGuard.Release(_guideSids.ToList());
+        _guideSids.Clear();
+    }
+
+    /// <summary>Usuarios a los que este servicio apagó la Game Bar del botón Guía.</summary>
+    private readonly HashSet<string> _guideSids = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// El botón Guía no pasa por HidHide: Windows lo lee desde un servicio del sistema y abre la
+    /// Game Bar en todas las sesiones. Los puestos ya lo apagan mientras están encendidos
+    /// (<see cref="Seats.GuideButtonGuard"/>); aquí se hace lo mismo mientras un mando físico
+    /// vaya a una sesión de stream: para el usuario de esa sesión y el de la consola.
+    /// </summary>
+    private void SyncGuideButton()
+    {
+        var want = _physical.Where(p => p.Value != _console && Cm.Exists(p.Key))
+                            .Select(p => p.Value)
+                            .Distinct()
+                            .SelectMany(Seats.GuideButtonGuard.UsersFor)
+                            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var add = want.Except(_guideSids, StringComparer.OrdinalIgnoreCase).ToList();
+        var remove = _guideSids.Except(want, StringComparer.OrdinalIgnoreCase).ToList();
+        if (add.Count > 0) Seats.GuideButtonGuard.Engage(add);
+        if (remove.Count > 0) Seats.GuideButtonGuard.Release(remove);
+        _guideSids.ExceptWith(remove);
+        _guideSids.UnionWith(add);
     }
 
     /// <summary>
