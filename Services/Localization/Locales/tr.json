@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' oturumuna bağlı bir istemci var. Önce bağlantısını kesin.",
   "error.compositeMemberStart": "'{0}' zamanında başlamadı.",
   "error.compositeMemberDelete": "'{0}', '{1}' birleşik oturumunda. Silmeden önce oradan çıkarın.",
-  "error.compositeInUse": "'{0}' çalışan bir birleşik oturumda."
+  "error.compositeInUse": "'{0}' çalışan bir birleşik oturumda.",
+  "ext.busy": "Başka bir uzantı işlemi sürüyor. Bitmesini bekleyin.",
+  "ext.notFound": "'{0}' uzantısı yüklü değil.",
+  "ext.invalidSource": "'{0}' geçerli bir GitHub bağlantısı değil.",
+  "ext.previewExpired": "Denetimin süresi doldu. Uzantıyı yeniden denetleyin.",
+  "ext.hashMismatch": "Paket, denetlediğiniz paket değil. Uzantıyı yeniden denetleyin.",
+  "ext.catalogHashMismatch": "Paket katalogla eşleşmiyor (beklenen SHA-256 {0}, alınan {1}). Hiçbir şey yüklenmedi.",
+  "ext.idMismatch": "Katalogda '{0}' yazıyor, ancak paket '{1}'.",
+  "ext.otherSource": "'{0}' uzantısı zaten {1} kaynağından yüklü. Değiştirmek istediğinizi onaylayın.",
+  "ext.incompatible": "Bu uzantı OpenStreamMS {0} veya üstünü gerektirir (bu sürüm {1}).",
+  "ext.scriptFailed": "{0} başarısız oldu (çıkış kodu {1}). Uzantının günlüğüne bakın.",
+  "ext.catalogExists": "Bu katalog zaten listede.",
+  "ext.catalogNotFound": "Bu katalog listede yok.",
+  "ext.catalogEntryMissing": "Katalog artık {0} içermiyor.",
+  "ext.invalidPackage": "Paket geçerli bir uzantı değil: {0}",
+  "ext.noManifest": "Pakette {0} yok."
 }

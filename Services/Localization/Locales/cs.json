@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' má připojeného klienta. Nejprve ho odpojte.",
   "error.compositeMemberStart": "'{0}' se nespustila včas.",
   "error.compositeMemberDelete": "'{0}' je ve složené relaci '{1}'. Před smazáním ji odtud odeberte.",
-  "error.compositeInUse": "'{0}' je ve spuštěné složené relaci."
+  "error.compositeInUse": "'{0}' je ve spuštěné složené relaci.",
+  "ext.busy": "Probíhá jiná operace s rozšířeními. Počkejte, až skončí.",
+  "ext.notFound": "Rozšíření '{0}' není nainstalováno.",
+  "ext.invalidSource": "'{0}' není platný odkaz na GitHub.",
+  "ext.previewExpired": "Ověření vypršelo. Ověřte rozšíření znovu.",
+  "ext.hashMismatch": "Balíček není ten, který jste ověřili. Ověřte rozšíření znovu.",
+  "ext.catalogHashMismatch": "Balíček neodpovídá katalogu (očekáván SHA-256 {0}, přijat {1}). Nic nebylo nainstalováno.",
+  "ext.idMismatch": "Katalog uvádí '{0}', ale balíček je '{1}'.",
+  "ext.otherSource": "Rozšíření '{0}' je už nainstalováno z {1}. Potvrďte, že ho chcete nahradit.",
+  "ext.incompatible": "Toto rozšíření vyžaduje OpenStreamMS {0} nebo novější (tato verze je {1}).",
+  "ext.scriptFailed": "{0} selhal (návratový kód {1}). Podívejte se do protokolu rozšíření.",
+  "ext.catalogExists": "Tento katalog už v seznamu je.",
+  "ext.catalogNotFound": "Tento katalog v seznamu není.",
+  "ext.catalogEntryMissing": "Katalog už neuvádí {0}.",
+  "ext.invalidPackage": "Balíček není platné rozšíření: {0}",
+  "ext.noManifest": "Balíček neobsahuje {0}."
 }

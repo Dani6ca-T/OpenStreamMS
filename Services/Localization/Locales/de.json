@@ -92,5 +92,20 @@
   "error.compositeStreaming": "Mit '{0}' ist ein Client verbunden. Trenne ihn zuerst.",
   "error.compositeMemberStart": "'{0}' ist nicht rechtzeitig gestartet.",
   "error.compositeMemberDelete": "'{0}' ist in der kombinierten Sitzung '{1}'. Entferne sie dort, bevor du sie löschst.",
-  "error.compositeInUse": "'{0}' ist in einer laufenden kombinierten Sitzung."
+  "error.compositeInUse": "'{0}' ist in einer laufenden kombinierten Sitzung.",
+  "ext.busy": "Ein anderer Erweiterungsvorgang läuft gerade. Warte, bis er abgeschlossen ist.",
+  "ext.notFound": "Die Erweiterung '{0}' ist nicht installiert.",
+  "ext.invalidSource": "'{0}' ist kein gültiger GitHub-Link.",
+  "ext.previewExpired": "Die Prüfung ist abgelaufen. Prüfe die Erweiterung erneut.",
+  "ext.hashMismatch": "Das Paket ist nicht das geprüfte. Prüfe die Erweiterung erneut.",
+  "ext.catalogHashMismatch": "Das Paket stimmt nicht mit dem Katalog überein (erwartet SHA-256 {0}, erhalten {1}). Es wurde nichts installiert.",
+  "ext.idMismatch": "Der Katalog nennt '{0}', das Paket ist aber '{1}'.",
+  "ext.otherSource": "Die Erweiterung '{0}' ist bereits aus {1} installiert. Bestätige, dass du sie ersetzen willst.",
+  "ext.incompatible": "Diese Erweiterung benötigt OpenStreamMS {0} oder neuer (installiert ist {1}).",
+  "ext.scriptFailed": "{0} ist fehlgeschlagen (Exitcode {1}). Siehe das Protokoll der Erweiterung.",
+  "ext.catalogExists": "Dieser Katalog ist bereits in der Liste.",
+  "ext.catalogNotFound": "Dieser Katalog ist nicht in der Liste.",
+  "ext.catalogEntryMissing": "Der Katalog führt {0} nicht mehr.",
+  "ext.invalidPackage": "Das Paket ist keine gültige Erweiterung: {0}",
+  "ext.noManifest": "Das Paket enthält kein {0}."
 }

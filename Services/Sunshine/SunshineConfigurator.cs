@@ -173,6 +173,49 @@ namespace OpenStreamMS.Services.Sunshine
         /// (el usuario de la sesión no puede apagar con otros usuarios conectados).
         /// Rutas absolutas a la instalación actual; las reescribe si cambian. Idempotente.
         /// </summary>
+        /// <summary>Marca de las entradas de apps.json que pone una extensión (su id).</summary>
+        public const string ExtensionAppKey = "osms-extension";
+
+        /// <summary>
+        /// Deja en apps.json justo las apps de las extensiones activas: quita las que puso una
+        /// extensión (marcadas con <see cref="ExtensionAppKey"/>) y las vuelve a añadir al final.
+        /// Una app del usuario con el mismo nombre que una de extensión se sustituye (si no,
+        /// Moonlight enseñaría dos iguales). Devuelve si cambió algo.
+        /// </summary>
+        public static bool MergeExtensionApps(JsonArray apps, IReadOnlyList<(string ExtensionId, JsonObject App)> extApps)
+        {
+            var names = new HashSet<string>(extApps.Select(a => a.App["name"]!.GetValue<string>()), StringComparer.OrdinalIgnoreCase);
+            var before = apps.ToJsonString();
+
+            for (int i = apps.Count - 1; i >= 0; i--)
+            {
+                if (apps[i] is not JsonObject o) continue;
+                var name = o["name"]?.GetValue<string>();
+                if (o.ContainsKey(ExtensionAppKey) || (name is not null && names.Contains(name)))
+                    apps.RemoveAt(i);
+            }
+            foreach (var (id, app) in extApps)
+            {
+                var copy = (JsonObject)app.DeepClone();
+                copy[ExtensionAppKey] = id;
+                apps.Add(copy);
+            }
+            return apps.ToJsonString() != before;
+        }
+
+        public static void ConfigureExtensionApps(string sunshineExePath, IReadOnlyList<(string ExtensionId, JsonObject App)> extApps)
+        {
+            string appsFile = Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "config", "apps.json");
+            if (!File.Exists(appsFile)) return;
+            JsonObject root = JsonNode.Parse(File.ReadAllText(appsFile))?.AsObject() ?? new JsonObject();
+            if (root["apps"] is not JsonArray apps) return;
+            if (MergeExtensionApps(apps, extApps))
+            {
+                File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
+                Logger.Log($"[SunshineCfg] Apps de extensiones actualizadas ({extApps.Count}): {appsFile}");
+            }
+        }
+
         public static void ConfigurePowerEntries(string sunshineExePath)
         {
             string appsFile = Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "config", "apps.json");

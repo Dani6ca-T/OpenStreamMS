@@ -92,5 +92,20 @@
   "error.compositeStreaming": "'{0}' har en ansluten klient. Koppla från den först.",
   "error.compositeMemberStart": "'{0}' startade inte i tid.",
   "error.compositeMemberDelete": "'{0}' ingår i den sammansatta sessionen '{1}'. Ta bort den därifrån innan du raderar den.",
-  "error.compositeInUse": "'{0}' ingår i en sammansatt session som körs."
+  "error.compositeInUse": "'{0}' ingår i en sammansatt session som körs.",
+  "ext.busy": "En annan tilläggsåtgärd pågår. Vänta tills den är klar.",
+  "ext.notFound": "Tillägget '{0}' är inte installerat.",
+  "ext.invalidSource": "'{0}' är inte en giltig GitHub-länk.",
+  "ext.previewExpired": "Kontrollen har gått ut. Kontrollera tillägget igen.",
+  "ext.hashMismatch": "Paketet är inte det du kontrollerade. Kontrollera tillägget igen.",
+  "ext.catalogHashMismatch": "Paketet stämmer inte med katalogen (förväntad SHA-256 {0}, fick {1}). Inget installerades.",
+  "ext.idMismatch": "Katalogen anger '{0}', men paketet är '{1}'.",
+  "ext.otherSource": "Tillägget '{0}' är redan installerat från {1}. Bekräfta att du vill ersätta det.",
+  "ext.incompatible": "Det här tillägget kräver OpenStreamMS {0} eller senare (detta är {1}).",
+  "ext.scriptFailed": "{0} misslyckades (slutkod {1}). Se tilläggets logg.",
+  "ext.catalogExists": "Den katalogen finns redan i listan.",
+  "ext.catalogNotFound": "Den katalogen finns inte i listan.",
+  "ext.catalogEntryMissing": "Katalogen listar inte längre {0}.",
+  "ext.invalidPackage": "Paketet är inte ett giltigt tillägg: {0}",
+  "ext.noManifest": "Paketet saknar {0}."
 }
