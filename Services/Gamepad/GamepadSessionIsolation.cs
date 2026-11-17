@@ -691,7 +691,14 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         if (nodes.Count == 0) return;
 
         bool otherSessions = _sessions.GetRunningSunshineSessions().Count > 0 || _seats.AnyRunning;
-        var started = nodes.Where(n => Cm.IsOpenableAndStarted(n.Id)).Select(n => n.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        // Se reinicia el nodo más alto de cada rama que cambia: reiniciarlo reinicia también sus
+        // hijos y cierra los handles de todos. Solo las hojas no basta: Steam y XInput abren el
+        // XUSB (MI_00) de un Xbox 360 aunque tenga debajo su colección HID (IG_00), y ese handle
+        // abierto antes del cambio seguía leyendo el mando en la consola.
+        var changed = nodes.Select(n => n.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var started = nodes.Where(n => Cm.IsStarted(n.Id) && !HasAncestorIn(n.Id, changed))
+                           .Select(n => n.Id)
+                           .ToHashSet(StringComparer.OrdinalIgnoreCase);
         if (!UpdateJails(add: nodes.Select(n => HidHide.JailEntry(n.Id, n.Target)), remove: nodes.Select(n => n.Id))) return;
 
         foreach (var (node, target) in nodes)
@@ -713,6 +720,13 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                                "La sesión que ya lo tuviera abierto lo sigue viendo hasta que lo cierre.");
             }
         }
+    }
+
+    private static bool HasAncestorIn(string node, HashSet<string> set)
+    {
+        for (var p = Cm.Parent(node); p is not null; p = Cm.Parent(p))
+            if (set.Contains(p)) return true;
+        return false;
     }
 
     /// <summary>
