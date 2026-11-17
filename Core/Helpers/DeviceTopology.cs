@@ -120,13 +120,17 @@ public static class DeviceTopology
     /// <summary>
     /// Primer antecesor que es un dispositivo USB (no una interfaz <c>&amp;MI_xx</c> de un
     /// compuesto): así un teclado con varias colecciones HID es un único puerto.
+    /// Tampoco el <c>USB\..&amp;IG_xx</c> que xusb22 cuelga del XUSB de un mando Xbox 360: no
+    /// tiene ruta de ubicación y, tomado como dispositivo, su colección HID (la que leen Steam
+    /// y DirectInput) salía como otro puerto y se quedaba en la consola.
     /// </summary>
     private static string? UsbDeviceOf(string instanceId)
     {
         for (string? id = instanceId; id is not null; id = GamepadSessionIsolation.Cm.Parent(id))
         {
             if (!id.StartsWith(@"USB\", StringComparison.OrdinalIgnoreCase)) continue;
-            if (id.Contains("&MI_", StringComparison.OrdinalIgnoreCase)) continue;
+            if (id.Contains("&MI_", StringComparison.OrdinalIgnoreCase) ||
+                id.Contains("&IG_", StringComparison.OrdinalIgnoreCase)) continue;
             return id;
         }
         return null;
