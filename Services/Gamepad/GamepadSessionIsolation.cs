@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 
@@ -122,6 +123,20 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     /// </summary>
     private readonly HashSet<string> _sideInputs = new(StringComparer.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Nodos de mandos físicos vistos alguna vez → su puerto USB, guardado en disco. Un mando
+    /// inalámbrico que se duerme desaparece y vuelve a aparecer al despertar; si su "jail" de
+    /// HidHide no estuviera ya puesto con la sesión correcta, la consola (Steam) lo abría en ese
+    /// instante, antes de que este servicio lo viera. Con esto la entrada se mantiene y se
+    /// reasigna (puesto encendido o apagado) también mientras el mando no está.
+    /// </summary>
+    private readonly Dictionary<string, string> _knownNodes = LoadKnownNodes();
+    /// <summary>Sesión con la que está puesto el jail de cada nodo conocido ausente.</summary>
+    private readonly Dictionary<string, uint> _absent = new(StringComparer.OrdinalIgnoreCase);
+
+    private static readonly string KnownNodesPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenStreamMS", "gamepad-nodes.json");
+
     public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats)
     {
         _sessions = sessions;
@@ -211,8 +226,31 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         else
             Logger.Warning($"[Gamepad] HidHide {version} no aísla por sesión (hace falta {HidHide.MinSessionJailVersion} o posterior): " +
                            "los mandos serán visibles en todas las sesiones. Actualiza HidHide.");
+        LogHidHideExceptions(h);
         RemoveStaleJails();
         return true;
+    }
+
+    /// <summary>
+    /// La lista blanca de HidHide (y su modo inverso) se salta el "jail" de sesión: avisa de
+    /// qué programas pueden leer los mandos de cualquier sesión.
+    /// </summary>
+    private static void LogHidHideExceptions(SafeFileHandle h)
+    {
+        try
+        {
+            var apps = HidHide.GetWhitelist(h);
+            bool inverse = HidHide.GetInverse(h);
+            Logger.Log($"[Gamepad] HidHide: modo inverso {(inverse ? "activado" : "desactivado")}; " +
+                       $"lista blanca ({apps.Count}): {(apps.Count == 0 ? "vacía" : string.Join(" | ", apps))}.");
+            if (!inverse && apps.Count > 0)
+                Logger.Warning("[Gamepad] Los programas de la lista blanca de HidHide ven los mandos de todas las sesiones, " +
+                               "aunque estén asignados a otra.");
+        }
+        catch (Win32Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudo leer la lista blanca de HidHide: {ex.Message}");
+        }
     }
 
     /// <summary>
@@ -561,6 +599,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             _physical.Remove(gone);
 
         HidePhysical(WithHidHideChildren(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null)));
+        JailAbsent();
         SyncSideInputs();
         SyncGuideButton();
     }
@@ -701,8 +740,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                            .ToHashSet(StringComparer.OrdinalIgnoreCase);
         if (!UpdateJails(add: nodes.Select(n => HidHide.JailEntry(n.Id, n.Target)), remove: nodes.Select(n => n.Id))) return;
 
+        Remember(nodes.Select(n => n.Id));
         foreach (var (node, target) in nodes)
         {
+            _absent.Remove(node);
             bool moved = _physical.TryGetValue(node, out var previous);
             _physical[node] = target;
             Logger.Log(target == _console
@@ -733,9 +774,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     /// Sesión de Windows a la que debe ir un mando físico: la de su puesto encendido; si no, la de
     /// la sesión de stream en marcha que lo tenga asignado; si no, la consola.
     /// </summary>
-    private uint TargetSessionFor(string node)
+    private uint TargetSessionFor(string node) =>
+        DeviceTopology.UsbPortOf(node) is { } usb ? TargetSessionForPort(usb) : _console;
+
+    private uint TargetSessionForPort(string usb)
     {
-        if (DeviceTopology.UsbPortOf(node) is not { } usb) return _console;
         if (_seats.TryGetSeatWindowsSession(usb, out var seatSession)) return seatSession;
         if (_sessions.TryGetGamepadWindowsSession(usb, out var streamSession)) return streamSession;
         return _console;
@@ -777,13 +820,76 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     /// </summary>
     private void RemoveStaleJails()
     {
+        // Los nodos conocidos de mandos físicos se quedan: JailAbsent los pone en su sesión.
         var stale = HidHide.GetBlacklist(_hidHide!)
                            .Select(HidHide.JailedInstance)
                            .OfType<string>()
-                           .Where(id => !Cm.Exists(id))
+                           .Where(id => !Cm.Exists(id) && !_knownNodes.ContainsKey(id))
                            .ToList();
         if (stale.Count > 0 && UpdateJails(add: [], remove: stale))
             Logger.Log($"[Gamepad] Quitadas {stale.Count} entradas antiguas de la lista negra de HidHide.");
+    }
+
+    /// <summary>
+    /// Mantiene el jail de los nodos conocidos que ahora no están (mando dormido o desenchufado)
+    /// con la sesión a la que irían por su puerto: al reaparecer, HidHide ya los oculta a las
+    /// demás sesiones desde la primera apertura.
+    /// </summary>
+    private void JailAbsent()
+    {
+        if (_console == NoSession) return;
+        var changes = _knownNodes
+            .Where(k => !Cm.Exists(k.Key))
+            .Select(k => (Id: k.Key, Target: TargetSessionForPort(k.Value)))
+            .Where(n => !_absent.TryGetValue(n.Id, out var s) || s != n.Target)
+            .ToList();
+        if (changes.Count == 0) return;
+        if (!UpdateJails(add: changes.Select(n => HidHide.JailEntry(n.Id, n.Target)), remove: changes.Select(n => n.Id))) return;
+        foreach (var (id, target) in changes)
+        {
+            bool known = _absent.ContainsKey(id);
+            _absent[id] = target;
+            if (known)
+                Logger.Log($"[Gamepad] Mando físico {id} (no conectado ahora) pasa a la sesión {target}: lo estará en cuanto aparezca.");
+        }
+    }
+
+    /// <summary>Anota los nodos con su puerto USB (los que cuelgan de un USB) y guarda si hay nuevos.</summary>
+    private void Remember(IEnumerable<string> nodes)
+    {
+        bool changed = false;
+        foreach (var id in nodes)
+        {
+            if (DeviceTopology.UsbPortOf(id) is not { } port) continue;
+            if (_knownNodes.TryGetValue(id, out var old) && old.Equals(port, StringComparison.OrdinalIgnoreCase)) continue;
+            _knownNodes[id] = port;
+            changed = true;
+        }
+        if (!changed) return;
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(KnownNodesPath)!);
+            File.WriteAllText(KnownNodesPath, JsonSerializer.Serialize(_knownNodes));
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudo guardar {KnownNodesPath}: {ex.Message}");
+        }
+    }
+
+    private static Dictionary<string, string> LoadKnownNodes()
+    {
+        try
+        {
+            if (File.Exists(KnownNodesPath) &&
+                JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(KnownNodesPath)) is { } d)
+                return new Dictionary<string, string>(d, StringComparer.OrdinalIgnoreCase);
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudo leer {KnownNodesPath}: {ex.Message}");
+        }
+        return new(StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
