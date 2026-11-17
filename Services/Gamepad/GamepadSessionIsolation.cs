@@ -1096,6 +1096,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             _ => false,
         };
 
+        public static IEnumerable<string> CompatibleIds(string deviceId) => RegistryStrings(deviceId, CM_DRP_COMPATIBLEIDS);
+
         /// <summary>Mandos presentes (de cualquier origen) en las clases que filtra HidHide.</summary>
         public static IEnumerable<string> GameControllers() =>
             new[] { HidClass, XnaCompositeClass, XboxCompositeClass }

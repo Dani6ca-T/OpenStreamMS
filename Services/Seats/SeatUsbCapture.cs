@@ -90,7 +90,14 @@ internal static class UsbCapture
             using (var k = Registry.LocalMachine.CreateSubKey($@"SYSTEM\CurrentControlSet\Enum\{instanceId}\Device Parameters"))
                 k.SetValue("DeviceInterfaceGUIDs", new[] { InterfaceGuid.ToString("B") }, RegistryValueKind.MultiString);
 
-            Setup.Install(instanceId, winUsb: true, rollbackClass: cls);
+            if (Setup.Install(instanceId, winUsb: true, rollbackClass: cls))
+            {
+                // Windows aplazó el cambio de driver: alguien tiene el nodo abierto (Steam con un
+                // mando). Desconectar y reconectar el puerto lo aplica ya y cierra esos handles.
+                bool cycled = GamepadSessionIsolation.UsbPort.Cycle(instanceId, out var detail);
+                Logger.Log($"[SeatUsb] {instanceId}: el cambio a WinUSB quedó pendiente (lo tenía abierto otro proceso); " +
+                           (cycled ? $"se ha reconectado su puerto USB ({detail})." : $"no se pudo reconectar el puerto ({detail})."));
+            }
             return true;
         }
         catch (Exception ex)
@@ -258,7 +265,7 @@ internal static class UsbCapture
         /// tenía antes) o, si ya no está, el de <c>input.inf</c>, que vuelve a poner la clase HID.
         /// Lanza una excepción si no se pudo.
         /// </summary>
-        public static void Install(string instanceId, bool winUsb, string? rollbackClass = null, string? preferInf = null)
+        public static bool Install(string instanceId, bool winUsb, string? rollbackClass = null, string? preferInf = null)
         {
             IntPtr set = SetupDiCreateDeviceInfoList(IntPtr.Zero, IntPtr.Zero);
             var dev = new SP_DEVINFO_DATA { cbSize = Marshal.SizeOf<SP_DEVINFO_DATA>() };
@@ -317,10 +324,11 @@ internal static class UsbCapture
                 *(int*)drv = DRVINFO_SIZE;
                 if (!SetupDiEnumDriverInfoW(set, ref dev, listType, best, drv))
                     throw new InvalidOperationException($"SetupDiEnumDriverInfo ({Marshal.GetLastWin32Error()})");
-                if (!DiInstallDevice(IntPtr.Zero, set, ref dev, drv, 0, out _))
+                if (!DiInstallDevice(IntPtr.Zero, set, ref dev, drv, 0, out bool needReboot))
                     throw new InvalidOperationException($"DiInstallDevice ({Marshal.GetLastWin32Error():X})");
                 classChanged = false;
                 Logger.Log($"[SeatUsb] {instanceId} → {new string((char*)(drv + 16))} ({wanted[bestRank]}).");
+                return needReboot;
             }
             catch when (classChanged && rollbackClass is not null)
             {
