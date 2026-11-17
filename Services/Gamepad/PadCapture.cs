@@ -103,9 +103,13 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                 var report = new byte[64];
                 var last = default(PadState);
                 bool first = true;
+                int traced = 0, sent = 0;
+                long lastSent = 0;
                 fixed (byte* buf = report)
                     while (!_stopping && WinUsb_ReadPipe(_winusb, inPipe, buf, report.Length, out int read, IntPtr.Zero))
                     {
+                        // Diagnóstico: los primeros informes en crudo, para ver el formato real del mando.
+                        if (traced < 6) { traced++; Logger.Log($"[PadCapture] informe ({read} bytes): {Convert.ToHexString(report, 0, Math.Min(read, 32))}"); }
                         // Informe de estado: tipo 0x00, longitud 0x14 (20 bytes). Hay otros (LED, auriculares).
                         if (read < 14 || report[0] != 0x00 || report[1] < 0x0E) continue;
                         var s = new PadState(
@@ -113,12 +117,19 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                             LeftTrigger: report[4], RightTrigger: report[5],
                             ThumbLX: BitConverter.ToInt16(report, 6), ThumbLY: BitConverter.ToInt16(report, 8),
                             ThumbRX: BitConverter.ToInt16(report, 10), ThumbRY: BitConverter.ToInt16(report, 12));
-                        if (!first && s == last) continue;
+                        // También sin cambios, cada 100 ms: xinputhid no da el mando por conectado hasta que
+                        // le llega un informe después de montar el HID (unos segundos tras crearlo), y el
+                        // primero se pierde. Sin esto, XInput (y Steam) lo veían "desconectado".
+                        long now = Environment.TickCount64;
+                        if (!first && s == last && now - lastSent < 100) continue;
                         first = false;
                         last = s;
+                        lastSent = now;
                         _pads.Input(pad, s);
+                        if (++sent is 1 or 50 or 500)
+                            Logger.Log($"[PadCapture] {sent} estado(s) entregados a {virtualId} (botones 0x{s.Buttons:X4}, LX {s.ThumbLX}, LY {s.ThumbLY}).");
                     }
-                if (!_stopping) Logger.Log($"[PadCapture] {_instanceId} desconectado ({Marshal.GetLastWin32Error()}); se espera a que vuelva.");
+                if (!_stopping) Logger.Log($"[PadCapture] {_instanceId} desconectado o lectura fallida (error {Marshal.GetLastWin32Error()}, {sent} estado(s) entregados); se espera a que vuelva.");
             }
             catch (Exception ex)
             {
