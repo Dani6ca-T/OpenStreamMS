@@ -643,16 +643,30 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     }
 
     /// <summary>
-    /// Cada mando con sus nodos hijos de las clases que filtra HidHide. Un mando Xbox One (GIP)
-    /// puede publicar la entrada también por colecciones HID hijas que Windows no marca como
-    /// mando (p. ej. "definidas por el fabricante"): sin ocultarlas, otras sesiones lo leían
-    /// por ahí aunque el nodo del mando estuviera oculto (issue #11).
+    /// Cada mando con todos los nodos de las clases que filtra HidHide de su mismo USB físico.
+    /// Un mando puede publicar la entrada también por colecciones HID que Windows no marca como
+    /// mando (p. ej. "definidas por el fabricante"), hijas del mando (Xbox One, issue #11) o en
+    /// otra interfaz del compuesto (GameSir: MI_02 junto al XUSB de MI_00): sin ocultarlas, otras
+    /// sesiones (Steam en la consola) lo leían por ahí aunque el nodo del mando estuviera oculto.
+    /// Se dejan fuera las ramas con teclado o ratón: esas no las para HidHide (van a la consola
+    /// desde el kernel) y se apartan a WinUSB en <see cref="SyncSideInputs"/>.
     /// </summary>
     private static List<string> WithHidHideChildren(IEnumerable<string> controllers) =>
         controllers
-            .SelectMany(id => Cm.Descendants(id).Where(Cm.IsHidHideClass).Prepend(id))
+            .SelectMany(id => SameUsbDevice(id).Where(n => Cm.IsHidHideClass(n) && !HasKeyboardOrMouse(n)).Prepend(id))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
+
+    /// <summary>Nodos del mismo USB físico que el mando; solo sus hijos si no cuelga de un USB.</summary>
+    private static List<string> SameUsbDevice(string controller) =>
+        DeviceTopology.UsbDeviceRootOf(controller) is { } root ? Cm.Descendants(root) : Cm.Descendants(controller);
+
+    private static bool HasKeyboardOrMouse(string node) =>
+        Cm.Descendants(node).Prepend(node).Any(n => Cm.ClassGuidOf(n) is { } g &&
+            (g.Equals(MouseClassGuid, StringComparison.OrdinalIgnoreCase) || g.Equals(KeyboardClassGuid, StringComparison.OrdinalIgnoreCase)));
+
+    private const string MouseClassGuid    = "{4d36e96f-e325-11ce-bfc1-08002be10318}";
+    private const string KeyboardClassGuid = "{4d36e96b-e325-11ce-bfc1-08002be10318}";
 
     /// <summary>
     /// Deja cada mando físico visible solo en su sesión destino: la del puesto que lo reclama

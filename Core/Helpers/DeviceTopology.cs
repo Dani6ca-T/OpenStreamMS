@@ -48,7 +48,8 @@ public static class DeviceTopology
         var taken = result.Select(d => d.UsbPort).ToHashSet(StringComparer.OrdinalIgnoreCase);
         foreach (var usb in GamepadSessionIsolation.Cm.DeviceIds("USB"))
         {
-            if (usb.Contains("&MI_", StringComparison.OrdinalIgnoreCase) || usb.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase)) continue;
+            if (usb.Contains("&MI_", StringComparison.OrdinalIgnoreCase) || usb.Contains("&IG_", StringComparison.OrdinalIgnoreCase) ||
+                usb.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase)) continue;
             if (IsHubOrRadio(usb) || IsInternal(usb)) continue;
             var port = LocationPath(usb) ?? usb;
             if (!taken.Add(port)) continue;
@@ -107,6 +108,12 @@ public static class DeviceTopology
     /// <summary>Puerto USB de cualquier nodo (colección HID, XUSB…), o null si no cuelga de un USB.</summary>
     public static string? UsbPortOf(string instanceId) =>
         UsbDeviceOf(instanceId) is { } usb ? LocationPath(usb) ?? usb : null;
+
+    /// <summary>
+    /// Nodo del dispositivo USB físico (el compuesto, no sus interfaces) al que pertenece el
+    /// nodo, o null si no cuelga de un USB.
+    /// </summary>
+    public static string? UsbDeviceRootOf(string instanceId) => UsbDeviceOf(instanceId);
 
     /// <summary>Instance id a partir de la ruta de interfaz (<c>\\?\HID#VID_..#..#{guid}</c>).</summary>
     public static string InstanceFromInterfacePath(string path)
