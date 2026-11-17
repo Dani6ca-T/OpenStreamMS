@@ -116,6 +116,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private string _streamPads = "";
     private const uint NoSession = 0xFFFFFFFF;
 
+    /// <summary>
+    /// Interfaces de teclado o ratón de un mando asignado fuera de la consola, pasadas a WinUSB
+    /// por este servicio (ver <see cref="SyncSideInputs"/>).
+    /// </summary>
+    private readonly HashSet<string> _sideInputs = new(StringComparer.OrdinalIgnoreCase);
+
     public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats)
     {
         _sessions = sessions;
@@ -154,7 +160,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             }
         }
         catch (OperationCanceledException) { }
-        finally { _hidHide?.Dispose(); }
+        finally
+        {
+            ReleaseSideInputs();
+            _hidHide?.Dispose();
+        }
     }
 
     /// <summary>
@@ -551,6 +561,58 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             _physical.Remove(gone);
 
         HidePhysical(WithHidHideChildren(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null)));
+        SyncSideInputs();
+    }
+
+    /// <summary>
+    /// Algunos mandos (GameSir, 8BitDo…) traen en el mismo USB una interfaz de teclado o ratón:
+    /// el botón de captura o los atajos mandan teclas por ahí. Windows lleva los teclados y
+    /// ratones físicos a la sesión de consola desde el kernel, donde HidHide no llega, así que
+    /// con el mando asignado a otra sesión esas teclas acababan en la consola (captura de
+    /// pantalla, Game Bar…). Mientras el mando va a otra sesión, esas interfaces pasan a WinUSB
+    /// con <see cref="Seats.UsbCapture"/> (anotado en disco: si el servicio se cae, se deshace al
+    /// arrancar) y vuelven a su driver cuando el mando vuelve a la consola.
+    /// </summary>
+    private void SyncSideInputs()
+    {
+        var ports = _physical.Where(p => p.Value != _console && Cm.Exists(p.Key))
+                             .Select(p => DeviceTopology.UsbPortOf(p.Key))
+                             .OfType<string>()
+                             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        // Una interfaz ya en WinUSB no tiene teclado debajo y FindTargets no la devuelve:
+        // las capturadas siguen queriéndose mientras su mando siga asignado.
+        var want = ports.SelectMany(Seats.UsbCapture.FindTargets)
+                        .Concat(_sideInputs.Where(n => DeviceTopology.UsbPortOf(n) is { } p && ports.Contains(p)))
+                        .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var node in _sideInputs.Where(n => !want.Contains(n)).ToList())
+        {
+            // Desenchufado: sigue apuntada; al volver se decide con el mando ya presente.
+            if (!Cm.Exists(node)) continue;
+            _sideInputs.Remove(node);
+            if (Seats.UsbCapture.Release(node))
+                Logger.Log($"[Gamepad] {node} (teclado o ratón del mando) vuelve a su driver: el mando está en la consola.");
+        }
+
+        foreach (var node in want)
+        {
+            // Ya en WinUSB: nuestra, o de un puesto que la tiene como teclado o ratón propio.
+            if (Seats.UsbCapture.IsCaptured(node)) continue;
+            if (Seats.UsbCapture.Capture(node))
+            {
+                _sideInputs.Add(node);
+                Logger.Log($"[Gamepad] {node} (teclado o ratón del mando) apartado mientras el mando está en otra sesión: " +
+                           "sus teclas (p. ej. el botón de captura) ya no llegan a la consola.");
+            }
+        }
+    }
+
+    private void ReleaseSideInputs()
+    {
+        foreach (var node in _sideInputs)
+            if (Cm.Exists(node)) Seats.UsbCapture.Release(node);
+        _sideInputs.Clear();
     }
 
     /// <summary>

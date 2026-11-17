@@ -66,6 +66,12 @@ internal static class UsbCapture
             GamepadSessionIsolation.Cm.ClassGuidOf(c) is { } g &&
             (g.Equals(MouseClass, StringComparison.OrdinalIgnoreCase) || g.Equals(KeyboardClass, StringComparison.OrdinalIgnoreCase)));
 
+    /// <summary>El nodo está en WinUSB por un puesto o un mando asignado en esta ejecución.</summary>
+    public static bool IsCaptured(string instanceId)
+    {
+        lock (_journalLock) return _active.Contains(instanceId);
+    }
+
     /// <summary>Pasa el nodo a WinUSB. Devuelve false si no se pudo (el puesto sigue con Raw Input).</summary>
     public static bool Capture(string instanceId)
     {
