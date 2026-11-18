@@ -564,9 +564,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     /// <summary>
     /// Mandos del puesto fuera de Windows, como el teclado y el ratón: todas las interfaces de su
-    /// USB pasan a WinUSB y el servicio los lee y los entrega a un mando OsmsPad de la sesión del
-    /// puesto. Ni la consola ni otra sesión pueden abrirlos (Steam incluido). Los que no se saben
-    /// leer (no son Xbox 360, u OsmsPad no está) siguen con HidHide y la ACL del dispositivo.
+    /// USB pasan a WinUSB y el servicio los lee y los entrega a un mando X360 de ViGEmBus aislado
+    /// en la sesión del puesto. Ni la consola ni otra sesión pueden abrir el físico (Steam incluido).
+    /// Los que no se saben leer (no son Xbox 360, o ViGEmBus no está) siguen con HidHide y la ACL.
     /// </summary>
     private void CaptureGamepads(Seat seat, ActiveSeatSession active, uint windowsSession)
     {
@@ -575,7 +575,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         if (ports.Count == 0) return;
         if (!Gamepad.PadCapture.Available)
         {
-            Logger.Log($"[Seats] '{seat.Name}': OsmsPad no está instalado; los mandos se aíslan con HidHide.");
+            Logger.Log($"[Seats] '{seat.Name}': ViGEmBus no está instalado; los mandos se aíslan con HidHide.");
             return;
         }
         Status(seat, "Separando los mandos del puesto…");

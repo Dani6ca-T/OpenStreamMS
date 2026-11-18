@@ -8,7 +8,8 @@ namespace OpenStreamMS.Services.Gamepad;
 /// <summary>
 /// Aísla un mando físico sacándolo de Windows, igual que el teclado y el ratón de un puesto:
 /// todas las interfaces de su USB pasan a WinUSB (<see cref="UsbCapture"/>), este servicio lee
-/// sus informes y los entrega a un mando virtual OsmsPad creado en la sesión destino. En Windows
+/// sus informes y los entrega a un mando X360 virtual de ViGEmBus (<see cref="ViGEmPads"/>)
+/// reclamado para la sesión destino. En Windows
 /// no queda ningún mando, HID ni XUSB que abrir, así que ninguna otra sesión lo puede leer, por
 /// ningún camino (HidHide solo filtra los nodos HID y Xbox, y Steam abría también el USB).
 /// <para>
@@ -44,12 +45,12 @@ internal static class PadCapture
         GamepadSessionIsolation.Cm.CompatibleIds(node)
             .Any(id => id.Equals(Xbox360Interface, StringComparison.OrdinalIgnoreCase));
 
-    /// <summary>True si OsmsPad está instalado: sin él no hay dónde entregar el mando capturado.</summary>
-    public static bool Available => OsmsPad.IsInstalled();
+    /// <summary>True si ViGEmBus está instalado: sin él no hay dónde entregar el mando capturado.</summary>
+    public static bool Available => ViGEmPads.IsInstalled();
 }
 
 /// <summary>
-/// Lee un mando Xbox 360 puesto en WinUSB y lo reproduce en un mando OsmsPad de la sesión
+/// Lee un mando Xbox 360 puesto en WinUSB y lo reproduce en un mando ViGEm de la sesión
 /// destino; la vibración que pide el juego vuelve al mando físico. Si el mando se desconecta (un
 /// inalámbrico que se duerme) se borra el virtual y se vuelve a crear al reaparecer.
 /// </summary>
@@ -58,7 +59,7 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
     private readonly string _instanceId;
     private readonly uint _session;
     private readonly string _owner;
-    private readonly OsmsPadClient _pads;
+    private readonly ViGEmPads _pads;
     private readonly Thread _thread;
     private volatile bool _stopping;
     private readonly object _handleLock = new();
@@ -67,7 +68,7 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
     private byte _outPipe;
     private uint? _pad;
 
-    public Xbox360PadReader(string instanceId, uint windowsSession, string owner, OsmsPadClient pads)
+    public Xbox360PadReader(string instanceId, uint windowsSession, string owner, ViGEmPads pads)
     {
         _instanceId = instanceId;
         _session = windowsSession;
@@ -95,10 +96,11 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                 }
                 lastError = null;
 
-                var (pad, virtualId) = _pads.Create(_session);
+                var pad = _pads.Create(_session, _owner);
+                string virtualId = $"ViGEm X360 #{pad}";
                 lock (_handleLock) _pad = pad;
                 Logger.Log($"[PadCapture] '{_owner}': {_instanceId} → mando virtual {virtualId} en la sesión {_session}.");
-                SetLed(pad);
+                SetLed(0);
 
                 var report = new byte[64];
                 var last = default(PadState);
@@ -117,9 +119,8 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                             LeftTrigger: report[4], RightTrigger: report[5],
                             ThumbLX: BitConverter.ToInt16(report, 6), ThumbLY: BitConverter.ToInt16(report, 8),
                             ThumbRX: BitConverter.ToInt16(report, 10), ThumbRY: BitConverter.ToInt16(report, 12));
-                        // También sin cambios, cada 100 ms: xinputhid no da el mando por conectado hasta que
-                        // le llega un informe después de montar el HID (unos segundos tras crearlo), y el
-                        // primero se pierde. Sin esto, XInput (y Steam) lo veían "desconectado".
+                        // También sin cambios, cada 100 ms: el primer informe puede llegar antes de que
+                        // Windows termine de montar el mando virtual y perderse.
                         long now = Environment.TickCount64;
                         if (!first && s == last && now - lastSent < 100) continue;
                         first = false;
@@ -175,13 +176,19 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
         return null;
     }
 
-    /// <summary>LED del mando: jugador 1 (como hace xusb22 al conectarlo). Algunos mandos no mandan informes sin él.</summary>
-    private void SetLed(uint pad) => Write([0x01, 0x03, (byte)(0x06 + Math.Min(pad, 3))]);
+    /// <summary>
+    /// LED del mando: jugador 1-4 (como hace xusb22 al conectarlo). Algunos mandos no mandan
+    /// informes sin él; luego se pone el que asigna XInput en la sesión del puesto.
+    /// </summary>
+    private void SetLed(byte player) => Write([0x01, 0x03, (byte)(0x06 + Math.Min(player, (byte)3))]);
 
-    private void OnFeedback(uint pad, ushort large, ushort small)
+    private byte _led = 0xFF;
+
+    private void OnFeedback(uint pad, byte large, byte small, byte led)
     {
         lock (_handleLock) if (_pad != pad) return;
-        Write([0x00, 0x08, 0x00, (byte)(large >> 8), (byte)(small >> 8), 0x00, 0x00, 0x00]);
+        Write([0x00, 0x08, 0x00, large, small, 0x00, 0x00, 0x00]);
+        if (led != _led && led < 4) { _led = led; SetLed(led); }
     }
 
     private void Write(byte[] data)
@@ -252,7 +259,7 @@ internal sealed class SeatPadCapture : IDisposable
     private readonly List<string> _captured = [];
     private readonly List<Xbox360PadReader> _readers = [];
     private readonly object _lock = new();
-    private OsmsPadClient? _client;
+    private ViGEmPads? _client;
     private IDisposable? _watch;
     private bool _disposed;
     private int _scheduled;
@@ -296,10 +303,10 @@ internal sealed class SeatPadCapture : IDisposable
             foreach (var port in _pending.ToList())
             {
                 if (PadCapture.FindTargets(port) is not var (pads, others)) continue;
-                _client ??= OsmsPadClient.Open();
+                _client ??= ViGEmPads.Open();
                 if (_client is null)
                 {
-                    Logger.Warning($"[PadCapture] '{_owner}': no se pudo abrir OsmsPad; el mando de {port} se queda con HidHide.");
+                    Logger.Warning($"[PadCapture] '{_owner}': no se pudo abrir ViGEmBus; el mando de {port} se queda con HidHide.");
                     return;
                 }
                 // Primero lo que no es el mando (teclado del botón de captura…), luego el mando.

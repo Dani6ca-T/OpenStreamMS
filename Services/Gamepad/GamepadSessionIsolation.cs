@@ -94,6 +94,37 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         public readonly Dictionary<int, int> OsmsPadIndex = [];          // mando del driver → mando de este Sunshine
     }
 
+    /// <summary>
+    /// Mandos ViGEm que este mismo servicio va a enchufar para una sesión concreta (los mandos
+    /// capturados de un puesto, ver <see cref="ViGEmPads"/>): no salen en ningún log de Sunshine y,
+    /// sin esto, irían a parar a la única sesión de stream en marcha o a ninguna.
+    /// </summary>
+    private static readonly List<(DateTime At, uint WindowsSession, string Name)> _claims = [];
+    private static readonly object _claimsLock = new();
+
+    /// <summary>El próximo mando de ViGEmBus que aparezca es de esa sesión de Windows. Llamar justo antes de enchufarlo.</summary>
+    public static void ClaimNextViGEmPad(uint windowsSession, string name)
+    {
+        lock (_claimsLock)
+        {
+            _claims.RemoveAll(c => DateTime.Now - c.At > MatchBefore);
+            _claims.Add((DateTime.Now, windowsSession, name));
+        }
+    }
+
+    /// <summary>El reclamo más antiguo que encaja con un mando visto por primera vez en ese momento.</summary>
+    private static (uint WindowsSession, string Name)? TakeClaim(DateTime firstSeen)
+    {
+        lock (_claimsLock)
+        {
+            int i = _claims.FindIndex(c => c.At >= firstSeen - MatchBefore && c.At <= firstSeen + MatchAfter);
+            if (i < 0) return null;
+            var c = _claims[i];
+            _claims.RemoveAt(i);
+            return (c.WindowsSession, c.Name);
+        }
+    }
+
     private readonly Dictionary<string, Pad>     _pads    = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<Guid, LogCursor> _cursors = [];
     private readonly Channel<(string Id, bool Enumerated)> _arrivals = Channel.CreateUnbounded<(string, bool)>(new() { SingleReader = true });
@@ -376,6 +407,15 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             AssignOsmsPad(pad, running, now,
                           uint.Parse(osms.Groups[1].ValueSpan, CultureInfo.InvariantCulture),
                           int.Parse(osms.Groups[2].ValueSpan, CultureInfo.InvariantCulture));
+            return;
+        }
+
+        if (TakeClaim(pad.FirstSeen) is var (claimedSession, claimedBy))
+        {
+            pad.Session = Guid.Empty;
+            pad.SessionName = claimedBy;
+            pad.WindowsSession = claimedSession;
+            Logger.Log($"[Gamepad] Mando {pad.InstanceId} → '{claimedBy}' (sesión de Windows {claimedSession}): mando capturado por este servicio.");
             return;
         }
 
