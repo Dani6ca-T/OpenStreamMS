@@ -30,8 +30,12 @@ internal static class PadCapture
     /// </summary>
     public static (List<string> Pads, List<string> Others)? FindTargets(string usbPort)
     {
+        // Ni interfaces (&MI_) ni el USB\..&IG_ que xusb22 cuelga del XUSB: también están en el
+        // puerto y, si salían antes en la lista, el puerto parecía no tener mando (el receptor
+        // inalámbrico se quedaba en Windows y Steam lo leía desde la consola).
         var device = GamepadSessionIsolation.Cm.DeviceIds("USB")
             .FirstOrDefault(id => !id.Contains("&MI_", StringComparison.OrdinalIgnoreCase)
+                               && !id.Contains("&IG_", StringComparison.OrdinalIgnoreCase)
                                && string.Equals(DeviceTopology.UsbPortOf(id), usbPort, StringComparison.OrdinalIgnoreCase));
         if (device is null) return null;
         var interfaces = GamepadSessionIsolation.Cm.Children(device)
@@ -67,6 +71,8 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
     private IntPtr _winusb;
     private byte _outPipe;
     private uint? _pad;
+
+    public string InstanceId => _instanceId;
 
     public Xbox360PadReader(string instanceId, uint windowsSession, string owner, ViGEmPads pads)
     {
@@ -292,8 +298,15 @@ internal sealed class SeatPadCapture : IDisposable
                     TryPending();
                 });
             });
+            // Red de seguridad: si una pasada llega a medias (el receptor aún publicando
+            // interfaces, otra parte del servicio cambiando su driver…), el aviso de llegada ya no
+            // se repite y el mando se quedaba en Windows, legible desde la consola (Steam).
+            _retry = new System.Threading.Timer(_ => TryPending(), null, RetryEvery, RetryEvery);
         }
     }
+
+    private static readonly TimeSpan RetryEvery = TimeSpan.FromSeconds(3);
+    private System.Threading.Timer? _retry;
 
     private void TryPending()
     {
@@ -302,29 +315,51 @@ internal sealed class SeatPadCapture : IDisposable
             if (_disposed) return;
             foreach (var port in _pending.ToList())
             {
-                if (PadCapture.FindTargets(port) is not var (pads, others)) continue;
-                _client ??= ViGEmPads.Open();
-                if (_client is null)
+                try
                 {
-                    Logger.Warning($"[PadCapture] '{_owner}': no se pudo abrir ViGEmBus; el mando de {port} se queda con HidHide.");
-                    return;
+                    if (!TryCapture(port)) return;
                 }
-                // Primero lo que no es el mando (teclado del botón de captura…), luego el mando.
-                foreach (var node in others.Concat(pads))
+                catch (Exception ex)
                 {
-                    if (_captured.Contains(node, StringComparer.OrdinalIgnoreCase)) continue;
-                    if (UsbCapture.IsCaptured(node) || UsbCapture.Capture(node)) _captured.Add(node);
-                    else Logger.Warning($"[PadCapture] '{_owner}': {node} sigue en Windows (no se pudo pasar a WinUSB).");
+                    // Se queda pendiente: la próxima pasada lo vuelve a intentar.
+                    Logger.Warning($"[PadCapture] '{_owner}': no se pudo capturar el mando de {port} ({ex.Message}); se reintenta.");
                 }
-                foreach (var pad in pads.Where(p => _captured.Contains(p, StringComparer.OrdinalIgnoreCase)))
-                    _readers.Add(new Xbox360PadReader(pad, _session, _owner, _client));
-                _pending.Remove(port);
-                _done.Add(port);
-                Logger.Log($"[PadCapture] '{_owner}': mando de {port} fuera de Windows ({pads.Count} mando(s) y " +
-                           $"{others.Count} interfaz(es) más en WinUSB); llega a la sesión {_session} como mando virtual.");
             }
-            if (_pending.Count == 0) { _watch?.Dispose(); _watch = null; }
+            if (_pending.Count == 0)
+            {
+                _watch?.Dispose(); _watch = null;
+                _retry?.Dispose(); _retry = null;
+            }
         }
+    }
+
+    /// <summary>Captura el mando de un puerto si está. False si no hay ViGEmBus (no tiene sentido seguir).</summary>
+    private bool TryCapture(string port)
+    {
+        if (PadCapture.FindTargets(port) is not var (pads, others)) return true;
+        _client ??= ViGEmPads.Open();
+        if (_client is null)
+        {
+            Logger.Warning($"[PadCapture] '{_owner}': no se pudo abrir ViGEmBus; el mando de {port} se queda con HidHide.");
+            return false;
+        }
+        // Primero lo que no es el mando (teclado del botón de captura…), luego el mando.
+        foreach (var node in others.Concat(pads))
+        {
+            if (_captured.Contains(node, StringComparer.OrdinalIgnoreCase)) continue;
+            if (UsbCapture.IsCaptured(node) || UsbCapture.Capture(node)) _captured.Add(node);
+            else Logger.Warning($"[PadCapture] '{_owner}': {node} sigue en Windows (no se pudo pasar a WinUSB).");
+        }
+        var ready = pads.Where(p => _captured.Contains(p, StringComparer.OrdinalIgnoreCase)).ToList();
+        if (ready.Count == 0) return true;   // el mando no pasó a WinUSB: sigue pendiente
+        foreach (var pad in ready)
+            if (!_readers.Any(r => string.Equals(r.InstanceId, pad, StringComparison.OrdinalIgnoreCase)))
+                _readers.Add(new Xbox360PadReader(pad, _session, _owner, _client));
+        _pending.Remove(port);
+        _done.Add(port);
+        Logger.Log($"[PadCapture] '{_owner}': mando de {port} fuera de Windows ({ready.Count} mando(s) y " +
+                   $"{others.Count} interfaz(es) más en WinUSB); llega a la sesión {_session} como mando virtual.");
+        return true;
     }
 
     public void Dispose()
@@ -334,6 +369,7 @@ internal sealed class SeatPadCapture : IDisposable
             if (_disposed) return;
             _disposed = true;
             _watch?.Dispose();
+            _retry?.Dispose();
             foreach (var r in _readers) try { r.Dispose(); } catch { }
             try { _client?.Dispose(); } catch { }
             // El mando a su driver (xusb22) y las demás interfaces al suyo.
