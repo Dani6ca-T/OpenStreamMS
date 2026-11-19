@@ -41,6 +41,12 @@ public static class DeviceTopology
         Add(GamepadSessionIsolation.Cm.DeviceIds(KeyboardClass, CM_GETIDLIST_FILTER_CLASS | CM_GETIDLIST_FILTER_PRESENT)
                 .Where(IsBootKeyboard), SeatDeviceKind.Keyboard);
         Add(GamepadSessionIsolation.Cm.GameControllers(), SeatDeviceKind.Gamepad);
+        // Un mando con teclado (el botón de captura de muchos mandos de terceros, que es un
+        // teclado "boot" de verdad) salía dos veces con el mismo nombre: como mando y como
+        // teclado. Es un solo aparato: se queda el mando, que al asignarlo se lleva todo el USB.
+        var padPorts = result.Where(d => d.Kind == SeatDeviceKind.Gamepad).Select(d => d.UsbPort)
+                             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        result.RemoveAll(d => d.Kind is SeatDeviceKind.Keyboard or SeatDeviceKind.Mouse && padPorts.Contains(d.UsbPort));
 
         // El resto de USB externos, uno por puerto: los que ya salen como teclado, ratón o mando
         // no se repiten, y se dejan fuera hubs, radios Bluetooth y lo que va dentro del equipo
