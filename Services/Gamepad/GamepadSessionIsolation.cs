@@ -112,10 +112,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     /// de enchufarlo: además lo deja ya en el jail de HidHide con el instance id que le dará
     /// ViGEmBus (el primer número de serie libre). Si se aislara al aparecer, explorer y dwm de la
     /// consola lo abren en ese segundo y lo bloquean: no se puede reiniciar (queda "pendiente de
-    /// reiniciar el sistema") y el Steam de la consola lo sigue recibiendo a través de ellos.
+    /// reiniciar el sistema") y siguen teniéndolo abierto. Además nace sin el filtro de Steam
+    /// (<see cref="SteamXboxFilter"/>), que lo publicaba a todas las sesiones.
     /// </summary>
     public static void ClaimNextViGEmPad(uint windowsSession, string name)
     {
+        SteamXboxFilter.EnsureRemoved();
         string? predicted = PredictNextViGEmPad();
         if (predicted is not null && !Jail(add: [HidHide.JailEntry(predicted, windowsSession)], remove: [predicted]))
             predicted = null;
@@ -673,8 +675,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             {
                 try
                 {
-                    DevSetup.Restart(node);
-                    Logger.Log($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}); reiniciado para cerrar handles de otras sesiones.", pad.Session);
+                    if (DevSetup.Restart(node))
+                        Logger.Log($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}); reiniciado para cerrar handles de otras sesiones.", pad.Session);
+                    else
+                        Logger.Warning($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}), pero Windows aplazó su reinicio " +
+                                       "(otro proceso lo tiene abierto): quien ya lo tuviera abierto lo sigue viendo hasta que lo cierre.", pad.Session);
                 }
                 catch (Win32Exception ex)
                 {
@@ -721,6 +726,21 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         JailAbsent();
         SyncSideInputs();
         SyncGuideButton();
+        SyncSteamXboxFilter();
+    }
+
+    private bool _steamXboxEngaged;
+
+    /// <summary>
+    /// Mientras haya otras sesiones con mandos (puestos o streams), los mandos virtuales que se
+    /// enchufen tienen que nacer sin el filtro de Steam, que los publica a todas las sesiones.
+    /// </summary>
+    private void SyncSteamXboxFilter()
+    {
+        bool want = _sessions.GetRunningSunshineSessions().Count > 0 || _seats.AnyRunning;
+        if (want) SteamXboxFilter.Engage(nameof(GamepadSessionIsolation));   // también lo vuelve a quitar si Steam lo repuso
+        else if (_steamXboxEngaged) SteamXboxFilter.Release(nameof(GamepadSessionIsolation));
+        _steamXboxEngaged = want;
     }
 
     /// <summary>
@@ -774,6 +794,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         _sideInputs.Clear();
         Seats.GuideButtonGuard.Release(_guideSids.ToList());
         _guideSids.Clear();
+        if (_steamXboxEngaged) SteamXboxFilter.Release(nameof(GamepadSessionIsolation));
+        _steamXboxEngaged = false;
     }
 
     /// <summary>Usuarios a los que este servicio apagó la Game Bar del botón Guía.</summary>
@@ -868,6 +890,9 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             Logger.Log(target == _console
                 ? $"[Gamepad] Mando físico {node} visible solo en la sesión de consola ({target})."
                 : $"[Gamepad] Mando físico {node} asignado a un puesto o sesión de stream: visible solo en la sesión {target}.");
+            if (target != _console && SteamXboxFilter.InStack(node))
+                Logger.Warning($"[Gamepad] {node} lleva el filtro {SteamXboxFilter.FilterName} de Steam en su pila: el Steam de las demás " +
+                               "sesiones (la consola incluida) lo sigue leyendo. Desconéctalo y vuelve a conectarlo con el puesto o stream ya encendido.");
             if (!started.Contains(node) || !(moved || otherSessions)) continue;
             try
             {

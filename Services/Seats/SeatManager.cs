@@ -43,6 +43,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         try { SeatDeviceAccess.RestoreAll(); }
         catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron liberar los dispositivos reservados: {ex.Message}"); }
         ConsoleLockGuard.Release();   // si el servicio se cayó con un puesto encendido
+        Gamepad.SteamXboxFilter.RestoreSaved();   // ídem con el filtro de Steam quitado
         // Sin puestos exclusivos nadie necesita quedarse sin apagar: el grupo Usuarios recupera el derecho.
         if (!_seats.Values.Any(s => s.ExclusiveSession)) ShutdownRight.Restore();
         Logger.Log($"[Seats] Gestor de puestos iniciado ({_seats.Count} puesto(s)).");

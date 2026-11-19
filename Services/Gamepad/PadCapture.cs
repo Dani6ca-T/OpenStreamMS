@@ -277,11 +277,16 @@ internal sealed class SeatPadCapture : IDisposable
         _pending = new HashSet<string>(usbPorts, StringComparer.OrdinalIgnoreCase);
     }
 
+    private string OwnerKey => $"seat:{_owner}:{_session}";
+
     /// <summary>Puertos cuyo mando ya está fuera de Windows (los demás siguen con HidHide y ACL).</summary>
     public IReadOnlyCollection<string> CapturedPorts { get { lock (_lock) return _done.ToList(); } }
 
     public void Start()
     {
+        // Antes del primer mando virtual: sin esto nacería con el filtro de Steam, que lo publica
+        // a todas las sesiones por encima de HidHide (ver SteamXboxFilter).
+        SteamXboxFilter.Engage(OwnerKey);
         TryPending();
         lock (_lock)
         {
@@ -378,6 +383,7 @@ internal sealed class SeatPadCapture : IDisposable
             foreach (var node in _captured) UsbCapture.Release(node);
             if (_captured.Count > 0)
                 Logger.Log($"[PadCapture] '{_owner}': {_captured.Count} interfaz(es) de mando devueltas a Windows.");
+            SteamXboxFilter.Release(OwnerKey);
         }
     }
 }
