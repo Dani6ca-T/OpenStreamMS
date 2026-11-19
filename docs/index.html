@@ -3,799 +3,418 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenStreamMS · Multi-Seat</title>
-<meta name="description" content="Windows service that runs multiple isolated Sunshine game-streaming sessions for Moonlight, each in its own RDP session, and turns one PC into several local seats with their own monitor, keyboard, mouse, gamepad and audio.">
+<title>OpenStreamMS 2.0 · Multi-Seat</title>
+<meta name="description" content="OpenStreamMS turns one Windows PC into several: split a monitor between up to four local seats, stream isolated sessions to Moonlight and TVs, merge sessions into one stream and extend it all from GitHub.">
+<meta name="theme-color" content="#0d0d1a">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%237c3aed'/><path d='M12 9l11 7-11 7z' fill='white'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script>
+/* Idioma y tema antes de pintar: sin parpadeo. */
+(function () {
+  var r = document.documentElement, g = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  r.lang = g('osms-lang') || ((navigator.language || 'en').toLowerCase().indexOf('es') === 0 ? 'es' : 'en');
+  var t = g('osms-theme'); if (t) r.dataset.theme = t;
+})();
+</script>
 <style>
 :root {
-  --bg: #0d0d1a;
-  --surface: #13131f;
-  --card: #1a1a2e;
-  --border: #2d2d50;
-  --accent: #7c3aed;
-  --accent-2: #a78bfa;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --ok: #34d399;
-  --radius: 14px;
-  --shadow: 0 10px 40px rgba(0,0,0,.35);
-  --glow: rgba(124,58,237,.35);
+  --bg:#0b0b17; --surface:#12121f; --card:#16162a; --border:#26264a; --text:#e8ebf4; --muted:#97a0b8;
+  --accent:#7c3aed; --accent-2:#a78bfa; --cyan:#22d3ee; --pink:#ec4899; --green:#34d399;
+  --radius:18px; --ease:cubic-bezier(.2,.8,.2,1); --glow:rgba(124,58,237,.45);
 }
 :root[data-theme="light"] {
-  --bg: #f7f7fb;
-  --surface: #ffffff;
-  --card: #ffffff;
-  --border: #e3e3ef;
-  --accent: #6d28d9;
-  --accent-2: #7c3aed;
-  --text: #1e1b2e;
-  --muted: #5b5b72;
-  --ok: #059669;
-  --shadow: 0 10px 30px rgba(30,27,46,.08);
-  --glow: rgba(109,40,217,.18);
+  --bg:#f6f6fb; --surface:#ffffff; --card:#ffffff; --border:#e4e4f0; --text:#16142a; --muted:#5d5d78;
+  --accent:#6d28d9; --accent-2:#7c3aed; --cyan:#0891b2; --pink:#db2777; --green:#059669; --glow:rgba(109,40,217,.2);
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg: #f7f7fb; --surface: #ffffff; --card: #ffffff; --border: #e3e3ef;
-    --accent: #6d28d9; --accent-2: #7c3aed; --text: #1e1b2e; --muted: #5b5b72;
-    --ok: #059669; --shadow: 0 10px 30px rgba(30,27,46,.08); --glow: rgba(109,40,217,.18);
+    --bg:#f6f6fb; --surface:#ffffff; --card:#ffffff; --border:#e4e4f0; --text:#16142a; --muted:#5d5d78;
+    --accent:#6d28d9; --accent-2:#7c3aed; --cyan:#0891b2; --pink:#db2777; --green:#059669; --glow:rgba(109,40,217,.2);
   }
 }
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
-body {
-  margin: 0; background: var(--bg); color: var(--text);
-  font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased; overflow-x: hidden;
-}
-a { color: var(--accent-2); text-decoration: none; }
-a:hover { text-decoration: underline; }
-code, pre { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
-
-/* Language switch: only the active language is shown */
+body { font: 16px/1.6 Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 html[lang="en"] [lang="es"], html[lang="es"] [lang="en"] { display: none !important; }
+a { color: inherit; text-decoration: none; }
+code { font: 500 .88em "JetBrains Mono", monospace; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+section { padding: 110px 0; position: relative; }
+.eyebrow { font: 700 12px Inter, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 14px; }
+h2 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.1; letter-spacing: -.03em; font-weight: 800; max-width: 22ch; text-wrap: balance; }
+.sub { color: var(--muted); font-size: 18px; max-width: 58ch; margin-top: 14px; }
+.grad { background: linear-gradient(100deg, var(--accent-2), var(--cyan), var(--pink), var(--accent-2)); background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: flow 8s linear infinite; }
+@keyframes flow { to { background-position: 250% 0; } }
 
-/* Nav */
-nav.top {
-  position: sticky; top: 0; z-index: 10;
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
-}
-nav.top .wrap { display: flex; align-items: center; gap: 20px; height: 60px; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--text); font-size: 18px; }
-.brand:hover { text-decoration: none; }
-.logo { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; }
-.links { display: flex; gap: 20px; margin-left: auto; font-size: 14px; }
-.links a { color: var(--muted); }
-.links a:hover { color: var(--text); text-decoration: none; }
-.tools { display: flex; gap: 6px; }
-.chip {
-  border: 1px solid var(--border); background: var(--surface); color: var(--text);
-  border-radius: 8px; padding: 5px 10px; font: 600 12px Inter, sans-serif; cursor: pointer;
-}
-.chip:hover { border-color: var(--accent); }
-.links a { white-space: nowrap; }
-@media (max-width: 1120px) { .links { gap: 14px; font-size: 13px; } }
-@media (max-width: 980px) { .links { display: none; } .tools { margin-left: auto; } }
+/* Barra superior */
+nav.top { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s, backdrop-filter .3s; border-bottom: 1px solid transparent; }
+nav.top.scrolled { background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(14px); border-color: var(--border); }
+nav.top .wrap { display: flex; align-items: center; gap: 28px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.02em; }
+.brand svg { width: 26px; height: 26px; color: var(--accent); filter: drop-shadow(0 0 10px var(--glow)); }
+.links { display: flex; gap: 24px; margin-left: auto; font-size: 14px; color: var(--muted); }
+.links a { position: relative; transition: color .2s; }
+.links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; border-radius: 2px; background: var(--accent-2); transform: scaleX(0); transition: transform .25s var(--ease); }
+.links a:hover { color: var(--text); } .links a:hover::after { transform: scaleX(1); }
+.tools { display: flex; gap: 8px; }
+.icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; font: 700 12px Inter, sans-serif; transition: border-color .2s, transform .2s; }
+.icon:hover { border-color: var(--accent-2); transform: translateY(-1px); }
+.icon svg { width: 17px; height: 17px; }
+@media (max-width: 860px) { .links { display: none; } .tools { margin-left: auto; } }
 
-/* Hero */
-.hero { padding: 88px 0 64px; position: relative; }
-.hero::before {
-  content: ""; position: absolute; inset: -120px 0 auto; height: 520px; z-index: -1;
-  background: radial-gradient(600px 300px at 50% 30%, var(--glow), transparent 70%);
-}
-.badge {
-  display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted);
-  border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; background: var(--surface);
-}
-.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
-h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.08; letter-spacing: -.03em; margin: 20px 0 18px; font-weight: 800; }
-h1 .grad { background: linear-gradient(90deg, var(--accent-2), #60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); max-width: 720px; margin: 0 0 32px; }
-.cta { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px;
-  font-weight: 600; font-size: 15px; border: 1px solid var(--border); color: var(--text); background: var(--surface);
-}
-.btn:hover { text-decoration: none; border-color: var(--accent); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.btn.primary:hover { filter: brightness(1.1); }
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 56px; }
-.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
-.stat b { display: block; font-size: 24px; letter-spacing: -.02em; }
-.stat span { color: var(--muted); font-size: 13px; }
-@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+/* Botones */
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 12px; font-weight: 700; font-size: 15px; border: 1px solid var(--border); transition: transform .2s var(--ease), box-shadow .3s, border-color .2s; }
+.btn svg { width: 18px; height: 18px; }
+.btn:hover { transform: translateY(-2px); border-color: var(--accent-2); }
+.btn.primary { border: 0; color: #fff; background: linear-gradient(135deg, var(--accent), #6366f1); box-shadow: 0 10px 30px var(--glow); }
+.btn.primary:hover { box-shadow: 0 14px 40px var(--glow); }
+.btn.discord { border: 0; color: #fff; background: #5865f2; box-shadow: 0 10px 30px rgba(88,101,242,.35); }
+.btn .arrow { transition: transform .25s var(--ease); } .btn:hover .arrow { transform: translateX(4px); }
 
-/* Sections */
-section { padding: 72px 0; }
-section.alt { background: var(--surface); border-block: 1px solid var(--border); }
-.eyebrow { color: var(--accent-2); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
-h2 { font-size: clamp(28px, 4vw, 38px); letter-spacing: -.02em; margin: 8px 0 12px; line-height: 1.15; }
-.sub { color: var(--muted); max-width: 680px; margin: 0 0 40px; }
+/* Portada */
+.hero { min-height: 100vh; display: grid; align-items: center; padding: 120px 0 80px; overflow: hidden; }
+.aurora { position: absolute; inset: -20% -10% auto; height: 120%; pointer-events: none; filter: blur(80px); opacity: .55; }
+.aurora span { position: absolute; border-radius: 50%; }
+.aurora span:nth-child(1) { width: 520px; height: 520px; left: 8%; top: 6%; background: var(--accent); animation: drift 18s ease-in-out infinite; }
+.aurora span:nth-child(2) { width: 420px; height: 420px; right: 6%; top: 18%; background: var(--cyan); opacity: .55; animation: drift 22s ease-in-out infinite reverse; }
+.aurora span:nth-child(3) { width: 360px; height: 360px; left: 42%; top: 46%; background: var(--pink); opacity: .45; animation: drift 26s ease-in-out infinite; }
+@keyframes drift { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(60px, -40px) scale(1.1); } 66% { transform: translate(-50px, 30px) scale(.92); } }
+.grid-bg { position: absolute; inset: 0; pointer-events: none; opacity: .35;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 56px 56px; mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 70%); }
+.hero .wrap > *, .bento > *, .split > *, .feats > *, .steps > *, .community > * { min-width: 0; }
+.hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+@media (max-width: 960px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } .stage { max-width: 520px; } }
+.pill { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 70%, transparent); font-size: 14px; color: var(--muted); }
+.pill b { color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--pink)); }
+.pill:hover { border-color: var(--accent-2); color: var(--text); }
+h1 { font-size: clamp(44px, 7vw, 84px); line-height: .98; letter-spacing: -.045em; font-weight: 900; margin: 22px 0 22px; }
+.lead { color: var(--muted); font-size: 19px; max-width: 46ch; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.facts { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 40px; color: var(--muted); font-size: 14px; }
+.facts b { display: block; color: var(--text); font-size: 22px; letter-spacing: -.02em; }
 
-/* Architecture flow */
-.flow { display: grid; grid-template-columns: 1fr auto 1.6fr; gap: 16px; align-items: center; }
-.node { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
-.node h4 { margin: 0 0 4px; font-size: 15px; }
-.node p { margin: 0; color: var(--muted); font-size: 13px; }
-.arrow { color: var(--accent-2); font-size: 26px; text-align: center; }
-.host { border: 1px dashed var(--accent); border-radius: calc(var(--radius) + 4px); padding: 16px; }
-.host > .label { font-size: 12px; font-weight: 700; color: var(--accent-2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
-.svc { margin-bottom: 12px; border-color: var(--accent); }
-.sessions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.session { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-size: 13px; }
-.session b { display: block; font-size: 13px; margin-bottom: 6px; }
-.session div { color: var(--muted); font-size: 12px; line-height: 1.7; }
-.clients { display: grid; gap: 10px; }
-@media (max-width: 860px) {
-  .flow { grid-template-columns: 1fr; }
-  .arrow { transform: rotate(90deg); }
-  .sessions { grid-template-columns: 1fr; }
+/* Ilustración de portada */
+.stage { position: relative; aspect-ratio: 1 / .82; }
+.stage svg { width: 100%; height: 100%; overflow: visible; }
+.mon { fill: color-mix(in srgb, var(--card) 85%, transparent); stroke: var(--border); stroke-width: 2; }
+.q { animation: qlit 8s ease-in-out infinite; }
+.q1 { fill: var(--accent); } .q2 { fill: var(--cyan); animation-delay: .3s; } .q3 { fill: var(--pink); animation-delay: .6s; } .q4 { fill: var(--green); animation-delay: .9s; }
+@keyframes qlit { 0%, 8% { opacity: 0; transform: scale(.9); } 22%, 82% { opacity: .32; transform: none; } 100% { opacity: 0; } }
+.q, .who { transform-box: fill-box; transform-origin: center; }
+.cut { stroke: var(--accent-2); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 400; stroke-dashoffset: 400; animation: cut 8s ease-in-out infinite; }
+.cut2 { animation-delay: .35s; }
+@keyframes cut { 0%, 4% { stroke-dashoffset: 400; } 20%, 86% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -400; } }
+.who { animation: who 8s ease-in-out infinite; }
+@keyframes who { 0%, 20% { opacity: 0; transform: translateY(8px) scale(.6); } 32%, 82% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+.beam { fill: none; stroke: var(--accent-2); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 3 10; animation: beam 1.3s linear infinite; opacity: .8; }
+@keyframes beam { to { stroke-dashoffset: -26; } }
+.dev { fill: color-mix(in srgb, var(--card) 85%, transparent); stroke: var(--border); stroke-width: 2; animation: bob 5s ease-in-out infinite; transform-box: fill-box; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.tile { animation: tile 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes tile { 0%, 10% { opacity: 0; transform: scale(.5); } 28%, 86% { opacity: .55; transform: none; } 100% { opacity: 0; } }
+.label { font: 600 13px Inter, sans-serif; fill: var(--muted); }
+
+/* Nuevo en 2.0 */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: 54px; }
+.card { position: relative; grid-column: span 2; padding: 30px; border-radius: var(--radius); border: 1px solid var(--border);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 92%, transparent), color-mix(in srgb, var(--surface) 92%, transparent));
+  overflow: hidden; isolation: isolate; transition: transform .35s var(--ease), border-color .3s; }
+.card::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%); }
+.card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-2) 55%, var(--border)); }
+.card:hover::before { opacity: 1; }
+.card.star { grid-column: span 4; grid-row: span 2; display: grid; grid-template-rows: auto 1fr; }
+.card.wide { grid-column: span 3; }
+@media (max-width: 900px) { .bento { grid-template-columns: minmax(0, 1fr); } .card, .card.star, .card.wide { grid-column: auto; grid-row: auto; } }
+.card h3 { font-size: 22px; letter-spacing: -.02em; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.card.star h3 { font-size: 30px; }
+.card p { color: var(--muted); }
+.card ul { list-style: none; padding: 0; margin-top: 16px; display: grid; gap: 8px; color: var(--muted); font-size: 15px; }
+.card li { display: flex; gap: 10px; }
+.card li::before { content: ""; flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 22%, transparent) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 12.5l4 4L18 8'/></svg>") center/12px no-repeat; }
+.tag { font: 800 11px Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; color: #fff; background: linear-gradient(135deg, var(--accent), var(--pink)); }
+.tag.soft { background: transparent; color: var(--cyan); border: 1px solid color-mix(in srgb, var(--cyan) 50%, transparent); }
+.ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 18px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent-2); }
+.ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.art { margin-top: 22px; align-self: end; }
+.art svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* Cómo funciona */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 50px; }
+@media (max-width: 860px) { .split { grid-template-columns: minmax(0, 1fr); } }
+.way { padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
+.way h3 { font-size: 22px; margin: 6px 0 8px; letter-spacing: -.02em; }
+.way p { color: var(--muted); }
+.way .k { font: 700 12px Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--cyan); }
+
+/* Funciones */
+.feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 40px; margin-top: 54px; }
+@media (max-width: 860px) { .feats { grid-template-columns: 1fr 1fr; } } @media (max-width: 560px) { .feats { grid-template-columns: minmax(0, 1fr); } }
+.feat h4 { font-size: 17px; margin: 14px 0 6px; letter-spacing: -.01em; }
+.feat p { color: var(--muted); font-size: 15px; }
+.feat .ico { margin: 0; width: 40px; height: 40px; border-radius: 12px; }
+.feat .ico svg { width: 20px; height: 20px; }
+
+/* Instalación */
+.steps { counter-reset: s; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 50px; }
+@media (max-width: 860px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+.step { padding: 28px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); position: relative; }
+.step::before { counter-increment: s; content: counter(s); position: absolute; top: 22px; right: 24px; font: 900 44px Inter, sans-serif; line-height: 1; opacity: .12; }
+.step h4 { font-size: 18px; margin-bottom: 6px; } .step p { color: var(--muted); font-size: 15px; }
+.req { margin-top: 26px; color: var(--muted); font-size: 14px; max-width: 80ch; }
+.req b { color: var(--text); }
+
+/* Comunidad */
+.community { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+@media (max-width: 860px) { .community { grid-template-columns: minmax(0, 1fr); } }
+.fame { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 14px; }
+.fame li { display: grid; justify-items: center; gap: 6px; width: 108px; padding: 16px 8px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); text-align: center; transition: transform .25s var(--ease), border-color .25s; }
+.fame li:hover { transform: translateY(-4px); border-color: var(--accent-2); }
+.fame img { width: 56px; height: 56px; border-radius: 50%; }
+.fame .who { font-size: 13px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.fame .n { color: var(--muted); font-size: 12px; }
+
+/* Pie */
+footer { padding: 46px 0 60px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+footer .wrap { display: grid; gap: 10px; }
+footer a { color: var(--text); } footer a:hover { color: var(--accent-2); }
+.legal { font-size: 12.5px; max-width: 110ch; opacity: .85; }
+
+@media (max-width: 600px) { section { padding: 76px 0; } .hero { padding-top: 96px; } .card { padding: 24px; } }
+
+/* Aparición al hacer scroll */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; transform: none; }
+  .q, .who, .tile { opacity: .45; } .cut { stroke-dashoffset: 0; }
 }
-
-/* Feature grid */
-.cat { margin: 44px 0 16px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; }
-.cat:first-of-type { margin-top: 0; }
-.cat::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-@media (max-width: 960px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
-.feat {
-  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;
-  transition: border-color .15s, transform .15s;
-}
-.feat:hover { border-color: var(--accent); transform: translateY(-2px); }
-.ico {
-  width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; margin-bottom: 14px;
-  background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent-2);
-}
-.ico svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.feat h3 { margin: 0 0 6px; font-size: 16px; }
-.feat p { margin: 0; color: var(--muted); font-size: 14px; }
-.feat code { font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 1px 5px; }
-
-/* Two-column blocks */
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
-@media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
-ul.check { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-ul.check li { padding-left: 28px; position: relative; }
-ul.check li::before {
-  content: ""; position: absolute; left: 0; top: 5px; width: 16px; height: 16px; border-radius: 50%;
-  background: color-mix(in srgb, var(--ok) 20%, transparent);
-  box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--ok) 20%, transparent), inset 0 0 0 8px var(--ok);
-}
-pre {
-  background: #0a0a14; color: #e2e8f0; border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 18px 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.7; margin: 0;
-}
-pre .c { color: #6b7280; }
-pre .k { color: #a78bfa; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
-th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
-td code { font-size: 12.5px; }
-.m { font: 700 11px "JetBrains Mono", monospace; padding: 2px 6px; border-radius: 5px; background: var(--bg); border: 1px solid var(--border); }
-.m.get { color: #34d399; } .m.post { color: #60a5fa; } .m.patch { color: #fbbf24; } .m.del { color: #f87171; } .m.put { color: #c084fc; }
-.tablewrap { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 10px; }
-
-/* Steps */
-.steps { counter-reset: s; display: grid; gap: 14px; }
-.step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px 16px 58px; position: relative; }
-.step::before {
-  counter-increment: s; content: counter(s); position: absolute; left: 16px; top: 16px;
-  width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 14px;
-}
-.step h4 { margin: 0 0 2px; font-size: 15px; }
-.step p { margin: 0; color: var(--muted); font-size: 14px; }
-
-kbd { font: 600 12px "JetBrains Mono", monospace; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; background: var(--bg); }
-
-/* Hall of fame */
-.fame { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
-.fame li { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 14px 18px; text-align: center; position: relative; transition: border-color .2s, transform .2s; }
-.fame li:hover { border-color: var(--accent); transform: translateY(-2px); }
-.fame li:first-child { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 10px 40px var(--glow); }
-.fame .rank { position: absolute; top: 10px; left: 12px; font: 700 12px "JetBrains Mono", monospace; color: var(--accent-2); }
-.fame img { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--border); display: block; margin: 0 auto 12px; background: var(--bg); }
-.fame li:first-child img { border-color: var(--accent); }
-.fame a.who { display: block; font-weight: 700; color: var(--text); overflow-wrap: anywhere; }
-.fame .n { color: var(--muted); font-size: 13px; }
-.fame-more { margin-top: 20px; color: var(--muted); font-size: 14px; }
-@media (max-width: 900px) { .fame { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 520px) { .fame { grid-template-columns: repeat(2, 1fr); } }
-
-/* Announcement */
-.announce-bar { background: color-mix(in srgb, var(--accent) 14%, var(--bg)); border-bottom: 1px solid var(--border); font-size: 14px; }
-.announce-bar .wrap { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: center; padding-block: 9px; text-align: center; }
-.announce-bar .tag { font: 700 11px Inter, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: #fff; background: var(--accent); border-radius: 999px; padding: 2px 9px; }
-.announce { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; }
-@media (max-width: 860px) { .announce { grid-template-columns: 1fr; } }
-.announce .feat:hover { transform: none; }
-.announce .feat p + p { margin-top: 10px; }
-.announce ul.check { margin-top: 14px; font-size: 14px; }
-.announce .cta { margin-top: 18px; }
-.btn.discord { background: #5865f2; border-color: #5865f2; color: #fff; }
-.btn.discord:hover { filter: brightness(1.1); }
-
-footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); }
-footer .wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; }
-footer .legal { flex-basis: 100%; font-size: 12px; line-height: 1.6; opacity: .85; }
 </style>
 </head>
 <body>
 
-<nav class="top">
+<nav class="top" id="nav">
   <div class="wrap">
-    <a class="brand" href="#">
-      <span class="logo"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 1.5l9 5.5-9 5.5z" fill="#fff"/></svg></span>
-      OpenStreamMS
-    </a>
+    <a class="brand" href="#top"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M12 9l11 7-11 7z" fill="#fff"/></svg>OpenStreamMS</a>
     <div class="links">
-      <a href="#announcement"><span lang="en">2.0 &amp; Discord</span><span lang="es">2.0 y Discord</span></a>
-      <a href="#new"><span lang="en">What’s new</span><span lang="es">Novedades</span></a>
+      <a href="#new"><span lang="en">What's new</span><span lang="es">Novedades</span></a>
       <a href="#how"><span lang="en">How it works</span><span lang="es">Cómo funciona</span></a>
-      <a href="#seats"><span lang="en">Local seats</span><span lang="es">Puestos locales</span></a>
-      <a href="#features"><span lang="en">Features</span><span lang="es">Características</span></a>
-      <a href="#api">API</a>
-      <a href="#install"><span lang="en">Install</span><span lang="es">Instalación</span></a>
-      <a href="#fame"><span lang="en">Hall of fame</span><span lang="es">Hall de la fama</span></a>
-      <a href="https://github.com/OpenstreamCo/OpenStreamMultiSeat">GitHub</a>
+      <a href="#features"><span lang="en">Features</span><span lang="es">Funciones</span></a>
+      <a href="#install"><span lang="en">Install</span><span lang="es">Instalar</span></a>
+      <a href="#community"><span lang="en">Community</span><span lang="es">Comunidad</span></a>
     </div>
     <div class="tools">
-      <button class="chip" id="langBtn" type="button" aria-label="Switch language">ES</button>
-      <button class="chip" id="themeBtn" type="button" aria-label="Toggle theme">◐</button>
+      <a class="icon" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <button class="icon" id="langBtn" type="button" aria-label="Language / Idioma">ES</button>
+      <button class="icon" id="themeBtn" type="button" aria-label="Theme / Tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     </div>
   </div>
 </nav>
 
-<div class="announce-bar" role="note">
+<!-- ───────────────────────── PORTADA ───────────────────────── -->
+<header class="hero" id="top">
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <span class="tag"><span lang="en">New</span><span lang="es">Nuevo</span></span>
-    <span><span lang="en">We now have a Discord community, and OpenStreamMS 2.0 is on its way.</span><span lang="es">Ya tenemos comunidad en Discord y OpenStreamMS 2.0 está en camino.</span></span>
-    <a href="#announcement"><span lang="en">Read the announcement →</span><span lang="es">Leer el anuncio →</span></a>
-  </div>
-</div>
-
-<header class="hero">
-  <div class="wrap">
-    <span class="badge"><span class="dot"></span>
-      <span lang="en">Open source · MIT · Windows 10/11</span>
-      <span lang="es">Código abierto · MIT · Windows 10/11</span>
-    </span>
-    <h1>
-      <span lang="en">Many players.<br><span class="grad">One Windows PC.</span></span>
-      <span lang="es">Varios jugadores.<br><span class="grad">Un solo PC con Windows.</span></span>
-    </h1>
-    <p class="lead">
-      <span lang="en">OpenStreamMS is a Windows service that runs several independent <strong>Sunshine</strong> game-streaming sessions at once — each one inside its own isolated RDP session, with its own user, desktop, audio and Moonlight clients. Plug in extra monitors, keyboards, mice and gamepads and the same sessions become <strong>local seats</strong>: several people playing on one PC, in the same room. All managed from one dashboard, in its own window, in the browser or on your phone.</span>
-      <span lang="es">OpenStreamMS es un servicio de Windows que ejecuta varias sesiones de streaming de juegos con <strong>Sunshine</strong> a la vez, cada una dentro de su propia sesión RDP aislada, con su usuario, escritorio, audio y clientes Moonlight. Conecta más monitores, teclados, ratones y mandos y esas mismas sesiones se convierten en <strong>puestos locales</strong>: varias personas jugando en un solo PC, en la misma habitación. Todo se gestiona desde un panel, en su propia ventana, en el navegador o en el móvil.</span>
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases">
-        <span lang="en">Download installer</span><span lang="es">Descargar instalador</span>
-      </a>
-      <a class="btn" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        <span lang="en">View on GitHub</span><span lang="es">Ver en GitHub</span>
-      </a>
+    <div>
+      <a class="pill reveal" href="#new"><b>2.0</b><span lang="en">Several seats on one screen, composite sessions and extensions</span><span lang="es">Varios puestos en una pantalla, sesiones compuestas y extensiones</span> →</a>
+      <h1 class="reveal" style="--d:.08s"><span lang="en">One PC.<br><span class="grad">Every player.</span></span><span lang="es">Un PC.<br><span class="grad">Todos a jugar.</span></span></h1>
+      <p class="lead reveal" style="--d:.16s"><span lang="en">OpenStreamMS turns a single Windows PC into several: local seats that share one monitor, isolated sessions streamed to Moonlight and TVs, each with its own user, gamepads and sound.</span><span lang="es">OpenStreamMS convierte un único PC con Windows en varios: puestos locales que comparten un monitor y sesiones aisladas que se emiten a Moonlight y a la tele, cada una con su usuario, sus mandos y su sonido.</span></p>
+      <div class="cta reveal" style="--d:.24s">
+        <a class="btn primary" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span lang="en">Download 2.0</span><span lang="es">Descargar la 2.0</span></a>
+        <a class="btn" href="#new"><span lang="en">See what's new</span><span lang="es">Ver las novedades</span><span class="arrow">→</span></a>
+      </div>
+      <div class="facts reveal" style="--d:.32s">
+        <div><b>4</b><span lang="en">seats per monitor</span><span lang="es">puestos por monitor</span></div>
+        <div><b>~2 ms</b><span lang="en">render to screen</span><span lang="es">del render a la pantalla</span></div>
+        <div><b>22</b><span lang="en">languages</span><span lang="es">idiomas</span></div>
+        <div><b>MIT</b><span lang="en">open source</span><span lang="es">código abierto</span></div>
+      </div>
     </div>
-    <div class="stats">
-      <div class="stat"><b>4K · 60 fps</b><span lang="en">tuned RDP pipeline</span><span lang="es">pipeline RDP optimizado</span></div>
-      <div class="stat"><b>N</b><span lang="en">parallel sessions</span><span lang="es">sesiones en paralelo</span></div>
-      <div class="stat"><b>~2 ms</b><span lang="en">session → seat monitor</span><span lang="es">de la sesión al monitor del puesto</span></div>
-      <div class="stat"><b>4</b><span lang="en">UI languages</span><span lang="es">idiomas en el panel</span></div>
+
+    <div class="stage reveal" style="--d:.2s" aria-hidden="true">
+      <svg viewBox="0 0 520 430">
+        <!-- monitor repartido en cuatro puestos -->
+        <rect class="mon" x="40" y="20" width="360" height="226" rx="14"/>
+        <rect class="q q1" x="54" y="34" width="164" height="95" rx="7"/>
+        <rect class="q q2" x="222" y="34" width="164" height="95" rx="7"/>
+        <rect class="q q3" x="54" y="133" width="164" height="99" rx="7"/>
+        <rect class="q q4" x="222" y="133" width="164" height="99" rx="7"/>
+        <path class="cut" d="M220 30v210"/><path class="cut cut2" d="M50 131h340"/>
+        <g class="who"><circle cx="136" cy="74" r="13" fill="var(--accent)"/><path d="M114 112c4-14 40-14 44 0" fill="var(--accent)"/></g>
+        <g class="who" style="animation-delay:.25s"><circle cx="304" cy="74" r="13" fill="var(--cyan)"/><path d="M282 112c4-14 40-14 44 0" fill="var(--cyan)"/></g>
+        <g class="who" style="animation-delay:.5s"><circle cx="136" cy="174" r="13" fill="var(--pink)"/><path d="M114 212c4-14 40-14 44 0" fill="var(--pink)"/></g>
+        <g class="who" style="animation-delay:.75s"><circle cx="304" cy="174" r="13" fill="var(--green)"/><path d="M282 212c4-14 40-14 44 0" fill="var(--green)"/></g>
+        <path d="M195 264h50M220 246v18" stroke="var(--border)" stroke-width="4" stroke-linecap="round"/>
+        <!-- mandos que van a cada puesto -->
+        <path class="beam" d="M70 330 C70 290 110 250 136 236"/>
+        <path class="beam" style="animation-delay:.3s" d="M370 330 C370 290 330 250 304 236"/>
+        <path class="dev" d="M48 330h44a10 10 0 0 1 10 12l-5 20a6 6 0 0 1-11 1l-5-9H59l-5 9a6 6 0 0 1-11-1l-5-20a10 10 0 0 1 10-12z"/>
+        <path class="dev" style="animation-delay:.8s" d="M348 330h44a10 10 0 0 1 10 12l-5 20a6 6 0 0 1-11 1l-5-9h-22l-5 9a6 6 0 0 1-11-1l-5-20a10 10 0 0 1 10-12z"/>
+        <!-- sesiones compuestas hacia la tele -->
+        <path class="beam" style="animation-delay:.15s" d="M400 120 C450 120 470 150 470 196"/>
+        <rect class="dev" style="animation-delay:.4s" x="408" y="196" width="112" height="72" rx="9"/>
+        <rect class="tile" x="416" y="204" width="46" height="26" rx="3" fill="var(--accent)"/>
+        <rect class="tile" style="animation-delay:.2s" x="466" y="204" width="46" height="26" rx="3" fill="var(--cyan)"/>
+        <rect class="tile" style="animation-delay:.4s" x="416" y="234" width="46" height="26" rx="3" fill="var(--pink)"/>
+        <rect class="tile" style="animation-delay:.6s" x="466" y="234" width="46" height="26" rx="3" fill="var(--green)"/>
+        <text class="label" x="464" y="292" text-anchor="middle">Moonlight · TV</text>
+      </svg>
     </div>
   </div>
 </header>
 
-<!-- ───────────────────────── ANNOUNCEMENT ───────────────────────── -->
-<section id="announcement">
+<!-- ───────────────────────── NUEVO EN 2.0 ───────────────────────── -->
+<section id="new">
   <div class="wrap">
-    <div class="eyebrow"><span lang="en">Announcement</span><span lang="es">Anuncio</span></div>
-    <h2><span lang="en">A community on Discord, and what’s coming in 2.0</span><span lang="es">Comunidad en Discord y lo que llega con la 2.0</span></h2>
-    <p class="sub"><span lang="en">Thank you to everyone following the project. Two pieces of news: there is now a place to talk, and the next major version changes direction.</span><span lang="es">Gracias a todos los que seguís el proyecto. Dos noticias: ya hay un sitio donde hablar, y la próxima versión mayor cambia de rumbo.</span></p>
+    <div class="eyebrow reveal"><span lang="en">New in 2.0</span><span lang="es">Nuevo en la 2.0</span></div>
+    <h2 class="reveal"><span lang="en">More players, <span class="grad">same PC</span></span><span lang="es">Más jugadores, <span class="grad">el mismo PC</span></span></h2>
+    <p class="sub reveal"><span lang="en">The biggest release so far: share a screen, merge sessions and extend everything.</span><span lang="es">La versión más grande hasta ahora: comparte la pantalla, junta sesiones y amplíalo todo.</span></p>
 
-    <div class="announce">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-        <h3><span lang="en">Join the Discord community</span><span lang="es">Únete a la comunidad en Discord</span></h3>
-        <p><span lang="en">Ask questions, share your setup, report problems and help shape what comes next. It is also where you will hear first about 2.0 test builds.</span><span lang="es">Pregunta, comparte tu montaje, cuenta los problemas que encuentres y ayuda a decidir lo que viene. También es donde se avisará primero de las versiones de prueba de la 2.0.</span></p>
-        <div class="cta">
-          <a class="btn discord" href="https://discord.gg/uAu9WWqzw" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18.2 18.2 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.7.1 18.2a19.7 19.7 0 0 0 6 3l1.3-2.1c-.7-.3-1.4-.6-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.6 19.6 0 0 0 6-3c.5-5.2-.9-9.8-3.6-13.8zM8.1 15.4c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm7.8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg><span lang="en">Join on Discord</span><span lang="es">Entrar en Discord</span></a>
+    <div class="bento">
+      <article class="card star reveal">
+        <div>
+          <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 4v12M3 10h18M9 20h6"/></svg></div>
+          <h3><span lang="en">Several seats, one screen</span><span lang="es">Varios puestos, una pantalla</span><span class="tag"><span lang="en">Star</span><span lang="es">Estrella</span></span></h3>
+          <p><span lang="en">Split any monitor into halves or quarters and give each part to a different person, with their own keyboard, mouse, gamepad and sound. No extra PCs, nothing streamed in between.</span><span lang="es">Divide cualquier monitor en mitades o cuartos y da cada parte a una persona distinta, con su teclado, ratón, mando y sonido. Sin más PCs y sin streaming de por medio.</span></p>
+          <ul>
+            <li><span lang="en">Up to four seats per monitor, placed on a live monitor map.</span><span lang="es">Hasta cuatro puestos por monitor, colocados sobre un mapa de monitores.</span></li>
+            <li><span lang="en">On the main monitor your desktop keeps the other half.</span><span lang="es">En el monitor principal tu escritorio se queda la otra mitad.</span></li>
+            <li><span lang="en">About 2 ms from render to screen, up to 125 Hz, no compression.</span><span lang="es">Unos 2 ms del render a la pantalla, hasta 125 Hz y sin compresión.</span></li>
+            <li><span lang="en">Each seat's gamepad reaches only that seat — not even Steam elsewhere sees it.</span><span lang="es">El mando de cada puesto llega solo a ese puesto: ni siquiera el Steam de otra sesión lo ve.</span></li>
+          </ul>
         </div>
-      </div>
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 520 170">
+            <rect class="mon" x="10" y="8" width="230" height="140" rx="10"/>
+            <rect class="q q1" x="20" y="18" width="104" height="120" rx="5"/><rect class="q q2" x="128" y="18" width="104" height="120" rx="5"/>
+            <path class="cut" d="M126 14v128"/>
+            <rect class="mon" x="280" y="8" width="230" height="140" rx="10"/>
+            <rect class="q q1" x="290" y="18" width="104" height="58" rx="5"/><rect class="q q2" x="398" y="18" width="104" height="58" rx="5"/>
+            <rect class="q q3" x="290" y="80" width="104" height="58" rx="5"/><rect class="q q4" x="398" y="80" width="104" height="58" rx="5"/>
+            <path class="cut" d="M396 14v128"/><path class="cut cut2" d="M286 78h220"/>
+            <text class="label" x="125" y="168" text-anchor="middle">1 + 1</text><text class="label" x="395" y="168" text-anchor="middle">2 × 2</text>
+          </svg>
+        </div>
+      </article>
 
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 16.5 5.5 21l2-7.5L2 9h7z"/></svg></div>
-        <h3><span lang="en">Coming in 2.0</span><span lang="es">Lo que llega con la 2.0</span></h3>
-        <p><span lang="en">OpenStreamMS will no longer include TermWrap or RDP Wrapper. Patching <code>termsrv</code> does not comply with the Windows license terms, so the project cannot distribute it. Out of the box, 2.0 will run several sessions on Windows Server with RDS CALs; on Windows Home and Pro it will need a multi-session package that you obtain separately, under your own responsibility.</span><span lang="es">OpenStreamMS dejará de incluir TermWrap y RDP Wrapper. Modificar <code>termsrv</code> no cumple la licencia de Windows, así que el proyecto no puede distribuirlo. Tal cual se instala, la 2.0 ejecutará varias sesiones en Windows Server con licencias RDS CAL; en Windows Home y Pro necesitará un paquete multisesión que consigas por tu cuenta y bajo tu responsabilidad.</span></p>
-        <ul class="check">
-          <li><span lang="en"><strong>Devices:</strong> big changes in how devices are handled.</span><span lang="es"><strong>Dispositivos:</strong> grandes cambios en cómo se gestionan.</span></li>
-          <li><span lang="en"><strong>Network adapters:</strong> a few surprises on the way.</span><span lang="es"><strong>Tarjetas de red:</strong> alguna sorpresa en camino.</span></li>
-          <li><span lang="en"><strong>Steam:</strong> better isolation between sessions.</span><span lang="es"><strong>Steam:</strong> mejor aislamiento entre sesiones.</span></li>
-        </ul>
-        <div class="cta">
-          <a class="btn" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/discussions/50" target="_blank" rel="noopener"><span lang="en">Read the full announcement</span><span lang="es">Leer el anuncio completo</span></a>
-          <a class="btn" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/discussions" target="_blank" rel="noopener"><span lang="en">Join the discussion</span><span lang="es">Participar en el debate</span></a>
-        </div>
-      </div>
+      <article class="card reveal" style="--d:.08s">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></div>
+        <h3><span lang="en">Composite sessions</span><span lang="es">Sesiones compuestas</span><span class="tag soft">Beta</span></h3>
+        <p><span lang="en">Merge 2 to 4 sessions into one stream with a grid editor. On the TV it is one more PC, and everyone plays at once.</span><span lang="es">Junta de 2 a 4 sesiones en un solo stream con un editor en rejilla. En la tele es un equipo más, y todos juegan a la vez.</span></p>
+      </article>
+
+      <article class="card reveal" style="--d:.16s">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M14 4a2 2 0 1 0-4 0v2H6a1 1 0 0 0-1 1v4h2a2 2 0 1 1 0 4H5v4a1 1 0 0 0 1 1h4v-2a2 2 0 1 1 4 0v2h4a1 1 0 0 0 1-1v-4h-2a2 2 0 1 1 0-4h2V7a1 1 0 0 0-1-1h-4z"/></svg></div>
+        <h3><span lang="en">Extensions</span><span lang="es">Extensiones</span></h3>
+        <p><span lang="en">Install add-ons from GitHub: software and drivers, start/stop hooks, Moonlight apps and new panel tabs — each pinned to a reviewed commit.</span><span lang="es">Instala complementos desde GitHub: programas y drivers, hooks al arrancar o parar, apps de Moonlight y pestañas nuevas en el panel, cada uno fijado a un commit revisado.</span></p>
+      </article>
+
+      <article class="card wide reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-4 3.6L2 15a3 3 0 0 0 5.4 2l1.4-2h6.4l1.4 2a3 3 0 0 0 5.4-2l-.7-6.4A4 4 0 0 0 17.3 5z"/></svg></div>
+        <h3><span lang="en">Gamepads that stay put</span><span lang="es">Mandos que no se escapan</span></h3>
+        <p><span lang="en">Controllers go only to the session or seat they belong to — through Windows, XInput and Steam alike.</span><span lang="es">Los mandos llegan solo a la sesión o al puesto que les toca, ya sea por Windows, XInput o Steam.</span></p>
+      </article>
+
+      <article class="card wide reveal" style="--d:.08s">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3><span lang="en">By the rules</span><span lang="es">Cumpliendo la licencia</span></h3>
+        <p><span lang="en">2.0 no longer bundles TermWrap or RDP Wrapper. It only checks whether your PC allows several sessions and tells you clearly.</span><span lang="es">La 2.0 ya no incluye TermWrap ni RDP Wrapper. Solo comprueba si tu PC permite varias sesiones y te lo dice con claridad.</span></p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ───────────────────────── WHAT'S NEW ───────────────────────── -->
-<section id="new" class="alt">
-  <div class="wrap">
-    <div class="eyebrow"><span lang="en">What’s new</span><span lang="es">Novedades</span></div>
-    <h2><span lang="en">Since 1.3: easier to run, smoother to watch</span><span lang="es">Desde la 1.3: más fácil de usar y más fluido</span></h2>
-    <p class="sub"><span lang="en">A redesigned dashboard, a display driver of its own for RDP sessions, a microphone per seat and Steam logins that survive deleting a session.</span><span lang="es">Un panel rediseñado, un driver de pantalla propio para las sesiones RDP, un micrófono por puesto y logins de Steam que ya no se pierden al borrar una sesión.</span></p>
-
-    <div class="grid">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
-        <h3><span lang="en">A dashboard that guides you</span><span lang="es">Un panel que te guía</span></h3>
-        <p><span lang="en">A getting-started guide, start progress step by step, errors with <em>View log</em> and <em>Retry</em>, and a <em>Connect</em> button that shows the PC’s address and ports. One window creates and edits sessions; the rarely used options move to <em>Advanced</em>.</span><span lang="es">Guía de primeros pasos, progreso del arranque paso a paso, errores con <em>Ver log</em> y <em>Reintentar</em>, y un botón <em>Conectar</em> que muestra la dirección y los puertos del PC. Una sola ventana crea y edita sesiones; lo que casi no se toca pasa a <em>Avanzado</em>.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div>
-        <h3><span lang="en">Its own window</span><span lang="es">En su propia ventana</span></h3>
-        <p><span lang="en">The Start menu and desktop shortcuts open the dashboard in a window of its own, without tabs or address bar. Without WebView2 it opens in the browser, as before.</span><span lang="es">Los accesos del menú Inicio y del escritorio abren el panel en una ventana propia, sin pestañas ni barra de direcciones. Sin WebView2 se abre en el navegador, como antes.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M12 3a9 9 0 010 18"/></svg></div>
-        <h3><span lang="en">Themes and a phone layout</span><span lang="es">Temas y versión para móvil</span></h3>
-        <p><span lang="en">System, Dark, Light, Synthwave, Retro and Matrix, all readable (WCAG AA). Effects are reduced automatically while someone is streaming or a seat is on, so the GPU stays with the encoder. On a phone, dialogs open as bottom sheets.</span><span lang="es">Sistema, Oscuro, Claro, Synthwave, Retro y Matrix, todos legibles (WCAG AA). Los efectos se reducen solos mientras alguien juega por streaming o hay un puesto encendido, para dejar la GPU al encoder. En el móvil, las ventanas salen desde abajo.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></div>
-        <h3><span lang="en">Pairing from the tray</span><span lang="es">Emparejar desde la bandeja</span></h3>
-        <p><span lang="en">When Moonlight or a WebRTC TV asks for a PIN, Windows shows a notification; click it and the dashboard opens on that session’s pairing dialog. The tray menu now lists sessions and seats with their state and turns them on and off.</span><span lang="es">Cuando Moonlight o una TV WebRTC piden un PIN, Windows muestra una notificación; al pulsarla se abre el panel en el emparejamiento de esa sesión. El menú de la bandeja muestra ahora sesiones y puestos con su estado y los enciende y apaga.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0014 0M12 17v4M8 21h8"/></svg></div>
-        <h3><span lang="en">A microphone per seat</span><span lang="es">Un micrófono por puesto</span></h3>
-        <p><span lang="en">Each seat can have its own microphone, which shows up in its session as “Remote Audio”. <em>Test</em> shows its level before you save. No drivers of our own.</span><span lang="es">Cada puesto puede tener su micrófono, que aparece en su sesión como «Audio remoto». <em>Probar</em> muestra su nivel antes de guardar. Sin drivers propios.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c2 .7 3 2.5 3 5.2"/></svg></div>
-        <h3><span lang="en">Who is connected</span><span lang="es">Quién está conectado</span></h3>
-        <p><span lang="en">Session cards show how many Moonlight clients and WebRTC TVs are watching right now.</span><span lang="es">Las tarjetas de las sesiones muestran cuántos clientes de Moonlight y TV WebRTC están viéndola en ese momento.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 9l3 3-3 3M13 15h4"/></svg></div>
-        <h3><span lang="en">RemoteIdd <small>(experimental)</small></span><span lang="es">RemoteIdd <small>(experimental)</small></span></h3>
-        <p><span lang="en">A display driver of our own for RDP sessions: Sunshine takes each frame straight from a shared GPU texture, with no screen capture in between. Optional in the installer; it uses a test certificate.</span><span lang="es">Un driver de pantalla propio para las sesiones RDP: Sunshine recoge cada fotograma directamente de una textura compartida en la GPU, sin capturar la pantalla. Opcional en el instalador; usa un certificado de prueba.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
-        <h3><span lang="en">A true 60 fps</span><span lang="es">60 fps de verdad</span></h3>
-        <p><span lang="en">Windows only composes RDP sessions at whole-millisecond intervals, so 60 fps became 58.8 and the TV repeated a frame almost every second. Sessions now compose faster and Sunshine paces the stream.</span><span lang="es">Windows solo compone las sesiones RDP a intervalos de milisegundos enteros, así que 60 fps se quedaban en 58,8 y la TV repetía un fotograma casi cada segundo. Ahora la sesión se compone más rápido y Sunshine marca el ritmo del stream.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/><path d="M17 3l4 4M21 3l-4 4"/></svg></div>
-        <h3><span lang="en">Steam stays signed in</span><span lang="es">Steam sigue con la sesión iniciada</span></h3>
-        <p><span lang="en">Deleting an isolated session can now keep its Windows user, so Steam’s saved login, saves and game settings survive and a new session can reuse it. Cards warn when Steam has no saved login, and leftover users and profiles can be cleaned up from the dashboard.</span><span lang="es">Al borrar una sesión aislada se puede conservar su usuario de Windows, así que el login guardado de Steam, las partidas y los ajustes siguen ahí y una sesión nueva puede reutilizarlo. Las tarjetas avisan si Steam no tiene la sesión guardada, y los usuarios y perfiles que sobran se limpian desde el panel.</span></p>
-      </div>
-    </div>
-
-    <ul class="check" style="margin-top:28px">
-      <li><span lang="en"><strong>Steam on the console and in a session with the same Windows user</strong>, each with its own window and browser cache.</span><span lang="es"><strong>Steam en la consola y en una sesión con el mismo usuario de Windows</strong>, cada uno con su ventana y su caché del navegador.</span></li>
-      <li><span lang="en"><strong>Split screen:</strong> up to four seats on one monitor, in halves or quarters.</span><span lang="es"><strong>Pantalla partida:</strong> hasta cuatro puestos en un monitor, en mitades o cuartos.</span></li>
-      <li><span lang="en"><strong>Seats follow their monitor:</strong> change its mode or size and the session reconnects to match.</span><span lang="es"><strong>Los puestos siguen a su monitor:</strong> si cambia de modo o de tamaño, la sesión se reconecta para ajustarse.</span></li>
-      <li><span lang="en"><strong>Windows shuts down cleanly with seats on:</strong> seat sessions now sign out properly instead of being cut.</span><span lang="es"><strong>Windows se apaga bien con puestos encendidos:</strong> las sesiones de los puestos ahora cierran sesión de verdad en lugar de cortarse.</span></li>
-      <li><span lang="en"><strong>One log level</strong> for the service, tray, seats and Sunshine, set in <em>Settings</em>.</span><span lang="es"><strong>Un solo nivel de log</strong> para el servicio, la bandeja, los puestos y Sunshine, en <em>Ajustes</em>.</span></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ───────────────────────── HOW IT WORKS ───────────────────────── -->
+<!-- ───────────────────────── CÓMO FUNCIONA ───────────────────────── -->
 <section id="how">
   <div class="wrap">
-    <div class="eyebrow"><span lang="en">How it works</span><span lang="es">Cómo funciona</span></div>
-    <h2><span lang="en">A dedicated streaming host per session</span><span lang="es">Un host de streaming dedicado por sesión</span></h2>
-    <p class="sub">
-      <span lang="en">The service (running as SYSTEM) opens a loopback RDP session for each stream, launches a private Sunshine instance inside it on its own ports, and keeps everything alive. Your local desktop is never touched.</span>
-      <span lang="es">El servicio (que corre como SYSTEM) abre una sesión RDP local por cada stream, lanza dentro una instancia privada de Sunshine con sus propios puertos y lo mantiene todo en marcha. Tu escritorio local no se toca.</span>
-    </p>
-
-    <div class="flow">
-      <div class="clients">
-        <div class="node"><h4>Moonlight · TV</h4><p><span lang="en">Living-room client</span><span lang="es">Cliente del salón</span></p></div>
-        <div class="node"><h4>Moonlight · Laptop</h4><p><span lang="en">Second player</span><span lang="es">Segundo jugador</span></p></div>
-        <div class="node"><h4><span lang="en">Browser</span><span lang="es">Navegador</span></h4><p><span lang="en">Dashboard &amp; REST API</span><span lang="es">Panel y API REST</span></p></div>
+    <div class="eyebrow reveal"><span lang="en">How it works</span><span lang="es">Cómo funciona</span></div>
+    <h2 class="reveal"><span lang="en">Two ways to share one PC</span><span lang="es">Dos formas de compartir un PC</span></h2>
+    <div class="split">
+      <div class="way reveal">
+        <span class="k"><span lang="en">Seats</span><span lang="es">Puestos</span></span>
+        <h3><span lang="en">People at the desk</span><span lang="es">Personas en la mesa</span></h3>
+        <p><span lang="en">Each seat gets a monitor (or part of one), keyboard, mouse, gamepads, speakers and mic, as if it were its own PC. Drag devices onto it in the panel; they are reserved for that seat while it runs.</span><span lang="es">Cada puesto tiene un monitor (o parte de uno), teclado, ratón, mandos, altavoces y micrófono, como si fuera otro PC. Arrastra los dispositivos en el panel y quedan reservados para ese puesto mientras está encendido.</span></p>
       </div>
-      <div class="arrow" aria-hidden="true">→</div>
-      <div class="host">
-        <div class="label"><span lang="en">Your Windows PC</span><span lang="es">Tu PC con Windows</span></div>
-        <div class="node svc">
-          <h4>OpenStreamMS service</h4>
-          <p><span lang="en">Web dashboard · REST API · session monitor · Sunshine proxy</span><span lang="es">Panel web · API REST · monitor de sesiones · proxy a Sunshine</span></p>
-        </div>
-        <div class="sessions">
-          <div class="session"><b><span lang="en">Session 1</span><span lang="es">Sesión 1</span></b>
-            <div>RDP loopback<br>Sunshine :47989<br><span lang="en">user</span><span lang="es">usuario</span> osms-a1…</div></div>
-          <div class="session"><b><span lang="en">Session 2</span><span lang="es">Sesión 2</span></b>
-            <div>RDP loopback<br>Sunshine :48089<br><span lang="en">user</span><span lang="es">usuario</span> osms-b2…</div></div>
-          <div class="session"><b><span lang="en">Local desktop</span><span lang="es">Escritorio local</span></b>
-            <div><span lang="en">Console session<br>untouched</span><span lang="es">Sesión de consola<br>intacta</span></div></div>
-        </div>
+      <div class="way reveal" style="--d:.1s">
+        <span class="k"><span lang="en">Sessions</span><span lang="es">Sesiones</span></span>
+        <h3><span lang="en">Players on the couch</span><span lang="es">Jugadores en el sofá</span></h3>
+        <p><span lang="en">Each session is an isolated Windows user with its own Sunshine host. Stream it to Moonlight or straight to a TV browser over WebRTC — or merge several into one composite stream.</span><span lang="es">Cada sesión es un usuario de Windows aislado con su propio Sunshine. Emítela a Moonlight o directamente al navegador de la tele por WebRTC, o junta varias en un stream compuesto.</span></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ───────────────────────── LOCAL SEATS ───────────────────────── -->
-<section id="seats" class="alt">
-  <div class="wrap">
-    <div class="eyebrow"><span lang="en">Local seats</span><span lang="es">Puestos locales</span></div>
-    <h2><span lang="en">One PC, several people at the desk</span><span lang="es">Un PC, varias personas delante</span></h2>
-    <p class="sub">
-      <span lang="en">A seat is a set of physical devices — a monitor, a keyboard, a mouse, a gamepad and an audio output — linked to a session. The session shows on that monitor and only those devices control it, as if it were a separate computer. No extra hardware and no third-party drivers for keyboard and mouse: just Windows.</span>
-      <span lang="es">Un puesto es un conjunto de dispositivos físicos (un monitor, un teclado, un ratón, un mando y una salida de audio) unido a una sesión. La sesión se ve en ese monitor y solo esos dispositivos la controlan, como si fuera otro ordenador. Sin hardware extra ni drivers de terceros para teclado y ratón: solo Windows.</span>
-    </p>
-
-    <div class="flow">
-      <div class="clients">
-        <div class="node"><h4><span lang="en">Seat “Desk”</span><span lang="es">Puesto «Escritorio»</span></h4><p><span lang="en">2nd monitor · USB keyboard &amp; mouse · headphones</span><span lang="es">2.º monitor · teclado y ratón USB · auriculares</span></p></div>
-        <div class="node"><h4><span lang="en">Seat “Kids”</span><span lang="es">Puesto «Peques»</span></h4><p><span lang="en">TV over HDMI · gamepad · TV speakers</span><span lang="es">TV por HDMI · mando · altavoces de la TV</span></p></div>
-        <div class="node"><h4><span lang="en">Console</span><span lang="es">Consola</span></h4><p><span lang="en">Main monitor · the PC’s own desktop</span><span lang="es">Monitor principal · el escritorio del propio PC</span></p></div>
-      </div>
-      <div class="arrow" aria-hidden="true">→</div>
-      <div class="host">
-        <div class="label"><span lang="en">Same Windows PC, same GPU</span><span lang="es">El mismo PC con Windows y la misma GPU</span></div>
-        <div class="node svc">
-          <h4><span lang="en">Seat manager</span><span lang="es">Gestor de puestos</span></h4>
-          <p><span lang="en">Turns the monitor on · fits the session to its resolution · routes input, image and sound</span><span lang="es">Enciende el monitor · ajusta la sesión a su resolución · lleva entrada, imagen y sonido</span></p>
-        </div>
-        <div class="sessions">
-          <div class="session"><b><span lang="en">Session “Desk”</span><span lang="es">Sesión «Escritorio»</span></b>
-            <div><span lang="en">own Windows user<br>Moonlight paused</span><span lang="es">usuario de Windows propio<br>Moonlight en pausa</span></div></div>
-          <div class="session"><b><span lang="en">Session “Kids”</span><span lang="es">Sesión «Peques»</span></b>
-            <div><span lang="en">ephemeral user<br>clean on every start</span><span lang="es">usuario efímero<br>limpio en cada arranque</span></div></div>
-          <div class="session"><b><span lang="en">Console session</span><span lang="es">Sesión de consola</span></b>
-            <div><span lang="en">host only<br>sees no seat device</span><span lang="es">solo anfitriona<br>no ve los dispositivos de los puestos</span></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cat" style="margin-top:44px"><span lang="en">What each seat gets</span><span lang="es">Qué tiene cada puesto</span></div>
-    <div class="grid">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <h3><span lang="en">Its own monitor</span><span lang="es">Su propio monitor</span></h3>
-        <p><span lang="en">The seat’s monitor joins the desktop only while the seat is on. The session is captured inside its own RDP session and shown full-screen in about 2 ms, uncompressed, at up to 125 Hz. Resolution and refresh rate can be set per seat, or follow the monitor: if its mode changes, the session reconnects to match.</span><span lang="es">El monitor del puesto se añade al escritorio solo mientras el puesto está encendido. La sesión se captura dentro de su propia sesión RDP y se muestra a pantalla completa en unos 2 ms, sin compresión y hasta a 125 Hz. Resolución y frecuencia se fijan por puesto o siguen al monitor: si cambia de modo, la sesión se reconecta para ajustarse.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 4v16M2 12h20"/></svg></div>
-        <h3><span lang="en">Split screen</span><span lang="es">Pantalla partida</span></h3>
-        <p><span lang="en">Up to four seats can share one monitor: each takes the whole screen, a half or a quarter, with its own keyboard, mouse, gamepads and sound. The main monitor can be split too, leaving the console the other half.</span><span lang="es">Hasta cuatro puestos pueden compartir un monitor: cada uno ocupa la pantalla entera, una mitad o un cuarto, con su teclado, ratón, mandos y sonido. El monitor principal también se puede partir y la consola se queda con la otra mitad.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></div>
-        <h3><span lang="en">Fully separate keyboard &amp; mouse</span><span lang="es">Teclado y ratón totalmente separados</span></h3>
-        <p><span lang="en">While a seat is on, its USB keyboard and mouse switch to Microsoft’s own WinUSB driver and are read directly: the console never sees them and both mice move at the same time. They return to their normal driver when the seat turns off, even after a crash.</span><span lang="es">Mientras el puesto está encendido, su teclado y su ratón USB pasan al driver WinUSB del propio Microsoft y se leen directamente: la consola no los ve y los dos ratones se mueven a la vez. Vuelven a su driver normal al apagar el puesto, incluso tras un fallo.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M7 12h3M8.5 10.5v3M16 11h.01M18 13h.01"/></svg></div>
-        <h3><span lang="en">Gamepads by USB port</span><span lang="es">Mandos por puerto USB</span></h3>
-        <p><span lang="en">Assign the USB port a gamepad is plugged into: while the seat is on, only that seat’s session sees it. Other sessions, the console and Moonlight players can’t grab it.</span><span lang="es">Asigna el puerto USB donde está el mando: mientras el puesto está encendido, solo la sesión de ese puesto lo ve. Ni las demás sesiones, ni la consola, ni los jugadores de Moonlight pueden quedárselo.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0118 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg></div>
-        <h3><span lang="en">Its own sound</span><span lang="es">Su propio sonido</span></h3>
-        <p><span lang="en">The session’s audio plays on the seat’s output (headphones, speakers, the TV over HDMI) with about 70 ms of delay and a jitter buffer that prevents pops.</span><span lang="es">El audio de la sesión sale por la salida del puesto (auriculares, altavoces, la TV por HDMI) con unos 70 ms de retraso y un búfer que evita los chasquidos.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0014 0M12 17v4M8 21h8"/></svg></div>
-        <h3><span lang="en">Its own microphone</span><span lang="es">Su propio micrófono</span></h3>
-        <p><span lang="en">Pick a microphone for the seat and its session gets it as “Remote Audio”, through RDP microphone redirection. Each microphone belongs to one seat only.</span><span lang="es">Elige un micrófono para el puesto y su sesión lo recibe como «Audio remoto», por la redirección de micrófono de RDP. Cada micrófono es de un solo puesto.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></div>
-        <h3><span lang="en">Identify every device</span><span lang="es">Identifica cada dispositivo</span></h3>
-        <p><span lang="en">While editing a seat, <em>Test</em> shows the OpenStreamMS logo on a monitor or plays a chime on an audio output, shows a microphone’s level, and the name of the keyboard, mouse or gamepad you press lights up in the list. No more guessing which “USB Input Device” is which.</span><span lang="es">Al editar un puesto, <em>Probar</em> muestra el logo de OpenStreamMS en el monitor o hace sonar un aviso por la salida de audio, enseña el nivel de un micrófono, y el nombre del teclado, ratón o mando que pulsas se ilumina en la lista. Se acabó adivinar cuál es cada «Dispositivo de entrada USB».</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 11-12.8 0"/></svg></div>
-        <h3><span lang="en">On from the dashboard or at boot</span><span lang="es">Desde el panel o al arrancar</span></h3>
-        <p><span lang="en">Turn seats on and off from their card or the tray menu, or let them start with the PC. Pressing <em>Disconnect</em> on a seat turns it off until it is started again, and the session is right back on Moonlight.</span><span lang="es">Enciende y apaga los puestos desde su tarjeta o el menú de la bandeja, o deja que arranquen con el PC. Pulsar <em>Desconectar</em> en un puesto lo apaga hasta que se vuelva a encender, y la sesión vuelve enseguida a Moonlight.</span></p>
-      </div>
-    </div>
-
-    <div class="cat"><span lang="en">Safe to share</span><span lang="es">Seguro para compartir</span></div>
-    <div class="grid">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
-        <h3><span lang="en">Password at the seat</span><span lang="es">Contraseña en el puesto</span></h3>
-        <p><span lang="en">An exclusive seat whose session uses a regular Windows account starts on the lock screen, so whoever sits there must type that account’s password. Isolated and ephemeral users go straight in.</span><span lang="es">Un puesto exclusivo cuya sesión usa una cuenta normal de Windows arranca en la pantalla de bloqueo, así que quien se siente ahí tiene que escribir la contraseña de esa cuenta. Los usuarios aislados y efímeros entran directamente.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2v6M5.6 6.6a9 9 0 1012.8 0"/><path d="M3 3l18 18"/></svg></div>
-        <h3><span lang="en">Only the console powers off the PC</span><span lang="es">Solo la consola apaga el PC</span></h3>
-        <p><span lang="en">Exclusive seats can’t shut down or restart the computer, neither from the Start menu nor with <code>shutdown</code>. Remote sessions and shared seats keep that right.</span><span lang="es">Los puestos exclusivos no pueden apagar ni reiniciar el equipo, ni desde el menú Inicio ni con <code>shutdown</code>. Las sesiones remotas y los puestos compartidos lo conservan.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4M9 10.5l2 2 4-4"/></svg></div>
-        <h3><span lang="en">Seats never go dark</span><span lang="es">Los puestos no se quedan a oscuras</span></h3>
-        <p><span lang="en">Seat monitors belong to the console’s desktop, so locking it (<kbd>Win</kbd>+<kbd>L</kbd>) would hide them all. While a seat is on, the console can’t be locked.</span><span lang="es">Los monitores de los puestos son del escritorio de la consola, así que bloquearla (<kbd>Win</kbd>+<kbd>L</kbd>) los taparía todos. Mientras haya un puesto encendido, la consola no se puede bloquear.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="2"/><rect x="13" y="4" width="8" height="16" rx="2"/></svg></div>
-        <h3><span lang="en">Exclusive or shared</span><span lang="es">Exclusivo o compartido</span></h3>
-        <p><span lang="en">An exclusive seat pauses Moonlight and WebRTC for its session while it is on, so nobody can stream into it. A shared seat keeps streaming on: the same desktop at the desk and on the TV.</span><span lang="es">Un puesto exclusivo pausa Moonlight y WebRTC para su sesión mientras está encendido, así que nadie puede entrar por streaming. Uno compartido mantiene el streaming: el mismo escritorio en la mesa y en la TV.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg></div>
-        <h3><span lang="en">Steam per seat</span><span lang="es">Steam por puesto</span></h3>
-        <p><span lang="en">Each seat or session runs its own Steam alongside yours, even with the same Windows user. With an isolated user it signs in to its own Steam account, and keeping that user when the session is deleted keeps the login.</span><span lang="es">Cada puesto o sesión abre su propio Steam a la vez que el tuyo, incluso con el mismo usuario de Windows. Con un usuario aislado inicia su propia cuenta de Steam, y conservar ese usuario al borrar la sesión conserva el login.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
-        <h3><span lang="en">Your account stays yours</span><span lang="es">Tu cuenta sigue siendo tuya</span></h3>
-        <p><span lang="en">A seat can use the console’s own Windows account without a password, but then it never starts by itself at boot: it only turns on when you start it.</span><span lang="es">Un puesto puede usar la propia cuenta de Windows de la consola sin contraseña, pero entonces nunca arranca solo al encender el PC: solo se enciende cuando lo enciendes tú.</span></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────────────────────── FEATURES ───────────────────────── -->
+<!-- ───────────────────────── FUNCIONES ───────────────────────── -->
 <section id="features">
   <div class="wrap">
-    <div class="eyebrow"><span lang="en">Features</span><span lang="es">Características</span></div>
-    <h2><span lang="en">Everything a multi-seat streaming box needs</span><span lang="es">Todo lo que necesita un PC de streaming multipuesto</span></h2>
-    <p class="sub"><span lang="en">From session isolation to hardware encoding checks, OpenStreamMS automates the fiddly parts of running Sunshine headless.</span><span lang="es">Desde el aislamiento de sesiones hasta la comprobación del encoder por hardware, OpenStreamMS automatiza lo más engorroso de usar Sunshine sin pantalla.</span></p>
-
-    <!-- Sessions & isolation -->
-    <div class="cat"><span lang="en">Sessions &amp; isolation</span><span lang="es">Sesiones y aislamiento</span></div>
-    <div class="grid">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></div>
-        <h3><span lang="en">Multiple isolated sessions</span><span lang="es">Varias sesiones aisladas</span></h3>
-        <p><span lang="en">Each stream gets its own RDP session and its own Sunshine instance, with separate ports, config, logs and paired devices.</span><span lang="es">Cada stream tiene su propia sesión RDP y su propia instancia de Sunshine, con puertos, configuración, logs y dispositivos emparejados independientes.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
-        <h3><span lang="en">Isolated users</span><span lang="es">Usuarios aislados</span></h3>
-        <p><span lang="en">Optionally runs a session under an auto-managed local user (<code>osms-…</code>): its own profile, HKCU, desktop and audio, shown on the session card. Steam or Chrome can run twice without lock conflicts. No drivers, no third-party tools.</span><span lang="es">Opcionalmente ejecuta la sesión con un usuario local gestionado automáticamente (<code>osms-…</code>): perfil, HKCU, escritorio y audio propios, y su nombre se ve en la tarjeta. Steam o Chrome pueden abrirse dos veces sin conflictos de bloqueo. Sin drivers ni herramientas externas.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/><circle cx="7" cy="6" r="1"/></svg></div>
-        <h3><span lang="en">Ephemeral mode</span><span lang="es">Modo efímero</span></h3>
-        <p><span lang="en">Isolated users can be ephemeral: the profile and its registry hive are wiped when the session stops, so every start is a clean slate.</span><span lang="es">Los usuarios aislados pueden ser efímeros: el perfil y su registro se borran al parar la sesión, así que cada arranque empieza de cero.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg></div>
-        <h3><span lang="en">Independent stream profile</span><span lang="es">Perfil de stream independiente</span></h3>
-        <p><span lang="en">Same Windows user, separate profile root: <code>USERPROFILE</code>, <code>APPDATA</code>, <code>LOCALAPPDATA</code>, temp and XDG paths are redirected for Explorer, Sunshine and every app launched from Moonlight.</span><span lang="es">Mismo usuario de Windows con una raíz de perfil aparte: <code>USERPROFILE</code>, <code>APPDATA</code>, <code>LOCALAPPDATA</code>, temporales y rutas XDG se redirigen para Explorer, Sunshine y cada app lanzada desde Moonlight.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6v6H9z"/></svg></div>
-        <h3><span lang="en">Keep the user, keep the logins</span><span lang="es">Conserva el usuario y sus logins</span></h3>
-        <p><span lang="en">Deleting an isolated session asks whether to keep its user. A kept user can be reused by a new session with its Steam login, saves and settings; <em>System → Dedicated users without a session</em> lists kept users and leftover profiles with their size, to delete them one by one.</span><span lang="es">Al borrar una sesión aislada se pregunta si conservar su usuario. Una sesión nueva puede reutilizarlo con su login de Steam, partidas y ajustes; <em>Sistema → Usuarios dedicados sin sesión</em> lista los usuarios conservados y los perfiles sueltos con su tamaño, para borrarlos uno a uno.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg></div>
-        <h3><span lang="en">Silent host, full stream audio</span><span lang="es">Host en silencio, audio completo en el stream</span></h3>
-        <p><span lang="en">The RDP client’s audio is muted on the host through WASAPI, while Sunshine still captures it for Moonlight. No game sound leaking into the room.</span><span lang="es">El audio del cliente RDP se silencia en el host mediante WASAPI, mientras Sunshine lo sigue capturando para Moonlight. El sonido del juego no se oye en la habitación.</span></p>
-      </div>
-    </div>
-
-    <!-- Streaming quality -->
-    <div class="cat"><span lang="en">Streaming performance</span><span lang="es">Rendimiento del streaming</span></div>
-    <div class="grid">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h8l-1 8 10-12h-8z"/></svg></div>
-        <h3><span lang="en">4K60 RDP tuning</span><span lang="es">RDP optimizado para 4K60</span></h3>
-        <p><span lang="en">Applies frame-rate, GPU-capture and display-refresh policies before each session so the remote desktop composes at the full target rate. When the frame interval isn’t a whole number of milliseconds (60 fps), the session composes faster and Sunshine paces the stream, so 60 really means 60. Resolution, fps and colour depth are set per session.</span><span lang="es">Aplica políticas de fps, captura por GPU y frecuencia de pantalla antes de cada sesión para que el escritorio remoto se componga a la tasa completa. Si el intervalo entre fotogramas no es un número entero de milisegundos (60 fps), la sesión se compone más rápido y Sunshine marca el ritmo, así que 60 son 60. Resolución, fps y profundidad de color se configuran por sesión.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg></div>
-        <h3><span lang="en">Hardware encoder guard</span><span lang="es">Control del encoder por hardware</span></h3>
-        <p><span lang="en">After launch it reads Sunshine’s encoder probe (NVENC, AMF, Quick Sync). If Sunshine fell back to software encoding, it relaunches once to recover the GPU encoder.</span><span lang="es">Tras el arranque lee la detección de encoders de Sunshine (NVENC, AMF, Quick Sync). Si Sunshine ha caído a codificación por software, lo relanza una vez para recuperar el encoder de la GPU.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
-        <h3><span lang="en">mstsc or FreeRDP</span><span lang="es">mstsc o FreeRDP</span></h3>
-        <p><span lang="en">Uses the Windows RDP client with H.264 hardware decoding when available, or the bundled FreeRDP client in headless mode — selectable in the config.</span><span lang="es">Usa el cliente RDP de Windows con decodificación H.264 por hardware si está disponible, o el cliente FreeRDP incluido en modo oculto; se elige en la configuración.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M7 12h3M8.5 10.5v3M16 11h.01M18 13h.01"/></svg></div>
-        <h3><span lang="en">Virtual gamepads</span><span lang="es">Mandos virtuales</span></h3>
-        <p><span lang="en">Installs and manages the ViGEmBus driver from the dashboard so Moonlight controllers appear as native Xbox/DualShock pads inside each session.</span><span lang="es">Instala y gestiona el driver ViGEmBus desde el panel para que los mandos de Moonlight aparezcan como mandos Xbox/DualShock nativos en cada sesión.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M12 17v4M8 21h8M7 8h.01M7 12h10"/></svg></div>
-        <h3><span lang="en">Virtual display support</span><span lang="es">Soporte de pantalla virtual</span></h3>
-        <p><span lang="en">Optional VDD mode keeps a virtual display alive for Sunshine even when the RDP client disconnects. Capture method, encoder and output display are configurable per session.</span><span lang="es">El modo VDD opcional mantiene una pantalla virtual activa para Sunshine aunque se desconecte el cliente RDP. Método de captura, encoder y pantalla de salida se configuran por sesión.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></div>
-        <h3><span lang="en">Auto-recovery</span><span lang="es">Recuperación automática</span></h3>
-        <p><span lang="en">A 5-second monitor restarts Sunshine if it crashes (reading the cause from the Windows event log) and relaunches every enabled session when the service or PC starts.</span><span lang="es">Un monitor cada 5 segundos reinicia Sunshine si falla (leyendo la causa en el registro de eventos de Windows) y relanza todas las sesiones habilitadas cuando arranca el servicio o el PC.</span></p>
-      </div>
-    </div>
-
-    <div class="grid" style="margin-top:16px">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8M7 10l3 2-3 2M13 14h4"/></svg></div>
-        <h3><span lang="en">Moonlight, WebRTC or both</span><span lang="es">Moonlight, WebRTC o los dos</span></h3>
-        <p><span lang="en">With the bundled sunshine-webrtc build, each session serves Moonlight apps, Samsung TVs running Moonlight WebRTC, or both. Change it in the session’s settings; only the ports of the active protocols are opened. TVs get zero playout delay.</span><span lang="es">Con la versión sunshine-webrtc incluida, cada sesión sirve a las apps de Moonlight, a las TV Samsung con Moonlight WebRTC o a ambas. Se cambia en los ajustes de la sesión y solo se abren los puertos de los protocolos activos. Las TV reciben la imagen sin retardo de reproducción.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 9l3 3-3 3M13 15h4"/></svg></div>
-        <h3><span lang="en">RemoteIdd display <small>(experimental)</small></span><span lang="es">Pantalla RemoteIdd <small>(experimental)</small></span></h3>
-        <p><span lang="en">An IddCx display driver of our own for RDP sessions, built only on documented Windows APIs. Each frame reaches Sunshine through a shared GPU texture; in the hand-off test, from present to pixel takes under 1 ms (p99) even at 4K 240 Hz. Used automatically when installed.</span><span lang="es">Un driver de pantalla IddCx propio para las sesiones RDP, hecho solo con API documentadas de Windows. Cada fotograma llega a Sunshine por una textura compartida en la GPU; en la prueba de entrega, del present al píxel tarda menos de 1 ms (p99) incluso a 4K y 240 Hz. Se usa automáticamente si está instalado.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></div>
-        <h3><span lang="en">Pairing notifications</span><span lang="es">Avisos de emparejamiento</span></h3>
-        <p><span lang="en">The tray icon notices when a Moonlight client or a WebRTC TV is waiting for a PIN in any session and shows a Windows notification that opens the right pairing dialog.</span><span lang="es">El icono de la bandeja detecta cuando un cliente Moonlight o una TV WebRTC espera un PIN en cualquier sesión y muestra una notificación de Windows que abre el emparejamiento correcto.</span></p>
-      </div>
-    </div>
-
-    <!-- Management -->
-    <div class="cat"><span lang="en">Management</span><span lang="es">Gestión</span></div>
-    <div class="grid">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
-        <h3><span lang="en">Dashboard</span><span lang="es">Panel</span></h3>
-        <p><span lang="en">Create, start, stop, restart and delete sessions, edit their settings and follow live logs — in its own window on the PC, or from any browser or phone. Six themes, English, Spanish, French and Portuguese.</span><span lang="es">Crea, inicia, detiene, reinicia y borra sesiones, edita su configuración y sigue los logs en directo, en su propia ventana en el PC o desde cualquier navegador o móvil. Seis temas, en inglés, español, francés y portugués.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></svg></div>
-        <h3><span lang="en">Moonlight pairing</span><span lang="es">Emparejamiento con Moonlight</span></h3>
-        <p><span lang="en">Enter the Moonlight PIN in the dashboard, list paired clients and unpair them. Pairings survive restarts and Sunshine updates.</span><span lang="es">Introduce el PIN de Moonlight en el panel, consulta los clientes emparejados y desemparéjalos. Los emparejamientos se conservan tras reinicios y actualizaciones de Sunshine.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
-        <h3><span lang="en">Sunshine stays private</span><span lang="es">Sunshine queda privado</span></h3>
-        <p><span lang="en">Each Sunshine admin panel is reached only through an authenticated reverse proxy with per-session internal credentials (optionally rotated on start). It is never exposed to the network.</span><span lang="es">Al panel de administración de cada Sunshine solo se llega a través de un proxy inverso autenticado con credenciales internas por sesión (opcionalmente rotadas en cada arranque). Nunca se expone a la red.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 11-12.8 0"/></svg></div>
-        <h3><span lang="en">Remote power controls</span><span lang="es">Control de energía remoto</span></h3>
-        <p><span lang="en">Shut down, restart or cancel a pending shutdown of the host PC straight from the dashboard — handy from the couch.</span><span lang="es">Apaga, reinicia o cancela un apagado pendiente del PC directamente desde el panel, muy práctico desde el sofá.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></div>
-        <h3><span lang="en">Several sessions at once</span><span lang="es">Varias sesiones a la vez</span></h3>
-        <p><span lang="en">Native Remote Desktop is enabled automatically. Several sessions at once are officially supported on Windows Server with the Remote Desktop Session Host role and RDS user CALs. OpenStreamMS does not install anything to allow them on Windows Home or Pro: if you use a third-party tool for that, it is your decision and your responsibility, and it may not be permitted by the Windows license. The dashboard only shows whether the PC allows it.</span><span lang="es">Escritorio remoto nativo se habilita automáticamente. Oficialmente, varias sesiones a la vez están soportadas en Windows Server con el rol Host de sesión de Escritorio remoto y CAL de RDS por usuario. OpenStreamMS no instala nada para permitirlas en Windows Home o Pro: si usas una herramienta de terceros para ello, es decisión y responsabilidad tuya, y puede que la licencia de Windows no lo permita. El panel solo indica si el equipo lo admite.</span></p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></div>
-        <h3><span lang="en">Your Sunshine settings are kept</span><span lang="es">Se respetan tus ajustes de Sunshine</span></h3>
-        <p><span lang="en">Only the keys OpenStreamMS needs (ports, paths, certificates) are managed. Anything you change in Sunshine’s own panel is preserved across restarts and upgrades.</span><span lang="es">Solo se gestionan las claves que necesita OpenStreamMS (puertos, rutas, certificados). Lo que cambies en el panel de Sunshine se conserva entre reinicios y actualizaciones.</span></p>
-      </div>
+    <div class="eyebrow reveal"><span lang="en">Features</span><span lang="es">Funciones</span></div>
+    <h2 class="reveal"><span lang="en">Everything in one panel</span><span lang="es">Todo en un solo panel</span></h2>
+    <div class="feats">
+      <div class="feat reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M17 11a3 3 0 1 0 0-6M21 20c0-2-1.5-4-4-4.6"/></svg></div>
+        <h4><span lang="en">Isolated users</span><span lang="es">Usuarios aislados</span></h4><p><span lang="en">Every session runs as its own Windows user, picked from your local accounts or created for it.</span><span lang="es">Cada sesión usa su propio usuario de Windows, elegido entre tus cuentas locales o creado para ella.</span></p></div>
+      <div class="feat reveal" style="--d:.06s"><div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></div>
+        <h4><span lang="en">Moonlight and TVs</span><span lang="es">Moonlight y teles</span></h4><p><span lang="en">Moonlight, WebRTC in the TV browser, or both — with lower latency to the TV.</span><span lang="es">Moonlight, WebRTC en el navegador de la tele o ambos, con menos latencia hacia la tele.</span></p></div>
+      <div class="feat reveal" style="--d:.12s"><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div>
+        <h4><span lang="en">A true 60 fps</span><span lang="es">60 fps de verdad</span></h4><p><span lang="en">Sessions render and stream at a steady 60 fps, with hardware encoding.</span><span lang="es">Las sesiones se dibujan y se emiten a 60 fps estables, con codificación por hardware.</span></p></div>
+      <div class="feat reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></div>
+        <h4><span lang="en">Sound per seat</span><span lang="es">Sonido por puesto</span></h4><p><span lang="en">Each seat and session gets its own speakers and microphone.</span><span lang="es">Cada puesto y cada sesión tienen sus altavoces y su micrófono.</span></p></div>
+      <div class="feat reveal" style="--d:.06s"><div class="ico"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+        <h4><span lang="en">Tray and alerts</span><span lang="es">Bandeja y avisos</span></h4><p><span lang="en">A tray icon tells you when a device wants to pair and opens the panel in one click.</span><span lang="es">El icono de la bandeja avisa cuando un dispositivo quiere emparejarse y abre el panel con un clic.</span></p></div>
+      <div class="feat reveal" style="--d:.12s"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <h4><span lang="en">22 languages, 10 themes</span><span lang="es">22 idiomas, 10 temas</span></h4><p><span lang="en">From Synthwave to Matrix, in your language, with an interactive guide.</span><span lang="es">De Synthwave a Matrix, en tu idioma y con una guía interactiva.</span></p></div>
+      <div class="feat reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+        <h4><span lang="en">REST API</span><span lang="es">API REST</span></h4><p><span lang="en">Everything the panel does, scriptable, with OpenAPI docs built in.</span><span lang="es">Todo lo que hace el panel, también por script, con documentación OpenAPI incluida.</span></p></div>
+      <div class="feat reveal" style="--d:.06s"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></div>
+        <h4><span lang="en">Self-healing</span><span lang="es">Se recupera solo</span></h4><p><span lang="en">Sessions and seats come back after a reboot or a crash, with your settings intact.</span><span lang="es">Sesiones y puestos vuelven tras un reinicio o un fallo, con tu configuración intacta.</span></p></div>
+      <div class="feat reveal" style="--d:.12s"><div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg></div>
+        <h4><span lang="en">Steam in every session</span><span lang="es">Steam en cada sesión</span></h4><p><span lang="en">Each session keeps its own Steam signed in, isolated from the others.</span><span lang="es">Cada sesión mantiene su propio Steam con la sesión iniciada, aislado de los demás.</span></p></div>
     </div>
   </div>
 </section>
 
-<!-- ───────────────────────── API & OPS ───────────────────────── -->
-<section id="api" class="alt">
-  <div class="wrap">
-    <div class="eyebrow"><span lang="en">Automation</span><span lang="es">Automatización</span></div>
-    <h2><span lang="en">REST API, tray icon and CLI</span><span lang="es">API REST, icono de bandeja y CLI</span></h2>
-    <p class="sub"><span lang="en">Everything the dashboard does is available over a documented REST API, with interactive OpenAPI docs at <code>/scalar/v1</code>.</span><span lang="es">Todo lo que hace el panel está disponible en una API REST documentada, con documentación OpenAPI interactiva en <code>/scalar/v1</code>.</span></p>
-
-    <div class="two">
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th><span lang="en">Method</span><span lang="es">Método</span></th><th><span lang="en">Path</span><span lang="es">Ruta</span></th><th><span lang="en">Action</span><span lang="es">Acción</span></th></tr></thead>
-          <tbody>
-            <tr><td><span class="m get">GET</span></td><td><code>/api/sessions</code></td><td><span lang="en">List sessions</span><span lang="es">Listar sesiones</span></td></tr>
-            <tr><td><span class="m post">POST</span></td><td><code>/api/sessions</code></td><td><span lang="en">Create session</span><span lang="es">Crear sesión</span></td></tr>
-            <tr><td><span class="m post">POST</span></td><td><code>/{id}/start · stop · restart</code></td><td><span lang="en">Lifecycle</span><span lang="es">Ciclo de vida</span></td></tr>
-            <tr><td><span class="m patch">PATCH</span></td><td><code>/{id}/config · enabled</code></td><td><span lang="en">Settings, auto-start</span><span lang="es">Ajustes, autoarranque</span></td></tr>
-            <tr><td><span class="m post">POST</span></td><td><code>/{id}/pair</code></td><td><span lang="en">Pair Moonlight PIN</span><span lang="es">Emparejar PIN de Moonlight</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/{id}/clients</code></td><td><span lang="en">Paired clients</span><span lang="es">Clientes emparejados</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/{id}/logs</code></td><td><span lang="en">Session logs</span><span lang="es">Logs de la sesión</span></td></tr>
-            <tr><td><span class="m put">PUT</span></td><td><code>/{id}/protocol</code></td><td><span lang="en">Moonlight, WebRTC or both</span><span lang="es">Moonlight, WebRTC o ambos</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/api/sessions/pairings</code></td><td><span lang="en">PINs waiting in any session</span><span lang="es">PIN pendientes en cualquier sesión</span></td></tr>
-            <tr><td><span class="m del">DELETE</span></td><td><code>/{id}?keepUser=true</code></td><td><span lang="en">Delete session (optionally keep its user)</span><span lang="es">Borrar sesión (opcionalmente conservando su usuario)</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/api/sessions/isolated-users</code></td><td><span lang="en">Kept users and leftover profiles</span><span lang="es">Usuarios conservados y perfiles sueltos</span></td></tr>
-            <tr><td><span class="m put">PUT</span></td><td><code>/api/settings/logging</code></td><td><span lang="en">Global log level</span><span lang="es">Nivel de log global</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/api/system/network</code></td><td><span lang="en">PC name and LAN addresses</span><span lang="es">Nombre del PC y direcciones de la red local</span></td></tr>
-            <tr><td><span class="m post">POST</span></td><td><code>/api/power/shutdown · restart</code></td><td><span lang="en">Host power</span><span lang="es">Energía del host</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/api/seats · /inventory</code></td><td><span lang="en">Seats, free monitors and devices</span><span lang="es">Puestos, monitores y dispositivos libres</span></td></tr>
-            <tr><td><span class="m post">POST</span></td><td><code>/api/seats/{id}/start · stop</code></td><td><span lang="en">Turn a seat on or off</span><span lang="es">Encender o apagar un puesto</span></td></tr>
-            <tr><td><span class="m post">POST</span></td><td><code>/api/seats/identify/monitor · audio</code></td><td><span lang="en">Test a monitor or output</span><span lang="es">Probar un monitor o una salida</span></td></tr>
-            <tr><td><span class="m get">GET</span></td><td><code>/api/seats/identify/mic</code></td><td><span lang="en">Microphone level</span><span lang="es">Nivel de un micrófono</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-<pre><span class="c"># Service &amp; tools</span>
-<span class="k">OpenStreamMS.exe</span> --install     <span class="c"># register the Windows service</span>
-<span class="k">OpenStreamMS.exe</span> --uninstall   <span class="c"># stop and remove it</span>
-<span class="k">OpenStreamMS.exe</span> --open        <span class="c"># dashboard in its own window</span>
-<span class="k">OpenStreamMS.exe</span> --tray        <span class="c"># notification-area icon</span>
-<span class="k">OpenStreamMS.exe</span> --run         <span class="c"># run (called by the SCM)</span>
-
-<span class="c"># Create and start a session</span>
-<span class="k">curl</span> -u admin:*** -X POST http://localhost:5000/api/sessions \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Living room","username":"player1",
-       "password":"***","rdpWidth":3840,
-       "rdpHeight":2160,"rdpFrameRate":60}'</pre>
-        <ul class="check" style="margin-top:20px">
-          <li><span lang="en">Tray icon: double-click opens the dashboard; right-click lists sessions and seats with their state and turns them on or off; notifies pending Moonlight and TV pairings.</span><span lang="es">Icono de bandeja: doble clic abre el panel; clic derecho muestra sesiones y puestos con su estado y los enciende o apaga; avisa de los emparejamientos pendientes de Moonlight y de las TV.</span></li>
-          <li><span lang="en">Cookie and HTTP Basic authentication with HMAC-signed tokens.</span><span lang="es">Autenticación por cookie y HTTP Basic con tokens firmados con HMAC.</span></li>
-          <li><span lang="en">Global and per-session logs with size-based rotation, and one log level for everything (Info, Warning, Error or Off).</span><span lang="es">Logs globales y por sesión con rotación por tamaño, y un solo nivel de log para todo (Info, Warning, Error u Off).</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────────────────────── INSTALL ───────────────────────── -->
+<!-- ───────────────────────── INSTALAR ───────────────────────── -->
 <section id="install">
   <div class="wrap">
-    <div class="eyebrow"><span lang="en">Get started</span><span lang="es">Empezar</span></div>
-    <h2><span lang="en">Up and running in minutes</span><span lang="es">Funcionando en minutos</span></h2>
-    <div class="two">
-      <div class="steps">
-        <div class="step">
-          <h4><span lang="en">Run the installer</span><span lang="es">Ejecuta el instalador</span></h4>
-          <p><span lang="en">Download <code>OpenStreamMS-Setup.exe</code> from Releases and run it as administrator. Sunshine and FreeRDP are bundled. The RemoteIdd display driver is an optional checkbox (experimental; it takes effect after restarting the PC).</span><span lang="es">Descarga <code>OpenStreamMS-Setup.exe</code> desde Releases y ejecútalo como administrador. Incluye Sunshine y FreeRDP. El driver de pantalla RemoteIdd es una casilla opcional (experimental; se activa al reiniciar el PC).</span></p>
-        </div>
-        <div class="step">
-          <h4><span lang="en">Create your admin account</span><span lang="es">Crea tu cuenta de administrador</span></h4>
-          <p><span lang="en">Open <em>OpenStreamMS</em> from the Start menu (or <code>http://localhost:5000</code> in a browser). The first visit asks for dashboard credentials, then a guide walks you through the rest.</span><span lang="es">Abre <em>OpenStreamMS</em> desde el menú Inicio (o <code>http://localhost:5000</code> en el navegador). La primera visita pide las credenciales del panel y después una guía te lleva por el resto.</span></p>
-        </div>
-        <div class="step">
-          <h4><span lang="en">Add a session</span><span lang="es">Añade una sesión</span></h4>
-          <p><span lang="en">Choose the Windows user (or an isolated one), resolution and frame rate, then press Start.</span><span lang="es">Elige el usuario de Windows (o uno aislado), la resolución y los fps, y pulsa Iniciar.</span></p>
-        </div>
-        <div class="step">
-          <h4><span lang="en">Pair Moonlight and play</span><span lang="es">Empareja Moonlight y juega</span></h4>
-          <p><span lang="en"><em>Connect</em> on the session card shows the address to add in Moonlight; when it asks for a PIN, a notification opens the pairing dialog. Type it and start streaming.</span><span lang="es"><em>Conectar</em> en la tarjeta de la sesión muestra la dirección que hay que añadir en Moonlight; cuando pida un PIN, una notificación abre el emparejamiento. Escríbelo y empieza a jugar.</span></p>
-        </div>
-        <div class="step">
-          <h4><span lang="en">Or set up a local seat</span><span lang="es">O monta un puesto local</span></h4>
-          <p><span lang="en">In the <em>Seats</em> tab, pick a monitor (or part of one), an audio output, a microphone and the USB devices (<em>Test</em> tells them apart), assign the session and turn it on.</span><span lang="es">En la pestaña <em>Puestos</em>, elige un monitor (o una parte), una salida de audio, un micrófono y los dispositivos USB (<em>Probar</em> te dice cuál es cuál), asigna la sesión y enciéndelo.</span></p>
-        </div>
-      </div>
-      <div>
-        <h3 style="margin-top:0"><span lang="en">Requirements</span><span lang="es">Requisitos</span></h3>
-        <ul class="check">
-          <li>Windows 10 / 11 x64</li>
-          <li><span lang="en">A GPU with a hardware video encoder (NVIDIA NVENC, AMD AMF or Intel Quick Sync)</span><span lang="es">Una GPU con encoder de vídeo por hardware (NVIDIA NVENC, AMD AMF o Intel Quick Sync)</span></li>
-          <li><span lang="en">Administrator rights to install the service</span><span lang="es">Permisos de administrador para instalar el servicio</span></li>
-          <li><span lang="en">Moonlight on each client device</span><span lang="es">Moonlight en cada dispositivo cliente</span></li>
-          <li><span lang="en">For more than one session at once: Windows Server with Remote Desktop Session Host and RDS user CALs (official way). OpenStreamMS does not install anything for this on Windows Home/Pro</span><span lang="es">Para más de una sesión a la vez: Windows Server con Host de sesión de Escritorio remoto y CAL de RDS por usuario (vía oficial). OpenStreamMS no instala nada para ello en Windows Home/Pro</span></li>
-          <li><span lang="en">For local seats: a monitor (or part of one) per seat on the same GPU, plus USB keyboards, mice or gamepads</span><span lang="es">Para puestos locales: un monitor (o parte de uno) por puesto en la misma GPU, y teclados, ratones o mandos USB</span></li>
-          <li><span lang="en">Optional: WebView2 (included in Windows 11) to open the dashboard in its own window; without it, it opens in the browser</span><span lang="es">Opcional: WebView2 (viene con Windows 11) para abrir el panel en su propia ventana; sin él se abre en el navegador</span></li>
-        </ul>
-        <h3 style="margin-top:28px"><span lang="en">Build from source</span><span lang="es">Compilar desde el código</span></h3>
-<pre><span class="k">git</span> clone https://github.com/OpenstreamCo/OpenStreamMultiSeat
-<span class="k">cd</span> OpenStreamMultiSeat
-<span class="k">dotnet</span> publish -c Release -r win-x64 --self-contained -o publish
-publish\OpenStreamMS.exe --install</pre>
-      </div>
+    <div class="eyebrow reveal"><span lang="en">Install</span><span lang="es">Instalar</span></div>
+    <h2 class="reveal"><span lang="en">Up and running in minutes</span><span lang="es">Listo en minutos</span></h2>
+    <div class="steps">
+      <div class="step reveal"><h4><span lang="en">Download</span><span lang="es">Descarga</span></h4><p><span lang="en">Get the installer from the latest release and run it. It brings Sunshine, FreeRDP and the drivers it needs.</span><span lang="es">Baja el instalador de la última versión y ejecútalo. Trae Sunshine, FreeRDP y los drivers que necesita.</span></p></div>
+      <div class="step reveal" style="--d:.08s"><h4><span lang="en">Open the panel</span><span lang="es">Abre el panel</span></h4><p><span lang="en">Set a password, then follow the guide: it checks what your PC is ready for.</span><span lang="es">Elige una contraseña y sigue la guía: comprueba para qué está preparado tu PC.</span></p></div>
+      <div class="step reveal" style="--d:.16s"><h4><span lang="en">Add players</span><span lang="es">Añade jugadores</span></h4><p><span lang="en">Create a session and pair Moonlight, or set up a seat on any monitor.</span><span lang="es">Crea una sesión y empareja Moonlight, o configura un puesto en cualquier monitor.</span></p></div>
     </div>
+    <p class="req reveal"><span lang="en"><b>Requirements:</b> Windows 10 (1607 or later) or 11, x64. Running several sessions at once needs Windows Server with RDS CALs, or a multi-session package you obtain yourself on Home/Pro, under your own responsibility.</span><span lang="es"><b>Requisitos:</b> Windows 10 (1607 o posterior) u 11, x64. Para varias sesiones a la vez hace falta Windows Server con licencias RDS CAL o, en Home/Pro, un paquete multisesión que consigas por tu cuenta y bajo tu responsabilidad.</span></p>
+    <div class="cta reveal"><a class="btn primary" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span lang="en">Download 2.0</span><span lang="es">Descargar la 2.0</span></a></div>
   </div>
 </section>
 
-<!-- ───────────────────────── HALL OF FAME ───────────────────────── -->
-<section id="fame" class="alt">
-  <div class="wrap">
-    <div class="eyebrow"><span lang="en">Hall of fame</span><span lang="es">Hall de la fama</span></div>
-    <h2><span lang="en">The people who build it</span><span lang="es">Quienes lo construyen</span></h2>
-    <p class="sub"><span lang="en">Top contributors by commits to the main branch, straight from GitHub.</span><span lang="es">Los que más commits han aportado a la rama principal, según GitHub.</span></p>
-    <!-- Lista de respaldo si la API de GitHub no responde; el script la sustituye por la actual. -->
-    <ol class="fame" id="fameList">
-      <li><span class="rank">#1</span><img src="https://github.com/mlopezsegura.png?size=144" alt="" loading="lazy" width="72" height="72"><a class="who" href="https://github.com/mlopezsegura">mlopezsegura</a></li>
-      <li><span class="rank">#2</span><img src="https://github.com/Dani6ca-T.png?size=144" alt="" loading="lazy" width="72" height="72"><a class="who" href="https://github.com/Dani6ca-T">Dani6ca-T</a></li>
-      <li><span class="rank">#3</span><img src="https://github.com/muamkh.png?size=144" alt="" loading="lazy" width="72" height="72"><a class="who" href="https://github.com/muamkh">muamkh</a></li>
-    </ol>
-    <p class="fame-more">
-      <span lang="en">Want to be here? Pull requests are welcome on</span><span lang="es">¿Quieres aparecer aquí? Las pull requests son bienvenidas en</span>
-      <a href="https://github.com/OpenstreamCo/OpenStreamMultiSeat">GitHub</a>.
-    </p>
+<!-- ───────────────────────── COMUNIDAD ───────────────────────── -->
+<section id="community">
+  <div class="wrap community">
+    <div>
+      <div class="eyebrow reveal"><span lang="en">Community</span><span lang="es">Comunidad</span></div>
+      <h2 class="reveal"><span lang="en">Built in the open</span><span lang="es">Hecho en abierto</span></h2>
+      <p class="sub reveal"><span lang="en">Share your setup, ask questions and help decide what comes next. Pull requests are welcome.</span><span lang="es">Comparte tu montaje, pregunta y ayuda a decidir lo que viene. Las pull requests son bienvenidas.</span></p>
+      <div class="cta reveal">
+        <a class="btn discord" href="https://discord.gg/uAu9WWqzw" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18.2 18.2 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.7.1 18.2a19.7 19.7 0 0 0 6 3l1.3-2.1c-.7-.3-1.4-.6-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.6 19.6 0 0 0 6-3c.5-5.2-.9-9.8-3.6-13.8zM8.1 15.4c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm7.8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg><span lang="en">Join on Discord</span><span lang="es">Entrar en Discord</span></a>
+        <a class="btn" href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/discussions"><span lang="en">Discussions</span><span lang="es">Debates</span><span class="arrow">→</span></a>
+      </div>
+    </div>
+    <div class="reveal" style="--d:.1s">
+      <!-- Respaldo si la API de GitHub no responde; el script la sustituye por la actual. -->
+      <ol class="fame" id="fameList">
+        <li><img src="https://github.com/mlopezsegura.png?size=112" alt="" loading="lazy" width="56" height="56"><a class="who" href="https://github.com/mlopezsegura">mlopezsegura</a></li>
+        <li><img src="https://github.com/Dani6ca-T.png?size=112" alt="" loading="lazy" width="56" height="56"><a class="who" href="https://github.com/Dani6ca-T">Dani6ca-T</a></li>
+        <li><img src="https://github.com/muamkh.png?size=112" alt="" loading="lazy" width="56" height="56"><a class="who" href="https://github.com/muamkh">muamkh</a></li>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -804,7 +423,8 @@ publish\OpenStreamMS.exe --install</pre>
     <div>
       <strong style="color:var(--text)">OpenStreamMS</strong> ·
       <span lang="en">MIT License</span><span lang="es">Licencia MIT</span> ·
-      <a href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/blob/master/THIRD_PARTY_NOTICES.md"><span lang="en">Third-party notices</span><span lang="es">Avisos de terceros</span></a>
+      <a href="https://github.com/OpenstreamCo/OpenStreamMultiSeat/blob/master/THIRD_PARTY_NOTICES.md"><span lang="en">Third-party notices</span><span lang="es">Avisos de terceros</span></a> ·
+      <a href="https://github.com/OpenstreamCo/OpenStreamMultiSeat#readme">README</a>
     </div>
     <div>
       <span lang="en">Built on</span><span lang="es">Construido sobre</span>
@@ -814,7 +434,7 @@ publish\OpenStreamMS.exe --install</pre>
       <span lang="en">Not affiliated with them.</span><span lang="es">Sin afiliación con ellos.</span>
     </div>
     <div class="legal">
-      <span lang="en">“MS” stands for Multi-Seat. OpenStreamMS is an independent project, not affiliated with or endorsed by Microsoft; Windows is a trademark of Microsoft Corporation. On Windows Home/Pro, concurrent sessions and local seats rely on TermWrap, which patches <code>termsrv</code>: this is not permitted by the Windows license terms, and using it is each user's decision and responsibility. The supported way to run multiple concurrent sessions is Windows Server with RDS CALs.</span><span lang="es">“MS” significa Multi-Seat (multipuesto). OpenStreamMS es un proyecto independiente, sin relación con Microsoft ni respaldo suyo; Windows es una marca de Microsoft Corporation. En Windows Home/Pro, las sesiones simultáneas y los puestos locales dependen de TermWrap, que modifica <code>termsrv</code>: la licencia de Windows no lo permite y usarlo es decisión y responsabilidad de cada usuario. La forma soportada de tener varias sesiones simultáneas es Windows Server con licencias RDS CAL.</span>
+      <span lang="en">“MS” stands for Multi-Seat. OpenStreamMS is an independent project, not affiliated with or endorsed by Microsoft; Windows is a trademark of Microsoft Corporation. OpenStreamMS does not install or modify anything to allow concurrent sessions: it only checks whether the PC allows them. The supported way to run several sessions at once is Windows Server with RDS CALs; on Windows Home/Pro, any multi-session package is obtained and used under each user's own responsibility.</span><span lang="es">“MS” significa Multi-Seat (multipuesto). OpenStreamMS es un proyecto independiente, sin relación con Microsoft ni respaldo suyo; Windows es una marca de Microsoft Corporation. OpenStreamMS no instala ni modifica nada para permitir sesiones simultáneas: solo comprueba si el PC las permite. La forma soportada de tener varias sesiones a la vez es Windows Server con licencias RDS CAL; en Windows Home/Pro, cualquier paquete multisesión se consigue y se usa bajo la responsabilidad de cada usuario.</span>
     </div>
   </div>
 </footer>
@@ -825,60 +445,58 @@ publish\OpenStreamMS.exe --install</pre>
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
-  // Language: saved choice, else browser language (Spanish or English)
-  var lang = get('osms-lang') || ((navigator.language || 'en').toLowerCase().indexOf('es') === 0 ? 'es' : 'en');
+  // Idioma (ya aplicado en <head>) y tema.
   var langBtn = document.getElementById('langBtn');
-  function applyLang(l) { root.lang = l; langBtn.textContent = l === 'en' ? 'ES' : 'EN'; }
-  applyLang(lang);
+  langBtn.textContent = root.lang === 'en' ? 'ES' : 'EN';
   langBtn.addEventListener('click', function () {
-    lang = lang === 'en' ? 'es' : 'en'; applyLang(lang); set('osms-lang', lang);
+    root.lang = root.lang === 'en' ? 'es' : 'en'; langBtn.textContent = root.lang === 'en' ? 'ES' : 'EN'; set('osms-lang', root.lang);
   });
-
-  // Theme: saved choice, else system preference
-  var theme = get('osms-theme');
-  if (theme) root.dataset.theme = theme;
   document.getElementById('themeBtn').addEventListener('click', function () {
-    var dark = root.dataset.theme ? root.dataset.theme === 'dark'
-                                  : !matchMedia('(prefers-color-scheme: light)').matches;
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : !matchMedia('(prefers-color-scheme: light)').matches;
     root.dataset.theme = dark ? 'light' : 'dark'; set('osms-theme', root.dataset.theme);
   });
 
-  // Hall of fame: top 5 contributors from GitHub, without bots or Claude.
-  // If the API fails (offline, rate limit), the static list in the HTML stays.
+  // Barra con fondo al bajar.
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 12); }
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Aparición al entrar en pantalla.
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  } else items.forEach(function (el) { el.classList.add('in'); });
+
+  // Brillo que sigue al ratón en las tarjetas.
+  document.querySelectorAll('.card').forEach(function (c) {
+    c.addEventListener('pointermove', function (e) {
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Contribuidores: los 5 primeros de GitHub, sin bots ni Claude. Si la API falla, queda la lista fija.
   var fame = document.getElementById('fameList');
-  function isExcluded(c) {
-    return c.type !== 'User' || /claude/i.test(c.login) || /\[bot\]$/i.test(c.login);
-  }
-  function el(tag, attrs, text) {
-    var e = document.createElement(tag);
-    for (var k in attrs) e.setAttribute(k, attrs[k]);
-    if (text != null) e.textContent = text;
-    return e;
-  }
-  function commits(n) {
-    var s = document.createElement('span');
-    s.className = 'n';
-    s.appendChild(el('span', { lang: 'en' }, n + (n === 1 ? ' commit' : ' commits')));
-    s.appendChild(el('span', { lang: 'es' }, n + (n === 1 ? ' commit' : ' commits')));
-    return s;
-  }
+  function el(tag, attrs, text) { var e = document.createElement(tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; }
   if (fame && window.fetch) {
     fetch('https://api.github.com/repos/OpenstreamCo/OpenStreamMultiSeat/contributors?per_page=100')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (list) {
-        var top = list.filter(function (c) { return !isExcluded(c); }).slice(0, 5);
+        var top = list.filter(function (c) { return c.type === 'User' && !/claude/i.test(c.login) && !/\[bot\]$/i.test(c.login); }).slice(0, 5);
         if (!top.length) return;
         fame.textContent = '';
-        top.forEach(function (c, i) {
+        top.forEach(function (c) {
           var li = document.createElement('li');
-          li.appendChild(el('span', { 'class': 'rank' }, '#' + (i + 1)));
-          li.appendChild(el('img', { src: c.avatar_url + '&s=144', alt: '', loading: 'lazy', width: 72, height: 72 }));
+          li.appendChild(el('img', { src: c.avatar_url + '&s=112', alt: '', loading: 'lazy', width: 56, height: 56 }));
           li.appendChild(el('a', { 'class': 'who', href: c.html_url }, c.login));
-          li.appendChild(commits(c.contributions));
+          li.appendChild(el('span', { 'class': 'n' }, c.contributions + (c.contributions === 1 ? ' commit' : ' commits')));
           fame.appendChild(li);
         });
       })
-      .catch(function () { /* keep the static list */ });
+      .catch(function () {});
   }
 })();
 </script>
