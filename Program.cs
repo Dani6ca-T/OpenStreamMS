@@ -523,7 +523,8 @@ static void Uninstall(bool silent = false)
 
     // Without the service no one would maintain them: gamepads would stay hidden from other sessions
     OpenStreamMS.Services.Gamepad.GamepadSessionIsolation.ClearJails();
-    if (!silent) Console.WriteLine("[Uninstall] Per-session gamepad isolation removed from HidHide.");
+    OpenStreamMS.Services.Gamepad.SteamXboxFilter.RestoreSaved();
+    if (!silent) Console.WriteLine("[Uninstall] Per-session gamepad isolation removed from HidHide; Steam's steamxbox filter restored.");
 
     // What seats change in the system while on, in case the service stopped without cleanup, and the shutdown right removed from Users group.
     OpenStreamMS.Services.Seats.UsbCapture.RestoreAll();

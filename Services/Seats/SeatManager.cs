@@ -43,6 +43,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         try { SeatDeviceAccess.RestoreAll(); }
         catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron liberar los dispositivos reservados: {ex.Message}"); }
         ConsoleLockGuard.Release();   // si el servicio se cayó con un puesto encendido
+        Gamepad.SteamXboxFilter.RestoreSaved();   // ídem con el filtro de Steam quitado
         // Sin puestos exclusivos nadie necesita quedarse sin apagar: el grupo Usuarios recupera el derecho.
         if (!_seats.Values.Any(s => s.ExclusiveSession)) ShutdownRight.Restore();
         Logger.Log($"[Seats] Gestor de puestos iniciado ({_seats.Count} puesto(s)).");
@@ -353,6 +354,8 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
             // 7. Ratones y teclados del puesto: fuera de la consola (WinUSB) y directos a la sesión.
             CaptureInputDevices(seat, activeSession);
+            //    Y sus mandos: fuera de Windows (WinUSB) y a la sesión como mando virtual OsmsPad.
+            CaptureGamepads(seat, activeSession, session.RdpSessionId);
 
             // La consola no puede bloquearse mientras haya puestos: su pantalla de bloqueo
             // taparía también los monitores de los puestos.
@@ -556,6 +559,31 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     /// <summary>Puertos reservados por ACL para cada puesto encendido (ver <see cref="SeatDeviceAccess"/>).</summary>
     private readonly ConcurrentDictionary<Guid, List<string>> _reservedPorts = new();
 
+    /// <summary>El mando de ese puerto se puede sacar de Windows y leer desde aquí (ver <see cref="CaptureGamepads"/>).</summary>
+    private static bool CanCapturePad(string usbPort) =>
+        Gamepad.PadCapture.Available && Gamepad.PadCapture.FindTargets(usbPort) is not null;
+
+    /// <summary>
+    /// Mandos del puesto fuera de Windows, como el teclado y el ratón: todas las interfaces de su
+    /// USB pasan a WinUSB y el servicio los lee y los entrega a un mando X360 de ViGEmBus aislado
+    /// en la sesión del puesto. Ni la consola ni otra sesión pueden abrir el físico (Steam incluido).
+    /// Los que no se saben leer (no son Xbox 360, o ViGEmBus no está) siguen con HidHide y la ACL.
+    /// </summary>
+    private void CaptureGamepads(Seat seat, ActiveSeatSession active, uint windowsSession)
+    {
+        var ports = seat.Devices.Where(d => d.Kind == SeatDeviceKind.Gamepad)
+                                .Select(d => d.UsbPort).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        if (ports.Count == 0) return;
+        if (!Gamepad.PadCapture.Available)
+        {
+            Logger.Log($"[Seats] '{seat.Name}': ViGEmBus no está instalado; los mandos se aíslan con HidHide.");
+            return;
+        }
+        Status(seat, "Separando los mandos del puesto…");
+        active.Pads = new Gamepad.SeatPadCapture(seat.Name, windowsSession, ports);
+        active.Pads.Start();
+    }
+
     /// <summary>
     /// Reserva para el usuario del puesto (ACL del dispositivo) sus otros dispositivos USB y sus
     /// mandos. A los mandos HidHide solo los oculta en sus nodos HID y Xbox: Steam los abre también
@@ -565,7 +593,8 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     private void ReserveDevices(Seat seat, uint windowsSession)
     {
         var ports = seat.Devices
-            .Where(d => d.Kind is SeatDeviceKind.Other or SeatDeviceKind.Gamepad)
+            .Where(d => d.Kind == SeatDeviceKind.Other ||
+                        (d.Kind == SeatDeviceKind.Gamepad && !CanCapturePad(d.UsbPort)))
             .Select(d => d.UsbPort).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         if (ports.Count == 0) return;
 
@@ -975,11 +1004,14 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         /// <summary>Nodos USB pasados a WinUSB (hay que devolverlos a su driver al apagar).</summary>
         public List<string> Captured { get; } = [];
         public List<UsbHidReader> Readers { get; } = [];
+        /// <summary>Mandos del puesto fuera de Windows, entregados a la sesión como mandos OsmsPad.</summary>
+        public Gamepad.SeatPadCapture? Pads { get; set; }
 
         public void Dispose()
         {
             // Primero los lectores: sueltan en la sesión lo que hubiera pulsado mientras el canal sigue abierto.
             foreach (var r in Readers) try { r.Dispose(); } catch { }
+            try { Pads?.Dispose(); } catch { }
             try { Cts.Cancel(); } catch { }
             try { AgentChannel.SendJson(new JsonObject { ["op"] = "stop" }); } catch { }
             try { HostChannel.SendJson(new JsonObject { ["op"] = "stop" }); } catch { }

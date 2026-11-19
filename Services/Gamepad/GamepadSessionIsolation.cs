@@ -94,6 +94,116 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         public readonly Dictionary<int, int> OsmsPadIndex = [];          // mando del driver → mando de este Sunshine
     }
 
+    /// <summary>
+    /// Mandos ViGEm que este mismo servicio va a enchufar para una sesión concreta (los mandos
+    /// capturados de un puesto, ver <see cref="ViGEmPads"/>): no salen en ningún log de Sunshine y,
+    /// sin esto, irían a parar a la única sesión de stream en marcha o a ninguna.
+    /// </summary>
+    private static readonly List<(DateTime At, uint WindowsSession, string Name, string? Predicted)> _claims = [];
+    private static readonly object _claimsLock = new();
+
+    /// <summary>Serializa la lectura-modificación-escritura de la lista negra de HidHide.</summary>
+    private static readonly object _jailLock = new();
+
+    private const string ViGEmX360Prefix = @"USB\VID_045E&PID_028E\";
+
+    /// <summary>
+    /// El próximo mando de ViGEmBus que aparezca es de esa sesión de Windows. Llamar justo antes
+    /// de enchufarlo: además lo deja ya en el jail de HidHide con el instance id que le dará
+    /// ViGEmBus (el primer número de serie libre). Si se aislara al aparecer, explorer y dwm de la
+    /// consola lo abren en ese segundo y lo bloquean: no se puede reiniciar (queda "pendiente de
+    /// reiniciar el sistema") y siguen teniéndolo abierto. Además nace sin el filtro de Steam
+    /// (<see cref="SteamXboxFilter"/>), que lo publicaba a todas las sesiones.
+    /// </summary>
+    public static void ClaimNextViGEmPad(uint windowsSession, string name)
+    {
+        SteamXboxFilter.EnsureRemoved();
+        string? predicted = PredictNextViGEmPad();
+        if (predicted is not null && !Jail(add: [HidHide.JailEntry(predicted, windowsSession)], remove: [predicted]))
+            predicted = null;
+        if (predicted is not null)
+            Logger.Log($"[Gamepad] {predicted} visible solo en la sesión {windowsSession} desde antes de enchufarlo ('{name}').");
+        List<string> expired;
+        lock (_claimsLock)
+        {
+            expired = _claims.Where(c => DateTime.Now - c.At > MatchBefore && c.Predicted is not null)
+                             .Select(c => c.Predicted!).ToList();
+            _claims.RemoveAll(c => DateTime.Now - c.At > MatchBefore);
+            _claims.Add((DateTime.Now, windowsSession, name, predicted));
+        }
+        // Reclamos que no llegaron a ningún mando: su entrada prevista no debe ocultar otro.
+        expired.RemoveAll(id => Cm.Exists(id) && Cm.IsStarted(id));
+        if (expired.Count > 0) Jail(add: [], remove: expired);
+    }
+
+    /// <summary>Instance id que tendrá el próximo X360 de ViGEmBus (serie libre más baja), o null.</summary>
+    private static string? PredictNextViGEmPad()
+    {
+        var bus = Cm.DeviceIds(@"ROOT\SYSTEM")
+                    .FirstOrDefault(id => Cm.HardwareIds(id).Any(h => h.Equals(ViGEmBusHardwareId, StringComparison.OrdinalIgnoreCase)));
+        if (bus is null) return null;
+        var used = Cm.Children(bus)
+                     .Select(id => id[(id.LastIndexOf('\\') + 1)..])
+                     .Select(s => int.TryParse(s, NumberStyles.None, CultureInfo.InvariantCulture, out var n) ? n : -1)
+                     .ToHashSet();
+        int serial = 1;
+        while (used.Contains(serial)) serial++;
+        return ViGEmX360Prefix + serial.ToString("D2", CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    /// Control de HidHide abierto por el aislamiento en marcha. HidHide solo admite un handle a la
+    /// vez: abrir otro da "acceso denegado" mientras el servicio tiene el suyo.
+    /// </summary>
+    private static SafeFileHandle? _sharedHidHide;
+
+    /// <summary>Cambia entradas jail de HidHide desde fuera de la instancia (con su mismo handle).</summary>
+    private static bool Jail(IEnumerable<string> add, IEnumerable<string> remove)
+    {
+        lock (_jailLock)
+        {
+            if (_sharedHidHide is not { IsInvalid: false, IsClosed: false } h)
+            {
+                Logger.Warning("[Gamepad] HidHide no está abierto por el aislamiento; el mando ViGEm se aislará al aparecer.");
+                return false;
+            }
+            try
+            {
+                var drop = remove.ToHashSet(StringComparer.OrdinalIgnoreCase);
+                var list = HidHide.GetBlacklist(h)
+                                  .Where(e => HidHide.JailedInstance(e) is not { } id || !drop.Contains(id))
+                                  .Concat(add)
+                                  .Distinct(StringComparer.OrdinalIgnoreCase)
+                                  .ToList();
+                HidHide.SetBlacklist(h, list);
+                return true;
+            }
+            catch (Win32Exception ex)
+            {
+                Logger.Warning($"[Gamepad] No se pudo preparar el jail de HidHide del mando ViGEm: {ex.Message}");
+                return false;
+            }
+        }
+    }
+
+    /// <summary>El reclamo más antiguo que encaja con un mando visto por primera vez en ese momento.</summary>
+    private static (uint WindowsSession, string Name)? TakeClaim(string instanceId, DateTime firstSeen)
+    {
+        (DateTime At, uint WindowsSession, string Name, string? Predicted) c;
+        lock (_claimsLock)
+        {
+            // Primero el que predijo justo este instance id; si no, el más antiguo en la ventana.
+            int i = _claims.FindIndex(x => string.Equals(x.Predicted, instanceId, StringComparison.OrdinalIgnoreCase));
+            if (i < 0) i = _claims.FindIndex(x => x.At >= firstSeen - MatchBefore && x.At <= firstSeen + MatchAfter);
+            if (i < 0) return null;
+            c = _claims[i];
+            _claims.RemoveAt(i);
+        }
+        if (c.Predicted is { } p && !string.Equals(p, instanceId, StringComparison.OrdinalIgnoreCase) && !Cm.Exists(p))
+            Jail(add: [], remove: [p]);   // ViGEmBus le dio otro número: la entrada prevista sobra
+        return (c.WindowsSession, c.Name);
+    }
+
     private readonly Dictionary<string, Pad>     _pads    = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<Guid, LogCursor> _cursors = [];
     private readonly Channel<(string Id, bool Enumerated)> _arrivals = Channel.CreateUnbounded<(string, bool)>(new() { SingleReader = true });
@@ -178,6 +288,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         finally
         {
             ReleaseSideInputs();
+            lock (_jailLock) _sharedHidHide = null;
             _hidHide?.Dispose();
         }
     }
@@ -217,6 +328,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             return false;
         }
         _hidHide = h;
+        lock (_jailLock) _sharedHidHide = h;
         // Una versión sin "jail" de sesión trata "instancia!N" como un id que no existe: el mando
         // no se oculta a nadie, y sin este aviso falla en silencio.
         var version = HidHide.DriverVersion();
@@ -376,6 +488,15 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             AssignOsmsPad(pad, running, now,
                           uint.Parse(osms.Groups[1].ValueSpan, CultureInfo.InvariantCulture),
                           int.Parse(osms.Groups[2].ValueSpan, CultureInfo.InvariantCulture));
+            return;
+        }
+
+        if (TakeClaim(pad.InstanceId, pad.FirstSeen) is var (claimedSession, claimedBy))
+        {
+            pad.Session = Guid.Empty;
+            pad.SessionName = claimedBy;
+            pad.WindowsSession = claimedSession;
+            Logger.Log($"[Gamepad] Mando {pad.InstanceId} → '{claimedBy}' (sesión de Windows {claimedSession}): mando capturado por este servicio.");
             return;
         }
 
@@ -554,8 +675,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             {
                 try
                 {
-                    DevSetup.Restart(node);
-                    Logger.Log($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}); reiniciado para cerrar handles de otras sesiones.", pad.Session);
+                    if (DevSetup.Restart(node))
+                        Logger.Log($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}); reiniciado para cerrar handles de otras sesiones.", pad.Session);
+                    else
+                        Logger.Warning($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}), pero Windows aplazó su reinicio " +
+                                       "(otro proceso lo tiene abierto): quien ya lo tuviera abierto lo sigue viendo hasta que lo cierre.", pad.Session);
                 }
                 catch (Win32Exception ex)
                 {
@@ -602,6 +726,21 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         JailAbsent();
         SyncSideInputs();
         SyncGuideButton();
+        SyncSteamXboxFilter();
+    }
+
+    private bool _steamXboxEngaged;
+
+    /// <summary>
+    /// Mientras haya otras sesiones con mandos (puestos o streams), los mandos virtuales que se
+    /// enchufen tienen que nacer sin el filtro de Steam, que los publica a todas las sesiones.
+    /// </summary>
+    private void SyncSteamXboxFilter()
+    {
+        bool want = _sessions.GetRunningSunshineSessions().Count > 0 || _seats.AnyRunning;
+        if (want) SteamXboxFilter.Engage(nameof(GamepadSessionIsolation));   // también lo vuelve a quitar si Steam lo repuso
+        else if (_steamXboxEngaged) SteamXboxFilter.Release(nameof(GamepadSessionIsolation));
+        _steamXboxEngaged = want;
     }
 
     /// <summary>
@@ -655,6 +794,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         _sideInputs.Clear();
         Seats.GuideButtonGuard.Release(_guideSids.ToList());
         _guideSids.Clear();
+        if (_steamXboxEngaged) SteamXboxFilter.Release(nameof(GamepadSessionIsolation));
+        _steamXboxEngaged = false;
     }
 
     /// <summary>Usuarios a los que este servicio apagó la Game Bar del botón Guía.</summary>
@@ -749,6 +890,9 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             Logger.Log(target == _console
                 ? $"[Gamepad] Mando físico {node} visible solo en la sesión de consola ({target})."
                 : $"[Gamepad] Mando físico {node} asignado a un puesto o sesión de stream: visible solo en la sesión {target}.");
+            if (target != _console && SteamXboxFilter.InStack(node))
+                Logger.Warning($"[Gamepad] {node} lleva el filtro {SteamXboxFilter.FilterName} de Steam en su pila: el Steam de las demás " +
+                               "sesiones (la consola incluida) lo sigue leyendo. Desconéctalo y vuelve a conectarlo con el puesto o stream ya encendido.");
             if (!started.Contains(node) || !(moved || otherSessions)) continue;
             try
             {
@@ -904,6 +1048,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     {
         try
         {
+            lock (_jailLock)
+            {
             var drop = remove.ToHashSet(StringComparer.OrdinalIgnoreCase);
             var list = HidHide.GetBlacklist(_hidHide!)
                               .Where(e => HidHide.JailedInstance(e) is not { } id || !drop.Contains(id))
@@ -912,6 +1058,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                               .ToList();
             HidHide.SetBlacklist(_hidHide!, list);
             return true;
+            }
         }
         catch (Win32Exception ex)
         {
@@ -1095,6 +1242,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                     .Any(id => id.Equals("HID_DEVICE_SYSTEM_GAME", StringComparison.OrdinalIgnoreCase)),
             _ => false,
         };
+
+        public static IEnumerable<string> CompatibleIds(string deviceId) => RegistryStrings(deviceId, CM_DRP_COMPATIBLEIDS);
 
         /// <summary>Mandos presentes (de cualquier origen) en las clases que filtra HidHide.</summary>
         public static IEnumerable<string> GameControllers() =>

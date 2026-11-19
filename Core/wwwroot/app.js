@@ -931,6 +931,7 @@ function closeModal(id) {
     'confirm-modal':  () => resolveConfirm(false),
     'seat-modal':     () => typeof closeSeatModal === 'function' && closeSeatModal(),
     'guide-modal':    () => typeof closeGuide === 'function' && closeGuide(),
+    'whatsnew-modal': () => typeof closeWhatsNew === 'function' && closeWhatsNew(),
   }[id];
   if (close) close(); else hide(id);
 }
