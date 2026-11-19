@@ -557,14 +557,15 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     private readonly ConcurrentDictionary<Guid, List<string>> _reservedPorts = new();
 
     /// <summary>
-    /// Reserva para el usuario del puesto (ACL del dispositivo) sus otros dispositivos USB y, si
-    /// HidHide no puede aislar por sesión, también sus mandos. Teclados y ratones no: van por WinUSB.
+    /// Reserva para el usuario del puesto (ACL del dispositivo) sus otros dispositivos USB y sus
+    /// mandos. A los mandos HidHide solo los oculta en sus nodos HID y Xbox: Steam los abre también
+    /// por el dispositivo USB compuesto (acceso USB directo), donde HidHide no está, y los seguía
+    /// leyendo desde la consola. Teclados y ratones no: van por WinUSB.
     /// </summary>
     private void ReserveDevices(Seat seat, uint windowsSession)
     {
         var ports = seat.Devices
-            .Where(d => d.Kind == SeatDeviceKind.Other ||
-                        (d.Kind == SeatDeviceKind.Gamepad && !Gamepad.GamepadSessionIsolation.SessionJailSupported))
+            .Where(d => d.Kind is SeatDeviceKind.Other or SeatDeviceKind.Gamepad)
             .Select(d => d.UsbPort).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         if (ports.Count == 0) return;
 

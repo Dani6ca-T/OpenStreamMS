@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 
@@ -116,6 +117,26 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private string _streamPads = "";
     private const uint NoSession = 0xFFFFFFFF;
 
+    /// <summary>
+    /// Interfaces de teclado o ratón de un mando asignado fuera de la consola, pasadas a WinUSB
+    /// por este servicio (ver <see cref="SyncSideInputs"/>).
+    /// </summary>
+    private readonly HashSet<string> _sideInputs = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Nodos de mandos físicos vistos alguna vez → su puerto USB, guardado en disco. Un mando
+    /// inalámbrico que se duerme desaparece y vuelve a aparecer al despertar; si su "jail" de
+    /// HidHide no estuviera ya puesto con la sesión correcta, la consola (Steam) lo abría en ese
+    /// instante, antes de que este servicio lo viera. Con esto la entrada se mantiene y se
+    /// reasigna (puesto encendido o apagado) también mientras el mando no está.
+    /// </summary>
+    private readonly Dictionary<string, string> _knownNodes = LoadKnownNodes();
+    /// <summary>Sesión con la que está puesto el jail de cada nodo conocido ausente.</summary>
+    private readonly Dictionary<string, uint> _absent = new(StringComparer.OrdinalIgnoreCase);
+
+    private static readonly string KnownNodesPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenStreamMS", "gamepad-nodes.json");
+
     public GamepadSessionIsolation(StreamSessionService sessions, Seats.SeatManager seats)
     {
         _sessions = sessions;
@@ -154,7 +175,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             }
         }
         catch (OperationCanceledException) { }
-        finally { _hidHide?.Dispose(); }
+        finally
+        {
+            ReleaseSideInputs();
+            _hidHide?.Dispose();
+        }
     }
 
     /// <summary>
@@ -201,8 +226,31 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         else
             Logger.Warning($"[Gamepad] HidHide {version} no aísla por sesión (hace falta {HidHide.MinSessionJailVersion} o posterior): " +
                            "los mandos serán visibles en todas las sesiones. Actualiza HidHide.");
+        LogHidHideExceptions(h);
         RemoveStaleJails();
         return true;
+    }
+
+    /// <summary>
+    /// La lista blanca de HidHide (y su modo inverso) se salta el "jail" de sesión: avisa de
+    /// qué programas pueden leer los mandos de cualquier sesión.
+    /// </summary>
+    private static void LogHidHideExceptions(SafeFileHandle h)
+    {
+        try
+        {
+            var apps = HidHide.GetWhitelist(h);
+            bool inverse = HidHide.GetInverse(h);
+            Logger.Log($"[Gamepad] HidHide: modo inverso {(inverse ? "activado" : "desactivado")}; " +
+                       $"lista blanca ({apps.Count}): {(apps.Count == 0 ? "vacía" : string.Join(" | ", apps))}.");
+            if (!inverse && apps.Count > 0)
+                Logger.Warning("[Gamepad] Los programas de la lista blanca de HidHide ven los mandos de todas las sesiones, " +
+                               "aunque estén asignados a otra.");
+        }
+        catch (Win32Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudo leer la lista blanca de HidHide: {ex.Message}");
+        }
     }
 
     /// <summary>
@@ -551,19 +599,113 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             _physical.Remove(gone);
 
         HidePhysical(WithHidHideChildren(Cm.GameControllers().Where(id => ViGEmPadOf(id) is null)));
+        JailAbsent();
+        SyncSideInputs();
+        SyncGuideButton();
     }
 
     /// <summary>
-    /// Cada mando con sus nodos hijos de las clases que filtra HidHide. Un mando Xbox One (GIP)
-    /// puede publicar la entrada también por colecciones HID hijas que Windows no marca como
-    /// mando (p. ej. "definidas por el fabricante"): sin ocultarlas, otras sesiones lo leían
-    /// por ahí aunque el nodo del mando estuviera oculto (issue #11).
+    /// Algunos mandos (GameSir, 8BitDo…) traen en el mismo USB una interfaz de teclado o ratón:
+    /// el botón de captura o los atajos mandan teclas por ahí. Windows lleva los teclados y
+    /// ratones físicos a la sesión de consola desde el kernel, donde HidHide no llega, así que
+    /// con el mando asignado a otra sesión esas teclas acababan en la consola (captura de
+    /// pantalla, Game Bar…). Mientras el mando va a otra sesión, esas interfaces pasan a WinUSB
+    /// con <see cref="Seats.UsbCapture"/> (anotado en disco: si el servicio se cae, se deshace al
+    /// arrancar) y vuelven a su driver cuando el mando vuelve a la consola.
+    /// </summary>
+    private void SyncSideInputs()
+    {
+        var ports = _physical.Where(p => p.Value != _console && Cm.Exists(p.Key))
+                             .Select(p => DeviceTopology.UsbPortOf(p.Key))
+                             .OfType<string>()
+                             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        // Una interfaz ya en WinUSB no tiene teclado debajo y FindTargets no la devuelve:
+        // las capturadas siguen queriéndose mientras su mando siga asignado.
+        var want = ports.SelectMany(Seats.UsbCapture.FindTargets)
+                        .Concat(_sideInputs.Where(n => DeviceTopology.UsbPortOf(n) is { } p && ports.Contains(p)))
+                        .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var node in _sideInputs.Where(n => !want.Contains(n)).ToList())
+        {
+            // Desenchufado: sigue apuntada; al volver se decide con el mando ya presente.
+            if (!Cm.Exists(node)) continue;
+            _sideInputs.Remove(node);
+            if (Seats.UsbCapture.Release(node))
+                Logger.Log($"[Gamepad] {node} (teclado o ratón del mando) vuelve a su driver: el mando está en la consola.");
+        }
+
+        foreach (var node in want)
+        {
+            // Ya en WinUSB: nuestra, o de un puesto que la tiene como teclado o ratón propio.
+            if (Seats.UsbCapture.IsCaptured(node)) continue;
+            if (Seats.UsbCapture.Capture(node))
+            {
+                _sideInputs.Add(node);
+                Logger.Log($"[Gamepad] {node} (teclado o ratón del mando) apartado mientras el mando está en otra sesión: " +
+                           "sus teclas (p. ej. el botón de captura) ya no llegan a la consola.");
+            }
+        }
+    }
+
+    private void ReleaseSideInputs()
+    {
+        foreach (var node in _sideInputs)
+            if (Cm.Exists(node)) Seats.UsbCapture.Release(node);
+        _sideInputs.Clear();
+        Seats.GuideButtonGuard.Release(_guideSids.ToList());
+        _guideSids.Clear();
+    }
+
+    /// <summary>Usuarios a los que este servicio apagó la Game Bar del botón Guía.</summary>
+    private readonly HashSet<string> _guideSids = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// El botón Guía no pasa por HidHide: Windows lo lee desde un servicio del sistema y abre la
+    /// Game Bar en todas las sesiones. Los puestos ya lo apagan mientras están encendidos
+    /// (<see cref="Seats.GuideButtonGuard"/>); aquí se hace lo mismo mientras un mando físico
+    /// vaya a una sesión de stream: para el usuario de esa sesión y el de la consola.
+    /// </summary>
+    private void SyncGuideButton()
+    {
+        var want = _physical.Where(p => p.Value != _console && Cm.Exists(p.Key))
+                            .Select(p => p.Value)
+                            .Distinct()
+                            .SelectMany(Seats.GuideButtonGuard.UsersFor)
+                            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var add = want.Except(_guideSids, StringComparer.OrdinalIgnoreCase).ToList();
+        var remove = _guideSids.Except(want, StringComparer.OrdinalIgnoreCase).ToList();
+        if (add.Count > 0) Seats.GuideButtonGuard.Engage(add);
+        if (remove.Count > 0) Seats.GuideButtonGuard.Release(remove);
+        _guideSids.ExceptWith(remove);
+        _guideSids.UnionWith(add);
+    }
+
+    /// <summary>
+    /// Cada mando con todos los nodos de las clases que filtra HidHide de su mismo USB físico.
+    /// Un mando puede publicar la entrada también por colecciones HID que Windows no marca como
+    /// mando (p. ej. "definidas por el fabricante"), hijas del mando (Xbox One, issue #11) o en
+    /// otra interfaz del compuesto (GameSir: MI_02 junto al XUSB de MI_00): sin ocultarlas, otras
+    /// sesiones (Steam en la consola) lo leían por ahí aunque el nodo del mando estuviera oculto.
+    /// Se dejan fuera las ramas con teclado o ratón: esas no las para HidHide (van a la consola
+    /// desde el kernel) y se apartan a WinUSB en <see cref="SyncSideInputs"/>.
     /// </summary>
     private static List<string> WithHidHideChildren(IEnumerable<string> controllers) =>
         controllers
-            .SelectMany(id => Cm.Descendants(id).Where(Cm.IsHidHideClass).Prepend(id))
+            .SelectMany(id => SameUsbDevice(id).Where(n => Cm.IsHidHideClass(n) && !HasKeyboardOrMouse(n)).Prepend(id))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
+
+    /// <summary>Nodos del mismo USB físico que el mando; solo sus hijos si no cuelga de un USB.</summary>
+    private static List<string> SameUsbDevice(string controller) =>
+        DeviceTopology.UsbDeviceRootOf(controller) is { } root ? Cm.Descendants(root) : Cm.Descendants(controller);
+
+    private static bool HasKeyboardOrMouse(string node) =>
+        Cm.Descendants(node).Prepend(node).Any(n => Cm.ClassGuidOf(n) is { } g &&
+            (g.Equals(MouseClassGuid, StringComparison.OrdinalIgnoreCase) || g.Equals(KeyboardClassGuid, StringComparison.OrdinalIgnoreCase)));
+
+    private const string MouseClassGuid    = "{4d36e96f-e325-11ce-bfc1-08002be10318}";
+    private const string KeyboardClassGuid = "{4d36e96b-e325-11ce-bfc1-08002be10318}";
 
     /// <summary>
     /// Deja cada mando físico visible solo en su sesión destino: la del puesto que lo reclama
@@ -588,11 +730,20 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         if (nodes.Count == 0) return;
 
         bool otherSessions = _sessions.GetRunningSunshineSessions().Count > 0 || _seats.AnyRunning;
-        var started = nodes.Where(n => Cm.IsOpenableAndStarted(n.Id)).Select(n => n.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        // Se reinicia el nodo más alto de cada rama que cambia: reiniciarlo reinicia también sus
+        // hijos y cierra los handles de todos. Solo las hojas no basta: Steam y XInput abren el
+        // XUSB (MI_00) de un Xbox 360 aunque tenga debajo su colección HID (IG_00), y ese handle
+        // abierto antes del cambio seguía leyendo el mando en la consola.
+        var changed = nodes.Select(n => n.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var started = nodes.Where(n => Cm.IsStarted(n.Id) && !HasAncestorIn(n.Id, changed))
+                           .Select(n => n.Id)
+                           .ToHashSet(StringComparer.OrdinalIgnoreCase);
         if (!UpdateJails(add: nodes.Select(n => HidHide.JailEntry(n.Id, n.Target)), remove: nodes.Select(n => n.Id))) return;
 
+        Remember(nodes.Select(n => n.Id));
         foreach (var (node, target) in nodes)
         {
+            _absent.Remove(node);
             bool moved = _physical.TryGetValue(node, out var previous);
             _physical[node] = target;
             Logger.Log(target == _console
@@ -601,8 +752,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (!started.Contains(node) || !(moved || otherSessions)) continue;
             try
             {
-                DevSetup.Restart(node);
-                if (moved) Logger.Log($"[Gamepad] {node} reiniciado: la sesión {previous} deja de leerlo.");
+                // Al cambiar de sesión, si alguien lo tiene abierto (Steam) se recicla el puerto: el
+                // jail no revoca handles. Al aparecer no: lo abriría enseguida la sesión destino y se
+                // entraría en bucle.
+                bool ok = moved ? DevSetup.RestartOrCycle(node, $"para que la sesión {previous} deje de leerlo")
+                                : DevSetup.Restart(node);
+                if (moved && ok) Logger.Log($"[Gamepad] {node} reiniciado: la sesión {previous} deja de leerlo.");
             }
             catch (Win32Exception ex)
             {
@@ -612,13 +767,22 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
     }
 
+    private static bool HasAncestorIn(string node, HashSet<string> set)
+    {
+        for (var p = Cm.Parent(node); p is not null; p = Cm.Parent(p))
+            if (set.Contains(p)) return true;
+        return false;
+    }
+
     /// <summary>
     /// Sesión de Windows a la que debe ir un mando físico: la de su puesto encendido; si no, la de
     /// la sesión de stream en marcha que lo tenga asignado; si no, la consola.
     /// </summary>
-    private uint TargetSessionFor(string node)
+    private uint TargetSessionFor(string node) =>
+        DeviceTopology.UsbPortOf(node) is { } usb ? TargetSessionForPort(usb) : _console;
+
+    private uint TargetSessionForPort(string usb)
     {
-        if (DeviceTopology.UsbPortOf(node) is not { } usb) return _console;
         if (_seats.TryGetSeatWindowsSession(usb, out var seatSession)) return seatSession;
         if (_sessions.TryGetGamepadWindowsSession(usb, out var streamSession)) return streamSession;
         return _console;
@@ -660,13 +824,76 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     /// </summary>
     private void RemoveStaleJails()
     {
+        // Los nodos conocidos de mandos físicos se quedan: JailAbsent los pone en su sesión.
         var stale = HidHide.GetBlacklist(_hidHide!)
                            .Select(HidHide.JailedInstance)
                            .OfType<string>()
-                           .Where(id => !Cm.Exists(id))
+                           .Where(id => !Cm.Exists(id) && !_knownNodes.ContainsKey(id))
                            .ToList();
         if (stale.Count > 0 && UpdateJails(add: [], remove: stale))
             Logger.Log($"[Gamepad] Quitadas {stale.Count} entradas antiguas de la lista negra de HidHide.");
+    }
+
+    /// <summary>
+    /// Mantiene el jail de los nodos conocidos que ahora no están (mando dormido o desenchufado)
+    /// con la sesión a la que irían por su puerto: al reaparecer, HidHide ya los oculta a las
+    /// demás sesiones desde la primera apertura.
+    /// </summary>
+    private void JailAbsent()
+    {
+        if (_console == NoSession) return;
+        var changes = _knownNodes
+            .Where(k => !Cm.Exists(k.Key))
+            .Select(k => (Id: k.Key, Target: TargetSessionForPort(k.Value)))
+            .Where(n => !_absent.TryGetValue(n.Id, out var s) || s != n.Target)
+            .ToList();
+        if (changes.Count == 0) return;
+        if (!UpdateJails(add: changes.Select(n => HidHide.JailEntry(n.Id, n.Target)), remove: changes.Select(n => n.Id))) return;
+        foreach (var (id, target) in changes)
+        {
+            bool known = _absent.ContainsKey(id);
+            _absent[id] = target;
+            if (known)
+                Logger.Log($"[Gamepad] Mando físico {id} (no conectado ahora) pasa a la sesión {target}: lo estará en cuanto aparezca.");
+        }
+    }
+
+    /// <summary>Anota los nodos con su puerto USB (los que cuelgan de un USB) y guarda si hay nuevos.</summary>
+    private void Remember(IEnumerable<string> nodes)
+    {
+        bool changed = false;
+        foreach (var id in nodes)
+        {
+            if (DeviceTopology.UsbPortOf(id) is not { } port) continue;
+            if (_knownNodes.TryGetValue(id, out var old) && old.Equals(port, StringComparison.OrdinalIgnoreCase)) continue;
+            _knownNodes[id] = port;
+            changed = true;
+        }
+        if (!changed) return;
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(KnownNodesPath)!);
+            File.WriteAllText(KnownNodesPath, JsonSerializer.Serialize(_knownNodes));
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudo guardar {KnownNodesPath}: {ex.Message}");
+        }
+    }
+
+    private static Dictionary<string, string> LoadKnownNodes()
+    {
+        try
+        {
+            if (File.Exists(KnownNodesPath) &&
+                JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(KnownNodesPath)) is { } d)
+                return new Dictionary<string, string>(d, StringComparer.OrdinalIgnoreCase);
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudo leer {KnownNodesPath}: {ex.Message}");
+        }
+        return new(StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -804,6 +1031,18 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             var buf = new byte[len];
             if (CM_Get_DevNode_Registry_PropertyW(inst, property, out _, buf, ref len, 0) != CR_SUCCESS) return [];
             return Encoding.Unicode.GetString(buf, 0, len).Split('\0', StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private const int CM_DRP_ADDRESS = 0x1D;
+
+        /// <summary>Dirección del nodo en su bus (para un USB, el número de puerto del hub).</summary>
+        public static uint? Address(string deviceId)
+        {
+            if (CM_Locate_DevNodeW(out int inst, deviceId, CM_LOCATE_DEVNODE_NORMAL) != CR_SUCCESS) return null;
+            var buf = new byte[4];
+            int len = 4;
+            return CM_Get_DevNode_Registry_PropertyW(inst, CM_DRP_ADDRESS, out _, buf, ref len, 0) == CR_SUCCESS
+                ? BitConverter.ToUInt32(buf, 0) : null;
         }
 
         public static string? Parent(string deviceId) =>
@@ -988,9 +1227,18 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         private static extern bool SetupDiCallClassInstaller(int function, IntPtr set, ref SP_DEVINFO_DATA data);
         [DllImport("setupapi.dll")]
         private static extern bool SetupDiDestroyDeviceInfoList(IntPtr set);
+        [DllImport("setupapi.dll", SetLastError = true)]
+        private static extern bool SetupDiGetDeviceInstallParamsW(IntPtr set, ref SP_DEVINFO_DATA data, IntPtr p);
 
-        /// <summary>Reinicia el dispositivo (DIF_PROPERTYCHANGE), como "deshabilitar y habilitar".</summary>
-        public static void Restart(string instanceId)
+        private const int DI_NEEDRESTART = 0x80;
+        private const int DI_NEEDREBOOT = 0x100;
+
+        /// <summary>
+        /// Reinicia el dispositivo (DIF_PROPERTYCHANGE), como "deshabilitar y habilitar". Devuelve
+        /// false si Windows lo aplazó al próximo arranque: alguien lo tiene abierto y no lo suelta
+        /// (Steam), así que sigue funcionando con sus handles. Ver <see cref="RestartOrCycle"/>.
+        /// </summary>
+        public static bool Restart(string instanceId)
         {
             IntPtr set = SetupDiCreateDeviceInfoList(IntPtr.Zero, IntPtr.Zero);
             if (set == new IntPtr(-1)) throw new Win32Exception();
@@ -1007,8 +1255,78 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 if (!SetupDiSetClassInstallParamsW(set, ref d, ref p, Marshal.SizeOf<SP_PROPCHANGE_PARAMS>()) ||
                     !SetupDiCallClassInstaller(DIF_PROPERTYCHANGE, set, ref d))
                     throw new Win32Exception();
+                return !NeedsReboot(set, ref d);
             }
             finally { SetupDiDestroyDeviceInfoList(set); }
+        }
+
+        private static bool NeedsReboot(IntPtr set, ref SP_DEVINFO_DATA d)
+        {
+            // SP_DEVINSTALL_PARAMS_W: cbSize, Flags, … DriverPath[260]; solo se leen los dos primeros campos.
+            int size = IntPtr.Size == 8 ? 584 : 556;
+            IntPtr buf = Marshal.AllocHGlobal(size);
+            try
+            {
+                for (int i = 0; i < size; i++) Marshal.WriteByte(buf, i, 0);
+                Marshal.WriteInt32(buf, size);
+                if (!SetupDiGetDeviceInstallParamsW(set, ref d, buf)) return false;
+                return (Marshal.ReadInt32(buf, 4) & (DI_NEEDRESTART | DI_NEEDREBOOT)) != 0;
+            }
+            finally { Marshal.FreeHGlobal(buf); }
+        }
+
+        /// <summary>
+        /// Reinicia el nodo; si Windows lo aplaza porque alguien lo tiene abierto, desconecta y
+        /// reconecta su puerto USB (como desenchufarlo): eso no se puede rechazar y cierra todos
+        /// los handles. Devuelve false si no se consiguió ninguna de las dos cosas.
+        /// </summary>
+        public static bool RestartOrCycle(string instanceId, string why)
+        {
+            if (Restart(instanceId)) return true;
+            if (UsbPort.Cycle(instanceId, out var detail))
+            {
+                Logger.Log($"[Gamepad] {instanceId}: alguien lo tenía abierto y Windows aplazó el reinicio; " +
+                           $"se ha desconectado y reconectado su puerto USB ({detail}) {why}.");
+                return true;
+            }
+            Logger.Warning($"[Gamepad] {instanceId}: Windows aplazó el reinicio (lo tiene abierto otro proceso) y no se pudo " +
+                           $"reciclar su puerto USB ({detail}). Lo sigue leyendo quien ya lo tuviera abierto hasta que lo cierre.");
+            return false;
+        }
+    }
+
+    /// <summary>Desconexión y reconexión por software del puerto de un hub (IOCTL_USB_HUB_CYCLE_PORT).</summary>
+    internal static class UsbPort
+    {
+        private const uint IOCTL_USB_HUB_CYCLE_PORT = 0x220444;
+        private static readonly Guid HubInterface = new("f18a0e88-c30c-11d0-8815-00a0c906bed8");
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern SafeFileHandle CreateFileW(string name, uint access, uint share, IntPtr sa, uint disposition, uint flags, IntPtr template);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool DeviceIoControl(SafeFileHandle device, uint code, byte[] inBuf, int inSize, byte[] outBuf, int outSize, out int returned, IntPtr overlapped);
+        [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)]
+        private static extern int CM_Get_Device_Interface_List_SizeW(out int len, ref Guid g, string device, int flags);
+        [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)]
+        private static extern int CM_Get_Device_Interface_ListW(ref Guid g, string device, char[] buffer, int len, int flags);
+
+        /// <summary>Recicla el puerto del hub donde está el dispositivo USB del que cuelga el nodo.</summary>
+        public static bool Cycle(string instanceId, out string detail)
+        {
+            if (DeviceTopology.UsbDeviceRootOf(instanceId) is not { } usb) { detail = "no cuelga de un USB"; return false; }
+            if (Cm.Parent(usb) is not { } hub || Cm.Address(usb) is not { } port) { detail = $"sin hub ni puerto para {usb}"; return false; }
+            var g = HubInterface;
+            if (CM_Get_Device_Interface_List_SizeW(out int len, ref g, hub, 0) != 0 || len < 2) { detail = $"{hub} no es un hub"; return false; }
+            var chars = new char[len];
+            if (CM_Get_Device_Interface_ListW(ref g, hub, chars, len, 0) != 0) { detail = $"{hub} no es un hub"; return false; }
+            string path = new string(chars).Split('\0', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+            using var h = CreateFileW(path, 0xC0000000, 3, IntPtr.Zero, 3, 0, IntPtr.Zero);
+            if (h.IsInvalid) { detail = $"abrir {hub}: error {Marshal.GetLastWin32Error()}"; return false; }
+            var buf = new byte[8];
+            BitConverter.GetBytes(port).CopyTo(buf, 0);
+            bool ok = DeviceIoControl(h, IOCTL_USB_HUB_CYCLE_PORT, buf, 8, buf, 8, out _, IntPtr.Zero);
+            detail = ok ? $"{hub}, puerto {port}" : $"{hub}, puerto {port}: error {Marshal.GetLastWin32Error()}";
+            return ok;
         }
     }
 }

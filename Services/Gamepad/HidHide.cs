@@ -20,7 +20,9 @@ internal static class HidHide
     private const uint FileReadData  = 1;
     private static uint Ioctl(uint function) => (DeviceType << 16) | (FileReadData << 14) | (function << 2);
 
+    private static readonly uint GetWhitelistCode = Ioctl(2048);
     private static readonly uint GetBlacklistCode = Ioctl(2050);
+    private static readonly uint GetInverseCode   = Ioctl(2054);
     private static readonly uint SetBlacklistCode = Ioctl(2051);
     private static readonly uint GetActiveCode    = Ioctl(2052);
     private static readonly uint SetActiveCode    = Ioctl(2053);
@@ -55,11 +57,27 @@ internal static class HidHide
         if (!DeviceIoControl(device, SetActiveCode, [(byte)(active ? 1 : 0)], 1, null, 0, out _, IntPtr.Zero)) throw new Win32Exception();
     }
 
-    public static List<string> GetBlacklist(SafeFileHandle device)
+    /// <summary>
+    /// Programas de la lista blanca: HidHide les deja abrir cualquier dispositivo, también los
+    /// que tienen "jail" de sesión. Un Steam ahí lee los mandos de todas las sesiones.
+    /// </summary>
+    public static List<string> GetWhitelist(SafeFileHandle device) => GetMultiSz(device, GetWhitelistCode);
+
+    /// <summary>Modo inverso: la lista blanca pasa a ser de programas a los que se oculta todo.</summary>
+    public static bool GetInverse(SafeFileHandle device)
     {
-        if (!DeviceIoControl(device, GetBlacklistCode, null, 0, null, 0, out int needed, IntPtr.Zero)) throw new Win32Exception();
+        var buf = new byte[1];
+        if (!DeviceIoControl(device, GetInverseCode, null, 0, buf, 1, out _, IntPtr.Zero)) throw new Win32Exception();
+        return buf[0] != 0;
+    }
+
+    public static List<string> GetBlacklist(SafeFileHandle device) => GetMultiSz(device, GetBlacklistCode);
+
+    private static List<string> GetMultiSz(SafeFileHandle device, uint code)
+    {
+        if (!DeviceIoControl(device, code, null, 0, null, 0, out int needed, IntPtr.Zero)) throw new Win32Exception();
         var buf = new byte[needed];
-        if (needed > 0 && !DeviceIoControl(device, GetBlacklistCode, null, 0, buf, buf.Length, out needed, IntPtr.Zero)) throw new Win32Exception();
+        if (needed > 0 && !DeviceIoControl(device, code, null, 0, buf, buf.Length, out needed, IntPtr.Zero)) throw new Win32Exception();
         return Encoding.Unicode.GetString(buf, 0, needed).Split('\0', StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 

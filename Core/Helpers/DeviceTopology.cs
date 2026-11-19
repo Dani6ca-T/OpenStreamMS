@@ -48,7 +48,8 @@ public static class DeviceTopology
         var taken = result.Select(d => d.UsbPort).ToHashSet(StringComparer.OrdinalIgnoreCase);
         foreach (var usb in GamepadSessionIsolation.Cm.DeviceIds("USB"))
         {
-            if (usb.Contains("&MI_", StringComparison.OrdinalIgnoreCase) || usb.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase)) continue;
+            if (usb.Contains("&MI_", StringComparison.OrdinalIgnoreCase) || usb.Contains("&IG_", StringComparison.OrdinalIgnoreCase) ||
+                usb.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase)) continue;
             if (IsHubOrRadio(usb) || IsInternal(usb)) continue;
             var port = LocationPath(usb) ?? usb;
             if (!taken.Add(port)) continue;
@@ -108,6 +109,12 @@ public static class DeviceTopology
     public static string? UsbPortOf(string instanceId) =>
         UsbDeviceOf(instanceId) is { } usb ? LocationPath(usb) ?? usb : null;
 
+    /// <summary>
+    /// Nodo del dispositivo USB físico (el compuesto, no sus interfaces) al que pertenece el
+    /// nodo, o null si no cuelga de un USB.
+    /// </summary>
+    public static string? UsbDeviceRootOf(string instanceId) => UsbDeviceOf(instanceId);
+
     /// <summary>Instance id a partir de la ruta de interfaz (<c>\\?\HID#VID_..#..#{guid}</c>).</summary>
     public static string InstanceFromInterfacePath(string path)
     {
@@ -120,13 +127,17 @@ public static class DeviceTopology
     /// <summary>
     /// Primer antecesor que es un dispositivo USB (no una interfaz <c>&amp;MI_xx</c> de un
     /// compuesto): así un teclado con varias colecciones HID es un único puerto.
+    /// Tampoco el <c>USB\..&amp;IG_xx</c> que xusb22 cuelga del XUSB de un mando Xbox 360: no
+    /// tiene ruta de ubicación y, tomado como dispositivo, su colección HID (la que leen Steam
+    /// y DirectInput) salía como otro puerto y se quedaba en la consola.
     /// </summary>
     private static string? UsbDeviceOf(string instanceId)
     {
         for (string? id = instanceId; id is not null; id = GamepadSessionIsolation.Cm.Parent(id))
         {
             if (!id.StartsWith(@"USB\", StringComparison.OrdinalIgnoreCase)) continue;
-            if (id.Contains("&MI_", StringComparison.OrdinalIgnoreCase)) continue;
+            if (id.Contains("&MI_", StringComparison.OrdinalIgnoreCase) ||
+                id.Contains("&IG_", StringComparison.OrdinalIgnoreCase)) continue;
             return id;
         }
         return null;
