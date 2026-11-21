@@ -488,10 +488,18 @@ public static class SeatAgent
         try
         {
             using var mm = new MMDeviceEnumerator();
-            var dev = mm.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            MMDevice? dev = null;
+            try { dev = mm.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); }
+            catch (COMException ex) when ((uint)ex.HResult == 0x80070490) { }   // ELEMENT_NOT_FOUND
             if (dev is null)
             {
-                Logger.Warning("[SeatAgent] No se encontró dispositivo de audio para capturar en la sesión.");
+                // Sin "Remote Audio" en la sesión no hay nada que capturar y el puesto queda mudo.
+                // Es un fallo de Windows (pasa igual con mstsc), pero hay que dejarlo visible:
+                // con el nivel por defecto (Error) un Warning no llegaba al log.
+                const string msg = "La sesión del puesto no tiene ningún dispositivo de reproducción " +
+                                   "(Windows no creó \"Remote Audio\"): el puesto no tendrá sonido.";
+                Logger.Error($"[SeatAgent] {msg}");
+                channel.SendJson(new JsonObject { ["op"] = "audio_missing", ["reason"] = msg });
                 return null;
             }
 

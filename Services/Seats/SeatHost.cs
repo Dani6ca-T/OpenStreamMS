@@ -514,6 +514,12 @@ internal sealed class ActiveSeatHost
                             int bits = json["bits"]?.GetValue<int>() ?? 32;
                             SetupAudioFormat(sampleRate, channels, bits);
                         }
+                        else if (json["op"]?.GetValue<string>() == "audio_missing")
+                        {
+                            // El agente escribe su log como el usuario del puesto (a veces en su %TEMP%);
+                            // repetirlo aquí lo deja donde se mira.
+                            Logger.Error($"[SeatHost] {json["reason"]?.GetValue<string>() ?? "El puesto no tiene dispositivo de audio."}");
+                        }
                     }
                     catch { }
                     break;
