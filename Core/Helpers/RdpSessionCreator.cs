@@ -173,6 +173,10 @@ namespace OpenStreamMS.Core.Helpers
 
                 if (remoteIdd) ApplyRemoteIddMode(rdpWidth, rdpHeight, rdpFrameRate, display.Scale);
 
+                // Si el usuario ya tiene otra sesión (la de consola), con "una sesión por usuario"
+                // termsrv le devolvería esa: se permite la segunda solo mientras se conecta.
+                using var secondSession = AllowSecondSessionIfNeeded(user);
+
                 // mstsc preferido: trae decoder AVC (H.264) por hardware (DXVA). El wfreerdp
                 // bundled se compilo SIN H264 (ver /buildconfig), asi que con el termsrv
                 // cae a RemoteFX progressive por CPU: a 4K la composicion se desploma a
@@ -223,9 +227,10 @@ namespace OpenStreamMS.Core.Helpers
         /// Vuelve a conectar una sesión existente con otra resolución y frecuencia (las de la
         /// pantalla RDP solo se fijan al conectar: dentro de la sesión no se pueden cambiar).
         /// <para>
-        /// Hay que desconectar antes: con varias sesiones por usuario permitidas
-        /// (fSingleSessionPerUser=0), un cliente nuevo sin desconexión previa crea OTRA sesión
-        /// en lugar de reutilizar esta. Tarda ~1,2 s; la sesión, sus procesos y Sunshine siguen vivos.
+        /// Hay que desconectar antes: si el usuario tiene otra sesión, se conecta con varias
+        /// sesiones por usuario permitidas (fSingleSessionPerUser=0) y un cliente nuevo sin
+        /// desconexión previa crearía OTRA sesión en lugar de reutilizar esta. Tarda ~1,2 s; la
+        /// sesión, sus procesos y Sunshine siguen vivos.
         /// </para>
         /// </summary>
         public static uint Reconnect(StreamUserConfig user, uint sessionId,
@@ -259,6 +264,10 @@ namespace OpenStreamMS.Core.Helpers
                 while (sw.Elapsed.TotalSeconds < 10 &&
                        EnumerateSessions(logSessions: false).FirstOrDefault(s => s.SessionId == sessionId) is { State: not WtsDisconnected })
                     Thread.Sleep(50);
+
+                // Con otra sesión del mismo usuario abierta (la de consola), "una sesión por
+                // usuario" podría devolverle esa en vez de la desconectada.
+                using var secondSession = AllowSecondSessionIfNeeded(user, sessionId);
 
                 uint id;
                 if (preferMstsc)
@@ -1441,9 +1450,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         /// Pasos (idempotentes; se ejecutan antes de cada creacion de sesion):
         ///   1. fDenyTSConnections = 0        → termsrv acepta conexiones RDP entrantes.
         ///   2. RDP-Tcp\fEnableWinStation = 1 → listener RDP-Tcp activo.
-        ///   3. fSingleSessionPerUser = 0     → varias sesiones por usuario (ver
-        ///      <see cref="EnsureMultipleSessionsPerUser"/>).
-        ///   4. TermService arrancado (y no Deshabilitado): el listener es trigger-start,
+        ///   3. TermService arrancado (y no Deshabilitado): el listener es trigger-start,
         ///      pero si algun endurecimiento previo dejo el servicio parado/off la
         ///      conexion loopback fallaria.
         /// </para>
@@ -1452,6 +1459,10 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         /// red. NO se toca el nivel NLA: mstsc y FreeRDP negocian CredSSP con las opciones
         /// del .rdp. Es NO destructivo: si RDPWrapper sigue instalado, estos
         /// cambios son inocuos y su parche de multi-sesion se conserva intacto.
+        /// <para>
+        /// "Una sesión por usuario" (fSingleSessionPerUser) no se toca aquí: solo se relaja
+        /// mientras se conecta, si hace falta (<see cref="AllowSecondSessionIfNeeded"/>).
+        /// </para>
         /// </summary>
         public static void EnsureRemoteDesktopEnabled()
         {
@@ -1459,47 +1470,25 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                           "fDenyTSConnections", 0, RegistryValueKind.DWord);
             WriteRegistry(@"SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp",
                           "fEnableWinStation", 1, RegistryValueKind.DWord);
-            EnsureMultipleSessionsPerUser();
 
             EnsureTermServiceRunning();
         }
 
         /// <summary>
-        /// Pone fSingleSessionPerUser = 0. Windows lo trae a 1 en todas las ediciones: con 1,
-        /// si el usuario del puesto ya tiene una sesión (por ejemplo, la de consola), termsrv
-        /// le devuelve esa en vez de crear otra, aunque el equipo permita sesiones
-        /// simultáneas (el parche quita el límite de sesiones, no esta opción). Es lo mismo
-        /// que la casilla "Single session per user" de RDPConf.
-        /// <para>
-        /// Si una directiva lo fuerza a 1 (HKLM\SOFTWARE\Policies\...\Terminal Services), esa
-        /// gana al valor normal: no se toca (la reescribiría la GPO) y solo se avisa.
-        /// </para>
+        /// Si el usuario ya tiene otra sesión (además de <paramref name="exceptSessionId"/>, la que
+        /// se va a reconectar), permite una segunda sesión por usuario hasta que se libere el
+        /// resultado. Con "una sesión por usuario" (el valor de Windows), termsrv le devolvería la
+        /// que ya tiene, aunque el equipo admita sesiones simultáneas. Sin otra sesión no se toca
+        /// nada: es el caso normal, con un usuario propio para cada puesto.
         /// </summary>
-        static void EnsureMultipleSessionsPerUser()
+        static IDisposable? AllowSecondSessionIfNeeded(StreamUserConfig user, uint exceptSessionId = 0)
         {
-            const string tsKey = @"SYSTEM\CurrentControlSet\Control\Terminal Server";
-            const string policyKey = @"SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services";
-            const string name = "fSingleSessionPerUser";
-
-            try
-            {
-                using (var key = Registry.LocalMachine.OpenSubKey(tsKey))
-                {
-                    if (key?.GetValue(name) is not int current || current != 0)
-                        WriteRegistry(tsKey, name, 0, RegistryValueKind.DWord);
-                }
-
-                using var policy = Registry.LocalMachine.OpenSubKey(policyKey);
-                if (policy?.GetValue(name) is int forced && forced != 0)
-                    Logger.Warning($"[RDP] Una directiva fuerza {name}={forced} (HKLM\\{policyKey}): " +
-                                   "si el usuario del puesto ya tiene sesión abierta, Windows la reutilizará " +
-                                   "en vez de crear otra. Desactiva \"Restringir a los usuarios de Servicios " +
-                                   "de Escritorio remoto a una única sesión\" o usa un usuario distinto.");
-            }
-            catch (Exception ex)
-            {
-                Logger.Warning($"[RDP] No se pudo comprobar {name}: {ex.Message}");
-            }
+            var other = EnumerateSessions(logSessions: false).FirstOrDefault(s =>
+                s.SessionId != 0 && s.SessionId != exceptSessionId && SamePrincipal(s, user));
+            if (other is null) return null;
+            Logger.Log($"[RDP] '{FormatPrincipal(user)}' ya tiene la sesión {other.SessionId} " +
+                       $"({(string.IsNullOrEmpty(other.WinStationName) ? "desconectada" : other.WinStationName)}).");
+            return SingleSessionPerUser.Suspend();
         }
 
         /// <summary>
