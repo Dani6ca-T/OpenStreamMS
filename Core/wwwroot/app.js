@@ -459,9 +459,9 @@ function updateIsolatedUi() {
   const isolated = byId('sess-isolated').checked;
   byId('sess-ephemeral-row').style.display = isolated ? '' : 'none';
   byId('sess-creds-block').style.display   = needsCreds() ? '' : 'none';
-  // Reutilizar un usuario conservado: solo al crear una aislada y si hay alguno libre.
+  // Usuario dedicado conservado: al crear una aislada o al editarla, si hay alguno sin sesión.
   byId('sess-reuse-row').style.display =
-    isolated && !sessEditingId && !isLocalKind() && reusableUsers().length ? '' : 'none';
+    isolated && !isLocalKind() && keptUsers().length ? '' : 'none';
   // Un perfil efímero borraría justo lo que se quiere conservar al reutilizar el usuario.
   const reusing = byId('sess-reuse-row').style.display !== 'none' && !!byId('sess-reuse').value;
   byId('sess-ephemeral').disabled = reusing;
@@ -502,20 +502,33 @@ function fillLocalUserOptions() {
   byId('sess-user-none').style.display = localUsers.length ? 'none' : '';
 }
 
-// Usuarios dedicados conservados que se pueden asignar a una sesión nueva.
-function reusableUsers() {
-  return orphanUsers.filter(o => o.accountExists && !o.signedIn);
+// Usuarios dedicados conservados (con cuenta). Los que tienen la sesión de Windows abierta se
+// listan desactivados: hay que cerrarla antes en "Usuarios dedicados sin sesión".
+function keptUsers() {
+  return orphanUsers.filter(o => o.accountExists);
 }
 
-function fillReuseOptions() {
+function reusableUsers() {
+  return keptUsers().filter(o => !o.signedIn);
+}
+
+// preferred: usuario a dejar elegido (desde "Usar en una sesión nueva"); si no, se mantiene el elegido.
+function fillReuseOptions(preferred) {
   const sel = byId('sess-reuse');
   if (!sel) return;
-  const current = sel.value;
-  const opts = [`<option value="">${esc(t('new.reuseNew'))}</option>`];
-  for (const o of reusableUsers()) {
-    const steam = o.steamLogin === 'saved' ? t('new.reuseSteamSaved')
-                : o.steamLogin === 'missing' ? t('new.reuseSteamMissing') : '';
-    opts.push(`<option value="${esc(o.name)}">${esc(o.name)}${steam ? ` — ${esc(steam)}` : ''}</option>`);
+  const current = preferred ?? sel.value;
+  // Al editar, la opción vacía es quedarse con el usuario que ya tiene la sesión.
+  const editing = sessEditingId && sessions.find(x => x.id === sessEditingId);
+  const first = editing && editing.isolated
+    ? t('new.reuseKeep', { user: editing.isolatedUser || t('card.isolatedUser') })
+    : t('new.reuseNew');
+  const opts = [`<option value="">${esc(first)}</option>`];
+  for (const o of keptUsers()) {
+    const tags = [];
+    if (o.signedIn) tags.push(t('orphans.signedIn'));
+    else if (o.steamLogin === 'saved') tags.push(t('new.reuseSteamSaved'));
+    else if (o.steamLogin === 'missing') tags.push(t('new.reuseSteamMissing'));
+    opts.push(`<option value="${esc(o.name)}"${o.signedIn ? ' disabled' : ''}>${esc(o.name)}${tags.length ? ` — ${esc(tags.join(', '))}` : ''}</option>`);
   }
   sel.innerHTML = opts.join('');
   sel.value = reusableUsers().some(o => o.name === current) ? current : '';
@@ -535,7 +548,9 @@ function setSessTexts() {
 }
 
 // ── Abrir, cerrar y guardar ────────────────────────────────────────────────
-function openNewModal() {
+// reuseUser: usuario dedicado conservado a dejar elegido (desde "Usuarios dedicados sin sesión").
+function openNewModal(reuseUser) {
+  if (typeof reuseUser !== 'string') reuseUser = null;
   sessEditingId = null;
   byId('sess-form').reset();
   byId('sess-error').style.display = 'none';
@@ -553,7 +568,8 @@ function openNewModal() {
   setProtocolFields('Both', 8000, 40000, 40019);
   updateDerivedWebPort();
   resetCredTest();
-  fillReuseOptions();
+  byId('sess-isolated').checked = !!reuseUser;
+  fillReuseOptions(reuseUser || '');
   setSessTexts();
   updateKindUi();
   show('sess-modal');
@@ -612,10 +628,12 @@ function openEditModal(id) {
   setResPreset(s.rdpWidth, s.rdpHeight);
   setProtocolFields(s.streamProtocol, s.webRtcPort, s.webRtcMediaPortMin, s.webRtcMediaPortMax);
   updateDerivedWebPort();
+  fillReuseOptions('');
   setSessTexts();
   updateKindUi();
   show('sess-modal');
   stopRefresh();
+  loadOrphans().then(() => { if (sessEditingId === s.id) { fillReuseOptions(); updateIsolatedUi(); } });
   byId('sess-name').focus();
 }
 
@@ -705,6 +723,8 @@ async function submitSession(e) {
       rotateSunshineCredentials: byId('sess-rotate').checked,
       isolated,
       isolatedEphemeral:  isolated && byId('sess-ephemeral').checked,
+      reuseIsolatedUser:  isolated && byId('sess-reuse-row').style.display !== 'none'
+                            ? (byId('sess-reuse').value || null) : null,
       ...readProtocolFields(),
     };
     if (editing) body.restartIfActive = restartIfActive;
@@ -720,7 +740,6 @@ async function submitSession(e) {
         username: needsCreds() ? byId('sess-user').value.trim() : '',
         domain:   needsCreds() ? (byId('sess-domain').value.trim() || '.') : '.',
         password: needsCreds() ? byId('sess-pass').value : '',
-        reuseIsolatedUser: isolated ? (byId('sess-reuse').value || null) : null,
       });
       res = await api('POST', '/api/sessions', body);
     }
@@ -1532,7 +1551,9 @@ function updateSessionPreview() {
   const chips = [];
   if (proto !== 'WebRtc')    chips.push(`<span class="chip chip-moonlight">${uiIcon('moon')}Moonlight <b>${esc(port || '')}</b></span>`);
   if (proto !== 'Moonlight') chips.push(`<span class="chip chip-webrtc">${uiIcon('web')}WebRTC <b>${esc(webPort || '')}</b></span>`);
-  const reuse = !local && isolated && !sessEditingId ? byId('sess-reuse').value : '';
+  const editingSession = sessEditingId && sessions.find(x => x.id === sessEditingId);
+  const reuse = local || !isolated ? ''
+              : byId('sess-reuse').value || (editingSession && editingSession.isolated && editingSession.isolatedUser) || '';
   if (!local && isolated)    chips.push(`<span class="chip">${uiIcon('seat')}${esc(reuse || t('card.isolatedUser'))}</span>`);
   setPreview(box, `${screen}
     <div class="preview-body">
@@ -1914,10 +1935,35 @@ function renderOrphans() {
           <span class="orphan-meta">${esc(meta.join(' · '))}</span>
           ${o.profilePath ? `<span class="orphan-path">${esc(o.profilePath)}</span>` : ''}
         </div>
-        <button type="button" class="btn btn-danger btn-xs" ${o.signedIn ? 'disabled' : ''}
+        <div class="orphan-actions">
+          ${o.accountExists && !o.signedIn ? `<button type="button" class="btn btn-primary btn-xs"
+                onclick="useOrphanInNewSession(${esc(JSON.stringify(o.name))})">${esc(t('orphans.useInNew'))}</button>` : ''}
+          ${o.signedIn ? `<button type="button" class="btn btn-ghost btn-xs"
+                onclick="logoffOrphan(${esc(JSON.stringify(o.key))})">${esc(t('orphans.logoff'))}</button>` : ''}
+          <button type="button" class="btn btn-danger btn-xs" ${o.signedIn ? 'disabled' : ''}
                 onclick="deleteOrphan(${esc(JSON.stringify(o.key))})">${esc(plainLabel(t('btn.delete')))}</button>
+        </div>
       </div>`;
   }).join('');
+}
+
+function useOrphanInNewSession(name) {
+  hide('orphans-modal');
+  openNewModal(name);
+}
+
+// Cierra la sesión de Windows que le quedó abierta: hasta entonces no se puede reutilizar ni borrar.
+async function logoffOrphan(key) {
+  const o = (orphanSized || orphanUsers).find(x => x.key === key);
+  if (!o) return;
+  if (!await ask(t('orphans.confirmLogoff', { name: o.name }), { danger: true, ok: t('orphans.logoff') })) return;
+  const res = await api('POST', `/api/sessions/isolated-users/logoff?key=${encodeURIComponent(key)}`);
+  if (!res) return;
+  if (!res.ok && res.status !== 204) { toast(await I18n.responseError(res), true); return; }
+  toast(t('orphans.loggedOff', { name: o.name }));
+  if (orphanSized) orphanSized = orphanSized.map(x => x.key === key ? { ...x, signedIn: false } : x);
+  await loadOrphans();
+  renderOrphans();
 }
 
 async function deleteOrphan(key) {

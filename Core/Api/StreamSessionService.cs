@@ -77,10 +77,7 @@ public partial class StreamSessionService
                 throw new InvalidOperationException(RequestCulture.T("error.onlyIsolated"));
             if (isolatedEphemeral)
                 throw new InvalidOperationException(RequestCulture.T("error.ephemeralReuse"));
-            var free = IsolatedUserManager.ListOrphans(IsolatedUsersInUse(), withSizes: false)
-                .Any(e => e.AccountExists && string.Equals(e.Name, reuseIsolatedUser, StringComparison.OrdinalIgnoreCase));
-            if (!free)
-                throw new InvalidOperationException(RequestCulture.T("error.reuseUser"));
+            EnsureReusable(reuseIsolatedUser);
         }
 
         // Puertos WebRTC sin indicar (0) = los primeros libres.
@@ -136,6 +133,21 @@ public partial class StreamSessionService
     private List<string> IsolatedUsersInUse() =>
         _sessions.Values.Where(s => s.Isolated).Select(s => s.GetIsolatedUser()).ToList();
 
+    /// <summary>
+    /// Un usuario dedicado conservado se puede asignar a una sesión si existe, no lo usa otra
+    /// sesión y no tiene una sesión de Windows abierta: la sesión nueva se colgaría de esa en vez
+    /// de crear la suya (con otra resolución, sin su Sunshine). Esa se cierra antes desde
+    /// <see cref="LogoffOrphanUser"/>.
+    /// </summary>
+    private void EnsureReusable(string username)
+    {
+        var entry = IsolatedUserManager.ListOrphans(IsolatedUsersInUse(), withSizes: false)
+            .FirstOrDefault(e => e.AccountExists && string.Equals(e.Name, username, StringComparison.OrdinalIgnoreCase))
+            ?? throw new InvalidOperationException(RequestCulture.T("error.reuseUser"));
+        if (entry.SignedIn)
+            throw new InvalidOperationException(RequestCulture.T("error.reuseUserSignedIn"));
+    }
+
     /// <summary>Usuarios osms-* conservados y perfiles o carpetas que ya no usa ninguna sesión.</summary>
     internal List<IsolatedUserManager.OrphanEntry> ListOrphanUsers(bool withSizes) =>
         IsolatedUserManager.ListOrphans(IsolatedUsersInUse(), withSizes);
@@ -143,6 +155,24 @@ public partial class StreamSessionService
     /// <summary>Borra uno de <see cref="ListOrphanUsers"/> (la clave se valida contra la lista).</summary>
     internal void DeleteOrphanUser(string key) =>
         IsolatedUserManager.DeleteOrphan(key, IsolatedUsersInUse());
+
+    /// <summary>
+    /// Cierra la sesión de Windows que le quedó abierta a un usuario dedicado sin sesión de
+    /// OpenStreamMS (se borró o se le cambió el usuario a su sesión con ella iniciada, o el
+    /// servicio se cayó). Sin esto no se podía ni reutilizar ni borrar. Usa el cierre de Windows
+    /// (WTSLogoffSession): lo que tenga abierto se cierra sin guardar.
+    /// </summary>
+    internal void LogoffOrphanUser(string key)
+    {
+        var entry = ListOrphanUsers(withSizes: false).FirstOrDefault(e => e.Key == key && e.AccountExists)
+            ?? throw new InvalidOperationException(RequestCulture.T("error.reuseUser"));
+        foreach (var rdpSession in RdpSessionCreator.FindUserSessions(entry.Name))
+        {
+            Logger.Log($"[SessionService] Cerrando la sesión de Windows {rdpSession} de '{entry.Name}' (usuario dedicado sin sesión).");
+            if (!RdpSessionCreator.LogoffAndWait(rdpSession, TimeSpan.FromSeconds(30)))
+                throw new InvalidOperationException(RequestCulture.T("error.orphanLogoff"));
+        }
+    }
 
     /// <summary>
     /// Estado del login de Steam del usuario de Windows de una sesión RDP ("saved"/"missing"),
@@ -270,7 +300,8 @@ public partial class StreamSessionService
                                       int webRtcPort = 0, int webRtcMediaPortMin = 0, int webRtcMediaPortMax = 0,
                                       int rdpDisplayScale = 100,
                                       RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth,
-                                      bool restartIfActive = false)
+                                      bool restartIfActive = false,
+                                      string? reuseIsolatedUser = null)
     {
         var session = RequireSession(id);
 
@@ -296,6 +327,21 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         // iniciar (y borraría el dedicado y su perfil): no arrancaría nunca más.
         if (session.Isolated && !isolated && !session.Local && string.IsNullOrWhiteSpace(session.Username))
             throw new InvalidOperationException(RequestCulture.T("session.usernameRequired"));
+
+        // Cambiar el usuario dedicado por otro conservado (null = mantener el que tiene). El
+        // anterior no se borra: queda entre los usuarios sin sesión, con su perfil.
+        reuseIsolatedUser = NullIfBlank(reuseIsolatedUser);
+        if (reuseIsolatedUser is not null && session.Isolated &&
+            string.Equals(reuseIsolatedUser, session.GetIsolatedUser(), StringComparison.OrdinalIgnoreCase))
+            reuseIsolatedUser = null;
+        if (reuseIsolatedUser is not null)
+        {
+            if (!isolated || session.Local)
+                throw new InvalidOperationException(RequestCulture.T("error.onlyIsolated"));
+            if (isolatedEphemeral)
+                throw new InvalidOperationException(RequestCulture.T("error.ephemeralReuse"));
+            EnsureReusable(reuseIsolatedUser);
+        }
 
         // Validar los puertos nuevos antes de tocar nada (0/null = mantener el valor actual).
         var candidate = new StreamSession
@@ -354,6 +400,12 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         session.Isolated          = isolated;
         session.IsolatedEphemeral = isolatedEphemeral;
+        if (reuseIsolatedUser is not null)
+        {
+            Logger.Log($"[{session.Name}] Usuario dedicado: '{session.GetIsolatedUser()}' → '{reuseIsolatedUser}' " +
+                       "(el anterior se conserva con su perfil).", session.Id);
+            session.IsolatedUsername = reuseIsolatedUser;
+        }
 
         // Credenciales del panel: vacío = mantener las actuales (no las pisamos con "" sin querer).
         // Para forzar regeneración hay un endpoint dedicado (POST .../sunshine-credentials/reset).

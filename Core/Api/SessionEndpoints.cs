@@ -163,7 +163,13 @@ public record UpdateSessionConfigRequest(
     /// Con la sesión iniciada: true = detenerla, aplicar los cambios y volver a iniciarla (el panel
     /// lo pide antes de confirmarlo el usuario). false = error si la sesión está iniciada.
     /// </summary>
-    bool RestartIfActive = false
+    bool RestartIfActive = false,
+    /// <summary>
+    /// Solo sesiones aisladas: pasar a usar otro usuario dedicado conservado (osms-...) con su
+    /// perfil. Debe salir de GET /api/sessions/isolated-users. Null = mantener el actual, que
+    /// tampoco se borra al cambiarlo: queda entre los usuarios sin sesión.
+    /// </summary>
+    string? ReuseIsolatedUser = null
 );
 
 /// <summary>Cuerpo para cambiar los protocolos de streaming de una sesión.</summary>
@@ -426,6 +432,16 @@ public static class SessionEndpoints
                 una sesión de Windows abierta.
                 """);
 
+        // POST /api/sessions/isolated-users/logoff?key=...
+        group.MapPost("/isolated-users/logoff", LogoffOrphanUser)
+             .WithName("LogoffOrphanIsolatedUser")
+             .WithSummary("Cerrar la sesión de Windows de un usuario dedicado sin sesión")
+             .WithDescription("""
+                Cierra (WTSLogoffSession) la sesión de Windows que le quedó abierta a un usuario
+                osms-* de GET /api/sessions/isolated-users. Hasta entonces no se puede reutilizar
+                ni borrar. Lo que tenga abierto se cierra sin guardar.
+                """);
+
         // GET /api/sessions
         group.MapGet("/", GetAll)
              .WithName("GetAllSessions")
@@ -681,6 +697,19 @@ public static class SessionEndpoints
             consoleIsLocal && string.Equals(u.Name, consoleUser, StringComparison.OrdinalIgnoreCase))));
     }
 
+    static Results<NoContent, BadRequest<string>> LogoffOrphanUser(string key, StreamSessionService svc)
+    {
+        try
+        {
+            svc.LogoffOrphanUser(key);
+            return TypedResults.NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return TypedResults.BadRequest(ex.Message);
+        }
+    }
+
     static Results<NoContent, BadRequest<string>> DeleteOrphanUser(string key, StreamSessionService svc)
     {
         try
@@ -791,7 +820,8 @@ public static class SessionEndpoints
                                            webRtcMediaPortMax: req.WebRtcMediaPortMax,
                                            rdpDisplayScale: req.RdpDisplayScale,
                                            rdpComposition: req.RdpComposition,
-                                           restartIfActive: req.RestartIfActive);
+                                           restartIfActive: req.RestartIfActive,
+                                           reuseIsolatedUser: req.ReuseIsolatedUser);
             return TypedResults.Ok(ToResponse(session));
         }
         catch (KeyNotFoundException)
