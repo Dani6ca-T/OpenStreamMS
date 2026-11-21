@@ -46,7 +46,9 @@ test('all original effective translations survive extraction unchanged', () => {
   const changed = new Set(['about.credit.rdpwrap', 'rdp.title', 'rdp.description', 'rdp.btn.install', 'rdp.row.bundle', 'rdp.confirm.install',
     'rdp.btn.update', 'rdp.confirm.update', 'rdp.btn.uninstall', 'rdp.confirm.uninstall', 'rdp.confirm.leaveRemoteIdd',
     'rdp.state.broken', 'rdp.state.pending', 'rdp.notLoaded', 'rdp.row.installDir', 'rdp.row.serviceDll', 'rdp.log.title', 'rdp.log.empty',
-    'rdp.pendingFirstUse', 'rdp.pendingReboot', 'ux.rdpBroken', 'ux.rdpMissing', 'guide.install.rdp']);
+    'rdp.pendingFirstUse', 'rdp.pendingReboot', 'ux.rdpBroken', 'ux.rdpMissing', 'guide.install.rdp',
+    // Los usuarios conservados ya no solo se reutilizan al crear: también al editar una sesión.
+    'orphans.intro']);
   for (const [lang, table] of Object.entries(context.catalogs)) for (const [key, value] of Object.entries(table)) if (!changed.has(key)) assert.equal(catalogs[lang][key], value, lang + ':' + key);
 });
 

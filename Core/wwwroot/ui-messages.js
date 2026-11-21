@@ -34,6 +34,7 @@
     const required = text.match(/El campo '(Name|Username|Password)' es obligatorio/);
     if (required) return this.t('error.required', { field: this.t({ Name: 'new.nameLabel', Username: 'login.user', Password: 'login.password' }[required[1]]).replace(/\s*\*$/, '') });
     for (const [pattern, key] of rules) if (pattern.test(text)) return this.t(key);
+    if (/^[a-z][\w.]*$/i.test(text.trim()) && this.has(text.trim())) return this.t(text.trim());
     // No rule matched: show the server's own message. A generic "operation failed" hid the
     // real cause (FreeRDP exit code, monitor error…) and left users with nothing to report.
     text = text.trim();
