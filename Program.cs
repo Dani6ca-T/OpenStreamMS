@@ -118,6 +118,8 @@ static async Task RunService(string[] args)
     SecureFile.RestrictToAdmins(Path.Combine(programData, "state"));
     SecureFile.RestrictToAdmins(Path.Combine(programData, "state-index"));
     ServiceConfig.PublishApiPort(config.ApiPort);
+    // "Una sesión por usuario" de Windows: si una caída la dejó a 0 en medio de una conexión, como estaba.
+    SingleSessionPerUser.RestoreSaved();
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -530,7 +532,8 @@ static void Uninstall(bool silent = false)
     OpenStreamMS.Services.Seats.UsbCapture.RestoreAll();
     OpenStreamMS.Services.Seats.ConsoleLockGuard.Release();
     OpenStreamMS.Core.Helpers.ShutdownRight.Restore();
-    if (!silent) Console.WriteLine("[Uninstall] Seat keyboards/mice, console lock guard, and shutdown right restored.");
+    OpenStreamMS.Core.Helpers.SingleSessionPerUser.RestoreSaved();
+    if (!silent) Console.WriteLine("[Uninstall] Seat keyboards/mice, console lock guard, shutdown right and single session per user restored.");
 
     const string RunKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
     using var key = Registry.LocalMachine.OpenSubKey(RunKey, writable: true);
