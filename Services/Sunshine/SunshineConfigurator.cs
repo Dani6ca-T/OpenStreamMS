@@ -490,6 +490,17 @@ namespace OpenStreamMS.Services.Sunshine
                 newlyApplied.Add(OsmsPadRevertedMarker);
             }
 
+            // "capture = remoteidd" solo lo pone OpenStreamMS, cuando RemoteIdd está en RDP-Tcp. Si
+            // ya no lo está (pendiente de reiniciar, o el arranque lo quitó de RDP-Tcp), Capture
+            // llega null y la clave vieja se quedaría: Sunshine buscaría un frame de RemoteIdd que
+            // no existe y no arrancaría el stream ("no frame slot", error 503 en Moonlight).
+            bool dropStaleRemoteIdd =
+                !string.Equals(cfg.Capture?.Trim(), RemoteIddCapture, StringComparison.OrdinalIgnoreCase) &&
+                !overrides.ContainsKey("capture") &&
+                string.Equals(ReadConfValue(confFile, "capture"), RemoteIddCapture, StringComparison.OrdinalIgnoreCase);
+            if (dropStaleRemoteIdd)
+                Logger.Log("[SunshineCfg] Se quita capture = remoteidd: RemoteIdd no está activo en RDP-Tcp, Sunshine usa la captura por defecto.");
+
             // Puertos WebRTC: los gestiona OpenStreamMS (firewall y choques entre sesiones).
             if (cfg.WebRtcPort > 0)
                 overrides["webrtc_port"] = cfg.WebRtcPort.ToString();
@@ -514,6 +525,8 @@ namespace OpenStreamMS.Services.Sunshine
                     if (eqIdx > 0 && !trimmed.StartsWith('#'))
                     {
                         var key = trimmed[..eqIdx].TrimEnd();
+                        if (dropStaleRemoteIdd && string.Equals(key, "capture", StringComparison.OrdinalIgnoreCase))
+                            continue;
                         present.Add(key);
                         if (overrides.TryGetValue(key, out var newVal))
                         {
@@ -614,6 +627,9 @@ namespace OpenStreamMS.Services.Sunshine
 
         /// <summary>Marca en osms_defaults_applied.txt: el "osmspad" que forzaba la 2.0.0 ya se revisó.</summary>
         private const string OsmsPadRevertedMarker = "#osmspad-reverted";
+
+        /// <summary>Valor de <c>capture</c> con el que Sunshine lee los frames de RemoteIdd.</summary>
+        private const string RemoteIddCapture = "remoteidd";
 
         private static string? ReadConfValue(string confFile, string key)
         {
