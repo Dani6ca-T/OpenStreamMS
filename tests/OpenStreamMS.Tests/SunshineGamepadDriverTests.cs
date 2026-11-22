@@ -41,11 +41,11 @@ public sealed class SunshineGamepadDriverTests : IDisposable
     }
 
     [Fact]
-    public void NewInstanceGetsViGEmAndDs4()
+    public void NewInstanceGetsViGEmAndNoGamepadType()
     {
         SunshineConfigurator.WriteConfig(Exe, Cfg);
         Assert.Equal("vigembus", SunshineConfigurator.ReadConfigValue(Exe, "gamepad_driver"));
-        Assert.Equal("ds4", SunshineConfigurator.ReadConfigValue(Exe, "gamepad"));
+        Assert.Null(SunshineConfigurator.ReadConfigValue(Exe, "gamepad"));
     }
 
     [Fact]

@@ -461,10 +461,8 @@ namespace OpenStreamMS.Services.Sunshine
                 // Sunshine 2026.9+ prioriza Virtual HID Driver (de pago, requiere licencia)
                 // y deja ViGEmBus como fallback con avisos. OpenStreamMS instala ViGEmBus.
                 ["gamepad_driver"] = "vigembus",
-                // DS4 en vez de X360: es un HID normal, que GamepadSessionIsolation oculta
-                // a las demás sesiones con HidHide (el XUSB del X360 no se puede ocultar y
-                // el Steam del host se quedaba el mando).
-                ["gamepad"] = "ds4",
+                // "gamepad" no se fija: Sunshine elige por el mando del cliente (auto: X360, o DS4
+                // si el cliente usa uno de PlayStation). Muchos juegos no reconocen un DS4.
                 // AMF: preset "speed" reduce la latencia de encode por frame. A 4K60 el
                 // bloque VCN se comparte con el H.264 del transporte RDP y con "balanced"
                 // el encode se acerca al presupuesto de 16.6 ms. Ignorado por otros encoders.
