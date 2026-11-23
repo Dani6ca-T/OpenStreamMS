@@ -50,6 +50,7 @@
   "driver.installed": "{0}이(가) 성공적으로 설치되었습니다.",
   "driver.uninstalled": "{0}이(가) 성공적으로 제거되었습니다.",
   "driver.cancelled": "사용자에 의해 취소되었습니다.",
+  "driver.rebootToFinish": "{0} 설치를 완료하려면 Windows를 다시 시작하세요.",
   "driver.fatalError": "설치 중 치명적 오류 발생. Windows Installer 로그를 확인하세요.",
   "driver.unknownExitCode": "알 수 없는 종료 코드입니다.",
   "driver.currentStatus": "현재 상태: installed={0}; version={1}; service={2}",

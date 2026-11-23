@@ -164,9 +164,15 @@ public abstract class NefariusDriverManager
                     ? BackendText.Get("driver.installed", Name)
                     : BackendText.Get("driver.uninstalled", Name));
                 break;
+            // 3010: hecho, falta reiniciar. 1641: el instalador pidió el reinicio. 1604: la
+            // instalación quedó suspendida hasta reiniciar (Windows Installer la termina al
+            // arrancar desde RunOnce); pasa al actualizar ViGEmBus 1.21 a 1.22, que quita el
+            // driver anterior y espera al reinicio para poner el nuevo.
             case 3010:
+            case 1641:
+            case 1604:
                 _rebootRequired = true;
-                AppendLog(BackendText.Get("driver.fatalError"));
+                AppendLog(BackendText.Get("driver.rebootToFinish", Name));
                 break;
             case 1602:
                 AppendLog(BackendText.Get("driver.cancelled"));

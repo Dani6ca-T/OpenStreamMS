@@ -50,6 +50,7 @@
   "driver.installed": "{0} úspěšně nainstalován.",
   "driver.uninstalled": "{0} úspěšně odinstalován.",
   "driver.cancelled": "Zrušeno uživatelem.",
+  "driver.rebootToFinish": "Restartujte Windows, aby se dokončila instalace {0}.",
   "driver.fatalError": "Fatální chyba instalace. Zkontrolujte log Windows Installeru.",
   "driver.unknownExitCode": "Neznámý návratový kód.",
   "driver.currentStatus": "Aktuální stav: installed={0}; version={1}; service={2}",

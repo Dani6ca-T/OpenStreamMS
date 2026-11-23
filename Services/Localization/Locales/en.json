@@ -50,6 +50,7 @@
   "driver.installed": "{0} installed successfully.",
   "driver.uninstalled": "{0} uninstalled successfully.",
   "driver.cancelled": "Cancelled by the user.",
+  "driver.rebootToFinish": "Restart Windows to finish installing {0}.",
   "driver.fatalError": "Fatal installation error. Check the Windows Installer log.",
   "driver.unknownExitCode": "Unknown exit code.",
   "driver.currentStatus": "Current status: installed: {0}; version: {1}; service: {2}",
