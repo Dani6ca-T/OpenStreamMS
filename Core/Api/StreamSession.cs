@@ -198,6 +198,16 @@ public class StreamSession
     /// </summary>
     public string?      Capture             { get; set; }
     /// <summary>
+    /// Mando que emula Sunshine (<c>gamepad</c> en sunshine.conf): "auto" (según el mando del
+    /// cliente), "x360" o "ds4". null = sesiones de antes de existir el ajuste: se lee lo que ya
+    /// tenga su sunshine.conf la primera vez que arranca.
+    /// </summary>
+    public string?      GamepadType         { get; set; }
+
+    /// <summary>Valores válidos de <see cref="GamepadType"/>; null si no es uno de ellos.</summary>
+    public static string? NormalizeGamepadType(string? value) =>
+        value?.Trim().ToLowerInvariant() is { } v && v is "auto" or "x360" or "ds4" ? v : null;
+    /// <summary>
     /// Encoder de Sunshine (nvenc, quicksync, amdvce, software). null = auto-detección.
     /// </summary>
     public string?      Encoder             { get; set; }

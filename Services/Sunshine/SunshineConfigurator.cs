@@ -455,7 +455,9 @@ namespace OpenStreamMS.Services.Sunshine
             /// <c>min_log_level</c> de Sunshine (2 info, 3 warning, 4 error, 6 none). Null = no tocar.
             /// Lo fija el nivel de log global de OpenStreamMS.
             /// </summary>
-            int?    MinLogLevel        = null);
+            int?    MinLogLevel        = null,
+            /// <summary>Mando que emula Sunshine (<c>gamepad</c>): auto, x360 o ds4. Null = no tocar.</summary>
+            string? Gamepad            = null);
 
         /// <summary>
         /// <c>min_log_level</c> de Sunshine para un nivel global de OpenStreamMS. Nunca pasa de info (2):
@@ -468,6 +470,9 @@ namespace OpenStreamMS.Services.Sunshine
 
         /// <summary><c>min_log_level</c> = info en Sunshine.</summary>
         public const int SunshineInfoLogLevel = 2;
+
+        /// <summary>Clave de <c>sunshine.conf</c> con el mando que emula Sunshine.</summary>
+        public const string GamepadKey = "gamepad";
 
         /// <summary>Clave de <c>sunshine.conf</c> con los protocolos que sirve Sunshine.</summary>
         public const string StreamProtocolKey = "stream_protocol";
@@ -524,6 +529,7 @@ namespace OpenStreamMS.Services.Sunshine
                 ["origin_web_ui_allowed"] = cfg.OriginWebUiAllowed,
                 ["audio_sink"]            = cfg.AudioSink,
                 [StreamProtocolKey]       = cfg.StreamProtocol,
+                [GamepadKey]              = cfg.Gamepad,
             };
 
             foreach (var (key, value) in optional)

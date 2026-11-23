@@ -59,7 +59,8 @@ public partial class StreamSessionService
                                 int webRtcPort = 0, int webRtcMediaPortMin = 0, int webRtcMediaPortMax = 0,
                                 bool local = false, string? reuseIsolatedUser = null,
                                 int rdpDisplayScale = 100,
-                                RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth)
+                                RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth,
+                                string? gamepadType = null)
     {
         name = (StripControlChars(name) ?? "").Trim();
         if (name.Length == 0)
@@ -104,6 +105,7 @@ public partial class StreamSessionService
             SunshineStreamPort = sunshineStreamPort > 0 ? sunshineStreamPort : 47989,
             SunshineName       = NullIfBlank(sunshineName),
             Capture            = NullIfBlank(capture),
+            GamepadType        = StreamSession.NormalizeGamepadType(gamepadType) ?? "auto",
             Encoder            = NullIfBlank(encoder),
             OutputName         = NullIfBlank(outputName),
             OriginWebUiAllowed = NullIfBlank(originWebUiAllowed),
@@ -301,7 +303,8 @@ public partial class StreamSessionService
                                       int rdpDisplayScale = 100,
                                       RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth,
                                       bool restartIfActive = false,
-                                      string? reuseIsolatedUser = null)
+                                      string? reuseIsolatedUser = null,
+                                      string? gamepadType = null)
     {
         var session = RequireSession(id);
 
@@ -382,6 +385,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         session.UseStreamProfile   = useStreamProfile;
         session.SunshineName       = NullIfBlank(sunshineName);
         session.Capture            = NullIfBlank(capture);
+        if (StreamSession.NormalizeGamepadType(gamepadType) is { } gp && gp != session.GamepadType)
+        {
+            session.GamepadType = gp;
+            WriteGamepadType(session);
+        }
         session.Encoder            = NullIfBlank(encoder);
         session.OutputName         = NullIfBlank(outputName);
         session.OriginWebUiAllowed = NullIfBlank(originWebUiAllowed);
@@ -973,7 +981,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 RdpDisplayScale: s.RdpDisplayScale,
                 RdpComposition: s.RdpComposition,
                 Composite: s.Composite,
-                CompositeInput: s.CompositeInput));
+                CompositeInput: s.CompositeInput,
+                GamepadType: s.GamepadType));
             var json = JsonSerializer.Serialize(data, JsonOpts);
             // Fichero temporal + cambio de nombre: un corte a mitad de escritura no deja
             // sessions.json truncado (se perderían todas las sesiones). El lock evita que dos
@@ -1069,6 +1078,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     Local              = d.Local,
                     Composite          = d.Composite is { Count: > 0 } slots ? slots.ToList() : null,
                     CompositeInput     = d.CompositeInput,
+                    GamepadType        = StreamSession.NormalizeGamepadType(d.GamepadType),
                     State              = SessionState.Stopped,
                 };
 
@@ -1403,6 +1413,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         _sunshine.GetOrAdd(session.Id, _ =>
         {
             AdoptStreamProtocolFromSunshine(session);
+            AdoptGamepadTypeFromSunshine(session);
             if (session.WebRtcEnabled && !SupportsWebRtc(session))
                 Logger.Warning($"[{session.Name}] El protocolo incluye WebRTC pero el Sunshine configurado no lo soporta " +
                                "(usa la build de sunshine-webrtc); solo funcionará Moonlight.", session.Id);
@@ -1531,7 +1542,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             WebRtcPort:               SupportsWebRtc(s) ? s.WebRtcPort : 0,
             WebRtcMediaPortMin:       SupportsWebRtc(s) ? s.WebRtcMediaPortMin : 0,
             WebRtcMediaPortMax:       SupportsWebRtc(s) ? s.WebRtcMediaPortMax : 0,
-            MinLogLevel:              SunshineConfigurator.ToSunshineLogLevel(Logger.Threshold));
+            MinLogLevel:              SunshineConfigurator.ToSunshineLogLevel(Logger.Threshold),
+            Gamepad:                  s.GamepadType);
 
     /// <summary>
     /// Sesiones con Sunshine arrancando o activo, cuyos puertos están ocupados.
@@ -1575,6 +1587,48 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     /// <c>sunshine.conf</c>. Antes de relanzar Sunshine, OpenStreamMS adopta ese valor si difiere
     /// del suyo (el último cambio gana), salvo que choque con los puertos de otra sesión activa.
     /// </summary>
+    /// <summary>
+    /// El tipo de mando también se puede cambiar desde el panel de Sunshine: si su sunshine.conf
+    /// dice otro, gana ese (es el último que se tocó, porque el panel de OpenStreamMS lo escribe
+    /// al momento). Sin clave es "auto", el valor por defecto de Sunshine, que su panel borra al guardar.
+    /// </summary>
+    private void AdoptGamepadTypeFromSunshine(StreamSession session)
+    {
+        var exe = GetSunshineInstanceExe(session.Id);
+        string? value = null;
+        if (File.Exists(exe))
+        {
+            try { value = SunshineConfigurator.ReadConfigValue(exe, SunshineConfigurator.GamepadKey); }
+            catch (Exception ex)
+            {
+                Logger.Warning($"[{session.Name}] No se pudo leer gamepad de sunshine.conf: {ex.Message}", session.Id);
+                return;
+            }
+        }
+        else if (session.GamepadType is not null) return;   // instancia nueva: se escribe la de la sesión
+
+        var fromConf = StreamSession.NormalizeGamepadType(value) ?? "auto";
+        if (fromConf == session.GamepadType) return;
+        Logger.Log($"[{session.Name}] Tipo de mando: {session.GamepadType ?? "sin ajuste"} → {fromConf} (sunshine.conf).", session.Id);
+        session.GamepadType = fromConf;
+        SaveSessions();
+    }
+
+    /// <summary>Escribe al momento el tipo de mando en el sunshine.conf de la sesión, si ya existe.</summary>
+    private static void WriteGamepadType(StreamSession session)
+    {
+        var exe = GetSunshineInstanceExe(session.Id);
+        if (session.GamepadType is not { } type || !File.Exists(exe)) return;
+        try
+        {
+            SunshineConfigurator.SetConfigValues(exe, new Dictionary<string, string> { [SunshineConfigurator.GamepadKey] = type });
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[{session.Name}] No se pudo escribir el tipo de mando en sunshine.conf: {ex.Message}", session.Id);
+        }
+    }
+
     private void AdoptStreamProtocolFromSunshine(StreamSession session)
     {
         var exe = GetSunshineInstanceExe(session.Id);
@@ -2063,5 +2117,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         /// <summary>Huecos de una sesión compuesta. Null en las sesiones normales.</summary>
         List<CompositeSlot>? Composite = null,
         /// <summary>Sesión del teclado, el ratón y el audio de una compuesta.</summary>
-        Guid?    CompositeInput = null);
+        Guid?    CompositeInput = null,
+        /// <summary>Mando que emula Sunshine (auto, x360, ds4); null en sesiones de antes del ajuste.</summary>
+        string?  GamepadType = null);
 }

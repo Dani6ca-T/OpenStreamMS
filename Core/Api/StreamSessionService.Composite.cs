@@ -17,10 +17,12 @@ namespace OpenStreamMS.Core.Api;
 /// <param name="Enabled">Arrancarla con el servicio.</param>
 /// <param name="StreamPort">Puerto base de su Sunshine; 0 = el primero libre.</param>
 /// <param name="Protocol">Protocolos de su Sunshine.</param>
+/// <param name="GamepadType">Mando que emula su Sunshine: auto, x360 o ds4; null = auto al crear, sin cambios al editar.</param>
 public sealed record CompositeDefinition(
     string Name, IReadOnlyList<CompositeSlot> Slots, Guid? Input,
     int Width, int Height, int FrameRate, bool Enabled,
-    int StreamPort = 0, StreamProtocol Protocol = StreamProtocol.Both);
+    int StreamPort = 0, StreamProtocol Protocol = StreamProtocol.Both,
+    string? GamepadType = null);
 
 /// <summary>
 /// Sesiones compuestas: una sesión sin Windows propio que junta en un stream las pantallas de 2 a
@@ -65,6 +67,7 @@ public partial class StreamSessionService
             RdpHeight          = def.Height > 0 ? def.Height : 1080,
             RdpFrameRate       = NormalizeRdpFrameRate(def.FrameRate),
             Enabled            = def.Enabled,
+            GamepadType        = StreamSession.NormalizeGamepadType(def.GamepadType) ?? "auto",
             Capture            = "remoteidd",
             StreamProtocol     = def.Protocol,
             SunshineStreamPort = def.StreamPort > 0 ? def.StreamPort : suggested.SunshineStreamPort,
@@ -96,6 +99,11 @@ public partial class StreamSessionService
         session.RdpHeight      = def.Height > 0 ? def.Height : session.RdpHeight;
         session.RdpFrameRate   = NormalizeRdpFrameRate(def.FrameRate);
         session.Enabled        = def.Enabled;
+        if (StreamSession.NormalizeGamepadType(def.GamepadType) is { } gp && gp != session.GamepadType)
+        {
+            session.GamepadType = gp;
+            WriteGamepadType(session);
+        }
         session.StreamProtocol = def.Protocol;
         if (def.StreamPort > 0) session.SunshineStreamPort = def.StreamPort;
         EnsurePortsAvailable(session, _sessions.Values);

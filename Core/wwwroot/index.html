@@ -498,6 +498,15 @@
             </div>
           </div>
           <div class="form-row">
+            <label for="sess-gamepad" data-i18n="ux.gamepadLabel">Mando emulado</label>
+            <select id="sess-gamepad">
+              <option value="auto" selected data-i18n="new.gamepad_auto">Automático (según el mando del cliente)</option>
+              <option value="x360" data-i18n="new.gamepad_x360">Xbox 360 (XInput)</option>
+              <option value="ds4" data-i18n="new.gamepad_ds4">DualShock 4 (PlayStation)</option>
+            </select>
+            <div class="hint" data-i18n-html="ux.gamepadHint_html">Cómo ve el juego el mando de Moonlight. Xbox 360 lo reconocen casi todos los juegos. <code>gamepad</code></div>
+          </div>
+          <div class="form-row">
             <label for="sess-output" data-i18n="ux.outputLabel">Pantalla que se transmite</label>
             <input type="text" id="sess-output" data-i18n-placeholder="new.outputPlaceholder" placeholder="(principal)">
             <div class="hint" data-i18n-html="ux.outputHint_html">Solo si hay varias: nombre de Windows, p. ej. \\.\DISPLAY2. <code>output_name</code></div>
@@ -586,6 +595,14 @@
             <label for="comp-fps" data-i18n="ux.fpsLabel">Fotogramas por segundo</label>
             <input type="number" id="comp-fps" value="60" min="1" max="240" step="1">
           </div>
+        </div>
+        <div class="form-row">
+          <label for="comp-gamepad" data-i18n="ux.gamepadLabel">Mando emulado</label>
+          <select id="comp-gamepad">
+            <option value="auto" selected data-i18n="new.gamepad_auto">Automático (según el mando del cliente)</option>
+            <option value="x360" data-i18n="new.gamepad_x360">Xbox 360 (XInput)</option>
+            <option value="ds4" data-i18n="new.gamepad_ds4">DualShock 4 (PlayStation)</option>
+          </select>
         </div>
         <div class="form-check">
           <input type="checkbox" id="comp-enabled">
