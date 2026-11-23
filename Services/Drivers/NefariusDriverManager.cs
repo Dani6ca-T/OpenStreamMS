@@ -51,8 +51,6 @@ public abstract class NefariusDriverManager
     protected abstract string ServiceName { get; }
     /// <summary>Texto que contiene su DisplayName en Agregar o quitar programas.</summary>
     protected abstract string DisplayNameMatch { get; }
-    /// <summary>Argumentos de instalación silenciosa del .exe de la release.</summary>
-    protected abstract string InstallArgs { get; }
     /// <summary>Prefijo del instalador incluido en <c>drivers\</c> y del asset de la release.</summary>
     protected abstract string InstallerPrefix { get; }
 
@@ -109,8 +107,10 @@ public abstract class NefariusDriverManager
                 AppendLog(BackendText.Get("driver.downloadedTo", installer));
             }
 
-            AppendLog(BackendText.Get("driver.runningSilentInstaller", InstallArgs));
-            var exit = await RunProcessAsync(installer, InstallArgs, Path.GetDirectoryName(installer)!, ct);
+            // Los argumentos dependen de con qué está hecho el instalador, no del driver.
+            var installArgs = SilentInstallArgs(installer);
+            AppendLog(BackendText.Get("driver.runningSilentInstaller", installArgs));
+            var exit = await RunProcessAsync(installer, installArgs, Path.GetDirectoryName(installer)!, ct);
             if (downloaded) try { File.Delete(installer); } catch { }
 
             InterpretExitCode(exit, installing: true);
@@ -361,6 +361,59 @@ public abstract class NefariusDriverManager
         return p;
     }
 
+    /// <summary>Argumentos silenciosos de un bundle de WiX Burn.</summary>
+    internal const string WixBurnArgs = "/quiet /install /norestart";
+    /// <summary>
+    /// Argumentos silenciosos de un bootstrapper de Advanced Installer: /exenoui quita su
+    /// interfaz y /qn se pasa a msiexec. Con los de WiX muestra "Invalid command line" y no
+    /// instala nada (issue #80).
+    /// </summary>
+    internal const string AdvancedInstallerArgs = "/exenoui /qn /norestart";
+
+    /// <summary>
+    /// Argumentos silenciosos según la tecnología del instalador. Los de nefarius (ViGEmBus
+    /// 1.22, HidHide 1.5) son de Advanced Installer; un bundle de WiX Burn se reconoce por la
+    /// sección <c>.wixburn</c> de su PE. Si el archivo no se puede leer, Advanced Installer.
+    /// </summary>
+    internal static string SilentInstallArgs(string installer)
+    {
+        try
+        {
+            return PeSectionNames(installer).Contains(".wixburn") ? WixBurnArgs : AdvancedInstallerArgs;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
+        {
+            return AdvancedInstallerArgs;
+        }
+    }
+
+    /// <summary>Nombres de las secciones de un ejecutable PE (solo lee las cabeceras).</summary>
+    internal static IReadOnlyList<string> PeSectionNames(string path)
+    {
+        using var fs = File.OpenRead(path);
+        using var br = new BinaryReader(fs);
+        if (fs.Length < 0x40 || br.ReadUInt16() != 0x5A4D) throw new InvalidDataException("No es un ejecutable (MZ).");
+        fs.Position = 0x3C;
+        var pe = br.ReadInt32();
+        if (pe <= 0 || pe > fs.Length - 24) throw new InvalidDataException("Cabecera PE fuera del archivo.");
+        fs.Position = pe;
+        if (br.ReadUInt32() != 0x00004550) throw new InvalidDataException("Falta la firma PE.");
+        fs.Position = pe + 6;
+        int count = br.ReadUInt16();
+        fs.Position = pe + 20;
+        int optionalSize = br.ReadUInt16();
+        long table = pe + 24 + optionalSize;
+        if (table + 40L * count > fs.Length) throw new InvalidDataException("Tabla de secciones fuera del archivo.");
+
+        var names = new List<string>(count);
+        for (int i = 0; i < count; i++)
+        {
+            fs.Position = table + 40L * i;
+            names.Add(System.Text.Encoding.ASCII.GetString(br.ReadBytes(8)).TrimEnd('\0'));
+        }
+        return names;
+    }
+
     private static (string Exe, string Args) SplitCommandLine(string cmd)
     {
         cmd = cmd.Trim();
@@ -399,7 +452,6 @@ public sealed class ViGEmBusManager : NefariusDriverManager
     protected override string GithubRepo       => "nefarius/ViGEmBus";
     protected override string ServiceName      => "ViGEmBus";
     protected override string DisplayNameMatch => "ViGEm";       // "ViGEm Bus Driver"
-    protected override string InstallArgs      => "/quiet /install /norestart";   // bundle WiX Burn
     protected override string InstallerPrefix  => "ViGEmBus_";
 }
 
@@ -413,6 +465,5 @@ public sealed class HidHideManager : NefariusDriverManager
     protected override string GithubRepo       => "nefarius/HidHide";
     protected override string ServiceName      => "HidHide";
     protected override string DisplayNameMatch => "HidHide";
-    protected override string InstallArgs      => "/exenoui /qn /norestart";      // bootstrapper Advanced Installer
     protected override string InstallerPrefix  => "HidHide_";
 }
