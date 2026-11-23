@@ -8,7 +8,6 @@
 const POLL_MS = 2000;
 let pollTimer = null;
 let open = true;
-let lastPadButtons = [];
 
 const byId = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -207,26 +206,23 @@ document.addEventListener('keydown', e => {
 });
 byId('hud-close').addEventListener('click', close);
 
-// Mando: cruceta para moverse, A para pulsar el botón con el foco, B para cerrar.
-function pollGamepads() {
-  if (open) {
-    const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
-    pads.forEach((p, i) => {
-      const prev = lastPadButtons[i] || [];
-      const pressed = b => p.buttons[b]?.pressed && !prev[b];
-      if (pressed(0) && document.activeElement?.tagName === 'BUTTON') document.activeElement.click();   // A
-      if (pressed(1)) close();                          // B
-      if (pressed(13) || pressed(15)) moveFocus(1);     // abajo, derecha
-      if (pressed(12) || pressed(14)) moveFocus(-1);    // arriba, izquierda
-      lastPadButtons[i] = p.buttons.map(b => b.pressed);
-    });
+// Mando: lo lee la ventana del HUD (XInput y HID; la API Gamepad no ve los mandos de la sesión) y
+// manda cada pulsación: cruceta o stick para moverse, A para pulsar el botón con el foco (B cierra
+// desde la propia ventana).
+function padPressed(button) {
+  if (!open) return;
+  if (button === 'a') {
+    if (document.activeElement?.tagName === 'BUTTON') document.activeElement.click();
+    else moveFocus(1);   // sin un botón con el foco, A lleva al siguiente
   }
-  requestAnimationFrame(pollGamepads);
+  else if (button === 'down' || button === 'right') moveFocus(1);
+  else if (button === 'up' || button === 'left') moveFocus(-1);
 }
 
 window.chrome?.webview?.addEventListener('message', e => {
   const msg = typeof e.data === 'string' ? { type: e.data } : e.data || {};
-  if (msg.type === 'open') { open = true; lastPadButtons = []; setBackdrop(msg.backdrop); startPolling(); }
+  if (msg.type === 'pad') padPressed(msg.button);
+  else if (msg.type === 'open') { open = true; setBackdrop(msg.backdrop); startPolling(); }
   else if (msg.type === 'close') { open = false; stopPolling(); resetConfirm(); }
 });
 
@@ -234,6 +230,5 @@ window.chrome?.webview?.addEventListener('message', e => {
   setBackdrop();
   if (!await I18n.ready) return;
   startPolling();
-  requestAnimationFrame(pollGamepads);
   window.addEventListener('langchange', refresh);
 })();

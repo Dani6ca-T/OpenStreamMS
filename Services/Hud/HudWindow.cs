@@ -24,6 +24,11 @@ internal sealed class HudWindow : Form
     private const uint MOD_ALT = 0x1, MOD_CONTROL = 0x2, MOD_NOREPEAT = 0x4000;
     private const int WM_HOTKEY = 0x0312;
     private const ushort XINPUT_GUIDE = 0x0400, XINPUT_BACK = 0x0020, XINPUT_START = 0x0010;
+    private const ushort XINPUT_UP = 0x0001, XINPUT_DOWN = 0x0002, XINPUT_LEFT = 0x0004, XINPUT_RIGHT = 0x0008;
+    private const ushort XINPUT_A = 0x1000, XINPUT_B = 0x2000;
+    private const short StickDeadZone = 20000;
+    /// <summary>Mantener una dirección repite el movimiento: primero tras este tiempo y luego cada <see cref="NavRepeat"/>.</summary>
+    private const long NavRepeatDelayMs = 400, NavRepeat = 150;
     /// <summary>Back + Start (Share + Options) hay que mantenerlos: juntos se pulsan sin querer en algunos juegos.</summary>
     private static readonly TimeSpan HoldBackStart = TimeSpan.FromMilliseconds(800);
     private static readonly TimeSpan ReleaseAfter = TimeSpan.FromMinutes(2);
@@ -40,7 +45,11 @@ internal sealed class HudWindow : Form
         public bool GuideBack;
         public long BackStartSince;   // TickCount64 desde que se mantienen; 0 = sueltos
         public bool BackStartFired;
+        public HidPads.Buttons Nav;   // botones de navegación pulsados en la lectura anterior
+        public long NavSince, NavLastRepeat;
     }
+    /// <summary>El HUD está a la vista (se lee desde el hilo de los mandos).</summary>
+    private volatile bool _shown;
     private WebView2? _web;
     private CoreWebView2Environment? _env;
     private byte[]? _backdrop;
@@ -64,7 +73,7 @@ internal sealed class HudWindow : Form
         _release.Tick += (_, _) => { _release.Stop(); if (!Visible) ReleaseWeb(); };
 
         // XInput se lee en otro hilo (no depende del foco): Guía + Back abre o cierra.
-        _padTimer = new System.Threading.Timer(_ => PollPads(), null, 500, 60);
+        _padTimer = new System.Threading.Timer(_ => PollPads(), null, 500, 40);
     }
 
     /// <summary>La ventana nace oculta: solo existe para el atajo y para dueña del WebView2.</summary>
@@ -109,6 +118,7 @@ internal sealed class HudWindow : Form
         _previousForeground = GetForegroundWindow();
         EnsureWeb();
         Show();
+        _shown = true;
         TopMost = true;
         ForceForeground(Handle);
         _web?.Focus();
@@ -118,6 +128,7 @@ internal sealed class HudWindow : Form
     private void HideHud()
     {
         if (!Visible) return;
+        _shown = false;
         _web?.CoreWebView2?.PostWebMessageAsJson("{\"type\":\"close\"}");
         Hide();
         // El juego recupera el foco donde estaba.
@@ -229,17 +240,22 @@ internal sealed class HudWindow : Form
     /// Guía + Back (PS + Share) abre o cierra al momento; Back + Start (Share + Options) al
     /// mantenerlos <see cref="HoldBackStart"/>, que no depende de que el cliente envíe el botón Guía
     /// (muchos se lo quedan). Mandos XInput (Xbox 360) y de PlayStation por HID.
+    /// Con el HUD a la vista, la cruceta (o el stick izquierdo), A y B lo manejan: se leen aquí y no
+    /// con la API Gamepad de la página, que en la sesión no ve los mandos (HidHide no deja abrirlos
+    /// al WebView2 y solo los atiende con la ventana enfocada y tras una pulsación).
     /// </summary>
     private void PollPads()
     {
-        bool toggle = false;
+        bool toggle = false, closeHud = false;
+        var nav = new List<string>();
         long now = Environment.TickCount64;
         var seen = new HashSet<string>();
 
-        void Check(string key, bool guide, bool back, bool start)
+        void Check(string key, bool guide, bool back, bool start, HidPads.Buttons buttons)
         {
             seen.Add(key);
             if (!_combos.TryGetValue(key, out var c)) _combos[key] = c = new PadCombo();
+            Navigate(c, buttons & ~(HidPads.Buttons.Guide | HidPads.Buttons.Back | HidPads.Buttons.Start), now, nav, ref closeHud);
             bool guideBack = guide && back;
             if (guideBack && !c.GuideBack) toggle = true;
             c.GuideBack = guideBack;
@@ -260,13 +276,55 @@ internal sealed class HudWindow : Form
         {
             if (XInputGetStateEx(i, out var st) != 0) continue;
             ushort b = st.Gamepad.wButtons;
-            Check($"x{i}", (b & XINPUT_GUIDE) != 0, (b & XINPUT_BACK) != 0, (b & XINPUT_START) != 0);
+            var g = st.Gamepad;
+            var buttons = HidPads.Buttons.None;
+            if ((b & XINPUT_UP) != 0 || g.sThumbLY > StickDeadZone) buttons |= HidPads.Buttons.Up;
+            if ((b & XINPUT_DOWN) != 0 || g.sThumbLY < -StickDeadZone) buttons |= HidPads.Buttons.Down;
+            if ((b & XINPUT_LEFT) != 0 || g.sThumbLX < -StickDeadZone) buttons |= HidPads.Buttons.Left;
+            if ((b & XINPUT_RIGHT) != 0 || g.sThumbLX > StickDeadZone) buttons |= HidPads.Buttons.Right;
+            if ((b & XINPUT_A) != 0) buttons |= HidPads.Buttons.A;
+            if ((b & XINPUT_B) != 0) buttons |= HidPads.Buttons.B;
+            Check($"x{i}", (b & XINPUT_GUIDE) != 0, (b & XINPUT_BACK) != 0, (b & XINPUT_START) != 0, buttons);
         }
         foreach (var (key, s) in _hidPads.States)
-            Check(key, s.HasFlag(HidPads.Buttons.Guide), s.HasFlag(HidPads.Buttons.Back), s.HasFlag(HidPads.Buttons.Start));
+            Check(key, s.HasFlag(HidPads.Buttons.Guide), s.HasFlag(HidPads.Buttons.Back), s.HasFlag(HidPads.Buttons.Start), s);
 
         foreach (var gone in _combos.Keys.Where(k => !seen.Contains(k)).ToList()) _combos.Remove(gone);
-        if (toggle && IsHandleCreated) BeginInvoke(Toggle);
+        if (!IsHandleCreated) return;
+        if (toggle) BeginInvoke(Toggle);
+        else if (closeHud) BeginInvoke(HideHud);
+        else if (nav.Count > 0) BeginInvoke(() =>
+        {
+            if (!Visible || _web?.CoreWebView2 is not { } core) return;
+            foreach (var n in nav) core.PostWebMessageAsJson($"{{\"type\":\"pad\",\"button\":\"{n}\"}}");
+        });
+    }
+
+    /// <summary>
+    /// Pulsaciones nuevas de A, B y las direcciones (que se repiten al mantenerlas). Se sigue el
+    /// estado también con el HUD oculto: lo que ya estaba pulsado al abrirlo no cuenta.
+    /// </summary>
+    private void Navigate(PadCombo c, HidPads.Buttons now, long tick, List<string> nav, ref bool closeHud)
+    {
+        var pressed = now & ~c.Nav;
+        const HidPads.Buttons dirs = HidPads.Buttons.Up | HidPads.Buttons.Down | HidPads.Buttons.Left | HidPads.Buttons.Right;
+        bool repeat = false;
+        if ((now & dirs) == 0 || (pressed & dirs) != 0) c.NavSince = c.NavLastRepeat = tick;
+        else if (tick - c.NavSince >= NavRepeatDelayMs && tick - c.NavLastRepeat >= NavRepeat)
+        {
+            c.NavLastRepeat = tick;
+            repeat = true;
+        }
+        c.Nav = now;
+        if (!_shown) return;
+
+        if (pressed.HasFlag(HidPads.Buttons.B)) { closeHud = true; return; }
+        if (pressed.HasFlag(HidPads.Buttons.A)) nav.Add("a");
+        var move = repeat ? now : pressed;
+        if (move.HasFlag(HidPads.Buttons.Up)) nav.Add("up");
+        else if (move.HasFlag(HidPads.Buttons.Down)) nav.Add("down");
+        else if (move.HasFlag(HidPads.Buttons.Left)) nav.Add("left");
+        else if (move.HasFlag(HidPads.Buttons.Right)) nav.Add("right");
     }
 
     // ── Foco ─────────────────────────────────────────────────────────────────

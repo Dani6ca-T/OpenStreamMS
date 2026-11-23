@@ -14,7 +14,11 @@ internal sealed class HidPads : IDisposable
 {
     /// <summary>Botones que le importan al HUD.</summary>
     [Flags]
-    public enum Buttons { None = 0, Guide = 1, Back = 2, Start = 4 }
+    public enum Buttons
+    {
+        None = 0, Guide = 1, Back = 2, Start = 4,
+        A = 8, B = 16, Up = 32, Down = 64, Left = 128, Right = 256,   // cruz, círculo, cruceta o stick
+    }
 
     private const ushort SonyVid = 0x054C;
     private static readonly HashSet<ushort> Ds4Pids = [0x05C4, 0x09CC, 0x0BA0];
@@ -117,11 +121,29 @@ internal sealed class HidPads : IDisposable
                 onGone();
             }) { IsBackground = true, Name = "HUD HID" }.Start();
 
-        /// <summary>Informe USB 0x01. DS4: botones en los bytes 6-7; DualSense: en los bytes 9-10.</summary>
+        /// <summary>
+        /// Informe USB 0x01. Sticks en los bytes 1-2 (X, Y); DS4: cruceta y botones en los bytes 5-7;
+        /// DualSense: en los bytes 8-10.
+        /// </summary>
         private Buttons Parse(byte[] r)
         {
-            int b1 = DualSense ? r[9] : r[6], b2 = DualSense ? r[10] : r[7];
+            int b0 = DualSense ? r[8] : r[5], b1 = DualSense ? r[9] : r[6], b2 = DualSense ? r[10] : r[7];
             var s = Buttons.None;
+            switch (b0 & 0x0F)   // cruceta: 0 = arriba y en el sentido del reloj; 8 = suelta
+            {
+                case 0: s |= Buttons.Up; break;
+                case 1: s |= Buttons.Up | Buttons.Right; break;
+                case 2: s |= Buttons.Right; break;
+                case 3: s |= Buttons.Down | Buttons.Right; break;
+                case 4: s |= Buttons.Down; break;
+                case 5: s |= Buttons.Down | Buttons.Left; break;
+                case 6: s |= Buttons.Left; break;
+                case 7: s |= Buttons.Up | Buttons.Left; break;
+            }
+            if (r[1] < 40) s |= Buttons.Left;  else if (r[1] > 215) s |= Buttons.Right;
+            if (r[2] < 40) s |= Buttons.Up;    else if (r[2] > 215) s |= Buttons.Down;
+            if ((b0 & 0x20) != 0) s |= Buttons.A;       // cruz
+            if ((b0 & 0x40) != 0) s |= Buttons.B;       // círculo
             if ((b1 & 0x10) != 0) s |= Buttons.Back;    // Share / Create
             if ((b1 & 0x20) != 0) s |= Buttons.Start;   // Options
             if ((b2 & 0x01) != 0) s |= Buttons.Guide;   // PS
