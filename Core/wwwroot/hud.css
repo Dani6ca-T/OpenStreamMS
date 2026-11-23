@@ -1,0 +1,54 @@
+/* HUD de una sesión (hud.html): ventana encima del juego, legible a distancia y manejable con el mando. */
+:root {
+  --bg: #101116;
+  --panel: #181a22;
+  --panel-2: #1f2230;
+  --line: #2b2f40;
+  --text: #eceef5;
+  --muted: #9aa0b4;
+  --accent: #5b8cff;
+  --ok: #3ccf8e;
+  --warn: #f2b134;
+  --bad: #ff5d6c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+body { font: 15px/1.45 "Segoe UI", system-ui, sans-serif; overflow: hidden; }
+.hud { display: flex; flex-direction: column; gap: 14px; height: 100%; padding: 20px 24px; }
+.hud-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: .2px; }
+h2 { margin: 0 0 8px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.hud-tag { margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 12px; vertical-align: middle; }
+.hud-me { margin: 4px 0 0; color: var(--muted); }
+.hud-me b { color: var(--text); font-weight: 600; }
+.hud-close { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
+.hud-close:hover, .hud-close:focus-visible { border-color: var(--accent); outline: none; }
+
+.hud-meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.meter { padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.meter-top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); }
+.meter-top b { color: var(--text); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bar { height: 6px; margin-top: 8px; border-radius: 999px; background: var(--panel-2); overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--ok); transition: width .4s ease; }
+.bar.warn > i { background: var(--warn); }
+.bar.bad > i { background: var(--bad); }
+
+.hud-sessions { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.hud-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; overflow: auto; padding: 2px; }
+.sess { padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); outline: none; }
+.sess:focus-visible, .sess:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(91,140,255,.35); }
+.sess.mine { border-color: rgba(91,140,255,.6); }
+.sess-name { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 16px; font-weight: 600; }
+.chip { padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel-2); color: var(--muted); font-size: 12px; font-weight: 500; }
+.chip.me { border-color: var(--accent); color: #fff; background: rgba(91,140,255,.25); }
+.chip.warn { border-color: var(--warn); color: var(--warn); }
+.sess-meters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+.sess-meters .meter { padding: 6px 8px; border-radius: 10px; background: var(--panel-2); }
+.sess-meters .meter-top b { font-size: 14px; }
+.devs { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.devs li { display: flex; align-items: center; gap: 8px; }
+.devs .k { min-width: 64px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.devs .none { color: var(--muted); }
+.hud-foot { color: var(--muted); font-size: 13px; text-align: center; }
+.hud-error { color: var(--bad); }

@@ -49,6 +49,10 @@ switch (command)
         // Sesiones compuestas: lleva el sonido de un miembro a la sesión del teclado (lo lanza el servicio).
         Environment.Exit(OpenStreamMS.Services.Audio.AudioRelay.Run(args));
         break;
+    case "--hud":
+        // HUD de una sesión de stream o de puesto (lo lanza el servicio dentro de la sesión).
+        RunHud();
+        break;
     case "--display":
         // Puestos locales: operaciones de pantalla en la sesión de consola (lanzado por el servicio).
         Environment.Exit(OpenStreamMS.Services.Seats.ConsoleDisplay.RunCommand(args));
@@ -216,6 +220,15 @@ static async Task RunService(string[] args)
             return;
         }
 
+        // HUD de una sesión (Ctrl+Alt+H / Guía + Back): solo lectura, y solo desde la sesión de
+        // Windows de una sesión en marcha.
+        if (IsHudRequest(ctx, out var hudSession))
+        {
+            ctx.Items[HudEndpoints.CallerSessionItem] = hudSession;
+            await next();
+            return;
+        }
+
         // Primera vez: aún no se han configurado credenciales → pantalla de setup
         if (string.IsNullOrEmpty(cfg.AdminUsername))
         {
@@ -329,6 +342,7 @@ static async Task RunService(string[] args)
 
     // ── Sesiones compuestas (varias sesiones en un mismo stream) ──────────────
     app.MapCompositeApi();
+    app.MapHudApi();
 
     // ── Extensiones (GitHub: componentes, ganchos, apps y pestañas) ──────────
     app.MapExtensionApi();
@@ -388,12 +402,33 @@ static void RunTray(bool showWindow = false)
     ui.Join();
 }
 
+static void RunHud()
+{
+    // Uno por sesión de Windows. Global y con el número de la sesión: el servicio lo busca para
+    // saber si ya hay HUD y no lanzar otro.
+    using var mutex = new Mutex(true,
+        OpenStreamMS.Core.Api.StreamSessionService.HudMutexName((uint)System.Diagnostics.Process.GetCurrentProcess().SessionId),
+        out var isNew);
+    if (!isNew) return;
+    var ui = new Thread(() =>
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        using var hud = new OpenStreamMS.Services.Hud.HudWindow($"http://127.0.0.1:{ServiceConfig.ReadApiPort()}");
+        Application.Run(hud);
+    }) { Name = "HudUI" };
+    ui.SetApartmentState(ApartmentState.STA);
+    ui.Start();
+    ui.Join();
+}
+
 // ── Rutas públicas (sin autenticación) ───────────────────────────────────────
 
 // /ext/…: pestañas de extensiones. No usan la cookie (el iframe está aislado); las protege
 // un token aleatorio en la ruta que solo da el panel autenticado (ExtensionManager.ResolvePanelFile).
 static bool IsPublicPath(string path) => path.StartsWith("/ext/", StringComparison.Ordinal) || path.ToLowerInvariant() is
     "/login" or "/login.html" or "/setup" or "/setup.html" or "/style.css" or
+    "/hud.html" or "/hud.js" or "/hud.css" or
     "/app.js" or "/seats.js" or "/i18n.js" or "/ui-messages.js" or "/theme.js" or "/favicon.svg" or "/favicon.ico" or
     "/locales/bg.json" or "/locales/cs.json" or "/locales/de.json" or "/locales/en.json" or
     "/locales/en_gb.json" or "/locales/en_us.json" or "/locales/es.json" or "/locales/fr.json" or
@@ -446,6 +481,25 @@ static bool IsCompositeSteamRequest(HttpContext ctx)
     int pid = LocalCaller.TcpClientPid(conn.RemoteIpAddress, conn.RemotePort, conn.LocalPort);
     if (pid <= 0 || LocalCaller.SessionOf(pid) is not { } windowsSession) return false;
     return ctx.RequestServices.GetRequiredService<StreamSessionService>().IsCompositeWindowsSession(compositeId, windowsSession);
+}
+
+/// <summary>
+/// GET /api/hud hecho a localhost por un proceso (el WebView2 del HUD) de la sesión de Windows de
+/// una sesión en marcha. Devuelve esa sesión de Windows.
+/// </summary>
+static bool IsHudRequest(HttpContext ctx, out uint windowsSession)
+{
+    windowsSession = 0;
+    if (!HttpMethods.IsGet(ctx.Request.Method)) return false;
+    if (!string.Equals(ctx.Request.Path.Value?.TrimEnd('/'), "/api/hud", StringComparison.OrdinalIgnoreCase)) return false;
+    var host = ctx.Request.Host.Host.ToLowerInvariant();
+    if (host is not ("localhost" or "127.0.0.1" or "[::1]" or "::1")) return false;
+    var conn = ctx.Connection;
+    int pid = LocalCaller.TcpClientPid(conn.RemoteIpAddress, conn.RemotePort, conn.LocalPort);
+    if (pid <= 0 || LocalCaller.SessionOf(pid) is not { } ws) return false;
+    if (!ctx.RequestServices.GetRequiredService<StreamSessionService>().IsRunningWindowsSession(ws)) return false;
+    windowsSession = ws;
+    return true;
 }
 
 /// <summary>Petición lanzada por un navegador desde una página de otro sitio.</summary>

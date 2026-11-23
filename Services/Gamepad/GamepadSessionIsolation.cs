@@ -251,7 +251,27 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     {
         _sessions = sessions;
         _seats    = seats;
+        Current   = this;
     }
+
+    /// <summary>Mando virtual (ViGEm) y la sesión a la que va, para el HUD.</summary>
+    /// <param name="Session">Sesión de OpenStreamMS; Guid.Empty si lo capturó un puesto; null si se ve en todas.</param>
+    /// <param name="SessionName">Sesión o puesto dueño.</param>
+    /// <param name="Index">Número del mando en el Sunshine que lo creó (0, 1…); -1 si no lo creó un Sunshine.</param>
+    public sealed record VirtualPadInfo(string InstanceId, Guid? Session, string SessionName, uint WindowsSession, int Index);
+
+    /// <summary>El servicio en marcha (es un BackgroundService, sin registro propio en DI).</summary>
+    public static GamepadSessionIsolation? Current { get; private set; }
+
+    private volatile VirtualPadInfo[] _snapshot = [];
+
+    /// <summary>Mandos virtuales en la última revisión (cada segundo o al llegar uno).</summary>
+    public IReadOnlyList<VirtualPadInfo> VirtualPads => _snapshot;
+
+    private void PublishSnapshot() =>
+        _snapshot = _pads.Values
+            .Select(p => new VirtualPadInfo(p.InstanceId, p.Session, p.SessionName, p.WindowsSession, p.Index))
+            .ToArray();
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -432,6 +452,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     }
 
     private void Scan()
+    {
+        try { ScanCore(); }
+        finally { PublishSnapshot(); }
+    }
+
+    private void ScanCore()
     {
         if (!EnsureHidHide()) return;
         ScanPhysical();

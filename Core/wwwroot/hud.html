@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenStreamMS HUD</title>
+  <link rel="stylesheet" href="/hud.css">
+  <script src="/i18n.js"></script>
+</head>
+<body>
+  <main class="hud" aria-labelledby="hud-title">
+    <header class="hud-head">
+      <div>
+        <h1 id="hud-title">OpenStreamMS <span class="hud-tag" data-i18n="hud.title">HUD</span></h1>
+        <p class="hud-me" id="hud-me"></p>
+      </div>
+      <button type="button" class="hud-close" id="hud-close" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
+    </header>
+
+    <section class="hud-pc" aria-labelledby="hud-pc-title">
+      <h2 id="hud-pc-title" data-i18n="hud.pc">Este equipo</h2>
+      <div class="hud-meters" id="hud-pc"></div>
+    </section>
+
+    <section class="hud-sessions" aria-labelledby="hud-sessions-title">
+      <h2 id="hud-sessions-title" data-i18n="hud.sessions">Sesiones en marcha</h2>
+      <div class="hud-list" id="hud-list"></div>
+    </section>
+
+    <footer class="hud-foot" data-i18n="hud.close">Cerrar: Esc · B · Ctrl+Alt+H · Guía + Back</footer>
+  </main>
+  <script src="/hud.js"></script>
+</body>
+</html>
