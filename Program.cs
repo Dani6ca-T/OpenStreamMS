@@ -204,6 +204,14 @@ static async Task RunService(string[] args)
             return;
         }
 
+        // App Steam de una sesión compuesta: la lanza su Sunshine, con el usuario de la sesión del
+        // teclado. Solo abrir/cerrar Big Picture, y solo desde la sesión de Windows de esa compuesta.
+        if (IsCompositeSteamRequest(ctx))
+        {
+            await next();
+            return;
+        }
+
         // Primera vez: aún no se han configurado credenciales → pantalla de setup
         if (string.IsNullOrEmpty(cfg.AdminUsername))
         {
@@ -416,6 +424,24 @@ static bool IsConsoleLocal(HttpContext ctx)
     var conn = ctx.Connection;
     int pid = LocalCaller.TcpClientPid(conn.RemoteIpAddress, conn.RemotePort, conn.LocalPort);
     return pid > 0 && LocalCaller.IsInConsoleSession(pid);
+}
+
+/// <summary>
+/// POST /api/composites/{id}/steam/open|close hecho a localhost por un proceso que corre en la
+/// sesión de Windows de esa compuesta en marcha (donde está su Sunshine).
+/// </summary>
+static bool IsCompositeSteamRequest(HttpContext ctx)
+{
+    if (!HttpMethods.IsPost(ctx.Request.Method)) return false;
+    var segments = (ctx.Request.Path.Value ?? "").Trim('/').ToLowerInvariant().Split('/');
+    if (segments is not ["api", "composites", var id, "steam", "open" or "close"] || !Guid.TryParse(id, out var compositeId))
+        return false;
+    var host = ctx.Request.Host.Host.ToLowerInvariant();
+    if (host is not ("localhost" or "127.0.0.1" or "[::1]" or "::1")) return false;
+    var conn = ctx.Connection;
+    int pid = LocalCaller.TcpClientPid(conn.RemoteIpAddress, conn.RemotePort, conn.LocalPort);
+    if (pid <= 0 || LocalCaller.SessionOf(pid) is not { } windowsSession) return false;
+    return ctx.RequestServices.GetRequiredService<StreamSessionService>().IsCompositeWindowsSession(compositeId, windowsSession);
 }
 
 /// <summary>Petición lanzada por un navegador desde una página de otro sitio.</summary>
