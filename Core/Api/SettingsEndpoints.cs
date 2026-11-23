@@ -8,9 +8,13 @@ namespace OpenStreamMS.Core.Api;
 
 /// <summary>Ajustes globales que se cambian desde el panel.</summary>
 /// <param name="LogLevel">Nivel mínimo de log: Info, Warning, Error u Off.</param>
-public record SettingsResponse(string LogLevel);
+/// <param name="WhatsNewDismissed">Versión de las novedades que no se vuelve a abrir sola; vacío = ninguna.</param>
+public record SettingsResponse(string LogLevel, string WhatsNewDismissed = "");
 
 public record SetLogLevelRequest(string LogLevel);
+
+/// <param name="Version">Versión de las novedades que no se vuelve a abrir sola (p. ej. "2.0").</param>
+public record DismissWhatsNewRequest(string Version);
 
 /// <param name="Accent">Color de acento de Windows ("#rrggbb"), o null si no se puede leer.</param>
 /// <param name="LightTheme">true si las apps de Windows usan el modo claro; null si no se sabe.</param>
@@ -27,8 +31,21 @@ public static class SettingsEndpoints
     {
         var group = app.MapGroup("/api/settings").WithTags("Settings");
 
-        group.MapGet("/", (ServiceConfig cfg) => TypedResults.Ok(new SettingsResponse(cfg.LogThreshold.ToString())))
+        group.MapGet("/", (ServiceConfig cfg) => TypedResults.Ok(new SettingsResponse(cfg.LogThreshold.ToString(), cfg.WhatsNewDismissed)))
              .WithSummary("Ajustes globales.");
+
+        group.MapPut("/whatsnew", (DismissWhatsNewRequest req, ServiceConfig cfg) =>
+             {
+                 var version = req.Version?.Trim() ?? "";
+                 if (version.Length is 0 or > 20) return Results.BadRequest();
+                 if (cfg.WhatsNewDismissed != version)
+                 {
+                     cfg.WhatsNewDismissed = version;
+                     cfg.Save();
+                 }
+                 return Results.Ok(new SettingsResponse(cfg.LogThreshold.ToString(), version));
+             })
+             .WithSummary("No volver a abrir solas las novedades de esta versión del panel, en ningún navegador.");
 
         group.MapPut("/logging", (SetLogLevelRequest req, ServiceConfig cfg) =>
              {
@@ -40,7 +57,7 @@ public static class SettingsEndpoints
                  cfg.LogLevel = level.ToString();
                  cfg.Save();
                  Logger.SetThreshold(level);
-                 return Results.Ok(new SettingsResponse(level.ToString()));
+                 return Results.Ok(new SettingsResponse(level.ToString(), cfg.WhatsNewDismissed));
              })
              .WithSummary("Cambia el nivel de log global (servicio, bandeja, puestos y, al relanzarse, Sunshine).");
 

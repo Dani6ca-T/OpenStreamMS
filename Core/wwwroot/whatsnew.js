@@ -20,6 +20,22 @@ function markWhatsNewSeen() {
   byId('wn-badge')?.classList.remove('wn-badge-new');
 }
 
+// «No volver a mostrar hasta que haya novedades»: se guarda en el servicio, así vale para cualquier
+// navegador o equipo; con otra WHATS_NEW_VERSION vuelve a abrirse sola una vez.
+async function dismissWhatsNew() {
+  closeWhatsNew();
+  const res = await api('PUT', '/api/settings/whatsnew', { version: WHATS_NEW_VERSION });
+  if (res && !res.ok) toast(await I18n.responseError(res) || t('toast.connectionError'), true);
+}
+
+async function whatsNewDismissedOnServer() {
+  try {
+    const res = await fetch('/api/settings', { credentials: 'same-origin', cache: 'no-store' });
+    if (!res.ok) return false;
+    return (await res.json()).whatsNewDismissed === WHATS_NEW_VERSION;
+  } catch { return false; }
+}
+
 function openWhatsNew(step = 0) {
   wnStep = Math.max(0, Math.min(WN_STEPS.length - 1, step));
   document.querySelectorAll('.nav-pop').forEach(p => p.classList.add('hidden'));
@@ -194,9 +210,10 @@ window.addEventListener('langchange', () => {
 // /#whatsnew la abre siempre.
 document.addEventListener('DOMContentLoaded', async () => {
   if (!await I18n.ready) return;
-  const seen = whatsNewSeen();
-  if (!seen) byId('wn-badge')?.classList.add('wn-badge-new');
   if (location.hash === '#whatsnew') { openWhatsNew(); return; }
+  let seen = whatsNewSeen();
+  if (!seen && await whatsNewDismissedOnServer()) { markWhatsNewSeen(); seen = true; }
+  if (!seen) byId('wn-badge')?.classList.add('wn-badge-new');
   if (seen || /^#guide/.test(location.hash)) return;
   setTimeout(() => {
     if (document.querySelector('.modal-backdrop:not(.hidden)')) return;   // otra ventana abierta: ya se verá desde la píldora
