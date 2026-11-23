@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp lyssnar inte",
   "rdpwrap.notLoaded": "Tjänsten Fjärrskrivbord har ännu inte läst in komponenten som tillåter flera sessioner",
   "rdpwrap.singleSession": "Den här datorn tillåter bara en session åt gången",
+  "composite.reconnecting": "Återansluter…",
   "rdpwrap.openSessionsPreventRestart": "Det finns öppna sessioner ({0}): TermService startas inte om nu; ändringen träder i kraft vid omstart.",
   "rdpwrap.termServiceRestarted": "TermService startad om.",
   "driver.bundledInstaller": "Använder inbyggd installationsprogram: {0}",

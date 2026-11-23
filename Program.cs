@@ -494,7 +494,8 @@ static bool IsHudRequest(HttpContext ctx, out uint windowsSession)
     var path = (ctx.Request.Path.Value ?? "").TrimEnd('/').ToLowerInvariant();
     bool allowed = HttpMethods.IsGet(ctx.Request.Method)
         ? path == "/api/hud"
-        : HttpMethods.IsPost(ctx.Request.Method) && path is "/api/hud/power/restart" or "/api/hud/power/shutdown" or "/api/hud/power/cancel";
+        : HttpMethods.IsPost(ctx.Request.Method) && path is "/api/hud/power/restart" or "/api/hud/power/shutdown" or "/api/hud/power/cancel"
+                                                              or "/api/hud/session/restart";
     if (!allowed) return false;
     var host = ctx.Request.Host.Host.ToLowerInvariant();
     if (host is not ("localhost" or "127.0.0.1" or "[::1]" or "::1")) return false;

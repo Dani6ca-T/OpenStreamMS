@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp neposlouchá",
   "rdpwrap.notLoaded": "Služba Vzdálená plocha zatím nenačetla komponentu, která umožňuje více relací",
   "rdpwrap.singleSession": "Tento počítač umožňuje jen jednu relaci najednou",
+  "composite.reconnecting": "Znovu se připojuje…",
   "rdpwrap.openSessionsPreventRestart": "Existují otevřené relace ({0}): TermService se nerestartuje nyní; změna se projeví po restartu.",
   "rdpwrap.termServiceRestarted": "TermService restartován.",
   "driver.bundledInstaller": "Používán vestavěný instalátor: {0}",

@@ -18,6 +18,7 @@
         <p class="hud-me" id="hud-me"></p>
       </div>
       <div class="hud-actions">
+        <button type="button" class="hud-btn hud-nav" id="hud-restart-session" data-i18n="hud.restartSession" hidden>Reiniciar esta sesión</button>
         <div class="hud-power" id="hud-power" hidden>
           <button type="button" class="hud-btn hud-nav" id="hud-restart" data-action="restart" data-i18n="hud.restart">Reiniciar el PC</button>
           <button type="button" class="hud-btn hud-danger hud-nav" id="hud-shutdown" data-action="shutdown" data-i18n="hud.shutdown">Apagar el PC</button>
@@ -25,6 +26,7 @@
         <button type="button" class="hud-close hud-nav" id="hud-close" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
       </div>
     </header>
+    <p class="hud-note" id="hud-restart-note" hidden></p>
     <div class="hud-pending" id="hud-pending" role="alert" hidden>
       <span id="hud-pending-text"></span>
       <button type="button" class="hud-btn hud-nav" id="hud-cancel" data-i18n="hud.cancel">Cancelar</button>

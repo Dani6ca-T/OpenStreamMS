@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp 未监听",
   "rdpwrap.notLoaded": "远程桌面服务尚未加载允许多个会话的组件",
   "rdpwrap.singleSession": "此电脑一次只允许一个会话",
+  "composite.reconnecting": "正在重新连接…",
   "rdpwrap.openSessionsPreventRestart": "存在打开的会话 ({0}): TermService 当前不重启; 更改将在重启后生效。",
   "rdpwrap.termServiceRestarted": "TermService 已重启。",
   "driver.bundledInstaller": "使用捆绑安装程序: {0}",

@@ -50,6 +50,11 @@ function render(data) {
     : '';
 
   byId('hud-power').hidden = !data.powerAllowed;
+  byId('hud-restart-session').hidden = data.restartBlocked === 'none' || !!data.restartBlocked;
+  const note = data.restartBlocked === 'keyboard' ? t('hud.restartBlockedKeyboard', { name: data.restartBlockedBy })
+             : data.restartBlocked === 'seat' ? t('hud.restartBlockedSeat', { name: data.restartBlockedBy }) : '';
+  byId('hud-restart-note').textContent = note;
+  byId('hud-restart-note').hidden = !note;
 
   // Al redibujar la lista solo se recoloca el foco si estaba en ella (no en los botones).
   const inList = byId('hud-list').contains(document.activeElement) || document.activeElement === document.body;
@@ -160,6 +165,30 @@ async function cancelPower() {
 }
 
 document.querySelectorAll('#hud-power .hud-btn').forEach(b => b.addEventListener('click', () => powerPressed(b)));
+
+// Reiniciar esta sesión: también con doble pulsación. La sesión se cierra y vuelve sola; en una
+// compuesta su hueco enseña el logo y "Reconectando" mientras tanto.
+let restartConfirmTimer = null;
+async function restartSessionPressed(btn) {
+  if (!btn.classList.contains('hud-confirm')) {
+    btn.classList.add('hud-confirm');
+    btn.textContent = t('hud.confirm');
+    clearTimeout(restartConfirmTimer);
+    restartConfirmTimer = setTimeout(() => { btn.classList.remove('hud-confirm'); btn.textContent = t('hud.restartSession'); }, CONFIRM_MS);
+    return;
+  }
+  clearTimeout(restartConfirmTimer);
+  btn.classList.remove('hud-confirm');
+  btn.textContent = t('hud.restartSession');
+  try {
+    const res = await fetch('/api/hud/session/restart', { method: 'POST' });
+    if (!res.ok) throw new Error(res.status);
+    showPendingText(t('hud.restartingSession'), false);
+  } catch {
+    showPendingText(t('hud.restartSessionError'), false);
+  }
+}
+byId('hud-restart-session').addEventListener('click', e => restartSessionPressed(e.currentTarget));
 byId('hud-cancel').addEventListener('click', cancelPower);
 
 // ── Navegación ───────────────────────────────────────────────────────────────

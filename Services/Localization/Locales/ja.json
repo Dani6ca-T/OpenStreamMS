@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp がリッスンしていません",
   "rdpwrap.notLoaded": "リモート デスクトップ サービスは、複数セッションを可能にするコンポーネントをまだ読み込んでいません",
   "rdpwrap.singleSession": "この PC では同時に 1 つのセッションしか使えません",
+  "composite.reconnecting": "再接続しています…",
   "rdpwrap.openSessionsPreventRestart": "開いているセッションがあります ({0}): TermService は今再起動しません; 変更は再起動後に反映されます。",
   "rdpwrap.termServiceRestarted": "TermService を再起動しました。",
   "driver.bundledInstaller": "バンドルされたインストーラーを使用: {0}",

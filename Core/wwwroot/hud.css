@@ -33,7 +33,8 @@ body.hud-body { color: var(--text); font-size: 15px; }
 
 .hud-actions { display: flex; align-items: center; gap: 10px; }
 .hud-power { display: flex; gap: 10px; }
-.hud-power[hidden], .hud-pending[hidden] { display: none; }
+.hud-power[hidden], .hud-pending[hidden], .hud-btn[hidden], .hud-note[hidden] { display: none; }
+.hud-note { margin: -6px 0 0; color: var(--muted); font-size: 13px; }
 .hud-btn { height: 40px; padding: 0 16px; border-radius: 10px; color: var(--text); font: inherit; font-size: 14px; cursor: pointer; }
 .hud-close { width: 40px; height: 40px; border-radius: 10px; color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
 .hud-btn.hud-danger { border-color: rgba(var(--c-ink), .12); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--red) 55%, transparent); }

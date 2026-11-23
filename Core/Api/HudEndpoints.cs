@@ -28,8 +28,11 @@ public record HudSession(Guid Id, string Name, bool IsMine, string? Seat, string
 /// <param name="Theme">Tema del panel (theme.js).</param>
 /// <param name="Accent">Color de acento de Windows, para el tema "windows"; null si no se sabe.</param>
 /// <param name="LightTheme">Windows en modo claro, para el tema "windows"; null si no se sabe.</param>
+/// <param name="RestartBlocked">Por qué no se puede reiniciar la sesión desde el HUD (keyboard, seat); null si se puede.</param>
+/// <param name="RestartBlockedBy">Compuesta o puesto que lo impide.</param>
 public record HudResponse(HudPc Pc, IReadOnlyList<HudSession> Sessions, bool PowerAllowed,
-                          string Theme = "system", string? Accent = null, bool? LightTheme = null);
+                          string Theme = "system", string? Accent = null, bool? LightTheme = null,
+                          string? RestartBlocked = null, string? RestartBlockedBy = null);
 
 /// <summary>
 /// API del HUD (<c>/hud.html</c> dentro de cada sesión). Sin credenciales: el middleware solo la deja
@@ -46,16 +49,35 @@ public static class HudEndpoints
             {
                 uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
                 var (accent, light) = cfg.PanelTheme == "windows" ? WindowsAppearance.Read() : (null, null);
+                var me = CallerSession(caller, sessions);
+                var (blocked, by) = me is null ? ("none", null) : RestartBlock(me, sessions, seats);
                 return TypedResults.Ok(Build(caller, sessions, seats, metrics) with
                 {
-                    PowerAllowed = CallerSession(caller, sessions)?.AllowPower == true,
-                    Theme        = cfg.PanelTheme,
-                    Accent       = accent,
-                    LightTheme   = light,
+                    PowerAllowed     = me?.AllowPower == true,
+                    Theme            = cfg.PanelTheme,
+                    Accent           = accent,
+                    LightTheme       = light,
+                    RestartBlocked   = blocked,
+                    RestartBlockedBy = by,
                 });
             })
            .WithTags("HUD")
            .WithSummary("Estado para el HUD de una sesión: uso del equipo, sesiones en marcha y sus dispositivos.");
+
+        app.MapPost("/api/hud/session/restart", (HttpContext ctx, StreamSessionService sessions, SeatManager seats) =>
+            {
+                uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
+                var me = CallerSession(caller, sessions);
+                if (me is null) return Results.NotFound();
+                var (blocked, by) = RestartBlock(me, sessions, seats);
+                if (blocked is not null)
+                    return Results.Conflict(new { blocked, by });
+                Logger.Warning($"[HUD] '{me.Name}' se reinicia desde su HUD.", me.Id);
+                sessions.Restart(me.Id);
+                return Results.Accepted();
+            })
+           .WithTags("HUD")
+           .WithSummary("Reinicia la sesión desde la que se abre el HUD (no la del teclado de una compuesta en marcha ni la de un puesto encendido).");
 
         app.MapPost("/api/hud/power/{action}", (string action, HttpContext ctx, StreamSessionService sessions) =>
             {
@@ -84,6 +106,23 @@ public static class HudEndpoints
            .WithTags("HUD")
            .WithSummary("Apagar, reiniciar o cancelar desde el HUD o las apps de Moonlight (solo si la sesión que llama tiene permiso).");
         return app;
+    }
+
+    /// <summary>
+    /// Si la sesión no se puede reiniciar desde su HUD: "keyboard" si es la del teclado de una
+    /// compuesta en marcha (su Sunshine corre en esa sesión de Windows: se cortaría el stream de
+    /// todos) o "seat" si la muestra un puesto encendido. Un miembro que no es el del teclado sí: su
+    /// hueco enseña el logo y "Reconectando" hasta que vuelve.
+    /// </summary>
+    internal static (string? Blocked, string? By) RestartBlock(StreamSession me, StreamSessionService sessions, SeatManager seats)
+    {
+        var composite = sessions.GetAll().FirstOrDefault(c =>
+            c.IsComposite && c.State is SessionState.Running or SessionState.Starting &&
+            (c.CompositeInput ?? c.Composite?.FirstOrDefault()?.Session) == me.Id);
+        if (composite is not null) return ("keyboard", composite.Name);
+        var seat = seats.GetAll().FirstOrDefault(s => s.SessionId == me.Id && s.State is SeatState.Running or SeatState.Starting);
+        if (seat is not null) return ("seat", seat.Name);
+        return (null, null);
     }
 
     /// <summary>Sesión en marcha (no compuesta) de esa sesión de Windows: la de quien llama.</summary>

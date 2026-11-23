@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp is not listening",
   "rdpwrap.notLoaded": "The Remote Desktop service has not loaded the component that allows several sessions yet",
   "rdpwrap.singleSession": "This PC only allows one session at a time",
+  "composite.reconnecting": "Reconnecting…",
   "rdpwrap.openSessionsPreventRestart": "There are open sessions ({0}): TermService will not be restarted now; the change applies on reboot.",
   "rdpwrap.termServiceRestarted": "TermService restarted.",
   "driver.bundledInstaller": "Using bundled installer: {0}",

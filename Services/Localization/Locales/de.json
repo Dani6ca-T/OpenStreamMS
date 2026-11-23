@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp lauscht nicht",
   "rdpwrap.notLoaded": "Der Remotedesktopdienst hat die Komponente für mehrere Sitzungen noch nicht geladen",
   "rdpwrap.singleSession": "Dieser PC erlaubt nur eine Sitzung gleichzeitig",
+  "composite.reconnecting": "Verbindung wird wiederhergestellt…",
   "rdpwrap.openSessionsPreventRestart": "Es gibt offene Sitzungen ({0}): TermService wird jetzt nicht neu gestartet; die Änderung wird nach dem Neustart wirksam.",
   "rdpwrap.termServiceRestarted": "TermService neu gestartet.",
   "driver.bundledInstaller": "Bundled Installer wird verwendet: {0}",

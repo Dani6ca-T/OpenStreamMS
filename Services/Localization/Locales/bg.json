@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp не слуша",
   "rdpwrap.notLoaded": "Услугата за отдалечен работен плот още не е заредила компонента, който позволява няколко сесии",
   "rdpwrap.singleSession": "Този компютър позволява само една сесия наведнъж",
+  "composite.reconnecting": "Свързване отново…",
   "rdpwrap.openSessionsPreventRestart": "Има отворени сесии ({0}): TermService не се рестартира сега; промяната влиза в сила при рестарт.",
   "rdpwrap.termServiceRestarted": "TermService рестартиран.",
   "driver.bundledInstaller": "Използван е включеният инсталатор: {0}",

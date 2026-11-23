@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp не прослуховує",
   "rdpwrap.notLoaded": "Служба віддаленого робочого стола ще не завантажила компонент, що дозволяє кілька сеансів",
   "rdpwrap.singleSession": "Цей ПК дозволяє лише один сеанс одночасно",
+  "composite.reconnecting": "Повторне підключення…",
   "rdpwrap.openSessionsPreventRestart": "Є відкриті сесії ({0}): TermService не перезапускається зараз; зміна набуде чинності при перезавантаженні.",
   "rdpwrap.termServiceRestarted": "TermService перезапущено.",
   "driver.bundledInstaller": "Використовується вбудований інсталятор: {0}",

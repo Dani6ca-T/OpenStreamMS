@@ -261,7 +261,12 @@ public partial class StreamSessionService
     private void WriteCompositeFile(StreamSession c)
     {
         var parts = c.Composite!
-            .Select(slot => (_sessions.TryGetValue(slot.Session, out var m) && m.State == SessionState.Running ? m.RdpSessionId : 0u, slot.Area))
+            .Select((slot, i) =>
+            {
+                _sessions.TryGetValue(slot.Session, out var m);
+                uint ws = m is { State: SessionState.Running } ? m.RdpSessionId : 0u;
+                return (ws, slot.Area, EnsureWaitingImage(c, i, slot.Area, m?.Name ?? ""));
+            })
             .ToList();
         var path = Path.Combine(SunshineConfigDir(c.Id), MosaicLayout.FileName);
         var text = MosaicLayout.Render(c.RdpWidth, c.RdpHeight, parts);
@@ -366,6 +371,40 @@ public partial class StreamSessionService
             {
                 Logger.Warning($"[{c.Name}] Error vigilando la sesión compuesta: {ex.Message}", c.Id);
             }
+        }
+    }
+
+    // ── Imagen de espera de cada hueco ───────────────────────────────────────
+
+    /// <summary>Lo que se dibujó en cada imagen de espera (ruta → tamaño y textos), para no rehacerla.</summary>
+    private readonly ConcurrentDictionary<string, string> _waitingImages = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Imagen que Sunshine pone en el hueco mientras su sesión se (re)inicia: logo, nombre y
+    /// "Reconectando…", del tamaño del hueco. Se escribe en la carpeta de config de la compuesta.
+    /// Null si no se pudo (el hueco sale en negro, como antes).
+    /// </summary>
+    private string? EnsureWaitingImage(StreamSession c, int index, SeatScreenArea area, string memberName)
+    {
+        try
+        {
+            var (w, h) = MosaicLayout.PartSize(area, c.RdpWidth, c.RdpHeight);
+            if (w <= 0 || h <= 0) return null;
+            var path = Path.Combine(SunshineConfigDir(c.Id), $"osms-wait-{index}.bgra");
+            var subtitle = BackendText.Get("composite.reconnecting");
+            var key = $"{w}x{h}|{memberName}|{subtitle}";
+            if (File.Exists(path) && _waitingImages.TryGetValue(path, out var drawn) && drawn == key) return path;
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            var tmp = path + ".tmp";
+            File.WriteAllBytes(tmp, WaitingImage.Render(w, h, memberName, subtitle));
+            File.Move(tmp, path, overwrite: true);
+            _waitingImages[path] = key;
+            return path;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warning($"[{c.Name}] No se pudo preparar la imagen de espera del hueco {index + 1}: {ex.Message}", c.Id);
+            return null;
         }
     }
 
