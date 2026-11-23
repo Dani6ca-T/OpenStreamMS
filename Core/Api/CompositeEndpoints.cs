@@ -19,6 +19,7 @@ public record CompositeSlotRequest(Guid Session, SeatScreenArea Area);
 /// <param name="Enabled">Arrancarla con el servicio.</param>
 /// <param name="SunshineStreamPort">Puerto base de su Sunshine; 0 o ausente = el primero libre.</param>
 /// <param name="StreamProtocol">Protocolos de su Sunshine.</param>
+/// <param name="GamepadType">Mando que emula su Sunshine: auto, x360 o ds4.</param>
 public record CompositeRequest(
     string Name,
     IReadOnlyList<CompositeSlotRequest> Slots,
@@ -28,7 +29,8 @@ public record CompositeRequest(
     int FrameRate = 60,
     bool Enabled = false,
     int SunshineStreamPort = 0,
-    StreamProtocol StreamProtocol = StreamProtocol.Both);
+    StreamProtocol StreamProtocol = StreamProtocol.Both,
+    string? GamepadType = null);
 
 /// <summary>Plantilla de huecos que ofrece el panel.</summary>
 public record CompositeTemplate(string Id, IReadOnlyList<SeatScreenArea> Areas);
@@ -86,7 +88,7 @@ public static class CompositeEndpoints
         req.Name ?? "",
         (req.Slots ?? []).Select(s => new CompositeSlot(s.Session, s.Area)).ToList(),
         req.Input, req.Width, req.Height, req.FrameRate, req.Enabled,
-        req.SunshineStreamPort, req.StreamProtocol);
+        req.SunshineStreamPort, req.StreamProtocol, req.GamepadType);
 
     private static Results<Created<SessionResponse>, BadRequest<string>, NotFound> Create(
         CompositeRequest req, StreamSessionService svc)

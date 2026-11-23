@@ -618,6 +618,7 @@ function openEditModal(id) {
   byId('sess-exe').value          = s.sunshineExePath || '';
   byId('sess-sunshine-name').value = s.sunshineName || '';
   byId('sess-capture').value      = s.capture || '';
+  byId('sess-gamepad').value      = s.gamepadType || 'auto';
   byId('sess-encoder').value      = s.encoder || '';
   byId('sess-output').value       = s.outputName || '';
   byId('sess-origin').value       = s.originWebUiAllowed || '';
@@ -715,6 +716,7 @@ async function submitSession(e) {
       useStreamProfile:   !local && byId('sess-profile').checked,
       sunshineName:       byId('sess-sunshine-name').value.trim() || null,
       capture:            byId('sess-capture').value || null,
+      gamepadType:        byId('sess-gamepad').value || 'auto',
       encoder:            byId('sess-encoder').value || null,
       outputName:         byId('sess-output').value.trim() || null,
       originWebUiAllowed: byId('sess-origin').value || null,

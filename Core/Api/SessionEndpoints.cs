@@ -99,7 +99,9 @@ public record CreateSessionRequest(
     /// <summary>Escala de la pantalla de la sesión RDP en % (100-300). Por defecto 100.</summary>
     int RdpDisplayScale = 100,
     /// <summary>Ritmo de composición de la sesión RDP: Smooth (más fluido) o Efficient (menos CPU/GPU).</summary>
-    RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth
+    RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth,
+    /// <summary>Mando que emula Sunshine: "auto" (según el mando del cliente), "x360" o "ds4". Null = auto.</summary>
+    string? GamepadType = null
 );
 
 /// <summary>Datos editables de una sesión ya creada (requiere sesión detenida).</summary>
@@ -169,7 +171,9 @@ public record UpdateSessionConfigRequest(
     /// perfil. Debe salir de GET /api/sessions/isolated-users. Null = mantener el actual, que
     /// tampoco se borra al cambiarlo: queda entre los usuarios sin sesión.
     /// </summary>
-    string? ReuseIsolatedUser = null
+    string? ReuseIsolatedUser = null,
+    /// <summary>Mando que emula Sunshine: "auto", "x360" o "ds4". Null = mantener el actual.</summary>
+    string? GamepadType = null
 );
 
 /// <summary>Cuerpo para cambiar los protocolos de streaming de una sesión.</summary>
@@ -279,7 +283,9 @@ public record SessionResponse(
     /// <summary>Solo en una sesión compuesta: sesión del teclado, el ratón y el audio.</summary>
     Guid?        CompositeInput = null,
     /// <summary>En un miembro: la sesión compuesta en marcha que lo usa; null si ninguna.</summary>
-    Guid?        CompositeOf = null
+    Guid?        CompositeOf = null,
+    /// <summary>Mando que emula Sunshine: "auto", "x360" o "ds4".</summary>
+    string       GamepadType = "auto"
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
@@ -655,7 +661,8 @@ public static class SessionEndpoints
                                  local: req.Local,
                                  reuseIsolatedUser: req.ReuseIsolatedUser,
                                  rdpDisplayScale: req.RdpDisplayScale,
-                                 rdpComposition: req.RdpComposition);
+                                 rdpComposition: req.RdpComposition,
+                                 gamepadType: req.GamepadType);
         }
         catch (InvalidOperationException ex)
         {
@@ -821,7 +828,8 @@ public static class SessionEndpoints
                                            rdpDisplayScale: req.RdpDisplayScale,
                                            rdpComposition: req.RdpComposition,
                                            restartIfActive: req.RestartIfActive,
-                                           reuseIsolatedUser: req.ReuseIsolatedUser);
+                                           reuseIsolatedUser: req.ReuseIsolatedUser,
+                                           gamepadType: req.GamepadType);
             return TypedResults.Ok(ToResponse(session));
         }
         catch (KeyNotFoundException)
@@ -1087,5 +1095,6 @@ public static class SessionEndpoints
         s.Gamepads.Select(g => new SessionGamepadDto(g.UsbPort, g.Label,
             OpenStreamMS.Core.Helpers.DeviceTopology.IsPortPresent(g.UsbPort))).ToList(),
         OpenStreamMS.Services.Gamepad.GamepadSessionIsolation.SessionJailSupported,
-        s.Composite, s.CompositeInput, s.CompositeOf);
+        s.Composite, s.CompositeInput, s.CompositeOf,
+        StreamSession.NormalizeGamepadType(s.GamepadType) ?? "auto");
 }
