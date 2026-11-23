@@ -900,7 +900,7 @@
   "hud.restartingSession": "이 세션을 다시 시작하는 중… 몇 초 후에 돌아옵니다.",
   "hud.restartSessionError": "세션을 다시 시작하지 못했습니다.",
   "hud.restartBlockedKeyboard": "여기서는 다시 시작할 수 없습니다: ‘{name}’의 키보드 세션이라 합성 세션이 끊어집니다.",
-  "hud.restartBlockedSeat": "여기서는 다시 시작할 수 없습니다: 좌석 ‘{name}’이(가) 사용 중입니다.",
+  "hud.restartBlockedSeat": "좌석 ‘{name}’이(가) 아직 시작 중입니다. 잠시 후 세션을 다시 시작하세요.",
   "wn.kicker.star": "2.0의 주인공",
   "wn.intro.nav": "2.0에 오신 것을 환영합니다",
   "wn.intro.title": "OpenStreamMS 2.0 출시",

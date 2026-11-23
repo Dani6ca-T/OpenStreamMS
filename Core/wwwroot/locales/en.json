@@ -900,7 +900,7 @@
   "hud.restartingSession": "Restarting this session… It will be back in a few seconds.",
   "hud.restartSessionError": "Couldn't restart the session.",
   "hud.restartBlockedKeyboard": "This session can't be restarted from here: it's the keyboard session of “{name}” and the composite session would drop.",
-  "hud.restartBlockedSeat": "This session can't be restarted from here: seat “{name}” is using it.",
+  "hud.restartBlockedSeat": "Seat “{name}” is still starting: wait a moment to restart the session.",
   "wn.kicker.star": "The star of 2.0",
   "wn.intro.nav": "Welcome to 2.0",
   "wn.intro.title": "OpenStreamMS 2.0 is here",

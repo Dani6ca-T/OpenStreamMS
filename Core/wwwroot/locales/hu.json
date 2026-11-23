@@ -900,7 +900,7 @@
   "hud.restartingSession": "A munkamenet újraindul… Néhány másodperc múlva visszajön.",
   "hud.restartSessionError": "Nem sikerült újraindítani a munkamenetet.",
   "hud.restartBlockedKeyboard": "Ez a munkamenet innen nem indítható újra: ez „{name}” billentyűzetes munkamenete, és megszakadna az összetett munkamenet.",
-  "hud.restartBlockedSeat": "Ez a munkamenet innen nem indítható újra: a(z) „{name}” munkaállomás használja.",
+  "hud.restartBlockedSeat": "A(z) „{name}” munkaállomás még indul: várjon egy kicsit a munkamenet újraindításával.",
   "wn.kicker.star": "A 2.0 sztárja",
   "wn.intro.nav": "Üdv a 2.0-ban",
   "wn.intro.title": "Megérkezett az OpenStreamMS 2.0",

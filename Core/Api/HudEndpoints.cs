@@ -73,7 +73,9 @@ public static class HudEndpoints
                 if (blocked is not null)
                     return Results.Conflict(new { blocked, by });
                 Logger.Warning($"[HUD] '{me.Name}' se reinicia desde su HUD.", me.Id);
-                sessions.Restart(me.Id);
+                // Con un puesto encendido, el puesto sigue: logo en su monitor y agente nuevo al volver.
+                if (seats.RunningSeatOf(me.Id) is { State: SeatState.Running } seat) seats.RestartSession(seat.Id);
+                else sessions.Restart(me.Id);
                 return Results.Accepted();
             })
            .WithTags("HUD")
@@ -111,8 +113,9 @@ public static class HudEndpoints
     /// <summary>
     /// Si la sesión no se puede reiniciar desde su HUD: "keyboard" si es la del teclado de una
     /// compuesta en marcha (su Sunshine corre en esa sesión de Windows: se cortaría el stream de
-    /// todos) o "seat" si la muestra un puesto encendido. Un miembro que no es el del teclado sí: su
-    /// hueco enseña el logo y "Reconectando" hasta que vuelve.
+    /// todos) o "seat" si la muestra un puesto que aún está arrancando. Un miembro que no es el del
+    /// teclado sí, y la sesión de un puesto encendido también: su hueco o su monitor enseñan el logo
+    /// y "Reconectando" hasta que vuelve.
     /// </summary>
     internal static (string? Blocked, string? By) RestartBlock(StreamSession me, StreamSessionService sessions, SeatManager seats)
     {
@@ -120,8 +123,9 @@ public static class HudEndpoints
             c.IsComposite && c.State is SessionState.Running or SessionState.Starting &&
             (c.CompositeInput ?? c.Composite?.FirstOrDefault()?.Session) == me.Id);
         if (composite is not null) return ("keyboard", composite.Name);
-        var seat = seats.GetAll().FirstOrDefault(s => s.SessionId == me.Id && s.State is SeatState.Running or SeatState.Starting);
-        if (seat is not null) return ("seat", seat.Name);
+        // Un puesto que todavía arranca no tiene aún su presentador: hay que esperar a que termine.
+        var starting = seats.GetAll().FirstOrDefault(s => s.SessionId == me.Id && s.State == SeatState.Starting);
+        if (starting is not null) return ("seat", starting.Name);
         return (null, null);
     }
 

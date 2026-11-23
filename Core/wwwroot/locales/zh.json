@@ -900,7 +900,7 @@
   "hud.restartingSession": "正在重启此会话… 几秒后恢复。",
   "hud.restartSessionError": "无法重启会话。",
   "hud.restartBlockedKeyboard": "无法从这里重启此会话：它是“{name}”的键盘会话，组合会话会中断。",
-  "hud.restartBlockedSeat": "无法从这里重启此会话：座位“{name}”正在使用。",
+  "hud.restartBlockedSeat": "座位“{name}”仍在启动：请稍等片刻再重启会话。",
   "wn.kicker.star": "2.0 的明星功能",
   "wn.intro.nav": "欢迎使用 2.0",
   "wn.intro.title": "OpenStreamMS 2.0 来了",

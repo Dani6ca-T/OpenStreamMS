@@ -900,7 +900,7 @@
   "hud.restartingSession": "Reiniciando esta sesión… Volverá en unos segundos.",
   "hud.restartSessionError": "No se pudo reiniciar la sesión.",
   "hud.restartBlockedKeyboard": "Esta sesión no se puede reiniciar desde aquí: es la del teclado de «{name}» y se cortaría la sesión compuesta.",
-  "hud.restartBlockedSeat": "Esta sesión no se puede reiniciar desde aquí: la usa el puesto «{name}».",
+  "hud.restartBlockedSeat": "El puesto «{name}» aún está arrancando: espera un momento para reiniciar la sesión.",
   "wn.kicker.star": "La estrella de la 2.0",
   "wn.intro.nav": "Bienvenida a la 2.0",
   "wn.intro.title": "Llega OpenStreamMS 2.0",

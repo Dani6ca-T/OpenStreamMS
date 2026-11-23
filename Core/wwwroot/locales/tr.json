@@ -900,7 +900,7 @@
   "hud.restartingSession": "Oturum yeniden başlatılıyor… Birkaç saniye içinde dönecek.",
   "hud.restartSessionError": "Oturum yeniden başlatılamadı.",
   "hud.restartBlockedKeyboard": "Bu oturum buradan yeniden başlatılamaz: “{name}” için klavye oturumu ve birleşik oturum kesilir.",
-  "hud.restartBlockedSeat": "Bu oturum buradan yeniden başlatılamaz: “{name}” istasyonu kullanıyor.",
+  "hud.restartBlockedSeat": "“{name}” istasyonu hâlâ başlıyor: oturumu yeniden başlatmak için biraz bekleyin.",
   "wn.kicker.star": "2.0'ın yıldızı",
   "wn.intro.nav": "2.0'a hoş geldiniz",
   "wn.intro.title": "OpenStreamMS 2.0 burada",

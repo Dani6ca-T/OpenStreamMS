@@ -900,7 +900,7 @@
   "hud.restartingSession": "このセッションを再起動しています… 数秒で戻ります。",
   "hud.restartSessionError": "セッションを再起動できませんでした。",
   "hud.restartBlockedKeyboard": "ここからは再起動できません: 「{name}」のキーボードのセッションのため、合成セッションが切断されます。",
-  "hud.restartBlockedSeat": "ここからは再起動できません: 席「{name}」が使用しています。",
+  "hud.restartBlockedSeat": "席「{name}」はまだ起動中です。少し待ってからセッションを再起動してください。",
   "wn.kicker.star": "2.0 の目玉",
   "wn.intro.nav": "2.0 へようこそ",
   "wn.intro.title": "OpenStreamMS 2.0 登場",

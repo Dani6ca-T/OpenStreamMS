@@ -900,7 +900,7 @@
   "hud.restartingSession": "Redémarrage de cette session… Elle revient dans quelques secondes.",
   "hud.restartSessionError": "Impossible de redémarrer la session.",
   "hud.restartBlockedKeyboard": "Cette session ne peut pas être redémarrée d'ici : c'est la session clavier de « {name} » et la session composée serait coupée.",
-  "hud.restartBlockedSeat": "Cette session ne peut pas être redémarrée d'ici : le poste « {name} » l'utilise.",
+  "hud.restartBlockedSeat": "Le poste « {name} » démarre encore : attendez un instant pour redémarrer la session.",
   "wn.kicker.star": "La vedette de la 2.0",
   "wn.intro.nav": "Bienvenue dans la 2.0",
   "wn.intro.title": "OpenStreamMS 2.0 est là",

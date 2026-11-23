@@ -380,8 +380,33 @@ internal sealed class ActiveSeatHost
                     PumpMessages();
                     ConsoleShare.Enforce();
 
+                    // La sesión del puesto se reinicia (HUD): el logo hasta que vuelva, y luego las
+                    // texturas de su agente nuevo, sin cerrar la ventana.
+                    bool forcePresent = false;
+                    if (Interlocked.Exchange(ref _pendingHandles, null) is { } newHandles)
+                    {
+                        foreach (var km in _keyedMutexes) try { km.Dispose(); } catch { }
+                        foreach (var tex in _sharedTextures) try { tex.Dispose(); } catch { }
+                        _sharedTextures = new ID3D11Texture2D[newHandles.Length];
+                        _keyedMutexes = new IDXGIKeyedMutex[newHandles.Length];
+                        for (int i = 0; i < newHandles.Length; i++)
+                        {
+                            _sharedTextures[i] = dev1.OpenSharedResource1<ID3D11Texture2D>(new IntPtr(newHandles[i]));
+                            _keyedMutexes[i] = _sharedTextures[i].QueryInterface<IDXGIKeyedMutex>();
+                        }
+                        _currentFrameIdx = -1;
+                        lastSeq = _frameSeq;
+                        Logger.Log($"[SeatHost] Agente nuevo de la sesión: {newHandles.Length} textura(s).");
+                    }
+                    if (Interlocked.Exchange(ref _pendingWaiting, null) is { } waiting && waiting.Length == width * height * 4)
+                    {
+                        _ctx!.UpdateSubresource(waiting.AsSpan(), _lastFrame!, 0, (uint)(width * 4));
+                        _curVisible = false;
+                        haveFrame = forcePresent = true;
+                    }
+
                     bool newFrame = _frameSeq != lastSeq, newCursor = _cursorSeq != lastCursor;
-                    if (!newFrame && !(newCursor && haveFrame)) continue;
+                    if (!newFrame && !(newCursor && haveFrame) && !forcePresent) continue;
 
                     // Primero se espera a que haya hueco para presentar y después se toma lo más nuevo:
                     // lo que llegue durante la espera (otro fotograma, más movimiento del cursor)
@@ -433,6 +458,10 @@ internal sealed class ActiveSeatHost
     }
 
     private volatile int _currentFrameIdx = -1;
+    /// <summary>Imagen de espera (BGRA, del tamaño de las texturas) pendiente de poner: la sesión se reinicia.</summary>
+    private volatile byte[]? _pendingWaiting;
+    /// <summary>Texturas de un agente nuevo (la sesión volvió) pendientes de abrir.</summary>
+    private volatile long[]? _pendingHandles;
     /// <summary>QPC de composición del último fotograma avisado (lo pone el agente).</summary>
     private long _currentFrameQpc;
     /// <summary>QPC de lectura del ratón del movimiento más antiguo aún no presentado (0 = ninguno).</summary>
@@ -513,6 +542,21 @@ internal sealed class ActiveSeatHost
                             int channels = json["channels"]?.GetValue<int>() ?? 2;
                             int bits = json["bits"]?.GetValue<int>() ?? 32;
                             SetupAudioFormat(sampleRate, channels, bits);
+                        }
+                        else if (json["op"]?.GetValue<string>() == "waiting" && json["path"]?.GetValue<string>() is { } waitPath)
+                        {
+                            // "OSWP", ancho, alto y los píxeles BGRA (WaitingImage).
+                            var bytes = File.ReadAllBytes(waitPath);
+                            if (bytes.Length > 12 && bytes.AsSpan(0, 4).SequenceEqual("OSWP"u8))
+                            {
+                                _pendingWaiting = bytes[12..];
+                                _wake.Set();
+                            }
+                        }
+                        else if (json["op"]?.GetValue<string>() == "reattach" && json["handles"] is JsonArray reHandles)
+                        {
+                            _pendingHandles = reHandles.Select(h => h!.GetValue<long>()).ToArray();
+                            _wake.Set();
                         }
                         else if (json["op"]?.GetValue<string>() == "audio_missing")
                         {

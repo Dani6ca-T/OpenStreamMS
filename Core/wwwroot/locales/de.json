@@ -900,7 +900,7 @@
   "hud.restartingSession": "Diese Sitzung startet neu… In ein paar Sekunden ist sie zurück.",
   "hud.restartSessionError": "Die Sitzung konnte nicht neu gestartet werden.",
   "hud.restartBlockedKeyboard": "Diese Sitzung kann hier nicht neu gestartet werden: Sie ist die Tastatursitzung von „{name}“, und die zusammengesetzte Sitzung würde abbrechen.",
-  "hud.restartBlockedSeat": "Diese Sitzung kann hier nicht neu gestartet werden: Platz „{name}“ verwendet sie.",
+  "hud.restartBlockedSeat": "Platz „{name}“ startet noch: Warte einen Moment, um die Sitzung neu zu starten.",
   "wn.kicker.star": "Das Highlight von 2.0",
   "wn.intro.nav": "Willkommen bei 2.0",
   "wn.intro.title": "OpenStreamMS 2.0 ist da",

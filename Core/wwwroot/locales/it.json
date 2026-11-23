@@ -900,7 +900,7 @@
   "hud.restartingSession": "Riavvio della sessione… Torna tra pochi secondi.",
   "hud.restartSessionError": "Impossibile riavviare la sessione.",
   "hud.restartBlockedKeyboard": "Questa sessione non si può riavviare da qui: è la sessione della tastiera di «{name}» e la sessione composta si interromperebbe.",
-  "hud.restartBlockedSeat": "Questa sessione non si può riavviare da qui: la usa la postazione «{name}».",
+  "hud.restartBlockedSeat": "La postazione «{name}» si sta ancora avviando: attendi un momento per riavviare la sessione.",
   "wn.kicker.star": "La star della 2.0",
   "wn.intro.nav": "Benvenuto nella 2.0",
   "wn.intro.title": "È arrivato OpenStreamMS 2.0",

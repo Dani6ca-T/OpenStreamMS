@@ -900,7 +900,7 @@
   "hud.restartingSession": "Relace se restartuje… Za pár sekund bude zpět.",
   "hud.restartSessionError": "Relaci se nepodařilo restartovat.",
   "hud.restartBlockedKeyboard": "Tuto relaci odsud nelze restartovat: je to relace klávesnice „{name}“ a složená relace by se přerušila.",
-  "hud.restartBlockedSeat": "Tuto relaci odsud nelze restartovat: používá ji stanoviště „{name}“.",
+  "hud.restartBlockedSeat": "Stanoviště „{name}“ se ještě spouští: chvíli počkejte a pak relaci restartujte.",
   "wn.kicker.star": "Hvězda verze 2.0",
   "wn.intro.nav": "Vítejte ve verzi 2.0",
   "wn.intro.title": "OpenStreamMS 2.0 je tady",
