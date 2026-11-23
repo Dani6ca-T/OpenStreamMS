@@ -214,7 +214,8 @@ public partial class StreamSessionService
                 return;
             }
             Logger.Log($"[{c.Name}] Sesión compuesta activa: {string.Join(", ", members.Select(m => m.Name))}; " +
-                       $"teclado, ratón y audio de '{owner.Name}' (sesión de Windows {c.RdpSessionId}).", c.Id);
+                       $"teclado y ratón de '{owner.Name}' (sesión de Windows {c.RdpSessionId}).", c.Id);
+            EnsureCompositeAudio(c);
         }
         catch
         {
@@ -278,6 +279,7 @@ public partial class StreamSessionService
     /// <param name="restarting">Reinicio de la compuesta: los miembros que arrancó siguen en marcha y siguen siendo suyos.</param>
     private void ReleaseComposite(StreamSession c, bool restarting = false)
     {
+        StopCompositeAudio(c);
         try { File.Delete(Path.Combine(SunshineConfigDir(c.Id), MosaicLayout.FileName)); }
         catch (Exception ex) { Logger.Warning($"[{c.Name}] No se pudo borrar {MosaicLayout.FileName}: {ex.Message}", c.Id); }
 
@@ -330,6 +332,8 @@ public partial class StreamSessionService
                     _ = Task.Run(() => { try { Stop(c.Id); } catch { } });
                     continue;
                 }
+
+                EnsureCompositeAudio(c);
 
                 bool changed = false;
                 foreach (var slot in c.Composite!)
