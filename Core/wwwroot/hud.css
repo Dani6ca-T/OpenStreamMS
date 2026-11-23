@@ -22,6 +22,14 @@ h2 { margin: 0 0 8px; font-size: 13px; font-weight: 600; text-transform: upperca
 .hud-tag { margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 12px; vertical-align: middle; }
 .hud-me { margin: 4px 0 0; color: var(--muted); }
 .hud-me b { color: var(--text); font-weight: 600; }
+.hud-actions { display: flex; align-items: center; gap: 8px; }
+.hud-power { display: flex; gap: 8px; }
+.hud-power[hidden], .hud-pending[hidden] { display: none; }
+.hud-btn { height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--text); font: inherit; font-size: 14px; cursor: pointer; }
+.hud-btn:hover, .hud-btn:focus-visible, .hud-btn:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(91,140,255,.35); }
+.hud-btn.danger { border-color: rgba(255,93,108,.5); }
+.hud-btn.confirm { background: var(--bad); border-color: var(--bad); color: #fff; }
+.hud-pending { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px solid var(--warn); border-radius: 12px; background: rgba(242,177,52,.12); color: var(--warn); font-weight: 600; }
 .hud-close { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
 .hud-close:hover, .hud-close:focus-visible { border-color: var(--accent); outline: none; }
 

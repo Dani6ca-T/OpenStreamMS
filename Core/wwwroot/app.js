@@ -1739,8 +1739,26 @@ async function openSettingsModal(pane) {
   const st = await res.json();
   const radio = document.querySelector(`#settings-log-level input[value="${st.logLevel}"]`);
   if (radio) radio.checked = true;
+  byId('settings-hud-power').checked = !!st.hudPowerAllowed;
   show('settings-modal');
   document.querySelector('#settings-modal .settings-tab[aria-selected="true"]').focus();
+}
+
+// Ajustes → HUD: se guarda al marcarlo, sin el botón Guardar.
+async function saveHudPower(box) {
+  box.disabled = true;
+  try {
+    const res = await api('PUT', '/api/settings/hud-power', { allowed: box.checked });
+    if (!res) return;
+    if (!res.ok) {
+      box.checked = !box.checked;
+      toast(await I18n.responseError(res) || t('toast.connectionError'), true);
+      return;
+    }
+    toast(t(box.checked ? 'settings.hudPowerOn' : 'settings.hudPowerOff'));
+  } finally {
+    box.disabled = false;
+  }
 }
 
 async function saveSettings() {

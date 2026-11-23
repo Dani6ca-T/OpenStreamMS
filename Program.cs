@@ -484,14 +484,18 @@ static bool IsCompositeSteamRequest(HttpContext ctx)
 }
 
 /// <summary>
-/// GET /api/hud hecho a localhost por un proceso (el WebView2 del HUD) de la sesión de Windows de
-/// una sesión en marcha. Devuelve esa sesión de Windows.
+/// GET /api/hud o POST /api/hud/power/… hecho a localhost por un proceso (el WebView2 del HUD, o
+/// las apps Reboot / Power Off de Moonlight) de la sesión de Windows de una sesión en marcha.
+/// Devuelve esa sesión de Windows. Apagar además exige el ajuste HudPowerAllowed.
 /// </summary>
 static bool IsHudRequest(HttpContext ctx, out uint windowsSession)
 {
     windowsSession = 0;
-    if (!HttpMethods.IsGet(ctx.Request.Method)) return false;
-    if (!string.Equals(ctx.Request.Path.Value?.TrimEnd('/'), "/api/hud", StringComparison.OrdinalIgnoreCase)) return false;
+    var path = (ctx.Request.Path.Value ?? "").TrimEnd('/').ToLowerInvariant();
+    bool allowed = HttpMethods.IsGet(ctx.Request.Method)
+        ? path == "/api/hud"
+        : HttpMethods.IsPost(ctx.Request.Method) && path is "/api/hud/power/restart" or "/api/hud/power/shutdown" or "/api/hud/power/cancel";
+    if (!allowed) return false;
     var host = ctx.Request.Host.Host.ToLowerInvariant();
     if (host is not ("localhost" or "127.0.0.1" or "[::1]" or "::1")) return false;
     var conn = ctx.Connection;

@@ -9,7 +9,11 @@ namespace OpenStreamMS.Core.Api;
 /// <summary>Ajustes globales que se cambian desde el panel.</summary>
 /// <param name="LogLevel">Nivel mínimo de log: Info, Warning, Error u Off.</param>
 /// <param name="WhatsNewDismissed">Versión de las novedades que no se vuelve a abrir sola; vacío = ninguna.</param>
-public record SettingsResponse(string LogLevel, string WhatsNewDismissed = "");
+/// <param name="HudPowerAllowed">Se puede apagar y reiniciar el PC desde el HUD.</param>
+public record SettingsResponse(string LogLevel, string WhatsNewDismissed = "", bool HudPowerAllowed = false);
+
+/// <param name="Allowed">Permitir apagar y reiniciar el PC desde el HUD y las apps de Moonlight.</param>
+public record SetHudPowerRequest(bool Allowed);
 
 public record SetLogLevelRequest(string LogLevel);
 
@@ -27,11 +31,26 @@ public record NetworkInfoResponse(string HostName, List<string> Addresses);
 /// <summary>Ajustes globales del servicio y datos del equipo para conectar clientes.</summary>
 public static class SettingsEndpoints
 {
+    private static SettingsResponse Settings(ServiceConfig cfg) =>
+        new(cfg.LogThreshold.ToString(), cfg.WhatsNewDismissed, cfg.HudPowerAllowed);
+
     public static IEndpointRouteBuilder MapSettingsApi(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/settings").WithTags("Settings");
 
-        group.MapGet("/", (ServiceConfig cfg) => TypedResults.Ok(new SettingsResponse(cfg.LogThreshold.ToString(), cfg.WhatsNewDismissed)))
+        group.MapPut("/hud-power", (SetHudPowerRequest req, ServiceConfig cfg) =>
+             {
+                 if (cfg.HudPowerAllowed != req.Allowed)
+                 {
+                     Logger.Warning($"[Settings] Apagar y reiniciar desde el HUD: {(req.Allowed ? "permitido" : "no permitido")}.");
+                     cfg.HudPowerAllowed = req.Allowed;
+                     cfg.Save();
+                 }
+                 return Results.Ok(Settings(cfg));
+             })
+             .WithSummary("Permite (o no) apagar y reiniciar el PC desde el HUD de las sesiones y desde las apps Reboot / Power Off de Moonlight.");
+
+        group.MapGet("/", (ServiceConfig cfg) => TypedResults.Ok(Settings(cfg)))
              .WithSummary("Ajustes globales.");
 
         group.MapPut("/whatsnew", (DismissWhatsNewRequest req, ServiceConfig cfg) =>
@@ -43,7 +62,7 @@ public static class SettingsEndpoints
                      cfg.WhatsNewDismissed = version;
                      cfg.Save();
                  }
-                 return Results.Ok(new SettingsResponse(cfg.LogThreshold.ToString(), version));
+                 return Results.Ok(Settings(cfg));
              })
              .WithSummary("No volver a abrir solas las novedades de esta versión del panel, en ningún navegador.");
 
@@ -57,7 +76,7 @@ public static class SettingsEndpoints
                  cfg.LogLevel = level.ToString();
                  cfg.Save();
                  Logger.SetThreshold(level);
-                 return Results.Ok(new SettingsResponse(level.ToString(), cfg.WhatsNewDismissed));
+                 return Results.Ok(Settings(cfg));
              })
              .WithSummary("Cambia el nivel de log global (servicio, bandeja, puestos y, al relanzarse, Sunshine).");
 

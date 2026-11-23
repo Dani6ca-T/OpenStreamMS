@@ -57,6 +57,11 @@ namespace OpenStreamMS.Core.Helpers
         /// pidió no volver a mostrar. Vale para cualquier navegador; con una versión nueva vuelven a salir.
         /// </summary>
         public string WhatsNewDismissed      { get; set; } = "";
+        /// <summary>
+        /// Permite apagar y reiniciar el PC desde el HUD de las sesiones y los puestos (y con las apps
+        /// Reboot / Power Off de Moonlight). Desactivado por defecto: cualquiera en una sesión podría hacerlo.
+        /// </summary>
+        public bool HudPowerAllowed          { get; set; } = false;
 
         private static readonly JsonSerializerOptions JsonOpts =
             new() { WriteIndented = true };

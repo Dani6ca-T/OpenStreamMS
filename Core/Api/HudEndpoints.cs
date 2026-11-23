@@ -1,3 +1,5 @@
+using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services;
 using OpenStreamMS.Services.Gamepad;
 using OpenStreamMS.Services.Metrics;
 using OpenStreamMS.Services.Seats;
@@ -22,7 +24,8 @@ public record HudSession(Guid Id, string Name, bool IsMine, string? Seat, string
                          double? Cpu, double? Gpu, double? GpuEncode, string? Encoder, bool Software,
                          IReadOnlyList<HudDevice> Devices);
 
-public record HudResponse(HudPc Pc, IReadOnlyList<HudSession> Sessions);
+/// <param name="PowerAllowed">Ajustes permite apagar y reiniciar el PC desde el HUD.</param>
+public record HudResponse(HudPc Pc, IReadOnlyList<HudSession> Sessions, bool PowerAllowed);
 
 /// <summary>
 /// API del HUD (<c>/hud.html</c> dentro de cada sesión). Sin credenciales: el middleware solo la deja
@@ -35,15 +38,41 @@ public static class HudEndpoints
 
     public static IEndpointRouteBuilder MapHudApi(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/hud", (HttpContext ctx, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics) =>
+        app.MapGet("/api/hud", (HttpContext ctx, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics, ServiceConfig cfg) =>
             {
                 uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
-                return TypedResults.Ok(Build(caller, sessions, seats, metrics));
+                return TypedResults.Ok(Build(caller, sessions, seats, metrics) with { PowerAllowed = cfg.HudPowerAllowed });
             })
            .WithTags("HUD")
            .WithSummary("Estado para el HUD de una sesión: uso del equipo, sesiones en marcha y sus dispositivos.");
+
+        app.MapPost("/api/hud/power/{action}", (string action, HttpContext ctx, StreamSessionService sessions, ServiceConfig cfg) =>
+            {
+                if (!cfg.HudPowerAllowed) return Results.StatusCode(StatusCodes.Status403Forbidden);
+                uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
+                var who = sessions.GetAll().FirstOrDefault(s => s.State == SessionState.Running && s.RdpSessionId == caller)?.Name
+                          ?? $"Windows {caller}";
+                switch (action.ToLowerInvariant())
+                {
+                    case "restart":
+                    case "shutdown":
+                        bool restart = action.Equals("restart", StringComparison.OrdinalIgnoreCase);
+                        Logger.Warning($"[HUD] {(restart ? "Reinicio" : "Apagado")} del PC pedido desde '{who}'.");
+                        return PowerEndpoints.RunShutdown(restart, new PowerActionRequest(PowerDelaySeconds));
+                    case "cancel":
+                        Logger.Log($"[HUD] Apagado/reinicio cancelado desde '{who}'.");
+                        return PowerEndpoints.Cancel();
+                    default:
+                        return Results.BadRequest("action: restart | shutdown | cancel");
+                }
+            })
+           .WithTags("HUD")
+           .WithSummary("Apagar, reiniciar o cancelar desde el HUD o las apps de Moonlight (solo si Ajustes lo permite).");
         return app;
     }
+
+    /// <summary>Margen antes de apagar: deja ver el aviso y cancelar.</summary>
+    public const int PowerDelaySeconds = 10;
 
     internal static HudResponse Build(uint callerWindowsSession, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics)
     {
@@ -75,6 +104,6 @@ public static class HudEndpoints
             })
             .ToList();
 
-        return new HudResponse(new HudPc(m.Cpu, m.Gpu, m.GpuEncode, m.MemUsedGb, m.MemTotalGb), list);
+        return new HudResponse(new HudPc(m.Cpu, m.Gpu, m.GpuEncode, m.MemUsedGb, m.MemTotalGb), list, false);
     }
 }

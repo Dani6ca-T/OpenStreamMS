@@ -14,8 +14,18 @@
         <h1 id="hud-title">OpenStreamMS <span class="hud-tag" data-i18n="hud.title">HUD</span></h1>
         <p class="hud-me" id="hud-me"></p>
       </div>
-      <button type="button" class="hud-close" id="hud-close" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
+      <div class="hud-actions">
+        <div class="hud-power" id="hud-power" hidden>
+          <button type="button" class="hud-btn nav" id="hud-restart" data-action="restart" data-i18n="hud.restart">Reiniciar el PC</button>
+          <button type="button" class="hud-btn danger nav" id="hud-shutdown" data-action="shutdown" data-i18n="hud.shutdown">Apagar el PC</button>
+        </div>
+        <button type="button" class="hud-close nav" id="hud-close" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
+      </div>
     </header>
+    <div class="hud-pending" id="hud-pending" role="alert" hidden>
+      <span id="hud-pending-text"></span>
+      <button type="button" class="hud-btn nav" id="hud-cancel" data-i18n="hud.cancel">Cancelar</button>
+    </div>
 
     <section class="hud-pc" aria-labelledby="hud-pc-title">
       <h2 id="hud-pc-title" data-i18n="hud.pc">Este equipo</h2>

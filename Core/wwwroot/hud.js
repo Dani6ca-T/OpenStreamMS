@@ -41,9 +41,13 @@ function render(data) {
     ? esc(t('hud.this')) + ': <b>' + esc(mine.name) + '</b>' + (mine.seat ? ' · ' + esc(t('hud.seat', { name: mine.seat })) : '')
     : '';
 
+  byId('hud-power').hidden = !data.powerAllowed;
+
+  // Al redibujar la lista solo se recoloca el foco si estaba en ella (no en los botones).
+  const inList = byId('hud-list').contains(document.activeElement) || document.activeElement === document.body;
   const focused = document.activeElement?.dataset?.id;
   byId('hud-list').innerHTML = data.sessions.map(s => `
-    <article class="sess${s.isMine ? ' mine' : ''}" tabindex="0" data-id="${esc(s.id)}">
+    <article class="sess nav${s.isMine ? ' mine' : ''}" tabindex="0" data-id="${esc(s.id)}">
       <div class="sess-name">${esc(s.name)}
         ${s.isMine ? `<span class="chip me">${esc(t('hud.this'))}</span>` : ''}
         ${s.seat ? `<span class="chip">${esc(t('hud.seat', { name: s.seat }))}</span>` : ''}
@@ -60,9 +64,70 @@ function render(data) {
       </ul>
     </article>`).join('');
 
+  if (!inList) return;
   const again = focused && byId('hud-list').querySelector(`[data-id="${CSS.escape(focused)}"]`);
   (again || byId('hud-list').querySelector('.sess.mine') || byId('hud-list').querySelector('.sess'))?.focus({ preventScroll: false });
 }
+
+// ── Apagar / reiniciar (solo si Ajustes → HUD lo permite) ───────────────────
+
+const CONFIRM_MS = 4000;
+let confirmTimer = null;
+let countdownTimer = null;
+
+function resetConfirm() {
+  clearTimeout(confirmTimer);
+  document.querySelectorAll('#hud-power .hud-btn').forEach(b => {
+    b.classList.remove('confirm');
+    b.textContent = t('hud.' + b.dataset.action);
+  });
+}
+
+// Primera pulsación: pide confirmación; segunda (en 4 s): lo hace.
+async function powerPressed(btn) {
+  if (!btn.classList.contains('confirm')) {
+    resetConfirm();
+    btn.classList.add('confirm');
+    btn.textContent = t('hud.confirm');
+    confirmTimer = setTimeout(resetConfirm, CONFIRM_MS);
+    return;
+  }
+  resetConfirm();
+  const action = btn.dataset.action;
+  try {
+    const res = await fetch('/api/hud/power/' + action, { method: 'POST' });
+    if (!res.ok) throw new Error(res.status);
+    const { delaySeconds } = await res.json();
+    showPending(action, delaySeconds);
+  } catch {
+    showPendingText(t('hud.powerError'), false);
+  }
+}
+
+function showPending(action, seconds) {
+  clearInterval(countdownTimer);
+  let left = seconds;
+  const tick = () => showPendingText(t(action === 'restart' ? 'hud.restarting' : 'hud.shuttingDown', { s: left }), true);
+  tick();
+  countdownTimer = setInterval(() => { left = Math.max(0, left - 1); tick(); }, 1000);
+  byId('hud-cancel').focus();
+}
+
+function showPendingText(text, cancellable) {
+  byId('hud-pending-text').textContent = text;
+  byId('hud-cancel').hidden = !cancellable;
+  byId('hud-pending').hidden = false;
+}
+
+async function cancelPower() {
+  clearInterval(countdownTimer);
+  byId('hud-pending').hidden = true;
+  try { await fetch('/api/hud/power/cancel', { method: 'POST' }); } catch { /* el aviso de Windows también deja cancelar */ }
+  byId('hud-list').querySelector('.sess.mine, .sess')?.focus();
+}
+
+document.querySelectorAll('#hud-power .hud-btn').forEach(b => b.addEventListener('click', () => powerPressed(b)));
+byId('hud-cancel').addEventListener('click', cancelPower);
 
 async function refresh() {
   try {
@@ -90,7 +155,7 @@ function close() {
 }
 
 function moveFocus(step) {
-  const items = [...document.querySelectorAll('.sess')];
+  const items = [...document.querySelectorAll('.nav')].filter(el => el.offsetParent !== null && !el.closest('[hidden]'));
   if (!items.length) return;
   const i = Math.max(0, items.indexOf(document.activeElement));
   items[(i + step + items.length) % items.length].focus();
@@ -103,13 +168,14 @@ document.addEventListener('keydown', e => {
 });
 byId('hud-close').addEventListener('click', close);
 
-// Mando: cruceta para moverse, B para cerrar (A queda para las acciones de la próxima versión).
+// Mando: cruceta para moverse, A para pulsar el botón con el foco, B para cerrar.
 function pollGamepads() {
   if (open) {
     const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
     pads.forEach((p, i) => {
       const prev = lastPadButtons[i] || [];
       const pressed = b => p.buttons[b]?.pressed && !prev[b];
+      if (pressed(0) && document.activeElement?.tagName === 'BUTTON') document.activeElement.click();   // A
       if (pressed(1)) close();                          // B
       if (pressed(13) || pressed(15)) moveFocus(1);     // abajo, derecha
       if (pressed(12) || pressed(14)) moveFocus(-1);    // arriba, izquierda
@@ -121,7 +187,7 @@ function pollGamepads() {
 
 window.chrome?.webview?.addEventListener('message', e => {
   if (e.data === 'open') { open = true; lastPadButtons = []; startPolling(); }
-  else if (e.data === 'close') { open = false; stopPolling(); }
+  else if (e.data === 'close') { open = false; stopPolling(); resetConfirm(); }
 });
 
 (async () => {
