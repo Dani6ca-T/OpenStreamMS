@@ -20,9 +20,11 @@ public record HudDevice(string Kind, string Label, string Source, int Number);
 /// <param name="IsMine">Es la sesión desde la que se abre el HUD.</param>
 /// <param name="Seat">Puesto encendido que la muestra; null si solo va por stream.</param>
 /// <param name="Composite">Sesión compuesta en marcha que la usa; null si ninguna.</param>
+/// <param name="KeyboardHere">Recibe el teclado y el ratón de su compuesta.</param>
+/// <param name="CanTakeKeyboard">Es de la misma compuesta que quien abre el HUD y no los tiene: se le pueden pasar.</param>
 public record HudSession(Guid Id, string Name, bool IsMine, string? Seat, string? Composite,
                          double? Cpu, double? Gpu, double? GpuEncode, string? Encoder, bool Software,
-                         IReadOnlyList<HudDevice> Devices);
+                         IReadOnlyList<HudDevice> Devices, bool KeyboardHere = false, bool CanTakeKeyboard = false);
 
 /// <param name="PowerAllowed">La sesión desde la que se abre el HUD puede apagar y reiniciar el PC.</param>
 /// <param name="Theme">Tema del panel (theme.js).</param>
@@ -80,6 +82,20 @@ public static class HudEndpoints
             })
            .WithTags("HUD")
            .WithSummary("Reinicia la sesión desde la que se abre el HUD (no la del teclado de una compuesta en marcha ni la de un puesto encendido).");
+
+        app.MapPost("/api/hud/keyboard/{id:guid}", (Guid id, HttpContext ctx, StreamSessionService sessions) =>
+            {
+                uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
+                var me = CallerSession(caller, sessions);
+                // Solo entre miembros de la misma compuesta en marcha que quien llama.
+                if (me?.CompositeOf is not { } composite || sessions.Get(id)?.CompositeOf != composite)
+                    return Results.NotFound();
+                try { sessions.SetCompositeInputTarget(composite, id); }
+                catch (InvalidOperationException) { return Results.Conflict(); }
+                return Results.NoContent();
+            })
+           .WithTags("HUD")
+           .WithSummary("Pasa el teclado y el ratón de la sesión compuesta de quien abre el HUD a otro de sus miembros.");
 
         app.MapPost("/api/hud/power/{action}", (string action, HttpContext ctx, StreamSessionService sessions) =>
             {
@@ -143,6 +159,7 @@ public static class HudEndpoints
         var pads = GamepadSessionIsolation.Current?.VirtualPads ?? [];
         var runningSeats = seats.GetAll().Where(s => s.State == SeatState.Running).ToList();
         var all = sessions.GetAll().ToList();
+        var myComposite = CallerSession(callerWindowsSession, sessions)?.CompositeOf;
 
         var list = all
             .Where(s => s.State == SessionState.Running && s.RdpSessionId > 0 && !s.IsComposite && !s.Local)
@@ -162,8 +179,11 @@ public static class HudEndpoints
 
                 m.Sessions.TryGetValue(s.Id, out var sm);
                 var composite = s.CompositeOf is { } c ? all.FirstOrDefault(x => x.Id == c)?.Name : null;
+                bool keyboard = s.CompositeOf is { } cid && sessions.CompositeInputTarget(cid) == s.Id;
+                bool canTake = !keyboard && s.CompositeOf is { } sc && myComposite == sc;
                 return new HudSession(s.Id, s.Name, s.RdpSessionId == callerWindowsSession, seat?.Name, composite,
-                                      sm?.Cpu, sm?.Gpu, sm?.GpuEncode, sm?.Encoder, sm?.Software ?? false, devices);
+                                      sm?.Cpu, sm?.Gpu, sm?.GpuEncode, sm?.Encoder, sm?.Software ?? false, devices,
+                                      keyboard, canTake);
             })
             .ToList();
 

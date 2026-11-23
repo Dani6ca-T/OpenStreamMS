@@ -62,6 +62,8 @@ body.hud-body { color: var(--text); font-size: 15px; }
 .hud-chip { padding: 1px 9px; border-radius: 999px; border: 1px solid rgba(var(--c-ink), .14); background: rgba(var(--c-ink), .06); color: var(--muted); font-size: 12px; font-weight: 500; }
 .hud-chip.hud-me-chip { border-color: var(--accent); background: rgba(var(--c-accent), .28); color: var(--text); }
 .hud-chip.hud-warn-chip { border-color: var(--orange); color: var(--orange); }
+.hud-chip.hud-kb-chip { border-color: var(--green, var(--accent)); color: var(--text); }
+.hud-take-kb { margin-top: 10px; }
 .hud-sess-meters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
 .hud-sess-meters .hud-meter { padding: 7px 9px; border-radius: 10px; background: rgba(var(--c-ink), .05); backdrop-filter: none; }
 .hud-sess-meters .hud-meter-top b { font-size: 15px; }

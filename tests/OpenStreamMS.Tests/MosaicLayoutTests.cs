@@ -98,4 +98,17 @@ public class MosaicLayoutTests
     [Fact]
     public void Render_UsesLfOnly() =>
         Assert.DoesNotContain('\r', MosaicLayout.Render(1920, 1080, [(1u, SeatScreenArea.Left), (2u, SeatScreenArea.Right)]));
+
+    [Fact]
+    public void RenderInputTarget_WritesThePartInCanvasPixels()
+    {
+        var lines = MosaicLayout.RenderInputTarget(7, SeatScreenArea.Right, 1920, 1080).Split('\n');
+        Assert.StartsWith("#", lines[0]);
+        Assert.Equal("7 960 0 960 1080 1920 1080", lines[1]);
+        Assert.Equal("", lines[2]);
+    }
+
+    [Fact]
+    public void RenderInputTarget_Quarter() =>
+        Assert.EndsWith("\n3 0 540 960 540 1920 1080\n", MosaicLayout.RenderInputTarget(3, SeatScreenArea.BottomLeft, 1920, 1080));
 }
