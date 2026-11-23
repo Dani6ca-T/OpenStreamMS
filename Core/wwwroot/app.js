@@ -618,7 +618,7 @@ function openEditModal(id) {
   byId('sess-exe').value          = s.sunshineExePath || '';
   byId('sess-sunshine-name').value = s.sunshineName || '';
   byId('sess-capture').value      = s.capture || '';
-  byId('sess-gamepad').value      = s.gamepadType || 'auto';
+  byId('sess-gamepad').value      = s.gamepadType || 'ds4';
   byId('sess-allow-power').checked = !!s.allowPower;
   byId('sess-encoder').value      = s.encoder || '';
   byId('sess-output').value       = s.outputName || '';
@@ -717,7 +717,7 @@ async function submitSession(e) {
       useStreamProfile:   !local && byId('sess-profile').checked,
       sunshineName:       byId('sess-sunshine-name').value.trim() || null,
       capture:            byId('sess-capture').value || null,
-      gamepadType:        byId('sess-gamepad').value || 'auto',
+      gamepadType:        byId('sess-gamepad').value || 'ds4',
       allowPower:         !local && byId('sess-allow-power').checked,
       encoder:            byId('sess-encoder').value || null,
       outputName:         byId('sess-output').value.trim() || null,

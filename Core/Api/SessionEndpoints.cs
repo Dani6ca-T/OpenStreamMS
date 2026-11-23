@@ -100,7 +100,7 @@ public record CreateSessionRequest(
     int RdpDisplayScale = 100,
     /// <summary>Ritmo de composición de la sesión RDP: Smooth (más fluido) o Efficient (menos CPU/GPU).</summary>
     RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth,
-    /// <summary>Mando que emula Sunshine: "auto" (según el mando del cliente), "x360" o "ds4". Null = auto.</summary>
+    /// <summary>Mando que emula Sunshine: "auto" (según el mando del cliente), "x360" o "ds4". Null = ds4.</summary>
     string? GamepadType = null,
     /// <summary>Permitir apagar y reiniciar el PC desde la sesión (HUD y apps Reboot / Power Off de Moonlight).</summary>
     bool AllowPower = false

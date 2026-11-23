@@ -17,7 +17,7 @@ namespace OpenStreamMS.Core.Api;
 /// <param name="Enabled">Arrancarla con el servicio.</param>
 /// <param name="StreamPort">Puerto base de su Sunshine; 0 = el primero libre.</param>
 /// <param name="Protocol">Protocolos de su Sunshine.</param>
-/// <param name="GamepadType">Mando que emula su Sunshine: auto, x360 o ds4; null = auto al crear, sin cambios al editar.</param>
+/// <param name="GamepadType">Mando que emula su Sunshine: auto, x360 o ds4; null = DualShock 4 al crear, sin cambios al editar.</param>
 public sealed record CompositeDefinition(
     string Name, IReadOnlyList<CompositeSlot> Slots, Guid? Input,
     int Width, int Height, int FrameRate, bool Enabled,
@@ -67,7 +67,7 @@ public partial class StreamSessionService
             RdpHeight          = def.Height > 0 ? def.Height : 1080,
             RdpFrameRate       = NormalizeRdpFrameRate(def.FrameRate),
             Enabled            = def.Enabled,
-            GamepadType        = StreamSession.NormalizeGamepadType(def.GamepadType) ?? "auto",
+            GamepadType        = StreamSession.NormalizeGamepadType(def.GamepadType) ?? StreamSession.DefaultGamepadType,
             Capture            = "remoteidd",
             StreamProtocol     = def.Protocol,
             SunshineStreamPort = def.StreamPort > 0 ? def.StreamPort : suggested.SunshineStreamPort,
