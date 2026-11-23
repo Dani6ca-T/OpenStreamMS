@@ -182,6 +182,8 @@ public partial class StreamSessionService
             c.StartPhase = "sunshine";
             var user = ResolveUser(owner);
             EnsureSunshineInstance(c, user.Domain, user.Username);
+            try { Services.Sunshine.SunshineConfigurator.ConfigureCompositeSteamEntry(GetSunshineInstanceExe(c.Id), c.Id); }
+            catch (Exception ex) { Logger.Warning($"[{c.Name}] No se pudo configurar la app Steam de la sesión compuesta: {ex.Message}", c.Id); }
             var result = GetOrCreateSunshineManager(c).EnsureRunning(c.RdpSessionId);
             c.SunshinePid = result.Pid;
             if (result.Status == Services.Sunshine.SunshineRunStatus.LaunchFailed)
@@ -353,6 +355,41 @@ public partial class StreamSessionService
                 Logger.Warning($"[{c.Name}] Error vigilando la sesión compuesta: {ex.Message}", c.Id);
             }
         }
+    }
+
+    // ── Steam ────────────────────────────────────────────────────────────────
+
+    /// <summary>true si <paramref name="windowsSession"/> es la sesión de Windows de la compuesta en marcha <paramref name="id"/>.</summary>
+    public bool IsCompositeWindowsSession(Guid id, uint windowsSession) =>
+        _sessions.TryGetValue(id, out var c) && c.IsComposite && c.State == SessionState.Running &&
+        windowsSession != 0 && c.RdpSessionId == windowsSession;
+
+    /// <summary>
+    /// App Steam de la compuesta: abre (o cierra) Big Picture en cada sesión de sus huecos, no solo
+    /// en la del teclado, donde corre su Sunshine. Devuelve en cuántas sesiones se lanzó.
+    /// </summary>
+    public int CompositeSteam(Guid id, bool open)
+    {
+        if (!_sessions.TryGetValue(id, out var c) || !c.IsComposite) throw new KeyNotFoundException();
+        if (c.State != SessionState.Running) throw new InvalidOperationException(RequestCulture.T("error.request"));
+
+        int launched = 0;
+        foreach (var windowsSession in c.Composite!
+                     .Select(slot => _sessions.TryGetValue(slot.Session, out var m) && m.State == SessionState.Running ? m.RdpSessionId : 0u)
+                     .Where(s => s != 0)
+                     .Distinct())
+        {
+            try
+            {
+                if (SteamIsolation.OpenOrCloseBigPicture(windowsSession, open)) launched++;
+            }
+            catch (Exception ex)
+            {
+                Logger.Warning($"[{c.Name}] No se pudo {(open ? "abrir" : "cerrar")} Steam en la sesión de Windows {windowsSession}: {ex.Message}", c.Id);
+            }
+        }
+        Logger.Log($"[{c.Name}] Steam Big Picture {(open ? "abierto" : "cerrado")} en {launched} sesión(es).", c.Id);
+        return launched;
     }
 
     // ── Mandos ───────────────────────────────────────────────────────────────

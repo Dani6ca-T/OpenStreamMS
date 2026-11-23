@@ -20,6 +20,26 @@ internal static class SteamIsolation
 
     private static string Launcher => Path.Combine(AppContext.BaseDirectory, "steam", "osms-steam.exe");
 
+    /// <summary>
+    /// Abre (o cierra) Steam Big Picture en una sesión de Windows, como su usuario y por
+    /// <c>osms-steam.exe</c> si está instalado. Cerrar solo hace algo si ya hay un steam.exe en esa
+    /// sesión: <c>steam://close/bigpicture</c> arrancaría Steam si no lo está.
+    /// </summary>
+    /// <returns>false si no se lanzó nada (cerrar sin Steam abierto).</returns>
+    public static bool OpenOrCloseBigPicture(uint rdpSessionId, bool open)
+    {
+        if (!open && !System.Diagnostics.Process.GetProcessesByName("steam").Any(p => p.SessionId == rdpSessionId))
+            return false;
+        string url = open ? "steam://open/bigpicture" : "steam://close/bigpicture";
+        var launcher = new ProcessInSession();
+        if (File.Exists(Launcher))
+            launcher.LaunchInSession(rdpSessionId, Launcher, url, visible: true);
+        else
+            launcher.LaunchInSession(rdpSessionId, Path.Combine(Environment.SystemDirectory, "rundll32.exe"),
+                                     $"url.dll,FileProtocolHandler {url}", visible: true);
+        return true;
+    }
+
     public static void PrepareSession(uint rdpSessionId, string username, Guid sessionId)
     {
         if (!File.Exists(Launcher) || SteamExe() is not { } steamExe) return;

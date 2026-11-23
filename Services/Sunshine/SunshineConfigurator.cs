@@ -167,6 +167,81 @@ namespace OpenStreamMS.Services.Sunshine
             }
         }
 
+        /// <summary>Script de la app Steam de las sesiones compuestas.</summary>
+        public const string CompositeSteamScript = "osms-composite-steam.ps1";
+
+        private static string CompositeSteamCommand(string script, Guid compositeId, string action) =>
+            $"powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -WindowStyle Hidden -File \"{script}\" -Composite {compositeId} -Action {action}";
+
+        /// <summary>
+        /// App Steam Big Picture de una sesión compuesta: en vez de abrir Steam en la sesión de su
+        /// Sunshine (la del teclado), pide al servicio que lo abra en las de todos los huecos, y su
+        /// undo lo cierra en todas. Si <c>apps.json</c> aún no existe se crea desde la plantilla de
+        /// Sunshine. Idempotente. Va después de <see cref="ConfigureSteamEntry"/>, que ya no la toca
+        /// (su cmd no contiene <c>steam://open/bigpicture</c>).
+        /// </summary>
+        public static void ConfigureCompositeSteamEntry(string sunshineExePath, Guid compositeId, string? scriptPath = null)
+        {
+            string configDir  = Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "config");
+            string appsFile   = Path.Combine(configDir, "apps.json");
+            string assetsFile = Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "assets", "apps.json");
+            string script     = scriptPath ?? Path.Combine(AppContext.BaseDirectory, "Scripts", CompositeSteamScript);
+            if (!File.Exists(script)) return;
+            if (!File.Exists(appsFile))
+            {
+                if (!File.Exists(assetsFile)) return;
+                Directory.CreateDirectory(configDir);
+                File.Copy(assetsFile, appsFile);
+            }
+
+            JsonObject root = JsonNode.Parse(File.ReadAllText(appsFile))?.AsObject() ?? new JsonObject();
+            if (root["apps"] is not JsonArray apps) return;
+
+            string open  = CompositeSteamCommand(script, compositeId, "open");
+            string close = CompositeSteamCommand(script, compositeId, "close");
+            bool modified = false;
+            foreach (var node in apps)
+            {
+                if (node is not JsonObject app) continue;
+                string? appCmd = app["cmd"]?.GetValue<string>();
+                if (appCmd is null ||
+                    !(appCmd.Contains(SteamOpenBigPicture, StringComparison.OrdinalIgnoreCase) ||
+                      appCmd.Contains(CompositeSteamScript, StringComparison.OrdinalIgnoreCase)))
+                    continue;
+
+                if (appCmd != open) { app["cmd"] = open; modified = true; }
+
+                if (app["prep-cmd"] is not JsonArray prepCmds)
+                {
+                    app["prep-cmd"] = prepCmds = new JsonArray();
+                    modified = true;
+                }
+                bool hasUndo = false;
+                foreach (var cmdNode in prepCmds)
+                {
+                    if (cmdNode is not JsonObject prep) continue;
+                    string? undo = prep["undo"]?.GetValue<string>();
+                    if (undo is null ||
+                        !(undo.Contains("steam://close/bigpicture", StringComparison.OrdinalIgnoreCase) ||
+                          undo.Contains(CompositeSteamScript, StringComparison.OrdinalIgnoreCase)))
+                        continue;
+                    hasUndo = true;
+                    if (undo != close) { prep["undo"] = close; modified = true; }
+                }
+                if (!hasUndo)
+                {
+                    prepCmds.Add(new JsonObject { ["do"] = "", ["undo"] = close });
+                    modified = true;
+                }
+            }
+
+            if (modified)
+            {
+                File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
+                Logger.Log($"[SunshineCfg] Steam Big Picture de la sesión compuesta: se abre y se cierra en todas sus sesiones: {appsFile}");
+            }
+        }
+
         /// <summary>
         /// Añade a <c>apps.json</c> las apps "Reboot" y "Power Off": lanzan
         /// <c>Scripts\osms-power.ps1</c>, que pide al servicio un apagado/reinicio forzado

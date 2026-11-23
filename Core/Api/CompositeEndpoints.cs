@@ -61,7 +61,25 @@ public static class CompositeEndpoints
              .WithName("UpdateComposite")
              .WithSummary("Editar una sesión compuesta parada");
 
+        group.MapPost("/{id:guid}/steam/{action}", Steam)
+             .WithName("CompositeSteam")
+             .WithSummary("Abrir o cerrar Steam Big Picture en todas las sesiones de una compuesta")
+             .WithDescription("""
+                `action` = `open` o `close`. Lo llama la app Steam de la compuesta
+                (Scripts\osms-composite-steam.ps1) desde su Sunshine; sin credenciales solo se acepta
+                desde un proceso de la sesión de Windows de esa compuesta.
+                """);
+
         return app;
+    }
+
+    private static Results<Ok<int>, BadRequest<string>, NotFound> Steam(Guid id, string action, StreamSessionService svc)
+    {
+        bool? open = action.ToLowerInvariant() switch { "open" => true, "close" => false, _ => null };
+        if (open is null) return TypedResults.BadRequest("action: open | close");
+        try { return TypedResults.Ok(svc.CompositeSteam(id, open.Value)); }
+        catch (KeyNotFoundException) { return TypedResults.NotFound(); }
+        catch (InvalidOperationException ex) { return TypedResults.BadRequest(ex.Message); }
     }
 
     private static CompositeDefinition ToDefinition(CompositeRequest req) => new(

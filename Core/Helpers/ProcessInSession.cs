@@ -152,7 +152,8 @@ namespace OpenStreamMS.Core.Helpers
                                    bool waitForExit = false,
                                    uint waitTimeoutMs = 30_000,
                                    uint priorityClass = 0,
-                                   bool asSystem = false)
+                                   bool asSystem = false,
+                                   bool visible = false)
         {
             EnablePrivilege("SeTcbPrivilege");
             EnablePrivilege("SeAssignPrimaryTokenPrivilege");
@@ -185,11 +186,12 @@ namespace OpenStreamMS.Core.Helpers
                 {
                     cb          = Marshal.SizeOf<STARTUPINFO>(),
                     lpDesktop   = "winsta0\\default",
-                    dwFlags     = STARTF_USESHOWWINDOW,
+                    // visible: sin STARTF_USESHOWWINDOW el programa abre sus ventanas como siempre.
+                    dwFlags     = visible ? 0 : STARTF_USESHOWWINDOW,
                     wShowWindow = SW_HIDE
                 };
 
-                uint flags = CREATE_NO_WINDOW | priorityClass;
+                uint flags = (visible ? 0 : CREATE_NO_WINDOW) | priorityClass;
                 if (envBlock != IntPtr.Zero)
                     flags |= CREATE_UNICODE_ENVIRONMENT;
 
