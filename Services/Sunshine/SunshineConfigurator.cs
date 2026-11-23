@@ -382,14 +382,17 @@ namespace OpenStreamMS.Services.Sunshine
             /// </summary>
             int?    MinLogLevel        = null);
 
-        /// <summary>Nivel global de OpenStreamMS a <c>min_log_level</c> de Sunshine.</summary>
-        public static int ToSunshineLogLevel(OpenStreamMS.Services.LogThreshold t) => t switch
-        {
-            OpenStreamMS.Services.LogThreshold.Warning => 3,
-            OpenStreamMS.Services.LogThreshold.Error   => 4,
-            OpenStreamMS.Services.LogThreshold.Off     => 6,
-            _                                          => 2,
-        };
+        /// <summary>
+        /// <c>min_log_level</c> de Sunshine para un nivel global de OpenStreamMS. Nunca pasa de info (2):
+        /// GamepadSessionIsolation lee del log de Sunshine las líneas de info "Gamepad N will be …" y
+        /// "OsmsPad controller … created for gamepad N" para saber qué sesión creó cada mando y su
+        /// número. Sin ellas, con varias sesiones el mando queda visible en todas, y en una sesión
+        /// compuesta todos van a la sesión del teclado en vez de mando N → hueco N.
+        /// </summary>
+        public static int ToSunshineLogLevel(OpenStreamMS.Services.LogThreshold t) => SunshineInfoLogLevel;
+
+        /// <summary><c>min_log_level</c> = info en Sunshine.</summary>
+        public const int SunshineInfoLogLevel = 2;
 
         /// <summary>Clave de <c>sunshine.conf</c> con los protocolos que sirve Sunshine.</summary>
         public const string StreamProtocolKey = "stream_protocol";
