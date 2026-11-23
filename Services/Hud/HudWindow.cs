@@ -23,13 +23,24 @@ internal sealed class HudWindow : Form
     private const int HotkeyId = 0x4F53;                 // "OS"
     private const uint MOD_ALT = 0x1, MOD_CONTROL = 0x2, MOD_NOREPEAT = 0x4000;
     private const int WM_HOTKEY = 0x0312;
-    private const ushort XINPUT_GUIDE = 0x0400, XINPUT_BACK = 0x0020;
+    private const ushort XINPUT_GUIDE = 0x0400, XINPUT_BACK = 0x0020, XINPUT_START = 0x0010;
+    /// <summary>Back + Start (Share + Options) hay que mantenerlos: juntos se pulsan sin querer en algunos juegos.</summary>
+    private static readonly TimeSpan HoldBackStart = TimeSpan.FromMilliseconds(800);
     private static readonly TimeSpan ReleaseAfter = TimeSpan.FromMinutes(2);
 
     private readonly Uri _page;
     private readonly System.Threading.Timer _padTimer;
     private readonly System.Windows.Forms.Timer _release;
-    private readonly bool[] _comboDown = new bool[4];
+    private readonly Dictionary<string, PadCombo> _combos = new();
+    private readonly HidPads _hidPads = new();
+
+    /// <summary>Estado de las combinaciones de un mando entre una lectura y la siguiente.</summary>
+    private sealed class PadCombo
+    {
+        public bool GuideBack;
+        public long BackStartSince;   // TickCount64 desde que se mantienen; 0 = sueltos
+        public bool BackStartFired;
+    }
     private WebView2? _web;
     private CoreWebView2Environment? _env;
     private byte[]? _backdrop;
@@ -214,16 +225,47 @@ internal sealed class HudWindow : Form
 
     // ── Mandos ───────────────────────────────────────────────────────────────
 
+    /// <summary>
+    /// Guía + Back (PS + Share) abre o cierra al momento; Back + Start (Share + Options) al
+    /// mantenerlos <see cref="HoldBackStart"/>, que no depende de que el cliente envíe el botón Guía
+    /// (muchos se lo quedan). Mandos XInput (Xbox 360) y de PlayStation por HID.
+    /// </summary>
     private void PollPads()
     {
         bool toggle = false;
+        long now = Environment.TickCount64;
+        var seen = new HashSet<string>();
+
+        void Check(string key, bool guide, bool back, bool start)
+        {
+            seen.Add(key);
+            if (!_combos.TryGetValue(key, out var c)) _combos[key] = c = new PadCombo();
+            bool guideBack = guide && back;
+            if (guideBack && !c.GuideBack) toggle = true;
+            c.GuideBack = guideBack;
+
+            if (back && start && !guide)
+            {
+                if (c.BackStartSince == 0) c.BackStartSince = now;
+                else if (!c.BackStartFired && now - c.BackStartSince >= (long)HoldBackStart.TotalMilliseconds)
+                {
+                    c.BackStartFired = true;
+                    toggle = true;
+                }
+            }
+            else { c.BackStartSince = 0; c.BackStartFired = false; }
+        }
+
         for (uint i = 0; i < 4; i++)
         {
-            bool combo = XInputGetStateEx(i, out var st) == 0 &&
-                         (st.Gamepad.wButtons & (XINPUT_GUIDE | XINPUT_BACK)) == (XINPUT_GUIDE | XINPUT_BACK);
-            if (combo && !_comboDown[i]) toggle = true;
-            _comboDown[i] = combo;
+            if (XInputGetStateEx(i, out var st) != 0) continue;
+            ushort b = st.Gamepad.wButtons;
+            Check($"x{i}", (b & XINPUT_GUIDE) != 0, (b & XINPUT_BACK) != 0, (b & XINPUT_START) != 0);
         }
+        foreach (var (key, s) in _hidPads.States)
+            Check(key, s.HasFlag(HidPads.Buttons.Guide), s.HasFlag(HidPads.Buttons.Back), s.HasFlag(HidPads.Buttons.Start));
+
+        foreach (var gone in _combos.Keys.Where(k => !seen.Contains(k)).ToList()) _combos.Remove(gone);
         if (toggle && IsHandleCreated) BeginInvoke(Toggle);
     }
 
@@ -255,6 +297,7 @@ internal sealed class HudWindow : Form
         if (disposing)
         {
             _padTimer.Dispose();
+            _hidPads.Dispose();
             _release.Dispose();
             if (_hotkey && IsHandleCreated) UnregisterHotKey(Handle, HotkeyId);
             ReleaseWeb();
