@@ -375,7 +375,7 @@
   "vigem.btn.close": "Bezárás",
   "vigem.log.title": "Műveleti napló",
   "vigem.log.empty": "Ebben a munkamenetben nem futottak semmilyen műveletet.",
-  "vigem.rebootRequired": "⚠ A művelet befejezéséhez újra kell indítani.",
+  "vigem.rebootRequired": "⚠ A Windows újraindítása kötelező: a művelet csak az újraindítás után fejeződik be.",
   "vigem.confirm.install": "Telepíti vagy frissíti a ViGEmBus-t?\nA nefarius/ViGEmBus legújabb kiadása letöltődik, és az aláírt illesztőprogram csendben települ. A futó stream nem lesz hatással.",
   "vigem.confirm.uninstall": "Eltávolítja a ViGEmBus-t?\nA Moonlight kliensek nem fogják tudni használni a játékvezérlőjüket, amíg az illesztőprogramot újratelepítik. Újraindításra lehet szükség.",
   "hidhide.pill": "HidHide",

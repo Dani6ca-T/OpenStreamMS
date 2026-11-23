@@ -375,7 +375,7 @@
   "vigem.btn.close": "Close",
   "vigem.log.title": "Operation log",
   "vigem.log.empty": "No operation has been run in this session.",
-  "vigem.rebootRequired": "⚠ Reboot required to complete the operation.",
+  "vigem.rebootRequired": "⚠ Restarting Windows is required: the operation isn't complete until you restart.",
   "vigem.confirm.install": "Install or upgrade ViGEmBus?\nThe latest release from nefarius/ViGEmBus will be downloaded and the signed driver installed silently. No running stream will be affected.",
   "vigem.confirm.uninstall": "Uninstall ViGEmBus?\nMoonlight clients will stop being able to use their gamepad until the driver is reinstalled. A reboot may be required.",
   "hidhide.pill": "HidHide",

@@ -50,6 +50,8 @@
   "driver.installed": "{0} başarıyla kuruldu.",
   "driver.uninstalled": "{0} başarıyla kaldırıldı.",
   "driver.cancelled": "Kullanıcı tarafından iptal edildi.",
+  "driver.rebootToFinish": "{0} kurulumunu tamamlamak için Windows'u yeniden başlatın.",
+  "driver.rebootThenReinstall": "Windows'u yeniden başlatmak zorunludur: yeniden başlatıp {0} yazılımını tekrar yükleyene kadar {0} çalışmaz.",
   "driver.fatalError": "Kurulum sırasında ölümcül hata. Windows Installer günlüğünü kontrol edin.",
   "driver.unknownExitCode": "Bilinmeyen çıkış kodu.",
   "driver.currentStatus": "Mevcut durum: installed={0}; version={1}; service={2}",

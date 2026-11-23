@@ -50,6 +50,8 @@
   "driver.installed": "{0} erfolgreich installiert.",
   "driver.uninstalled": "{0} erfolgreich deinstalliert.",
   "driver.cancelled": "Vom Benutzer abgebrochen.",
+  "driver.rebootToFinish": "Starte Windows neu, um die Installation von {0} abzuschließen.",
+  "driver.rebootThenReinstall": "Ein Neustart von Windows ist zwingend: {0} funktioniert erst, wenn du neu startest und es danach erneut installierst.",
   "driver.fatalError": "Fatale Installationsfehler. Windows Installer-Log prüfen.",
   "driver.unknownExitCode": "Unbekannter Exit-Code.",
   "driver.currentStatus": "Aktueller Status: installed={0}; version={1}; service={2}",

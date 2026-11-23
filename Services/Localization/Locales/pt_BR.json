@@ -50,6 +50,8 @@
   "driver.installed": "{0} instalado com sucesso.",
   "driver.uninstalled": "{0} desinstalado com sucesso.",
   "driver.cancelled": "Cancelado pelo usuário.",
+  "driver.rebootToFinish": "Reinicie o Windows para concluir a instalação do {0}.",
+  "driver.rebootThenReinstall": "Reiniciar o Windows é obrigatório: o {0} não vai funcionar até você reiniciar e instalá-lo novamente.",
   "driver.fatalError": "Erro fatal na instalação. Verifique o log do Windows Installer.",
   "driver.unknownExitCode": "Código de saída desconhecido.",
   "driver.currentStatus": "Estado atual: installed={0}; version={1}; service={2}",

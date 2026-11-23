@@ -375,7 +375,7 @@
   "vigem.btn.close": "닫기",
   "vigem.log.title": "작업 로그",
   "vigem.log.empty": "이 세션에서는 작업이 실행되지 않았습니다.",
-  "vigem.rebootRequired": "⚠ 작업을 완료하려면 재부팅이 필요합니다.",
+  "vigem.rebootRequired": "⚠ Windows를 반드시 다시 시작해야 합니다. 다시 시작할 때까지 작업이 완료되지 않습니다.",
   "vigem.confirm.install": "ViGEmBus를 설치하거나 업그레이드하시겠습니까?\nnefarius/ViGEmBus의 최신 릴리스가 다운로드되고 서명된 드라이버가 자동으로 설치됩니다. 실행 중인 스트림은 영향을 받지 않습니다.",
   "vigem.confirm.uninstall": "ViGEmBus를 제거하시겠습니까?\nMoonlight 클라이언트는 드라이버를 다시 설치할 때까지 게임 패드를 사용할 수 없습니다. 재부팅이 필요할 수 있습니다.",
   "hidhide.pill": "HidHide",

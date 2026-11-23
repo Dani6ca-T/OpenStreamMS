@@ -50,6 +50,8 @@
   "driver.installed": "{0} успішно встановлено.",
   "driver.uninstalled": "{0} успішно видалено.",
   "driver.cancelled": "Скасовано користувачем.",
+  "driver.rebootToFinish": "Перезавантажте Windows, щоб завершити встановлення {0}.",
+  "driver.rebootThenReinstall": "Перезавантаження Windows обов'язкове: {0} не працюватиме, доки ви не перезавантажите комп'ютер і не встановите його ще раз.",
   "driver.fatalError": "Фатальна помилка встановлення. Перевірте журнал Windows Installer.",
   "driver.unknownExitCode": "Невідомий код виходу.",
   "driver.currentStatus": "Поточний статус: installed={0}; version={1}; service={2}",

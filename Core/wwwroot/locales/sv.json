@@ -375,7 +375,7 @@
   "vigem.btn.close": "Stäng",
   "vigem.log.title": "Driftslogg",
   "vigem.log.empty": "Ingen operation har körts i denna session.",
-  "vigem.rebootRequired": "⚠ Omstart krävs för att slutföra åtgärden.",
+  "vigem.rebootRequired": "⚠ Omstart av Windows krävs: åtgärden är inte klar förrän du startar om.",
   "vigem.confirm.install": "Installera eller uppgradera ViGEmBus?\nDen senaste versionen från nefarius/ViGEmBus kommer att laddas ner och den signerade drivrutinen installeras tyst. Ingen löpande stream kommer att påverkas.",
   "vigem.confirm.uninstall": "Avinstallera ViGEmBus?\nMoonlight klienter kommer att sluta kunna använda sin gamepad tills drivrutinen har installerats om. En omstart kan krävas.",
   "hidhide.pill": "HidHide",

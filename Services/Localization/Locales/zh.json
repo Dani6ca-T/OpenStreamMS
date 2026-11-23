@@ -50,6 +50,8 @@
   "driver.installed": "{0} 安装成功。",
   "driver.uninstalled": "{0} 卸载成功。",
   "driver.cancelled": "用户取消。",
+  "driver.rebootToFinish": "请重启 Windows 以完成 {0} 的安装。",
+  "driver.rebootThenReinstall": "必须重启 Windows：在重启并重新安装 {0} 之前，{0} 无法使用。",
   "driver.fatalError": "安装致命错误。请检查 Windows Installer 日志。",
   "driver.unknownExitCode": "未知退出代码。",
   "driver.currentStatus": "当前状态: installed={0}; version={1}; service={2}",
