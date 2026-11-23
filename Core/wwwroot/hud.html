@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenStreamMS HUD</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/hud.css">
+  <script src="/i18n.js"></script>
+</head>
+<body class="hud-body">
+  <div class="hud-backdrop" id="hud-backdrop" aria-hidden="true"></div>
+  <main class="hud" aria-labelledby="hud-title">
+    <header class="hud-head">
+      <div>
+        <h1 id="hud-title">OpenStreamMS <span class="hud-tag" data-i18n="hud.title">HUD</span></h1>
+        <p class="hud-me" id="hud-me"></p>
+      </div>
+      <div class="hud-actions">
+        <button type="button" class="hud-btn hud-nav" id="hud-restart-session" data-i18n="hud.restartSession" hidden>Reiniciar esta sesión</button>
+        <div class="hud-power" id="hud-power" hidden>
+          <button type="button" class="hud-btn hud-nav" id="hud-restart" data-action="restart" data-i18n="hud.restart">Reiniciar el PC</button>
+          <button type="button" class="hud-btn hud-danger hud-nav" id="hud-shutdown" data-action="shutdown" data-i18n="hud.shutdown">Apagar el PC</button>
+        </div>
+        <button type="button" class="hud-close hud-nav" id="hud-close" data-i18n-aria="btn.close" aria-label="Cerrar">×</button>
+      </div>
+    </header>
+    <p class="hud-note" id="hud-restart-note" hidden></p>
+    <div class="hud-pending" id="hud-pending" role="alert" hidden>
+      <span id="hud-pending-text"></span>
+      <button type="button" class="hud-btn hud-nav" id="hud-cancel" data-i18n="hud.cancel">Cancelar</button>
+    </div>
+
+    <section class="hud-pc" aria-labelledby="hud-pc-title">
+      <h2 class="hud-h2" id="hud-pc-title" data-i18n="hud.pc">Este equipo</h2>
+      <div class="hud-meters" id="hud-pc"></div>
+    </section>
+
+    <section class="hud-sessions" aria-labelledby="hud-sessions-title">
+      <h2 class="hud-h2" id="hud-sessions-title" data-i18n="hud.sessions">Sesiones en marcha</h2>
+      <div class="hud-list" id="hud-list"></div>
+    </section>
+
+    <footer class="hud-foot" data-i18n="hud.close">Cerrar: Esc · B · Ctrl+Alt+H · Back + Start</footer>
+  </main>
+  <script src="/hud.js"></script>
+</body>
+</html>

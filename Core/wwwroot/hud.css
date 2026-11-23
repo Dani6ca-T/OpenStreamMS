@@ -1,0 +1,80 @@
+/* HUD de una sesión (hud.html), a pantalla completa encima del juego. Colores del tema del panel
+   (variables de style.css, el tema lo pone theme.js); fondo: captura de la pantalla desenfocada y
+   teñida, con paneles de cristal encima. Clases con prefijo hud- para no chocar con el panel. */
+html, body.hud-body { height: 100%; overflow: hidden; background: rgb(var(--c-deep)); }
+body.hud-body { color: var(--text); font-size: 15px; }
+
+.hud-backdrop {
+  position: fixed; inset: -40px;
+  background: rgb(var(--c-deep)) center / cover no-repeat;
+  filter: blur(22px) saturate(1.15);
+  transform: scale(1.04);
+}
+.hud-backdrop::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(var(--c-deep), .78), rgba(var(--c-deep), .62) 45%, rgba(var(--c-accent), .18));
+}
+
+.hud { position: relative; display: flex; flex-direction: column; gap: 18px; height: 100%;
+       max-width: 1600px; margin: 0 auto; padding: clamp(18px, 3vh, 40px) clamp(18px, 4vw, 64px); }
+.hud-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.hud h1 { margin: 0; font-size: clamp(22px, 2.4vw, 30px); font-weight: 650; letter-spacing: .2px; }
+.hud-h2 { margin: 0 0 10px; font-size: 13px; font-weight: 650; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); }
+.hud-tag { margin-left: 6px; padding: 2px 9px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 12px; vertical-align: middle; }
+.hud-me { margin: 6px 0 0; color: var(--muted); }
+.hud-me b { color: var(--text); font-weight: 600; }
+
+/* Cristal: el color de tarjeta del tema, semitransparente y con desenfoque de lo de detrás. */
+.hud-glass, .hud-meter, .hud-sess, .hud-btn, .hud-close, .hud-pending {
+  background: rgba(var(--c-glass), .55);
+  border: 1px solid rgba(var(--c-ink), .12);
+  backdrop-filter: blur(14px) saturate(1.2);
+}
+
+.hud-actions { display: flex; align-items: center; gap: 10px; }
+.hud-power { display: flex; gap: 10px; }
+.hud-power[hidden], .hud-pending[hidden], .hud-btn[hidden], .hud-note[hidden] { display: none; }
+.hud-note { margin: -6px 0 0; color: var(--muted); font-size: 13px; }
+.hud-btn { height: 40px; padding: 0 16px; border-radius: 10px; color: var(--text); font: inherit; font-size: 14px; cursor: pointer; }
+.hud-close { width: 40px; height: 40px; border-radius: 10px; color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
+.hud-btn.hud-danger { border-color: rgba(var(--c-ink), .12); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--red) 55%, transparent); }
+.hud-btn.hud-confirm { background: var(--red); border-color: var(--red); color: #fff; }
+.hud-nav:focus, .hud-nav:focus-visible, .hud-btn:hover, .hud-close:hover {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--c-accent), .45);
+}
+.hud-pending { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: 12px;
+               border-color: var(--orange); color: var(--orange); font-weight: 650; }
+
+.hud-meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.hud-meter { padding: 12px 14px; border-radius: 14px; }
+.hud-meter-top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); }
+.hud-meter-top b { color: var(--text); font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.hud-bar { height: 6px; margin-top: 10px; border-radius: 999px; background: rgba(var(--c-ink), .1); overflow: hidden; }
+.hud-bar > i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--green); transition: width .4s ease; }
+.hud-bar.hud-warn > i { background: var(--orange); }
+.hud-bar.hud-bad > i { background: var(--red); }
+
+.hud-sessions { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.hud-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; overflow: auto; padding: 3px; align-content: start; }
+.hud-sess { padding: 14px 16px; border-radius: 16px; }
+.hud-sess.hud-mine { border-color: rgba(var(--c-accent), .7); }
+.hud-sess-name { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 17px; font-weight: 650; }
+.hud-chip { padding: 1px 9px; border-radius: 999px; border: 1px solid rgba(var(--c-ink), .14); background: rgba(var(--c-ink), .06); color: var(--muted); font-size: 12px; font-weight: 500; }
+.hud-chip.hud-me-chip { border-color: var(--accent); background: rgba(var(--c-accent), .28); color: var(--text); }
+.hud-chip.hud-warn-chip { border-color: var(--orange); color: var(--orange); }
+.hud-sess-meters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.hud-sess-meters .hud-meter { padding: 7px 9px; border-radius: 10px; background: rgba(var(--c-ink), .05); backdrop-filter: none; }
+.hud-sess-meters .hud-meter-top b { font-size: 15px; }
+.hud-devs { display: flex; flex-direction: column; gap: 5px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.hud-devs li { display: flex; align-items: center; gap: 10px; }
+.hud-devs .hud-k { min-width: 72px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.hud-devs .hud-none { color: var(--muted); }
+.hud-foot { color: var(--muted); font-size: 13px; text-align: center; }
+.hud-error { color: var(--red); }
+
+/* Con efectos reducidos (o el PC ocupado codificando) sin desenfoques: cristal opaco. */
+:root[data-effects="reduced"] .hud-glass, :root[data-effects="reduced"] .hud-meter,
+:root[data-effects="reduced"] .hud-sess, :root[data-effects="reduced"] .hud-btn,
+:root[data-effects="reduced"] .hud-close, :root[data-effects="reduced"] .hud-pending {
+  backdrop-filter: none; background: rgba(var(--c-glass), .85);
+}

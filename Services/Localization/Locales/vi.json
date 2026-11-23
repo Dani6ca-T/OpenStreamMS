@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp không lắng nghe",
   "rdpwrap.notLoaded": "Dịch vụ Máy tính Từ xa chưa tải thành phần cho phép nhiều phiên",
   "rdpwrap.singleSession": "Máy này chỉ cho phép một phiên mỗi lúc",
+  "composite.reconnecting": "Đang kết nối lại…",
   "rdpwrap.openSessionsPreventRestart": "Có phiên mở ({0}): TermService không khởi động lại ngay; thay đổi có hiệu lực khi khởi động lại.",
   "rdpwrap.termServiceRestarted": "TermService đã khởi động lại.",
   "driver.bundledInstaller": "Sử dụng bộ cài đặt đi kèm: {0}",

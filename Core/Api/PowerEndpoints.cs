@@ -35,25 +35,28 @@ public static class PowerEndpoints
              .WithSummary("Reinicia el equipo")
              .WithDescription("Ejecuta `shutdown.exe /r /t <delay> /f`. Cancelable con /api/power/cancel mientras el countdown sigue activo.");
 
-        group.MapPost("/cancel", () =>
-        {
-            var (ok, output) = RunShutdownExe("/a");
-            if (ok)
-            {
-                Logger.Log("[Power] Apagado/reinicio cancelado.");
-                return Results.Ok(new PowerResponse("cancel", 0, null));
-            }
-            // exit code 1116 = no hay shutdown pendiente. No es error real.
-            Logger.Log($"[Power] No hay apagado pendiente que cancelar ({output.Trim()}).");
-            return Results.Ok(new PowerResponse("cancel-noop", 0, null));
-        })
+        group.MapPost("/cancel", Cancel)
              .WithName("PowerCancel")
              .WithSummary("Cancela un apagado/reinicio pendiente");
 
         return app;
     }
 
-    private static IResult RunShutdown(bool isRestart, PowerActionRequest? req)
+    /// <summary>Cancela un apagado o reinicio pendiente (también desde el HUD).</summary>
+    internal static IResult Cancel()
+    {
+        var (ok, output) = RunShutdownExe("/a");
+        if (ok)
+        {
+            Logger.Log("[Power] Apagado/reinicio cancelado.");
+            return Results.Ok(new PowerResponse("cancel", 0, null));
+        }
+        // exit code 1116 = no hay shutdown pendiente. No es error real.
+        Logger.Log($"[Power] No hay apagado pendiente que cancelar ({output.Trim()}).");
+        return Results.Ok(new PowerResponse("cancel-noop", 0, null));
+    }
+
+    internal static IResult RunShutdown(bool isRestart, PowerActionRequest? req)
     {
         var delay = ClampDelay(req?.DelaySeconds ?? DefaultDelaySeconds);
         var message = string.IsNullOrWhiteSpace(req?.Message)

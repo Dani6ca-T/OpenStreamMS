@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp dinlemiyor",
   "rdpwrap.notLoaded": "Uzak Masaüstü hizmeti, birden fazla oturuma izin veren bileşeni henüz yüklemedi",
   "rdpwrap.singleSession": "Bu bilgisayar aynı anda yalnızca bir oturuma izin veriyor",
+  "composite.reconnecting": "Yeniden bağlanıyor…",
   "rdpwrap.openSessionsPreventRestart": "Açık oturumlar var ({0}): TermService şimdi yeniden başlatılmayacak; değişiklik yeniden başlatmada geçerli olacak.",
   "rdpwrap.termServiceRestarted": "TermService yeniden başlatıldı.",
   "driver.bundledInstaller": "Dahili kurucu kullanılıyor: {0}",

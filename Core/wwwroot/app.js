@@ -619,6 +619,7 @@ function openEditModal(id) {
   byId('sess-sunshine-name').value = s.sunshineName || '';
   byId('sess-capture').value      = s.capture || '';
   byId('sess-gamepad').value      = s.gamepadType || 'auto';
+  byId('sess-allow-power').checked = !!s.allowPower;
   byId('sess-encoder').value      = s.encoder || '';
   byId('sess-output').value       = s.outputName || '';
   byId('sess-origin').value       = s.originWebUiAllowed || '';
@@ -717,6 +718,7 @@ async function submitSession(e) {
       sunshineName:       byId('sess-sunshine-name').value.trim() || null,
       capture:            byId('sess-capture').value || null,
       gamepadType:        byId('sess-gamepad').value || 'auto',
+      allowPower:         !local && byId('sess-allow-power').checked,
       encoder:            byId('sess-encoder').value || null,
       outputName:         byId('sess-output').value.trim() || null,
       originWebUiAllowed: byId('sess-origin').value || null,
@@ -1666,7 +1668,7 @@ function renderAppearance() {
       : themeSwatch(THEME_PREVIEWS[name]);
     return `<label class="theme-option">
         <input type="radio" name="Theme" value="${name}" ${Theme.theme === name ? 'checked' : ''}
-               onchange="Theme.setTheme(this.value); updateEffectsHint(); updateWindowsThemeHint()">
+               onchange="Theme.setTheme(this.value); publishTheme(); updateEffectsHint(); updateWindowsThemeHint()">
         ${swatch}<span class="theme-name">${esc(t('appearance.theme.' + name))}</span>
       </label>`;
   }).join('');
@@ -2046,3 +2048,13 @@ document.addEventListener('keydown', e => {
   const open = [...document.querySelectorAll('.modal-backdrop:not(.hidden)')];
   if (open.length) closeModal(open[open.length - 1].id);
 }, { capture: true });   // antes que el que cierra los menús: con un menú abierto, Esc solo cierra el menú
+
+// El HUD de las sesiones tiene su propio navegador: el servicio le dice el tema elegido aquí.
+function publishTheme() {
+  fetch('/api/settings/theme', {
+    method: 'PUT', credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ theme: Theme.theme }),
+  }).catch(() => { /* sin servicio: se publica la próxima vez */ });
+}
+document.addEventListener('DOMContentLoaded', publishTheme);

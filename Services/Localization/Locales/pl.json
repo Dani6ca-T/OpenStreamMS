@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp nie nasłuchuje",
   "rdpwrap.notLoaded": "Usługa Pulpit zdalny nie załadowała jeszcze składnika, który pozwala na wiele sesji",
   "rdpwrap.singleSession": "Ten komputer pozwala tylko na jedną sesję naraz",
+  "composite.reconnecting": "Ponowne łączenie…",
   "rdpwrap.openSessionsPreventRestart": "Istnieją otwarte sesje ({0}): TermService nie zostanie teraz zrestartowany; zmiana wejdzie w życie po restarcie.",
   "rdpwrap.termServiceRestarted": "TermService zrestartowany.",
   "driver.bundledInstaller": "Używany dołączony instalator: {0}",

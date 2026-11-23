@@ -18,7 +18,7 @@ namespace OpenStreamMS.Services.Seats;
 /// y el ciclo de encendido/apagado de cada puesto (monitor, sesión asignada, audio y entrada).
 /// Es el punto central de las fases F0–F4. Orquesta el agente de sesión y el presentador en la consola.
 /// </summary>
-public sealed class SeatManager(StreamSessionService sessions) : BackgroundService
+public sealed partial class SeatManager(StreamSessionService sessions) : BackgroundService
 {
     private readonly ConcurrentDictionary<Guid, Seat> _seats =
         new(SeatStore.Load().ToDictionary(s => s.Id));
@@ -386,6 +386,48 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         }
     }
 
+    /// <summary>Agente de captura recién conectado y las texturas que comparte.</summary>
+    private sealed record AgentLink(NamedPipeServerStream Server, SeatChannel Channel, int Pid,
+                                    int Width, int Height, uint LuidLow, int LuidHigh, long[] Handles);
+
+    /// <summary>Lanza el agente en una sesión de Windows y espera a que comparta sus texturas.</summary>
+    private AgentLink LaunchAgent(Seat seat, uint windowsSession, bool asSystem, string agentArgs)
+    {
+        Status(seat, "Iniciando agente de captura e imagen...");
+        var agentPipe = SeatPipes.NewName("agent");
+        var agentServer = SeatPipes.CreateServer(agentPipe);
+        try
+        {
+            int agentPid = new ProcessInSession().LaunchInSession(
+                windowsSession,
+                Environment.ProcessPath!,
+                $"--seat-agent {agentPipe} {agentArgs}".TrimEnd(),
+                asSystem: asSystem);
+
+            using var agentTimeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+            SeatPipes.AcceptFrom(agentServer, pid => pid == agentPid, "agente", agentTimeoutCts.Token);
+            var agentChannel = new SeatChannel(agentServer);
+
+            var texturesMsg = agentChannel.Receive();
+            if (texturesMsg is null || texturesMsg.Value.Type != SeatMsg.Json)
+                throw new InvalidOperationException("El agente no envió la configuración de texturas.");
+
+            var texJson = SeatChannel.ParseJson(texturesMsg.Value.Data);
+            return new AgentLink(agentServer, agentChannel, agentPid,
+                texJson["width"]?.GetValue<int>() ?? 1920,
+                texJson["height"]?.GetValue<int>() ?? 1080,
+                texJson["luidLow"]?.GetValue<uint>() ?? 0,
+                texJson["luidHigh"]?.GetValue<int>() ?? 0,
+                texJson["handles"]?.AsArray().Select(h => h!.GetValue<long>()).ToArray()
+                    ?? throw new InvalidOperationException("El agente no proporcionó handles de texturas."));
+        }
+        catch
+        {
+            agentServer.Dispose();
+            throw;
+        }
+    }
+
     /// <summary>
     /// Lanza el agente en la sesión de Windows <paramref name="windowsSession"/> y el presentador en
     /// la consola, le pasa al presentador las texturas del agente y devuelve el conjunto conectado
@@ -397,30 +439,8 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
     private ActiveSeatSession OpenPresentation(Seat seat, uint windowsSession, bool asSystem, string agentArgs,
                                                Action? beforePresenter = null, JsonObject? extraInit = null)
     {
-        Status(seat, "Iniciando agente de captura e imagen...");
-        var agentPipe = SeatPipes.NewName("agent");
-        var agentServer = SeatPipes.CreateServer(agentPipe);
-        int agentPid = new ProcessInSession().LaunchInSession(
-            windowsSession,
-            Environment.ProcessPath!,
-            $"--seat-agent {agentPipe} {agentArgs}".TrimEnd(),
-            asSystem: asSystem);
-
-        using var agentTimeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
-        SeatPipes.AcceptFrom(agentServer, pid => pid == agentPid, "agente", agentTimeoutCts.Token);
-        var agentChannel = new SeatChannel(agentServer);
-
-        var texturesMsg = agentChannel.Receive();
-        if (texturesMsg is null || texturesMsg.Value.Type != SeatMsg.Json)
-            throw new InvalidOperationException("El agente no envió la configuración de texturas.");
-
-        var texJson = SeatChannel.ParseJson(texturesMsg.Value.Data);
-        int width = texJson["width"]?.GetValue<int>() ?? 1920;
-        int height = texJson["height"]?.GetValue<int>() ?? 1080;
-        uint luidLow = texJson["luidLow"]?.GetValue<uint>() ?? 0;
-        int luidHigh = texJson["luidHigh"]?.GetValue<int>() ?? 0;
-        var agentHandles = texJson["handles"]?.AsArray().Select(h => h!.GetValue<long>()).ToArray()
-            ?? throw new InvalidOperationException("El agente no proporcionó handles de texturas.");
+        var agent = LaunchAgent(seat, windowsSession, asSystem, agentArgs);
+        var (agentServer, agentChannel, agentPid, width, height, luidLow, luidHigh, agentHandles) = agent;
 
         beforePresenter?.Invoke();
 
@@ -476,7 +496,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             HostChannel = hostChannel,
             Cts = new CancellationTokenSource(),
             AgentPid = agentPid,
-            HostPid = hostPid
+            HostPid = hostPid,
+            Width = width,
+            Height = height,
         };
     }
 
@@ -846,6 +868,7 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
         foreach (var seat in _seats.Values)
         {
             TrackSeatWindowsSession(seat);
+            if (_sessionRestarting.ContainsKey(seat.Id)) { _disconnectedSince.TryRemove(seat.Id, out _); continue; }
             if (seat.State != SeatState.Running || seat.SessionId is not { } sid ||
                 sessions.Get(sid) is not { RdpSessionId: > 0 } session || IsSessionConnected(session.RdpSessionId))
             {
@@ -903,16 +926,17 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     private readonly ConcurrentDictionary<Guid, byte> _readjusting = new();
 
-    private void StartBridge(ActiveSeatSession active, Seat seat)
+    /// <summary>Agente -> Anfitrión (vídeo, audio, cursor, control), con el agente que haya ahora.</summary>
+    private void StartAgentBridge(ActiveSeatSession active, Seat seat)
     {
-        // Agente -> Anfitrión (vídeo, audio, cursor, control)
+        var channel = active.AgentChannel;
         Task.Run(() =>
         {
             try
             {
                 while (!active.Cts.IsCancellationRequested)
                 {
-                    var msg = active.AgentChannel.Receive();
+                    var msg = channel.Receive();
                     if (msg is null) break;
                     active.HostChannel.Send(msg.Value.Type, msg.Value.Data);
                 }
@@ -920,13 +944,20 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
             catch { }
             finally
             {
-                if (seat.State == SeatState.Running && !active.Cts.IsCancellationRequested)
+                // Un agente sustituido (reinicio de la sesión del puesto) no apaga el puesto.
+                if (seat.State == SeatState.Running && !active.Cts.IsCancellationRequested &&
+                    ReferenceEquals(channel, active.AgentChannel) && !_sessionRestarting.ContainsKey(seat.Id))
                 {
                     Logger.Warning($"[Seats] '{seat.Name}': el agente de sesión se desconectó.");
                     OnPresentationLost(seat, "se cerró el agente de captura de la sesión");
                 }
             }
         }, active.Cts.Token);
+    }
+
+    private void StartBridge(ActiveSeatSession active, Seat seat)
+    {
+        StartAgentBridge(active, seat);
 
         // Anfitrión -> Agente (entrada, control)
         Task.Run(() =>
@@ -944,7 +975,9 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
                         _ = Task.Run(() => Readjust(seat.Id));
                         continue;
                     }
-                    active.AgentChannel.Send(msg.Value.Type, msg.Value.Data);
+                    // Durante el reinicio de la sesión no hay agente: la entrada se pierde, el puesto sigue.
+                    try { active.AgentChannel.Send(msg.Value.Type, msg.Value.Data); }
+                    catch (Exception) when (_sessionRestarting.ContainsKey(seat.Id)) { }
                 }
             }
             catch { }
@@ -994,13 +1027,17 @@ public sealed class SeatManager(StreamSessionService sessions) : BackgroundServi
 
     private sealed class ActiveSeatSession : IDisposable
     {
-        public required NamedPipeServerStream AgentServer { get; init; }
-        public required SeatChannel AgentChannel { get; init; }
+        // Se cambian al reiniciar la sesión del puesto (agente nuevo, mismo presentador).
+        public required NamedPipeServerStream AgentServer { get; set; }
+        public required SeatChannel AgentChannel { get; set; }
         public required NamedPipeServerStream HostServer { get; init; }
         public required SeatChannel HostChannel { get; init; }
         public required CancellationTokenSource Cts { get; init; }
-        public int AgentPid { get; init; }
+        public int AgentPid { get; set; }
         public int HostPid { get; init; }
+        /// <summary>Tamaño de las texturas del agente (y del presentador).</summary>
+        public int Width { get; init; }
+        public int Height { get; init; }
         /// <summary>Nodos USB pasados a WinUSB (hay que devolverlos a su driver al apagar).</summary>
         public List<string> Captured { get; } = [];
         public List<UsbHidReader> Readers { get; } = [];

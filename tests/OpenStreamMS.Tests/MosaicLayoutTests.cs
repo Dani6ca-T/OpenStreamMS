@@ -72,6 +72,30 @@ public class MosaicLayoutTests
     }
 
     [Fact]
+    public void Render_KeepsSlotWithWaitingImageWhileItsSessionRestarts()
+    {
+        // Un miembro reiniciándose: su hueco sigue en el mosaico (sesión 0) con su imagen de espera.
+        var lines = MosaicLayout.Render(3840, 2160, [(7u, SeatScreenArea.Top, @"C:\Program Files\x\osms-wait-0.bgra"),
+                                                     (0u, SeatScreenArea.Bottom, @"C:\Program Files\x\osms-wait-1.bgra"),
+                                                     (0u, SeatScreenArea.TopLeft, null)])
+                                .Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        Assert.Equal(["canvas 3840 2160",
+                      @"7 Top C:\Program Files\x\osms-wait-0.bgra",
+                      @"0 Bottom C:\Program Files\x\osms-wait-1.bgra"], lines[1..]);
+    }
+
+    [Fact]
+    public void WaitingImage_HasHeaderAndPixels()
+    {
+        var img = WaitingImage.Render(64, 36, "Sala 2", "Reconectando…");
+        Assert.Equal("OSWP"u8.ToArray(), img[..4]);
+        Assert.Equal(64, BitConverter.ToInt32(img, 4));
+        Assert.Equal(36, BitConverter.ToInt32(img, 8));
+        Assert.Equal(12 + 64 * 36 * 4, img.Length);
+        Assert.Equal(255, img[12 + 3]);   // opaca
+    }
+
+    [Fact]
     public void Render_UsesLfOnly() =>
         Assert.DoesNotContain('\r', MosaicLayout.Render(1920, 1080, [(1u, SeatScreenArea.Left), (2u, SeatScreenArea.Right)]));
 }

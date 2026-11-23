@@ -58,13 +58,27 @@ public static class MosaicLayout
     /// Contenido de <c>osms-mosaic.txt</c>: el lienzo y una línea por hueco con sesión de Windows
     /// ("&lt;id de sesión de Windows&gt; &lt;parte&gt;"). Un hueco sin sesión (0) no se escribe y sale en negro.
     /// </summary>
-    public static string Render(int canvasWidth, int canvasHeight, IReadOnlyList<(uint WindowsSession, SeatScreenArea Area)> parts)
+    public static string Render(int canvasWidth, int canvasHeight, IReadOnlyList<(uint WindowsSession, SeatScreenArea Area)> parts) =>
+        Render(canvasWidth, canvasHeight, parts.Select(p => (p.WindowsSession, p.Area, (string?)null)).ToList());
+
+    /// <summary>
+    /// Igual, con la imagen de espera de cada hueco tras la parte ("&lt;sesión&gt; &lt;parte&gt; &lt;ruta&gt;"):
+    /// Sunshine la pone mientras esa sesión no da imagen. Un hueco sin sesión de Windows se escribe
+    /// con la sesión 0 si tiene imagen (se queda en su sitio, con el logo, mientras su sesión se
+    /// reinicia); sin imagen no se escribe. Un Sunshine sin esta función ignora la ruta.
+    /// </summary>
+    public static string Render(int canvasWidth, int canvasHeight, IReadOnlyList<(uint WindowsSession, SeatScreenArea Area, string? Waiting)> parts)
     {
         var sb = new StringBuilder();
-        sb.Append("# OpenStreamMS mosaic: <Windows session id> <part>\n");
+        sb.Append("# OpenStreamMS mosaic: <Windows session id> <part> [<waiting image>]\n");
         sb.Append($"canvas {canvasWidth} {canvasHeight}\n");
-        foreach (var (session, area) in parts)
-            if (session > 0) sb.Append($"{session} {area}\n");
+        foreach (var (session, area, waiting) in parts)
+        {
+            if (session == 0 && string.IsNullOrEmpty(waiting)) continue;
+            sb.Append($"{session} {area}");
+            if (!string.IsNullOrEmpty(waiting)) sb.Append(' ').Append(waiting);
+            sb.Append('\n');
+        }
         return sb.ToString();
     }
 }

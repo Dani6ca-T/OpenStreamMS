@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp nem hallgat",
   "rdpwrap.notLoaded": "A Távoli asztal szolgáltatás még nem töltötte be a több munkamenetet engedélyező összetevőt",
   "rdpwrap.singleSession": "Ez a gép egyszerre csak egy munkamenetet enged",
+  "composite.reconnecting": "Újracsatlakozás…",
   "rdpwrap.openSessionsPreventRestart": "Megnyitott munkamenetek vannak ({0}): a TermService most nem indul újra; a változás a újraindításkor érvényesül.",
   "rdpwrap.termServiceRestarted": "TermService újraindítva.",
   "driver.bundledInstaller": "Beépített telepítő használata: {0}",

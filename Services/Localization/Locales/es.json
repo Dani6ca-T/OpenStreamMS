@@ -36,6 +36,7 @@
   "rdpwrap.rdpTcpNotListening": "RDP-Tcp no escucha",
   "rdpwrap.notLoaded": "El servicio de Escritorio remoto aún no ha cargado el componente que permite varias sesiones",
   "rdpwrap.singleSession": "Este equipo solo admite una sesión a la vez",
+  "composite.reconnecting": "Reconectando…",
   "rdpwrap.openSessionsPreventRestart": "Hay sesiones abiertas ({0}): TermService no se reinicia ahora; el cambio se aplica al reiniciar el equipo.",
   "rdpwrap.termServiceRestarted": "TermService reiniciado.",
   "driver.bundledInstaller": "Usando el instalador incluido: {0}",
