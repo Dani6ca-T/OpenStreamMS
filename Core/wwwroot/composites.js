@@ -62,7 +62,7 @@ function openCompositeModal(id) {
   if (!byId('comp-res').value) byId('comp-res').value = '1920x1080';
   byId('comp-fps').value = c ? (c.rdpFrameRate || 60) : 60;
   byId('comp-enabled').checked = !!c?.enabled;
-  byId('comp-gamepad').value = c?.gamepadType || 'auto';
+  byId('comp-gamepad').value = c?.gamepadType || 'ds4';
   renderCompositeEditor(c?.compositeInput || '');
   show('comp-modal');
   stopRefresh();
@@ -136,7 +136,7 @@ async function submitComposite(e) {
     width, height,
     frameRate: parseInt(byId('comp-fps').value, 10) || 60,
     enabled: byId('comp-enabled').checked,
-    gamepadType: byId('comp-gamepad').value || 'auto',
+    gamepadType: byId('comp-gamepad').value || 'ds4',
     sunshineStreamPort: current ? current.sunshineStreamPort : 0,
     streamProtocol: current ? current.streamProtocol : 'Both',
   };

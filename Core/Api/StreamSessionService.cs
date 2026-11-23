@@ -106,7 +106,7 @@ public partial class StreamSessionService
             SunshineStreamPort = sunshineStreamPort > 0 ? sunshineStreamPort : 47989,
             SunshineName       = NullIfBlank(sunshineName),
             Capture            = NullIfBlank(capture),
-            GamepadType        = StreamSession.NormalizeGamepadType(gamepadType) ?? "auto",
+            GamepadType        = StreamSession.NormalizeGamepadType(gamepadType) ?? StreamSession.DefaultGamepadType,
             AllowPower         = allowPower && !local,
             Encoder            = NullIfBlank(encoder),
             OutputName         = NullIfBlank(outputName),
