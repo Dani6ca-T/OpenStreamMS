@@ -862,6 +862,7 @@
   "wn.tag": "Nytt",
   "wn.heading": "Nytt i OpenStreamMS 2.0",
   "wn.finish": "Kör igång!",
+  "wn.dontShow": "Visa inte igen förrän det finns något nytt",
   "wn.kicker.star": "Stjärnan i 2.0",
   "wn.intro.nav": "Välkommen till 2.0",
   "wn.intro.title": "OpenStreamMS 2.0 är här",

@@ -2329,6 +2329,9 @@ input[type="password"]:focus-visible, input[type="search"]:focus-visible {
 .wn-points .guide-point:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .wn-step .guide-lead { margin-bottom: .9rem; }
 .wn-cta { display: flex; justify-content: center; margin-top: 1.1rem; animation: guide-pop .45s .5s both; }
+.wn-dismiss { display: flex; justify-content: center; padding: 0 1rem .8rem; }
+.wn-dismiss .btn { color: var(--text-muted, var(--text)); opacity: .8; white-space: normal; text-align: center; }
+.wn-dismiss .btn:hover { opacity: 1; }
 .wn-cta-btn { gap: .5rem; padding: .6rem 1.2rem; box-shadow: 0 8px 28px rgba(var(--c-accent),.35); }
 .wn-cta-btn span { transition: transform .25s var(--ease); }
 .wn-cta-btn:hover span { transform: translateX(4px); }

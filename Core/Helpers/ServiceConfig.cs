@@ -52,6 +52,11 @@ namespace OpenStreamMS.Core.Helpers
         public string AdminPasswordHash      { get; set; } = "";
         /// <summary>Clave secreta HMAC para firmar los tokens de sesión.</summary>
         public string AuthSecret             { get; set; } = "";
+        /// <summary>
+        /// Versión de las novedades del panel (WHATS_NEW_VERSION de whatsnew.js) que el administrador
+        /// pidió no volver a mostrar. Vale para cualquier navegador; con una versión nueva vuelven a salir.
+        /// </summary>
+        public string WhatsNewDismissed      { get; set; } = "";
 
         private static readonly JsonSerializerOptions JsonOpts =
             new() { WriteIndented = true };
