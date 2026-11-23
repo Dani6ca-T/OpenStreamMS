@@ -203,6 +203,11 @@ public class StreamSession
     /// tenga su sunshine.conf la primera vez que arranca.
     /// </summary>
     public string?      GamepadType         { get; set; }
+    /// <summary>
+    /// Quien esté en esta sesión (o en un puesto que la muestre) puede apagar y reiniciar el PC desde
+    /// el HUD y con las apps Reboot / Power Off de Moonlight. Desactivado por defecto.
+    /// </summary>
+    public bool         AllowPower          { get; set; }
 
     /// <summary>Valores válidos de <see cref="GamepadType"/>; null si no es uno de ellos.</summary>
     public static string? NormalizeGamepadType(string? value) =>

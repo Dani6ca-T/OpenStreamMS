@@ -486,7 +486,7 @@ static bool IsCompositeSteamRequest(HttpContext ctx)
 /// <summary>
 /// GET /api/hud o POST /api/hud/power/… hecho a localhost por un proceso (el WebView2 del HUD, o
 /// las apps Reboot / Power Off de Moonlight) de la sesión de Windows de una sesión en marcha.
-/// Devuelve esa sesión de Windows. Apagar además exige el ajuste HudPowerAllowed.
+/// Devuelve esa sesión de Windows. Apagar además exige que esa sesión tenga AllowPower.
 /// </summary>
 static bool IsHudRequest(HttpContext ctx, out uint windowsSession)
 {

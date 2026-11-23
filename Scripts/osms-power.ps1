@@ -3,8 +3,8 @@
 # Lo lanza Sunshine dentro de la sesión de stream, con un usuario sin privilegios y con
 # otros usuarios conectados: ahí shutdown.exe falla ("hay otras personas usando este
 # equipo"). Por eso se pide al servicio de OpenStreamMS (SYSTEM), por la misma vía que el HUD:
-# sin credenciales solo desde la sesión de Windows de una sesión en marcha, y solo si en
-# Ajustes → HUD está permitido apagar y reiniciar el PC.
+# sin credenciales solo desde la sesión de Windows de una sesión en marcha, y solo si esa sesión
+# tiene permiso para apagar y reiniciar el PC (casilla en Editar sesión → Opciones).
 #
 # Sale siempre con 0 (Sunshine corta el stream si una app termina con error). Los fallos quedan
 # en %TEMP%\osms-power.log.

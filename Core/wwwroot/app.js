@@ -619,6 +619,7 @@ function openEditModal(id) {
   byId('sess-sunshine-name').value = s.sunshineName || '';
   byId('sess-capture').value      = s.capture || '';
   byId('sess-gamepad').value      = s.gamepadType || 'auto';
+  byId('sess-allow-power').checked = !!s.allowPower;
   byId('sess-encoder').value      = s.encoder || '';
   byId('sess-output').value       = s.outputName || '';
   byId('sess-origin').value       = s.originWebUiAllowed || '';
@@ -717,6 +718,7 @@ async function submitSession(e) {
       sunshineName:       byId('sess-sunshine-name').value.trim() || null,
       capture:            byId('sess-capture').value || null,
       gamepadType:        byId('sess-gamepad').value || 'auto',
+      allowPower:         !local && byId('sess-allow-power').checked,
       encoder:            byId('sess-encoder').value || null,
       outputName:         byId('sess-output').value.trim() || null,
       originWebUiAllowed: byId('sess-origin').value || null,
@@ -1739,26 +1741,8 @@ async function openSettingsModal(pane) {
   const st = await res.json();
   const radio = document.querySelector(`#settings-log-level input[value="${st.logLevel}"]`);
   if (radio) radio.checked = true;
-  byId('settings-hud-power').checked = !!st.hudPowerAllowed;
   show('settings-modal');
   document.querySelector('#settings-modal .settings-tab[aria-selected="true"]').focus();
-}
-
-// Ajustes → HUD: se guarda al marcarlo, sin el botón Guardar.
-async function saveHudPower(box) {
-  box.disabled = true;
-  try {
-    const res = await api('PUT', '/api/settings/hud-power', { allowed: box.checked });
-    if (!res) return;
-    if (!res.ok) {
-      box.checked = !box.checked;
-      toast(await I18n.responseError(res) || t('toast.connectionError'), true);
-      return;
-    }
-    toast(t(box.checked ? 'settings.hudPowerOn' : 'settings.hudPowerOff'));
-  } finally {
-    box.disabled = false;
-  }
 }
 
 async function saveSettings() {

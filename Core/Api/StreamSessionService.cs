@@ -60,7 +60,8 @@ public partial class StreamSessionService
                                 bool local = false, string? reuseIsolatedUser = null,
                                 int rdpDisplayScale = 100,
                                 RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth,
-                                string? gamepadType = null)
+                                string? gamepadType = null,
+                                bool allowPower = false)
     {
         name = (StripControlChars(name) ?? "").Trim();
         if (name.Length == 0)
@@ -106,6 +107,7 @@ public partial class StreamSessionService
             SunshineName       = NullIfBlank(sunshineName),
             Capture            = NullIfBlank(capture),
             GamepadType        = StreamSession.NormalizeGamepadType(gamepadType) ?? "auto",
+            AllowPower         = allowPower && !local,
             Encoder            = NullIfBlank(encoder),
             OutputName         = NullIfBlank(outputName),
             OriginWebUiAllowed = NullIfBlank(originWebUiAllowed),
@@ -304,7 +306,8 @@ public partial class StreamSessionService
                                       RdpCompositionMode rdpComposition = RdpCompositionMode.Smooth,
                                       bool restartIfActive = false,
                                       string? reuseIsolatedUser = null,
-                                      string? gamepadType = null)
+                                      string? gamepadType = null,
+                                      bool? allowPower = null)
     {
         var session = RequireSession(id);
 
@@ -385,6 +388,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         session.UseStreamProfile   = useStreamProfile;
         session.SunshineName       = NullIfBlank(sunshineName);
         session.Capture            = NullIfBlank(capture);
+        if (allowPower is { } power && power != session.AllowPower)
+        {
+            session.AllowPower = power && !session.Local;
+            Logger.Warning($"[{session.Name}] Apagar y reiniciar el PC desde la sesión: {(session.AllowPower ? "permitido" : "no permitido")}.", session.Id);
+        }
         if (StreamSession.NormalizeGamepadType(gamepadType) is { } gp && gp != session.GamepadType)
         {
             session.GamepadType = gp;
@@ -984,7 +992,8 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 RdpComposition: s.RdpComposition,
                 Composite: s.Composite,
                 CompositeInput: s.CompositeInput,
-                GamepadType: s.GamepadType));
+                GamepadType: s.GamepadType,
+                AllowPower: s.AllowPower));
             var json = JsonSerializer.Serialize(data, JsonOpts);
             // Fichero temporal + cambio de nombre: un corte a mitad de escritura no deja
             // sessions.json truncado (se perderían todas las sesiones). El lock evita que dos
@@ -1081,6 +1090,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     Composite          = d.Composite is { Count: > 0 } slots ? slots.ToList() : null,
                     CompositeInput     = d.CompositeInput,
                     GamepadType        = StreamSession.NormalizeGamepadType(d.GamepadType),
+                    AllowPower         = d.AllowPower,
                     State              = SessionState.Stopped,
                 };
 
@@ -2121,5 +2131,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         /// <summary>Sesión del teclado, el ratón y el audio de una compuesta.</summary>
         Guid?    CompositeInput = null,
         /// <summary>Mando que emula Sunshine (auto, x360, ds4); null en sesiones de antes del ajuste.</summary>
-        string?  GamepadType = null);
+        string?  GamepadType = null,
+        /// <summary>Se puede apagar y reiniciar el PC desde la sesión (HUD y apps de Moonlight).</summary>
+        bool     AllowPower = false);
 }

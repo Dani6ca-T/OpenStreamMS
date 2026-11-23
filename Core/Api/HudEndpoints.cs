@@ -24,7 +24,7 @@ public record HudSession(Guid Id, string Name, bool IsMine, string? Seat, string
                          double? Cpu, double? Gpu, double? GpuEncode, string? Encoder, bool Software,
                          IReadOnlyList<HudDevice> Devices);
 
-/// <param name="PowerAllowed">Ajustes permite apagar y reiniciar el PC desde el HUD.</param>
+/// <param name="PowerAllowed">La sesión desde la que se abre el HUD puede apagar y reiniciar el PC.</param>
 public record HudResponse(HudPc Pc, IReadOnlyList<HudSession> Sessions, bool PowerAllowed);
 
 /// <summary>
@@ -38,20 +38,27 @@ public static class HudEndpoints
 
     public static IEndpointRouteBuilder MapHudApi(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/hud", (HttpContext ctx, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics, ServiceConfig cfg) =>
+        app.MapGet("/api/hud", (HttpContext ctx, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics) =>
             {
                 uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
-                return TypedResults.Ok(Build(caller, sessions, seats, metrics) with { PowerAllowed = cfg.HudPowerAllowed });
+                return TypedResults.Ok(Build(caller, sessions, seats, metrics) with
+                {
+                    PowerAllowed = CallerSession(caller, sessions)?.AllowPower == true
+                });
             })
            .WithTags("HUD")
            .WithSummary("Estado para el HUD de una sesión: uso del equipo, sesiones en marcha y sus dispositivos.");
 
-        app.MapPost("/api/hud/power/{action}", (string action, HttpContext ctx, StreamSessionService sessions, ServiceConfig cfg) =>
+        app.MapPost("/api/hud/power/{action}", (string action, HttpContext ctx, StreamSessionService sessions) =>
             {
-                if (!cfg.HudPowerAllowed) return Results.StatusCode(StatusCodes.Status403Forbidden);
                 uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
-                var who = sessions.GetAll().FirstOrDefault(s => s.State == SessionState.Running && s.RdpSessionId == caller)?.Name
-                          ?? $"Windows {caller}";
+                var session = CallerSession(caller, sessions);
+                if (session?.AllowPower != true)
+                {
+                    Logger.Warning($"[HUD] Apagar/reiniciar rechazado desde '{session?.Name ?? $"Windows {caller}"}': la sesión no tiene permiso.");
+                    return Results.StatusCode(StatusCodes.Status403Forbidden);
+                }
+                var who = session.Name;
                 switch (action.ToLowerInvariant())
                 {
                     case "restart":
@@ -67,9 +74,14 @@ public static class HudEndpoints
                 }
             })
            .WithTags("HUD")
-           .WithSummary("Apagar, reiniciar o cancelar desde el HUD o las apps de Moonlight (solo si Ajustes lo permite).");
+           .WithSummary("Apagar, reiniciar o cancelar desde el HUD o las apps de Moonlight (solo si la sesión que llama tiene permiso).");
         return app;
     }
+
+    /// <summary>Sesión en marcha (no compuesta) de esa sesión de Windows: la de quien llama.</summary>
+    private static StreamSession? CallerSession(uint windowsSession, StreamSessionService sessions) =>
+        windowsSession == 0 ? null : sessions.GetAll().FirstOrDefault(s =>
+            s.State == SessionState.Running && !s.IsComposite && s.RdpSessionId == windowsSession);
 
     /// <summary>Margen antes de apagar: deja ver el aviso y cancelar.</summary>
     public const int PowerDelaySeconds = 10;

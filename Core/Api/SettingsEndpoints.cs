@@ -9,11 +9,7 @@ namespace OpenStreamMS.Core.Api;
 /// <summary>Ajustes globales que se cambian desde el panel.</summary>
 /// <param name="LogLevel">Nivel mínimo de log: Info, Warning, Error u Off.</param>
 /// <param name="WhatsNewDismissed">Versión de las novedades que no se vuelve a abrir sola; vacío = ninguna.</param>
-/// <param name="HudPowerAllowed">Se puede apagar y reiniciar el PC desde el HUD.</param>
-public record SettingsResponse(string LogLevel, string WhatsNewDismissed = "", bool HudPowerAllowed = false);
-
-/// <param name="Allowed">Permitir apagar y reiniciar el PC desde el HUD y las apps de Moonlight.</param>
-public record SetHudPowerRequest(bool Allowed);
+public record SettingsResponse(string LogLevel, string WhatsNewDismissed = "");
 
 public record SetLogLevelRequest(string LogLevel);
 
@@ -32,23 +28,11 @@ public record NetworkInfoResponse(string HostName, List<string> Addresses);
 public static class SettingsEndpoints
 {
     private static SettingsResponse Settings(ServiceConfig cfg) =>
-        new(cfg.LogThreshold.ToString(), cfg.WhatsNewDismissed, cfg.HudPowerAllowed);
+        new(cfg.LogThreshold.ToString(), cfg.WhatsNewDismissed);
 
     public static IEndpointRouteBuilder MapSettingsApi(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/settings").WithTags("Settings");
-
-        group.MapPut("/hud-power", (SetHudPowerRequest req, ServiceConfig cfg) =>
-             {
-                 if (cfg.HudPowerAllowed != req.Allowed)
-                 {
-                     Logger.Warning($"[Settings] Apagar y reiniciar desde el HUD: {(req.Allowed ? "permitido" : "no permitido")}.");
-                     cfg.HudPowerAllowed = req.Allowed;
-                     cfg.Save();
-                 }
-                 return Results.Ok(Settings(cfg));
-             })
-             .WithSummary("Permite (o no) apagar y reiniciar el PC desde el HUD de las sesiones y desde las apps Reboot / Power Off de Moonlight.");
 
         group.MapGet("/", (ServiceConfig cfg) => TypedResults.Ok(Settings(cfg)))
              .WithSummary("Ajustes globales.");

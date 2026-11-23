@@ -101,7 +101,9 @@ public record CreateSessionRequest(
     /// <summary>Ritmo de composición de la sesión RDP: Smooth (más fluido) o Efficient (menos CPU/GPU).</summary>
     RdpCompositionMode RdpComposition = RdpCompositionMode.Smooth,
     /// <summary>Mando que emula Sunshine: "auto" (según el mando del cliente), "x360" o "ds4". Null = auto.</summary>
-    string? GamepadType = null
+    string? GamepadType = null,
+    /// <summary>Permitir apagar y reiniciar el PC desde la sesión (HUD y apps Reboot / Power Off de Moonlight).</summary>
+    bool AllowPower = false
 );
 
 /// <summary>Datos editables de una sesión ya creada (requiere sesión detenida).</summary>
@@ -173,7 +175,9 @@ public record UpdateSessionConfigRequest(
     /// </summary>
     string? ReuseIsolatedUser = null,
     /// <summary>Mando que emula Sunshine: "auto", "x360" o "ds4". Null = mantener el actual.</summary>
-    string? GamepadType = null
+    string? GamepadType = null,
+    /// <summary>Permitir apagar y reiniciar el PC desde la sesión. Null = mantener el actual.</summary>
+    bool? AllowPower = null
 );
 
 /// <summary>Cuerpo para cambiar los protocolos de streaming de una sesión.</summary>
@@ -285,7 +289,9 @@ public record SessionResponse(
     /// <summary>En un miembro: la sesión compuesta en marcha que lo usa; null si ninguna.</summary>
     Guid?        CompositeOf = null,
     /// <summary>Mando que emula Sunshine: "auto", "x360" o "ds4".</summary>
-    string       GamepadType = "auto"
+    string       GamepadType = "auto",
+    /// <summary>Se puede apagar y reiniciar el PC desde la sesión (HUD y apps de Moonlight).</summary>
+    bool         AllowPower = false
 );
 
 /// <summary>Usuario dedicado o perfil osms-* que ya no usa ninguna sesión.</summary>
@@ -662,7 +668,8 @@ public static class SessionEndpoints
                                  reuseIsolatedUser: req.ReuseIsolatedUser,
                                  rdpDisplayScale: req.RdpDisplayScale,
                                  rdpComposition: req.RdpComposition,
-                                 gamepadType: req.GamepadType);
+                                 gamepadType: req.GamepadType,
+                                 allowPower: req.AllowPower);
         }
         catch (InvalidOperationException ex)
         {
@@ -829,7 +836,8 @@ public static class SessionEndpoints
                                            rdpComposition: req.RdpComposition,
                                            restartIfActive: req.RestartIfActive,
                                            reuseIsolatedUser: req.ReuseIsolatedUser,
-                                           gamepadType: req.GamepadType);
+                                           gamepadType: req.GamepadType,
+                                           allowPower: req.AllowPower);
             return TypedResults.Ok(ToResponse(session));
         }
         catch (KeyNotFoundException)
@@ -1096,5 +1104,6 @@ public static class SessionEndpoints
             OpenStreamMS.Core.Helpers.DeviceTopology.IsPortPresent(g.UsbPort))).ToList(),
         OpenStreamMS.Services.Gamepad.GamepadSessionIsolation.SessionJailSupported,
         s.Composite, s.CompositeInput, s.CompositeOf,
-        StreamSession.NormalizeGamepadType(s.GamepadType) ?? "auto");
+        StreamSession.NormalizeGamepadType(s.GamepadType) ?? "auto",
+        s.AllowPower);
 }

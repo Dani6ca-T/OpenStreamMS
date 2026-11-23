@@ -389,6 +389,10 @@
           <input type="checkbox" id="sess-profile">
           <label for="sess-profile" data-i18n-html="new.profileLabel_html"><strong>Perfil de stream independiente</strong></label>
         </div>
+        <div class="form-check rdp-only">
+          <input type="checkbox" id="sess-allow-power">
+          <label for="sess-allow-power" data-i18n-html="ux.allowPower_html"><strong>Permitir apagar y reiniciar el PC</strong> desde esta sesión (HUD con Ctrl+Alt+H o Guía + Back, y apps Reboot / Power Off de Moonlight)</label>
+        </div>
         <!-- La pantalla virtual solo sirve en el escritorio local: en una sesión RDP no hace nada. -->
         <div class="form-check local-only">
           <input type="checkbox" id="sess-vdd">
@@ -632,7 +636,6 @@
         <button type="button" role="tab" class="settings-tab" id="settings-tab-appearance" data-pane="appearance" aria-controls="settings-pane-appearance" onclick="settingsPane('appearance')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.9 1.4-1.9-.3-.9.2-1.8 1.2-1.8H17a4 4 0 0 0 4-4c0-5.1-4-9.3-9-9.3z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7.2" r="1.2" fill="currentColor"/><circle cx="15" cy="7.8" r="1.2" fill="currentColor"/></svg><span data-i18n="appearance.title">Apariencia</span></button>
         <button type="button" role="tab" class="settings-tab" id="settings-tab-log" data-pane="log" aria-controls="settings-pane-log" onclick="settingsPane('log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg><span data-i18n="settings.logSection">Registro</span></button>
         <button type="button" role="tab" class="settings-tab" id="settings-tab-diag" data-pane="diag" aria-controls="settings-pane-diag" onclick="settingsPane('diag')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span data-i18n="settings.diagSection">Diagnóstico</span></button>
-        <button type="button" role="tab" class="settings-tab" id="settings-tab-hud" data-pane="hud" aria-controls="settings-pane-hud" onclick="settingsPane('hud')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 9h4M7 12h7"/></svg><span data-i18n="settings.hudSection">HUD</span></button>
       </nav>
       <div class="modal-body settings-panes">
         <section class="settings-pane" id="settings-pane-appearance" role="tabpanel" aria-labelledby="settings-tab-appearance">
@@ -671,14 +674,6 @@
                 <span><strong data-i18n="settings.log.Off">Desactivado</strong><small data-i18n="settings.log.OffHint">No se escribe nada. Si algo falla, no quedará rastro.</small></span></label>
             </div>
             <div class="hint" data-i18n="settings.logHint">Vale para el servicio, la bandeja, los puestos y Sunshine. Cada Sunshine lo aplica la próxima vez que se reinicie su sesión.</div>
-          </div>
-        </section>
-        <section class="settings-pane" id="settings-pane-hud" role="tabpanel" aria-labelledby="settings-tab-hud">
-          <h4 class="settings-section" data-i18n="settings.hudSection">HUD</h4>
-          <p class="hint" data-i18n="settings.hudIntro">Dentro de cada sesión y puesto se abre con Ctrl+Alt+H o con Guía + Back en el mando. Muestra el uso del PC y de cada sesión.</p>
-          <div class="form-row form-check">
-            <label><input type="checkbox" id="settings-hud-power" onchange="saveHudPower(this)"> <span data-i18n="settings.hudPower">Permitir apagar y reiniciar el PC desde el HUD</span></label>
-            <div class="hint" data-i18n="settings.hudPowerHint">Cualquiera que esté en una sesión o en un puesto podrá apagar o reiniciar el equipo (con 10 s para cancelar). También vale para las apps Reboot y Power Off de Moonlight.</div>
           </div>
         </section>
         <section class="settings-pane" id="settings-pane-diag" role="tabpanel" aria-labelledby="settings-tab-diag">
