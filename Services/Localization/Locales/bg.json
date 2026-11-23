@@ -51,6 +51,7 @@
   "driver.uninstalled": "{0} деинсталиран успешно.",
   "driver.cancelled": "Отменено от потребителя.",
   "driver.rebootToFinish": "Рестартирайте Windows, за да завърши инсталирането на {0}.",
+  "driver.rebootThenReinstall": "Рестартирайте Windows и инсталирайте {0} отново.",
   "driver.fatalError": "Фатална грешка при инсталиране. Проверете Windows Installer лога.",
   "driver.unknownExitCode": "Неизвестен код на изход.",
   "driver.currentStatus": "Текущ статус: installed={0}; version={1}; service={2}",

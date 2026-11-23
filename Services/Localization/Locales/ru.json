@@ -51,6 +51,7 @@
   "driver.uninstalled": "{0} удалён успешно.",
   "driver.cancelled": "Отменено пользователем.",
   "driver.rebootToFinish": "Перезагрузите Windows, чтобы завершить установку {0}.",
+  "driver.rebootThenReinstall": "Перезагрузите Windows и установите {0} ещё раз.",
   "driver.fatalError": "Критическая ошибка установки. Проверьте журнал Windows Installer.",
   "driver.unknownExitCode": "Неизвестный код выхода.",
   "driver.currentStatus": "Текущий статус: installed={0}; version={1}; service={2}",

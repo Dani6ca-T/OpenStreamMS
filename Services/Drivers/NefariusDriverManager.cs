@@ -164,15 +164,19 @@ public abstract class NefariusDriverManager
                     ? BackendText.Get("driver.installed", Name)
                     : BackendText.Get("driver.uninstalled", Name));
                 break;
-            // 3010: hecho, falta reiniciar. 1641: el instalador pidió el reinicio. 1604: la
-            // instalación quedó suspendida hasta reiniciar (Windows Installer la termina al
-            // arrancar desde RunOnce); pasa al actualizar ViGEmBus 1.21 a 1.22, que quita el
-            // driver anterior y espera al reinicio para poner el nuevo.
+            // 3010: hecho, falta reiniciar. 1641: el instalador pidió el reinicio.
             case 3010:
             case 1641:
-            case 1604:
                 _rebootRequired = true;
                 AppendLog(BackendText.Get("driver.rebootToFinish", Name));
+                break;
+            // 1604: instalación suspendida. Pasa al actualizar ViGEmBus 1.21 a 1.22: quita el
+            // driver anterior y deja un "MsiExec /@" en RunOnce, pero al reiniciar ese paso no
+            // instala nada (probado). Después del reinicio hay que lanzar el instalador otra vez,
+            // y entonces termina bien porque ya no hay versión anterior que quitar.
+            case 1604:
+                _rebootRequired = true;
+                AppendLog(BackendText.Get("driver.rebootThenReinstall", Name));
                 break;
             case 1602:
                 AppendLog(BackendText.Get("driver.cancelled"));

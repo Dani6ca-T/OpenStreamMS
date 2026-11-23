@@ -51,6 +51,7 @@
   "driver.uninstalled": "{0} avinstallerades framgångsrikt.",
   "driver.cancelled": "Avbruten av användaren.",
   "driver.rebootToFinish": "Starta om Windows för att slutföra installationen av {0}.",
+  "driver.rebootThenReinstall": "Starta om Windows och installera sedan {0} igen.",
   "driver.fatalError": "Allvarligt installationsfel. Kontrollera Windows Installer-logen.",
   "driver.unknownExitCode": "Okänd avslutningskod.",
   "driver.currentStatus": "Nuvarande status: installed={0}; version={1}; service={2}",
