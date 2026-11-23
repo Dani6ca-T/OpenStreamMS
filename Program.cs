@@ -49,6 +49,10 @@ switch (command)
         // Sesiones compuestas: lleva el sonido de un miembro a la sesión del teclado (lo lanza el servicio).
         Environment.Exit(OpenStreamMS.Services.Audio.AudioRelay.Run(args));
         break;
+    case "--input-relay":
+        // Sesiones compuestas: teclado y ratón de su Sunshine en otro miembro (lo lanza el servicio como SYSTEM).
+        Environment.Exit(OpenStreamMS.Services.Input.InputRelay.Run());
+        break;
     case "--hud":
         // HUD de una sesión de stream o de puesto (lo lanza el servicio dentro de la sesión).
         RunHud();
@@ -492,10 +496,12 @@ static bool IsHudRequest(HttpContext ctx, out uint windowsSession)
 {
     windowsSession = 0;
     var path = (ctx.Request.Path.Value ?? "").TrimEnd('/').ToLowerInvariant();
+    const string keyboardPrefix = "/api/hud/keyboard/";   // + id de la sesión que recibe el teclado
     bool allowed = HttpMethods.IsGet(ctx.Request.Method)
         ? path == "/api/hud"
-        : HttpMethods.IsPost(ctx.Request.Method) && path is "/api/hud/power/restart" or "/api/hud/power/shutdown" or "/api/hud/power/cancel"
-                                                              or "/api/hud/session/restart";
+        : HttpMethods.IsPost(ctx.Request.Method) &&
+          (path is "/api/hud/power/restart" or "/api/hud/power/shutdown" or "/api/hud/power/cancel" or "/api/hud/session/restart" ||
+           path.StartsWith(keyboardPrefix, StringComparison.Ordinal) && Guid.TryParse(path[keyboardPrefix.Length..], out _));
     if (!allowed) return false;
     var host = ctx.Request.Host.Host.ToLowerInvariant();
     if (host is not ("localhost" or "127.0.0.1" or "[::1]" or "::1")) return false;

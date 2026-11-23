@@ -216,6 +216,7 @@ public partial class StreamSessionService
             Logger.Log($"[{c.Name}] Sesión compuesta activa: {string.Join(", ", members.Select(m => m.Name))}; " +
                        $"teclado y ratón de '{owner.Name}' (sesión de Windows {c.RdpSessionId}).", c.Id);
             EnsureCompositeAudio(c);
+            EnsureCompositeInput(c);
         }
         catch
         {
@@ -285,6 +286,7 @@ public partial class StreamSessionService
     private void ReleaseComposite(StreamSession c, bool restarting = false)
     {
         StopCompositeAudio(c);
+        StopCompositeInput(c, restarting);
         try { File.Delete(Path.Combine(SunshineConfigDir(c.Id), MosaicLayout.FileName)); }
         catch (Exception ex) { Logger.Warning($"[{c.Name}] No se pudo borrar {MosaicLayout.FileName}: {ex.Message}", c.Id); }
 
@@ -358,6 +360,7 @@ public partial class StreamSessionService
                 }
                 if (changed) ApplyComposite(c);
                 else WriteCompositeFile(c);   // una sesión de Windows que cambió o un miembro que se paró
+                EnsureCompositeInput(c);       // el miembro con el teclado se reinició o cambió de sesión
 
                 if (owner.RdpSessionId != c.RdpSessionId)
                 {

@@ -19,6 +19,8 @@ public static class MosaicLayout
 
     /// <summary>Nombre del fichero de control, junto a <c>sunshine.conf</c> de la compuesta.</summary>
     public const string FileName = "osms-mosaic.txt";
+    /// <summary>Sesión que recibe el teclado y el ratón (session_input.cpp de Sunshine), si no es la del teclado.</summary>
+    public const string InputFileName = "osms-input.txt";
 
     /// <summary>
     /// Plantillas que ofrece el panel, con sus huecos en orden (el mando N va al hueco N). Una
@@ -80,5 +82,17 @@ public static class MosaicLayout
             sb.Append('\n');
         }
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Contenido de <see cref="InputFileName"/>: "&lt;sesión de Windows&gt; &lt;x&gt; &lt;y&gt; &lt;ancho&gt;
+    /// &lt;alto&gt; &lt;ancho del lienzo&gt; &lt;alto del lienzo&gt;", con el hueco en píxeles del lienzo
+    /// (Sunshine lleva ahí la posición absoluta del ratón).
+    /// </summary>
+    public static string RenderInputTarget(uint windowsSession, SeatScreenArea area, int canvasWidth, int canvasHeight)
+    {
+        var (x, y, w, h) = new SeatMonitor { Area = area }.Region(0, 0, canvasWidth, canvasHeight);
+        return "# OpenStreamMS: <Windows session id> <x> <y> <width> <height> <canvas width> <canvas height>\n" +
+               $"{windowsSession} {x} {y} {w} {h} {canvasWidth} {canvasHeight}\n";
     }
 }

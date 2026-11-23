@@ -65,7 +65,9 @@ function render(data) {
         ${s.seat ? `<span class="hud-chip">${esc(t('hud.seat', { name: s.seat }))}</span>` : ''}
         ${s.composite ? `<span class="hud-chip">${esc(t('hud.composite', { name: s.composite }))}</span>` : ''}
         ${s.software ? `<span class="hud-chip hud-warn-chip">${esc(t('hud.software'))}</span>` : ''}
+        ${s.keyboardHere ? `<span class="hud-chip hud-kb-chip">${esc(t('hud.keyboardHere'))}</span>` : ''}
       </div>
+      ${s.canTakeKeyboard ? `<button type="button" class="hud-btn hud-nav hud-take-kb" data-id="kb-${esc(s.id)}" data-session="${esc(s.id)}">${esc(t('hud.takeKeyboard'))}</button>` : ''}
       <div class="hud-sess-meters">
         ${meter(t('hud.cpu'), s.cpu)}${meter(t('hud.gpu'), s.gpu)}${meter(t('hud.encode'), s.gpuEncode)}
       </div>
@@ -188,6 +190,20 @@ async function restartSessionPressed(btn) {
   }
 }
 byId('hud-restart-session').addEventListener('click', e => restartSessionPressed(e.currentTarget));
+
+// Compuestas: el teclado y el ratón de su Sunshine van a un solo miembro; desde aquí se pasan a otro.
+// El HUD se cierra: si se van a otra sesión, en esta ya no llegaría ni Esc.
+byId('hud-list').addEventListener('click', async e => {
+  const btn = e.target.closest('.hud-take-kb');
+  if (!btn) return;
+  try {
+    const res = await fetch('/api/hud/keyboard/' + encodeURIComponent(btn.dataset.session), { method: 'POST' });
+    if (!res.ok) throw new Error(res.status);
+    close();
+  } catch {
+    showPendingText(t('hud.takeKeyboardError'), false);
+  }
+});
 byId('hud-cancel').addEventListener('click', cancelPower);
 
 // ── Navegación ───────────────────────────────────────────────────────────────
