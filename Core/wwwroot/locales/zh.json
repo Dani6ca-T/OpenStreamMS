@@ -699,6 +699,7 @@
   "guide.install.needPads": "使用手柄必需",
   "guide.install.needSeats": "可选，用于工作站",
   "guide.install.optional": "可选",
+  "guide.install.remoteiddOff": "已关闭",
   "guide.start.nav": "入门",
   "guide.start.title": "一切就绪，开始吧！",
   "guide.start.lead": "创建你需要的内容。你可以随时通过顶部的“?”按钮回到本指南。",

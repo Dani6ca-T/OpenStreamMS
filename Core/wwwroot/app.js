@@ -1004,6 +1004,10 @@ function renderRdpStatus(st) {
   const note = document.getElementById('rdp-pending-note');
   note.textContent = key === 'pending' ? t('rdp.pendingNote') : '';
   note.classList.toggle('hidden', key !== 'pending');
+  // RemoteIdd quitado al arrancar: el servicio manda el motivo ya traducido.
+  const ridd = document.getElementById('rdp-remoteidd-note');
+  ridd.textContent = st.remoteIddOffText || '';
+  ridd.classList.toggle('hidden', !st.remoteIddOffText);
 
   document.getElementById('rdp-source').textContent   = t(`rdp.source.${st.source || 'none'}`);
   document.getElementById('rdp-edition').textContent  = st.edition || '—';

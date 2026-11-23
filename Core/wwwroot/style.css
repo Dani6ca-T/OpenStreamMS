@@ -2017,6 +2017,9 @@ section#view-sessions, section#view-seats { animation: viewIn .35s var(--ease); 
 }
 .guide-dep-ok, .guide-dep-activates { border-color: rgba(var(--glow-green),.45); }
 .guide-dep-missing, .guide-dep-broken, .guide-dep-single { border-color: rgba(239,68,68,.45); }
+/* Opcional y desactivado (RemoteIdd quitado al arrancar): aviso, no fallo. */
+.guide-dep-off { border-color: var(--amber); }
+.guide-dep-off .guide-bang { color: var(--amber); }
 .guide-dep-mark { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(var(--c-accent),.1); }
 .guide-dep-ok .guide-dep-mark, .guide-dep-activates .guide-dep-mark { background: rgba(var(--glow-green),.18); color: var(--green); }
 .guide-dep-mark svg { width: 18px; height: 18px; }

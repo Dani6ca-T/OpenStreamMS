@@ -699,6 +699,7 @@
   "guide.install.needPads": "Krävs för handkontroller",
   "guide.install.needSeats": "Valfritt, för arbetsstationer",
   "guide.install.optional": "valfritt",
+  "guide.install.remoteiddOff": "avstängt",
   "guide.start.nav": "Kom igång",
   "guide.start.title": "Allt klart att börja!",
   "guide.start.lead": "Skapa det du behöver. Du kan när som helst återvända till guiden via knappen ”?” högst upp.",

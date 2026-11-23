@@ -359,7 +359,7 @@ internal static partial class DiagnosticsBundle
         root["remoteIddPendingRestart"] = RdpWrapperManager.IsRemoteIddPendingRestart();
         root["remoteIddUsable"] = RdpWrapperManager.IsRemoteIddUsable();
         summary.AppendLine($"Multi-RDP:     {(rdpStatus.Allowed ? $"sí ({rdpStatus.Source})" : rdpStatus.Pending ? "pendiente de cargar" : "no, una sola sesión")} (sesiones activas: {rdpStatus.ActiveSessions}, {rdpStatus.Edition}, termsrv {rdpStatus.TermsrvVersion})");
-        summary.AppendLine($"RemoteIdd:     {(RdpWrapperManager.IsRemoteIddUsable() ? "en uso" : RdpWrapperManager.IsRemoteIddActive() ? "instalado, pendiente de reinicio" : "no")}");
+        summary.AppendLine($"RemoteIdd:     {(RdpWrapperManager.IsRemoteIddUsable() ? "en uso" : RdpWrapperManager.IsRemoteIddActive() ? "instalado, pendiente de reinicio" : rdpStatus.RemoteIddOffReason is { } off ? $"quitado de RDP-Tcp al arrancar ({off}); se reintenta al reinstalar" : "no")}");
 
         var drivers = new JsonObject();
         foreach (var d in src.Drivers ?? [new ViGEmBusManager(), new HidHideManager()])

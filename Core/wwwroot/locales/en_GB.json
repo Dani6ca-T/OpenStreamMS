@@ -699,6 +699,7 @@
   "guide.install.needPads": "Required for gamepads",
   "guide.install.needSeats": "Optional, for seats",
   "guide.install.optional": "optional",
+  "guide.install.remoteiddOff": "turned off",
   "guide.start.nav": "Get started",
   "guide.start.title": "All set to start!",
   "guide.start.lead": "Create what you need. You can come back to this guide at any time from the \"?\" button at the top.",

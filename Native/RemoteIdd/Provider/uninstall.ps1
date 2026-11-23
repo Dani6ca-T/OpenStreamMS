@@ -65,4 +65,6 @@ if ($s.Thumbprint) {
     Write-Host 'Certificado de test eliminado.'
 }
 Remove-Item $state
+# Motivo que dejó OpenStreamMS si tuvo que quitar RemoteIdd de RDP-Tcp al arrancar.
+Remove-Item (Join-Path $env:ProgramData 'OpenStreamMS\remoteidd-off.json') -ErrorAction SilentlyContinue
 Write-Host 'Desinstalado. Si activaste testsigning solo para esto: bcdedit /set testsigning off'

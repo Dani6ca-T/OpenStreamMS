@@ -36,7 +36,14 @@ public record RdpWrapperStatus(
     /// <summary>true si RDP-Tcp pasa por el proveedor de RemoteIdd (captura remoteidd disponible).</summary>
     bool    RemoteIdd,
     /// <summary>Versión de <c>termsrv.dll</c> del sistema (file version).</summary>
-    string? TermsrvVersion);
+    string? TermsrvVersion,
+    /// <summary>
+    /// RemoteIdd instalado pero quitado de RDP-Tcp en el arranque porque no funcionaba:
+    /// <c>"rdpTcpNotListening"</c>, <c>"notLoaded"</c> o <c>"singleSession"</c>. Null si no.
+    /// </summary>
+    string? RemoteIddOffReason,
+    /// <summary>Lo mismo explicado para el usuario, en el idioma de la petición.</summary>
+    string? RemoteIddOffText);
 
 /// <summary>
 /// Multi-RDP: varias sesiones de Windows a la vez. Oficialmente es Windows Server con el rol Host
@@ -67,6 +74,7 @@ public sealed class RdpWrapperManager
         // cliente arranca con la primera conexión) o con la DLL anterior hasta reiniciar. Si ya
         // hay varias sesiones activas, funciona aunque no se haya podido mirar.
         var pending = source == "thirdParty" && loaded != true && active < 2;
+        var offReason = RemoteIddOffReason();
 
         return new RdpWrapperStatus(
             Allowed:         source is not null && !pending,
@@ -78,7 +86,9 @@ public sealed class RdpWrapperManager
             ActiveSessions:  active,
             Edition:         edition,
             RemoteIdd:       IsRemoteIddActive(),
-            TermsrvVersion:  ReadTermsrvVersion());
+            TermsrvVersion:  ReadTermsrvVersion(),
+            RemoteIddOffReason: offReason,
+            RemoteIddOffText:   offReason is null ? null : RemoteIddOffText(offReason));
     }
 
     // ── Arranque: RemoteIdd ──────────────────────────────────────────────────
@@ -200,23 +210,83 @@ public sealed class RdpWrapperManager
             Thread.Sleep(2000);
         if (problem is null)
         {
+            ClearRemoteIddOff();
             Logger.Log("[MultiRdp] RDP-Tcp escuchando con el proveedor de RemoteIdd: RemoteIdd disponible.");
             return;
         }
-        Logger.Error($"[MultiRdp] RemoteIdd sin funcionar ({problem}). Se quita RemoteIdd de RDP-Tcp.");
+        // Se quita para no dejar el equipo sin Escritorio remoto. No se marca como imposible: la
+        // próxima actualización o reinstalación de OpenStreamMS lo vuelve a poner y a probar (el
+        // usuario puede haber cambiado entre tanto lo que permite varias sesiones).
+        Logger.Error("[MultiRdp] " + RemoteIddOffText(problem));
         LeaveRemoteIdd();
+        SaveRemoteIddOff(problem);
         ApplyTermServiceChange();
         Logger.Log($"[MultiRdp] RemoteIdd fuera de RDP-Tcp. Estado: {GetStatus()}");
     }
 
-    /// <summary>Null si el equipo admite varias sesiones y RDP-Tcp escucha; si no, el motivo.</summary>
+    /// <summary>Null si el equipo admite varias sesiones y RDP-Tcp escucha; si no, el código del motivo.</summary>
     private string? RemoteIddProblem()
     {
         var st = GetStatus();
-        if (st.Pending)           return BackendText.Get("rdpwrap.notLoaded");
-        if (!st.Allowed)          return BackendText.Get("rdpwrap.singleSession");
-        if (!IsRdpTcpListening()) return BackendText.Get("rdpwrap.rdpTcpNotListening");
+        if (st.Pending)           return "notLoaded";
+        if (!st.Allowed)          return "singleSession";
+        if (!IsRdpTcpListening()) return "rdpTcpNotListening";
         return null;
+    }
+
+    // ── RemoteIdd quitado: motivo para el panel y el diagnóstico ─────────────
+
+    private static string ProgramDataFile(string name) =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenStreamMS", name);
+
+    /// <summary>
+    /// Lo deja el arranque al quitar RemoteIdd de RDP-Tcp. Sin él, después del reinicio el panel
+    /// vería RemoteIdd sin más, como si nunca se hubiera instalado.
+    /// </summary>
+    private static string RemoteIddOffFile => ProgramDataFile("remoteidd-off.json");
+
+    /// <summary>
+    /// Texto para el usuario y el log: qué pasa, por qué y cuándo se vuelve a probar. En una
+    /// petición del panel, en su idioma; en el arranque, en el de Windows.
+    /// </summary>
+    public static string RemoteIddOffText(string reason) =>
+        RequestCulture.T("rdpwrap.remoteIddOff", RequestCulture.T("rdpwrap." + reason));
+
+    /// <summary>
+    /// Motivo por el que se quitó RemoteIdd, si sigue instalado y fuera de RDP-Tcp; null si está
+    /// puesto (se está probando otra vez o funciona), desinstalado o nunca se quitó.
+    /// </summary>
+    public static string? RemoteIddOffReason() =>
+        ReadRemoteIddOff(RemoteIddOffFile, ProgramDataFile("remoteidd-install.json"), IsRemoteIddActive());
+
+    internal static string? ReadRemoteIddOff(string offFile, string installState, bool remoteIddActive)
+    {
+        if (remoteIddActive || !File.Exists(installState)) return null;
+        try
+        {
+            using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(offFile));
+            return doc.RootElement.TryGetProperty("reason", out var r) && r.GetString() is { Length: > 0 } reason
+                ? reason : null;
+        }
+        catch { return null; }
+    }
+
+    internal static void WriteRemoteIddOff(string offFile, string reason)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(offFile)!);
+        File.WriteAllText(offFile, System.Text.Json.JsonSerializer.Serialize(
+            new { reason, when = DateTimeOffset.Now.ToString("o") }));
+    }
+
+    private static void SaveRemoteIddOff(string reason)
+    {
+        try { WriteRemoteIddOff(RemoteIddOffFile, reason); }
+        catch (Exception ex) { Logger.Warning($"[MultiRdp] No se pudo guardar el motivo de quitar RemoteIdd: {ex.Message}"); }
+    }
+
+    private static void ClearRemoteIddOff()
+    {
+        try { File.Delete(RemoteIddOffFile); } catch { }
     }
 
     private static bool IsRdpTcpListening()
