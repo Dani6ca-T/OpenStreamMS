@@ -461,22 +461,43 @@ namespace OpenStreamMS.Services.Sunshine
                 // Sunshine 2026.9+ prioriza Virtual HID Driver (de pago, requiere licencia)
                 // y deja ViGEmBus como fallback con avisos. OpenStreamMS instala ViGEmBus.
                 ["gamepad_driver"] = "vigembus",
-                // DS4 en vez de X360: es un HID normal, que GamepadSessionIsolation oculta
-                // a las demás sesiones con HidHide (el XUSB del X360 no se puede ocultar y
-                // el Steam del host se quedaba el mando).
-                ["gamepad"] = "ds4",
+                // "gamepad" no se fija: Sunshine elige por el mando del cliente (auto: X360, o DS4
+                // si el cliente usa uno de PlayStation). Muchos juegos no reconocen un DS4.
                 // AMF: preset "speed" reduce la latencia de encode por frame. A 4K60 el
                 // bloque VCN se comparte con el H.264 del transporte RDP y con "balanced"
                 // el encode se acerca al presupuesto de 16.6 ms. Ignorado por otros encoders.
                 ["amd_quality"] = "speed",
             };
 
-            // Con el driver propio de mandos (OsmsPad) instalado, Sunshine crea con él mandos Xbox
-            // Series: HID como los DS4, así que GamepadSessionIsolation los aísla igual, y sin
-            // ViGEmBus. Se fuerza (no es un valor por defecto) para que las instalaciones que ya
-            // tenían "vigembus" pasen a OsmsPad; si el driver falta, Sunshine vuelve a ViGEmBus.
-            if (Gamepad.OsmsPad.IsInstalled())
-                overrides["gamepad_driver"] = "osmspad";
+            // La 2.0.0 forzaba gamepad_driver = osmspad. OsmsPad crea mandos Xbox Series, que
+            // Windows sirve con xinputhid, y xinputhid deja de dar XInput dentro de una sesión
+            // que no es la consola (issue #69). Las instancias que se quedaron con "osmspad"
+            // vuelven a ViGEmBus una sola vez; si luego alguien lo elige a mano, se respeta.
+            string markerFile = Path.Combine(configDir, "osms_defaults_applied.txt");
+            var alreadyApplied = new HashSet<string>(
+                File.Exists(markerFile) ? File.ReadAllLines(markerFile) : [],
+                StringComparer.OrdinalIgnoreCase);
+            var newlyApplied = new List<string>();
+            if (!alreadyApplied.Contains(OsmsPadRevertedMarker))
+            {
+                if (string.Equals(ReadConfValue(confFile, "gamepad_driver"), "osmspad", StringComparison.OrdinalIgnoreCase))
+                {
+                    overrides["gamepad_driver"] = "vigembus";
+                    Logger.Log("[SunshineCfg] gamepad_driver vuelve de osmspad a vigembus: los mandos Xbox Series de OsmsPad pierden XInput en las sesiones de stream.");
+                }
+                newlyApplied.Add(OsmsPadRevertedMarker);
+            }
+
+            // "capture = remoteidd" solo lo pone OpenStreamMS, cuando RemoteIdd está en RDP-Tcp. Si
+            // ya no lo está (pendiente de reiniciar, o el arranque lo quitó de RDP-Tcp), Capture
+            // llega null y la clave vieja se quedaría: Sunshine buscaría un frame de RemoteIdd que
+            // no existe y no arrancaría el stream ("no frame slot", error 503 en Moonlight).
+            bool dropStaleRemoteIdd =
+                !string.Equals(cfg.Capture?.Trim(), RemoteIddCapture, StringComparison.OrdinalIgnoreCase) &&
+                !overrides.ContainsKey("capture") &&
+                string.Equals(ReadConfValue(confFile, "capture"), RemoteIddCapture, StringComparison.OrdinalIgnoreCase);
+            if (dropStaleRemoteIdd)
+                Logger.Log("[SunshineCfg] Se quita capture = remoteidd: RemoteIdd no está activo en RDP-Tcp, Sunshine usa la captura por defecto.");
 
             // Puertos WebRTC: los gestiona OpenStreamMS (firewall y choques entre sesiones).
             if (cfg.WebRtcPort > 0)
@@ -502,6 +523,8 @@ namespace OpenStreamMS.Services.Sunshine
                     if (eqIdx > 0 && !trimmed.StartsWith('#'))
                     {
                         var key = trimmed[..eqIdx].TrimEnd();
+                        if (dropStaleRemoteIdd && string.Equals(key, "capture", StringComparison.OrdinalIgnoreCase))
+                            continue;
                         present.Add(key);
                         if (overrides.TryGetValue(key, out var newVal))
                         {
@@ -521,12 +544,6 @@ namespace OpenStreamMS.Services.Sunshine
             // Cada default se aplica UNA sola vez por instancia: el panel de Sunshine borra
             // del conf las claves que igualan SU default al guardar, asi que "clave ausente"
             // tambien puede significar "el usuario eligio el default de Sunshine".
-            string markerFile = Path.Combine(configDir, "osms_defaults_applied.txt");
-            var alreadyApplied = new HashSet<string>(
-                File.Exists(markerFile) ? File.ReadAllLines(markerFile) : [],
-                StringComparer.OrdinalIgnoreCase);
-            var newlyApplied = new List<string>();
-
             foreach (var (key, val) in defaults)
             {
                 if (overrides.ContainsKey(key) || alreadyApplied.Contains(key)) continue;
@@ -538,7 +555,7 @@ namespace OpenStreamMS.Services.Sunshine
             if (newlyApplied.Count > 0)
             {
                 File.AppendAllLines(markerFile, newlyApplied);
-                var added = newlyApplied.Where(k => !present.Contains(k)).ToList();
+                var added = newlyApplied.Where(k => defaults.ContainsKey(k) && !present.Contains(k)).ToList();
                 if (added.Count > 0)
                     Logger.Log($"[SunshineCfg] Defaults de OpenStreamMS aplicados: " +
                                string.Join(", ", added.Select(k => $"{k}={defaults[k]}")));
@@ -603,9 +620,17 @@ namespace OpenStreamMS.Services.Sunshine
         /// Lee una clave del <c>sunshine.conf</c> de una instancia (la última si se repite).
         /// null si el fichero o la clave no existen.
         /// </summary>
-        public static string? ReadConfigValue(string sunshineExePath, string key)
+        public static string? ReadConfigValue(string sunshineExePath, string key) =>
+            ReadConfValue(Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "config", "sunshine.conf"), key);
+
+        /// <summary>Marca en osms_defaults_applied.txt: el "osmspad" que forzaba la 2.0.0 ya se revisó.</summary>
+        private const string OsmsPadRevertedMarker = "#osmspad-reverted";
+
+        /// <summary>Valor de <c>capture</c> con el que Sunshine lee los frames de RemoteIdd.</summary>
+        private const string RemoteIddCapture = "remoteidd";
+
+        private static string? ReadConfValue(string confFile, string key)
         {
-            var confFile = Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "config", "sunshine.conf");
             if (!File.Exists(confFile)) return null;
 
             string? value = null;
