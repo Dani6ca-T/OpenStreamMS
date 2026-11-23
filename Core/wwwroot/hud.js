@@ -1,7 +1,9 @@
 'use strict';
 // HUD de una sesión (Services/Hud/HudWindow.cs lo muestra con Ctrl+Alt+H o Guía + Back).
 // Lee /api/hud cada 2 s mientras está abierto. Se maneja con teclado o mando: cruceta o flechas
-// para moverse entre sesiones, B o Esc para cerrar.
+// para moverse, A o Enter para pulsar, B o Esc para cerrar. El tema es el que se eligió en el panel
+// (lo dice el servicio) y el fondo, la pantalla de debajo desenfocada (/hud-backdrop.jpg, que sirve
+// la propia ventana del HUD).
 
 const POLL_MS = 2000;
 let pollTimer = null;
@@ -13,12 +15,16 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const pct = v => (v === null || v === undefined) ? null : Math.max(0, Math.min(100, v));
 const fmt = v => v === null ? '—' : `${Math.round(v)}%`;
 
+function setBackdrop(version) {
+  byId('hud-backdrop').style.backgroundImage = `url("/hud-backdrop.jpg?v=${encodeURIComponent(version ?? Date.now())}")`;
+}
+
 function meter(label, value, extra) {
   const v = pct(value);
-  const level = v === null ? '' : v >= 90 ? 'bad' : v >= 70 ? 'warn' : '';
-  return `<div class="meter">
-      <div class="meter-top"><span>${esc(label)}</span><b>${extra ?? fmt(v)}</b></div>
-      <div class="bar ${level}"><i style="width:${v ?? 0}%"></i></div>
+  const level = v === null ? '' : v >= 90 ? ' hud-bad' : v >= 70 ? ' hud-warn' : '';
+  return `<div class="hud-meter">
+      <div class="hud-meter-top"><span>${esc(label)}</span><b>${extra ?? fmt(v)}</b></div>
+      <div class="hud-bar${level}"><i style="width:${v ?? 0}%"></i></div>
     </div>`;
 }
 
@@ -28,6 +34,8 @@ function deviceLabel(d) {
 }
 
 function render(data) {
+  window.Theme?.preview(data.theme, { accent: data.accent, light: data.lightTheme });
+
   const pc = data.pc;
   const memPct = pc.memTotalGb > 0 ? pc.memUsedGb / pc.memTotalGb * 100 : null;
   byId('hud-pc').innerHTML =
@@ -47,29 +55,54 @@ function render(data) {
   const inList = byId('hud-list').contains(document.activeElement) || document.activeElement === document.body;
   const focused = document.activeElement?.dataset?.id;
   byId('hud-list').innerHTML = data.sessions.map(s => `
-    <article class="sess nav${s.isMine ? ' mine' : ''}" tabindex="0" data-id="${esc(s.id)}">
-      <div class="sess-name">${esc(s.name)}
-        ${s.isMine ? `<span class="chip me">${esc(t('hud.this'))}</span>` : ''}
-        ${s.seat ? `<span class="chip">${esc(t('hud.seat', { name: s.seat }))}</span>` : ''}
-        ${s.composite ? `<span class="chip">${esc(t('hud.composite', { name: s.composite }))}</span>` : ''}
-        ${s.software ? `<span class="chip warn">${esc(t('hud.software'))}</span>` : ''}
+    <article class="hud-sess hud-nav${s.isMine ? ' hud-mine' : ''}" tabindex="0" data-id="${esc(s.id)}">
+      <div class="hud-sess-name">${esc(s.name)}
+        ${s.isMine ? `<span class="hud-chip hud-me-chip">${esc(t('hud.this'))}</span>` : ''}
+        ${s.seat ? `<span class="hud-chip">${esc(t('hud.seat', { name: s.seat }))}</span>` : ''}
+        ${s.composite ? `<span class="hud-chip">${esc(t('hud.composite', { name: s.composite }))}</span>` : ''}
+        ${s.software ? `<span class="hud-chip hud-warn-chip">${esc(t('hud.software'))}</span>` : ''}
       </div>
-      <div class="sess-meters">
+      <div class="hud-sess-meters">
         ${meter(t('hud.cpu'), s.cpu)}${meter(t('hud.gpu'), s.gpu)}${meter(t('hud.encode'), s.gpuEncode)}
       </div>
-      <ul class="devs">
+      <ul class="hud-devs">
         ${s.devices.length ? s.devices.map(d => `
-          <li><span class="k">${esc(t('hud.kind.' + d.kind))}</span><span>${esc(deviceLabel(d))}</span></li>`).join('')
-          : `<li class="none">${esc(t('hud.noDevices'))}</li>`}
+          <li><span class="hud-k">${esc(t('hud.kind.' + d.kind))}</span><span>${esc(deviceLabel(d))}</span></li>`).join('')
+          : `<li class="hud-none">${esc(t('hud.noDevices'))}</li>`}
       </ul>
     </article>`).join('');
 
   if (!inList) return;
   const again = focused && byId('hud-list').querySelector(`[data-id="${CSS.escape(focused)}"]`);
-  (again || byId('hud-list').querySelector('.sess.mine') || byId('hud-list').querySelector('.sess'))?.focus({ preventScroll: false });
+  (again || byId('hud-list').querySelector('.hud-sess.hud-mine') || byId('hud-list').querySelector('.hud-sess'))?.focus({ preventScroll: false });
 }
 
-// ── Apagar / reiniciar (solo si Ajustes → HUD lo permite) ───────────────────
+async function refresh() {
+  try {
+    const res = await fetch('/api/hud', { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    render(await res.json());
+  } catch {
+    byId('hud-list').innerHTML = `<p class="hud-error">${esc(t('hud.error'))}</p>`;
+  }
+}
+
+function startPolling() {
+  stopPolling();
+  refresh();
+  pollTimer = setInterval(refresh, POLL_MS);
+}
+
+function stopPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = null;
+}
+
+function close() {
+  window.chrome?.webview?.postMessage('close');
+}
+
+// ── Apagar / reiniciar (solo si la sesión tiene permiso) ────────────────────
 
 const CONFIRM_MS = 4000;
 let confirmTimer = null;
@@ -78,16 +111,16 @@ let countdownTimer = null;
 function resetConfirm() {
   clearTimeout(confirmTimer);
   document.querySelectorAll('#hud-power .hud-btn').forEach(b => {
-    b.classList.remove('confirm');
+    b.classList.remove('hud-confirm');
     b.textContent = t('hud.' + b.dataset.action);
   });
 }
 
 // Primera pulsación: pide confirmación; segunda (en 4 s): lo hace.
 async function powerPressed(btn) {
-  if (!btn.classList.contains('confirm')) {
+  if (!btn.classList.contains('hud-confirm')) {
     resetConfirm();
-    btn.classList.add('confirm');
+    btn.classList.add('hud-confirm');
     btn.textContent = t('hud.confirm');
     confirmTimer = setTimeout(resetConfirm, CONFIRM_MS);
     return;
@@ -123,39 +156,16 @@ async function cancelPower() {
   clearInterval(countdownTimer);
   byId('hud-pending').hidden = true;
   try { await fetch('/api/hud/power/cancel', { method: 'POST' }); } catch { /* el aviso de Windows también deja cancelar */ }
-  byId('hud-list').querySelector('.sess.mine, .sess')?.focus();
+  byId('hud-list').querySelector('.hud-sess.hud-mine, .hud-sess')?.focus();
 }
 
 document.querySelectorAll('#hud-power .hud-btn').forEach(b => b.addEventListener('click', () => powerPressed(b)));
 byId('hud-cancel').addEventListener('click', cancelPower);
 
-async function refresh() {
-  try {
-    const res = await fetch('/api/hud', { cache: 'no-store' });
-    if (!res.ok) throw new Error(res.status);
-    render(await res.json());
-  } catch {
-    byId('hud-list').innerHTML = `<p class="hud-error">${esc(t('hud.error'))}</p>`;
-  }
-}
-
-function startPolling() {
-  stopPolling();
-  refresh();
-  pollTimer = setInterval(refresh, POLL_MS);
-}
-
-function stopPolling() {
-  if (pollTimer) clearInterval(pollTimer);
-  pollTimer = null;
-}
-
-function close() {
-  window.chrome?.webview?.postMessage('close');
-}
+// ── Navegación ───────────────────────────────────────────────────────────────
 
 function moveFocus(step) {
-  const items = [...document.querySelectorAll('.nav')].filter(el => el.offsetParent !== null && !el.closest('[hidden]'));
+  const items = [...document.querySelectorAll('.hud-nav')].filter(el => el.offsetParent !== null && !el.closest('[hidden]'));
   if (!items.length) return;
   const i = Math.max(0, items.indexOf(document.activeElement));
   items[(i + step + items.length) % items.length].focus();
@@ -186,11 +196,13 @@ function pollGamepads() {
 }
 
 window.chrome?.webview?.addEventListener('message', e => {
-  if (e.data === 'open') { open = true; lastPadButtons = []; startPolling(); }
-  else if (e.data === 'close') { open = false; stopPolling(); resetConfirm(); }
+  const msg = typeof e.data === 'string' ? { type: e.data } : e.data || {};
+  if (msg.type === 'open') { open = true; lastPadButtons = []; setBackdrop(msg.backdrop); startPolling(); }
+  else if (msg.type === 'close') { open = false; stopPolling(); resetConfirm(); }
 });
 
 (async () => {
+  setBackdrop();
   if (!await I18n.ready) return;
   startPolling();
   requestAnimationFrame(pollGamepads);

@@ -13,6 +13,9 @@ public record SettingsResponse(string LogLevel, string WhatsNewDismissed = "");
 
 public record SetLogLevelRequest(string LogLevel);
 
+/// <param name="Theme">Tema del panel (system, windows, dark, light, nord…), para el HUD.</param>
+public record SetPanelThemeRequest(string Theme);
+
 /// <param name="Version">Versión de las novedades que no se vuelve a abrir sola (p. ej. "2.0").</param>
 public record DismissWhatsNewRequest(string Version);
 
@@ -30,9 +33,26 @@ public static class SettingsEndpoints
     private static SettingsResponse Settings(ServiceConfig cfg) =>
         new(cfg.LogThreshold.ToString(), cfg.WhatsNewDismissed);
 
+    /// <summary>Temas de theme.js (THEMES).</summary>
+    public static readonly string[] PanelThemes =
+        ["system", "windows", "dark", "light", "nord", "dracula", "solarized", "oled", "contrast", "synthwave", "retro", "matrix"];
+
     public static IEndpointRouteBuilder MapSettingsApi(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/settings").WithTags("Settings");
+
+        group.MapPut("/theme", (SetPanelThemeRequest req, ServiceConfig cfg) =>
+             {
+                 var theme = req.Theme?.Trim().ToLowerInvariant() ?? "";
+                 if (!PanelThemes.Contains(theme)) return Results.BadRequest();
+                 if (cfg.PanelTheme != theme)
+                 {
+                     cfg.PanelTheme = theme;
+                     cfg.Save();
+                 }
+                 return Results.NoContent();
+             })
+             .WithSummary("Tema elegido en el panel; lo usa el HUD de las sesiones.");
 
         group.MapGet("/", (ServiceConfig cfg) => TypedResults.Ok(Settings(cfg)))
              .WithSummary("Ajustes globales.");

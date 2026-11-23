@@ -7,11 +7,16 @@ using Microsoft.Web.WebView2.WinForms;
 namespace OpenStreamMS.Services.Hud;
 
 /// <summary>
-/// HUD de una sesión (<c>OpenStreamMS.exe --hud</c>): ventana encima de todo, oculta hasta que se
-/// pide con Ctrl+Alt+H o con Guía + Back en un mando XInput de la sesión. Corre dentro de la sesión
-/// de Windows, así que se ve igual en el monitor de un puesto y en Moonlight. Muestra
-/// <c>/hud.html</c> del servicio en un WebView2 que solo se crea al abrirlo y se libera al rato de
-/// cerrarlo (cada sesión tiene el suyo: no gasta memoria mientras nadie lo usa).
+/// HUD de una sesión (<c>OpenStreamMS.exe --hud</c>): ventana a pantalla completa encima de todo,
+/// oculta hasta que se pide con Ctrl+Alt+H o con Guía + Back en un mando XInput de la sesión. Corre
+/// dentro de la sesión de Windows, así que se ve igual en el monitor de un puesto y en Moonlight.
+/// Muestra <c>/hud.html</c> del servicio en un WebView2 que solo se crea al abrirlo y se libera al
+/// rato de cerrarlo (cada sesión tiene el suyo: no gasta memoria mientras nadie lo usa).
+/// <para>
+/// WebView2 no se transparenta sobre otras ventanas en un formulario normal, así que el fondo
+/// translúcido es una captura de la pantalla de justo antes de abrirlo (<c>/hud-backdrop.jpg</c>,
+/// servida desde aquí), que la página desenfoca y tiñe con el tema.
+/// </para>
 /// </summary>
 internal sealed class HudWindow : Form
 {
@@ -26,6 +31,9 @@ internal sealed class HudWindow : Form
     private readonly System.Windows.Forms.Timer _release;
     private readonly bool[] _comboDown = new bool[4];
     private WebView2? _web;
+    private CoreWebView2Environment? _env;
+    private byte[]? _backdrop;
+    private int _backdropVersion;
     private IntPtr _previousForeground;
     private bool _hotkey;
 
@@ -84,9 +92,8 @@ internal sealed class HudWindow : Form
     {
         _release.Stop();
         var screen = Screen.PrimaryScreen?.Bounds ?? new Rectangle(0, 0, 1920, 1080);
-        int w = Math.Clamp(screen.Width * 2 / 3, Math.Min(640, screen.Width), 1400);
-        int h = Math.Clamp(screen.Height * 3 / 4, Math.Min(420, screen.Height), 900);
-        Bounds = new Rectangle(screen.X + (screen.Width - w) / 2, screen.Y + (screen.Height - h) / 2, w, h);
+        CaptureBackdrop(screen);   // antes de mostrarse: lo que hay debajo
+        Bounds = screen;
 
         _previousForeground = GetForegroundWindow();
         EnsureWeb();
@@ -94,13 +101,13 @@ internal sealed class HudWindow : Form
         TopMost = true;
         ForceForeground(Handle);
         _web?.Focus();
-        _web?.CoreWebView2?.PostWebMessageAsString("open");
+        _web?.CoreWebView2?.PostWebMessageAsJson($"{{\"type\":\"open\",\"backdrop\":{_backdropVersion}}}");
     }
 
     private void HideHud()
     {
         if (!Visible) return;
-        _web?.CoreWebView2?.PostWebMessageAsString("close");
+        _web?.CoreWebView2?.PostWebMessageAsJson("{\"type\":\"close\"}");
         Hide();
         // El juego recupera el foco donde estaba.
         if (_previousForeground != IntPtr.Zero) ForceForeground(_previousForeground);
@@ -122,7 +129,7 @@ internal sealed class HudWindow : Form
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OpenStreamMS", "WebView2-HUD");
         try
         {
-            var env = await CoreWebView2Environment.CreateAsync(userDataFolder: dataDir);
+            var env = _env ??= await CoreWebView2Environment.CreateAsync(userDataFolder: dataDir);
             await web.EnsureCoreWebView2Async(env);
         }
         catch (Exception ex)
@@ -140,7 +147,9 @@ internal sealed class HudWindow : Form
         core.Settings.IsZoomControlEnabled             = false;
         core.WebMessageReceived += (_, e) =>
         {
-            if (e.TryGetWebMessageAsString() == "close") HideHud();
+            string? msg = null;
+            try { msg = e.TryGetWebMessageAsString(); } catch (ArgumentException) { /* no era texto */ }
+            if (msg == "close") HideHud();
         };
         // Solo la página del HUD: nada de navegar a otro sitio desde aquí.
         core.NavigationStarting += (_, e) =>
@@ -150,7 +159,45 @@ internal sealed class HudWindow : Form
                 e.Cancel = true;
         };
         core.NewWindowRequested += (_, e) => e.Handled = true;
+
+        // El fondo lo sirve el HUD (la captura no sale de la sesión).
+        var backdropUrl = new Uri(_page, "/hud-backdrop.jpg").AbsoluteUri;
+        core.AddWebResourceRequestedFilter(backdropUrl + "*", CoreWebView2WebResourceContext.Image);
+        core.WebResourceRequested += (_, e) =>
+        {
+            if (_backdrop is not { } jpg || _env is null) return;
+            e.Response = _env.CreateWebResourceResponse(new MemoryStream(jpg), 200, "OK",
+                "Content-Type: image/jpeg\r\nCache-Control: no-store");
+        };
         core.Navigate(_page.AbsoluteUri);
+    }
+
+    /// <summary>
+    /// Captura la pantalla a media resolución (se va a desenfocar) para el fondo translúcido. Si
+    /// falla (escritorio seguro, sin acceso), el HUD sale con el fondo del tema.
+    /// </summary>
+    private void CaptureBackdrop(Rectangle screen)
+    {
+        try
+        {
+            using var full = new Bitmap(screen.Width, screen.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            using (var g = Graphics.FromImage(full))
+                g.CopyFromScreen(screen.Location, Point.Empty, screen.Size);
+            using var half = new Bitmap(full, Math.Max(1, screen.Width / 2), Math.Max(1, screen.Height / 2));
+            using var ms = new MemoryStream();
+            var jpeg = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders()
+                .First(c => c.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid);
+            using var prms = new System.Drawing.Imaging.EncoderParameters(1);
+            prms.Param[0] = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 70L);
+            half.Save(ms, jpeg, prms);
+            _backdrop = ms.ToArray();
+        }
+        catch (Exception ex)
+        {
+            _backdrop = null;
+            Logger.Warning($"[HUD] Sin captura para el fondo: {ex.Message}");
+        }
+        _backdropVersion++;
     }
 
     private void ReleaseWeb()

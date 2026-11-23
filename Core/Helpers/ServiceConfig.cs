@@ -57,6 +57,11 @@ namespace OpenStreamMS.Core.Helpers
         /// pidió no volver a mostrar. Vale para cualquier navegador; con una versión nueva vuelven a salir.
         /// </summary>
         public string WhatsNewDismissed      { get; set; } = "";
+        /// <summary>
+        /// Último tema elegido en el panel (theme.js). El panel lo guarda en cada navegador; aquí se
+        /// copia para que el HUD de las sesiones, que tiene su propio navegador, use el mismo.
+        /// </summary>
+        public string PanelTheme             { get; set; } = "system";
 
 
         private static readonly JsonSerializerOptions JsonOpts =

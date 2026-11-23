@@ -207,6 +207,13 @@
     setTheme(v) { if (THEMES.includes(v)) { theme = v; write(KEY_THEME, v); apply(); refreshWindows(); } },
     setEffects(v) { if (EFFECTS.includes(v)) { effects = v; write(KEY_FX, v); apply(); } },
     setBusy(v) { if (busy !== !!v) { busy = !!v; apply(); } },
+    // HUD: el tema y el acento de Windows que le dice el servicio, sin guardarlos en este navegador.
+    preview(v, windows) {
+      if (!THEMES.includes(v)) return;
+      theme = v;
+      if (windows) win = { accent: hexRgb(windows.accent) ? windows.accent : null, light: typeof windows.light === 'boolean' ? windows.light : null };
+      apply();
+    },
   };
 
   apply();

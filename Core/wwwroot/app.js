@@ -1668,7 +1668,7 @@ function renderAppearance() {
       : themeSwatch(THEME_PREVIEWS[name]);
     return `<label class="theme-option">
         <input type="radio" name="Theme" value="${name}" ${Theme.theme === name ? 'checked' : ''}
-               onchange="Theme.setTheme(this.value); updateEffectsHint(); updateWindowsThemeHint()">
+               onchange="Theme.setTheme(this.value); publishTheme(); updateEffectsHint(); updateWindowsThemeHint()">
         ${swatch}<span class="theme-name">${esc(t('appearance.theme.' + name))}</span>
       </label>`;
   }).join('');
@@ -2048,3 +2048,13 @@ document.addEventListener('keydown', e => {
   const open = [...document.querySelectorAll('.modal-backdrop:not(.hidden)')];
   if (open.length) closeModal(open[open.length - 1].id);
 }, { capture: true });   // antes que el que cierra los menús: con un menú abierto, Esc solo cierra el menú
+
+// El HUD de las sesiones tiene su propio navegador: el servicio le dice el tema elegido aquí.
+function publishTheme() {
+  fetch('/api/settings/theme', {
+    method: 'PUT', credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ theme: Theme.theme }),
+  }).catch(() => { /* sin servicio: se publica la próxima vez */ });
+}
+document.addEventListener('DOMContentLoaded', publishTheme);

@@ -25,7 +25,11 @@ public record HudSession(Guid Id, string Name, bool IsMine, string? Seat, string
                          IReadOnlyList<HudDevice> Devices);
 
 /// <param name="PowerAllowed">La sesión desde la que se abre el HUD puede apagar y reiniciar el PC.</param>
-public record HudResponse(HudPc Pc, IReadOnlyList<HudSession> Sessions, bool PowerAllowed);
+/// <param name="Theme">Tema del panel (theme.js).</param>
+/// <param name="Accent">Color de acento de Windows, para el tema "windows"; null si no se sabe.</param>
+/// <param name="LightTheme">Windows en modo claro, para el tema "windows"; null si no se sabe.</param>
+public record HudResponse(HudPc Pc, IReadOnlyList<HudSession> Sessions, bool PowerAllowed,
+                          string Theme = "system", string? Accent = null, bool? LightTheme = null);
 
 /// <summary>
 /// API del HUD (<c>/hud.html</c> dentro de cada sesión). Sin credenciales: el middleware solo la deja
@@ -38,12 +42,16 @@ public static class HudEndpoints
 
     public static IEndpointRouteBuilder MapHudApi(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/hud", (HttpContext ctx, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics) =>
+        app.MapGet("/api/hud", (HttpContext ctx, StreamSessionService sessions, SeatManager seats, SystemMetrics metrics, ServiceConfig cfg) =>
             {
                 uint caller = ctx.Items[CallerSessionItem] is uint ws ? ws : 0;
+                var (accent, light) = cfg.PanelTheme == "windows" ? WindowsAppearance.Read() : (null, null);
                 return TypedResults.Ok(Build(caller, sessions, seats, metrics) with
                 {
-                    PowerAllowed = CallerSession(caller, sessions)?.AllowPower == true
+                    PowerAllowed = CallerSession(caller, sessions)?.AllowPower == true,
+                    Theme        = cfg.PanelTheme,
+                    Accent       = accent,
+                    LightTheme   = light,
                 });
             })
            .WithTags("HUD")
