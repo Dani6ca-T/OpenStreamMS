@@ -699,6 +699,7 @@
   "guide.install.needPads": "Oyun kumandaları için gerekli",
   "guide.install.needSeats": "İsteğe bağlı, iş istasyonları için",
   "guide.install.optional": "isteğe bağlı",
+  "guide.install.remoteiddOff": "kapalı",
   "guide.start.nav": "İlk adımlar",
   "guide.start.title": "Başlamaya hazırsınız!",
   "guide.start.lead": "İhtiyacınız olanı oluşturun. Bu rehbere istediğiniz zaman üstteki “?” düğmesinden dönebilirsiniz.",

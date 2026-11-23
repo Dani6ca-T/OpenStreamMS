@@ -133,19 +133,22 @@ function guideDepsHtml() {
   const rdp = rdpLastStatus, vg = drivers.vigem.lastStatus, hh = drivers.hidhide.lastStatus;
   const state = st => !st ? 'checking' : st.busy ? 'working' : st.rebootRequired ? 'reboot'
     : st.installed ? 'ok' : 'missing';
-  const ridd = !rdp ? 'checking' : rdp.remoteIdd ? 'ok' : 'optional';
+  // 'off': instalado, pero el arranque lo quitó de RDP-Tcp porque no funcionaba (el motivo, en
+  // la ventana de varias sesiones).
+  const ridd = !rdp ? 'checking' : rdp.remoteIdd ? 'ok' : rdp.remoteIddOffReason ? 'off' : 'optional';
   const rows = [
     { name: t('rdp.pill'), what: t('guide.install.rdp'),    need: t('guide.install.needSessions'), st: rdpDepState(rdp), open: 'closeGuide(); openRdpModal()' },
     { name: 'ViGEmBus',  what: t('guide.install.vigem'),    need: t('guide.install.needPads'),     st: state(vg),        open: "closeGuide(); openDriverModal('vigem')" },
     { name: 'HidHide',   what: t('guide.install.hidhide'),  need: t('guide.install.needPads'),     st: state(hh),        open: "closeGuide(); openDriverModal('hidhide')" },
-    { name: 'RemoteIdd', what: t('guide.install.remoteidd'), need: t('guide.install.needSeats'),   st: ridd },
+    { name: 'RemoteIdd', what: t('guide.install.remoteidd'), need: t('guide.install.needSeats'),   st: ridd, open: 'closeGuide(); openRdpModal()' },
   ];
   return rows.map((r, i) => {
     const mark = r.st === 'ok' || r.st === 'activates' ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="guide-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
                : r.st === 'checking' || r.st === 'working' ? '<span class="guide-spin"></span>'
                : r.st === 'optional' ? '<span class="guide-dash"></span>' : '<span class="guide-bang">!</span>';
-    const label = r.st === 'optional' ? t('guide.install.optional') : t('ux.dep.' + r.st);
-    const btn = r.open && ['missing', 'broken', 'reboot', 'single'].includes(r.st)
+    const label = r.st === 'optional' ? t('guide.install.optional')
+                : r.st === 'off' ? t('guide.install.remoteiddOff') : t('ux.dep.' + r.st);
+    const btn = r.open && ['missing', 'broken', 'reboot', 'single', 'off'].includes(r.st)
       ? `<button type="button" class="btn btn-primary btn-xs" onclick="${r.open}">${esc(t(r.st === 'missing' ? 'ux.install' : 'ux.review'))}</button>` : '';
     return `<li class="guide-dep guide-dep-${r.st}" style="--i:${i}">
         <span class="guide-dep-mark">${mark}</span>
