@@ -159,6 +159,9 @@ internal sealed class HudWindow : Form
                 e.Cancel = true;
         };
         core.NewWindowRequested += (_, e) => e.Handled = true;
+        // Un 401 (la sesión dejó de estar en marcha) no debe abrir un diálogo de usuario y contraseña
+        // encima del juego: la página ya enseña el error.
+        core.BasicAuthenticationRequested += (_, e) => e.Cancel = true;
 
         // El fondo lo sirve el HUD (la captura no sale de la sesión).
         var backdropUrl = new Uri(_page, "/hud-backdrop.jpg").AbsoluteUri;
