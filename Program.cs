@@ -45,6 +45,10 @@ switch (command)
         // Menú Inicio y escritorio: el panel en su ventana (y el icono de bandeja si no estaba).
         RunTray(showWindow: true);
         break;
+    case "--audio-relay":
+        // Sesiones compuestas: lleva el sonido de un miembro a la sesión del teclado (lo lanza el servicio).
+        Environment.Exit(OpenStreamMS.Services.Audio.AudioRelay.Run(args));
+        break;
     case "--display":
         // Puestos locales: operaciones de pantalla en la sesión de consola (lanzado por el servicio).
         Environment.Exit(OpenStreamMS.Services.Seats.ConsoleDisplay.RunCommand(args));
