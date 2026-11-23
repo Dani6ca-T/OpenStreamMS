@@ -375,7 +375,7 @@
   "vigem.btn.close": "Cerrar",
   "vigem.log.title": "Log de la operación",
   "vigem.log.empty": "Aún no se ha ejecutado ninguna operación en esta sesión.",
-  "vigem.rebootRequired": "⚠ Es necesario reiniciar Windows para completar la operación.",
+  "vigem.rebootRequired": "⚠ Reiniciar Windows es obligatorio: la operación no termina hasta que reinicies.",
   "vigem.confirm.install": "¿Instalar o actualizar ViGEmBus?\nSe descargará la última release de nefarius/ViGEmBus y se instalará el driver firmado en modo silencioso. Las sesiones de stream activas no se verán afectadas.",
   "vigem.confirm.uninstall": "¿Desinstalar ViGEmBus?\nLos clientes Moonlight dejarán de poder usar su mando hasta que se reinstale el driver. Puede requerir reiniciar.",
   "hidhide.pill": "HidHide",

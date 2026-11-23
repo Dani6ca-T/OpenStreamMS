@@ -375,7 +375,7 @@
   "vigem.btn.close": "Kapat",
   "vigem.log.title": "Çalışma günlüğü",
   "vigem.log.empty": "Bu oturumda hiçbir işlem yapılmadı.",
-  "vigem.rebootRequired": "⚠ İşlemi tamamlamak için yeniden başlatma gerekiyor.",
+  "vigem.rebootRequired": "⚠ Windows'u yeniden başlatmak zorunludur: yeniden başlatana kadar işlem tamamlanmaz.",
   "vigem.confirm.install": "ViGEmBus yüklensin mi yoksa yükseltilsin mi?\nNefarius/ViGEmBus'nin en son sürümü indirilecek ve imzalı sürücü sessizce yüklenecektir. Çalışan hiçbir akış etkilenmeyecektir.",
   "vigem.confirm.uninstall": "ViGEmBus kaldırılsın mı?\nMoonlight istemcileri, sürücü yeniden yüklenene kadar gamepad'lerini kullanamayacaktır. Yeniden başlatma gerekebilir.",
   "hidhide.pill": "HidHide",

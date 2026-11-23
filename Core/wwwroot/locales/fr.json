@@ -370,7 +370,7 @@
   "vigem.btn.close": "Fermer",
   "vigem.log.title": "Journal de l'opération",
   "vigem.log.empty": "Aucune opération n'a été exécutée dans cette session.",
-  "vigem.rebootRequired": "⚠ Un redémarrage de Windows est nécessaire pour terminer l'opération.",
+  "vigem.rebootRequired": "⚠ Le redémarrage de Windows est obligatoire : l'opération n'est terminée qu'après le redémarrage.",
   "vigem.confirm.install": "Installer ou mettre à jour ViGEmBus ?\nLa dernière version de nefarius/ViGEmBus sera téléchargée et le pilote signé installé silencieusement. Les streams en cours ne seront pas affectés.",
   "vigem.confirm.uninstall": "Désinstaller ViGEmBus ?\nLes clients Moonlight ne pourront plus utiliser leur manette tant que le pilote n'aura pas été réinstallé. Un redémarrage peut être requis.",
   "hidhide.pill": "HidHide",

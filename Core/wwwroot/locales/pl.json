@@ -375,7 +375,7 @@
   "vigem.btn.close": "Zamknij",
   "vigem.log.title": "Dziennik operacji",
   "vigem.log.empty": "W tej sesji nie wykonano żadnej operacji.",
-  "vigem.rebootRequired": "⚠ Do zakończenia operacji wymagane jest ponowne uruchomienie.",
+  "vigem.rebootRequired": "⚠ Ponowne uruchomienie systemu Windows jest obowiązkowe: operacja zakończy się dopiero po ponownym uruchomieniu.",
   "vigem.confirm.install": "Zainstalować lub zaktualizować ViGEmBus?\nNajnowsza wersja z Nefarius/ViGEmBus zostanie pobrana, a podpisany sterownik zostanie zainstalowany w trybie cichym. Nie będzie to miało wpływu na żaden bieżący strumień.",
   "vigem.confirm.uninstall": "Odinstalować ViGEmBus?\nKlienci Moonlight nie będą mogli korzystać ze swojego gamepada do czasu ponownej instalacji sterownika. Może być wymagane ponowne uruchomienie.",
   "hidhide.pill": "HidHide",

@@ -375,7 +375,7 @@
   "vigem.btn.close": "Zavřít",
   "vigem.log.title": "Provozní deník",
   "vigem.log.empty": "V této relaci nebyla provedena žádná operace.",
-  "vigem.rebootRequired": "⚠ K dokončení operace je vyžadován restart.",
+  "vigem.rebootRequired": "⚠ Restart Windows je povinný: operace není dokončena, dokud nerestartujete.",
   "vigem.confirm.install": "Instalovat nebo upgradovat ViGEmBus?\nNejnovější vydání z nefarius/ViGEmBus bude staženo a podepsaný ovladač nainstalován v tichosti. Žádný běžící stream nebude ovlivněn.",
   "vigem.confirm.uninstall": "Odinstalovat ViGEmBus?\nMoonlight klienti přestanou moci používat svůj gamepad, dokud nebude ovladač přeinstalován. Může být vyžadován restart.",
   "hidhide.pill": "HidHide",

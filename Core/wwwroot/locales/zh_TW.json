@@ -375,7 +375,7 @@
   "vigem.btn.close": "關閉",
   "vigem.log.title": "操作日誌",
   "vigem.log.empty": "此會話中未執行任何操作。",
-  "vigem.rebootRequired": "⚠ 需要重新啟動才能完成操作。",
+  "vigem.rebootRequired": "⚠ 必須重新啟動 Windows：重新啟動之前操作不會完成。",
   "vigem.confirm.install": "安裝或升級ViGEmBus？\n將下載 nefarius/ViGEmBus 的最新版本並靜默安裝簽署的驅動程式。任何正在運行的串流都不會受到影響。",
   "vigem.confirm.uninstall": "卸載ViGEmBus？\n在重新安裝驅動程式之前，Moonlight 用戶端將無法使用其遊戲手把。可能需要重新啟動。",
   "hidhide.pill": "HidHide",

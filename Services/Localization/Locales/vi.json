@@ -51,7 +51,7 @@
   "driver.uninstalled": "{0} gỡ cài đặt thành công.",
   "driver.cancelled": "Đã hủy bởi người dùng.",
   "driver.rebootToFinish": "Khởi động lại Windows để hoàn tất cài đặt {0}.",
-  "driver.rebootThenReinstall": "Khởi động lại Windows, sau đó cài đặt lại {0}.",
+  "driver.rebootThenReinstall": "Bắt buộc phải khởi động lại Windows: {0} sẽ không hoạt động cho đến khi bạn khởi động lại và cài đặt lại.",
   "driver.fatalError": "Lỗi nghiêm trọng khi cài đặt. Kiểm tra nhật ký Windows Installer.",
   "driver.unknownExitCode": "Mã thoát không xác định.",
   "driver.currentStatus": "Trạng thái hiện tại: installed={0}; version={1}; service={2}",

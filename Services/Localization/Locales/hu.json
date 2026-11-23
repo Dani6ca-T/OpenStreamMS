@@ -51,7 +51,7 @@
   "driver.uninstalled": "{0} sikeresen eltávolítva.",
   "driver.cancelled": "A felhasználó megszakította.",
   "driver.rebootToFinish": "Indítsa újra a Windowst a(z) {0} telepítésének befejezéséhez.",
-  "driver.rebootThenReinstall": "Indítsa újra a Windowst, majd telepítse újra a(z) {0} összetevőt.",
+  "driver.rebootThenReinstall": "A Windows újraindítása kötelező: a(z) {0} addig nem működik, amíg újra nem indítja, majd újra nem telepíti.",
   "driver.fatalError": "Súlyos telepítési hiba. Ellenőrizze a Windows Installer naplót.",
   "driver.unknownExitCode": "Ismeretlen kilépési kód.",
   "driver.currentStatus": "Jelenlegi állapot: installed={0}; version={1}; service={2}",

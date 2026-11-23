@@ -375,7 +375,7 @@
   "vigem.btn.close": "閉じる",
   "vigem.log.title": "操作ログ",
   "vigem.log.empty": "このセッションでは操作は実行されていません。",
-  "vigem.rebootRequired": "⚠ 操作を完了するには再起動が必要です。",
+  "vigem.rebootRequired": "⚠ Windows の再起動が必要です。再起動するまで操作は完了しません。",
   "vigem.confirm.install": "ViGEmBus をインストールまたはアップグレードしますか?\nnefarius/ViGEmBus の最新リリースがダウンロードされ、署名付きドライバーがサイレント インストールされます。実行中のストリームは影響を受けません。",
   "vigem.confirm.uninstall": "ViGEmBus をアンインストールしますか?\nMoonlight クライアントは、ドライバーが再インストールされるまでゲームパッドを使用できなくなります。再起動が必要になる場合があります。",
   "hidhide.pill": "HidHide",

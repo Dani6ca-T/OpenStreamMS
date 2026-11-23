@@ -375,7 +375,7 @@
   "vigem.btn.close": "Đóng",
   "vigem.log.title": "Nhật ký hoạt động",
   "vigem.log.empty": "Không có thao tác nào được thực hiện trong phiên này.",
-  "vigem.rebootRequired": "⚠ Cần phải khởi động lại để hoàn tất thao tác.",
+  "vigem.rebootRequired": "⚠ Bắt buộc phải khởi động lại Windows: thao tác chưa hoàn tất cho đến khi bạn khởi động lại.",
   "vigem.confirm.install": "Cài đặt hoặc nâng cấp ViGEmBus?\nBản phát hành mới nhất từ ​​nefarius/ViGEmBus sẽ được tải xuống và trình điều khiển đã ký sẽ được cài đặt một cách im lặng. Không có luồng đang chạy sẽ bị ảnh hưởng.",
   "vigem.confirm.uninstall": "Gỡ cài đặt ViGEmBus?\nMoonlight khách hàng sẽ ngừng sử dụng gamepad cho đến khi trình điều khiển được cài đặt lại. Có thể cần phải khởi động lại.",
   "hidhide.pill": "HidHide",

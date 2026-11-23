@@ -51,7 +51,7 @@
   "driver.uninstalled": "{0} odinstalowano pomyślnie.",
   "driver.cancelled": "Anulowano przez użytkownika.",
   "driver.rebootToFinish": "Uruchom ponownie system Windows, aby dokończyć instalację {0}.",
-  "driver.rebootThenReinstall": "Uruchom ponownie system Windows, a następnie zainstaluj {0} jeszcze raz.",
+  "driver.rebootThenReinstall": "Ponowne uruchomienie systemu Windows jest obowiązkowe: {0} nie będzie działać, dopóki nie uruchomisz go ponownie i nie zainstalujesz {0} jeszcze raz.",
   "driver.fatalError": "Błąd krytyczny instalacji. Sprawdź dziennik Windows Installer.",
   "driver.unknownExitCode": "Nieznany kod wyjścia.",
   "driver.currentStatus": "Stan aktualny: installed={0}; version={1}; service={2}",

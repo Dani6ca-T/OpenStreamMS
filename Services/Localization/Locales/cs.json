@@ -51,7 +51,7 @@
   "driver.uninstalled": "{0} úspěšně odinstalován.",
   "driver.cancelled": "Zrušeno uživatelem.",
   "driver.rebootToFinish": "Restartujte Windows, aby se dokončila instalace {0}.",
-  "driver.rebootThenReinstall": "Restartujte Windows a nainstalujte {0} znovu.",
+  "driver.rebootThenReinstall": "Restart Windows je povinný: {0} nebude fungovat, dokud nerestartujete a znovu ho nenainstalujete.",
   "driver.fatalError": "Fatální chyba instalace. Zkontrolujte log Windows Installeru.",
   "driver.unknownExitCode": "Neznámý návratový kód.",
   "driver.currentStatus": "Aktuální stav: installed={0}; version={1}; service={2}",

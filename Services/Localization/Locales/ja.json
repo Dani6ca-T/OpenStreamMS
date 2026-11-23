@@ -51,7 +51,7 @@
   "driver.uninstalled": "{0} が正常にアンインストールされました。",
   "driver.cancelled": "ユーザーによってキャンセルされました。",
   "driver.rebootToFinish": "{0} のインストールを完了するには Windows を再起動してください。",
-  "driver.rebootThenReinstall": "Windows を再起動してから、{0} をもう一度インストールしてください。",
+  "driver.rebootThenReinstall": "Windows の再起動が必要です。再起動して {0} をもう一度インストールするまで、{0} は動作しません。",
   "driver.fatalError": "インストール中に致命的なエラーが発生しました。Windows インストーラーのログを確認してください。",
   "driver.unknownExitCode": "不明な終了コードです。",
   "driver.currentStatus": "現在の状態: installed={0}; version={1}; service={2}",

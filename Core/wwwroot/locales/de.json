@@ -375,7 +375,7 @@
   "vigem.btn.close": "Schließen",
   "vigem.log.title": "Betriebsprotokoll",
   "vigem.log.empty": "In dieser Sitzung wurde kein Vorgang ausgeführt.",
-  "vigem.rebootRequired": "⚠ Neustart erforderlich, um den Vorgang abzuschließen.",
+  "vigem.rebootRequired": "⚠ Ein Neustart von Windows ist zwingend: Der Vorgang ist erst nach dem Neustart abgeschlossen.",
   "vigem.confirm.install": "Installieren oder aktualisieren ViGEmBus?\nDie neueste Version von nefarius/ViGEmBus wird heruntergeladen und der signierte Treiber unbeaufsichtigt installiert. Es wird kein laufender Stream beeinträchtigt.",
   "vigem.confirm.uninstall": "Deinstallieren ViGEmBus?\nMoonlight Clients können ihr Gamepad erst dann verwenden, wenn der Treiber neu installiert wird. Möglicherweise ist ein Neustart erforderlich.",
   "hidhide.pill": "HidHide",
