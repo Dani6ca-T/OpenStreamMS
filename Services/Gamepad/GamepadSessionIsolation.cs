@@ -484,8 +484,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         ScanPhysical();
 
         var running = _sessions.GetRunningSunshineSessions();
-        SyncReservations(running.Count > 0);
-        if (running.Count == 0 && _pads.Count == 0) return;
+        if (running.Count == 0 && _pads.Count == 0)
+        {
+            SyncReservations(false);
+            return;
+        }
 
         // Mandos presentes = hijos directos de cada bus ViGEm
         var present = Buses().SelectMany(b => Cm.Children(b)).ToHashSet(StringComparer.OrdinalIgnoreCase);
@@ -494,6 +497,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             _pads.Remove(gone.InstanceId);
             Unhide(gone);
         }
+        // Después de retirar los que se fueron: su número de serie queda libre y se reserva ya.
+        SyncReservations(running.Count > 0);
         foreach (var id in _cursors.Keys.Where(id => running.All(s => s.Id != id)).ToList())
             _cursors.Remove(id);
 
@@ -730,16 +735,31 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         var drop = _reserved.Where(id => !want.Contains(id) && !Cm.Exists(id)).ToList();
         var add  = want.Where(id => !_reserved.Contains(id)).ToList();
         if (drop.Count == 0 && add.Count == 0) return;
-        if (!ReserveJails(add, drop)) return;
+        if (ReserveJails(add, drop) is not { } added) return;
         _reserved.ExceptWith(drop);
-        _reserved.UnionWith(add);
+        // Solo los que se pusieron de verdad: uno que aún tiene otro jail (el mando anterior con ese
+        // número, a punto de retirarse) se vuelve a intentar en la siguiente pasada. Antes se daba
+        // por reservado sin estarlo y, al quitarse la entrada vieja, ese número quedaba sin reserva.
+        _reserved.UnionWith(added);
+
+        bool active = _reserved.Count > 0;
+        if (active != _reservationsLogged)
+        {
+            _reservationsLogged = active;
+            Logger.Log(active
+                ? $"[Gamepad] Próximos mandos de Moonlight ocultos de antemano hasta saber su sesión ({string.Join(", ", _reserved.Order())})."
+                : "[Gamepad] Sin streams en marcha: quitada la reserva de los próximos mandos.");
+        }
     }
+
+    private bool _reservationsLogged;
 
     /// <summary>
     /// Pone o quita entradas de reserva (instance id con <see cref="NoSession"/>). Solo toca las
-    /// suyas: un id que ya tiene otro jail (un puesto que lo reclamó) se deja como está.
+    /// suyas: un id que ya tiene otro jail (un puesto que lo reclamó, o el mando anterior con ese
+    /// número) se deja como está. Devuelve los ids reservados ahora, o null si HidHide falló.
     /// </summary>
-    private bool ReserveJails(IReadOnlyCollection<string> add, IReadOnlyCollection<string> remove)
+    private List<string>? ReserveJails(IReadOnlyCollection<string> add, IReadOnlyCollection<string> remove)
     {
         try
         {
@@ -748,17 +768,18 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 var list = HidHide.GetBlacklist(_hidHide!);
                 var jailed = list.Select(HidHide.JailedInstance).OfType<string>().ToHashSet(StringComparer.OrdinalIgnoreCase);
                 var dropEntries = remove.Select(id => HidHide.JailEntry(id, NoSession)).ToHashSet(StringComparer.OrdinalIgnoreCase);
-                var addEntries = add.Where(id => !jailed.Contains(id)).Select(id => HidHide.JailEntry(id, NoSession)).ToList();
-                if (addEntries.Count == 0 && !list.Any(dropEntries.Contains)) return true;
-                HidHide.SetBlacklist(_hidHide!, list.Where(e => !dropEntries.Contains(e)).Concat(addEntries)
+                var added = add.Where(id => !jailed.Contains(id)).ToList();
+                if (added.Count == 0 && !list.Any(dropEntries.Contains)) return added;
+                HidHide.SetBlacklist(_hidHide!, list.Where(e => !dropEntries.Contains(e))
+                                                    .Concat(added.Select(id => HidHide.JailEntry(id, NoSession)))
                                                     .Distinct(StringComparer.OrdinalIgnoreCase).ToList());
-                return true;
+                return added;
             }
         }
         catch (Win32Exception ex)
         {
             Logger.Warning($"[Gamepad] No se pudieron reservar los próximos mandos en HidHide: {ex.Message}");
-            return false;
+            return null;
         }
     }
 
