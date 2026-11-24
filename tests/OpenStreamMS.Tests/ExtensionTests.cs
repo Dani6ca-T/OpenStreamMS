@@ -84,6 +84,56 @@ public class ExtensionFormatTests
         Assert.Throws<ExtensionFormatException>(() => ExtensionFormat.ParseManifest(json));
 
     [Fact]
+    public void Manifest_IconAndCategories()
+    {
+        var m = ExtensionFormat.ParseManifest("""
+            { "id": "ok", "name": "x", "apps": [ { "name": "a" } ],
+              "icon": "img/icon.svg", "categories": ["tools", "remote-desktop", "from-the-future"] }
+            """);
+        Assert.Equal("img/icon.svg", m.Icon);
+        // Conocidas, en el orden del panel; las desconocidas se ignoran sin impedir la instalación.
+        Assert.Equal(["remote-desktop", "tools"], ExtensionFormat.NormalizeCategories(m.Categories));
+        Assert.Empty(ExtensionFormat.NormalizeCategories(null));
+    }
+
+    [Theory]
+    [InlineData("""{ "id": "ok", "name": "x", "apps": [ { "name": "a" } ], "icon": "../icon.png" }""")]
+    [InlineData("""{ "id": "ok", "name": "x", "apps": [ { "name": "a" } ], "icon": "icon.exe" }""")]
+    [InlineData("""{ "id": "ok", "name": "x", "apps": [ { "name": "a" } ], "categories": ["games", "tools", "audio", "network"] }""")]
+    [InlineData("""{ "id": "ok", "name": "x", "apps": [ { "name": "a" } ], "categories": ["Bad Category"] }""")]
+    public void Manifest_RejectsBadIconOrCategories(string json) =>
+        Assert.Throws<ExtensionFormatException>(() => ExtensionFormat.ParseManifest(json));
+
+    [Fact]
+    public void Catalog_IconAndCategories()
+    {
+        var c = ExtensionFormat.ParseCatalog("""
+            { "extensions": [ { "repo": "o/r", "icon": "icons/r.webp", "categories": ["games"] } ] }
+            """);
+        Assert.Equal(("icons/r.webp", "games"), (c.Extensions[0].Icon, c.Extensions[0].Categories![0]));
+        Assert.Throws<ExtensionFormatException>(() => ExtensionFormat.ParseCatalog("""{ "extensions": [ { "repo": "o/r", "icon": "/etc/x.png" } ] }"""));
+        Assert.Throws<ExtensionFormatException>(() => ExtensionFormat.ParseCatalog("""{ "extensions": [ { "repo": "o/r", "categories": ["a","b","c","d"] } ] }"""));
+    }
+
+    [Theory]
+    [InlineData("i.png", new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0 }, true)]
+    [InlineData("i.jpg", new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 }, true)]
+    [InlineData("i.gif", new byte[] { (byte)'G', (byte)'I', (byte)'F', (byte)'8', (byte)'9', (byte)'a' }, true)]
+    [InlineData("i.png", new byte[] { (byte)'<', (byte)'s', (byte)'v', (byte)'g' }, false)]
+    [InlineData("i.webp", new byte[] { (byte)'R', (byte)'I', (byte)'F', (byte)'F', 0, 0, 0, 0, (byte)'A', (byte)'V', (byte)'I', (byte)' ' }, false)]
+    [InlineData("i.png", new byte[0], false)]
+    public void Icon_ContentMustMatchItsExtension(string name, byte[] bytes, bool ok) =>
+        Assert.Equal(ok, ExtensionFormat.LooksLikeIcon(name, bytes));
+
+    [Fact]
+    public void Icon_SvgNeedsAnSvgElement()
+    {
+        Assert.True(ExtensionFormat.LooksLikeIcon("a.svg", "﻿<?xml version=\"1.0\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\"/>"u8.ToArray()));
+        Assert.False(ExtensionFormat.LooksLikeIcon("a.svg", "<html><script>alert(1)</script></html>"u8.ToArray()));
+        Assert.Equal("image/svg+xml", ExtensionFormat.IconContentType("x/A.SVG"));
+    }
+
+    [Fact]
     public void Catalog_ValidatesEntries()
     {
         var c = ExtensionFormat.ParseCatalog("""
@@ -315,5 +365,86 @@ public class ExtensionManagerTests : IDisposable
         var (m, _, _) = Create();
         Assert.Null(m.ResolvePanelFile("demo", "x", "panel/index.html"));
         await Task.CompletedTask;
+    }
+
+    static readonly byte[] Png = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0, 0, 0, 13];
+
+    [Fact]
+    public async Task IconsAndCategories_FromCatalogAndManifest()
+    {
+        // Paquete con icono propio y categoría; el catálogo trae otro icono y otra categoría.
+        byte[] pkg;
+        using (var ms = new MemoryStream())
+        {
+            using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                void Add(string name, byte[] data) { using var s = zip.CreateEntry($"owner-demo-{Commit[..7]}/{name}").Open(); s.Write(data); }
+                Add("osms-extension.json", Json("""{ "id": "demo", "name": "Demo", "icon": "icon.png", "categories": ["tools"], "apps": [ { "name": "Demo app" } ] }"""));
+                Add("icon.png", Png);
+            }
+            pkg = ms.ToArray();
+        }
+        var catalog = """{ "extensions": [ { "repo": "owner/demo", "icon": "icons/demo.png", "categories": ["games"] }, { "repo": "owner/other" } ] }""";
+        var gh = new FakeGitHub(new()
+        {
+            ["https://api.github.com/repos/owner/demo"] = (HttpStatusCode.OK, Json("""{ "default_branch": "main" }""")),
+            ["https://api.github.com/repos/owner/demo/commits/main"] = (HttpStatusCode.OK, Json($$"""{ "sha": "{{Commit}}" }""")),
+            [$"https://api.github.com/repos/owner/demo/zipball/{Commit}"] = (HttpStatusCode.OK, pkg),
+            ["https://api.github.com/repos/owner/catalog/contents/osms-catalog.json"] =
+                (HttpStatusCode.OK, Json($$"""{ "type": "file", "content": "{{Convert.ToBase64String(Encoding.UTF8.GetBytes(catalog))}}" }""")),
+            ["https://raw.githubusercontent.com/owner/catalog/HEAD/icons/demo.png"] = (HttpStatusCode.OK, Png),
+        });
+        var m = new ExtensionManager(_root, new GitHubSource(gh), new Version(1, 6, 0));
+        const string Url = "https://github.com/owner/catalog";
+
+        // Antes de añadir el catálogo no se descarga nada de él.
+        Assert.Null(await m.GetCatalogIconAsync(Url, 0));
+
+        var view = await m.AddCatalogAsync(Url);
+        var entry = view.Extensions[0];
+        Assert.Equal(["games"], entry.Categories);
+        Assert.StartsWith("/api/extensions/catalogs/icon?url=", entry.IconUrl);
+        Assert.Null(view.Extensions[1].IconUrl);
+        Assert.Empty(view.Extensions[1].Categories);
+
+        var icon = await m.GetCatalogIconAsync(Url, 0);
+        Assert.Equal(("image/png", Png.Length), (icon!.Value.ContentType, icon.Value.Bytes.Length));
+        Assert.Null(await m.GetCatalogIconAsync(Url, 1));   // sin icono
+        Assert.Null(await m.GetCatalogIconAsync(Url, 9));   // no existe
+
+        var p = await m.PreviewAsync(new PreviewRequest("owner/demo", CatalogUrl: Url));
+        Assert.Equal(["tools"], p.Categories);
+        m.StartInstall(p.Token, p.Sha256, false);
+        await WaitIdle(m);
+
+        var x = Assert.Single(m.GetAll().Installed);
+        Assert.Equal(["tools"], x.Categories);                      // las suyas mandan en la instalada
+        Assert.StartsWith("/api/extensions/demo/icon?v=", x.IconUrl);
+        Assert.Equal(Path.Combine(m.PackageDir("demo"), "icon.png"), m.ResolveIconFile("demo"));
+        Assert.Null(m.ResolveIconFile("../demo"));
+    }
+
+    [Fact]
+    public async Task Preview_RejectsAnIconThatIsntAnImage()
+    {
+        byte[] pkg;
+        using (var ms = new MemoryStream())
+        {
+            using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                void Add(string name, string data) { using var w = new StreamWriter(zip.CreateEntry($"owner-demo-{Commit[..7]}/{name}").Open()); w.Write(data); }
+                Add("osms-extension.json", """{ "id": "demo", "name": "Demo", "icon": "icon.png", "apps": [ { "name": "Demo app" } ] }""");
+                Add("icon.png", "<script>not an image</script>");
+            }
+            pkg = ms.ToArray();
+        }
+        var gh = new FakeGitHub(new()
+        {
+            ["https://api.github.com/repos/owner/demo"] = (HttpStatusCode.OK, Json("""{ "default_branch": "main" }""")),
+            ["https://api.github.com/repos/owner/demo/commits/main"] = (HttpStatusCode.OK, Json($$"""{ "sha": "{{Commit}}" }""")),
+            [$"https://api.github.com/repos/owner/demo/zipball/{Commit}"] = (HttpStatusCode.OK, pkg),
+        });
+        var m = new ExtensionManager(_root, new GitHubSource(gh), new Version(1, 6, 0));
+        await Assert.ThrowsAsync<ExtensionException>(() => m.PreviewAsync(new PreviewRequest("owner/demo")));
     }
 }

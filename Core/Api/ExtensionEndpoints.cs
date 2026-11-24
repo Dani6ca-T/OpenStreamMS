@@ -52,6 +52,24 @@ public static class ExtensionEndpoints
         g.MapGet("/{id}/log", (string id, ExtensionManager m) => TypedResults.Ok(new ExtensionLogResponse(m.GetLog(id))))
          .WithSummary("Registro de scripts de la extensión");
 
+        // Iconos: imágenes de terceros. Con "sandbox" y nosniff, un SVG abierto fuera de un <img>
+        // no puede ejecutar nada con el origen del panel.
+        g.MapGet("/{id}/icon", (string id, HttpContext ctx, ExtensionManager m) =>
+        {
+            var file = m.ResolveIconFile(id);
+            if (file is null) return Results.NotFound();
+            IconHeaders(ctx);
+            return Results.File(file, ExtensionFormat.IconContentType(file));
+        }).WithSummary("Icono de una extensión instalada");
+
+        g.MapGet("/catalogs/icon", async (string url, int index, HttpContext ctx, ExtensionManager m, CancellationToken ct) =>
+        {
+            var icon = await m.GetCatalogIconAsync(url, index, ct);
+            if (icon is not { } i) return Results.NotFound();
+            IconHeaders(ctx);
+            return Results.Bytes(i.Bytes, i.ContentType);
+        }).WithSummary("Icono de una entrada de catálogo (se descarga de GitHub y se guarda una hora)");
+
         g.MapGet("/catalogs", (bool? refresh, ExtensionManager m, CancellationToken ct) =>
                 Guard(async () => Results.Ok(await m.GetCatalogsAsync(refresh == true, ct))))
          .WithSummary("Catálogos y sus extensiones");
@@ -82,6 +100,16 @@ public static class ExtensionEndpoints
         }).ExcludeFromDescription();
 
         return app;
+    }
+
+    static void IconHeaders(HttpContext ctx)
+    {
+        var h = ctx.Response.Headers;
+        h["Content-Security-Policy"] = "default-src 'none'; style-src 'unsafe-inline'; sandbox";
+        h["X-Content-Type-Options"] = "nosniff";
+        h["Cross-Origin-Resource-Policy"] = "same-origin";
+        // La URL lleva la versión (?v=), así que puede guardarse.
+        h["Cache-Control"] = "private, max-age=86400";
     }
 
     /// <summary>Errores esperables → 400/409/502 con el mensaje (ya traducido), no un 500.</summary>

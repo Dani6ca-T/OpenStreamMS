@@ -66,7 +66,7 @@ public sealed record ExtensionPreview(
     string Sha256, bool Sha256Pinned, string? CatalogUrl,
     string? InstalledVersion, bool ReplacesOtherSource,
     string? HookRunAs, IReadOnlyList<string> Hooks, IReadOnlyList<string> Apps, string? PanelTitle,
-    bool HasComponent, bool Compatible, string? MinOsmsVersion);
+    bool HasComponent, bool Compatible, string? MinOsmsVersion, IReadOnlyList<string> Categories);
 
 public sealed record ExtensionInfo(
     string Id, string Name, string? Description, string? Author, string? Homepage, string? Notice,
@@ -74,7 +74,7 @@ public sealed record ExtensionInfo(
     string? CatalogUrl, DateTime InstalledAt, DateTime? UpdatedAt, bool Enabled, bool RebootPending,
     IReadOnlyList<string> Capabilities, bool? ComponentInstalled,
     string? HookRunAs, IReadOnlyList<string> Hooks, IReadOnlyList<string> Apps,
-    string? PanelTitle, string? PanelUrl, bool Broken);
+    string? PanelTitle, string? PanelUrl, bool Broken, string? IconUrl, IReadOnlyList<string> Categories);
 
 public sealed record ExtensionOperation(
     string Kind, string Id, string Name, string State, string? Message, bool RebootRequired,
@@ -89,7 +89,8 @@ public sealed record CatalogView(
 
 public sealed record CatalogEntryView(
     string Repo, string RepoUrl, string? Path, string? Ref, bool Sha256Pinned, string? Id, string Name,
-    string? Description, string? Notice, IReadOnlyList<string> Tags, string? InstalledId);
+    string? Description, string? Notice, IReadOnlyList<string> Tags, string? InstalledId,
+    string? IconUrl, IReadOnlyList<string> Categories);
 
 public sealed record UpdateCheck(string Id, string CurrentVersion, string? LatestVersion, bool UpToDate, ExtensionPreview? Preview);
 
@@ -125,6 +126,8 @@ public sealed class ExtensionManager
     readonly ConcurrentDictionary<string, string> _panelTokens = new(StringComparer.OrdinalIgnoreCase);
     readonly ConcurrentDictionary<string, (DateTime At, CatalogView View, ExtensionCatalog? Catalog)> _catalogCache =
         new(StringComparer.OrdinalIgnoreCase);
+    // Iconos de catálogo descargados: clave "url del catálogo|ruta del icono". Null = no existe o no vale.
+    readonly ConcurrentDictionary<string, (DateTime At, byte[]? Bytes)> _catalogIcons = new(StringComparer.OrdinalIgnoreCase);
     readonly List<string> _opLog = [];
     ExtensionState _state;
     ExtensionOperation? _op;
@@ -208,7 +211,56 @@ public sealed class ExtensionManager
             e.CatalogUrl, e.InstalledAt, e.UpdatedAt, e.Enabled, e.RebootPending,
             m?.Capabilities ?? [], m?.Component is null ? null : _componentInstalled.GetValueOrDefault(e.Id),
             m?.Hooks?.Any == true ? m.Hooks.RunAs : null, HookNames(m), m?.Apps?.Select(a => a.Name).ToList() ?? [],
-            m?.Panel?.Title, panelUrl, m is null);
+            m?.Panel?.Title, panelUrl, m is null,
+            m?.Icon is null ? null : $"/api/extensions/{e.Id}/icon?v={s.Sha256[..Math.Min(12, s.Sha256.Length)]}",
+            ExtensionFormat.NormalizeCategories(m?.Categories) is { Count: > 0 } own ? own : CatalogCategories(e));
+    }
+
+    /// <summary>Categorías que da el catálogo del que se instaló, si el manifiesto no trae (catálogo en caché).</summary>
+    IReadOnlyList<string> CatalogCategories(InstalledExtension e)
+    {
+        if (e.CatalogUrl is null || !_catalogCache.TryGetValue(e.CatalogUrl, out var c) || c.Catalog is null) return [];
+        var entry = c.Catalog.Extensions.FirstOrDefault(x =>
+            GitHubRef.TryParse(x.Repo, out var r) &&
+            r.Slug.Equals(e.Source.Slug, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(x.Path?.Trim('/'), e.Source.Path, StringComparison.OrdinalIgnoreCase));
+        return ExtensionFormat.NormalizeCategories(entry?.Categories);
+    }
+
+    /// <summary>Fichero del icono de una extensión instalada, o null si no tiene o no vale.</summary>
+    public string? ResolveIconFile(string id)
+    {
+        if (!ExtensionFormat.IsValidId(id) || !_manifests.TryGetValue(id, out var m) || m.Icon is null) return null;
+        var root = Path.GetFullPath(PackageDir(id)) + Path.DirectorySeparatorChar;
+        var full = Path.GetFullPath(Path.Combine(root, m.Icon));
+        if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase) || !File.Exists(full)) return null;
+        return new FileInfo(full).Length <= ExtensionFormat.MaxIconBytes ? full : null;
+    }
+
+    /// <summary>
+    /// Icono de una entrada de catálogo (por su posición en el catálogo): se descarga de
+    /// raw.githubusercontent.com y se guarda una hora. Solo de catálogos añadidos.
+    /// </summary>
+    public async Task<(byte[] Bytes, string ContentType)?> GetCatalogIconAsync(string catalogUrl, int index, CancellationToken ct = default)
+    {
+        if (!CatalogUrls().Any(u => SameUrl(u, catalogUrl))) return null;
+        var (_, catalog) = await LoadCatalogAsync(catalogUrl, refresh: false, ct);
+        if (catalog is null || index < 0 || index >= catalog.Extensions.Count) return null;
+        var icon = catalog.Extensions[index].Icon;
+        if (icon is null || !GitHubRef.TryParse(catalogUrl, out var repo)) return null;
+
+        var path = repo.Path is null ? icon : $"{repo.Path.Trim('/')}/{icon}";
+        var key = $"{catalogUrl}|{path}";
+        if (!_catalogIcons.TryGetValue(key, out var cached) || cached.At < DateTime.UtcNow.AddHours(-1))
+        {
+            byte[]? bytes;
+            try { bytes = await _github.GetRawFileAsync(repo with { Path = null }, path, ExtensionFormat.MaxIconBytes, ct); }
+            catch (GitHubException) { bytes = null; }
+            if (bytes is not null && !ExtensionFormat.LooksLikeIcon(icon, bytes)) bytes = null;
+            cached = (DateTime.UtcNow, bytes);
+            _catalogIcons[key] = cached;
+        }
+        return cached.Bytes is null ? null : (cached.Bytes, ExtensionFormat.IconContentType(icon));
     }
 
     static List<string> HookNames(ExtensionManifest? m) =>
@@ -292,7 +344,8 @@ public sealed class ExtensionManager
                 resolved.IsRelease, resolved.PublishedAt, sha, expectedSha is not null, req.CatalogUrl,
                 current?.Source.VersionLabel, otherSource,
                 m.Hooks?.Any == true ? m.Hooks.RunAs : null, HookNames(m), m.Apps?.Select(a => a.Name).ToList() ?? [],
-                m.Panel?.Title, m.Component is not null, ExtensionFormat.SupportsVersion(m, _osmsVersion), m.MinOsmsVersion);
+                m.Panel?.Title, m.Component is not null, ExtensionFormat.SupportsVersion(m, _osmsVersion), m.MinOsmsVersion,
+                ExtensionFormat.NormalizeCategories(m.Categories));
         }
         catch
         {
@@ -312,6 +365,16 @@ public sealed class ExtensionManager
         foreach (var f in files.OfType<string>())
             if (!File.Exists(Path.Combine(pkg, f)))
                 throw Err("ext.invalidPackage", $"missing file: {f}");
+
+        if (m.Icon is { } icon)
+        {
+            var file = Path.Combine(pkg, icon);
+            if (!File.Exists(file)) throw Err("ext.invalidPackage", $"missing file: {icon}");
+            if (new FileInfo(file).Length > ExtensionFormat.MaxIconBytes)
+                throw Err("ext.invalidPackage", $"icon larger than {ExtensionFormat.MaxIconBytes / 1024} KB: {icon}");
+            if (!ExtensionFormat.LooksLikeIcon(icon, File.ReadAllBytes(file)))
+                throw Err("ext.invalidPackage", $"icon isn't a valid {Path.GetExtension(icon)} image: {icon}");
+        }
     }
 
     void PurgeExpiredPending()
@@ -565,15 +628,25 @@ public sealed class ExtensionManager
             var catalog = ExtensionFormat.ParseCatalog(json);
 
             List<InstalledExtension> installed = Snapshot();
-            var entries = catalog.Extensions.Select(x =>
+            var fetched = DateTime.UtcNow;
+            var entries = catalog.Extensions.Select((x, idx) =>
             {
                 GitHubRef.TryParse(x.Repo, out var r);
                 var inst = installed.FirstOrDefault(i =>
                     i.Source.Slug.Equals(r.Slug, StringComparison.OrdinalIgnoreCase) &&
                     string.Equals(i.Source.Path, x.Path?.Trim('/'), StringComparison.OrdinalIgnoreCase));
+                // Con el icono del catálogo, ese; si no, el de la extensión instalada.
+                string? iconUrl = x.Icon is not null
+                    ? $"/api/extensions/catalogs/icon?url={Uri.EscapeDataString(url)}&index={idx}&v={fetched.Ticks:x}"
+                    : inst is not null && _manifests.TryGetValue(inst.Id, out var im) && im.Icon is not null
+                        ? $"/api/extensions/{inst.Id}/icon?v={inst.Source.Sha256[..Math.Min(12, inst.Source.Sha256.Length)]}"
+                        : null;
+                var categories = ExtensionFormat.NormalizeCategories(x.Categories);
+                if (categories.Count == 0 && inst is not null && _manifests.TryGetValue(inst.Id, out var cm))
+                    categories = ExtensionFormat.NormalizeCategories(cm.Categories);
                 return new CatalogEntryView(r.Slug, r.Url + (x.Path is null ? "" : $"/tree/{x.Ref ?? "HEAD"}/{x.Path.Trim('/')}"),
                     x.Path?.Trim('/'), x.Ref, x.Sha256 is not null, x.Id, x.Name ?? x.Id ?? r.Repo, x.Description, x.Notice,
-                    x.Tags ?? [], inst?.Id);
+                    x.Tags ?? [], inst?.Id, iconUrl, categories);
             }).ToList();
             var view = new CatalogView(url, string.IsNullOrWhiteSpace(catalog.Name) ? repo.Slug : catalog.Name,
                                        catalog.Description, official, null, entries, DateTime.UtcNow);
