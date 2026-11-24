@@ -25,6 +25,10 @@ public sealed record ExtensionManifest
     public string? Notice      { get; init; }
     /// <summary>Versión mínima de OpenStreamMS (x.y.z), si la necesita.</summary>
     public string? MinOsmsVersion { get; init; }
+    /// <summary>Icono (PNG, JPEG, WebP, GIF o SVG) relativo al paquete, de hasta 256 KB.</summary>
+    public string? Icon        { get; init; }
+    /// <summary>Categorías para filtrar en el panel (ver <see cref="ExtensionFormat.KnownCategories"/>).</summary>
+    public List<string>? Categories { get; init; }
 
     public ExtensionComponent? Component { get; init; }
     public ExtensionHooks?     Hooks     { get; init; }
@@ -142,6 +146,10 @@ public sealed record CatalogEntry
     public string? Description { get; init; }
     public string? Notice      { get; init; }
     public List<string>? Tags  { get; init; }
+    /// <summary>Icono relativo a la carpeta del catálogo en su repositorio (se ve antes de instalar).</summary>
+    public string? Icon        { get; init; }
+    /// <summary>Categorías; si faltan, las del manifiesto cuando la extensión está instalada.</summary>
+    public List<string>? Categories { get; init; }
 }
 
 // ── Lectura y validación ──────────────────────────────────────────────────────
@@ -168,6 +176,69 @@ public static partial class ExtensionFormat
 
     public static bool IsValidId(string? id) => id is not null && IdRegex().IsMatch(id);
 
+    /// <summary>
+    /// Categorías que entiende el panel, en el orden en que se enseñan. Una que no esté aquí
+    /// se acepta (con el formato de un id) y se ignora: así una extensión hecha para una
+    /// versión más nueva se sigue pudiendo instalar.
+    /// </summary>
+    public static readonly IReadOnlyList<string> KnownCategories =
+        ["remote-desktop", "streaming", "display", "input", "audio", "network", "games", "monitoring", "tools"];
+
+    public const int  MaxCategories = 3;
+    public const long MaxIconBytes  = 256 * 1024;
+
+    static readonly string[] IconExtensions = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg"];
+
+    /// <summary>Ruta relativa segura a una imagen de un formato admitido.</summary>
+    public static bool IsIconPath(string? path) =>
+        IsSafeRelativePath(path) && IconExtensions.Contains(Path.GetExtension(path!).ToLowerInvariant());
+
+    /// <summary>Las categorías conocidas de la lista, sin repetir, en el orden de <see cref="KnownCategories"/>.</summary>
+    public static IReadOnlyList<string> NormalizeCategories(IEnumerable<string?>? categories)
+    {
+        if (categories is null) return [];
+        var wanted = categories.OfType<string>().Select(c => c.Trim().ToLowerInvariant()).ToHashSet();
+        return KnownCategories.Where(wanted.Contains).ToList();
+    }
+
+    /// <summary>Tipo MIME de un icono por su extensión.</summary>
+    public static string IconContentType(string path) => Path.GetExtension(path).ToLowerInvariant() switch
+    {
+        ".png"            => "image/png",
+        ".jpg" or ".jpeg" => "image/jpeg",
+        ".webp"           => "image/webp",
+        ".gif"            => "image/gif",
+        ".svg"            => "image/svg+xml",
+        _                 => "application/octet-stream",
+    };
+
+    /// <summary>¿Empiezan los bytes como el formato que dice la extensión? Evita servir otra cosa como imagen.</summary>
+    public static bool LooksLikeIcon(string path, ReadOnlySpan<byte> bytes)
+    {
+        if (bytes.Length == 0 || bytes.Length > MaxIconBytes) return false;
+        static bool Starts(ReadOnlySpan<byte> b, ReadOnlySpan<byte> sig) => b.Length >= sig.Length && b[..sig.Length].SequenceEqual(sig);
+        switch (Path.GetExtension(path).ToLowerInvariant())
+        {
+            case ".png":  return Starts(bytes, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+            case ".jpg":
+            case ".jpeg": return Starts(bytes, [0xFF, 0xD8, 0xFF]);
+            case ".gif":  return Starts(bytes, "GIF8"u8);
+            case ".webp": return bytes.Length >= 12 && Starts(bytes, "RIFF"u8) && bytes[8..12].SequenceEqual("WEBP"u8);
+            case ".svg":
+                var head = System.Text.Encoding.UTF8.GetString(bytes[..Math.Min(bytes.Length, 4096)]).TrimStart('﻿', ' ', '\t', '\r', '\n');
+                return head.StartsWith('<') && head.Contains("<svg", StringComparison.OrdinalIgnoreCase);
+            default: return false;
+        }
+    }
+
+    static void ValidateCategories(List<string>? categories, Action<string> fail, string field)
+    {
+        if (categories is null) return;
+        if (categories.Count > MaxCategories) fail($"{field}: {MaxCategories} at most");
+        foreach (var c in categories)
+            if (!IsValidId(c)) fail($"{field}: invalid category '{c}' (lowercase letters, digits and hyphens)");
+    }
+
     public static ExtensionManifest ParseManifest(string json)
     {
         ExtensionManifest? m;
@@ -193,6 +264,9 @@ public static partial class ExtensionFormat
                 throw new ExtensionFormatException($"{CatalogFile}: invalid path '{e.Path}'");
             if (e.Sha256 is not null && !IsSha256(e.Sha256))
                 throw new ExtensionFormatException($"{CatalogFile}: invalid sha256 for '{e.Repo}'");
+            if (e.Icon is not null && !IsIconPath(e.Icon))
+                throw new ExtensionFormatException($"{CatalogFile}: icon of '{e.Repo}' must be a relative path to a .png, .jpg, .webp, .gif or .svg");
+            ValidateCategories(e.Categories, msg => throw new ExtensionFormatException($"{CatalogFile}: '{e.Repo}' {msg}"), "categories");
         }
         return c;
     }
@@ -207,6 +281,8 @@ public static partial class ExtensionFormat
         if (m.MinOsmsVersion is not null && !Version.TryParse(m.MinOsmsVersion, out _)) Fail("invalid minOsmsVersion");
         if (m.Homepage is not null && !IsHttpsUrl(m.Homepage)) Fail("homepage must be https");
         if (m.Capabilities.Count == 0) Fail("declares nothing to do (component, hooks, apps or panel)");
+        if (m.Icon is not null && !IsIconPath(m.Icon)) Fail("icon must be a relative path to a .png, .jpg, .webp, .gif or .svg in the package");
+        ValidateCategories(m.Categories, Fail, "categories");
 
         void Script(string? path, string field)
         {

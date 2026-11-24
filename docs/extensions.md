@@ -46,6 +46,8 @@ Limits: 300 MB download, 1 GB extracted, 20 000 files. Paths can't leave the pac
   "license": "MIT",
   "notice": "Shown in the install dialog: licenses, risks, requirements.",
   "minOsmsVersion": "1.7.0",     // optional
+  "icon": "icon.png",            // optional: .png, .jpg, .webp, .gif or .svg in the package, up to 256 KB
+  "categories": ["tools"],       // optional: up to 3, see Categories below
 
   "component": {
     "install":   "install.ps1",  // required; exit 0 = OK, 3010 = OK, restart Windows
@@ -85,6 +87,29 @@ Limits: 300 MB download, 1 GB extracted, 20 000 files. Paths can't leave the pac
 
 At least one of `component`, `hooks`, `apps` or `panel` is required. All script paths are
 relative to the package and must be `.ps1` files that exist in it.
+
+### Icon and categories
+
+`icon` is shown on the extension's card. It must be a PNG, JPEG, WebP, GIF or SVG file in the
+package, up to 256 KB, and its content has to match its extension. A square image of 128×128 or
+more looks best. Without one, the card shows the name's first letter.
+
+`categories` let users filter the Extensions tab. Use up to three of:
+
+| Category | For |
+|---|---|
+| `remote-desktop` | Several sessions at once, Remote Desktop patches and settings. |
+| `streaming` | Streaming hosts, encoders and clients. |
+| `display` | Virtual displays and display drivers. |
+| `input` | Controllers, keyboards, mice and other input devices. |
+| `audio` | Audio devices and routing. |
+| `network` | Networking for sessions and seats. |
+| `games` | Game launchers, stores and apps for Moonlight. |
+| `monitoring` | Dashboards, metrics and status pages. |
+| `tools` | Anything else. |
+
+Unknown categories are accepted and ignored, so an extension written for a newer OpenStreamMS
+still installs.
 
 ### Scripts
 
@@ -163,11 +188,16 @@ A catalog is a GitHub repository with `osms-catalog.json` at its root (or in the
       "name": "My extension",
       "description": "…",
       "notice": "Shown in the install dialog next to the author's notice.",
-      "tags": ["tools"]
+      "tags": ["tools"],
+      "icon": "icons/my-extension.png",   // optional: relative to the catalog's folder
+      "categories": ["tools"]             // optional: overrides the extension's own
     }
   ]
 }
 ```
+
+The catalog's `icon` and `categories` are shown before anything is installed. Without them, the
+dashboard uses the extension's own once it's installed.
 
 With `ref` and `sha256`, the catalog decides exactly what gets installed, and updates follow the
 catalog. Without them, extensions follow their latest release.

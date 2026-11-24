@@ -9,7 +9,73 @@ let extTimer = null;
 let extPreview = null;      // vista previa en el modal de instalación
 let extOpWatch = null;      // sondeo mientras corre una operación
 
+// Categorías que entiende el panel, en el orden del backend (ExtensionFormat.KnownCategories).
+const EXT_CATEGORIES = ['remote-desktop', 'streaming', 'display', 'input', 'audio', 'network', 'games', 'monitoring', 'tools'];
+let extCategory = '';       // filtro elegido ('' = todas); se recuerda en este navegador
+try { extCategory = localStorage.getItem('osms.ext.category') || ''; } catch { /* sin almacenamiento */ }
+
 function extCapLabel(cap) { return t(`ext.cap.${cap}`); }
+function extCategoryLabel(cat) { return t(`ext.category.${cat}`); }
+
+// Entrada de catálogo de una instalada (para lo que no trae su manifiesto).
+function extCatalogEntryOf(x) {
+  for (const c of extCatalogs)
+    for (const e of c.extensions || [])
+      if (e.installedId === x.id) return e;
+  return null;
+}
+
+// Categorías e icono de una instalada: los suyos o, si no trae, los que le da su catálogo.
+function extInstalledCategories(x) {
+  if (x.categories && x.categories.length) return x.categories;
+  const e = extCatalogEntryOf(x);
+  return e && e.categories ? e.categories : [];
+}
+
+function extInstalledIcon(x) {
+  return x.iconUrl || (extCatalogEntryOf(x) || {}).iconUrl || null;
+}
+
+function extIcon(url, name) {
+  const letter = esc((name || '?').trim().charAt(0).toUpperCase() || '?');
+  // Si la imagen no carga, se queda la inicial (está debajo).
+  return `<div class="ext-icon" aria-hidden="true"><span>${letter}</span>${
+    url ? `<img src="${esc(url)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</div>`;
+}
+
+function extCategoryChips(cats) {
+  return (cats || []).map(c => `<span class="chip chip-cat">${esc(extCategoryLabel(c))}</span>`).join('');
+}
+
+function setExtCategory(cat) {
+  extCategory = cat;
+  try { cat ? localStorage.setItem('osms.ext.category', cat) : localStorage.removeItem('osms.ext.category'); } catch { /* idem */ }
+  renderExtensions();
+}
+
+// Barra de filtros: "Todas" y cada categoría que tenga alguna extensión (instalada o en catálogos).
+function renderExtCategoryBar(installed, available) {
+  const counts = new Map();
+  const seen = new Set();
+  const add = (key, cats) => {
+    if (seen.has(key)) return;
+    seen.add(key);
+    for (const c of cats) counts.set(c, (counts.get(c) || 0) + 1);
+  };
+  for (const x of installed) add(`i:${x.id}`, extInstalledCategories(x));
+  for (const { e } of available) add(e.installedId ? `i:${e.installedId}` : `c:${e.repo}/${e.path || ''}`, e.categories || []);
+
+  const present = EXT_CATEGORIES.filter(c => counts.has(c));
+  if (extCategory && !present.includes(extCategory)) extCategory = '';
+  const bar = byId('ext-categories');
+  if (!present.length) { bar.classList.add('hidden'); renderInto(bar, ''); return; }
+  bar.classList.remove('hidden');
+  const btn = (cat, label, n) =>
+    `<button type="button" class="chip chip-btn${extCategory === cat ? ' active' : ''}" aria-pressed="${extCategory === cat}"
+             onclick="setExtCategory('${cat}')">${esc(label)}${n === undefined ? '' : ` <b>${n}</b>`}</button>`;
+  renderInto(bar, btn('', t('ext.categoryAll'), seen.size) +
+                  present.map(c => btn(c, extCategoryLabel(c), counts.get(c))).join(''));
+}
 
 async function loadExtensions() {
   const res = await api('GET', '/api/extensions');
@@ -29,24 +95,35 @@ async function loadExtensionCatalogs(refresh = false) {
 
 // ── Vista principal ─────────────────────────────────────────────────────────
 function renderExtensions() {
-  const list = extState.installed || [];
-  byId('ext-count').textContent = list.length;
-  renderInto(byId('ext-installed-grid'), list.length
-    ? list.map(extCard).join('')
-    : `<div class="empty-state"><p>${esc(t('ext.noneInstalled'))}</p></div>`);
+  const all = extState.installed || [];
+  byId('ext-count').textContent = all.length;
 
   const q = (byId('ext-search').value || '').trim().toLowerCase();
-  const rows = [];
+  const allRows = [];
   for (const c of extCatalogs) {
     for (const e of c.extensions || []) {
-      const text = `${e.name} ${e.description || ''} ${e.repo} ${(e.tags || []).join(' ')}`.toLowerCase();
-      if (!q || text.includes(q)) rows.push({ c, e });
+      const cats = (e.categories || []).map(extCategoryLabel).join(' ');
+      const text = `${e.name} ${e.description || ''} ${e.repo} ${(e.tags || []).join(' ')} ${cats}`.toLowerCase();
+      if (!q || text.includes(q)) allRows.push({ c, e });
     }
   }
+  renderExtCategoryBar(all, allRows);
+
+  const inCategory = cats => !extCategory || cats.includes(extCategory);
+  const list = all.filter(x => inCategory(extInstalledCategories(x)));
+  const rows = allRows.filter(({ e }) => inCategory(e.categories || []));
+  const emptyFiltered = `<div class="empty-state"><p>${esc(t('ext.noneInCategory', { category: extCategoryLabel(extCategory) }))}</p></div>`;
+
+  renderInto(byId('ext-installed-grid'), list.length
+    ? list.map(extCard).join('')
+    : all.length && extCategory ? emptyFiltered
+    : `<div class="empty-state"><p>${esc(t('ext.noneInstalled'))}</p></div>`);
+
   const errors = extCatalogs.filter(c => c.error)
     .map(c => `<div class="card-warning">${esc(c.name)}: ${esc(t('ext.catalogError', { msg: c.error }))}</div>`).join('');
   renderInto(byId('ext-available-grid'), errors + (rows.length
     ? rows.map(({ c, e }) => extCatalogCard(c, e)).join('')
+    : allRows.length && extCategory ? emptyFiltered
     : `<div class="empty-state"><p>${esc(t('ext.noneAvailable'))}</p></div>`));
 }
 
@@ -63,6 +140,7 @@ function extCard(x) {
   const cat = extCatalogs.find(c => c.url === x.catalogUrl);
   return `<div class="session-card ext-card${x.enabled ? '' : ' is-stopped'}" id="ext-${esc(x.id)}">
     <div class="card-header">
+      ${extIcon(extInstalledIcon(x), x.name)}
       <div class="card-title-wrap">
         <div class="card-title">${esc(x.name)}</div>
         <div class="card-subtitle">${esc(x.version)} · <a href="${esc(x.repoUrl)}" target="_blank" rel="noopener noreferrer">${esc(x.repo)}</a>${
@@ -71,7 +149,7 @@ function extCard(x) {
       <button class="icon-btn" type="button" onclick="extMenu(event,'${esc(x.id)}')" aria-label="${esc(t('nav.more'))}">${uiIcon('more')}</button>
     </div>
     ${x.description ? `<p class="ext-desc">${esc(x.description)}</p>` : ''}
-    <div class="card-chips">${extChips(x.capabilities)}${status.join('')}${
+    <div class="card-chips">${extCategoryChips(extInstalledCategories(x))}${extChips(x.capabilities)}${status.join('')}${
       cat ? `<span class="chip" title="${esc(cat.url)}">${esc(t('ext.fromCatalog', { catalog: cat.name }))}</span>` : ''}</div>
   </div>`;
 }
@@ -83,6 +161,7 @@ function extCatalogCard(c, e) {
   const args = JSON.stringify({ source: e.repo, path: e.path, catalogUrl: c.url }).replace(/"/g, '&quot;');
   return `<div class="session-card ext-card">
     <div class="card-header">
+      ${extIcon(e.iconUrl, e.name)}
       <div class="card-title-wrap">
         <div class="card-title">${esc(e.name)}</div>
         <div class="card-subtitle"><a href="${esc(e.repoUrl)}" target="_blank" rel="noopener noreferrer">${esc(e.repo)}${
@@ -90,7 +169,7 @@ function extCatalogCard(c, e) {
       </div>
     </div>
     ${e.description ? `<p class="ext-desc">${esc(e.description)}</p>` : ''}
-    <div class="card-chips">${installed}${pinned}${tags}</div>
+    <div class="card-chips">${extCategoryChips(e.categories)}${installed}${pinned}${tags}</div>
     <div class="card-actions">
       <button class="btn btn-primary btn-sm" type="button" onclick="openExtInstall(${args})">${esc(e.installedId ? t('ext.reinstall') : t('ext.install'))}</button>
     </div>
@@ -199,6 +278,7 @@ function showExtPreview(p, { update = false } = {}) {
       ${row(t('ext.commit'), `<code>${esc(p.commit)}</code>`)}
       ${row(t('ext.sha256'), `<code class="ext-hash">${esc(p.sha256)}</code><br><span class="muted">${esc(t(p.sha256Pinned ? 'ext.sha256Pinned' : 'ext.sha256Unpinned'))}</span>`)}
       ${row(t('ext.license'), esc(p.license || ''))}
+      ${(p.categories || []).length ? row(t('ext.categories'), esc(p.categories.map(extCategoryLabel).join(', '))) : ''}
       ${p.homepage ? row(t('ext.homepage'), `<a href="${esc(p.homepage)}" target="_blank" rel="noopener noreferrer">${esc(p.homepage)}</a>`) : ''}
     </div>
     <ul class="ext-caps">${caps}</ul>

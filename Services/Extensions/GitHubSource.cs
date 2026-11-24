@@ -206,6 +206,30 @@ public sealed class GitHubSource
         return System.Text.Encoding.UTF8.GetString(bytes);
     }
 
+    /// <summary>
+    /// Un fichero pequeño del repositorio, en bytes, desde raw.githubusercontent.com (no gasta
+    /// del límite por hora de la API). Sin ref, la rama principal. Null si no existe.
+    /// </summary>
+    public async Task<byte[]?> GetRawFileAsync(GitHubRef repo, string path, long maxBytes, CancellationToken ct = default)
+    {
+        static string Escape(string p) => string.Join('/', p.Split('/').Select(Uri.EscapeDataString));
+        var url = $"https://raw.githubusercontent.com/{repo.Slug}/{Escape(repo.Ref ?? "HEAD")}/{Escape(path)}";
+        using var resp = await SendFollowingRedirectsAsync(url, ct, allowNotFound: true);
+        if (resp.StatusCode == HttpStatusCode.NotFound) return null;
+        if (resp.Content.Headers.ContentLength > maxBytes) throw new GitHubException($"{path}: too large");
+
+        await using var src = await resp.Content.ReadAsStreamAsync(ct);
+        using var buf = new MemoryStream();
+        var chunk = new byte[16384];
+        int n;
+        while ((n = await src.ReadAsync(chunk, ct)) > 0)
+        {
+            if (buf.Length + n > maxBytes) throw new GitHubException($"{path}: too large");
+            buf.Write(chunk, 0, n);
+        }
+        return buf.ToArray();
+    }
+
     // ── Descargar y descomprimir ────────────────────────────────────────────
 
     /// <summary>Descarga el paquete a <paramref name="file"/> y devuelve su SHA-256 (hex, minúsculas).</summary>
