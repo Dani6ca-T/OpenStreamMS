@@ -106,6 +106,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private static readonly object _jailLock = new();
 
     private const string ViGEmX360Prefix = @"USB\VID_045E&PID_028E\";
+    private const string ViGEmDs4Prefix  = @"USB\VID_054C&PID_05C4\";
+
+    /// <summary>Cuántos números de serie libres de ViGEmBus se dejan reservados (un cliente puede traer varios mandos).</summary>
+    private const int ReserveAhead = 4;
 
     /// <summary>
     /// El próximo mando de ViGEmBus que aparezca es de esa sesión de Windows. Llamar justo antes
@@ -137,18 +141,26 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     }
 
     /// <summary>Instance id que tendrá el próximo X360 de ViGEmBus (serie libre más baja), o null.</summary>
-    private static string? PredictNextViGEmPad()
+    private static string? PredictNextViGEmPad() =>
+        NextFreeViGEmSerials(1) is [var serial] ? ViGEmX360Prefix + serial : null;
+
+    /// <summary>
+    /// Los <paramref name="count"/> números de serie libres más bajos de ViGEmBus ("01", "02"…):
+    /// ViGEmBus da a cada mando nuevo el más bajo, y es la parte final de su instance id. Vacío sin bus.
+    /// </summary>
+    private static List<string> NextFreeViGEmSerials(int count)
     {
         var bus = Cm.DeviceIds(@"ROOT\SYSTEM")
                     .FirstOrDefault(id => Cm.HardwareIds(id).Any(h => h.Equals(ViGEmBusHardwareId, StringComparison.OrdinalIgnoreCase)));
-        if (bus is null) return null;
+        if (bus is null) return [];
         var used = Cm.Children(bus)
                      .Select(id => id[(id.LastIndexOf('\\') + 1)..])
                      .Select(s => int.TryParse(s, NumberStyles.None, CultureInfo.InvariantCulture, out var n) ? n : -1)
                      .ToHashSet();
-        int serial = 1;
-        while (used.Contains(serial)) serial++;
-        return ViGEmX360Prefix + serial.ToString("D2", CultureInfo.InvariantCulture);
+        var free = new List<string>(count);
+        for (int serial = 1; free.Count < count && serial < 100; serial++)
+            if (!used.Contains(serial)) free.Add(serial.ToString("D2", CultureInfo.InvariantCulture));
+        return free;
     }
 
     /// <summary>
@@ -203,6 +215,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             Jail(add: [], remove: [p]);   // ViGEmBus le dio otro número: la entrada prevista sobra
         return (c.WindowsSession, c.Name);
     }
+
+    /// <summary>
+    /// Instance ids que tendrán los próximos mandos de ViGEmBus, ocultos de antemano a todas las
+    /// sesiones mientras haya streams en marcha (ver <see cref="SyncReservations"/>).
+    /// </summary>
+    private readonly HashSet<string> _reserved = new(StringComparer.OrdinalIgnoreCase);
 
     private readonly Dictionary<string, Pad>     _pads    = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<Guid, LogCursor> _cursors = [];
@@ -308,6 +326,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         finally
         {
             ReleaseSideInputs();
+            try { ReleaseReservations(); } catch (Exception ex) { Logger.Warning($"[Gamepad] No se pudieron quitar las reservas de mandos: {ex.Message}"); }
             lock (_jailLock) _sharedHidHide = null;
             _hidHide?.Dispose();
         }
@@ -433,8 +452,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
         if (ViGEmPadOf(instanceId) is { } padId)
         {
-            var pad = Track(padId, _sessions.GetRunningSunshineSessions());
+            var running = _sessions.GetRunningSunshineSessions();
+            var pad = Track(padId, running);
             if (pad.Session is not null) Hide(pad);
+            SyncReservations(running.Count > 0);      // el siguiente mando del mismo cliente puede llegar ya
         }
         else if (Cm.IsGameController(instanceId))
         {
@@ -463,6 +484,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         ScanPhysical();
 
         var running = _sessions.GetRunningSunshineSessions();
+        SyncReservations(running.Count > 0);
         if (running.Count == 0 && _pads.Count == 0) return;
 
         // Mandos presentes = hijos directos de cada bus ViGEm
@@ -549,6 +571,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         else
         {
             pad.GaveUp = true;
+            // Nació reservado: sin dueño, vuelve a ser visible en todas como antes.
+            if (_reserved.Remove(pad.InstanceId)) ReserveJails([], [pad.InstanceId]);
             Logger.Warning($"[Gamepad] No se pudo saber qué sesión creó el mando {pad.InstanceId}; queda visible en todas.");
             return;
         }
@@ -677,6 +701,75 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         return n == count ? buf : buf[..n];
     }
 
+    // ── Reserva de los próximos mandos de Sunshine ───────────────────────────
+
+    /// <summary>
+    /// Sunshine crea los mandos de Moonlight en ViGEmBus y la sesión dueña solo se sabe al leer su
+    /// log, así que se ocultaban después de aparecer. En ese momento la consola (Steam, XInput de
+    /// un juego) ya los había abierto, y el nodo del mando (XUSB, el de XInput) no se reiniciaba
+    /// porque tiene hijos: el mando de la sesión remota llegaba también al PC.
+    /// Mientras haya streams en marcha, los próximos números de serie de ViGEmBus (X360 y DS4) se
+    /// dejan en el jail de HidHide con una sesión que no existe: el mando nace oculto para todos y
+    /// <see cref="Hide"/> lo deja visible solo en su sesión al asignarlo.
+    /// </summary>
+    private void SyncReservations(bool streams)
+    {
+        var want = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        if (streams && SessionJailSupported)
+            foreach (var serial in NextFreeViGEmSerials(ReserveAhead))
+            {
+                want.Add(ViGEmX360Prefix + serial);
+                want.Add(ViGEmDs4Prefix + serial);
+            }
+        // Los que reclama un puesto (ClaimNextViGEmPad) ya tienen su jail con la sesión del puesto.
+        lock (_claimsLock)
+            foreach (var c in _claims)
+                if (c.Predicted is { } p) { want.Remove(p); _reserved.Remove(p); }
+
+        // Un reservado que ya existe es un mando recién aparecido: sigue oculto hasta que Hide lo asigne.
+        var drop = _reserved.Where(id => !want.Contains(id) && !Cm.Exists(id)).ToList();
+        var add  = want.Where(id => !_reserved.Contains(id)).ToList();
+        if (drop.Count == 0 && add.Count == 0) return;
+        if (!ReserveJails(add, drop)) return;
+        _reserved.ExceptWith(drop);
+        _reserved.UnionWith(add);
+    }
+
+    /// <summary>
+    /// Pone o quita entradas de reserva (instance id con <see cref="NoSession"/>). Solo toca las
+    /// suyas: un id que ya tiene otro jail (un puesto que lo reclamó) se deja como está.
+    /// </summary>
+    private bool ReserveJails(IReadOnlyCollection<string> add, IReadOnlyCollection<string> remove)
+    {
+        try
+        {
+            lock (_jailLock)
+            {
+                var list = HidHide.GetBlacklist(_hidHide!);
+                var jailed = list.Select(HidHide.JailedInstance).OfType<string>().ToHashSet(StringComparer.OrdinalIgnoreCase);
+                var dropEntries = remove.Select(id => HidHide.JailEntry(id, NoSession)).ToHashSet(StringComparer.OrdinalIgnoreCase);
+                var addEntries = add.Where(id => !jailed.Contains(id)).Select(id => HidHide.JailEntry(id, NoSession)).ToList();
+                if (addEntries.Count == 0 && !list.Any(dropEntries.Contains)) return true;
+                HidHide.SetBlacklist(_hidHide!, list.Where(e => !dropEntries.Contains(e)).Concat(addEntries)
+                                                    .Distinct(StringComparer.OrdinalIgnoreCase).ToList());
+                return true;
+            }
+        }
+        catch (Win32Exception ex)
+        {
+            Logger.Warning($"[Gamepad] No se pudieron reservar los próximos mandos en HidHide: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>Al parar el servicio: las reservas de mandos que no existen se quitan.</summary>
+    private void ReleaseReservations()
+    {
+        if (_hidHide is null || _reserved.Count == 0) return;
+        ReserveJails([], _reserved.Where(id => !Cm.Exists(id)).ToList());
+        _reserved.Clear();
+    }
+
     // ── HidHide ──────────────────────────────────────────────────────────────
 
     /// <summary>
@@ -693,6 +786,24 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
         var started = nodes.Where(Cm.IsOpenableAndStarted).ToHashSet(StringComparer.OrdinalIgnoreCase);
         if (!UpdateJails(add: nodes.Select(n => HidHide.JailEntry(n, pad.WindowsSession)), remove: nodes)) return;
+
+        // Mando que nació reservado (oculto a todos): nadie de otra sesión lo pudo abrir, pero su
+        // propia sesión tampoco. Se reinicia el mando entero (también sus hijos HID) para que la
+        // sesión dueña lo vea llegar y para cerrar lo que la consola abriera de los hijos.
+        if (_reserved.Remove(pad.InstanceId) && nodes.Contains(pad.InstanceId, StringComparer.OrdinalIgnoreCase) &&
+            Cm.IsStarted(pad.InstanceId))
+        {
+            bool restarted;
+            try { restarted = DevSetup.Restart(pad.InstanceId); }
+            catch (Win32Exception) { restarted = false; }
+            if (restarted)
+            {
+                foreach (var node in nodes) { pad.Hidden.Add(node); pad.Restarted.Add(node); }
+                Logger.Log($"[Gamepad] {pad.InstanceId} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}) " +
+                           "desde que apareció; reiniciado para que esa sesión lo detecte.", pad.Session);
+                return;
+            }
+        }
 
         foreach (var node in nodes)
         {
