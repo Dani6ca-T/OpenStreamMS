@@ -35,7 +35,6 @@
   "session.stoppingWait": "세션이 중지 중입니다: 구성을 변경하기 전에 완료될 때까지 기다리세요.",
   "rdpwrap.rdpTcpNotListening": "RemoteIdd를 사용하면 원격 데스크톱 서비스가 RDP 연결을 열지 않았습니다. Windows Home과 Pro에서는 여러 세션을 가능하게 하는 구성 요소가 Microsoft가 아닌 프로토콜 구성 요소의 로드를 허용하지 않을 때 발생합니다",
   "rdpwrap.deviceFailed": "Windows가 세션의 RemoteIdd 디스플레이를 구성하지 못해(Kernel-PnP 이벤트 401) 원격 데스크톱이 1분 후 세션을 끊었습니다",
-  "rdpwrap.wudfMissing": "RemoteIdd 같은 드라이버에 필요한 Windows 파일 C:\\Windows\\INF\\wudfrd.inf이(가) 없습니다. DISM /Online /Cleanup-Image /RestoreHealth 및 sfc /scannow로 Windows를 복구하세요",
   "rdpwrap.notLoaded": "원격 데스크톱 서비스가 아직 여러 세션을 허용하는 구성 요소를 로드하지 않았습니다",
   "rdpwrap.singleSession": "이 PC는 한 번에 하나의 세션만 허용합니다",
   "rdpwrap.remoteIddOff": "RemoteIdd가 꺼져 있습니다: {0}. 워크스테이션은 Windows의 RDP 디스플레이를 사용합니다. OpenStreamMS는 업데이트하거나 다시 설치할 때마다 RemoteIdd를 다시 시도합니다.",

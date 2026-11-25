@@ -87,7 +87,10 @@ copy /y "%~dp0RemoteIdd.inf" "%OUT%\RemoteIdd.inf" >nul
 :: España rechazaba el INF ("DriverVer set to a date in the future").
 for /f %%d in ('powershell -NoProfile -Command "(Get-Date).ToUniversalTime().ToString('MM/dd/yyyy', [Globalization.CultureInfo]::InvariantCulture)"') do set DRIVER_DATE=%%d
 "%W%\bin\10.0.26100.0\x64\stampinf.exe" -f "%OUT%\RemoteIdd.inf" -a amd64 -u 2.31.0 -d %DRIVER_DATE% -v 0.1.0.0 >nul || exit /b 1
-"%W%\tools\10.0.26100.0\x64\infverif.exe" /w "%OUT%\RemoteIdd.inf" || exit /b 1
+:: /u y no /w: /w (driver aislado) exige que el binario de cada servicio salga de un CopyFiles,
+:: y el reflector de UMDF (WUDFRd.sys) es de Windows. Se declara en el INF porque WUDFRD.inf
+:: no viene en Windows 10 (ver RemoteIdd.inf); rdpidd.inf de Windows hace lo mismo.
+"%W%\tools\10.0.26100.0\x64\infverif.exe" /u "%OUT%\RemoteIdd.inf" || exit /b 1
 
 echo RemoteIdd compilado en %OUT% (sin firmar, sin instalar).
 exit /b 0

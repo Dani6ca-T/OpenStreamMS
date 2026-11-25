@@ -35,7 +35,6 @@
   "session.stoppingWait": "工作階段正在停止：請等待其結束後再更改配置。",
   "rdpwrap.rdpTcpNotListening": "啟用 RemoteIdd 後，遠端桌面服務沒有開啟 RDP 連線。在 Windows 家用版和專業版上，這通常是因為實現多工作階段的元件不允許載入非 Microsoft 的通訊協定元件",
   "rdpwrap.deviceFailed": "Windows 無法為工作階段設定 RemoteIdd 顯示器（Kernel-PnP 事件 401），因此遠端桌面會在一分鐘後中斷該工作階段",
-  "rdpwrap.wudfMissing": "缺少 RemoteIdd 等驅動程式需要的 Windows 檔案 C:\\Windows\\INF\\wudfrd.inf。請用 DISM /Online /Cleanup-Image /RestoreHealth 和 sfc /scannow 修復 Windows",
   "rdpwrap.notLoaded": "遠端桌面服務尚未載入允許多個工作階段的元件",
   "rdpwrap.singleSession": "此電腦一次只允許一個工作階段",
   "rdpwrap.remoteIddOff": "RemoteIdd 已關閉：{0}。工作站使用 Windows 內建的 RDP 顯示。每次更新或重新安裝 OpenStreamMS 時都會再次嘗試 RemoteIdd。",

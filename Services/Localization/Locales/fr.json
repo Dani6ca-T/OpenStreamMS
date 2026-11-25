@@ -35,7 +35,6 @@
   "session.stoppingWait": "La session s'arrête : attendez qu'elle se termine avant de changer sa configuration.",
   "rdpwrap.rdpTcpNotListening": "Avec RemoteIdd, le service Bureau à distance n'a pas ouvert sa connexion RDP. Sous Windows Famille et Pro, cela arrive quand ce qui permet plusieurs sessions ne laisse pas charger de composants de protocole autres que ceux de Microsoft",
   "rdpwrap.deviceFailed": "Windows n'a pas pu configurer l'écran RemoteIdd d'une session (événement Kernel-PnP 401), donc le Bureau à distance coupait la session au bout d'une minute",
-  "rdpwrap.wudfMissing": "Le fichier Windows C:\\Windows\\INF\\wudfrd.inf, nécessaire aux pilotes comme RemoteIdd, est manquant. Réparez Windows avec DISM /Online /Cleanup-Image /RestoreHealth et sfc /scannow",
   "rdpwrap.notLoaded": "Le service Bureau à distance n'a pas encore chargé le composant qui permet plusieurs sessions",
   "rdpwrap.singleSession": "Ce PC n'autorise qu'une seule session à la fois",
   "rdpwrap.remoteIddOff": "RemoteIdd est désactivé : {0}. Les postes utilisent l'affichage RDP de Windows. OpenStreamMS réessaie RemoteIdd à chaque mise à jour ou réinstallation.",

@@ -35,7 +35,6 @@
   "session.stoppingWait": "La sessione si sta arrestando: attendere che termini prima di modificarne la configurazione.",
   "rdpwrap.rdpTcpNotListening": "Con RemoteIdd, il servizio Desktop remoto non ha aperto la sua connessione RDP. Su Windows Home e Pro succede quando ciò che consente più sessioni non lascia caricare componenti di protocollo non Microsoft",
   "rdpwrap.deviceFailed": "Windows non è riuscito a configurare lo schermo RemoteIdd di una sessione (evento Kernel-PnP 401), quindi Desktop remoto chiudeva la sessione dopo un minuto",
-  "rdpwrap.wudfMissing": "Manca il file di Windows C:\\Windows\\INF\\wudfrd.inf, necessario ai driver come RemoteIdd. Ripara Windows con DISM /Online /Cleanup-Image /RestoreHealth e sfc /scannow",
   "rdpwrap.notLoaded": "Il servizio Desktop remoto non ha ancora caricato il componente che consente più sessioni",
   "rdpwrap.singleSession": "Questo PC consente una sola sessione alla volta",
   "rdpwrap.remoteIddOff": "RemoteIdd è disattivato: {0}. Le postazioni usano il display RDP di Windows. OpenStreamMS riprova RemoteIdd a ogni aggiornamento o reinstallazione.",

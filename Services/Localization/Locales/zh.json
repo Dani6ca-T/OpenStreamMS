@@ -35,7 +35,6 @@
   "session.stoppingWait": "会话正在停止：请等待其完成后再更改配置。",
   "rdpwrap.rdpTcpNotListening": "启用 RemoteIdd 后，远程桌面服务没有打开 RDP 连接。在 Windows 家庭版和专业版上，这通常是因为实现多会话的组件不允许加载非微软的协议组件",
   "rdpwrap.deviceFailed": "Windows 无法为会话配置 RemoteIdd 显示器（Kernel-PnP 事件 401），因此远程桌面会在一分钟后断开该会话",
-  "rdpwrap.wudfMissing": "缺少 RemoteIdd 等驱动程序所需的 Windows 文件 C:\\Windows\\INF\\wudfrd.inf。请用 DISM /Online /Cleanup-Image /RestoreHealth 和 sfc /scannow 修复 Windows",
   "rdpwrap.notLoaded": "远程桌面服务尚未加载允许多个会话的组件",
   "rdpwrap.singleSession": "此电脑一次只允许一个会话",
   "rdpwrap.remoteIddOff": "RemoteIdd 已关闭：{0}。工作站使用 Windows 自带的 RDP 显示。每次更新或重新安装 OpenStreamMS 时都会再次尝试 RemoteIdd。",

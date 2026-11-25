@@ -35,7 +35,6 @@
   "session.stoppingWait": "セッションが停止中です：設定を変更する前に終了するまでお待ちください。",
   "rdpwrap.rdpTcpNotListening": "RemoteIdd を有効にすると、リモート デスクトップ サービスが RDP 接続を開きませんでした。Windows Home と Pro では、複数セッションを可能にしているものが Microsoft 以外のプロトコル コンポーネントの読み込みを許可しない場合に起こります",
   "rdpwrap.deviceFailed": "Windows がセッションの RemoteIdd ディスプレイを構成できなかったため (Kernel-PnP イベント 401)、リモート デスクトップが 1 分後にセッションを切断していました",
-  "rdpwrap.wudfMissing": "RemoteIdd などのドライバーに必要な Windows のファイル C:\\Windows\\INF\\wudfrd.inf がありません。DISM /Online /Cleanup-Image /RestoreHealth と sfc /scannow で Windows を修復してください",
   "rdpwrap.notLoaded": "リモート デスクトップ サービスは、複数セッションを可能にするコンポーネントをまだ読み込んでいません",
   "rdpwrap.singleSession": "この PC では同時に 1 つのセッションしか使えません",
   "rdpwrap.remoteIddOff": "RemoteIdd は無効になっています: {0}。ワークステーションは Windows の RDP ディスプレイを使います。OpenStreamMS は更新または再インストールのたびに RemoteIdd を再試行します。",
