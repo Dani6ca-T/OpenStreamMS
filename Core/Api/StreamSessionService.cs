@@ -26,6 +26,11 @@ public partial class StreamSessionService
     private readonly ConcurrentDictionary<Guid, SunshineManager> _sunshine = new();
     /// <summary>Sesiones cuyo Sunshine se está relanzando a propósito: el monitor no las toca.</summary>
     private readonly ConcurrentDictionary<Guid, byte> _sunshineRelaunching = new();
+    /// <summary>
+    /// Sesiones locales que no arrancaron porque nadie tenía sesión iniciada en Windows (arranque
+    /// del equipo, cierre de sesión): el monitor las arranca cuando alguien entra en la consola.
+    /// </summary>
+    private readonly ConcurrentDictionary<Guid, byte> _awaitingConsoleUser = new();
 
     private static readonly string SessionsFile =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sessions.json");
@@ -899,8 +904,48 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
 
     // ── MONITORIZACIÓN (llamado por el BackgroundService cada 5 s) ───────────
 
+    /// <summary>
+    /// Arranca las sesiones locales de auto-arranque que esperaban a que alguien iniciara sesión
+    /// en Windows. Al encender el equipo el servicio arranca antes de que nadie entre, y la sesión
+    /// local se quedaba en error hasta arrancarla a mano (issue #80).
+    /// </summary>
+    private void StartLocalsAwaitingConsoleUser()
+    {
+        if (_awaitingConsoleUser.IsEmpty) return;
+
+        // Recién iniciada la sesión de Windows, el escritorio aún se está montando: se deja un
+        // margen antes de lanzar Sunshine en ella.
+        uint consoleId = 0;
+        if (!ConsoleSession.TryGetUser(out consoleId, out _, out _)) _consoleUserSince = null;
+        else if (_consoleUserSince is not { } since || since.Session != consoleId) _consoleUserSince = (consoleId, DateTime.UtcNow);
+        bool ready = _consoleUserSince is { } seen && DateTime.UtcNow - seen.At >= ConsoleLogonGrace;
+
+        foreach (var id in _awaitingConsoleUser.Keys)
+        {
+            // Arrancada, borrada o sacada del auto-arranque entretanto: ya no se espera.
+            if (!_sessions.TryGetValue(id, out var session) || !session.Enabled || session.State != SessionState.Error)
+            {
+                _awaitingConsoleUser.TryRemove(id, out _);
+                continue;
+            }
+            if (!ready) continue;
+
+            _awaitingConsoleUser.TryRemove(id, out _);
+            Logger.Log($"[{session.Name}] Hay una sesión iniciada en Windows ({consoleId}): se arranca la sesión local.", session.Id);
+            try { Start(id); }
+            catch (Exception ex) { Logger.Warning($"[{session.Name}] No se pudo arrancar al iniciar sesión en Windows: {ex.Message}", session.Id); }
+        }
+    }
+
+    private (uint Session, DateTime At)? _consoleUserSince;
+    private static readonly TimeSpan ConsoleLogonGrace = TimeSpan.FromSeconds(10);
+
+    /// <summary>La sesión local no arranca porque nadie tiene sesión iniciada en Windows.</summary>
+    private sealed class NoConsoleUserException(string message) : Exception(message);
+
     public void MonitorAll()
     {
+        StartLocalsAwaitingConsoleUser();
         WatchComposites();
         try { EnsureHuds(); }
         catch (Exception ex) { Logger.Warning($"[HUD] {ex.Message}"); }
@@ -1369,6 +1414,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 }
             }
             Logger.Error($"[{session.Name}] Error al iniciar: {ex.Message}", session.Id);
+            if (failed && ex is NoConsoleUserException && session.Enabled)
+            {
+                _awaitingConsoleUser[session.Id] = 0;
+                Logger.Log($"[{session.Name}] Se arrancará cuando alguien inicie sesión en Windows.", session.Id);
+            }
             // Detenida mientras arrancaba: el fallo es consecuencia de eso; se recoge lo que quedara.
             if (!failed) CleanUpAbandonedStart(session, startedRdpId, startedClientPid);
         }
@@ -1386,7 +1436,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     private void StartLocal(StreamSession session, int generation)
     {
         if (!ConsoleSession.TryGetUser(out var consoleId, out var domain, out var username))
-            throw new Exception(RequestCulture.T("error.noConsoleUser"));
+            throw new NoConsoleUserException(RequestCulture.T("error.noConsoleUser"));
 
         Logger.Log($"[{session.Name}] Sesión local: escritorio de '{domain}\\{username}' (sesión de Windows {consoleId}).", session.Id);
         session.RdpSessionId = consoleId;
