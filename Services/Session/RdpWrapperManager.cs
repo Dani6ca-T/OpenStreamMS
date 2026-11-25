@@ -203,15 +203,21 @@ public sealed class RdpWrapperManager
                          "puestos usan la captura de siempre.");
             return;
         }
-        // En el arranque del PC TermService puede tardar en abrir el listener.
-        var deadline = DateTime.UtcNow.AddSeconds(60);
-        string? problem;
-        while ((problem = RemoteIddProblem()) is not null && DateTime.UtcNow < deadline && !ct.IsCancellationRequested)
-            Thread.Sleep(2000);
+        // Si Windows no puede montar la pantalla del puesto, cada sesión se corta al minuto: no
+        // hay que esperar al listener para saberlo.
+        string? problem = RemoteIddDeviceProblem();
+        if (problem is null)
+        {
+            // En el arranque del PC TermService puede tardar en abrir el listener.
+            var deadline = DateTime.UtcNow.AddSeconds(60);
+            while ((problem = RemoteIddProblem()) is not null && DateTime.UtcNow < deadline && !ct.IsCancellationRequested)
+                Thread.Sleep(2000);
+        }
         if (problem is null)
         {
             ClearRemoteIddOff();
             Logger.Log("[MultiRdp] RDP-Tcp escuchando con el proveedor de RemoteIdd: RemoteIdd disponible.");
+            WatchRemoteIddDevice();
             return;
         }
         // Se quita para no dejar el equipo sin Escritorio remoto. No se marca como imposible: la
@@ -232,6 +238,106 @@ public sealed class RdpWrapperManager
         if (!st.Allowed)          return "singleSession";
         if (!IsRdpTcpListening()) return "rdpTcpNotListening";
         return null;
+    }
+
+    // ── Pantalla del puesto que Windows no puede montar ──────────────────────
+
+    /// <summary>Id de instancia de las pantallas de RemoteIdd (SWD\RemoteDisplayEnum\OsmsRemoteIdd_…).</summary>
+    private const string RemoteIddDeviceTag = "OsmsRemoteIdd";
+    private const string PnpConfigChannel   = "Microsoft-Windows-Kernel-PnP/Configuration";
+    /// <summary>Kernel-PnP: "no se pudo configurar el dispositivo".</summary>
+    private const int DeviceConfigFailedEvent = 401;
+
+    /// <summary>
+    /// Null si nada indica que Windows no pueda montar la pantalla de RemoteIdd; si no, el motivo.
+    /// Con RemoteIdd activo pero sin su pantalla, rdpcorets corta cada sesión al minuto
+    /// (ERRINFO_CLOSE_STACK_ON_DRIVER_NOT_READY): visto en dos Windows 10 (issue #80 y un correo).
+    /// </summary>
+    internal static string? RemoteIddDeviceProblem()
+    {
+        // El INF de RemoteIdd incluye WUDFRD.inf (servicio del reflector de UMDF): sin él el
+        // dispositivo se queda sin driver de función (setupapi: "Could not find include INF file").
+        if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "INF", "wudfrd.inf")))
+            return "wudfMissing";
+        return RemoteIddDeviceFailedSince(RemoteIddInstalledAt()) ? "deviceFailed" : null;
+    }
+
+    /// <summary>Hora de la última instalación de RemoteIdd: los fallos anteriores no cuentan.</summary>
+    private static DateTime RemoteIddInstalledAt()
+    {
+        var state = ProgramDataFile("remoteidd-install.json");
+        return File.Exists(state) ? File.GetLastWriteTimeUtc(state) : DateTime.MinValue;
+    }
+
+    /// <summary>true si el registro de Kernel-PnP tiene un 401 de una pantalla de RemoteIdd desde <paramref name="sinceUtc"/>.</summary>
+    private static bool RemoteIddDeviceFailedSince(DateTime sinceUtc)
+    {
+        try
+        {
+            var query = new System.Diagnostics.Eventing.Reader.EventLogQuery(PnpConfigChannel,
+                System.Diagnostics.Eventing.Reader.PathType.LogName,
+                $"*[System[EventID={DeviceConfigFailedEvent}]]") { ReverseDirection = true };
+            using var reader = new System.Diagnostics.Eventing.Reader.EventLogReader(query);
+            for (var rec = reader.ReadEvent(); rec is not null; rec = reader.ReadEvent())
+            {
+                using (rec)
+                {
+                    if (rec.TimeCreated is { } t && t.ToUniversalTime() < sinceUtc) return false;   // del más reciente al más antiguo
+                    if (IsRemoteIddDeviceEvent(rec)) return true;
+                }
+            }
+        }
+        catch (Exception ex) { Logger.Warning($"[MultiRdp] No se pudo leer {PnpConfigChannel}: {ex.Message}"); }
+        return false;
+    }
+
+    private static bool IsRemoteIddDeviceEvent(System.Diagnostics.Eventing.Reader.EventRecord rec)
+    {
+        // ToXml lleva los datos del evento (DeviceInstanceId, DriverName…) sin depender del idioma.
+        try { return rec.ToXml().Contains(RemoteIddDeviceTag, StringComparison.OrdinalIgnoreCase); }
+        catch { return false; }
+    }
+
+    private static System.Diagnostics.Eventing.Reader.EventLogWatcher? _deviceWatcher;
+    private static int _deviceFailureHandled;
+
+    /// <summary>
+    /// Con RemoteIdd en uso, vigila los 401 de Kernel-PnP: el primero de una pantalla de RemoteIdd
+    /// lo quita de RDP-Tcp como al arrancar. Sin esto, el puesto que lo sufre se queda sin
+    /// imagen y se corta al minuto hasta que se reinicie el equipo.
+    /// </summary>
+    private static void WatchRemoteIddDevice()
+    {
+        if (_deviceWatcher is not null) return;
+        try
+        {
+            var query = new System.Diagnostics.Eventing.Reader.EventLogQuery(PnpConfigChannel,
+                System.Diagnostics.Eventing.Reader.PathType.LogName,
+                $"*[System[EventID={DeviceConfigFailedEvent}]]");
+            var watcher = new System.Diagnostics.Eventing.Reader.EventLogWatcher(query);
+            watcher.EventRecordWritten += (_, e) =>
+            {
+                using var rec = e.EventRecord;
+                if (rec is null || !IsRemoteIddDeviceEvent(rec)) return;
+                if (Interlocked.Exchange(ref _deviceFailureHandled, 1) == 1) return;
+                try { TurnOffAfterDeviceFailure(); }
+                catch (Exception ex) { Logger.Error($"[MultiRdp] No se pudo quitar RemoteIdd tras el fallo de su pantalla: {ex.Message}"); }
+            };
+            watcher.Enabled = true;
+            _deviceWatcher = watcher;
+        }
+        catch (Exception ex) { Logger.Warning($"[MultiRdp] No se puede vigilar {PnpConfigChannel}: {ex.Message}"); }
+    }
+
+    private static void TurnOffAfterDeviceFailure()
+    {
+        if (!IsRemoteIddActive()) return;
+        const string problem = "deviceFailed";
+        Logger.Error("[MultiRdp] " + RemoteIddOffText(problem));
+        LeaveRemoteIdd();
+        SaveRemoteIddOff(problem);
+        // Con sesiones abiertas TermService no se reinicia: el cambio entra al reiniciar el equipo.
+        ApplyTermServiceChange();
     }
 
     // ── RemoteIdd quitado: motivo para el panel y el diagnóstico ─────────────

@@ -34,6 +34,8 @@
   "session.stopBeforeConfig": "Před úpravou konfigurace zastavte relaci.",
   "session.stoppingWait": "Relace se zastavuje: čekejte, než skončí, než změníte její konfiguraci.",
   "rdpwrap.rdpTcpNotListening": "S RemoteIdd služba Vzdálená plocha neotevřela své připojení RDP. Ve Windows Home a Pro se to stává, když to, co umožňuje více relací, nedovolí načíst komponenty protokolu, které nejsou od Microsoftu",
+  "rdpwrap.deviceFailed": "Windows nedokázal připravit displej RemoteIdd pro relaci (událost Kernel-PnP 401), takže Vzdálená plocha relaci po minutě ukončila",
+  "rdpwrap.wudfMissing": "Chybí soubor Windows C:\\Windows\\INF\\wudfrd.inf, který potřebují ovladače jako RemoteIdd. Opravte Windows pomocí DISM /Online /Cleanup-Image /RestoreHealth a sfc /scannow",
   "rdpwrap.notLoaded": "Služba Vzdálená plocha zatím nenačetla komponentu, která umožňuje více relací",
   "rdpwrap.singleSession": "Tento počítač umožňuje jen jednu relaci najednou",
   "rdpwrap.remoteIddOff": "RemoteIdd je vypnutý: {0}. Pracovní místa používají displej RDP systému Windows. OpenStreamMS zkusí RemoteIdd znovu při každé aktualizaci nebo přeinstalaci.",

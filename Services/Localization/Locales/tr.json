@@ -34,6 +34,8 @@
   "session.stopBeforeConfig": "Yapılandırmasını değiştirmeden önce oturumu durdurun.",
   "session.stoppingWait": "Oturum durduruluyor: yapılandırmayı değiştirmeden önce bitmesini bekleyin.",
   "rdpwrap.rdpTcpNotListening": "RemoteIdd ile Uzak Masaüstü hizmeti RDP bağlantısını açmadı. Windows Home ve Pro'da bu, birden fazla oturuma izin veren bileşen Microsoft dışı protokol bileşenlerinin yüklenmesine izin vermediğinde olur",
+  "rdpwrap.deviceFailed": "Windows bir oturumun RemoteIdd ekranını yapılandıramadı (Kernel-PnP olayı 401), bu yüzden Uzak Masaüstü oturumu bir dakika sonra kesiyordu",
+  "rdpwrap.wudfMissing": "RemoteIdd gibi sürücülerin ihtiyaç duyduğu C:\\Windows\\INF\\wudfrd.inf Windows dosyası eksik. Windows'u DISM /Online /Cleanup-Image /RestoreHealth ve sfc /scannow ile onarın",
   "rdpwrap.notLoaded": "Uzak Masaüstü hizmeti, birden fazla oturuma izin veren bileşeni henüz yüklemedi",
   "rdpwrap.singleSession": "Bu bilgisayar aynı anda yalnızca bir oturuma izin veriyor",
   "rdpwrap.remoteIddOff": "RemoteIdd kapalı: {0}. İş istasyonları Windows'un RDP ekranını kullanır. OpenStreamMS her güncellemede veya yeniden kurulumda RemoteIdd'yi yeniden dener.",

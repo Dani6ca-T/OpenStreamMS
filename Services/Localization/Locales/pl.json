@@ -34,6 +34,8 @@
   "session.stopBeforeConfig": "Zatrzymaj sesję przed modyfikacją jej konfiguracji.",
   "session.stoppingWait": "Sesja jest zatrzymywana: poczekaj, aż się zakończy, zanim zmienisz jej konfigurację.",
   "rdpwrap.rdpTcpNotListening": "Z RemoteIdd usługa Pulpit zdalny nie otworzyła połączenia RDP. W Windows Home i Pro dzieje się tak, gdy to, co umożliwia wiele sesji, nie pozwala wczytać składników protokołu innych niż Microsoftu",
+  "rdpwrap.deviceFailed": "Windows nie mógł skonfigurować ekranu RemoteIdd dla sesji (zdarzenie Kernel-PnP 401), więc Pulpit zdalny rozłączał sesję po minucie",
+  "rdpwrap.wudfMissing": "Brakuje pliku systemu Windows C:\\Windows\\INF\\wudfrd.inf, którego potrzebują sterowniki takie jak RemoteIdd. Napraw Windows poleceniami DISM /Online /Cleanup-Image /RestoreHealth i sfc /scannow",
   "rdpwrap.notLoaded": "Usługa Pulpit zdalny nie załadowała jeszcze składnika, który pozwala na wiele sesji",
   "rdpwrap.singleSession": "Ten komputer pozwala tylko na jedną sesję naraz",
   "rdpwrap.remoteIddOff": "RemoteIdd jest wyłączony: {0}. Stanowiska używają ekranu RDP systemu Windows. OpenStreamMS ponawia próbę z RemoteIdd przy każdej aktualizacji lub ponownej instalacji.",

@@ -34,6 +34,8 @@
   "session.stopBeforeConfig": "Állítsa le a munkamenetet a konfiguráció módosítása előtt.",
   "session.stoppingWait": "A munkamenet leáll: várjon, amíg befejeződik, mielőtt megváltoztatná a konfigurációját.",
   "rdpwrap.rdpTcpNotListening": "RemoteIdd mellett a Távoli asztal szolgáltatás nem nyitotta meg az RDP-kapcsolatát. Windows Home és Pro rendszeren ez akkor történik, ha a több munkamenetet lehetővé tévő összetevő nem engedi betölteni a nem Microsoft-féle protokollösszetevőket",
+  "rdpwrap.deviceFailed": "A Windows nem tudta beállítani egy munkamenet RemoteIdd-kijelzőjét (Kernel-PnP 401-es esemény), ezért a Távoli asztal egy perc után bontotta a munkamenetet",
+  "rdpwrap.wudfMissing": "Hiányzik a Windows C:\\Windows\\INF\\wudfrd.inf fájlja, amelyre az olyan illesztőprogramoknak, mint a RemoteIdd, szükségük van. Javítsa a Windowst a(z) DISM /Online /Cleanup-Image /RestoreHealth és az sfc /scannow parancsokkal",
   "rdpwrap.notLoaded": "A Távoli asztal szolgáltatás még nem töltötte be a több munkamenetet engedélyező összetevőt",
   "rdpwrap.singleSession": "Ez a gép egyszerre csak egy munkamenetet enged",
   "rdpwrap.remoteIddOff": "A RemoteIdd ki van kapcsolva: {0}. A munkaállomások a Windows RDP-kijelzőjét használják. Az OpenStreamMS minden frissítéskor vagy újratelepítéskor újra megpróbálja a RemoteIdd-t.",

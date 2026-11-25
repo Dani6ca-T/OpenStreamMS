@@ -34,6 +34,8 @@
   "session.stopBeforeConfig": "Зупиніть сеанс перед зміною його конфігурації.",
   "session.stoppingWait": "Сеанс зупиняється: зачекайте, поки він завершиться, перед тим як змінювати його конфігурацію.",
   "rdpwrap.rdpTcpNotListening": "З RemoteIdd служба віддалених робочих столів не відкрила своє RDP-підключення. У Windows Home і Pro так буває, коли те, що дозволяє кілька сеансів, не дає завантажувати компоненти протоколу не від Microsoft",
+  "rdpwrap.deviceFailed": "Windows не змогла налаштувати екран RemoteIdd для сеансу (подія Kernel-PnP 401), тому віддалений робочий стіл розривав сеанс через хвилину",
+  "rdpwrap.wudfMissing": "Відсутній файл Windows C:\\Windows\\INF\\wudfrd.inf, потрібний драйверам на кшталт RemoteIdd. Відновіть Windows командами DISM /Online /Cleanup-Image /RestoreHealth і sfc /scannow",
   "rdpwrap.notLoaded": "Служба віддаленого робочого стола ще не завантажила компонент, що дозволяє кілька сеансів",
   "rdpwrap.singleSession": "Цей ПК дозволяє лише один сеанс одночасно",
   "rdpwrap.remoteIddOff": "RemoteIdd вимкнено: {0}. Робочі місця використовують RDP-дисплей Windows. OpenStreamMS знову пробує RemoteIdd під час кожного оновлення або перевстановлення.",
