@@ -195,11 +195,12 @@ const backendTextCode = fs.readFileSync(path.join(root, 'Services/Localization/B
 // We need to test the actual compiled code. Let's create a test that runs the actual .NET code.
 // For now, test the catalog integrity.
 
-test('All 22 backend catalogs have exactly 110 keys', () => {
+test('All 22 backend catalogs have exactly the English keys', () => {
     const codes = Object.keys(backendCatalogs).sort();
     assert.equal(codes.length, 22);
+    const english = Object.keys(backendCatalogs.en).sort();
     for (const [lang, table] of Object.entries(backendCatalogs)) {
-        assert.equal(Object.keys(table).length, 110, lang);
+        assert.deepEqual(Object.keys(table).sort(), english, lang);
         for (const [key, value] of Object.entries(table)) {
             assert.equal(typeof value, 'string', lang + ':' + key);
             assert.ok(value.length > 0, lang + ':' + key + ' is empty');
@@ -208,7 +209,8 @@ test('All 22 backend catalogs have exactly 110 keys', () => {
 });
 
 test('Backend catalogs have matching placeholders', () => {
-    const placeholders = value => [...value.matchAll(/\{(\w+)\}/g)].map(m => m[1]).sort();
+    // Cada placeholder una vez: una traducción puede repetir {0} (string.Format lo admite).
+    const placeholders = value => [...new Set([...value.matchAll(/\{(\w+)\}/g)].map(m => m[1]))].sort();
     for (const [lang, table] of Object.entries(backendCatalogs)) {
         for (const [key, value] of Object.entries(table)) {
             const ph = placeholders(value);
