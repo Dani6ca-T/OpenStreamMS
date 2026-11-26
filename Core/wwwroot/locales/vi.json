@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Phiên bản này không có trình cài đặt có thể kiểm tra. Hãy tải từ GitHub.",
   "update.install.err.devbuild": "Không thể cập nhật bản phát triển từ bảng điều khiển.",
   "update.install.err.timeout": "Cập nhật chưa hoàn tất. Hãy xem nhật ký trình cài đặt hoặc thử lại.",
+  "update.install.err.aborted": "Trình cài đặt đã dừng và hoàn tác bản cập nhật: OpenStreamMS vẫn ở phiên bản trước. Hãy xem nhật ký trình cài đặt.",
   "ux.credsAutoTest": "Chúng được kiểm tra tự động khi bạn tạo phiên.",
   "ux.resolutionHint": "Một trong những thiết bị bạn sẽ chơi trên (TV, laptop…).",
   "ux.protoLabel": "Bạn sẽ kết nối từ đâu?\nứng dụng",

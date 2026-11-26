@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Bu sürümün denetlenebilir bir kurulum dosyası yok. GitHub'dan indirin.",
   "update.install.err.devbuild": "Geliştirme derlemesi panelden güncellenemez.",
   "update.install.err.timeout": "Güncelleme tamamlanmadı. Kurulum günlüğüne bakın ya da yeniden deneyin.",
+  "update.install.err.aborted": "Kurulum durdu ve güncellemeyi geri aldı: OpenStreamMS hâlâ önceki sürümde. Kurulum günlüğüne bakın.",
   "ux.credsAutoTest": "Oturumu oluşturduğunuzda otomatik olarak kontrol edilirler.",
   "ux.resolutionHint": "Oynayacağınız cihazlardan biri (TV, dizüstü bilgisayar…).",
   "ux.protoLabel": "Nereden bağlanacaksınız?",

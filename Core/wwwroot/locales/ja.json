@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "このバージョンには確認できるインストーラーがありません。GitHub からダウンロードしてください。",
   "update.install.err.devbuild": "開発ビルドはパネルから更新できません。",
   "update.install.err.timeout": "更新が完了しませんでした。インストーラーのログを確認するか、もう一度お試しください。",
+  "update.install.err.aborted": "インストーラーが停止して更新を取り消しました。OpenStreamMS は以前のバージョンのままです。インストーラーのログを確認してください。",
   "ux.credsAutoTest": "セッションの作成時に自動的にチェックされます。",
   "ux.resolutionHint": "プレイするデバイスの 1 つ (テレビ、ラップトップなど)。",
   "ux.protoLabel": "どこから接続しますか?",

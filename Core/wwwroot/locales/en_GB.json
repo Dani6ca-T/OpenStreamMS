@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "This release has no verifiable installer. Download it from GitHub.",
   "update.install.err.devbuild": "A development build can't be updated from the panel.",
   "update.install.err.timeout": "The update didn't finish. Check the installer log or try again.",
+  "update.install.err.aborted": "The installer stopped and undid the update: OpenStreamMS is still on the previous version. Check the installer log.",
   "ux.credsAutoTest": "They are checked automatically when you create the session.",
   "ux.resolutionHint": "The one of the device you will play on (TV, laptop…).",
   "ux.protoLabel": "Where will you connect from?",

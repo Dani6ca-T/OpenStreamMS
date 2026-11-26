@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Diese Version hat keinen prüfbaren Installer. Lade sie von GitHub herunter.",
   "update.install.err.devbuild": "Eine Entwicklungsversion kann nicht über das Panel aktualisiert werden.",
   "update.install.err.timeout": "Das Update wurde nicht abgeschlossen. Sieh dir das Installer-Log an oder versuche es erneut.",
+  "update.install.err.aborted": "Der Installer hat abgebrochen und das Update rückgängig gemacht: OpenStreamMS ist noch auf der vorherigen Version. Sieh dir das Installer-Log an.",
   "ux.credsAutoTest": "Sie werden automatisch überprüft, wenn Sie die Sitzung erstellen.",
   "ux.resolutionHint": "Das Gerät, auf dem Sie spielen möchten (Fernseher, Laptop…).",
   "ux.protoLabel": "Von wo aus werden Sie eine Verbindung herstellen?",

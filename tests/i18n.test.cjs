@@ -220,7 +220,10 @@ test('tray, installer and backend catalogs have matching keys, formatting and no
 test('same-version installer upgrade excludes the mutable service configuration from wildcard copying', () => {
   const script=fs.readFileSync(path.join(root,'Core/Installer/setup.iss'),'utf8');
   const wildcard=script.split('\n').find(line=>line.startsWith('Source: "publish\\*"'));
-  assert.match(wildcard,/Excludes: "service\.config\.json"/);
+  assert.match(wildcard,/Excludes: "(?:[^"]*,)?service\.config\.json(?:,[^"]*)?"/);
+  // El gancho de Steam puede estar cargado: se cambia al reiniciar en vez de abortar la instalación.
+  assert.match(wildcard,/Excludes: "[^"]*\\steam\\osms-steamhook\.dll/);
+  assert.match(script,/Source: "publish\\steam\\osms-steamhook\.dll";[^\r\n]*restartreplace/);
   assert.match(script,/Source: "publish\\service\.config\.json";[^\r\n]*onlyifdoesntexist uninsneveruninstall/);
   assert.match(script,/AppId=\{\{F2A1B3C4-D5E6-7890-ABCD-EF1234567891\}/);
 });

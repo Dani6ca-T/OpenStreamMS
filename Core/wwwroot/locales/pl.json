@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Ta wersja nie ma instalatora, który można sprawdzić. Pobierz ją z GitHuba.",
   "update.install.err.devbuild": "Wersji deweloperskiej nie można zaktualizować z panelu.",
   "update.install.err.timeout": "Aktualizacja się nie zakończyła. Sprawdź log instalatora lub spróbuj ponownie.",
+  "update.install.err.aborted": "Instalator przerwał pracę i cofnął aktualizację: OpenStreamMS ma nadal poprzednią wersję. Sprawdź log instalatora.",
   "ux.credsAutoTest": "Są one sprawdzane automatycznie podczas tworzenia sesji.",
   "ux.resolutionHint": "To urządzenie, na którym będziesz grać (telewizor, laptop…).",
   "ux.protoLabel": "Skąd się połączysz?",

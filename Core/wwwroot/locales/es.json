@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Esta versión no trae un instalador que se pueda comprobar. Descárgala desde GitHub.",
   "update.install.err.devbuild": "Una compilación de desarrollo no se actualiza desde el panel.",
   "update.install.err.timeout": "La actualización no ha terminado. Mira el log del instalador o vuelve a intentarlo.",
+  "update.install.err.aborted": "El instalador se detuvo y deshizo la actualización: OpenStreamMS sigue en la versión anterior. Mira el log del instalador.",
   "ux.credsAutoTest": "Se comprueban solas al crear la sesión.",
   "ux.resolutionHint": "La del dispositivo donde vas a jugar (TV, portátil…).",
   "ux.protoLabel": "¿Desde dónde te conectarás?",

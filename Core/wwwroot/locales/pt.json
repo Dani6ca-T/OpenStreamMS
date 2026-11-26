@@ -489,6 +489,7 @@
   "update.install.err.noinstaller": "Esta versão não tem um instalador verificável. Transfira-a do GitHub.",
   "update.install.err.devbuild": "Uma versão de desenvolvimento não se atualiza a partir do painel.",
   "update.install.err.timeout": "A atualização não terminou. Veja o registo do instalador ou tente novamente.",
+  "update.install.err.aborted": "O instalador parou e anulou a atualização: o OpenStreamMS continua na versão anterior. Veja o registo do instalador.",
   "ux.credsAutoTest": "São verificadas automaticamente ao criar a sessão.",
   "ux.resolutionHint": "A do dispositivo onde vai jogar (TV, portátil…).",
   "ux.protoLabel": "De onde se vai ligar?",

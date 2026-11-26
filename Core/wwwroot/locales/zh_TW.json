@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "此版本沒有可驗證的安裝程式。請從 GitHub 下載。",
   "update.install.err.devbuild": "開發版無法從面板更新。",
   "update.install.err.timeout": "更新未完成。請查看安裝程式記錄或重試。",
+  "update.install.err.aborted": "安裝程式已停止並復原了更新：OpenStreamMS 仍是先前的版本。請查看安裝程式記錄。",
   "ux.credsAutoTest": "當您建立會話時會自動檢查它們。",
   "ux.resolutionHint": "您將在其上玩的設備之一（電視、筆記型電腦...）。",
   "ux.protoLabel": "您將從哪裡連接？",

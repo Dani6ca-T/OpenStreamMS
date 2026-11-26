@@ -48,6 +48,26 @@ public sealed class UpdateInstaller
             Timeout = TimeSpan.FromMinutes(15),
         };
         _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("OpenStreamMS", checker.Current?.ToString() ?? "0"));
+        _status = LastAttempt() ?? _status;
+    }
+
+    /// <summary>
+    /// Al arrancar el servicio: si hace poco se lanzó el instalador de una versión más nueva y
+    /// seguimos en la de antes, la instalación no acabó (el instalador la deshace y vuelve a
+    /// arrancar el servicio). El panel, que espera a la versión nueva, lo enseña con el log.
+    /// </summary>
+    UpdateInstallStatus? LastAttempt()
+    {
+        try
+        {
+            var log = new DirectoryInfo(_dir).EnumerateFiles("setup-*.log")
+                .OrderByDescending(f => f.LastWriteTimeUtc).FirstOrDefault();
+            if (log is null || DateTime.UtcNow - log.LastWriteTimeUtc > TimeSpan.FromHours(1)) return null;
+            var version = Path.GetFileNameWithoutExtension(log.Name)["setup-".Length..];
+            if (AppVersion.Parse(version) is not { } v || _checker.Current is not { } cur || !(v > cur)) return null;
+            return new UpdateInstallStatus("failed", version, 0, "aborted", log.FullName);
+        }
+        catch { return null; }   // sin carpeta (nunca se actualizó) o sin permiso
     }
 
     public UpdateInstallStatus Status { get { lock (_lock) return _status; } }

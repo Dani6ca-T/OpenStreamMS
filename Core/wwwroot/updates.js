@@ -145,6 +145,7 @@ const INSTALL_ERRORS = {
   download: 'update.install.err.download', size: 'update.install.err.hash', hash: 'update.install.err.hash',
   launch: 'update.install.err.launch', busy: 'update.install.err.busy', notavailable: 'update.install.err.notavailable',
   noinstaller: 'update.install.err.noinstaller', devbuild: 'update.install.err.devbuild', timeout: 'update.install.err.timeout',
+  aborted: 'update.install.err.aborted',
 };
 const updateSleep = ms => new Promise(r => setTimeout(r, ms));
 

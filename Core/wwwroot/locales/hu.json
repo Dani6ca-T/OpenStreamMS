@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Ehhez a verzióhoz nincs ellenőrizhető telepítő. Töltsd le a GitHubról.",
   "update.install.err.devbuild": "Fejlesztői változat nem frissíthető a panelről.",
   "update.install.err.timeout": "A frissítés nem fejeződött be. Nézd meg a telepítő naplóját, vagy próbáld újra.",
+  "update.install.err.aborted": "A telepítő leállt és visszavonta a frissítést: az OpenStreamMS még az előző verzión van. Nézd meg a telepítő naplóját.",
   "ux.credsAutoTest": "A munkamenet létrehozásakor automatikusan ellenőrzik őket.",
   "ux.resolutionHint": "Az egyik eszköz, amelyen játszani fog (TV, laptop…).",
   "ux.protoLabel": "Honnan fogsz csatlakozni?",

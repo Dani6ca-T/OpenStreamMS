@@ -71,7 +71,11 @@ Name: "startservice"; Description: "{cm:TaskStartService}"; GroupDescription: "{
 
 [Files]
 ; Toda la salida de dotnet publish (runtime incluido)
-Source: "publish\*"; DestDir: "{app}"; Excludes: "service.config.json"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "publish\*"; DestDir: "{app}"; Excludes: "service.config.json,\steam\osms-steamhook.dll"; Flags: ignoreversion recursesubdirs createallsubdirs
+; El gancho de Steam lo carga steam.exe en las sesiones aisladas, que no es de {app} y sigue
+; abierto: si está en uso se cambia al reiniciar (el instalador ya pide reiniciar). Sin esto, la
+; instalación fallaba al reemplazarlo y en silencio (actualizar desde el panel) se deshacía entera.
+Source: "publish\steam\osms-steamhook.dll"; DestDir: "{app}\steam"; Flags: ignoreversion restartreplace uninsrestartdelete
 ; service.config.json: solo si no existe ya (no sobreescribir configuración del usuario)
 Source: "publish\service.config.json"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall
 
@@ -160,6 +164,10 @@ Filename: "{app}\{#AppExeName}"; Parameters: "--remove-deps"; \
 Type: files;     Name: "{app}\openstream*.log"
 
 [Code]
+var
+  ServiceWasRunning: Boolean;   // el servicio estaba en marcha antes de instalar
+  InstallFinished:   Boolean;   // se llegó al final (ssPostInstall)
+
 // Detiene el servicio y mata todo proceso que se ejecute desde {app} (bandeja,
 // sunshine.exe y FreeRDP en cualquier sesión). Restart Manager no puede cerrar
 // servicios ni procesos de otras sesiones, y dejarían DLLs bloqueadas.
@@ -171,21 +179,41 @@ var
 begin
   Script :=
     'param([string]$AppDir)' + #13#10 +
+    // Antes de pararlo: si estaba en marcha, se vuelve a arrancar si la instalación no acaba
+    // (salida 10 → ServiceWasRunning, ver DeinitializeSetup).
+    '$wasRunning = (Get-Service -Name ''{#AppService}'' -ErrorAction SilentlyContinue).Status -eq ''Running''' + #13#10 +
     'Stop-Service -Name ''{#AppService}'' -Force -ErrorAction SilentlyContinue' + #13#10 +
     '$dir = $AppDir.TrimEnd(''\'') + ''\''' + #13#10 +
     'Get-CimInstance Win32_Process | Where-Object { $_.ExecutablePath -and $_.ExecutablePath.StartsWith($dir, [StringComparison]::OrdinalIgnoreCase) } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }' + #13#10 +
-    'Start-Sleep -Seconds 2' + #13#10;
+    'Start-Sleep -Seconds 2' + #13#10 +
+    'if ($wasRunning) { exit 10 }' + #13#10;
   ScriptFile := ExpandConstant('{tmp}\stop-openstreamms.ps1');
   if SaveStringToFile(ScriptFile, Script, False) then
-    Exec('powershell.exe',
+    if Exec('powershell.exe',
       '-NoProfile -ExecutionPolicy Bypass -File "' + ScriptFile + '" -AppDir "' + AppDir + '"',
-      '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+      ServiceWasRunning := ResultCode = 10;
 end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 begin
   StopAppProcesses(ExpandConstant('{app}'));
   Result := '';
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssPostInstall then InstallFinished := True;
+end;
+
+// Instalación cancelada o deshecha (p. ej. un fichero en uso en modo silencioso) después de
+// parar el servicio: se vuelve a arrancar el que había, para no dejar el equipo sin OpenStreamMS.
+procedure DeinitializeSetup();
+var
+  ResultCode: Integer;
+begin
+  if ServiceWasRunning and not InstallFinished then
+    Exec(ExpandConstant('{sys}\net.exe'), 'start "{#AppService}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 end;
 
 // El driver de pantalla (RemoteIdd), que se instala siempre, cambia TermService: entra en

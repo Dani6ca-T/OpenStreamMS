@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Tato verze nemá instalátor, který by šlo ověřit. Stáhněte ji z GitHubu.",
   "update.install.err.devbuild": "Vývojovou verzi nelze aktualizovat z panelu.",
   "update.install.err.timeout": "Aktualizace se nedokončila. Podívejte se do protokolu instalátoru nebo to zkuste znovu.",
+  "update.install.err.aborted": "Instalátor se zastavil a aktualizaci vrátil zpět: OpenStreamMS má stále předchozí verzi. Podívejte se do protokolu instalátoru.",
   "ux.credsAutoTest": "Zkontrolují se automaticky při vytvoření relace.",
   "ux.resolutionHint": "Zařízení, na kterém budete hrát (TV, notebook…).",
   "ux.protoLabel": "Odkud se připojíte?\nAplikace",

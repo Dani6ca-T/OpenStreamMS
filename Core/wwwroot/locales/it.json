@@ -495,6 +495,7 @@
   "update.install.err.noinstaller": "Questa versione non ha un programma di installazione verificabile. Scaricala da GitHub.",
   "update.install.err.devbuild": "Una versione di sviluppo non si aggiorna dal pannello.",
   "update.install.err.timeout": "L'aggiornamento non è terminato. Controlla il log del programma di installazione o riprova.",
+  "update.install.err.aborted": "Il programma di installazione si è fermato e ha annullato l'aggiornamento: OpenStreamMS è ancora alla versione precedente. Controlla il log del programma di installazione.",
   "ux.credsAutoTest": "Vengono selezionati automaticamente quando si crea la sessione.",
   "ux.resolutionHint": "Quello del dispositivo su cui giocherai (TV, laptop...).",
   "ux.protoLabel": "Da dove ti collegherai?",

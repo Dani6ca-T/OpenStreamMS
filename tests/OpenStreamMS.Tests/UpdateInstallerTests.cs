@@ -159,6 +159,23 @@ public sealed class UpdateInstallerTests : IDisposable
     }
 
     [Fact]
+    public async Task After_an_undone_install_the_restarted_service_reports_it()
+    {
+        Directory.CreateDirectory(_dir);
+        File.WriteAllText(Path.Combine(_dir, "setup-2.3.0.log"), "User canceled the installation process.");
+        var checker = await Checker(Releases("sha256:" + SetupSha));
+
+        var st = new UpdateInstaller(checker, Downloads(Setup), _dir, _ => true).Status;
+        Assert.Equal("failed", st.State);
+        Assert.Equal("aborted", st.Error);
+        Assert.Equal("2.3.0", st.Version);
+
+        // Ya en la 2.3.0 (la instalación sí acabó) no hay nada que avisar.
+        var updated = await Checker(Releases("sha256:" + SetupSha), current: "2.3.0");
+        Assert.Equal("idle", new UpdateInstaller(updated, Downloads(Setup), _dir, _ => true).Status.State);
+    }
+
+    [Fact]
     public async Task A_second_update_is_refused_while_one_is_running()
     {
         var checker = await Checker(Releases("sha256:" + SetupSha));

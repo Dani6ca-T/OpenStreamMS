@@ -489,6 +489,7 @@
   "update.install.err.noinstaller": "Cette version n'a pas d'installateur vérifiable. Téléchargez-la depuis GitHub.",
   "update.install.err.devbuild": "Une version de développement ne se met pas à jour depuis le panneau.",
   "update.install.err.timeout": "La mise à jour n'est pas terminée. Consultez le journal de l'installateur ou réessayez.",
+  "update.install.err.aborted": "L'installateur s'est arrêté et a annulé la mise à jour : OpenStreamMS est toujours dans la version précédente. Consultez le journal de l'installateur.",
   "ux.credsAutoTest": "Ils sont vérifiés automatiquement à la création de la session.",
   "ux.resolutionHint": "Celle de l'appareil sur lequel vous jouerez (TV, portable…).",
   "ux.protoLabel": "Depuis quoi vous connecterez-vous ?",
