@@ -35,7 +35,6 @@
   "session.stoppingWait": "La sesión se está deteniendo: espera a que termine para cambiar su configuración.",
   "rdpwrap.rdpTcpNotListening": "Con RemoteIdd, el servicio de Escritorio remoto no abrió su conexión RDP. En Windows Home y Pro pasa cuando lo que permite varias sesiones no deja cargar componentes de protocolo que no son de Microsoft",
   "rdpwrap.deviceFailed": "Windows no pudo preparar la pantalla de RemoteIdd de una sesión (evento 401 de Kernel-PnP), así que el Escritorio remoto la cortaba al minuto",
-  "rdpwrap.wudfMissing": "Falta el archivo de Windows C:\\Windows\\INF\\wudfrd.inf, que necesitan drivers como RemoteIdd. Repara Windows con DISM /Online /Cleanup-Image /RestoreHealth y sfc /scannow",
   "rdpwrap.notLoaded": "El servicio de Escritorio remoto aún no ha cargado el componente que permite varias sesiones",
   "rdpwrap.singleSession": "Este equipo solo admite una sesión a la vez",
   "rdpwrap.remoteIddOff": "RemoteIdd está desactivado: {0}. Los puestos usan la pantalla RDP de Windows. OpenStreamMS vuelve a probar RemoteIdd cada vez que se actualiza o se reinstala.",

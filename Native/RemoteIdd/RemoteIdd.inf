@@ -31,14 +31,14 @@ RemoteIdd.dll = 1
 UMDriverCopy = 13 ; package-relative (Driver Store): nada se copia a System32
 
 ; ---- UMDF / IddCx ----
+; Sin Include/Needs de WUDFRD.inf: ese INF solo viene en Windows 11. En Windows 10 setupapi no
+; lo encuentra ("Could not find include INF file WUDFRD.inf"), el dispositivo se queda sin
+; servicio de función (Kernel-PnP 401) y el Escritorio remoto corta la sesión al minuto (#80).
+; El reflector se declara aquí mismo, como hace rdpidd.inf de Windows 10.
 [RemoteIdd_Install.NT]
 CopyFiles = UMDriverCopy
-Include   = WUDFRD.inf
-Needs     = WUDFRD.NT
 
 [RemoteIdd_Install.NT.hw]
-Include = WUDFRD.inf
-Needs   = WUDFRD.NT.HW
 AddReg  = RemoteIdd_HardwareDeviceSettings
 
 ; IndirectKmd es el filtro de modo kernel que exige todo IDD (lo pone también RdpIdd).
@@ -49,8 +49,15 @@ HKR,, "UpperFilters", %REG_MULTI_SZ%, "IndirectKmd"
 HKR,, Security,, "D:P(A;;GA;;;SY)(A;;GA;;;LS)(A;;GA;;;NS)(A;;GA;;;BA)"
 
 [RemoteIdd_Install.NT.Services]
-Include = WUDFRD.inf
-Needs   = WUDFRD.NT.Services
+AddService = WUDFRd,0x000001fa,WUDFRd_ServiceInstall
+
+[WUDFRd_ServiceInstall]
+DisplayName   = %WUDFRdDisplayName%
+ServiceType   = 1 ; SERVICE_KERNEL_DRIVER
+StartType     = 3 ; SERVICE_DEMAND_START
+ErrorControl  = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary = %12%\WUDFRd.sys
+StartName     = \Driver\WudfRd
 
 [RemoteIdd_Install.NT.Wdf]
 UmdfService              = RemoteIdd, RemoteIdd_Service
@@ -74,4 +81,5 @@ RemoteIdd.dll
 ManufacturerName = "OpenStreamMS"
 DeviceName       = "OpenStreamMS Remote Seat Display (experimental)"
 DiskName         = "OpenStreamMS RemoteIdd Install Disk"
+WUDFRdDisplayName = "Windows Driver Frameworks - User-mode Driver Framework Reflector"
 REG_MULTI_SZ     = 0x00010000

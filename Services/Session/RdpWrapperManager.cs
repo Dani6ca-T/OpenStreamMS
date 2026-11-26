@@ -251,16 +251,13 @@ public sealed class RdpWrapperManager
     /// <summary>
     /// Null si nada indica que Windows no pueda montar la pantalla de RemoteIdd; si no, el motivo.
     /// Con RemoteIdd activo pero sin su pantalla, rdpcorets corta cada sesión al minuto
-    /// (ERRINFO_CLOSE_STACK_ON_DRIVER_NOT_READY): visto en dos Windows 10 (issue #80 y un correo).
+    /// (ERRINFO_CLOSE_STACK_ON_DRIVER_NOT_READY): visto en Windows 10 (issue #80 y un correo)
+    /// cuando el INF incluía WUDFRD.inf, que solo trae Windows 11. Con el reflector declarado en
+    /// el propio INF no debería pasar; esto queda de red por si otro motivo deja el dispositivo
+    /// sin configurar. Que falte wudfrd.inf no dice nada: en Windows 10 no existe.
     /// </summary>
-    internal static string? RemoteIddDeviceProblem()
-    {
-        // El INF de RemoteIdd incluye WUDFRD.inf (servicio del reflector de UMDF): sin él el
-        // dispositivo se queda sin driver de función (setupapi: "Could not find include INF file").
-        if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "INF", "wudfrd.inf")))
-            return "wudfMissing";
-        return RemoteIddDeviceFailedSince(RemoteIddInstalledAt()) ? "deviceFailed" : null;
-    }
+    internal static string? RemoteIddDeviceProblem() =>
+        RemoteIddDeviceFailedSince(RemoteIddInstalledAt()) ? "deviceFailed" : null;
 
     /// <summary>Hora de la última instalación de RemoteIdd: los fallos anteriores no cuentan.</summary>
     private static DateTime RemoteIddInstalledAt()

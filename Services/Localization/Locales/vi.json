@@ -35,7 +35,6 @@
   "session.stoppingWait": "Phiên đang dừng: hãy đợi nó kết thúc trước khi thay đổi cấu hình.",
   "rdpwrap.rdpTcpNotListening": "Khi bật RemoteIdd, dịch vụ Máy tính Từ xa không mở kết nối RDP. Trên Windows Home và Pro, điều này xảy ra khi thành phần cho phép nhiều phiên không cho tải các thành phần giao thức không phải của Microsoft",
   "rdpwrap.deviceFailed": "Windows không thể thiết lập màn hình RemoteIdd cho một phiên (sự kiện Kernel-PnP 401), nên Remote Desktop ngắt phiên sau một phút",
-  "rdpwrap.wudfMissing": "Thiếu tệp Windows C:\\Windows\\INF\\wudfrd.inf mà các driver như RemoteIdd cần. Hãy sửa Windows bằng DISM /Online /Cleanup-Image /RestoreHealth và sfc /scannow",
   "rdpwrap.notLoaded": "Dịch vụ Máy tính Từ xa chưa tải thành phần cho phép nhiều phiên",
   "rdpwrap.singleSession": "Máy này chỉ cho phép một phiên mỗi lúc",
   "rdpwrap.remoteIddOff": "RemoteIdd đang tắt: {0}. Các máy trạm dùng màn hình RDP của Windows. OpenStreamMS thử lại RemoteIdd mỗi khi được cập nhật hoặc cài đặt lại.",

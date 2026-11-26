@@ -35,7 +35,6 @@
   "session.stoppingWait": "A sessão está a parar: aguarde que termine antes de alterar a sua configuração.",
   "rdpwrap.rdpTcpNotListening": "Com o RemoteIdd, o serviço Ambiente de Trabalho Remoto não abriu a sua ligação RDP. No Windows Home e Pro isto acontece quando aquilo que permite várias sessões não deixa carregar componentes de protocolo que não sejam da Microsoft",
   "rdpwrap.deviceFailed": "O Windows não conseguiu configurar o ecrã RemoteIdd de uma sessão (evento Kernel-PnP 401), por isso o Ambiente de Trabalho Remoto cortava a sessão ao fim de um minuto",
-  "rdpwrap.wudfMissing": "Falta o ficheiro do Windows C:\\Windows\\INF\\wudfrd.inf, de que precisam controladores como o RemoteIdd. Repare o Windows com DISM /Online /Cleanup-Image /RestoreHealth e sfc /scannow",
   "rdpwrap.notLoaded": "O serviço Ambiente de Trabalho Remoto ainda não carregou o componente que permite várias sessões",
   "rdpwrap.singleSession": "Este PC só permite uma sessão de cada vez",
   "rdpwrap.remoteIddOff": "O RemoteIdd está desativado: {0}. Os postos usam o ecrã RDP do Windows. O OpenStreamMS volta a tentar o RemoteIdd sempre que é atualizado ou reinstalado.",

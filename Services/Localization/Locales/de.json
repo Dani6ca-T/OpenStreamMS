@@ -35,7 +35,6 @@
   "session.stoppingWait": "Die Sitzung wird beendet: warten Sie, bis sie beendet ist, bevor Sie ihre Konfiguration ändern.",
   "rdpwrap.rdpTcpNotListening": "Mit RemoteIdd hat der Remotedesktopdienst seine RDP-Verbindung nicht geöffnet. Unter Windows Home und Pro passiert das, wenn das, was mehrere Sitzungen ermöglicht, keine Protokollkomponenten zulässt, die nicht von Microsoft stammen",
   "rdpwrap.deviceFailed": "Windows konnte die RemoteIdd-Anzeige einer Sitzung nicht einrichten (Kernel-PnP-Ereignis 401), daher hat Remotedesktop die Sitzung nach einer Minute getrennt",
-  "rdpwrap.wudfMissing": "Die Windows-Datei C:\\Windows\\INF\\wudfrd.inf, die Treiber wie RemoteIdd brauchen, fehlt. Reparieren Sie Windows mit DISM /Online /Cleanup-Image /RestoreHealth und sfc /scannow",
   "rdpwrap.notLoaded": "Der Remotedesktopdienst hat die Komponente für mehrere Sitzungen noch nicht geladen",
   "rdpwrap.singleSession": "Dieser PC erlaubt nur eine Sitzung gleichzeitig",
   "rdpwrap.remoteIddOff": "RemoteIdd ist deaktiviert: {0}. Die Arbeitsplätze verwenden die RDP-Anzeige von Windows. OpenStreamMS versucht RemoteIdd bei jedem Update oder jeder Neuinstallation erneut.",

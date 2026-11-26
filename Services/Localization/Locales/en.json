@@ -35,7 +35,6 @@
   "session.stoppingWait": "The session is stopping: wait for it to finish before changing its configuration.",
   "rdpwrap.rdpTcpNotListening": "With RemoteIdd, the Remote Desktop service didn't open its RDP connection. On Windows Home and Pro this happens when whatever enables several sessions doesn't let Remote Desktop load protocol components that aren't Microsoft's",
   "rdpwrap.deviceFailed": "Windows couldn't set up RemoteIdd's display for a session (Kernel-PnP event 401), so Remote Desktop dropped the session after a minute",
-  "rdpwrap.wudfMissing": "The Windows file C:\\Windows\\INF\\wudfrd.inf, which drivers like RemoteIdd need, is missing. Repair Windows with DISM /Online /Cleanup-Image /RestoreHealth and sfc /scannow",
   "rdpwrap.notLoaded": "The Remote Desktop service has not loaded the component that allows several sessions yet",
   "rdpwrap.singleSession": "This PC only allows one session at a time",
   "rdpwrap.remoteIddOff": "RemoteIdd is turned off: {0}. Seats use Windows' own RDP display instead. OpenStreamMS tries RemoteIdd again whenever it's updated or reinstalled.",

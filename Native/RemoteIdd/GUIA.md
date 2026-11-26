@@ -71,6 +71,8 @@ también las sesiones RDP que llegan por la red reciben RemoteIdd (valor
   driver solo en el Driver Store, objetos efímeros con DACL mínima (SYSTEM, LocalService,
   administradores), desinstalación completa.
 - **Base de SO mínima**: IddCx 1.4 + UMDF 2.31 (Windows 10 2004+, también 22H2). No subir a UMDF 2.33: es solo de Windows 11 y en Windows 10 el driver no llega a cargarse (WUDF 10101, 0x57, CM_PROB_PHANTOM, sin log).
+  Windows 10 necesita tres cosas que Windows 11 no pide; están en la sección 8, entrada del
+  2026-11-26.
 - **Limitador por llegada**: el driver nunca espera a Sunshine. Si Sunshine tiene la
   textura (keyed mutex ocupado) el frame se pierde; la sesión no se frena.
 - **Sin WDK instalado**: se compila contra el paquete NuGet oficial del WDK.
@@ -379,3 +381,46 @@ Pendiente: que `install.ps1` firme en el PC y en la VM solo instale (la VM no ti
 - **Pendiente:** probar el respaldo de verdad, por ejemplo poniendo a mano `ServiceDll` en
   `rdpwrap.dll` y reiniciando el PC. También quedan los dos pendientes de las 22:07 (no
   reutilizar sesiones con `remoteidd` y matar el Sunshine SYSTEM antes del logoff).
+
+### 2026-11-26 — Windows 10 (19041-19045): qué hace falta para que cargue y muestre imagen
+
+Probado en una VM Windows 10 Home 22H2 (19045) con TermWrap. Hasta esta fecha RemoteIdd no
+funcionaba en ningún Windows 10 (#80). Cada punto se encontró con una traza ETW del puesto y
+comparando con el `RdpIdd.dll`, `rdpcorets.dll`, `IddCx.dll` y `dxgkrnl.sys` de 19041 (símbolos
+públicos de Microsoft).
+
+1. **INF.** Windows 10 no trae `C:\Windows\INF\wudfrd.inf` (es de Windows 11), así que
+   `Include/Needs = WUDFRD.inf` hacía fallar la instalación de cada pantalla (Kernel-PnP 401).
+   Ahora el INF declara el servicio WUDFRd él mismo, como el `rdpidd.inf` de Windows 10.
+   `install.ps1` borra las pantallas de puestos anteriores que no estén presentes: las que
+   fallaron con el INF viejo quedan marcadas para reinstalar y los puestos nuevos caían con 0x11.
+2. **IOCTL `0x80000040`.** El servicio de gráficos de Terminal Services
+   (`CGraphics::OnDriverLoad` en `rdpcorets.dll`) manda al IDD de la sesión las órdenes del
+   RdpIdd de Windows 10. El código de orden va en el tercer ULONG: 0x400 SET_CMD_CHANNEL_NAME
+   (`RdpCommandChannel-Session<N>-0`, memoria compartida para mandar la imagen por RDP), 0x401
+   SET_MONITOR_LAYOUT, 0x402 FRAME_MARKER... Rechazarla cortaba la sesión al instante con 0x12.
+   RemoteIdd las acepta sin hacer nada: la imagen va a Sunshine por `SharedFrame.h`, no por RDP.
+3. **`IddCxAdapterDisplayConfigUpdate` puede fallar** con 0xD0000001 mientras la sesión no tiene
+   lista su pantalla. `AdapterInitFinished` ya no devuelve ese error (IddCx mataba el WUDFHost,
+   problema 8 de UMDF, y el puesto caía con 0x11) y el modo se reintenta hasta 5 veces
+   esperando 1, 2, 3 y 4 s, como hace el RdpIdd de Windows 10.
+
+Además `EvtMonitorAssignSwapChain` registra por qué no puede usar el adaptador de render y, como
+el RdpIdd, pide WARP con `IddCxAdapterSetRenderAdapter`.
+
+Se probó también lo que hace distinto el RdpIdd de Windows 10 (crear el monitor al llegar la
+orden 0x400, el flag privado `0x08000000` de `IDDCX_ADAPTER_CAPS.Flags` y pasar
+`OnDriverLoad(handle)` también a rdpcorets). No hace falta: sin ninguno de los tres el puesto
+funciona igual.
+
+**VirtualBox con aceleración 3D:** el DispBroker del dwm de la sesión no aplica la topología
+de ninguna pantalla remota ("Failed to apply topology", 0xD0000001), tampoco la del RdpIdd de
+Microsoft, y Windows retira la pantalla. Es de la VM: con 3D desactivado funcionan los dos.
+Para ver ese fallo, activar en la traza los proveedores TraceLogging
+`{b3854706-6d90-58a4-415d-d86cd54f35f5}` (DispBroker-Desktop) y
+`{2b1bbe78-bf8d-57c1-007a-e8628f64e8b3}` (DispBroker) y decodificar con `tracerpt`.
+
+**Resultado:** puesto de 1280x720@60 conectado más de un minuto, swapchain asignado y frames
+leídos como SYSTEM con `RemoteIddPerf watch <sesión> <s> <adaptador>` (el adaptador tiene que ser
+el de render de la sesión; en la VM sin 3D no es el 0). Falta probarlo en un Windows 10 con GPU
+real y con Sunshine de verdad.
