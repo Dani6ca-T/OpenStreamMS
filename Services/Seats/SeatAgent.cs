@@ -100,15 +100,28 @@ public static class SeatAgent
                 [FeatureLevel.Level_11_1, FeatureLevel.Level_11_0], out ID3D11Device? dev, out ID3D11DeviceContext? ctx).CheckError();
 
             using var o1 = output.QueryInterface<IDXGIOutput1>();
-            IDXGIOutputDuplication dupl;
-            try
+            // Como en Recapture: la duplicación es del escritorio del hilo, y con la sesión bloqueada
+            // (o en el UAC) el de entrada es Winlogon. Desde Default daba E_ACCESSDENIED al
+            // reiniciar un puesto con la sesión bloqueada (#101). Unos segundos de margen por si
+            // el escritorio está cambiando justo ahora.
+            IDXGIOutputDuplication? dupl = null;
+            for (int attempt = 0; dupl is null; attempt++)
             {
-                dupl = o1.DuplicateOutput(dev!);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"[SeatAgent] DuplicateOutput falló: {ex.Message}");
-                return 1;
+                string desktop = Injector.AttachThreadToInputDesktop();
+                try
+                {
+                    dupl = o1.DuplicateOutput(dev!);
+                    Logger.Log($"[SeatAgent] Captura en el escritorio '{desktop}'.");
+                }
+                catch (Exception ex)
+                {
+                    if (attempt >= 20)
+                    {
+                        Logger.Error($"[SeatAgent] DuplicateOutput falló en el escritorio '{desktop}': {ex.Message}");
+                        return 1;
+                    }
+                    Thread.Sleep(250);
+                }
             }
 
             // 3. Crear el anillo de 3 texturas D3D11 compartidas
@@ -196,7 +209,10 @@ public static class SeatAgent
                         {
                             var ev = MemoryMarshal.Read<SeatInputEvent>(data);
                             if (Interlocked.Increment(ref _inputsReceived) <= 3)
-                                Logger.Log($"[SeatAgent] Entrada recibida: tipo={ev.Kind} flags={ev.Flags:X} dx={ev.Dx} dy={ev.Dy} código={ev.Code:X}");
+                                // Del teclado, nunca la tecla: podría ser la contraseña (#101).
+                                Logger.Log(ev.Kind == SeatInputEvent.Keyboard
+                                    ? $"[SeatAgent] Entrada recibida: teclado"
+                                    : $"[SeatAgent] Entrada recibida: tipo={ev.Kind} flags={ev.Flags:X} dx={ev.Dx} dy={ev.Dy} código={ev.Code:X}");
                             injector.Inject(ev);
                             injectLatency.AddSince(ev.Qpc);
                             if (ev.Kind == SeatInputEvent.Mouse && (ev.Dx != 0 || ev.Dy != 0))

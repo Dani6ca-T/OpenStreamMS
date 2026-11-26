@@ -343,10 +343,10 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             ReserveDevices(seat, session.RdpSessionId);
 
             // 6. Lanzar agente en la sesión y presentador en la consola.
-            //    Si el puesto pide contraseña, el agente corre como SYSTEM en la sesión: es la única
-            //    forma de capturar la pantalla de bloqueo (escritorio seguro) e inyectarle el teclado.
+            //    El agente corre como SYSTEM en la sesión (AgentAsSystem). Si el puesto pide
+            //    contraseña, además se bloquea la sesión antes de enseñar nada.
             bool requiresLogin = RequiresLogin(seat, session);
-            var activeSession = OpenPresentation(seat, session.RdpSessionId, asSystem: requiresLogin, agentArgs: "",
+            var activeSession = OpenPresentation(seat, session.RdpSessionId, asSystem: AgentAsSystem, agentArgs: "",
                 // Antes de que el monitor muestre nada: el puesto arranca en la pantalla de bloqueo.
                 beforePresenter: requiresLogin ? () => LockSession(seat, session) : null);
             _activeSeats[seat.Id] = activeSession;
@@ -822,6 +822,15 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
     /// </summary>
     private bool RequiresLogin(Seat seat, StreamSession session) =>
         seat.ExclusiveSession && !session.Isolated && !UsesConsoleUser(seat.SessionId);
+
+    /// <summary>
+    /// El agente del puesto corre siempre como SYSTEM dentro de la sesión. Con el usuario de la
+    /// sesión (integridad media) Windows no le deja mandar teclado y ratón a una ventana elevada
+    /// ("Ejecutar como administrador") ni entrar en el escritorio seguro del UAC o del bloqueo:
+    /// el puesto se quedaba congelado mientras la ventana elevada tenía el foco (#101). Ya era
+    /// así en los puestos que piden contraseña y en la mitad de la consola.
+    /// </summary>
+    private const bool AgentAsSystem = true;
 
     /// <summary>Bloquea la sesión del puesto desde dentro (LockWorkStation con el usuario de la sesión).</summary>
     private void LockSession(Seat seat, StreamSession session)
