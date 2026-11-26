@@ -160,6 +160,15 @@ static ModeDef g_seatMode = kDefaultConfig;
 static UINT g_seatScale = 100;
 static IDDCX_ADAPTER g_adapter = nullptr;
 static IDDCX_MONITOR g_monitor = nullptr;
+// Si el último IddCxAdapterDisplayConfigUpdate salió bien. En Windows 10 falla con 0xD0000001
+// mientras la sesión no tiene lista su pantalla: lo reintentan ScheduleModeRetry y el IOCTL.
+static std::atomic<bool> g_modeApplied{ false };
+// Protege g_monitor mientras se usa en IddCx: EvtMonitorCleanup espera a que acabe un
+// ApplySeatMode en curso (lo puede estar haciendo el hilo de reintento).
+static SRWLOCK g_monitorLock = SRWLOCK_INIT;
+// Reintento del modo en segundo plano (ver ScheduleModeRetry).
+static HANDLE g_retryStop = nullptr;
+static std::atomic<bool> g_retryRunning{ false };
 
 // Sesión y modo sin depender de OnDriverLoad: sesión del id de instancia; Hz, resolución y
 // escala de RDP-Tcp. OpenStreamMS los escribe antes de cada conexión (RdpSessionCreator.
@@ -271,7 +280,16 @@ static IDDCX_TARGET_MODE TargetMode(const ModeDef& m)
 
 // Lleva el modo del puesto a Windows: actualiza la lista de modos del monitor y fija la
 // resolución de la sesión. Sin monitor todavía no hace nada (lo hará EvtAdapterInitFinished).
+static NTSTATUS ApplySeatModeLocked();
 static NTSTATUS ApplySeatMode()
+{
+    AcquireSRWLockShared(&g_monitorLock);
+    NTSTATUS st = ApplySeatModeLocked();
+    ReleaseSRWLockShared(&g_monitorLock);
+    return st;
+}
+
+static NTSTATUS ApplySeatModeLocked()
 {
     AcquireSRWLockShared(&g_modeLock);
     IDDCX_ADAPTER adapter = g_adapter;
@@ -313,8 +331,36 @@ static NTSTATUS ApplySeatMode()
     upd.PathCount = 1;
     upd.pPaths = &path;
     st = IddCxAdapterDisplayConfigUpdate(adapter, &upd);
+    g_modeApplied.store(NT_SUCCESS(st), std::memory_order_relaxed);
     Log(L"RemoteIdd: modo %lux%lu@%lu, escala %u %% (0x%08X)\n", seat.Width, seat.Height, seat.VSync, scale, st);
     return st;
+}
+
+// En Windows 10, IddCxAdapterDisplayConfigUpdate falla con 0xD0000001 (IddCx no puede mandar
+// SET_DISPLAY_CONFIGURATION al kernel) mientras la sesión remota aún no tiene lista su pantalla.
+// El RdpIdd de Windows 10 lo reintenta hasta 5 veces esperando 1, 2, 3 y 4 s; aquí igual, en un
+// hilo aparte para no bloquear a IddCx.
+static DWORD WINAPI ModeRetryThread(LPVOID)
+{
+    for (DWORD attempt = 1; attempt <= 5; ++attempt)
+    {
+        if (WaitForSingleObject(g_retryStop, attempt * 1000) == WAIT_OBJECT_0) break;
+        if (g_modeApplied.load(std::memory_order_relaxed)) break;
+        if (NT_SUCCESS(ApplySeatMode())) break;
+    }
+    g_retryRunning.store(false, std::memory_order_relaxed);
+    return 0;
+}
+
+static void ScheduleModeRetry()
+{
+    bool expected = false;
+    if (!g_retryRunning.compare_exchange_strong(expected, true)) return;   // ya hay uno
+    if (!g_retryStop) g_retryStop = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+    else ResetEvent(g_retryStop);
+    HANDLE thread = g_retryStop ? CreateThread(nullptr, 0, ModeRetryThread, nullptr, 0, nullptr) : nullptr;
+    if (thread) CloseHandle(thread);
+    else g_retryRunning.store(false, std::memory_order_relaxed);
 }
 
 // ============================================================ SwapChainProcessor
@@ -464,7 +510,10 @@ NTSTATUS EvtAdapterInitFinished(IDDCX_ADAPTER adapter, const IDARG_IN_ADAPTER_IN
     ReleaseSRWLockExclusive(&g_modeLock);
 
     // Modo del cliente si el proveedor ya lo envió; si no, kDefaultConfig hasta el IOCTL.
-    return ApplySeatMode();
+    // Un fallo aquí no debe hacer fallar la inicialización: IddCx mataría el WUDFHost
+    // (problema 8 de UMDF) y Terminal Services cortaría el puesto con 0x11. Se reintenta.
+    if (!NT_SUCCESS(ApplySeatMode())) ScheduleModeRetry();
+    return STATUS_SUCCESS;
 }
 
 NTSTATUS EvtAdapterCommitModes(IDDCX_ADAPTER, const IDARG_IN_COMMITMODES*)
@@ -527,20 +576,41 @@ NTSTATUS EvtMonitorAssignSwapChain(IDDCX_MONITOR monitor, const IDARG_IN_SETSWAP
     auto* mc = WdfObjectGet_MonitorContext(monitor);
 
     // Abrimos el adaptador de render que indica IddCx y creamos el dispositivo D3D11.
+    // Un fallo aquí hace fallar la topología de la sesión ("Failed to apply topology" en el
+    // DispBroker de su dwm) y Windows retira la pantalla del puesto: se registra cada paso.
     ComPtr<IDXGIFactory5> factory;
-    if (FAILED(CreateDXGIFactory2(0, IID_PPV_ARGS(&factory)))) return STATUS_UNSUCCESSFUL;
-
+    HRESULT hr = CreateDXGIFactory2(0, IID_PPV_ARGS(&factory));
     ComPtr<IDXGIAdapter1> adapter;
-    if (FAILED(factory->EnumAdapterByLuid(in->RenderAdapterLuid, IID_PPV_ARGS(&adapter))))
-        return STATUS_UNSUCCESSFUL;
-
+    if (SUCCEEDED(hr)) hr = factory->EnumAdapterByLuid(in->RenderAdapterLuid, IID_PPV_ARGS(&adapter));
     ComPtr<ID3D11Device> d3d; ComPtr<ID3D11DeviceContext> ctx;
-    if (FAILED(D3D11CreateDevice(adapter.Get(), D3D_DRIVER_TYPE_UNKNOWN, nullptr,
-                                 D3D11_CREATE_DEVICE_BGRA_SUPPORT, nullptr, 0,
-                                 D3D11_SDK_VERSION, &d3d, nullptr, &ctx)))
+    if (SUCCEEDED(hr))
+        hr = D3D11CreateDevice(adapter.Get(), D3D_DRIVER_TYPE_UNKNOWN, nullptr,
+                               D3D11_CREATE_DEVICE_BGRA_SUPPORT, nullptr, 0,
+                               D3D11_SDK_VERSION, &d3d, nullptr, &ctx);
+    if (FAILED(hr))
+    {
+        Log(L"RemoteIdd: no se pudo usar el adaptador de render %08X:%08X (0x%08X)\n",
+            in->RenderAdapterLuid.HighPart, in->RenderAdapterLuid.LowPart, hr);
+        // Como el RdpIdd de Windows: se pide WARP como adaptador de render y Windows vuelve a
+        // asignar el swapchain con él.
+        ComPtr<IDXGIAdapter1> warp;
+        DXGI_ADAPTER_DESC1 desc = {};
+        if (factory && SUCCEEDED(factory->EnumWarpAdapter(IID_PPV_ARGS(&warp))) &&
+            SUCCEEDED(warp->GetDesc1(&desc)) && mc->Owner && mc->Owner->Adapter &&
+            (desc.AdapterLuid.LowPart != in->RenderAdapterLuid.LowPart ||
+             desc.AdapterLuid.HighPart != in->RenderAdapterLuid.HighPart))
+        {
+            IDARG_IN_ADAPTERSETRENDERADAPTER render = {};
+            render.PreferredRenderAdapter = desc.AdapterLuid;
+            IddCxAdapterSetRenderAdapter(mc->Owner->Adapter, &render);
+            Log(L"RemoteIdd: se pide WARP (%08X:%08X) como adaptador de render\n",
+                desc.AdapterLuid.HighPart, desc.AdapterLuid.LowPart);
+        }
         return STATUS_UNSUCCESSFUL;
+    }
 
-    Log(L"RemoteIdd: swapchain asignado\n");
+    Log(L"RemoteIdd: swapchain asignado (adaptador %08X:%08X)\n",
+        in->RenderAdapterLuid.HighPart, in->RenderAdapterLuid.LowPart);
     // A1: un solo procesador por monitor; Unassign o EvtMonitorCleanup lo liberan.
     delete mc->Processor;
     mc->Processor = new (std::nothrow) SwapChainProcessor(
@@ -563,9 +633,12 @@ void EvtMonitorCleanup(WDFOBJECT object)
     delete mc->Processor;
     mc->Processor = nullptr;
 
+    if (g_retryStop) SetEvent(g_retryStop);
+    AcquireSRWLockExclusive(&g_monitorLock);
     AcquireSRWLockExclusive(&g_modeLock);
     if (g_monitor == mc->Monitor) g_monitor = nullptr;
     ReleaseSRWLockExclusive(&g_modeLock);
+    ReleaseSRWLockExclusive(&g_monitorLock);
 }
 
 // ============================================================ WDF: device add
@@ -615,6 +688,27 @@ NTSTATUS EvtDeviceAdd(WDFDRIVER, PWDFDEVICE_INIT deviceInit)
 void EvtDeviceIoControl(WDFDEVICE, WDFREQUEST request, size_t, size_t inputLength, ULONG code)
 {
     NTSTATUS st = STATUS_INVALID_DEVICE_REQUEST;
+    bool modeChanged = false;
+    if (code != IOCTL_RDPIDD_COMMAND && code != IOCTL_REMOTEIDD_SET_SESSION)
+        Log(L"RemoteIdd: IOCTL 0x%08X desconocido (%zu bytes), rechazado\n", code, inputLength);
+    if (code == IOCTL_RDPIDD_COMMAND)
+    {
+        // Windows 10: el servicio de gráficos de Terminal Services habla con el IDD de la sesión
+        // como con su RdpIdd (canal de órdenes en memoria compartida para mandar la imagen por
+        // RDP). El puesto no necesita esa imagen (Sunshine la toma de SharedFrame.h), pero un
+        // error aquí corta la sesión (0x12): se aceptan todas sin hacer nada.
+        const ULONG* in = nullptr;
+        size_t length = 0;
+        ULONG opcode = 0;
+        if (inputLength >= 3 * sizeof(ULONG) &&
+            NT_SUCCESS(WdfRequestRetrieveInputBuffer(request, 3 * sizeof(ULONG),
+                                                     reinterpret_cast<PVOID*>(const_cast<ULONG**>(&in)), &length)))
+            opcode = in[2];
+        if (opcode != RDPIDD_OPCODE_FRAME_MARKER)
+            Log(L"RemoteIdd: orden 0x%X de Terminal Services (Windows 10), aceptada\n", opcode);
+        WdfRequestComplete(request, STATUS_SUCCESS);
+        return;
+    }
     if (code == IOCTL_REMOTEIDD_SET_SESSION)
     {
         REMOTEIDD_SET_SESSION* in = nullptr;
@@ -633,6 +727,7 @@ void EvtDeviceIoControl(WDFDEVICE, WDFREQUEST request, size_t, size_t inputLengt
             if (in->Version >= 2 && length >= sizeof(REMOTEIDD_SET_SESSION))
             {
                 AcquireSRWLockExclusive(&g_modeLock);
+                ModeDef before = g_seatMode;
                 if (in->Width >= 640 && in->Width <= 7680 && in->Height >= 480 && in->Height <= 4320)
                 {
                     g_seatMode.Width = in->Width;
@@ -640,13 +735,17 @@ void EvtDeviceIoControl(WDFDEVICE, WDFREQUEST request, size_t, size_t inputLengt
                 }
                 if (in->RefreshHz >= kMinHz && in->RefreshHz <= kMaxHz)
                     g_seatMode.VSync = in->RefreshHz;
+                modeChanged = !SameMode(before, g_seatMode);
                 ReleaseSRWLockExclusive(&g_modeLock);
             }
             st = STATUS_SUCCESS;
         }
     }
     WdfRequestComplete(request, st);
-    if (NT_SUCCESS(st)) ApplySeatMode();
+    // Solo si el modo cambia o aún no se pudo aplicar: OpenStreamMS deja el modo en el registro
+    // antes de conectar, así que lo normal es que el monitor ya lo tenga.
+    if (NT_SUCCESS(st) && (modeChanged || !g_modeApplied.load(std::memory_order_relaxed)))
+        if (!NT_SUCCESS(ApplySeatMode())) ScheduleModeRetry();
 }
 
 NTSTATUS EvtDeviceD0Entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE)

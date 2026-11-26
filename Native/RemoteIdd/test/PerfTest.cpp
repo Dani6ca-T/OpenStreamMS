@@ -18,7 +18,7 @@
 #include "../FramePublisher.h"
 #include "../FrameConsumer.h"
 
-#include <dxgi1_2.h>
+#include <dxgi1_4.h>
 #include <avrt.h>
 #include <algorithm>
 #include <cstdio>
@@ -85,13 +85,31 @@ Stats Percentiles(std::vector<double> v)
     return s;
 }
 
+// watch: adaptador en el que abrir la textura del driver (tiene que ser el de render del puesto,
+// RenderAdapterLuid; en una VM sin 3D no es el 0). 99 = WARP.
+UINT g_adapterIndex = 0;
+
 bool CreateDevice(ComPtr<ID3D11Device>& dev, ComPtr<ID3D11DeviceContext>& ctx)
 {
     // Adaptador 0, el mismo para los dos procesos (en el driver sería RenderAdapterLuid).
     ComPtr<IDXGIFactory1> factory;
     ComPtr<IDXGIAdapter1> adapter;
-    if (FAILED(CreateDXGIFactory1(IID_PPV_ARGS(&factory))) || FAILED(factory->EnumAdapters1(0, &adapter)))
+    if (FAILED(CreateDXGIFactory1(IID_PPV_ARGS(&factory))))
         return false;
+    if (g_adapterIndex == 99)
+    {
+        ComPtr<IDXGIFactory4> f4;
+        if (FAILED(factory.As(&f4)) || FAILED(f4->EnumWarpAdapter(IID_PPV_ARGS(&adapter)))) return false;
+    }
+    else if (FAILED(factory->EnumAdapters1(g_adapterIndex, &adapter)))
+        return false;
+    if (g_watch)
+    {
+        DXGI_ADAPTER_DESC1 d = {};
+        adapter->GetDesc1(&d);
+        std::printf("ADAPTER %u %ls LUID %08lX:%08lX\n", g_adapterIndex, d.Description,
+                    static_cast<unsigned long>(d.AdapterLuid.HighPart), d.AdapterLuid.LowPart);
+    }
     return SUCCEEDED(D3D11CreateDevice(adapter.Get(), D3D_DRIVER_TYPE_UNKNOWN, nullptr,
                                        D3D11_CREATE_DEVICE_BGRA_SUPPORT, nullptr, 0,
                                        D3D11_SDK_VERSION, &dev, nullptr, &ctx));
@@ -503,6 +521,7 @@ int wmain(int argc, wchar_t** argv)
         g_watch = true;
         EnableDebugPrivilege();
         double seconds = argc >= 4 ? _wtof(argv[3]) : 10;
+        if (argc >= 5) g_adapterIndex = static_cast<UINT>(_wtoi(argv[4]));
         return RunConsumer(static_cast<UINT32>(_wtoi(argv[2])), 0, 0, seconds * 1000);
     }
     if (argc >= 6 && wcscmp(argv[1], L"consumer") == 0)

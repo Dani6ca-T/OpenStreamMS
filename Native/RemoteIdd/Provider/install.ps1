@@ -114,6 +114,17 @@ if ($Package) {
     if ($LASTEXITCODE) { throw 'Inf2Cat falló.' }
     Sign "$pkg\RemoteIdd.cat"
 }
+# Pantallas de puestos de sesiones anteriores. En Windows 10, con el INF de la 2.2.0 (Include
+# WUDFRD.inf, que Windows 10 no trae) no llegaban a configurarse y se quedan marcadas para
+# reinstalar: con ellas los puestos nuevos caen con 0x11 aunque el driver ya esté bien. Solo
+# las que no están presentes (las de puestos abiertos son de sesiones en uso).
+$enum = 'HKLM:\SYSTEM\CurrentControlSet\Enum\SWD\RemoteDisplayEnum'
+$present = @(Get-PnpDevice -PresentOnly -ErrorAction SilentlyContinue |
+             Where-Object InstanceId -like 'SWD\REMOTEDISPLAYENUM\OSMSREMOTEIDD_*' | ForEach-Object InstanceId)
+Get-ChildItem $enum -ErrorAction SilentlyContinue | Where-Object PSChildName -like 'OsmsRemoteIdd_*' | ForEach-Object {
+    $id = "SWD\RemoteDisplayEnum\$($_.PSChildName)"
+    if ($present -notcontains $id) { pnputil /remove-device "$id" | Out-Null }
+}
 $out = pnputil /add-driver "$pkg\RemoteIdd.inf" /install
 # 3010 = requiere reinicio; 259 = añadido al Driver Store sin dispositivo aún (lo crea
 # Terminal Services al abrir la sesión del puesto). Ambos son éxito aquí.

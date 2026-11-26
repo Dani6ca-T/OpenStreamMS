@@ -24,6 +24,13 @@
 static const GUID REMOTEIDD_INTERFACE_GUID =
     { 0x3f1d5a7e, 0x6c2b, 0x4e8a, { 0x9b, 0x41, 0x0d, 0x7e, 0x2c, 0x5a, 0x9f, 0x13 } };
 
+// Windows 10 (19041): el servicio de gráficos de Terminal Services (CGraphics::OnDriverLoad en
+// rdpcorets.dll) manda a cualquier IDD de sesión remota las órdenes del RdpIdd de Microsoft con
+// este IOCTL; el código de orden va en el tercer ULONG (0x400 SET_CMD_CHANNEL_NAME, 0x401
+// SET_MONITOR_LAYOUT, 0x402 FRAME_MARKER, ... 0x406). Windows 11 ya no lo usa.
+#define IOCTL_RDPIDD_COMMAND        0x80000040
+#define RDPIDD_OPCODE_FRAME_MARKER  0x402
+
 #define IOCTL_REMOTEIDD_SET_SESSION \
     CTL_CODE(FILE_DEVICE_UNKNOWN, 0x901, METHOD_BUFFERED, FILE_WRITE_ACCESS)
 
