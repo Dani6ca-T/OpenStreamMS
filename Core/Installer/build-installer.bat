@@ -17,6 +17,11 @@ if defined APP_VERSION (
     set VERSION_ARGS=-p:Version=%APP_VERSION%
     set ISCC_ARGS=/DAppVersion=%APP_VERSION%
 )
+:: Versión que enseña el panel (Acerca de). La CI sin tag (1.0.N) sale como 1.0.N-dev, así el
+:: panel sabe que es una compilación de desarrollo y no avisa de actualizar (UpdateChecker).
+if defined APP_VERSION if defined GITHUB_ACTIONS if /I not "%GITHUB_REF_TYPE%"=="tag" (
+    set VERSION_ARGS=%VERSION_ARGS% -p:InformationalVersion=%APP_VERSION%-dev
+)
 
 :: ── Limpiar salida anterior ──────────────────────────────────────────────────
 echo [1/3] Limpiando publicacion anterior...

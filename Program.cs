@@ -149,6 +149,7 @@ static async Task RunService(string[] args)
     builder.Services.AddSingleton<OpenStreamMS.Services.Seats.SeatManager>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Metrics.SystemMetrics>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Extensions.ExtensionManager>();
+    builder.Services.AddSingleton(sp => new OpenStreamMS.Services.Updates.UpdateChecker(sp.GetRequiredService<ServiceConfig>()));
     builder.Services.AddHostedService<OpenStreamService>();
     builder.Services.AddHostedService<OpenStreamMS.Services.OpenStream.ActiveStreamsMonitor>();
     builder.Services.AddHostedService<OpenStreamMS.Services.Gamepad.GamepadSessionIsolation>();
@@ -363,6 +364,7 @@ static async Task RunService(string[] args)
 
     // ── Ajustes globales (nivel de log) y datos de red ───────────────────────
     app.MapSettingsApi();
+    app.MapUpdateApi();
 
     // ── Paquete de diagnóstico (.zip para depurar un equipo) ─────────────────
     app.MapDiagnosticsApi();

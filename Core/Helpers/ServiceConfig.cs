@@ -62,6 +62,13 @@ namespace OpenStreamMS.Core.Helpers
         /// copia para que el HUD de las sesiones, que tiene su propio navegador, use el mismo.
         /// </summary>
         public string PanelTheme             { get; set; } = "system";
+        /// <summary>
+        /// Si el panel mira en GitHub, como mucho cada 6 h, si hay una versión nueva de OpenStreamMS.
+        /// Se cambia desde Acerca de. "Buscar ahora" funciona aunque esté desactivado.
+        /// </summary>
+        public bool CheckForUpdates          { get; set; } = true;
+        /// <summary>Versión nueva que el administrador pidió no volver a anunciar en la barra ("" = ninguna).</summary>
+        public string UpdateDismissed        { get; set; } = "";
 
 
         private static readonly JsonSerializerOptions JsonOpts =

@@ -22,6 +22,11 @@
       <button id="wn-badge" class="wn-badge" type="button" onclick="openWhatsNew()" data-i18n-title="wn.open" title="Novedades">
         <span class="wn-badge-ver">2.1</span><span class="wn-badge-label" data-i18n="wn.badge">Novedades</span><span class="wn-badge-dot" aria-hidden="true"></span>
       </button>
+      <!-- Versión nueva en GitHub (updates.js): hasta que se instala o se descarta esa versión. -->
+      <button id="update-badge" class="update-badge" type="button" onclick="openAbout()" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+        <span class="update-badge-label" data-i18n="update.badge">Actualización</span><span class="update-badge-ver" id="update-badge-ver"></span>
+      </button>
     </div>
     <div class="nav-actions">
       <!-- Uso del equipo: solo se mide con el panel abierto (insights.js). -->
@@ -74,7 +79,7 @@
           <a href="/scalar/v1" target="_blank" class="nav-pop-item" data-i18n="nav.apiDocs">API docs</a>
           <button class="nav-pop-item" type="button" onclick="openGuide()" data-i18n="guide.open">Guía</button>
           <button class="nav-pop-item" type="button" onclick="openWhatsNew()" data-i18n="wn.open">Novedades de la 2.1</button>
-          <button class="nav-pop-item" type="button" onclick="show('about-modal')" data-i18n="nav.about">Acerca de</button>
+          <button class="nav-pop-item" type="button" onclick="openAbout()" data-i18n="nav.about">Acerca de</button>
         </div>
       </div>
       <form method="POST" action="/logout" style="margin:0">
@@ -869,8 +874,12 @@
         <div>
           <div class="about-title">OpenStreamMS</div>
           <div class="about-subtitle" data-i18n="about.subtitle">Game Streaming Service para Windows</div>
+          <div class="about-version" id="about-version"></div>
         </div>
       </div>
+
+      <!-- Versión nueva en GitHub y búsqueda automática (updates.js). -->
+      <div class="about-update" id="about-update" aria-live="polite"></div>
 
       <p class="about-desc" data-i18n-html="about.description_html">
         Servicio Windows que crea y gestiona sesiones RDP aisladas para streaming de juegos
@@ -1208,5 +1217,6 @@
 <script src="/extensions.js"></script>
 <script src="/guide.js"></script>
 <script src="/whatsnew.js"></script>
+<script src="/updates.js"></script>
 </body>
 </html>
