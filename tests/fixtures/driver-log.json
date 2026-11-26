@@ -15,7 +15,7 @@
   {"raw":"[13:36:01] Estado actual: Installed=False, Version=—, ServiceState=Stopped","ru":"[13:36:01] Текущее состояние: установлен: Нет; версия: —; служба: Остановлена"},
   {"raw":"[13:36:01] ✗ No se encontró el comando de desinstalación de HidHide en el registro.","ru":"[13:36:01] ✗ Команда удаления HidHide не найдена в реестре."},
   {"raw":"[13:36:02] Instalador salió con código 3010.","ru":"[13:36:02] Установщик завершился с кодом 3010."},
-  {"raw":"[13:36:02] ⚠ Se requiere reiniciar Windows para completar la operación.","ru":"[13:36:02] ⚠ Для завершения операции требуется перезагрузка."},
+  {"raw":"[13:36:02] ⚠ Se requiere reiniciar Windows para completar la operación.","ru":"[13:36:02] ⚠ Перезагрузка Windows обязательна: операция не завершится, пока вы не перезагрузите компьютер."},
   {"raw":"[13:36:03] ✗ Cancelado por el usuario.","ru":"[13:36:03] ✗ Отменено пользователем."},
   {"raw":"[13:36:04] ✗ Fallo fatal durante la instalación (revisa el log de Windows Installer).","ru":"[13:36:04] ✗ Неустранимая ошибка установки. Проверьте журнал Windows Installer."},
   {"raw":"[13:36:04] Instalador salió con código -1.","ru":"[13:36:04] Установщик завершился с кодом -1."},

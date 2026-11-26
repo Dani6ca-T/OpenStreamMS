@@ -48,7 +48,9 @@ test('all original effective translations survive extraction unchanged', () => {
     'rdp.state.broken', 'rdp.state.pending', 'rdp.notLoaded', 'rdp.row.installDir', 'rdp.row.serviceDll', 'rdp.log.title', 'rdp.log.empty',
     'rdp.pendingFirstUse', 'rdp.pendingReboot', 'ux.rdpBroken', 'ux.rdpMissing', 'guide.install.rdp',
     // Los usuarios conservados ya no solo se reutilizan al crear: también al editar una sesión.
-    'orphans.intro']);
+    'orphans.intro',
+    // Los drivers dicen claramente que hay que reiniciar Windows (643b143).
+    'vigem.rebootRequired']);
   for (const [lang, table] of Object.entries(context.catalogs)) for (const [key, value] of Object.entries(table)) if (!changed.has(key)) assert.equal(catalogs[lang][key], value, lang + ':' + key);
 });
 
@@ -207,7 +209,9 @@ test('tray, installer and backend catalogs have matching keys, formatting and no
       assert.deepEqual(Object.keys(table).sort(),Object.keys(english).sort(),folder+':'+lang);
       for (const [key,value] of Object.entries(table)) {
         assert.ok(value.trim(),lang+':'+key);
-        assert.deepEqual(value.match(/\{\w+\}|%[n1-9]/g)?.sort()||[],english[key].match(/\{\w+\}|%[n1-9]/g)?.sort()||[],lang+':'+key);
+        // Mismos placeholders, cada uno una vez: una traducción puede repetir {0} o %1.
+        const marks=v=>[...new Set(v.match(/\{\w+\}|%[n1-9]/g)||[])].sort();
+        assert.deepEqual(marks(value),marks(english[key]),lang+':'+key);
       }
     }
   }
