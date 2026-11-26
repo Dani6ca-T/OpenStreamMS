@@ -55,9 +55,18 @@ public sealed record AppVersion(Version Core, string Pre) : IComparable<AppVersi
     public override string ToString() => IsPrerelease ? $"{Core.ToString(3)}-{Pre}" : Core.ToString(3);
 }
 
+/// <summary>Instalador de una release (OpenStreamMS-Setup-x.y.z.exe) con el SHA-256 que publica GitHub.</summary>
+public sealed record UpdateAsset(string Name, string Url, long Size, string Sha256);
+
 /// <param name="Version">Versión de la release, sin la "v" de la etiqueta.</param>
 /// <param name="Url">Página de la release en GitHub (notas e instalador).</param>
-public sealed record UpdateRelease(string Version, string Url, DateTimeOffset? PublishedAt, bool Prerelease);
+/// <param name="Installer">Instalador que se puede descargar y comprobar; null si la release no lo trae.</param>
+public sealed record UpdateRelease(string Version, string Url, DateTimeOffset? PublishedAt, bool Prerelease,
+                                   [property: System.Text.Json.Serialization.JsonIgnore] UpdateAsset? Installer = null)
+{
+    /// <summary>Se puede instalar desde el panel (hay instalador con su SHA-256).</summary>
+    public bool Installable => Installer is not null;
+}
 
 /// <param name="CurrentVersion">Versión instalada.</param>
 /// <param name="DevBuild">Compilación de desarrollo (Debug o CI sin etiqueta): no se anuncian actualizaciones.</param>
@@ -206,10 +215,34 @@ public sealed class UpdateChecker
                 url = $"{ReleasesPage}/tag/{Uri.EscapeDataString(tag!)}";
             DateTimeOffset? published = r.TryGetProperty("published_at", out var pa) && pa.ValueKind == JsonValueKind.String &&
                                         DateTimeOffset.TryParse(pa.GetString(), out var when) ? when : null;
-            best = new UpdateRelease(v.ToString(), url, published, pre || v.IsPrerelease);
+            best = new UpdateRelease(v.ToString(), url, published, pre || v.IsPrerelease, FindInstaller(r, v));
             bestVersion = v;
         }
         return best;
+    }
+
+    /// <summary>
+    /// El OpenStreamMS-Setup-&lt;versión&gt;.exe de la release, solo si GitHub da su SHA-256 y se
+    /// descarga de este repositorio. Sin eso el panel solo ofrece la página de la release.
+    /// </summary>
+    static UpdateAsset? FindInstaller(JsonElement release, AppVersion version)
+    {
+        if (!release.TryGetProperty("assets", out var assets) || assets.ValueKind != JsonValueKind.Array) return null;
+        var name = $"OpenStreamMS-Setup-{version}.exe";
+        foreach (var a in assets.EnumerateArray())
+        {
+            if (!string.Equals(a.TryGetProperty("name", out var n) ? n.GetString() : null, name, StringComparison.OrdinalIgnoreCase)) continue;
+            var url    = a.TryGetProperty("browser_download_url", out var u) ? u.GetString() : null;
+            var digest = a.TryGetProperty("digest", out var dg) && dg.ValueKind == JsonValueKind.String ? dg.GetString() : null;
+            long size  = a.TryGetProperty("size", out var s) && s.TryGetInt64(out var sz) ? sz : 0;
+            if (url is null || !url.StartsWith($"https://github.com/{Repo}/releases/download/", StringComparison.OrdinalIgnoreCase)) return null;
+            if (digest is null || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)) return null;
+            var sha = digest["sha256:".Length..].ToLowerInvariant();
+            if (sha.Length != 64 || !sha.All(Uri.IsHexDigit)) return null;
+            if (size <= 0 || size > UpdateInstaller.MaxInstallerBytes) return null;
+            return new UpdateAsset(name, url, size, sha);
+        }
+        return null;
     }
 }
 

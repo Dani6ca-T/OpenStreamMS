@@ -150,6 +150,7 @@ static async Task RunService(string[] args)
     builder.Services.AddSingleton<OpenStreamMS.Services.Metrics.SystemMetrics>();
     builder.Services.AddSingleton<OpenStreamMS.Services.Extensions.ExtensionManager>();
     builder.Services.AddSingleton(sp => new OpenStreamMS.Services.Updates.UpdateChecker(sp.GetRequiredService<ServiceConfig>()));
+    builder.Services.AddSingleton(sp => new OpenStreamMS.Services.Updates.UpdateInstaller(sp.GetRequiredService<OpenStreamMS.Services.Updates.UpdateChecker>()));
     builder.Services.AddHostedService<OpenStreamService>();
     builder.Services.AddHostedService<OpenStreamMS.Services.OpenStream.ActiveStreamsMonitor>();
     builder.Services.AddHostedService<OpenStreamMS.Services.Gamepad.GamepadSessionIsolation>();

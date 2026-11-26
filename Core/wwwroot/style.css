@@ -679,6 +679,9 @@ main {
 .about-update-msg   { font-size: .86rem; font-weight: 600; }
 .about-update-extra { font-size: .76rem; color: var(--muted); margin-top: .1rem; }
 .about-update-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.about-update-extra { overflow-wrap: anywhere; }
+.about-update-bar { height: 5px; margin-top: .45rem; border-radius: 99px; background: var(--border); overflow: hidden; }
+.about-update-bar span { display: block; height: 100%; background: var(--accent); border-radius: inherit; transition: width .3s var(--ease); }
 .about-update-auto { flex-basis: 100%; font-size: .76rem; }
 @keyframes update-pulse { from { opacity: .35; } to { opacity: 1; } }
 
