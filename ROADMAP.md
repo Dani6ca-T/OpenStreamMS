@@ -38,7 +38,9 @@ Grouped by priority, highest first.
 
 - **Diagnostics page.** Hardware errors from the Windows event log (WHEA machine checks, unexpected
   restarts), devices left on the WinUSB driver, and per-seat stats (audio underruns, dropped frames).
-- **Update from the dashboard.** Notice when a newer GitHub release exists and install it in one click.
+- **Update from the dashboard.** The panel already shows the installed version and notices a newer
+  GitHub release (About, #96). Still to do: download and install it in one click, and a beta/nightly
+  channel to opt into.
 - **Automatic release notes.** Have the release workflow build the notes from the commits since the
   previous tag; GitHub's generated notes are empty when changes don't come from pull requests.
 - **Automated tests.** Unit tests for the HID report descriptor parser and the seat rules (conflicts,

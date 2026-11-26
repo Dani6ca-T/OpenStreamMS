@@ -656,6 +656,46 @@ main {
 
 .about-license { font-size: .78rem; color: var(--muted); }
 
+/* Versión instalada y actualizaciones (updates.js) */
+.about-version { font-size: .78rem; color: var(--muted-h); margin-top: .3rem; font-variant-numeric: tabular-nums; }
+.about-dev-tag {
+  font-size: .68rem; font-weight: 600; padding: .05rem .4rem; border-radius: 999px; margin-left: .2rem;
+  color: var(--amber); border: 1px solid currentColor;
+}
+.about-update {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;
+  padding: .75rem 1rem; margin-bottom: 1.25rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.about-update:empty { display: none; }
+.about-update-head { display: flex; align-items: flex-start; gap: .6rem; flex: 1 1 14rem; min-width: 0; }
+.about-update-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: .4rem; flex-shrink: 0; background: var(--muted); }
+.about-update[data-state="ok"]    .about-update-dot { background: var(--ok); }
+.about-update[data-state="new"]   .about-update-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(var(--c-accent),.25); }
+.about-update[data-state="error"] .about-update-dot,
+.about-update[data-state="dev"]   .about-update-dot { background: var(--amber); }
+.about-update[data-state="busy"]  .about-update-dot { animation: update-pulse 1s ease-in-out infinite alternate; }
+.about-update[data-state="new"] { border-color: rgba(var(--c-accent),.55); }
+.about-update-msg   { font-size: .86rem; font-weight: 600; }
+.about-update-extra { font-size: .76rem; color: var(--muted); margin-top: .1rem; }
+.about-update-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.about-update-auto { flex-basis: 100%; font-size: .76rem; }
+@keyframes update-pulse { from { opacity: .35; } to { opacity: 1; } }
+
+/* Píldora de la barra cuando hay versión nueva */
+.update-badge {
+  display: inline-flex; align-items: center; gap: .35rem; margin-left: .5rem; padding: .22rem .6rem .22rem .45rem;
+  border: 1px solid rgba(var(--c-accent),.45); border-radius: 999px; cursor: pointer; font: inherit; font-size: .74rem;
+  color: var(--accent-text); background: rgba(var(--c-accent),.12);
+  transition: transform .2s var(--ease), border-color .2s, box-shadow .2s;
+}
+.update-badge[hidden] { display: none; }
+.update-badge svg { width: 14px; height: 14px; }
+.update-badge:hover { transform: translateY(-1px); border-color: var(--accent); box-shadow: 0 6px 22px rgba(var(--c-accent),.3); }
+.update-badge:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.update-badge-ver { font-weight: 800; font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) { .update-badge-label { display: none; } }
+
 .about-credits { margin-top: 1.5rem; }
 .about-credits-title {
   font-size: .78rem;
