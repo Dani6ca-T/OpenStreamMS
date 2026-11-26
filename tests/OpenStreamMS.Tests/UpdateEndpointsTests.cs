@@ -38,7 +38,9 @@ public class UpdateEndpointsTests
         var cfg = new ServiceConfig { CheckForUpdates = checkEnabled };
         var github = new FakeGitHub();
         builder.Services.AddSingleton(cfg);
-        builder.Services.AddSingleton(new UpdateChecker(cfg, github, "2.2.0+abc", devBuild: false));
+        var checker = new UpdateChecker(cfg, github, "2.2.0+abc", devBuild: false);
+        builder.Services.AddSingleton(checker);
+        builder.Services.AddSingleton(new UpdateInstaller(checker, github, Path.Combine(Path.GetTempPath(), "osms-update-ep-" + Guid.NewGuid().ToString("N")), _ => false));
         var app = builder.Build();
         app.MapUpdateApi();
         await app.StartAsync();
@@ -79,6 +81,23 @@ public class UpdateEndpointsTests
         Assert.True(st!.UpdateAvailable);
         Assert.Equal(1, github.Calls);
     }
+
+    [Fact]
+    public async Task Install_refuses_releases_without_a_verifiable_installer()
+    {
+        var (app, client, _) = await Start(checkEnabled: true);
+        await using var _ = app;
+
+        var idle = await client.GetFromJsonAsync<InstallStatus>("/api/updates/install");
+        Assert.Equal("idle", idle!.State);
+
+        await client.GetAsync("/api/updates");   // la release simulada no trae instalador con SHA-256
+        var res = await client.PostAsJsonAsync("/api/updates/install", new { version = "2.3.0" });
+        Assert.Equal(HttpStatusCode.Conflict, res.StatusCode);
+        Assert.Contains("noinstaller", await res.Content.ReadAsStringAsync());
+    }
+
+    record InstallStatus(string State, string? Version);
 
     [Fact]
     public async Task Settings_reject_a_dismissed_value_that_is_not_a_version()

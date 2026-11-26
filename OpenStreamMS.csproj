@@ -28,6 +28,9 @@
     <Compile Remove="tests\**" />
     <EmbeddedResource Remove="tests\**" />
     <None Remove="tests\**" />
+    <!-- Los .json de tests (fixtures y obj del proyecto de tests) no son contenido del servicio:
+         sin esto se copiaban a bin y, de ahí, cada compilación de los tests los anidaba otra vez. -->
+    <Content Remove="tests\**" />
   </ItemGroup>
 
   <ItemGroup>

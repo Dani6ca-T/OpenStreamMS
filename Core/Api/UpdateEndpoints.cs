@@ -7,6 +7,9 @@ namespace OpenStreamMS.Core.Api;
 /// <param name="Dismissed">Versión que no se vuelve a anunciar en la barra ("" = ninguna).</param>
 public record UpdateSettingsRequest(bool? CheckForUpdates, string? Dismissed);
 
+/// <param name="Version">Versión que el panel enseña como nueva; tiene que ser la última publicada.</param>
+public record InstallUpdateRequest(string? Version);
+
 /// <summary>Versión instalada y aviso de versiones nuevas (Acerca de y barra del panel).</summary>
 public static class UpdateEndpoints
 {
@@ -32,6 +35,16 @@ public static class UpdateEndpoints
                  return Results.Ok(u.Status());
              })
              .WithSummary("Activa o desactiva la comprobación automática, o deja de anunciar una versión en la barra.");
+
+        group.MapPost("/install", (InstallUpdateRequest req, UpdateInstaller installer) =>
+                 installer.Start(req.Version) is { } error
+                     ? Results.Conflict(new { error })
+                     : Results.Accepted("/api/updates/install", installer.Status))
+             .WithSummary("Descarga, comprueba (tamaño y SHA-256 de GitHub) e instala en silencio la versión nueva. " +
+                          "El servicio se reinicia: se cortan las sesiones y los puestos en marcha.");
+
+        group.MapGet("/install", (UpdateInstaller installer) => TypedResults.Ok(installer.Status))
+             .WithSummary("Cómo va la actualización desde el panel.");
 
         return app;
     }
