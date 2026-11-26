@@ -399,8 +399,14 @@ internal sealed unsafe class UsbHidReader : IDisposable
                     while (!_stopping && WinUsb_ReadPipe(_winusb, pipe, buf, packet, out int read, IntPtr.Zero))
                     {
                         if (read <= 0) continue;
-                        // Diagnóstico: los primeros informes en crudo, para ver el formato real del aparato.
-                        if (traced < 8) { traced++; Logger.Log($"[SeatUsb] informe: {Convert.ToHexString(managed, 0, read)}"); }
+                        // Diagnóstico: tamaño e ID de los primeros informes, nunca su contenido. En un
+                        // teclado son las teclas pulsadas (al encender un puesto, a menudo la
+                        // contraseña), y el log acaba en paquetes de diagnóstico (#101).
+                        if (traced < 8)
+                        {
+                            traced++;
+                            Logger.Log($"[SeatUsb] informe de {read} bytes" + (layout.UsesReportIds ? $" (ID {managed[0]})." : "."));
+                        }
                         state.OnReport(new ReadOnlySpan<byte>(buf, read));
                     }
                 state.ReleaseAll();

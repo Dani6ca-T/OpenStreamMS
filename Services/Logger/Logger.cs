@@ -46,7 +46,7 @@ namespace OpenStreamMS.Services
         {
             get
             {
-                if (!_thresholdFixed && Environment.TickCount64 - _thresholdReadAt > 10_000)
+                if (!_thresholdFixed && DueForRefresh(Environment.TickCount64, _thresholdReadAt))
                 {
                     _thresholdReadAt = Environment.TickCount64;
                     _threshold = ReadPublishedThreshold() ?? _threshold;
@@ -54,6 +54,14 @@ namespace OpenStreamMS.Services
                 return _threshold;
             }
         }
+
+        /// <summary>
+        /// Toca volver a leer el nivel publicado: nunca leído, o hace más de 10 s. Antes era solo
+        /// <c>now - readAt &gt; 10_000</c> con readAt = long.MinValue, que se desborda a negativo: los
+        /// agentes, presentadores y la bandeja no lo leían nunca y se quedaban en Error (#101).
+        /// </summary>
+        public static bool DueForRefresh(long now, long readAt) =>
+            readAt == long.MinValue || now - readAt > 10_000;
 
         /// <summary>Fija el nivel en este proceso y lo publica para los demás (solo el servicio).</summary>
         public static void SetThreshold(LogThreshold threshold)

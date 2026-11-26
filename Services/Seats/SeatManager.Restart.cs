@@ -68,7 +68,7 @@ public sealed partial class SeatManager
 
             ReserveDevices(seat, session.RdpSessionId);
             bool requiresLogin = RequiresLogin(seat, session);
-            var agent = LaunchAgent(seat, session.RdpSessionId, requiresLogin, agentArgs: "");
+            var agent = LaunchAgent(seat, session.RdpSessionId, AgentAsSystem, agentArgs: "");
             if (agent.Width != active.Width || agent.Height != active.Height)
             {
                 // El presentador tiene el tamaño de antes: se rehace el puesto entero.
