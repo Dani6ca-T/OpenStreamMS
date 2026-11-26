@@ -34,6 +34,8 @@
   "session.stopBeforeConfig": "Stoppa sessionen innan du ändrar dess konfiguration.",
   "session.stoppingWait": "Sessionen stoppas: vänta tills den är klar innan du ändrar dess konfiguration.",
   "rdpwrap.rdpTcpNotListening": "Med RemoteIdd öppnade tjänsten Fjärrskrivbord inte sin RDP-anslutning. I Windows Home och Pro händer det när det som tillåter flera sessioner inte låter Fjärrskrivbord läsa in protokollkomponenter som inte kommer från Microsoft",
+  "rdpwrap.deviceFailed": "Windows kunde inte konfigurera RemoteIdd-skärmen för en session (Kernel-PnP-händelse 401), så Fjärrskrivbord kopplade från sessionen efter en minut",
+  "rdpwrap.wudfMissing": "Windows-filen C:\\Windows\\INF\\wudfrd.inf, som drivrutiner som RemoteIdd behöver, saknas. Reparera Windows med DISM /Online /Cleanup-Image /RestoreHealth och sfc /scannow",
   "rdpwrap.notLoaded": "Tjänsten Fjärrskrivbord har ännu inte läst in komponenten som tillåter flera sessioner",
   "rdpwrap.singleSession": "Den här datorn tillåter bara en session åt gången",
   "rdpwrap.remoteIddOff": "RemoteIdd är avstängt: {0}. Arbetsstationerna använder Windows RDP-skärm. OpenStreamMS försöker med RemoteIdd igen vid varje uppdatering eller ominstallation.",
