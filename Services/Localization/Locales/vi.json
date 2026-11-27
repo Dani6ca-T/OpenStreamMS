@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Vị trí] '{0}': không thể khởi động lại vị trí: {1}",
   "seat.waitingImageFailed": "[Vị trí] '{0}': không thể hiển thị hình ảnh chờ: {1}",
   "seat.sessionDidNotRestart": "Phiên không khởi động lại.",
-  "seat.sessionRestartTimeout": "Đã hết thời gian chờ khởi động lại phiên."
+  "seat.sessionRestartTimeout": "Đã hết thời gian chờ khởi động lại phiên.",
+  "composite.created": "[Phiên kết hợp] Đã tạo phiên kết hợp '{0}' ({1}) gồm: {2}",
+  "composite.updated": "[{0}] Đã cập nhật phiên kết hợp.",
+  "composite.startingMember": "[{0}] Đang khởi chạy '{1}' cho phiên kết hợp…",
+  "composite.steamConfigFailed": "[{0}] Không thể cấu hình ứng dụng Steam của phiên kết hợp: {1}",
+  "composite.startAborted": "[{0}] Đã hủy khởi chạy (phiên bị dừng trong khi khởi chạy).",
+  "composite.started": "[{0}] Phiên kết hợp đang hoạt động: {1}; bàn phím và chuột từ '{2}' (phiên Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Không thể xóa {1}: {2}",
+  "composite.stoppingMember": "[{0}] Đang dừng '{1}', phiên này được khởi chạy bởi phiên kết hợp.",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' không thể khôi phục độ phân giải: {2}",
+  "composite.keyboardStopped": "[{0}] Phiên bàn phím đã dừng; đang dừng phiên kết hợp.",
+  "composite.keyboardSessionChanged": "[{0}] Phiên bàn phím chuyển sang phiên Windows {1}; đang khởi chạy lại Sunshine.",
+  "composite.watchFailed": "[{0}] Lỗi khi theo dõi phiên kết hợp: {1}",
+  "composite.waitingImageFailed": "[{0}] Không thể chuẩn bị hình ảnh chờ cho ô {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Thao tác Steam '{1}' thất bại trong phiên Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' trong {2} phiên.",
+  "composite.steamOpen": "mở",
+  "composite.steamClose": "đóng"
 }
