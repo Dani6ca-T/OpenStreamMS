@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings concluído — ecrã a {0}Hz na sessão {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings devolveu sucesso, mas o ecrã indica {0}Hz (pedido {1}Hz) na sessão {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings falhou na sessão {0}: {1} (ecrã a {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Não foi possível ler o resultado de ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Não foi possível ler o resultado de ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "Erro WTSEnumerateSessions: {0}",
+  "rdp.sessionInfo": "Sessão {0} ({1}) protocolo={2} utilizador='{3}'",
+  "rdp.sessionUnlocked": "Sessão {0} desbloqueada (flag={1}) após {2} ms.",
+  "rdp.sessionStillLocked": "Sessão {0} continua bloqueada após {1} ms. O Sunshine pode recorrer à codificação por software (libx264). Verifique o ecrã de bloqueio.",
+  "rdp.userAlreadyHasOtherSession": "'{0}' já tem a sessão {1} ({2}).",
+  "rdp.disconnected": "desligada",
+  "rdp.termServiceChangedToManual": "O TermService estava desativado → alterado para Manual.",
+  "rdp.termServiceStarted": "TermService iniciado (Ambiente de Trabalho Remoto nativo).",
+  "rdp.termServiceEnsureFailed": "Não foi possível garantir a execução do TermService: {0}. Se o Ambiente de Trabalho Remoto estiver desligado, a ligação loopback falhará; ative-o em Sistema → Ambiente de Trabalho Remoto ou reinicie o Windows.",
+  "rdp.registryKeyOpenFailed": "Não foi possível abrir HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Não foi possível escrever {0} em HKLM\\\\{1}: {2}"
 }
