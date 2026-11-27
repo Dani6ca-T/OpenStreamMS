@@ -461,5 +461,15 @@
   "error.stopSeat": "Спрете мястото, преди да промените конфигурацията му.",
   "error.primaryMonitor": "Основният монитор не може да бъде назначен на място.",
   "error.assigned": "Избраният ресурс вече е назначен.",
-  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" е назначен на слот {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" е назначен на слот {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Потребителят „{0}“ не е администратор и не член на Remote Desktop Users; предоставя се достъп до отдалечен работен плот, за да може сесията да стартира.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Неуспешна проверка на достъпа до отдалечен работен плот за „{0}“: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Разрешенията на RDP-Tcp не могат да бъдат прочетени (нито Security, нито DefaultSecurity); остават непроменени.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Неуспешно скриване на „{0}“ от екрана за вход: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Неуспешна промяна на достъпа на „{0}“ до системния регистър на Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam е подготвен за „{0}“: steam:// и {1} преки пътища използват osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Steam не можа да бъде подготвен за „{0}“: {1}",
+  "service.started": "[Service] OpenStreamMS стартира. API е достъпен на конфигурирания порт.",
+  "service.multiRdpCheckFailed": "[Service] Проверката на Multi-RDP е неуспешна: {0}",
+  "service.stopped": "[Service] Спряно."
 }
