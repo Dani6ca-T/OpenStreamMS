@@ -273,5 +273,11 @@
   "rdp.startMstsc": "Đang khởi chạy mstsc ({0}x{1}, {2} fps, {3} bpp, tỷ lệ {4}%, AVC444 phần cứng)…",
   "rdp.mstscExecutableMissing": "Không thể khởi chạy mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc thoát với ExitCode={0} mà không tạo phiên cho '{1}'. Có thể hộp thoại chứng chỉ/thông tin đăng nhập bị ẩn hoặc NLA từ chối.",
-  "rdp.mstscSessionTimeout": "Phiên cho '{0}' không xuất hiện sau 30 giây với mstsc. Có thể hộp thoại bị ẩn trong Session 0."
+  "rdp.mstscSessionTimeout": "Phiên cho '{0}' không xuất hiện sau 30 giây với mstsc. Có thể hộp thoại bị ẩn trong Session 0.",
+  "rdp.cmdkeyFailed": "cmdkey {0} thất bại: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP thoát sớm. ExitCode={0}",
+  "rdp.sessionDetected": "Phát hiện phiên ở lần thử {0} ({1}): {2} (PID FreeRDP={3})",
+  "rdp.sessionModeRelaxed": "chế độ mở rộng",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Đang chờ phiên… lần thử {0}/20"
 }
