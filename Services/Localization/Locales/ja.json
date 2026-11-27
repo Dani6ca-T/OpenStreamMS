@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "このシートはコンソールと同じユーザーを使用しているため、単独では起動できません。OpenStreamMS から起動するか、別のセッションを割り当ててください。",
   "seats.monitorAlreadyAssigned": "モニターは既にシート「{0}」に割り当てられています。",
   "seats.monitorAreaOverlap": "このモニター領域はシート「{0}」の領域と重複しています。",
-  "seats.notFound": "シート {0} は存在しません。"
+  "seats.notFound": "シート {0} は存在しません。",
+  "session.logStopping": "[{0}] 停止中...",
+  "session.logRestartRequested": "[{0}] 再起動が要求されました（現在の状態: {1}）。",
+  "session.logRestartSuperseded": "[{0}] 停止中に別のコマンドを受信したため、再起動をキャンセルしました。",
+  "session.logSunshineKillTimeout": "[{0}] Sunshine の終了がタイムアウトしました。",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Windows セッション {1} の終了が完了しませんでした。",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) を停止しました。",
+  "session.logStopWarning": "[{0}] 停止中の警告: {1}",
+  "session.logStopped": "[{0}] 停止しました。"
 }
