@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Impossibile restituire il monitor principale alla console; verrà ripristinato rimuovendo il display virtuale.",
   "seats.consoleMonitorRestored": "La console torna ad avere il monitor intero.",
   "seats.sessionLocked": "'{0}': sessione bloccata; verrà richiesta la password di '{1}'.",
-  "seats.sessionLockFailed": "'{0}': impossibile bloccare la sessione: {1}"
+  "seats.sessionLockFailed": "'{0}': impossibile bloccare la sessione: {1}",
+  "seats.sessionDisconnectedFromSeat": "'{0}': la sessione è stata disconnessa dal posto; il posto si arresta finché non viene riacceso da OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "'{0}': impossibile arrestare dopo la disconnessione: {1}",
+  "seats.windowsSessionChanged": "'{0}': la sessione Windows passa da {1} a {2}; riassegnazione dei controller.",
+  "seats.monitorModeChanged": "'{0}': la modalità del monitor è cambiata; nuovo adattamento della sessione.",
+  "seats.readjustFailed": "Impossibile riadattare il posto: {0}",
+  "seats.agentDisconnected": "'{0}': agente della sessione disconnesso.",
+  "seats.presenterDisconnected": "'{0}': presenter della console disconnesso.",
+  "seats.consoleAreaLost": "La parte della console ha perso l'immagine ({0}); la console ripristina il monitor.",
+  "seats.seatLost": "Il posto '{0}' si arresta: {1}.",
+  "seats.stopAfterLossFailed": "'{0}': impossibile arrestare dopo l'interruzione: {1}",
+  "seats.sessionStartFailed": "Avvio della sessione non riuscito.",
+  "seats.sessionStartTimeout": "La sessione non è diventata attiva in tempo."
 }
