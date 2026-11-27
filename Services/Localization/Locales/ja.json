@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) に失敗しました：{1}",
   "rdp.mstscReconnectFailedFallback": "mstsc の再接続に失敗しました（{0}）。FreeRDP で再試行します…",
   "rdp.reconnectWrongSession": "セッション {1} ではなくセッション {0} に再接続されました。",
-  "rdp.sessionReconnected": "セッション {0} を {1} ms で再接続しました。"
+  "rdp.sessionReconnected": "セッション {0} を {1} ms で再接続しました。",
+  "rdp.freeRdpClientDisconnected": "FreeRDP クライアントが切断されました。セッション {0} はアクティブのままです（VDD）。",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession 警告：{0}",
+  "rdp.logoffFailed": "セッション {0} の WTSLogoffSession に失敗しました：{1}",
+  "rdp.logoffCompleted": "セッション {0} を {1} ms でログオフしました。",
+  "rdp.logoffSessionCompleted": "セッション {0} をログオフしました。",
+  "rdp.logoffWarning": "WTSLogoffSession 警告（セッション {0}）：{1}"
 }
