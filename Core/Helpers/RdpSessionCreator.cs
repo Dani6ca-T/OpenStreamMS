@@ -382,9 +382,9 @@ namespace OpenStreamMS.Core.Helpers
         public static void DisconnectRdpClient(uint sessionId)
         {
             if (WTSDisconnectSession(IntPtr.Zero, (int)sessionId, false))
-                Logger.Log($"[RDP] Cliente FreeRDP desconectado; sesion {sessionId} sigue activa (VDD).");
+                Logger.Log(BackendText.Get("rdp.freeRdpClientDisconnected", sessionId));
             else
-                Logger.Warning($"[RDP] WTSDisconnectSession warning: {Marshal.GetLastWin32Error()}");
+                Logger.Warning(BackendText.Get("rdp.disconnectSessionWarning", Marshal.GetLastWin32Error()));
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace OpenStreamMS.Core.Helpers
             if (before is null || string.IsNullOrEmpty(before.Username)) return true;
 
             if (!WTSLogoffSession(IntPtr.Zero, (int)sessionId, false))
-                Logger.Warning($"[RDP] WTSLogoffSession(sesión {sessionId}) falló: {Marshal.GetLastWin32Error()}");
+                Logger.Warning(BackendText.Get("rdp.logoffFailed", sessionId, Marshal.GetLastWin32Error()));
 
             var sw = Stopwatch.StartNew();
             while (sw.Elapsed < timeout)
@@ -409,7 +409,7 @@ namespace OpenStreamMS.Core.Helpers
                 var s = EnumerateSessions(logSessions: false).FirstOrDefault(x => x.SessionId == sessionId);
                 if (s is null || !string.Equals(s.Username, before.Username, StringComparison.OrdinalIgnoreCase))
                 {
-                    Logger.Log($"[RDP] Sesión {sessionId} cerrada (logoff) en {sw.ElapsedMilliseconds} ms.");
+                    Logger.Log(BackendText.Get("rdp.logoffCompleted", sessionId, sw.ElapsedMilliseconds));
                     return true;
                 }
                 Thread.Sleep(250);
@@ -457,9 +457,9 @@ namespace OpenStreamMS.Core.Helpers
         {
             if (sessionId == 0) return;
             if (WTSLogoffSession(IntPtr.Zero, (int)sessionId, false))
-                Logger.Log($"[RDP] Sesion {sessionId} cerrada (logoff).");
+                Logger.Log(BackendText.Get("rdp.logoffSessionCompleted", sessionId));
             else
-                Logger.Warning($"[RDP] WTSLogoffSession warning (sesion {sessionId}): {Marshal.GetLastWin32Error()}");
+                Logger.Warning(BackendText.Get("rdp.logoffWarning", sessionId, Marshal.GetLastWin32Error()));
         }
 
         // ── Creacion de sesion ────────────────────────────────────────────────────
