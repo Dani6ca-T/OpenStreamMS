@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Steam не можа да бъде подготвен за „{0}“: {1}",
   "service.started": "[Service] OpenStreamMS стартира. API е достъпен на конфигурирания порт.",
   "service.multiRdpCheckFailed": "[Service] Проверката на Multi-RDP е неуспешна: {0}",
-  "service.stopped": "[Service] Спряно."
+  "service.stopped": "[Service] Спряно.",
+  "isolatedUser.winStationsKeyMissing": "Ключът в системния регистър на Windows HKLM\\{0} не съществува.",
+  "isolatedUser.rdpTcpKeyMissing": "Ключът в системния регистър на Windows HKLM\\{0} не съществува.",
+  "steamIsolation.userRegistryNotLoaded": "Регистърът на потребителя не е зареден.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell не е наличен.",
+  "steamIsolation.shortcutDescription": "Steam, изолиран от останалите сесии (OpenStreamMS)"
 }
