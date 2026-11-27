@@ -216,7 +216,7 @@ test('All 22 backend catalogs resolve to exactly the English keys', () => {
 
 test('Effective backend catalogs have matching placeholders', () => {
     // Cada placeholder una vez: una traducción puede repetir {0} (string.Format lo admite).
-    const placeholders = value => [...new Set([...value.matchAll(/\{(\w+)\}/g)].map(m => m[1]))].sort();
+    const placeholders = value => [...new Set([...value.matchAll(/\{(\d+)(?:,[^}:]+)?(?::[^}]+)?\}/g)].map(m => m[1]))].sort();
     for (const lang of Object.keys(backendCatalogs)) {
         const table = effectiveBackendCatalog(lang);
         for (const [key, value] of Object.entries(table)) {
