@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Configuration de la session mise à jour.",
   "session.logRestartAfterConfigFailed": "Impossible de redémarrer la session après la mise à jour de la configuration : {0}",
   "session.alreadyInState": "La session est déjà dans l’état {0}.",
-  "error.request": "La requête n’a pas pu être effectuée."
+  "error.request": "La requête n’a pas pu être effectuée.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Copie différée de sunshine_state.json terminée après la modification de l’association.",
+  "session.logPairingStateMirrorFailed": "[{0}] Échec de la copie différée de sunshine_state.json après la modification de l’association : {1}",
+  "session.logAutoStartingEnabled": "Démarrage automatique de {0} session(s) activée(s)...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Session Windows détectée ({1}) ; démarrage de la session locale.",
+  "session.logConsoleSessionStartFailed": "[{0}] Impossible de démarrer après l’ouverture de session Windows : {1}",
+  "session.logMonitorFailed": "[{0}] Erreur de surveillance : {1}",
+  "session.logLoadedFromDisk": "[SessionService] {0} session(s) chargée(s) depuis le disque.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Avertissement lors de la fermeture de la session Windows {1} : {2}",
+  "session.logStartAbandoned": "[{0}] Démarrage abandonné avant son lancement (une autre commande est arrivée).",
+  "session.logCreatingRdpSession": "[{0}] Démarrage de la session RDP pour l’utilisateur « {1} »...",
+  "session.logSunshineLaunchFailed": "[{0}] Impossible de démarrer Sunshine : {1}",
+  "session.logAutoStartFailed": "[{0}] Échec du démarrage automatique : {1}"
 }
