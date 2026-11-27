@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession de la sesión {0} falló: {1}",
   "rdp.logoffCompleted": "Sesión {0} cerrada (logoff) en {1} ms.",
   "rdp.logoffSessionCompleted": "Sesión {0} cerrada (logoff).",
-  "rdp.logoffWarning": "Aviso de WTSLogoffSession (sesión {0}): {1}"
+  "rdp.logoffWarning": "Aviso de WTSLogoffSession (sesión {0}): {1}",
+  "rdp.startFreeRdp": "Iniciando FreeRDP ({0}x{1}, {2} fps, {3} bpp, escala {4} %, sin gfx)…",
+  "rdp.freeRdpExecutableMissing": "No se pudo iniciar wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP terminó con ExitCode={0} (0x{1:X}) sin crear una sesión para '{2}'. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "La sesión para '{0}' no apareció tras 30 s. Comprueba el usuario y la contraseña, que Escritorio remoto esté habilitado y que el usuario pertenezca a 'Usuarios de escritorio remoto'.",
+  "rdp.startMstsc": "Iniciando mstsc ({0}x{1}, {2} fps, {3} bpp, escala {4} %, AVC444 por hardware)…",
+  "rdp.mstscExecutableMissing": "No se pudo iniciar mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc terminó con ExitCode={0} sin crear una sesión para '{1}'. Posible diálogo invisible (certificado/credenciales) o rechazo de NLA.",
+  "rdp.mstscSessionTimeout": "La sesión para '{0}' no apareció tras 30 s con mstsc. Posible diálogo invisible en Session 0."
 }
