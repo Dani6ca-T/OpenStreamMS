@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Nem sikerült feloldani a vezérlők foglalásait: {0}",
   "gamepad.padClaimed": "{0} vezérlő → „{1}” (Windows-munkamenet: {2}): a szolgáltatás lefoglalta a vezérlőt.",
   "gamepad.padOwnerUnknown": "Nem állapítható meg, melyik munkamenet hozta létre a(z) {0} vezérlőt; minden munkamenetben látható marad.",
-  "gamepad.osmsPadOutsideSession": "OsmsPad {0} vezérlő → Windows-munkamenet {1} (nem tartozik OpenStreamMS-munkamenethez)."
+  "gamepad.osmsPadOutsideSession": "OsmsPad {0} vezérlő → Windows-munkamenet {1} (nem tartozik OpenStreamMS-munkamenethez).",
+  "gamepad.padAssignedCompositeMember": "A(z) {0}. vezérlő innen: „{1}” ({2}) → „{3}” munkamenet (Windows-munkamenet {4}).",
+  "gamepad.padAssignedSession": "{0} vezérlő → „{1}” munkamenet (Windows-munkamenet {2}).",
+  "gamepad.padRetargeted": "A(z) {0} ({1}) vezérlő a(z) „{2}” munkamenetbe (Windows-munkamenet {3}) került az összetett munkamenet változása miatt."
 }
