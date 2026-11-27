@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using OpenStreamMS.Services.Localization;
 namespace OpenStreamMS.Services.Session;
 
 /// <summary>
@@ -155,12 +156,12 @@ public static class AudioSessionMuter
             if (n > 0)
             {
                 total += n;
-                Logger.Log($"[AudioMuter] PID {pid}: {n} sesion(es) silenciada(s) en intento {attempt}.");
+                Logger.Log(BackendText.Get("audioMuter.sessionsMutedOnAttempt", pid, n, attempt));
                 return total;
             }
             Thread.Sleep(750);
         }
-        Logger.Warning($"[AudioMuter] PID {pid} no expuso ninguna sesión audio tras {timeoutMs}ms.");
+        Logger.Warning(BackendText.Get("audioMuter.noSessionsFound", pid, timeoutMs));
         return total;
     }
 
@@ -190,18 +191,18 @@ public static class AudioSessionMuter
                     if (muted > 0 && !hasLoggedMute)
                     {
                         hasLoggedMute = true;
-                        Logger.Log($"[AudioMuter] PID {pid}: {muted} sesion(es) silenciada(s).");
+                        Logger.Log(BackendText.Get("audioMuter.sessionsMuted", pid, muted));
                     }
                     Thread.Sleep(2000);
                 }
             }
             catch (Exception ex)
             {
-                Logger.Log($"[AudioMuter] Thread persistente terminó: {ex.Message}");
+                Logger.Log(BackendText.Get("audioMuter.persistentThreadEnded", ex.Message));
             }
         }) { IsBackground = true, Name = $"AudioMuter-{pid}" };
         t.Start();
-        Logger.Log($"[AudioMuter] Persistent mute thread iniciado para PID {pid}.");
+        Logger.Log(BackendText.Get("audioMuter.persistentThreadStarted", pid));
     }
 
     // ── Private ────────────────────────────────────────────────────────────
@@ -236,7 +237,7 @@ public static class AudioSessionMuter
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[AudioMuter] TryMuteOnce: {ex.Message}");
+            Logger.Warning(BackendText.Get("audioMuter.tryMuteFailed", ex.Message));
         }
         finally
         {
@@ -312,7 +313,7 @@ public static class AudioSessionMuter
         if (hr is S_OK or S_FALSE) return true;
         if (hr == RPC_E_CHANGED_MODE) return false;
 
-        Logger.Warning($"[AudioMuter] CoInitializeEx fallo: 0x{hr:X8}");
+        Logger.Warning(BackendText.Get("audioMuter.coInitializeFailed", hr));
         return false;
     }
 }
