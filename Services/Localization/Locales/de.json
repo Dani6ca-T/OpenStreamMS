@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings erfolgreich — Anzeige mit {0}Hz in Sitzung {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings meldete Erfolg, aber die Anzeige meldet {0}Hz (angefordert {1}Hz) in Sitzung {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings in Sitzung {0} fehlgeschlagen: {1} (Anzeige bei {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Ergebnis von ChangeDisplaySettings konnte nicht gelesen werden: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Ergebnis von ChangeDisplaySettings konnte nicht gelesen werden: {0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions-Fehler: {0}",
+  "rdp.sessionInfo": "Sitzung {0} ({1}) Protokoll={2} Benutzer='{3}'",
+  "rdp.sessionUnlocked": "Sitzung {0} nach {2} ms entsperrt (flag={1}).",
+  "rdp.sessionStillLocked": "Sitzung {0} nach {1} ms weiterhin gesperrt. Sunshine könnte auf Software-Encoding (libx264) zurückfallen. Prüfen Sie den Sperrbildschirm.",
+  "rdp.userAlreadyHasOtherSession": "„{0}“ hat bereits Sitzung {1} ({2}).",
+  "rdp.disconnected": "getrennt",
+  "rdp.termServiceChangedToManual": "TermService war deaktiviert → auf Manual geändert.",
+  "rdp.termServiceStarted": "TermService gestartet (natives Remotedesktop).",
+  "rdp.termServiceEnsureFailed": "TermService konnte nicht sichergestellt werden: {0}. Wenn Remotedesktop deaktiviert ist, schlägt die Loopback-Verbindung fehl; aktivieren Sie es unter System → Remotedesktop oder starten Sie Windows neu.",
+  "rdp.registryKeyOpenFailed": "HKLM\\\\{0} konnte nicht geöffnet werden",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "{0} konnte nicht in HKLM\\\\{1} geschrieben werden: {2}"
 }
