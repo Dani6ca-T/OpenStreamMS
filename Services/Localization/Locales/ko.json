@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] {1}에서 \"{0}\"의 권한을 조정하지 못했습니다: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] 방화벽({0}): {1}({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Sunshine 인스턴스 업데이트 중: {1} → {2}(config/, 페어링, 자격 증명 및 설정 유지).",
-  "session.logHudEnsureFailed": "[HUD] HUD를 초기화하지 못했습니다: {0}"
+  "session.logHudEnsureFailed": "[HUD] HUD를 초기화하지 못했습니다: {0}",
+  "error.seatName": "좌석 이름은 필수입니다.",
+  "error.stopSeat": "구성을 변경하기 전에 좌석을 중지하세요.",
+  "error.primaryMonitor": "기본 모니터는 좌석에 할당할 수 없습니다.",
+  "error.assigned": "선택한 리소스는 이미 할당되어 있습니다."
 }
