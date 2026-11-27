@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Не вдалося підготувати Steam для «{0}»: {1}",
   "service.started": "[Service] OpenStreamMS запущено. API доступний на налаштованому порту.",
   "service.multiRdpCheckFailed": "[Service] Не вдалося перевірити Multi-RDP: {0}",
-  "service.stopped": "[Service] Зупинено."
+  "service.stopped": "[Service] Зупинено.",
+  "isolatedUser.winStationsKeyMissing": "Розділ реєстру Windows HKLM\\{0} не існує.",
+  "isolatedUser.rdpTcpKeyMissing": "Розділ реєстру Windows HKLM\\{0} не існує.",
+  "steamIsolation.userRegistryNotLoaded": "Кущ реєстру користувача не завантажено.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell недоступний.",
+  "steamIsolation.shortcutDescription": "Steam, ізольований від інших сеансів (OpenStreamMS)"
 }
