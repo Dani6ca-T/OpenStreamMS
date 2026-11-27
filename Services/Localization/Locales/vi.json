@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Đã hủy khởi chạy trước khi bắt đầu (có lệnh khác đến).",
   "session.logCreatingRdpSession": "[{0}] Đang khởi chạy phiên RDP cho người dùng \"{1}\"...",
   "session.logSunshineLaunchFailed": "[{0}] Không thể khởi chạy Sunshine: {1}",
-  "session.logAutoStartFailed": "[{0}] Tự động khởi chạy thất bại: {1}"
+  "session.logAutoStartFailed": "[{0}] Tự động khởi chạy thất bại: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Đã hủy khởi chạy (phiên bị dừng trong khi tạo RDP).",
+  "session.logRdpSessionReused": "[{0}] Đã dùng lại phiên RDP hiện có; không khởi chạy ứng dụng khách RDP mới.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Đã hủy khởi chạy (phiên bị dừng khi khởi chạy Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Phiên đang hoạt động (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Đã hủy khởi chạy (phiên bị dừng sau khi hoàn tất khởi chạy).",
+  "session.logWaitingForConsoleUser": "[{0}] Phiên sẽ khởi chạy khi có người đăng nhập Windows.",
+  "session.logLocalSessionActive": "[{0}] Phiên cục bộ đang hoạt động (phiên Windows {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Đã đặt lại thông tin xác thực Sunshine; Sunshine đã dừng và sẽ tự động khởi chạy lại.",
+  "session.logSunshineTemplateUpdated": "[{0}] Mẫu Sunshine đã thay đổi; đang cập nhật phiên bản: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Không thể cập nhật phiên bản Sunshine: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Không thể thêm quy tắc tường lửa: {0}"
 }
