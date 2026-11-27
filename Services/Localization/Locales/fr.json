@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "Impossible de lire {0} : {1}",
   "gamepad.hidHideBlacklistUpdateFailed": "Impossible de mettre à jour la liste noire HidHide : {0}",
   "gamepad.usbPortCycled": "{0} : un autre processus l’utilisait et Windows a différé le redémarrage ; son port USB a été déconnecté puis reconnecté ({1}) {2}.",
-  "gamepad.usbPortCycleFailed": "{0} : Windows a différé le redémarrage (un autre processus l’utilise) et le port USB n’a pas pu être réinitialisé ({1}). Le processus qui l’avait déjà ouvert continue de le voir jusqu’à sa fermeture."
+  "gamepad.usbPortCycleFailed": "{0} : Windows a différé le redémarrage (un autre processus l’utilise) et le port USB n’a pas pu être réinitialisé ({1}). Le processus qui l’avait déjà ouvert continue de le voir jusqu’à sa fermeture.",
+  "gamepad.clearJailsFailed": "Impossible de supprimer les entrées de session de HidHide : {0}"
 }
