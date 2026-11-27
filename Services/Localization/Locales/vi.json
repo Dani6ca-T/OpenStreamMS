@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Đã cấu hình Steam Big Picture ('{0}') với thao tác hoàn tác không chặn: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "Big Picture của phiên tổng hợp được mở và đóng trong tất cả các phiên: {0}",
   "sunshineCfg.extensionAppsUpdated": "Đã cập nhật ứng dụng tiện ích mở rộng ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "Đã cấu hình ứng dụng Reboot và Power Off: {0}"
+  "sunshineCfg.powerAppsConfigured": "Đã cấu hình ứng dụng Reboot và Power Off: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] Đã cập nhật apps.json với môi trường hồ sơ cách ly: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] Đã cập nhật apps.json mà không có môi trường hồ sơ cách ly: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort phải lớn hơn 0.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] Đã chuyển gamepad_driver từ osmspad về vigembus: tay cầm OsmsPad Xbox Series mất XInput trong các phiên phát trực tuyến.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] Đã xóa capture = remoteidd: RemoteIdd không hoạt động trong RDP-Tcp, Sunshine sẽ dùng phương thức thu hình mặc định.",
+  "sunshineCfg.defaultsApplied": "Đã áp dụng giá trị mặc định của OpenStreamMS: {0}",
+  "sunshineCfg.configAlreadyCurrent": "sunshine.conf đã được cập nhật: {0}",
+  "sunshineCfg.configUpdated": "Đã cập nhật sunshine.conf ({0}) tại: {1}",
+  "sunshineCfg.configValuesUpdated": "Đã cập nhật sunshine.conf ({0}) tại: {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: thông tin xác thực đã được cập nhật (người dùng={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: thông tin xác thực đã được cập nhật; đã dọn root (người dùng={0})",
+  "sunshineCfg.credentialsSet": "sunshine_state.json: đã thiết lập thông tin xác thực (người dùng={0})"
 }
