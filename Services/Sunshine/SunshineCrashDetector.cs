@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml.Linq;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Sunshine;
 
@@ -48,20 +49,20 @@ internal static class SunshineCrashDetector
                     continue;
 
                 var moduleText = string.IsNullOrWhiteSpace(moduleName)
-                    ? "modulo desconocido"
+                    ? BackendText.Get("sunshineCrash.unknownModule")
                     : moduleName;
                 var codeText = string.IsNullOrWhiteSpace(exceptionCode)
-                    ? "excepcion desconocida"
+                    ? BackendText.Get("sunshineCrash.unknownException")
                     : exceptionCode;
 
                 return string.Equals(exceptionCode, "0x80000003", StringComparison.OrdinalIgnoreCase)
-                    ? $"Sunshine fallo con STATUS_BREAKPOINT ({codeText}) en {moduleText} (PID={pid})."
-                    : $"Sunshine fallo con {codeText} en {moduleText} (PID={pid}).";
+                    ? BackendText.Get("sunshineCrash.breakpointFault", codeText, moduleText, pid)
+                    : BackendText.Get("sunshineCrash.fault", codeText, moduleText, pid);
             }
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Sunshine] No se pudo leer Application Error: {ex.Message}");
+            Logger.Warning(BackendText.Get("sunshineCrash.readApplicationErrorFailed", ex.Message));
         }
 
         return null;
@@ -98,7 +99,7 @@ internal static class SunshineCrashDetector
         }
 
         if (p.ExitCode != 0 && !string.IsNullOrWhiteSpace(stderr))
-            Logger.Warning($"[Sunshine] wevtutil devolvio {p.ExitCode}: {stderr.Trim()}");
+            Logger.Warning(BackendText.Get("sunshineCrash.wevtutilFailed", p.ExitCode, stderr.Trim()));
 
         return stdout;
     }
