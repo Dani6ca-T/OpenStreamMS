@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "Não foi possível ler a lista de permissões do HidHide: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping desativado (contorna o isolamento de comandos por sessão).",
   "gamepad.controllerToVkDisableFailed": "Não foi possível desativar o ControllerToVKMapping: {0}",
-  "gamepad.jailPrepareFailed": "Não foi possível preparar o jail do HidHide para o comando ViGEm: {0}"
+  "gamepad.jailPrepareFailed": "Não foi possível preparar o jail do HidHide para o comando ViGEm: {0}",
+  "gamepad.stateEnabled": "ativado",
+  "gamepad.stateDisabled": "desativado",
+  "gamepad.stateEmpty": "vazia",
+  "gamepad.unknownVersion": "versão desconhecida"
 }
