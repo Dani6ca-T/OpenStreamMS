@@ -171,5 +171,13 @@
   "power.noPending": "No pending shutdown to cancel ({0}).",
   "power.shutdownFailed": "shutdown.exe failed: {0}",
   "power.scheduled": "{0} scheduled in {1}s.",
-  "settings.logLevelChanged": "Log level: {0} → {1}."
+  "settings.logLevelChanged": "Log level: {0} → {1}.",
+  "seat.restartSession": "[Seats] Restarting session '{1}' for seat '{0}' without turning the seat off.",
+  "seat.restartSizeMismatch": "The session returned at {0}x{1} instead of {2}x{3}.",
+  "seat.restartSessionDone": "[Seats] '{0}': session restarted; the seat remains in Windows session {1}.",
+  "seat.restartSessionFailed": "[Seats] '{0}': could not restart its session without turning the seat off ({1}); rebuilding the seat.",
+  "seat.restartSeatFailed": "[Seats] '{0}': could not start the seat again: {1}",
+  "seat.waitingImageFailed": "[Seats] '{0}': could not show the waiting image: {1}",
+  "seat.sessionDidNotRestart": "The session did not start again.",
+  "seat.sessionRestartTimeout": "The session restart timed out."
 }
