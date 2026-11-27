@@ -48,11 +48,11 @@ public static class PowerEndpoints
         var (ok, output) = RunShutdownExe("/a");
         if (ok)
         {
-            Logger.Log("[Power] Apagado/reinicio cancelado.");
+            Logger.Log(RequestCulture.T("power.cancelled"));
             return Results.Ok(new PowerResponse("cancel", 0, null));
         }
         // exit code 1116 = no hay shutdown pendiente. No es error real.
-        Logger.Log($"[Power] No hay apagado pendiente que cancelar ({output.Trim()}).");
+        Logger.Log(RequestCulture.T("power.noPending", output.Trim()));
         return Results.Ok(new PowerResponse("cancel-noop", 0, null));
     }
 
@@ -74,14 +74,14 @@ public static class PowerEndpoints
         var (ok, output) = RunShutdownExe(args.ToArray());
         if (!ok)
         {
-            Logger.Warning($"[Power] shutdown.exe fallo: {output.Trim()}");
+            Logger.Warning(RequestCulture.T("power.shutdownFailed", output.Trim()));
             return Results.Problem(
                 title:  RequestCulture.T("power.failedToStart"),
                 detail: output.Trim(),
                 statusCode: 500);
         }
 
-        Logger.Log($"[Power] {(isRestart ? RequestCulture.T("power.restartMessage") : RequestCulture.T("power.shutdownMessage"))} programado en {delay}s.");
+        Logger.Log(RequestCulture.T("power.scheduled", isRestart ? RequestCulture.T("power.restartMessage") : RequestCulture.T("power.shutdownMessage"), delay));
         return Results.Ok(new PowerResponse(
             isRestart ? "restart" : "shutdown", delay, message));
     }
