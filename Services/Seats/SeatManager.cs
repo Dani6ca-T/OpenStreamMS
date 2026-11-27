@@ -293,7 +293,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             // 1. Arrancar la sesión si hace falta.
             if (session.State is not (SessionState.Running or SessionState.Starting))
             {
-                Status(seat, "Arrancando la sesión…");
+                Status(seat, BackendText.Get("seats.statusStartingSession"));
                 sessions.Start(session.Id);
             }
             WaitSessionRunning(session);
@@ -308,7 +308,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             if (seat.Monitor is not null)
             {
                 if (_consoleHalf?.MonitorPath == seat.Monitor.DevicePath) StopConsoleHalf();
-                Status(seat, "Encendiendo el monitor…");
+                Status(seat, BackendText.Get("seats.statusPoweringMonitor"));
                 if (!ConsoleDisplay.Activate(seat.Monitor.DevicePath))
                     Logger.Warning(BackendText.Get("seats.monitorActivationFailed", seat.Name));
             }
@@ -367,7 +367,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             _guideUsers[seat.Id] = guideUsers;
 
             seat.State = SeatState.Running;
-            seat.StatusDetail = "Activo: imagen, audio y periféricos conectados.";
+            seat.StatusDetail = BackendText.Get("seats.statusActive");
             Interlocked.Increment(ref _generation);   // que GamepadSessionIsolation reasigne los mandos
             Logger.Log(BackendText.Get("seats.started", seat.Name));
             OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
@@ -392,7 +392,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
     /// <summary>Lanza el agente en una sesión de Windows y espera a que comparta sus texturas.</summary>
     private AgentLink LaunchAgent(Seat seat, uint windowsSession, bool asSystem, string agentArgs)
     {
-        Status(seat, "Iniciando agente de captura e imagen...");
+        Status(seat, BackendText.Get("seats.statusStartingAgent"));
         var agentPipe = SeatPipes.NewName("agent");
         var agentServer = SeatPipes.CreateServer(agentPipe);
         try
@@ -447,7 +447,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         var hostPipe = SeatPipes.NewName("host");
         var hostServer = SeatPipes.CreateServer(hostPipe);
 
-        Status(seat, "Iniciando presentador en la consola...");
+        Status(seat, BackendText.Get("seats.statusStartingPresenter"));
         SeatHostControl.RequestOpenSeat(seat.Id, hostPipe, seat.Monitor, seat.AudioOutId, seat.Devices);
 
         // El presentador (icono de bandeja o --seat-host) corre en la consola. Las texturas,
@@ -565,7 +565,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         }
 
         seat.State = SeatState.Stopped;
-        seat.StatusDetail = disconnectedFromSeat ? "Desconectado desde el puesto. Enciéndelo de nuevo desde OpenStreamMS." : null;
+        seat.StatusDetail = disconnectedFromSeat ? BackendText.Get("seats.statusDisconnectedFromSeat") : null;
         if (!restarting && !_seats.Values.Any(s => s.State is SeatState.Running or SeatState.Starting))
             ConsoleLockGuard.Release();
         Interlocked.Increment(ref _generation);   // los mandos del puesto vuelven a la consola
@@ -600,7 +600,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             Logger.Log(BackendText.Get("seats.vigemMissing", seat.Name));
             return;
         }
-        Status(seat, "Separando los mandos del puesto…");
+        Status(seat, BackendText.Get("seats.statusSeparatingGamepads"));
         active.Pads = new Gamepad.SeatPadCapture(seat.Name, windowsSession, ports);
         active.Pads.Start();
     }
@@ -624,7 +624,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             Logger.Warning(BackendText.Get("seats.sessionUserUnknown", seat.Name, windowsSession));
             return;
         }
-        Status(seat, "Reservando los dispositivos USB del puesto…");
+        Status(seat, BackendText.Get("seats.statusReservingUsb"));
         foreach (var port in ports)
             SeatDeviceAccess.Reserve(port, sid, seat.Name);
         _reservedPorts[seat.Id] = ports;
@@ -642,7 +642,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                                 .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         if (nodes.Count == 0) return;
 
-        Status(seat, "Separando el ratón y el teclado del puesto…");
+        Status(seat, BackendText.Get("seats.statusSeparatingInput"));
         foreach (var node in nodes)
         {
             if (!UsbCapture.Capture(node))
@@ -834,7 +834,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
     {
         try
         {
-            Status(seat, "Bloqueando la sesión: el puesto pedirá la contraseña…");
+            Status(seat, BackendText.Get("seats.statusLockingSession"));
             new ProcessInSession().LaunchInSession(session.RdpSessionId,
                 Path.Combine(Environment.SystemDirectory, "rundll32.exe"), "user32.dll,LockWorkStation",
                 waitForExit: true, waitTimeoutMs: 5000);
@@ -1022,7 +1022,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                 if (!_seats.ContainsKey(seat.Id) || seat.State != SeatState.Running) return;
                 Logger.Warning(BackendText.Get("seats.seatLost", seat.Name, why));
                 Stop(seat.Id);
-                seat.StatusDetail = $"Apagado: {why}. Enciéndelo de nuevo desde OpenStreamMS.";
+                seat.StatusDetail = BackendText.Get("seats.statusStoppedAfterError", why);
             }
             catch (Exception ex) { Logger.Warning(BackendText.Get("seats.stopAfterLossFailed", seat.Name, ex.Message)); }
             finally { _lost.TryRemove(seat.Id, out _); }
