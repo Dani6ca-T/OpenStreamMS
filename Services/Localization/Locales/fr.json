@@ -339,5 +339,13 @@
   "seats.rawInputShared": "« {0} » : {1} reste partagé avec la console (Raw Input).",
   "seats.usbEventsSent": "{0} événement(s) envoyé(s) à l’agent de « {1} » (dernier : type={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Impossible d’envoyer l’entrée à l’agent de « {0} » : {1}",
-  "seats.inputInterfacesCaptured": "« {0} » : {1} interface(s) d’entrée sur {2} séparée(s) de la console."
+  "seats.inputInterfacesCaptured": "« {0} » : {1} interface(s) d’entrée sur {2} séparée(s) de la console.",
+  "seats.consoleVirtualDisplayMissing": "L’écran virtuel n’est pas apparu dans la console.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Impossible de définir l’écran virtuel comme écran principal.",
+  "seats.consoleAreaApplied": "La console occupe la zone {0} de « {1} » avec son propre écran {2}x{3}. Zone masquée : {4}",
+  "seats.consoleAreaFallback": "Impossible d’attribuer sa zone à la console ({0}) ; la solution de secours reste active.",
+  "seats.consoleMonitorRestoreFailed": "Impossible de rendre le moniteur principal à la console ; il sera récupéré à la suppression de l’écran virtuel.",
+  "seats.consoleMonitorRestored": "La console retrouve son moniteur complet.",
+  "seats.sessionLocked": "« {0} » : session verrouillée ; le mot de passe de « {1} » sera demandé.",
+  "seats.sessionLockFailed": "« {0} » : impossible de verrouiller la session : {1}"
 }
