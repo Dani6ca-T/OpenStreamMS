@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Primärer Monitor konnte nicht geändert werden: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig (Deaktivierung) fehlgeschlagen: {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor vom Desktop entfernt: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Monitor konnte nicht deaktiviert werden: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Monitor konnte nicht deaktiviert werden: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Host-Steuerpipe: Prozess {0} abgewiesen, da er nicht zur Konsolensitzung gehört.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp mit der Host-Steuerpipe verbunden.",
+  "seatHostControl.controlPipeError": "[Seats] Fehler in der Host-Steuerpipe: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Befehl 'open_seat' für Arbeitsplatz {0} an TrayApp gesendet.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Befehl 'open_seat' konnte nicht an TrayApp gesendet werden: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp ist nicht verbunden; eigenständiger Presenter wird in Konsolensitzung {0} gestartet...",
+  "seatHostControl.consoleUserMissing": "[Seats] An der physischen Konsole ist kein Benutzer angemeldet.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Mit der Steuerpipe für Arbeitsplatz-Hosts verbunden.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Fehler beim Verarbeiten des Arbeitsplatzbefehls: {0}"
 }
