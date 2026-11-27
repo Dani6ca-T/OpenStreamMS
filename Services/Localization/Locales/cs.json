@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "Ovladač OsmsPad {0} → relace Windows {1} (nepatří k žádné relaci OpenStreamMS).",
   "gamepad.padAssignedCompositeMember": "Ovladač {0} relace „{1}“ ({2}) → relace „{3}“ (relace Windows {4}).",
   "gamepad.padAssignedSession": "Ovladač {0} → relace „{1}“ (relace Windows {2}).",
-  "gamepad.padRetargeted": "Ovladač {0} ({1}) byl přesunut do relace „{2}“ (relace Windows {3}) kvůli změně složené relace."
+  "gamepad.padRetargeted": "Ovladač {0} ({1}) byl přesunut do relace „{2}“ (relace Windows {3}) kvůli změně složené relace.",
+  "gamepad.futurePadsReserved": "Následující ovladače Moonlight jsou předem skryty, dokud nebude známa jejich relace ({0}).",
+  "gamepad.futurePadReservationsReleased": "Neprobíhá žádný stream: předběžná rezervace dalších ovladačů byla odebrána.",
+  "gamepad.futurePadReservationFailed": "Nepodařilo se rezervovat další ovladače v HidHide: {0}"
 }
