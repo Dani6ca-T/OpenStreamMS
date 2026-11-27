@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Per-session gamepad isolation removed from HidHide; Steam's steamxbox filter restored.",
   "uninstall.seatsRestored": "Seat keyboards/mice, console lock guard, shutdown right and single-session-per-user setting restored.",
   "uninstall.trayRemoved": "Tray icon removed from auto-start.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Executable:",
+  "install.configPath": "Config:"
 }
