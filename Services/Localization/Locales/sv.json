@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Tog bort Steam-filtret {0} från {1} handkontrollklasser medan handkontroller isoleras. Nya enheter exponeras inte längre för alla sessioner via \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Det gick inte att ta bort Steam-filtret {0}: {1}. Steam i andra sessioner (inklusive konsolen) kan fortfarande läsa isolerade handkontroller.",
   "steamXboxFilter.restored": "Återställde Steam-filtret {0} i {1} handkontrollklasser; inga isolerade handkontroller finns kvar i andra sessioner.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Det gick inte att återställa Steam-filtret {0}: {1}. Ett nytt försök görs nästa gång tjänsten startar."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Det gick inte att återställa Steam-filtret {0}: {1}. Ett nytt försök görs nästa gång tjänsten startar.",
+  "gamepad.restartReasonPreviousSession": "så att session {0} inte längre kan läsa den"
 }
