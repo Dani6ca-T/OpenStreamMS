@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "HidHide 허용 목록을 읽을 수 없습니다: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping을 비활성화했습니다(세션별 컨트롤러 격리를 우회함).",
   "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping을 비활성화할 수 없습니다: {0}",
-  "gamepad.jailPrepareFailed": "ViGEm 컨트롤러의 HidHide jail을 준비할 수 없습니다: {0}"
+  "gamepad.jailPrepareFailed": "ViGEm 컨트롤러의 HidHide jail을 준비할 수 없습니다: {0}",
+  "gamepad.stateEnabled": "활성화",
+  "gamepad.stateDisabled": "비활성화",
+  "gamepad.stateEmpty": "비어 있음",
+  "gamepad.unknownVersion": "알 수 없는 버전"
 }
