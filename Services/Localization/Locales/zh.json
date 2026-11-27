@@ -461,5 +461,15 @@
   "error.stopSeat": "更改席位配置前，请先停止该席位。",
   "error.primaryMonitor": "主显示器不能分配给席位。",
   "error.assigned": "所选资源已被分配。",
-  "composite.logMemberAssignedToSlot": "[{0}] 已将“{1}”分配到槽位 {2}（{3}x{4}）。"
+  "composite.logMemberAssignedToSlot": "[{0}] 已将“{1}”分配到槽位 {2}（{3}x{4}）。",
+  "isolatedUser.remoteLogonGrant": "[RDP] 用户“{0}”不是管理员，也不属于 Remote Desktop Users；正在授予远程桌面访问权限，以便启动会话。",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] 无法检查用户“{0}”的远程桌面访问权限：{1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] 无法读取 RDP-Tcp 权限（Security 和 DefaultSecurity 均不可读）；保持不变。",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] 无法在登录屏幕中隐藏“{0}”：{1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] 无法调整“{0}”对 Steam 注册表的访问权限：{1}",
+  "steamIsolation.prepared": "[SteamIsolation] 已为“{0}”准备 Steam：steam:// 和 {1} 个快捷方式将使用 osms-steam.exe。",
+  "steamIsolation.prepareFailed": "[SteamIsolation] 无法为“{0}”准备 Steam：{1}",
+  "service.started": "[Service] OpenStreamMS 已启动。API 可通过配置的端口访问。",
+  "service.multiRdpCheckFailed": "[Service] Multi-RDP 检查失败：{0}",
+  "service.stopped": "[Service] 已停止。"
 }
