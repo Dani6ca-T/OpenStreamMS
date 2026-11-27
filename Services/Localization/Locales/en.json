@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) failed: {1}",
   "rdp.mstscReconnectFailedFallback": "mstsc reconnect failed ({0}); retrying with FreeRDP…",
   "rdp.reconnectWrongSession": "Reconnection landed in session {0} instead of {1}.",
-  "rdp.sessionReconnected": "Session {0} reconnected in {1} ms."
+  "rdp.sessionReconnected": "Session {0} reconnected in {1} ms.",
+  "rdp.freeRdpClientDisconnected": "FreeRDP client disconnected; session {0} remains active (VDD).",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession warning: {0}",
+  "rdp.logoffFailed": "WTSLogoffSession for session {0} failed: {1}",
+  "rdp.logoffCompleted": "Session {0} logged off in {1} ms.",
+  "rdp.logoffSessionCompleted": "Session {0} logged off.",
+  "rdp.logoffWarning": "WTSLogoffSession warning (session {0}): {1}"
 }
