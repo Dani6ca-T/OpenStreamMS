@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Получен вход: тип={0} флагове={1:X} dx={2} dy={3} код={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Инжектиране на вход за 10 сек.: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 сек.: изпратени={0} зает_буфер={1} вход={2} неуспешно_инжектиране={3} последна_грешка={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Латентност на заснемането за 10 сек.: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Латентност на заснемането за 10 сек.: {0}",
+  "seat.restartAdjustingResolution": "Настройване на сесията до {0}x{1} при {2} Hz…",
+  "seat.restartRestartingSession": "Рестартиране на сесията…",
+  "seatIpc.invalidMessageLength": "Невалидна дължина на съобщението в канала: {0} байта.",
+  "seatIpc.invalidJsonObject": "JSON данните не са обект.",
+  "seatHost.frameLatencyName": "композиция→дисплей",
+  "seatHost.cursorLatencyName": "вход→дисплей"
 }
