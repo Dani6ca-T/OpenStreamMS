@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "Đã cập nhật sunshine.conf ({0}) tại: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: thông tin xác thực đã được cập nhật (người dùng={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: thông tin xác thực đã được cập nhật; đã dọn root (người dùng={0})",
-  "sunshineCfg.credentialsSet": "sunshine_state.json: đã thiết lập thông tin xác thực (người dùng={0})"
+  "sunshineCfg.credentialsSet": "sunshine_state.json: đã thiết lập thông tin xác thực (người dùng={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Không thể yêu cầu xả dữ liệu an toàn trước khi dừng: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Không thể khởi chạy sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Không thể khôi phục root sau --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "Không thể xác minh ID duy nhất: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Không thể khôi phục sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Không thể khởi động bản sao phản chiếu sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Không thể sao chép {0} vào bản sao lưu: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Không thể khôi phục {0}: {1}"
 }
