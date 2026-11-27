@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[シート] '{0}': シートを再起動できませんでした: {1}",
   "seat.waitingImageFailed": "[シート] '{0}': 待機画像を表示できませんでした: {1}",
   "seat.sessionDidNotRestart": "セッションは再起動しませんでした。",
-  "seat.sessionRestartTimeout": "セッションの再起動がタイムアウトしました。"
+  "seat.sessionRestartTimeout": "セッションの再起動がタイムアウトしました。",
+  "composite.created": "[複合セッション] 複合セッション '{0}' ({1}) を作成しました。メンバー: {2}",
+  "composite.updated": "[{0}] 複合セッションを更新しました。",
+  "composite.startingMember": "[{0}] 複合セッション用に '{1}' を起動しています…",
+  "composite.steamConfigFailed": "[{0}] 複合セッションの Steam アプリを設定できませんでした: {1}",
+  "composite.startAborted": "[{0}] 起動を中止しました（起動中にセッションが停止されました）。",
+  "composite.started": "[{0}] 複合セッションが有効です: {1}。キーボードとマウス: '{2}'（Windows セッション {3}）。",
+  "composite.deleteFileFailed": "[{0}] {1} を削除できませんでした: {2}",
+  "composite.stoppingMember": "[{0}] 複合セッションが起動した '{1}' を停止しています。",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' の解像度を元に戻せませんでした: {2}",
+  "composite.keyboardStopped": "[{0}] キーボードセッションが停止したため、複合セッションを停止します。",
+  "composite.keyboardSessionChanged": "[{0}] キーボードセッションが Windows セッション {1} に移動しました。Sunshine を再起動します。",
+  "composite.watchFailed": "[{0}] 複合セッションの監視中にエラーが発生しました: {1}",
+  "composite.waitingImageFailed": "[{0}] スロット {1} の待機画像を準備できませんでした: {2}",
+  "composite.steamActionFailed": "[{0}] Windows セッション {2} で Steam の '{1}' に失敗しました: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: {2} セッションで '{1}'。",
+  "composite.steamOpen": "開く",
+  "composite.steamClose": "閉じる"
 }
