@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "物理控制器 {0} 已分配给座位或串流会话：仅在会话 {1} 中可见。",
   "gamepad.steamFilterWarning": "{0} 的设备堆栈中包含 Steam 过滤器 {1}：其他会话（包括控制台）中的 Steam 仍能读取它。请在座位或串流启动后拔下并重新连接。",
   "gamepad.physicalPadRestarted": "{0} 已重启：会话 {1} 不再能读取它。",
-  "gamepad.physicalPadRestartFailed": "无法重启 {0}：{1}。已经打开设备的会话会继续看到它，直到关闭设备。"
+  "gamepad.physicalPadRestartFailed": "无法重启 {0}：{1}。已经打开设备的会话会继续看到它，直到关闭设备。",
+  "gamepad.padRemoved": "已移除控制器 {0}；其 HID 节点已从 HidHide 黑名单中删除。",
+  "gamepad.staleJailsRemoved": "已从 HidHide 黑名单中删除 {0} 个过期条目。",
+  "gamepad.absentPadAssigned": "物理控制器 {0}（当前未连接）已分配给会话 {1}；重新出现时将归属该会话。",
+  "gamepad.knownNodesSaveFailed": "无法保存 {0}：{1}",
+  "gamepad.knownNodesReadFailed": "无法读取 {0}：{1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "无法更新 HidHide 黑名单：{0}"
 }
