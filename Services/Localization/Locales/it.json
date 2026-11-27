@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Impossibile inoltrare tastiera e mouse a '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Impossibile scrivere {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Impossibile eliminare {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Il precedente tentativo con mstsc non è riuscito: {1}"
+  "rdp.mstscFailureContext": "{0} Il precedente tentativo con mstsc non è riuscito: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Impossibile leggere i percorsi del profilo della sessione.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Sandbox del profilo indipendente: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] AppData isolato: locale={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "[StreamProfile] Nessun processo Explorer da riavviare nella sessione {0}.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer riavviato nella sessione {0} con il profilo di streaming.",
+  "streamProfile.logoffRetry": "[StreamProfile] La sessione {0} non si è disconnessa entro 30 s; vengono terminati i processi di '{1}' e si riprova il logoff.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Sessione {0} disconnessa dopo aver terminato {1} processi dell'utente.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] La sessione {0} è ancora attiva dopo il logoff.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Impossibile risolvere il SID di '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses non riuscito ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Impossibile aprire '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Impossibile terminare '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) terminato nella sessione {2}."
 }
