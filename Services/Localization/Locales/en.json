@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Session configuration updated.",
   "session.logRestartAfterConfigFailed": "Could not restart session after configuration update: {0}",
   "session.alreadyInState": "Session is already in state {0}.",
-  "error.request": "The request could not be completed."
+  "error.request": "The request could not be completed.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Deferred sunshine_state.json mirror completed after pairing change.",
+  "session.logPairingStateMirrorFailed": "[{0}] Deferred mirror of sunshine_state.json failed after pairing change: {1}",
+  "session.logAutoStartingEnabled": "Auto-starting {0} enabled session(s)...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Windows session detected ({1}); starting local session.",
+  "session.logConsoleSessionStartFailed": "[{0}] Could not start after Windows logon: {1}",
+  "session.logMonitorFailed": "[{0}] Monitoring error: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Loaded {0} session(s) from disk.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Warning while closing Windows session {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Startup abandoned before it began (another command arrived).",
+  "session.logCreatingRdpSession": "[{0}] Starting RDP session for user \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine failed to start: {1}",
+  "session.logAutoStartFailed": "[{0}] Automatic start failed: {1}"
 }
