@@ -447,5 +447,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] Налаштовано дозволи екземпляра для «{0}» (запис лише в config): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Не вдалося налаштувати дозволи для «{0}» у {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Брандмауер ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Оновлення екземпляра Sunshine: {1} → {2} (config/, сполучення, облікові дані та налаштування зберігаються)."
+  "session.logSunshineInstanceUpdating": "[{0}] Оновлення екземпляра Sunshine: {1} → {2} (config/, сполучення, облікові дані та налаштування зберігаються).",
+  "session.logHudEnsureFailed": "[HUD] Не вдалося ініціалізувати HUD: {0}"
 }
