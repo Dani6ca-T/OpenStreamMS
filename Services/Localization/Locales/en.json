@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Could not ensure TermService is running: {0}. If Remote Desktop is off, loopback connection will fail; enable it in System → Remote Desktop or restart Windows.",
   "rdp.registryKeyOpenFailed": "Could not open HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Could not write {0} in HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Could not write {0} in HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP wrote no output.",
+  "rdp.freeRdpOutputPrefix": "FreeRDP output: "
 }
