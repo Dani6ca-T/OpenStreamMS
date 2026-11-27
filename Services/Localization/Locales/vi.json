@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Danh mục đó không có trong danh sách.",
   "ext.catalogEntryMissing": "Danh mục không còn liệt kê {0}.",
   "ext.invalidPackage": "Gói không phải là tiện ích mở rộng hợp lệ: {0}",
-  "ext.noManifest": "Gói không có {0}."
+  "ext.noManifest": "Gói không có {0}.",
+  "cli.error.missingSeatAgentPipe": "LỖI: Thiếu tên pipe cho --seat-agent.",
+  "cli.error.missingSeatHostPipe": "LỖI: Thiếu tên pipe cho --seat-host.",
+  "cli.error.unknownCommand": "Lệnh không xác định: '{0}'",
+  "cli.error.helpHint": "Dùng --help để xem các lệnh hiện có.",
+  "cli.error.adminRequired": "LỖI: Thao tác này yêu cầu quyền quản trị viên.",
+  "cli.error.adminHint": "Chạy tệp .exe bằng tùy chọn 'Run as administrator'."
 }
