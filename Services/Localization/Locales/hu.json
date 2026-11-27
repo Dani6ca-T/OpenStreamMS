@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Érvénytelen csatornaüzenet-hossz: {0} bájt.",
   "seatIpc.invalidJsonObject": "A JSON-adat nem objektum.",
   "seatHost.frameLatencyName": "kompozíció→képernyő",
-  "seatHost.cursorLatencyName": "bemenet→képernyő"
+  "seatHost.cursorLatencyName": "bemenet→képernyő",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "[AudioRelay] Hang küldése a(z) {0} Windows-munkamenetből: {1}",
+  "audioRelay.playing": "[AudioRelay] Lejátszás ezen: „{0}”: {1}",
+  "audioRelay.invalidHeader": "Érvénytelen hangátviteli fejléc.",
+  "audioRelay.noOutputDevice": "A billentyűzet munkamenetében nincs hangkimeneti eszköz.",
+  "audioRelay.invalidBlock": "Érvénytelen hangblokk.",
+  "inputRelay.started": "[InputRelay] A kombinált munkamenet billentyűzet- és egértovábbítása a(z) {0} Windows-munkamenethez ({1}).",
+  "inputRelay.createFailed": "[InputRelay] Nem sikerült létrehozni: {0}: {1}",
+  "inputRelay.invalidHeader": "Érvénytelen bemeneti fejléc.",
+  "inputRelay.invalidBatch": "Érvénytelen bemeneti köteg.",
+  "osmsPad.openFailed": "[OsmsPad] Nem sikerült megnyitni az illesztőprogramot: {0}. hiba",
+  "vigem.openFailed": "[PadCapture] Nem sikerült megnyitni a ViGEmBus szolgáltatást: {0}"
 }
