@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Места] «{0}»: не удалось снова запустить место: {1}",
   "seat.waitingImageFailed": "[Места] «{0}»: не удалось показать изображение ожидания: {1}",
   "seat.sessionDidNotRestart": "Сеанс не запустился повторно.",
-  "seat.sessionRestartTimeout": "Истекло время ожидания перезапуска сеанса."
+  "seat.sessionRestartTimeout": "Истекло время ожидания перезапуска сеанса.",
+  "composite.created": "[Составные сеансы] Создан составной сеанс «{0}» ({1}), участники: {2}",
+  "composite.updated": "[{0}] Составной сеанс изменён.",
+  "composite.startingMember": "[{0}] Запуск «{1}» для составного сеанса…",
+  "composite.steamConfigFailed": "[{0}] Не удалось настроить приложение Steam для составного сеанса: {1}",
+  "composite.startAborted": "[{0}] Запуск отменён (сеанс остановлен во время запуска).",
+  "composite.started": "[{0}] Составной сеанс активен: {1}; клавиатура и мышь от «{2}» (сеанс Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Не удалось удалить {1}: {2}",
+  "composite.stoppingMember": "[{0}] Остановка «{1}», запущенного составным сеансом.",
+  "composite.restoreResolutionFailed": "[{0}] Не удалось восстановить разрешение «{1}»: {2}",
+  "composite.keyboardStopped": "[{0}] Сеанс клавиатуры остановлен; останавливается составной сеанс.",
+  "composite.keyboardSessionChanged": "[{0}] Сеанс клавиатуры перешёл в сеанс Windows {1}; Sunshine будет перезапущен.",
+  "composite.watchFailed": "[{0}] Ошибка наблюдения за составным сеансом: {1}",
+  "composite.waitingImageFailed": "[{0}] Не удалось подготовить изображение ожидания для слота {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Не удалось выполнить действие Steam «{1}» в сеансе Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: «{1}» в сеансах ({2}).",
+  "composite.steamOpen": "открытие",
+  "composite.steamClose": "закрытие"
 }
