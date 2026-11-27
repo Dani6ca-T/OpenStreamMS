@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide není nainstalován: ovladače budou viditelné ve všech relacích.",
   "gamepad.hidHideEnabled": "HidHide aktivován.",
   "gamepad.hidHideConfigureFailed": "HidHide se nepodařilo nakonfigurovat: {0}",
-  "gamepad.monitorFailed": "Chyba při sledování ovladačů: {0}"
+  "gamepad.monitorFailed": "Chyba při sledování ovladačů: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} je k dispozici: ovladače jsou izolovány podle relací.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} nepodporuje izolaci podle relací (je vyžadována verze {1} nebo novější): ovladače budou viditelné ve všech relacích. Aktualizujte HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: reverzní režim {0}; seznam povolených aplikací ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Aplikace v seznamu povolených HidHide vidí ovladače ze všech relací, i když jsou přiřazeny k jiné.",
+  "gamepad.hidHideWhitelistReadFailed": "Nepodařilo se přečíst seznam povolených aplikací HidHide: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping byl deaktivován (obchází izolaci ovladačů podle relací).",
+  "gamepad.controllerToVkDisableFailed": "Nepodařilo se deaktivovat ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Nepodařilo se připravit jail HidHide pro ovladač ViGEm: {0}"
 }
