@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Nem található virtuális RDP-adapter a Control\\\\Video alatt — a VRefresh nem változott. A munkamenet az illesztőprogram alapértelmezett frissítési frekvenciáját használja.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} alkalmazva {1} virtuális adapteren.",
   "rdp.refreshRegistryFailed": "Hiba a VRefresh beállításakor a rendszerleíró adatbázisban: {0}",
-  "rdp.sessionTempResolveFailed": "Nem sikerült feloldani a TEMP értéket a(z) {0}. munkamenethez: {1}"
+  "rdp.sessionTempResolveFailed": "Nem sikerült feloldani a TEMP értéket a(z) {0}. munkamenethez: {1}",
+  "rdp.displayFrequencyChangeFailed": "Nem sikerült módosítani a kijelző frissítési frekvenciáját a(z) {0}. munkamenetben: {1}",
+  "rdp.displayFrequencyChangeLaunched": "ChangeDisplaySettings({0}Hz) elindítva a(z) {1}. munkamenetben (ellenőrzés nélkül).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings a(z) {0}. munkamenetben: hiányzik az eredményfájl — a szkript nem fejeződött be.",
+  "rdp.displayFrequencyVerified": "A ChangeDisplaySettings sikeres — kijelző {0}Hz a(z) {1}. munkamenetben.",
+  "rdp.displayFrequencyMismatch": "A ChangeDisplaySettings sikert jelzett, de a kijelző {0}Hz-et mutat ({1}Hz kérve) a(z) {2}. munkamenetben.",
+  "rdp.displayFrequencyFailed": "A ChangeDisplaySettings sikertelen a(z) {0}. munkamenetben: {1} (kijelző {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Nem sikerült beolvasni a ChangeDisplaySettings eredményét: {0}"
 }
