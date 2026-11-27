@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Sitzung wird gesperrt: Sitzplatz fordert das Kennwort an…",
   "seats.statusActive": "Aktiv: Bild, Audio und Peripheriegeräte verbunden.",
   "seats.statusDisconnectedFromSeat": "Vom Sitzplatz getrennt. Starten Sie ihn erneut über OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Ausgeschaltet: {0}. Starten Sie ihn erneut über OpenStreamMS."
+  "seats.statusStoppedAfterError": "Ausgeschaltet: {0}. Starten Sie ihn erneut über OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Dieser Sitzplatz verwendet denselben Benutzer wie die Konsole und kann nicht eigenständig starten. Starten Sie ihn über OpenStreamMS oder weisen Sie ihm eine andere Sitzung zu.",
+  "seats.monitorAlreadyAssigned": "Der Monitor ist bereits Sitzplatz „{0}“ zugewiesen.",
+  "seats.monitorAreaOverlap": "Dieser Monitorbereich überschneidet sich mit dem Bereich von Sitzplatz „{0}“.",
+  "seats.notFound": "Sitzplatz {0} ist nicht vorhanden."
 }
