@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Der primäre Monitor konnte nicht an die Konsole zurückgegeben werden; er wird beim Entfernen des virtuellen Bildschirms wiederhergestellt.",
   "seats.consoleMonitorRestored": "Die Konsole hat wieder ihren vollständigen Monitor.",
   "seats.sessionLocked": "„{0}“: Sitzung gesperrt; das Kennwort von „{1}“ wird angefordert.",
-  "seats.sessionLockFailed": "„{0}“: Sitzung konnte nicht gesperrt werden: {1}"
+  "seats.sessionLockFailed": "„{0}“: Sitzung konnte nicht gesperrt werden: {1}",
+  "seats.sessionDisconnectedFromSeat": "„{0}“: Sitzung wurde vom Sitzplatz getrennt; wird ausgeschaltet, bis sie über OpenStreamMS wieder gestartet wird.",
+  "seats.stopAfterDisconnectFailed": "„{0}“: Ausschalten nach Trennung fehlgeschlagen: {1}",
+  "seats.windowsSessionChanged": "„{0}“: Windows-Sitzung wechselt von {1} zu {2}; Controller werden neu zugewiesen.",
+  "seats.monitorModeChanged": "„{0}“: Monitormodus geändert; Sitzung wird neu angepasst.",
+  "seats.readjustFailed": "Sitzplatz konnte nicht neu angepasst werden: {0}",
+  "seats.agentDisconnected": "„{0}“: Sitzungsagent getrennt.",
+  "seats.presenterDisconnected": "„{0}“: Konsolen-Presenter getrennt.",
+  "seats.consoleAreaLost": "Der Konsolenbereich hat das Bild verloren ({0}); die Konsole stellt ihren Monitor wieder her.",
+  "seats.seatLost": "Sitzplatz „{0}“ wird ausgeschaltet: {1}.",
+  "seats.stopAfterLossFailed": "„{0}“: Ausschalten nach Verbindungsabbruch fehlgeschlagen: {1}",
+  "seats.sessionStartFailed": "Sitzung konnte nicht gestartet werden.",
+  "seats.sessionStartTimeout": "Sitzung wurde nicht rechtzeitig aktiv."
 }
