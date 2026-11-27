@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Platser] '{0}': platsen kunde inte startas igen: {1}",
   "seat.waitingImageFailed": "[Platser] '{0}': väntbilden kunde inte visas: {1}",
   "seat.sessionDidNotRestart": "Sessionen startades inte igen.",
-  "seat.sessionRestartTimeout": "Tidsgränsen för omstart av sessionen överskreds."
+  "seat.sessionRestartTimeout": "Tidsgränsen för omstart av sessionen överskreds.",
+  "composite.created": "[Sammansatta sessioner] Skapade sammansatt session '{0}' ({1}) med: {2}",
+  "composite.updated": "[{0}] Sammansatt session ändrad.",
+  "composite.startingMember": "[{0}] Startar '{1}' för den sammansatta sessionen…",
+  "composite.steamConfigFailed": "[{0}] Kunde inte konfigurera Steam-appen för den sammansatta sessionen: {1}",
+  "composite.startAborted": "[{0}] Start avbruten (sessionen stoppades under starten).",
+  "composite.started": "[{0}] Sammansatt session aktiv: {1}; tangentbord och mus från '{2}' (Windows-session {3}).",
+  "composite.deleteFileFailed": "[{0}] Kunde inte ta bort {1}: {2}",
+  "composite.stoppingMember": "[{0}] Stoppar '{1}', som startades av den sammansatta sessionen.",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' kunde inte återställa sin upplösning: {2}",
+  "composite.keyboardStopped": "[{0}] Tangentbordssessionen stoppades; den sammansatta sessionen stoppas också.",
+  "composite.keyboardSessionChanged": "[{0}] Tangentbordssessionen flyttades till Windows-session {1}; startar om Sunshine.",
+  "composite.watchFailed": "[{0}] Fel vid övervakning av den sammansatta sessionen: {1}",
+  "composite.waitingImageFailed": "[{0}] Kunde inte förbereda väntbilden för plats {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Steam-åtgärden '{1}' misslyckades i Windows-session {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' i {2} session(er).",
+  "composite.steamOpen": "öppna",
+  "composite.steamClose": "stänga"
 }
