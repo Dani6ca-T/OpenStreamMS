@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "Tay cầm OsmsPad {0} → phiên Windows {1} (không thuộc phiên OpenStreamMS nào).",
   "gamepad.padAssignedCompositeMember": "Tay cầm {0} từ '{1}' ({2}) → phiên '{3}' (phiên Windows {4}).",
   "gamepad.padAssignedSession": "Tay cầm {0} → phiên '{1}' (phiên Windows {2}).",
-  "gamepad.padRetargeted": "Tay cầm {0} ({1}) được chuyển sang phiên '{2}' (phiên Windows {3}) do phiên tổng hợp thay đổi."
+  "gamepad.padRetargeted": "Tay cầm {0} ({1}) được chuyển sang phiên '{2}' (phiên Windows {3}) do phiên tổng hợp thay đổi.",
+  "gamepad.futurePadsReserved": "Các tay cầm Moonlight sắp tới được ẩn trước cho đến khi xác định được phiên ({0}).",
+  "gamepad.futurePadReservationsReleased": "Không có luồng nào đang chạy: đã giải phóng đặt trước các tay cầm tiếp theo.",
+  "gamepad.futurePadReservationFailed": "Không thể đặt trước các tay cầm tiếp theo trong HidHide: {0}"
 }
