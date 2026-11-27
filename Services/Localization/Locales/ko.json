@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "HKLM\\\\{1}에 {0}을(를) 쓸 수 없습니다: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP가 아무것도 출력하지 않았습니다.",
-  "rdp.freeRdpOutputPrefix": "FreeRDP 출력: "
+  "rdp.freeRdpOutputPrefix": "FreeRDP 출력: ",
+  "seats.usbArrivalWatchUnavailable": "USB 장치 도착을 감시할 수 없습니다. 캡처된 키보드 또는 마우스는 다음 시작 시 복원됩니다.",
+  "seats.usbDriversRestoreFailed": "USB 드라이버를 복원할 수 없습니다: {0}",
+  "seats.reservedDevicesReleaseFailed": "예약된 장치를 해제할 수 없습니다: {0}",
+  "seats.managerStarted": "좌석 관리자가 시작되었습니다({0}개 좌석).",
+  "seats.multiRdpCheckTimeout": "multi-RDP 확인이 120초 내에 완료되지 않았습니다. 좌석은 계속 자동 시작됩니다.",
+  "seats.autoStartSameConsoleUser": "'{0}'은(는) 자동 시작되지 않습니다. 콘솔과 동일한 사용자를 사용합니다.",
+  "seats.autoStartFailed": "'{0}' 자동 시작 실패: {1}"
 }
