@@ -339,5 +339,13 @@
   "seats.rawInputShared": "'{0}': {1} remains shared with the console (Raw Input).",
   "seats.usbEventsSent": "{0} event(s) sent to the agent for '{1}' (last: type={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Could not send input to the agent for '{0}': {1}",
-  "seats.inputInterfacesCaptured": "'{0}': {1} of {2} input interface(s) separated from the console."
+  "seats.inputInterfacesCaptured": "'{0}': {1} of {2} input interface(s) separated from the console.",
+  "seats.consoleVirtualDisplayMissing": "Virtual display did not appear in the console.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Could not make the virtual display primary.",
+  "seats.consoleAreaApplied": "Console occupies area {0} of '{1}' with its own {2}x{3} display. Covered area: {4}",
+  "seats.consoleAreaFallback": "Could not give the console its area ({0}); fallback remains in place.",
+  "seats.consoleMonitorRestoreFailed": "Could not return the primary monitor to the console; it will be restored when the virtual display is removed.",
+  "seats.consoleMonitorRestored": "Console has its full monitor again.",
+  "seats.sessionLocked": "'{0}': session locked; password for '{1}' will be required.",
+  "seats.sessionLockFailed": "'{0}': could not lock the session: {1}"
 }
