@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "Неуспешно актуализиране на черния списък на HidHide: {0}",
   "gamepad.usbPortCycled": "{0}: друг процес го използваше и Windows отложи рестартирането; USB портът беше изключен и свързан отново ({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows отложи рестартирането (друг процес използва устройството) и USB портът не можа да бъде рестартиран ({1}). Процесът, който вече го е отворил, продължава да го вижда, докато не го затвори.",
-  "gamepad.clearJailsFailed": "Неуспешно премахване на записите за сесии от HidHide: {0}"
+  "gamepad.clearJailsFailed": "Неуспешно премахване на записите за сесии от HidHide: {0}",
+  "rdp.remoteIddProviderMissing": "Заснемане RemoteIdd без доставчик в RDP-Tcp: инсталирайте го с Native/RemoteIdd/Provider/install.ps1.",
+  "rdp.consoleSessionConflict": "Предупреждение: „{0}“ вече има конзолна сесия (SessionId={1}). Изолирането на аудиото може да е частично.",
+  "rdp.sessionExists": "Съществуваща сесия за „{0}“: {1}",
+  "rdp.createViaMstsc": "Няма сесия за „{0}“, създаване чрез mstsc (хардуерен AVC444)…",
+  "rdp.mstscFailedFallback": "mstsc не успя ({0}); повторен опит с FreeRDP…",
+  "rdp.createViaFreeRdp": "Няма сесия за „{0}“, създаване чрез FreeRDP…",
+  "rdp.microphoneForcesFreeRdp": "При зададен микрофон се използва FreeRDP (mstsc не позволява избор на микрофон).",
+  "rdp.reconnecting": "Повторно свързване на сесия {0} към {1}x{2} при {3} fps…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) не успя: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc не успя при повторно свързване ({0}); повторен опит с FreeRDP…",
+  "rdp.reconnectWrongSession": "Повторното свързване отвори сесия {0} вместо {1}.",
+  "rdp.sessionReconnected": "Сесия {0} е свързана отново за {1} ms."
 }
