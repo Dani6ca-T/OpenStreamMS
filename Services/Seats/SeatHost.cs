@@ -330,8 +330,8 @@ internal sealed class ActiveSeatHost
                 int lastSeq = 0, lastCursor = 0;
                 bool haveFrame = false;
                 int copied = 0, busy = 0, presented = 0;
-                var frameLatency = new SeatLatency("composición→pantalla");
-                var cursorLatency = new SeatLatency("lectura→pantalla");
+                var frameLatency = new SeatLatency(BackendText.Get("seatHost.frameLatencyName"));
+                var cursorLatency = new SeatLatency(BackendText.Get("seatHost.cursorLatencyName"));
                 long nextStats = Environment.TickCount64 + 10_000, nextLocate = Environment.TickCount64 + 2_000;
                 long nextRaise = 0, nextSweep = 0;
                 var placed = (monX, monY, monW, monH);
