@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "Phát hiện phiên ở lần thử {0} ({1}): {2} (PID FreeRDP={3})",
   "rdp.sessionModeRelaxed": "chế độ mở rộng",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "Đang chờ phiên… lần thử {0}/20"
+  "rdp.waitingSession": "Đang chờ phiên… lần thử {0}/20",
+  "rdp.frameRateConfigured": "Tốc độ khung hình={0} fps | khoảng={1} ms (kết hợp {2} Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, tỷ lệ {3}%.",
+  "rdp.betterRdpPoliciesApplied": "Đã áp dụng chính sách BetterRDP.",
+  "rdp.mstscClientPoliciesApplied": "Đã áp dụng chính sách máy khách mstsc (không có hộp thoại trước khi kết nối).",
+  "rdp.mstscClientPoliciesFailed": "Không thể áp dụng chính sách HKCU của mstsc: {0}"
 }
