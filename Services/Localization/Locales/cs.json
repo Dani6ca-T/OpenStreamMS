@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Přijat vstup: typ={0} příznaky={1:X} dx={2} dy={3} kód={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Injekce vstupu za 10 s: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: odesláno={0} kruh_zaneprázdněn={1} vstup={2} selhání_injekce={3} poslední_chyba={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Latence snímání za 10 s: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latence snímání za 10 s: {0}",
+  "seat.restartAdjustingResolution": "Přizpůsobování relace na {0}x{1} při {2} Hz…",
+  "seat.restartRestartingSession": "Restartování relace…",
+  "seatIpc.invalidMessageLength": "Neplatná délka zprávy v potrubí: {0} bajtů.",
+  "seatIpc.invalidJsonObject": "Data JSON nejsou objekt.",
+  "seatHost.frameLatencyName": "kompozice→displej",
+  "seatHost.cursorLatencyName": "vstup→displej"
 }
