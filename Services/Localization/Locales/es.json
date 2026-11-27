@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "No se pudo devolver el monitor principal a la consola; se recuperará al quitar la pantalla virtual.",
   "seats.consoleMonitorRestored": "La consola vuelve a tener su monitor entero.",
   "seats.sessionLocked": "'{0}': sesión bloqueada; pedirá la contraseña de '{1}'.",
-  "seats.sessionLockFailed": "'{0}': no se pudo bloquear la sesión: {1}"
+  "seats.sessionLockFailed": "'{0}': no se pudo bloquear la sesión: {1}",
+  "seats.sessionDisconnectedFromSeat": "'{0}': su sesión se desconectó desde el puesto; se apaga hasta que se encienda de nuevo desde OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "'{0}': no se pudo apagar tras la desconexión: {1}",
+  "seats.windowsSessionChanged": "'{0}': la sesión de Windows pasa de {1} a {2}; se reasignan sus mandos.",
+  "seats.monitorModeChanged": "'{0}': el monitor cambió de modo; se reajusta la sesión.",
+  "seats.readjustFailed": "No se pudo reajustar el puesto: {0}",
+  "seats.agentDisconnected": "'{0}': el agente de sesión se desconectó.",
+  "seats.presenterDisconnected": "'{0}': el presentador de la consola se desconectó.",
+  "seats.consoleAreaLost": "La mitad de la consola se quedó sin imagen ({0}); la consola recupera su monitor.",
+  "seats.seatLost": "El puesto '{0}' se apaga: {1}.",
+  "seats.stopAfterLossFailed": "'{0}': no se pudo apagar tras el corte: {1}",
+  "seats.sessionStartFailed": "La sesión falló al arrancar.",
+  "seats.sessionStartTimeout": "La sesión no llegó a estar activa a tiempo."
 }
