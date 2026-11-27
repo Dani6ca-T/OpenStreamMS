@@ -273,5 +273,11 @@
   "rdp.startMstsc": "mstsc wird gestartet ({0}x{1}, {2} fps, {3} bpp, Skalierung {4} %, AVC444-Hardware)…",
   "rdp.mstscExecutableMissing": "mstsc.exe konnte nicht gestartet werden",
   "rdp.mstscExitedNoSession": "mstsc wurde mit ExitCode={0} beendet, ohne eine Sitzung für „{1}“ zu erstellen. Möglich sind ein unsichtbarer Dialog (Zertifikat/Anmeldedaten) oder eine NLA-Ablehnung.",
-  "rdp.mstscSessionTimeout": "Sitzung für „{0}“ erschien mit mstsc nach 30 s nicht. Möglicherweise ist ein Dialog in Session 0 unsichtbar."
+  "rdp.mstscSessionTimeout": "Sitzung für „{0}“ erschien mit mstsc nach 30 s nicht. Möglicherweise ist ein Dialog in Session 0 unsichtbar.",
+  "rdp.cmdkeyFailed": "cmdkey {0} fehlgeschlagen: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP wurde vorzeitig beendet. ExitCode={0}",
+  "rdp.sessionDetected": "Sitzung bei Versuch {0} erkannt ({1}): {2} (FreeRDP-PID={3})",
+  "rdp.sessionModeRelaxed": "erweiterter Modus",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Warten auf Sitzung… Versuch {0}/20"
 }
