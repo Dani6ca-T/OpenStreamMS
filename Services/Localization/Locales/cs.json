@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Akce Steam „{1}“ v relaci Windows {2} selhala: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: akce „{1}“ provedena v {2} relacích.",
   "composite.steamOpen": "otevření",
-  "composite.steamClose": "zavření"
+  "composite.steamClose": "zavření",
+  "gamepad.hidHideNotOpen": "HidHide není otevřen izolací; ovladač ViGEm bude izolován, jakmile se objeví.",
+  "gamepad.deviceArrivalWatchUnavailable": "Nelze sledovat příchod zařízení; kontrola bude probíhat každou sekundu.",
+  "gamepad.hidHideNotInstalled": "HidHide není nainstalován: ovladače budou viditelné ve všech relacích.",
+  "gamepad.hidHideEnabled": "HidHide aktivován.",
+  "gamepad.hidHideConfigureFailed": "HidHide se nepodařilo nakonfigurovat: {0}",
+  "gamepad.monitorFailed": "Chyba při sledování ovladačů: {0}"
 }
