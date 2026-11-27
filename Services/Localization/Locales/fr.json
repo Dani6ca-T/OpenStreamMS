@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Filtre Steam {0} retiré de {1} classe(s) de manettes pendant l’isolation. Les nouveaux périphériques ne sont plus exposés à toutes les sessions via \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Impossible de retirer le filtre Steam {0} : {1}. Steam dans les autres sessions (y compris la console) peut encore lire les manettes isolées.",
   "steamXboxFilter.restored": "[Gamepad] Filtre Steam {0} restauré dans {1} classe(s) de manettes ; il ne reste plus de manettes isolées dans les autres sessions.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Impossible de restaurer le filtre Steam {0} : {1}. Une nouvelle tentative aura lieu au prochain démarrage du service."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Impossible de restaurer le filtre Steam {0} : {1}. Une nouvelle tentative aura lieu au prochain démarrage du service.",
+  "gamepad.restartReasonPreviousSession": "pour que la session {0} ne puisse plus le lire"
 }
