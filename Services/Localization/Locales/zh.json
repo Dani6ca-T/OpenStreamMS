@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] 另一条命令到达，启动尚未开始便已取消。",
   "session.logCreatingRdpSession": "[{0}] 正在为用户“{1}”启动 RDP 会话...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine 启动失败：{1}",
-  "session.logAutoStartFailed": "[{0}] 自动启动失败：{1}"
+  "session.logAutoStartFailed": "[{0}] 自动启动失败：{1}",
+  "session.logStartAbortedDuringRdp": "[{0}] RDP 创建期间会话被停止，启动已取消。",
+  "session.logRdpSessionReused": "[{0}] 已复用现有 RDP 会话；未启动新的 RDP 客户端。",
+  "session.logStartAbortedDuringSunshine": "[{0}] Sunshine 启动期间会话被停止，启动已取消。",
+  "session.logSessionActiveRdp": "[{0}] 会话已运行（RDP={1}）。",
+  "session.logStartAbortedAfterLaunch": "[{0}] 启动完成后会话被停止，启动已取消。",
+  "session.logWaitingForConsoleUser": "[{0}] 有人登录 Windows 后将自动启动。",
+  "session.logLocalSessionActive": "[{0}] 本地会话已运行（Windows 会话 {1}）。",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine 凭据已重置；Sunshine 已停止并将自动重新启动。",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine 模板已更改；正在更新实例：{1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] 无法更新 Sunshine 实例：{1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] 无法添加防火墙规则：{0}"
 }
