@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "Manette OsmsPad {0} → session Windows {1} (n’appartient à aucune session OpenStreamMS).",
   "gamepad.padAssignedCompositeMember": "Manette {0} de « {1} » ({2}) → session « {3} » (session Windows {4}).",
   "gamepad.padAssignedSession": "Manette {0} → session « {1} » (session Windows {2}).",
-  "gamepad.padRetargeted": "La manette {0} ({1}) passe à la session « {2} » (session Windows {3}) à la suite d’un changement de session composite."
+  "gamepad.padRetargeted": "La manette {0} ({1}) passe à la session « {2} » (session Windows {3}) à la suite d’un changement de session composite.",
+  "gamepad.futurePadsReserved": "Les prochaines manettes Moonlight sont masquées à l’avance jusqu’à ce que leur session soit connue ({0}).",
+  "gamepad.futurePadReservationsReleased": "Aucun stream actif : les réservations des prochaines manettes ont été libérées.",
+  "gamepad.futurePadReservationFailed": "Impossible de réserver les prochaines manettes dans HidHide : {0}"
 }
