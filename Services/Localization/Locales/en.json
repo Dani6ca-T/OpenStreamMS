@@ -581,6 +581,7 @@
   "seatHost.monitorResolutionChanged": "[SeatHost] Monitor is now {0}x{1}; requesting session adjustment.",
   "seatHost.presenterCovered": "[SeatHost] Presenter covered by another window (pid {0}); bringing it back to front (attempt {1}).",
   "seatHost.consoleWindowsMoved": "[SeatHost] Moved {0} console window(s) from the physical monitor to its display.",
-  "seatHost.consoleWindowMoveFailed": "[SeatHost] Cannot move a window from {0} to the console display.",
-  "seatHost.cursorShaderInitFailed": "[SeatHost] Could not initialize cursor shaders: {0}"
+  "seatHost.consoleWindowMoveFailed": "[SeatHost] Cannot move a window from {0} to the console display (the application may be elevated). Close and reopen it to move it to the correct display.",
+  "seatHost.cursorShaderInitFailed": "[SeatHost] Could not initialize cursor shaders: {0}",
+  "seatHost.createWindowFailed": "CreateWindowEx failed."
 }
