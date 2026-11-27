@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Controller-Reservierungen konnten nicht aufgehoben werden: {0}",
   "gamepad.padClaimed": "Controller {0} → „{1}“ (Windows-Sitzung {2}): Controller wurde von diesem Dienst übernommen.",
   "gamepad.padOwnerUnknown": "Die Sitzung, die Controller {0} erstellt hat, konnte nicht ermittelt werden; er bleibt in allen Sitzungen sichtbar.",
-  "gamepad.osmsPadOutsideSession": "OsmsPad-Controller {0} → Windows-Sitzung {1} (gehört zu keiner OpenStreamMS-Sitzung)."
+  "gamepad.osmsPadOutsideSession": "OsmsPad-Controller {0} → Windows-Sitzung {1} (gehört zu keiner OpenStreamMS-Sitzung).",
+  "gamepad.padAssignedCompositeMember": "Controller {0} aus „{1}“ ({2}) → Sitzung „{3}“ (Windows-Sitzung {4}).",
+  "gamepad.padAssignedSession": "Controller {0} → Sitzung „{1}“ (Windows-Sitzung {2}).",
+  "gamepad.padRetargeted": "Controller {0} ({1}) wurde aufgrund einer Änderung der zusammengesetzten Sitzung zu Sitzung „{2}“ (Windows-Sitzung {3}) verschoben."
 }
