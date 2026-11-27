@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "无法将 {0} 写入 HKLM\\\\{1}：{2}",
   "rdp.freeRdpNoOutput": "FreeRDP 未输出任何内容。",
-  "rdp.freeRdpOutputPrefix": "FreeRDP 输出："
+  "rdp.freeRdpOutputPrefix": "FreeRDP 输出：",
+  "seats.usbArrivalWatchUnavailable": "无法监视 USB 设备接入：被捕获的键盘或鼠标将在下次启动时恢复。",
+  "seats.usbDriversRestoreFailed": "无法恢复 USB 驱动程序：{0}",
+  "seats.reservedDevicesReleaseFailed": "无法释放已预留的设备：{0}",
+  "seats.managerStarted": "座位管理器已启动（{0} 个座位）。",
+  "seats.multiRdpCheckTimeout": "multi-RDP 检查在 120 秒内未完成；座位仍将自动启动。",
+  "seats.autoStartSameConsoleUser": "“{0}”不会自动启动：它使用与控制台相同的用户。",
+  "seats.autoStartFailed": "“{0}”自动启动失败：{1}"
 }
