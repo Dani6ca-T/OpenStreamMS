@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') konfigurálva nem blokkoló visszavonással: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Az összetett munkamenetek Big Picture módja minden munkamenetben megnyílik és bezárul: {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Bővítményalkalmazások frissítve ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot és Power Off alkalmazások konfigurálva: {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot és Power Off alkalmazások konfigurálva: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json frissítve az elkülönített profilkörnyezettel: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json frissítve az elkülönített profilkörnyezet nélkül: {0}",
+  "sunshineCfg.invalidStreamPort": "A StreamPort értékének 0-nál nagyobbnak kell lennie.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver visszaállítva osmspad értékről vigembus értékre: az OsmsPad Xbox Series vezérlők elveszítik az XInputot a stream-munkamenetekben.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] capture = remoteidd eltávolítva: a RemoteIdd nem aktív az RDP-Tcp-ben, ezért a Sunshine az alapértelmezett rögzítést használja.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] OpenStreamMS alapértelmezések alkalmazva: {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] a sunshine.conf már naprakész volt: {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] sunshine.conf frissítve ({0}) itt: {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf frissítve ({0}) itt: {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: a hitelesítő adatok már naprakészek (felhasználó={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: a hitelesítő adatok már naprakészek; root megtisztítva (felhasználó={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: hitelesítő adatok beállítva (felhasználó={0})"
 }
