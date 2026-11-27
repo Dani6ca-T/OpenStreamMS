@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile пропущен: нативная изоляция уже предоставляет отдельный профиль.",
   "session.logStreamProfileConfiguring": "[{0}] Настройка отдельного профиля потоковой передачи...",
   "session.logStartFailed": "[{0}] Ошибка запуска: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Выбранный протокол включает WebRTC, но установленная сборка Sunshine его не поддерживает (нужна sunshine-webrtc); будет работать только Moonlight."
+  "session.logWebRtcUnsupported": "[{0}] Выбранный протокол включает WebRTC, но установленная сборка Sunshine его не поддерживает (нужна sunshine-webrtc); будет работать только Moonlight.",
+  "session.logSaveFailed": "[SessionService] Не удалось сохранить сеансы: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Резервная копия повреждённого файла сеансов сохранена: «{0}».",
+  "session.logUnreadableBackupFailed": "[SessionService] Не удалось переместить повреждённый файл сеансов: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Порты WebRTC назначены существующим сеансам.",
+  "session.logLoadFailed": "[SessionService] Не удалось загрузить сеансы: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Предупреждение при остановке Sunshine после отменённого запуска: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Экземпляр Sunshine уже существует: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Не удалось очистить скопированное состояние шаблона: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Права экземпляра настроены для «{0}» (запись разрешена только в config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Не удалось настроить права для «{0}» в {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Брандмауэр ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Обновление экземпляра Sunshine: {1} → {2} (config/, сопряжения, учётные данные и настройки сохраняются)."
 }
