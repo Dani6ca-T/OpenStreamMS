@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings успішно — дисплей {0}Hz у сеансі {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings повернув успіх, але дисплей повідомляє {0}Hz (запитано {1}Hz) у сеансі {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings завершився помилкою в сеансі {0}: {1} (дисплей {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Не вдалося прочитати результат ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Не вдалося прочитати результат ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "Помилка WTSEnumerateSessions: {0}",
+  "rdp.sessionInfo": "Сеанс {0} ({1}) протокол={2} користувач='{3}'",
+  "rdp.sessionUnlocked": "Сеанс {0} розблоковано (flag={1}) за {2} мс.",
+  "rdp.sessionStillLocked": "Сеанс {0} досі заблокований через {1} мс. Sunshine може перейти на програмне кодування (libx264). Перевірте екран блокування.",
+  "rdp.userAlreadyHasOtherSession": "«{0}» уже має сеанс {1} ({2}).",
+  "rdp.disconnected": "від’єднано",
+  "rdp.termServiceChangedToManual": "TermService була вимкнена → змінено на Manual.",
+  "rdp.termServiceStarted": "TermService запущено (вбудований віддалений робочий стіл).",
+  "rdp.termServiceEnsureFailed": "Не вдалося забезпечити роботу TermService: {0}. Якщо віддалений робочий стіл вимкнено, loopback-підключення не працюватиме; увімкніть його в Система → Віддалений робочий стіл або перезапустіть Windows.",
+  "rdp.registryKeyOpenFailed": "Не вдалося відкрити HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Не вдалося записати {0} у HKLM\\\\{1}: {2}"
 }
