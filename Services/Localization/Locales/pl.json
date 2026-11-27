@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Nie można dostosować uprawnień „{0}” w {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Zapora ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Aktualizowanie instancji Sunshine: {1} → {2} (config/, parowania, dane logowania i ustawienia zostaną zachowane).",
-  "session.logHudEnsureFailed": "[HUD] Nie można zainicjować HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Nie można zainicjować HUD: {0}",
+  "error.seatName": "Nazwa stanowiska jest wymagana.",
+  "error.stopSeat": "Zatrzymaj stanowisko przed zmianą jego konfiguracji.",
+  "error.primaryMonitor": "Nie można przypisać monitora głównego do stanowiska.",
+  "error.assigned": "Wybrany zasób jest już przypisany."
 }
