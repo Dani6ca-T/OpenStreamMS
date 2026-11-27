@@ -359,5 +359,16 @@
   "seats.seatLost": "El puesto '{0}' se apaga: {1}.",
   "seats.stopAfterLossFailed": "'{0}': no se pudo apagar tras el corte: {1}",
   "seats.sessionStartFailed": "La sesión falló al arrancar.",
-  "seats.sessionStartTimeout": "La sesión no llegó a estar activa a tiempo."
+  "seats.sessionStartTimeout": "La sesión no llegó a estar activa a tiempo.",
+  "seats.statusStartingSession": "Arrancando la sesión…",
+  "seats.statusPoweringMonitor": "Encendiendo el monitor…",
+  "seats.statusStartingAgent": "Iniciando agente de captura e imagen…",
+  "seats.statusStartingPresenter": "Iniciando presentador en la consola…",
+  "seats.statusSeparatingGamepads": "Separando los mandos del puesto…",
+  "seats.statusReservingUsb": "Reservando los dispositivos USB del puesto…",
+  "seats.statusSeparatingInput": "Separando el ratón y el teclado del puesto…",
+  "seats.statusLockingSession": "Bloqueando la sesión: el puesto pedirá la contraseña…",
+  "seats.statusActive": "Activo: imagen, audio y periféricos conectados.",
+  "seats.statusDisconnectedFromSeat": "Desconectado desde el puesto. Enciéndelo de nuevo desde OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Apagado: {0}. Enciéndelo de nuevo desde OpenStreamMS."
 }
