@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "A WTSDisconnectSession({0}) sikertelen: {1}",
   "rdp.mstscReconnectFailedFallback": "Az mstsc újracsatlakozása sikertelen ({0}); újrapróbálkozás FreeRDP-vel…",
   "rdp.reconnectWrongSession": "Az újracsatlakozás a(z) {1} helyett a(z) {0} munkamenetbe jutott.",
-  "rdp.sessionReconnected": "A(z) {0} munkamenet újracsatlakozott {1} ms alatt."
+  "rdp.sessionReconnected": "A(z) {0} munkamenet újracsatlakozott {1} ms alatt.",
+  "rdp.freeRdpClientDisconnected": "A FreeRDP-ügyfél lecsatlakozott; a(z) {0} munkamenet aktív marad (VDD).",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession figyelmeztetés: {0}",
+  "rdp.logoffFailed": "A(z) {0}. munkamenet WTSLogoffSession művelete sikertelen: {1}",
+  "rdp.logoffCompleted": "A(z) {0}. munkamenet kijelentkeztetése {1} ms alatt megtörtént.",
+  "rdp.logoffSessionCompleted": "A(z) {0}. munkamenet kijelentkeztetve.",
+  "rdp.logoffWarning": "WTSLogoffSession figyelmeztetés (munkamenet: {0}): {1}"
 }
