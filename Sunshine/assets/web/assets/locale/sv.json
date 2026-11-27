@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "Aktiverad för stödda klienter (standard)",
     "wan_encryption_mode_2": "Krävs för alla kunder",
     "wan_encryption_mode_desc": "Detta avgör när kryptering kommer att användas vid strömning över Internet. Kryptering kan minska strömningsprestanda, särskilt på mindre kraftfulla värdar och klienter."
+  ,
+    "port_webrtc_discovery": "Upptäckt av Moonlight WebRTC-TV",
+    "port_webrtc_media": "Moonlight WebRTC-video och ljud",
+    "port_webrtc_media_any": "Valfri",
+    "port_webrtc_signaling": "Moonlight WebRTC-TV-anslutning",
+    "stream_protocol": "Strömningsprotokoll",
+    "stream_protocol_both": "Båda",
+    "stream_protocol_desc": "Vilka klienter Sunshine betjänar: Moonlight-appar, Moonlight WebRTC på Samsung Tizen-TV-apparater eller båda. Portarna för ett avstängt protokoll förblir stängda.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Sista mediaporten för Moonlight WebRTC",
+    "webrtc_media_port_max_desc": "Sista UDP-porten som WebRTC får använda för video och ljud. 0 lämnar intervallet öppet upp till 65535.",
+    "webrtc_media_port_min": "Första mediaporten för Moonlight WebRTC",
+    "webrtc_media_port_min_desc": "Första UDP-porten som WebRTC får använda för video och ljud, så att brandväggen bara behöver öppna det intervallet. Om båda portarna är 0 får WebRTC välja valfri port.",
+    "webrtc_port": "Moonlight WebRTC-TV-port",
+    "webrtc_port_desc": "TCP-porten för WebSocket som TV:n ansluter till. TV-appen använder 8000 om ingen annan port anges tillsammans med datorns adress. Intervall: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "Solsken behöver behörigheter",
