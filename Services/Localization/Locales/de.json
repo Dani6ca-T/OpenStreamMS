@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Ungültige Länge der Pipe-Nachricht: {0} Byte.",
   "seatIpc.invalidJsonObject": "Die JSON-Nutzlast ist kein Objekt.",
   "seatHost.frameLatencyName": "Komposition→Anzeige",
-  "seatHost.cursorLatencyName": "Eingabe→Anzeige"
+  "seatHost.cursorLatencyName": "Eingabe→Anzeige",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "[AudioRelay] Audio wird aus Windows-Sitzung {0} gesendet: {1}",
+  "audioRelay.playing": "[AudioRelay] Wiedergabe auf „{0}“: {1}",
+  "audioRelay.invalidHeader": "Ungültiger Audio-Relay-Header.",
+  "audioRelay.noOutputDevice": "In der Tastatursitzung ist kein Audioausgabegerät vorhanden.",
+  "audioRelay.invalidBlock": "Ungültiger Audioblock.",
+  "inputRelay.started": "[InputRelay] Tastatur- und Mausweiterleitung der zusammengesetzten Sitzung für Windows-Sitzung {0} ({1}).",
+  "inputRelay.createFailed": "[InputRelay] {0} konnte nicht erstellt werden: {1}",
+  "inputRelay.invalidHeader": "Ungültiger Input-Relay-Header.",
+  "inputRelay.invalidBatch": "Ungültiger Eingabebatch.",
+  "osmsPad.openFailed": "[OsmsPad] Treiber konnte nicht geöffnet werden: Fehler {0}.",
+  "vigem.openFailed": "[PadCapture] ViGEmBus konnte nicht geöffnet werden: {0}"
 }
