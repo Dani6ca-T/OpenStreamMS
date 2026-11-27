@@ -1050,7 +1050,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 // Al cambiar de sesión, si alguien lo tiene abierto (Steam) se recicla el puerto: el
                 // jail no revoca handles. Al aparecer no: lo abriría enseguida la sesión destino y se
                 // entraría en bucle.
-                bool ok = moved ? DevSetup.RestartOrCycle(node, $"para que la sesión {previous} deje de leerlo")
+                bool ok = moved ? DevSetup.RestartOrCycle(node, BackendText.Get("gamepad.restartReasonPreviousSession", previous))
                                 : DevSetup.Restart(node);
                 if (moved && ok) Logger.Log(BackendText.Get("gamepad.physicalPadRestarted", node, previous));
             }
