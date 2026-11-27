@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Заключване на сесията: мястото ще изисква парола…",
   "seats.statusActive": "Активно: изображение, звук и периферия са свързани.",
   "seats.statusDisconnectedFromSeat": "Изключено от мястото. Включете го отново от OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Изключено: {0}. Включете го отново от OpenStreamMS."
+  "seats.statusStoppedAfterError": "Изключено: {0}. Включете го отново от OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Това място използва същия потребител като конзолата и не може да се стартира самостоятелно. Стартирайте го от OpenStreamMS или му задайте друга сесия.",
+  "seats.monitorAlreadyAssigned": "Мониторът вече е назначен на място „{0}“.",
+  "seats.monitorAreaOverlap": "Тази част от монитора се припокрива с частта на място „{0}“.",
+  "seats.notFound": "Място с идентификатор {0} не съществува."
 }
