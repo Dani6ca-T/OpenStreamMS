@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Nem sikerült beírni a(z) {0} értéket ide: HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "A FreeRDP nem írt ki semmit.",
-  "rdp.freeRdpOutputPrefix": "FreeRDP kimenet: "
+  "rdp.freeRdpOutputPrefix": "FreeRDP kimenet: ",
+  "seats.usbArrivalWatchUnavailable": "Nem sikerült figyelni az USB-eszközök érkezését: a rögzített billentyűzet vagy egér a következő indításkor visszaáll.",
+  "seats.usbDriversRestoreFailed": "Nem sikerült visszaállítani az USB-illesztőprogramokat: {0}",
+  "seats.reservedDevicesReleaseFailed": "Nem sikerült felszabadítani a lefoglalt eszközöket: {0}",
+  "seats.managerStarted": "Munkaállomás-kezelő elindult ({0} munkaállomás).",
+  "seats.multiRdpCheckTimeout": "A multi-RDP ellenőrzés 120 másodpercen belül nem fejeződött be; a munkaállomások ettől függetlenül automatikusan elindulnak.",
+  "seats.autoStartSameConsoleUser": "A(z) „{0}” nem indul automatikusan: ugyanazt a felhasználót használja, mint a konzol.",
+  "seats.autoStartFailed": "A(z) „{0}” automatikus indítása sikertelen: {1}"
 }
