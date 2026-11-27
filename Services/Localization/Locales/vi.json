@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] '{0}': {1} vẫn hiển thị trong Windows (không thể chuyển sang WinUSB).",
   "padCapture.captured": "[PadCapture] '{0}': đã tách bộ điều khiển trên {1} khỏi Windows ({2} bộ điều khiển và {3} giao diện bổ sung qua WinUSB); chuyển tới phiên {4} dưới dạng bộ điều khiển ảo.",
   "padCapture.restored": "[PadCapture] '{0}': đã trả {1} giao diện bộ điều khiển về Windows.",
-  "steamXboxFilter.removed": "[Gamepad] Đã gỡ bộ lọc Steam {0} khỏi {1} lớp bộ điều khiển khi bộ điều khiển được cách ly. Thiết bị mới không còn được công bố cho mọi phiên qua \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Đã gỡ bộ lọc Steam {0} khỏi {1} lớp bộ điều khiển khi bộ điều khiển được cách ly. Thiết bị mới không còn được công bố cho mọi phiên qua \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Không thể gỡ bộ lọc Steam {0}: {1}. Steam ở các phiên khác (bao gồm console) vẫn có thể đọc bộ điều khiển đã cách ly.",
   "steamXboxFilter.restored": "Đã khôi phục bộ lọc Steam {0} trên {1} lớp bộ điều khiển; không còn bộ điều khiển bị cách ly ở các phiên khác.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Không thể khôi phục bộ lọc Steam {0}: {1}. Sẽ thử lại khi dịch vụ khởi động lần tới."
