@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Longueur de message du canal invalide : {0} octets.",
   "seatIpc.invalidJsonObject": "La charge utile JSON n’est pas un objet.",
   "seatHost.frameLatencyName": "composition→écran",
-  "seatHost.cursorLatencyName": "entrée→écran"
+  "seatHost.cursorLatencyName": "entrée→écran",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1} : {2}",
+  "audioRelay.sending": "[AudioRelay] Envoi de l’audio depuis la session Windows {0} : {1}",
+  "audioRelay.playing": "[AudioRelay] Lecture sur « {0} » : {1}",
+  "audioRelay.invalidHeader": "En-tête du relais audio invalide.",
+  "audioRelay.noOutputDevice": "La session du clavier ne dispose d’aucun périphérique de sortie audio.",
+  "audioRelay.invalidBlock": "Bloc audio invalide.",
+  "inputRelay.started": "[InputRelay] Relais clavier et souris de la session composite pour la session Windows {0} ({1}).",
+  "inputRelay.createFailed": "[InputRelay] Impossible de créer {0} : {1}",
+  "inputRelay.invalidHeader": "En-tête du relais d’entrée invalide.",
+  "inputRelay.invalidBatch": "Lot d’entrées invalide.",
+  "osmsPad.openFailed": "[OsmsPad] Impossible d’ouvrir le pilote : erreur {0}.",
+  "vigem.openFailed": "[PadCapture] Impossible d’ouvrir ViGEmBus : {0}"
 }
