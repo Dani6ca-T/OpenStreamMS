@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Invalid pipe message length: {0} bytes.",
   "seatIpc.invalidJsonObject": "The JSON payload is not an object.",
   "seatHost.frameLatencyName": "composition→display",
-  "seatHost.cursorLatencyName": "input→display"
+  "seatHost.cursorLatencyName": "input→display",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "[AudioRelay] Sending audio from Windows session {0}: {1}",
+  "audioRelay.playing": "[AudioRelay] Playing on '{0}': {1}",
+  "audioRelay.invalidHeader": "Invalid audio relay header.",
+  "audioRelay.noOutputDevice": "The keyboard session has no audio output device.",
+  "audioRelay.invalidBlock": "Invalid audio block.",
+  "inputRelay.started": "[InputRelay] Composite keyboard and mouse relay for Windows session {0} ({1}).",
+  "inputRelay.createFailed": "[InputRelay] Could not create {0}: {1}",
+  "inputRelay.invalidHeader": "Invalid input relay header.",
+  "inputRelay.invalidBatch": "Invalid input batch.",
+  "osmsPad.openFailed": "[OsmsPad] Could not open the driver: error {0}.",
+  "vigem.openFailed": "[PadCapture] Could not open ViGEmBus: {0}"
 }
