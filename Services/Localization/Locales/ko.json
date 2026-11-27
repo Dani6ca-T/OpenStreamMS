@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "컨트롤러 예약을 해제할 수 없습니다: {0}",
   "gamepad.padClaimed": "컨트롤러 {0} → '{1}'(Windows 세션 {2}): 이 서비스가 컨트롤러를 선점했습니다.",
   "gamepad.padOwnerUnknown": "컨트롤러 {0}을(를) 생성한 세션을 확인할 수 없습니다. 모든 세션에 계속 표시됩니다.",
-  "gamepad.osmsPadOutsideSession": "OsmsPad 컨트롤러 {0} → Windows 세션 {1}(OpenStreamMS 세션에 속하지 않음)."
+  "gamepad.osmsPadOutsideSession": "OsmsPad 컨트롤러 {0} → Windows 세션 {1}(OpenStreamMS 세션에 속하지 않음).",
+  "gamepad.padAssignedCompositeMember": "'{1}'의 컨트롤러 {0}({2}) → 세션 '{3}'(Windows 세션 {4}).",
+  "gamepad.padAssignedSession": "컨트롤러 {0} → 세션 '{1}'(Windows 세션 {2}).",
+  "gamepad.padRetargeted": "복합 세션 변경으로 컨트롤러 {0}({1})이(가) 세션 '{2}'(Windows 세션 {3})으로 이동했습니다."
 }
