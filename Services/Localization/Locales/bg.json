@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Места] „{0}“: мястото не може да бъде стартирано отново: {1}",
   "seat.waitingImageFailed": "[Места] „{0}“: изображението за изчакване не може да бъде показано: {1}",
   "seat.sessionDidNotRestart": "Сесията не се стартира отново.",
-  "seat.sessionRestartTimeout": "Времето за рестартиране на сесията изтече."
+  "seat.sessionRestartTimeout": "Времето за рестартиране на сесията изтече.",
+  "composite.created": "[Композитни сесии] Създадена е композитна сесия „{0}“ ({1}) със: {2}",
+  "composite.updated": "[{0}] Композитната сесия е променена.",
+  "composite.startingMember": "[{0}] Стартиране на „{1}“ за композитната сесия…",
+  "composite.steamConfigFailed": "[{0}] Неуспешно конфигуриране на Steam приложението за композитната сесия: {1}",
+  "composite.startAborted": "[{0}] Стартирането е прекъснато (сесията е спряна по време на стартиране).",
+  "composite.started": "[{0}] Композитната сесия е активна: {1}; клавиатура и мишка от „{2}“ (Windows сесия {3}).",
+  "composite.deleteFileFailed": "[{0}] Неуспешно изтриване на {1}: {2}",
+  "composite.stoppingMember": "[{0}] Спиране на „{1}“, стартирана от композитната сесия.",
+  "composite.restoreResolutionFailed": "[{0}] „{1}“ не успя да възстанови резолюцията си: {2}",
+  "composite.keyboardStopped": "[{0}] Сесията на клавиатурата е спряна; композитната сесия също ще бъде спряна.",
+  "composite.keyboardSessionChanged": "[{0}] Сесията на клавиатурата премина към Windows сесия {1}; Sunshine ще бъде стартиран отново.",
+  "composite.watchFailed": "[{0}] Грешка при наблюдение на композитната сесия: {1}",
+  "composite.waitingImageFailed": "[{0}] Неуспешна подготовка на изображението за изчакване за слот {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Неуспешно действие „{1}“ в Steam в Windows сесия {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: действие „{1}“ в {2} сесии.",
+  "composite.steamOpen": "отваряне",
+  "composite.steamClose": "затваряне"
 }
