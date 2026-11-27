@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Se eliminó el aislamiento de mandos por sesión de HidHide y se restauró el filtro steamxbox de Steam.",
   "uninstall.seatsRestored": "Se restauraron los teclados/ratones de los puestos, la protección de consola, el permiso de apagado y el límite de una sesión por usuario.",
   "uninstall.trayRemoved": "Se eliminó el icono de bandeja del inicio automático.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Ejecutable:",
+  "install.configPath": "Configuración:"
 }
