@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "O HidHide não está instalado: os comandos ficarão visíveis em todas as sessões.",
   "gamepad.hidHideEnabled": "HidHide ativado.",
   "gamepad.hidHideConfigureFailed": "Não foi possível configurar o HidHide: {0}",
-  "gamepad.monitorFailed": "Erro ao monitorizar comandos: {0}"
+  "gamepad.monitorFailed": "Erro ao monitorizar comandos: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} está disponível: os comandos estão isolados por sessão.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} não suporta isolamento por sessão (é necessária a versão {1} ou posterior): os comandos ficarão visíveis em todas as sessões. Atualize o HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: modo inverso {0}; lista de permissões ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Os programas na lista de permissões do HidHide veem os comandos de todas as sessões, mesmo quando atribuídos a outra sessão.",
+  "gamepad.hidHideWhitelistReadFailed": "Não foi possível ler a lista de permissões do HidHide: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping desativado (contorna o isolamento de comandos por sessão).",
+  "gamepad.controllerToVkDisableFailed": "Não foi possível desativar o ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Não foi possível preparar o jail do HidHide para o comando ViGEm: {0}"
 }
