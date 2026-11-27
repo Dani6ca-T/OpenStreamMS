@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "Fyzický ovladač {0} je přiřazen k pracovní stanici nebo streamovací relaci: je viditelný pouze v relaci {1}.",
   "gamepad.steamFilterWarning": "{0} má ve svém zásobníku filtr Steam {1}: Steam v ostatních relacích (včetně konzole) jej stále čte. Odpojte jej a znovu připojte, až bude pracovní stanice nebo stream spuštěn.",
   "gamepad.physicalPadRestarted": "{0} byl restartován: relace {1} jej již nemůže číst.",
-  "gamepad.physicalPadRestartFailed": "Ovladač {0} se nepodařilo restartovat: {1}. Relace, která jej již otevřela, jej uvidí, dokud jej nezavře."
+  "gamepad.physicalPadRestartFailed": "Ovladač {0} se nepodařilo restartovat: {1}. Relace, která jej již otevřela, jej uvidí, dokud jej nezavře.",
+  "gamepad.padRemoved": "Ovladač {0} byl odebrán; jeho uzly HID byly odstraněny z černé listiny HidHide.",
+  "gamepad.staleJailsRemoved": "Z černé listiny HidHide bylo odebráno {0} starých položek.",
+  "gamepad.absentPadAssigned": "Fyzický ovladač {0} (nyní nepřipojený) byl přiřazen k relaci {1}: bude tam ihned po připojení.",
+  "gamepad.knownNodesSaveFailed": "Nepodařilo se uložit {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Nepodařilo se přečíst {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Nepodařilo se aktualizovat černou listinu HidHide: {0}"
 }
