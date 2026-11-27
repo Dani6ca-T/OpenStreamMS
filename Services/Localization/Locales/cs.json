@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings úspěšné — displej {0}Hz v relaci {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings vrátil úspěch, ale displej hlásí {0}Hz (požadováno {1}Hz) v relaci {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings selhalo v relaci {0}: {1} (displej {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Nepodařilo se přečíst výsledek ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Nepodařilo se přečíst výsledek ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions selhalo: {0}",
+  "rdp.sessionInfo": "Relace {0} ({1}) protokol={2} uživatel='{3}'",
+  "rdp.sessionUnlocked": "Relace {0} odemčena (flag={1}) po {2} ms.",
+  "rdp.sessionStillLocked": "Relace {0} zůstává uzamčena i po {1} ms. Sunshine může přejít na softwarové kódování (libx264). Zkontrolujte zamykací obrazovku.",
+  "rdp.userAlreadyHasOtherSession": "„{0}“ již má relaci {1} ({2}).",
+  "rdp.disconnected": "odpojeno",
+  "rdp.termServiceChangedToManual": "TermService byla zakázána → změněna na Manual.",
+  "rdp.termServiceStarted": "TermService spuštěna (nativní Vzdálená plocha).",
+  "rdp.termServiceEnsureFailed": "Nepodařilo se zajistit běh TermService: {0}. Pokud je Vzdálená plocha vypnutá, loopback připojení selže; povolte ji v Systém → Vzdálená plocha nebo restartujte Windows.",
+  "rdp.registryKeyOpenFailed": "Nepodařilo se otevřít HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Nepodařilo se zapsat {0} do HKLM\\\\{1}: {2}"
 }
