@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
@@ -69,9 +70,9 @@ internal static class GuideButtonGuard
             if (saved.GetValue(SavedValue) is null)
                 saved.SetValue(SavedValue, gameBar.GetValue(NexusValue) is int prev ? prev : Absent, RegistryValueKind.DWord);
             gameBar.SetValue(NexusValue, 0, RegistryValueKind.DWord);
-            Logger.Log($"[Seats] Botón Guía: Game Bar del mando desactivada para {sid} mientras haya puestos.");
+            Logger.Log(BackendText.Get("guideGuard.disabled", sid));
         }
-        catch (Exception ex) { Logger.Warning($"[Seats] Botón Guía: no se pudo desactivar la Game Bar del mando para {sid}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("guideGuard.disableFailed", sid, ex.Message)); }
     }
 
     private static void Restore(string sid)
@@ -86,9 +87,9 @@ internal static class GuideButtonGuard
                 else gameBar?.SetValue(NexusValue, prev, RegistryValueKind.DWord);
             }
             saved.DeleteValue(SavedValue, throwOnMissingValue: false);
-            Logger.Log($"[Seats] Botón Guía: Game Bar del mando restaurada para {sid}.");
+            Logger.Log(BackendText.Get("guideGuard.restored", sid));
         }
-        catch (Exception ex) { Logger.Warning($"[Seats] Botón Guía: no se pudo restaurar la Game Bar del mando para {sid}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("guideGuard.restoreFailed", sid, ex.Message)); }
     }
 
     // ── Usuario de una sesión de Windows ──
