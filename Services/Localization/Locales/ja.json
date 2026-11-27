@@ -359,5 +359,16 @@
   "seats.seatLost": "シート「{0}」を停止します：{1}。",
   "seats.stopAfterLossFailed": "「{0}」：切断後に停止できませんでした：{1}",
   "seats.sessionStartFailed": "セッションの起動に失敗しました。",
-  "seats.sessionStartTimeout": "セッションが時間内にアクティブになりませんでした。"
+  "seats.sessionStartTimeout": "セッションが時間内にアクティブになりませんでした。",
+  "seats.statusStartingSession": "セッションを開始しています…",
+  "seats.statusPoweringMonitor": "モニターを起動しています…",
+  "seats.statusStartingAgent": "キャプチャ／映像エージェントを起動しています…",
+  "seats.statusStartingPresenter": "コンソールでプレゼンターを起動しています…",
+  "seats.statusSeparatingGamepads": "シートのコントローラーを分離しています…",
+  "seats.statusReservingUsb": "シートの USB デバイスを予約しています…",
+  "seats.statusSeparatingInput": "シートのマウスとキーボードを分離しています…",
+  "seats.statusLockingSession": "セッションをロックしています：シートでパスワードが必要になります…",
+  "seats.statusActive": "アクティブ：映像、音声、周辺機器が接続されています。",
+  "seats.statusDisconnectedFromSeat": "シートから切断されました。OpenStreamMS から再起動してください。",
+  "seats.statusStoppedAfterError": "停止しました：{0}。OpenStreamMS から再起動してください。"
 }
