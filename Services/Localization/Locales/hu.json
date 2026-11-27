@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf frissítve ({0}) itt: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: a hitelesítő adatok már naprakészek (felhasználó={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: a hitelesítő adatok már naprakészek; root megtisztítva (felhasználó={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: hitelesítő adatok beállítva (felhasználó={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: hitelesítő adatok beállítva (felhasználó={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Leállítás előtt nem sikerült tiszta ürítést kérni: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Nem sikerült elindítani a sunshine.exe --creds folyamatot.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Nem sikerült visszaállítani a root elemet a --creds után: {0}",
+  "sunshine.uniqueIdCheckFailed": "Nem sikerült ellenőrizni az egyedi azonosítót: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Nem sikerült visszaállítani a sunshine_state.json fájlt: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Nem sikerült elindítani a sunshine_state.json tükrözését: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Nem sikerült a(z) {0} fájlt a biztonsági mentésbe másolni: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Nem sikerült visszaállítani a(z) {0} fájlt: {1}"
 }
