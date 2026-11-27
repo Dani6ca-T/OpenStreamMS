@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Невалидна дължина на съобщението в канала: {0} байта.",
   "seatIpc.invalidJsonObject": "JSON данните не са обект.",
   "seatHost.frameLatencyName": "композиция→дисплей",
-  "seatHost.cursorLatencyName": "вход→дисплей"
+  "seatHost.cursorLatencyName": "вход→дисплей",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "[AudioRelay] Изпращане на аудио от сесия на Windows {0}: {1}",
+  "audioRelay.playing": "[AudioRelay] Възпроизвеждане на „{0}“: {1}",
+  "audioRelay.invalidHeader": "Невалиден заглавен блок на аудио канала.",
+  "audioRelay.noOutputDevice": "В сесията на клавиатурата няма аудиоизход.",
+  "audioRelay.invalidBlock": "Невалиден аудиоблок.",
+  "inputRelay.started": "[InputRelay] Пренасочване на клавиатурата и мишката за съставната сесия на Windows {0} ({1}).",
+  "inputRelay.createFailed": "[InputRelay] {0} не може да бъде създаден: {1}",
+  "inputRelay.invalidHeader": "Невалиден заглавен блок на канала за вход.",
+  "inputRelay.invalidBatch": "Невалиден пакет от входни данни.",
+  "osmsPad.openFailed": "[OsmsPad] Драйверът не може да бъде отворен: грешка {0}.",
+  "vigem.openFailed": "[PadCapture] ViGEmBus не може да бъде отворен: {0}"
 }
