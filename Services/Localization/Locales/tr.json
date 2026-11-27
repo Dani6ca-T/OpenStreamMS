@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses başarısız oldu ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] '{0}' açılamadı (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] '{0}' sonlandırılamadı (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}), {2} oturumunda sonlandırıldı."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}), {2} oturumunda sonlandırıldı.",
+  "sunshine.configUpdateFailed": "[Sunshine] sunshine.conf güncellenemedi: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Kimlik bilgileri sağlanamadı: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] apps.json içinde VDD yapılandırılamadı: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] apps.json içinde yalıtılmış ortam yapılandırılamadı: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] apps.json içinde Steam girdisi yapılandırılamadı: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] apps.json içinde Reboot/Power Off girdileri yapılandırılamadı: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] apps.json içinde uzantı uygulamaları yapılandırılamadı: {0}",
+  "sunshine.launching": "[Sunshine] {0} oturumunda başlatılıyor: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Başlatılamadı: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] Kodlayıcı günlükte doğrulanamadı; mevcut ayar korunuyor."
 }
