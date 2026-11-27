@@ -53,7 +53,7 @@
   "driver.uninstalled": "{0} desinstalado correctamente.",
   "driver.cancelled": "Cancelado por el usuario.",
   "driver.rebootToFinish": "Redémarrez Windows pour terminer l'installation de {0}.",
-  "driver.rebootThenReinstall": "Le redémarrage de Windows est obligatoire : {0} ne fonctionnera pas tant que vous n'aurez pas redémarré puis réinstallé {0}.",
+  "driver.rebootThenReinstall": "Le redémarrage de Windows est nécessaire : {0} ne fonctionnera pas tant que vous n’aurez pas redémarré Windows et réinstallé ce composant.",
   "driver.fatalError": "Fallo fatal durante la instalación (revisa el log de Windows Installer).",
   "driver.unknownExitCode": "Código de salida desconocido.",
   "driver.currentStatus": "Estado actual: Installed={0}, Version={1}, ServiceState={2}",
