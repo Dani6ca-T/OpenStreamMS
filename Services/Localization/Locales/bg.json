@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Не е намерен виртуален RDP адаптер в Control\\\\Video — VRefresh не е променен. Сесията ще използва честотата по подразбиране на драйвера.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} е приложен към {1} виртуални адаптера.",
   "rdp.refreshRegistryFailed": "Грешка при задаване на VRefresh в регистъра: {0}",
-  "rdp.sessionTempResolveFailed": "Неуспешно откриване на TEMP за сесия {0}: {1}"
+  "rdp.sessionTempResolveFailed": "Неуспешно откриване на TEMP за сесия {0}: {1}",
+  "rdp.displayFrequencyChangeFailed": "Неуспешна промяна на честотата на дисплея в сесия {0}: {1}",
+  "rdp.displayFrequencyChangeLaunched": "Промяната на дисплея ChangeDisplaySettings({0}Hz) е стартирана в сесия {1} (без проверка).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings в сесия {0}: липсва файл с резултат — скриптът не е завършил.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings е успешно: дисплей {0}Hz в сесия {1}.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings върна успех, но дисплеят отчита {0}Hz (заявени {1}Hz) в сесия {2}.",
+  "rdp.displayFrequencyFailed": "ChangeDisplaySettings не успя в сесия {0}: {1} (дисплей {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Неуспешно прочитане на резултата от ChangeDisplaySettings: {0}"
 }
