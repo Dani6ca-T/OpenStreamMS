@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Handkontroll {0} ({1}) flyttades till session ”{2}” (Windows-session {3}) när den sammansatta sessionen ändrades.",
   "gamepad.futurePadsReserved": "Kommande Moonlight-handkontroller döljs i förväg tills deras session är känd ({0}).",
   "gamepad.futurePadReservationsReleased": "Inga aktiva strömmar: reservationerna för kommande handkontroller har släppts.",
-  "gamepad.futurePadReservationFailed": "Det gick inte att reservera kommande handkontroller i HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Det gick inte att reservera kommande handkontroller i HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} har varit synlig endast i session ”{1}” ({2}) sedan den dök upp; startades om så att sessionen kan upptäcka den.",
+  "gamepad.nodeVisibleAfterRestart": "{0} är synlig endast i session ”{1}” ({2}); startades om för att stänga handtag från andra sessioner.",
+  "gamepad.nodeRestartDeferred": "{0} är synlig endast i session ”{1}” ({2}), men Windows sköt upp omstarten eftersom en annan process använder den; processer som redan öppnat den fortsätter att se den tills de stänger den.",
+  "gamepad.nodeLateRestartFailed": "{0} doldes för sent och kunde inte startas om: {1}. En process i en annan session som redan öppnat den kan fortfarande se den.",
+  "gamepad.nodeVisibleSession": "{0} är synlig endast i session ”{1}” ({2})."
 }
