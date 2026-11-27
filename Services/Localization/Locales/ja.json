@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses に失敗しました ({0})。",
   "streamProfile.processOpenFailed": "[StreamProfile] '{0}' (PID {1}) を開けませんでした: {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] '{0}' (PID {1}) を終了できませんでした: {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) をセッション {2} で終了しました。"
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) をセッション {2} で終了しました。",
+  "sunshine.configUpdateFailed": "[Sunshine] sunshine.conf を更新できませんでした: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] 認証情報を設定できませんでした: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] apps.json の VDD を設定できませんでした: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] apps.json の分離環境を設定できませんでした: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] apps.json の Steam エントリを設定できませんでした: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] apps.json の Reboot/Power Off エントリを設定できませんでした: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] apps.json の拡張機能アプリを設定できませんでした: {0}",
+  "sunshine.launching": "[Sunshine] セッション {0} で起動中: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] 起動に失敗しました: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] ログでエンコーダーを確認できませんでした。設定は変更しません。"
 }
