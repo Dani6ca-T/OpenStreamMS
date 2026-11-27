@@ -484,5 +484,6 @@
   "compositeInput.routed": "[{0}] Tastiera e mouse inoltrati a '{1}' (sessione Windows {2}).",
   "compositeInput.routeFailed": "[{0}] Impossibile inoltrare tastiera e mouse a '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Impossibile scrivere {1}: {2}",
-  "compositeInput.deleteFailed": "[{0}] Impossibile eliminare {1}: {2}"
+  "compositeInput.deleteFailed": "[{0}] Impossibile eliminare {1}: {2}",
+  "rdp.mstscFailureContext": "{0} Il precedente tentativo con mstsc non è riuscito: {1}"
 }
