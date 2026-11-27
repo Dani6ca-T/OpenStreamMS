@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "会话配置已更新。",
   "session.logRestartAfterConfigFailed": "配置更新后无法重新启动会话：{0}",
   "session.alreadyInState": "会话已处于状态 {0}。",
-  "error.request": "无法完成请求。"
+  "error.request": "无法完成请求。",
+  "session.logPairingStateMirrorCompleted": "[{0}] 配对更改后，延迟镜像 sunshine_state.json 已完成。",
+  "session.logPairingStateMirrorFailed": "[{0}] 配对更改后，延迟镜像 sunshine_state.json 失败：{1}",
+  "session.logAutoStartingEnabled": "正在自动启动 {0} 个已启用的会话...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] 检测到 Windows 会话（{1}）；正在启动本地会话。",
+  "session.logConsoleSessionStartFailed": "[{0}] Windows 登录后无法启动：{1}",
+  "session.logMonitorFailed": "[{0}] 监控错误：{1}",
+  "session.logLoadedFromDisk": "[SessionService] 已从磁盘加载 {0} 个会话。",
+  "session.logWindowsSessionCloseWarning": "[{0}] 关闭 Windows 会话 {1} 时出现警告：{2}",
+  "session.logStartAbandoned": "[{0}] 另一条命令到达，启动尚未开始便已取消。",
+  "session.logCreatingRdpSession": "[{0}] 正在为用户“{1}”启动 RDP 会话...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine 启动失败：{1}",
+  "session.logAutoStartFailed": "[{0}] 自动启动失败：{1}"
 }
