@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "HidHide 차단 목록을 업데이트할 수 없습니다: {0}",
   "gamepad.usbPortCycled": "{0}: 다른 프로세스가 사용 중이어서 Windows가 다시 시작을 연기했습니다. USB 포트를 분리했다가 다시 연결했습니다({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows가 다시 시작을 연기했고(다른 프로세스가 사용 중), USB 포트를 재연결할 수 없습니다({1}). 이미 열어 둔 프로세스는 닫을 때까지 계속 볼 수 있습니다.",
-  "gamepad.clearJailsFailed": "HidHide에서 세션 항목을 제거할 수 없습니다: {0}"
+  "gamepad.clearJailsFailed": "HidHide에서 세션 항목을 제거할 수 없습니다: {0}",
+  "rdp.remoteIddProviderMissing": "RDP-Tcp에 RemoteIdd 캡처 공급자가 없습니다. Native/RemoteIdd/Provider/install.ps1로 설치하세요.",
+  "rdp.consoleSessionConflict": "경고: '{0}'에 이미 콘솔 세션이 있습니다(SessionId={1}). 오디오 격리가 부분적으로만 적용될 수 있습니다.",
+  "rdp.sessionExists": "'{0}'의 기존 세션: {1}",
+  "rdp.createViaMstsc": "'{0}' 세션이 없어 mstsc(AVC444 하드웨어)로 생성합니다…",
+  "rdp.mstscFailedFallback": "mstsc 실패({0}); FreeRDP로 다시 시도합니다…",
+  "rdp.createViaFreeRdp": "'{0}' 세션이 없어 FreeRDP로 생성합니다…",
+  "rdp.microphoneForcesFreeRdp": "마이크가 할당되어 FreeRDP로 연결합니다(mstsc는 마이크를 선택할 수 없음).",
+  "rdp.reconnecting": "세션 {0}을(를) {1}x{2}, {3}fps로 다시 연결합니다…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) 실패: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc 재연결 실패({0}); FreeRDP로 다시 시도합니다…",
+  "rdp.reconnectWrongSession": "재연결 결과 세션 {1}이(가) 아닌 {0} 세션에 연결되었습니다.",
+  "rdp.sessionReconnected": "세션 {0}을(를) {1}ms 만에 다시 연결했습니다."
 }
