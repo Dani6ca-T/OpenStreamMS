@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "HidHide'daki oturum başına gamepad yalıtımı kaldırıldı; Steam'in steamxbox filtresi geri yüklendi.",
   "uninstall.seatsRestored": "Koltuk klavyeleri/fareleri, konsol kilidi koruması, kapatma hakkı ve kullanıcı başına tek oturum ayarı geri yüklendi.",
   "uninstall.trayRemoved": "Tepsi simgesi otomatik başlatmadan kaldırıldı.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Çalıştırılabilir dosya:",
+  "install.configPath": "Yapılandırma:"
 }
