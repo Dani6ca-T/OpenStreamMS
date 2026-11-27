@@ -544,11 +544,10 @@ namespace OpenStreamMS.Core.Helpers
             psi.ArgumentList.Add("+disable-output");
             psi.ArgumentList.Add("/log-level:ERROR");
 
-            Logger.Log($"[RDP] Iniciando FreeRDP " +
-                       $"({rdpWidth}x{rdpHeight}, {rdpFrameRate} fps, {rdpColorDepth} bpp, escala {display.Scale} %, sin gfx)...");
+            Logger.Log(BackendText.Get("rdp.startFreeRdp", rdpWidth, rdpHeight, rdpFrameRate, rdpColorDepth, display.Scale));
 
             var proc = Process.Start(psi)
-                ?? throw new InvalidOperationException("[RDP] No se pudo iniciar wfreerdp.exe");
+                ?? throw new InvalidOperationException(BackendText.Get("rdp.freeRdpExecutableMissing"));
 
             // Con /log-level:ERROR todo lo que llegue por stderr es un error real. Las últimas
             // líneas van también en el mensaje de error: con el nivel de log por defecto (Error)
@@ -587,16 +586,12 @@ namespace OpenStreamMS.Core.Helpers
                             ? " FreeRDP no escribio nada."
                             : " Salida de FreeRDP: " + string.Join(" | ", outputTail.Where(l => l.Trim().Length > 0));
                     throw new InvalidOperationException(
-                        $"[RDP] FreeRDP termino con ExitCode={proc.ExitCode} (0x{proc.ExitCode:X}) sin crear sesion " +
-                        $"para '{user.Username}'. {ExplainFreeRdpExit(proc.ExitCode, rdpWidth, rdpHeight)}{output}");
+                        BackendText.Get("rdp.freeRdpExitedNoSession", proc.ExitCode, proc.ExitCode, user.Username, ExplainFreeRdpExit(proc.ExitCode, rdpWidth, rdpHeight), output));
                 }
 
                 try { proc.Kill(entireProcessTree: true); } catch { /* ignorar */ }
                 throw new TimeoutException(
-                    $"[RDP] Sesion para '{user.Username}' no aparecio tras 30 s. " +
-                    "Verifica: (1) usuario y contraseña correctos, " +
-                    "(2) Escritorio Remoto habilitado, " +
-                    "(3) usuario en grupo 'Usuarios de escritorio remoto'.");
+                    BackendText.Get("rdp.freeRdpSessionTimeout", user.Username)");
             }
 
             freeRdpPid = proc.Id;
@@ -685,11 +680,10 @@ namespace OpenStreamMS.Core.Helpers
                 };
                 psi.ArgumentList.Add(rdpFile);
 
-                Logger.Log($"[RDP] Iniciando mstsc ({rdpWidth}x{rdpHeight}, {rdpFrameRate} fps, " +
-                           $"{rdpColorDepth} bpp, escala {display.Scale} %, AVC444 hw)...");
+                Logger.Log(BackendText.Get("rdp.startMstsc", rdpWidth, rdpHeight, rdpFrameRate, rdpColorDepth, display.Scale));
 
                 var proc = Process.Start(psi)
-                    ?? throw new InvalidOperationException("[RDP] No se pudo iniciar mstsc.exe");
+                    ?? throw new InvalidOperationException(BackendText.Get("rdp.mstscExecutableMissing"));
 
                 int newSession = WaitForSession(proc, user.Username);
 
@@ -697,14 +691,11 @@ namespace OpenStreamMS.Core.Helpers
                 {
                     if (proc.HasExited)
                         throw new InvalidOperationException(
-                            $"[RDP] mstsc termino con ExitCode={proc.ExitCode} sin crear sesion " +
-                            $"para '{user.Username}'. Posible dialogo invisible (cert/credenciales) " +
-                            "o NLA rechazado.");
+                            BackendText.Get("rdp.mstscExitedNoSession", proc.ExitCode, user.Username));
 
                     try { proc.Kill(entireProcessTree: true); } catch { /* ignorar */ }
                     throw new TimeoutException(
-                        $"[RDP] Sesion para '{user.Username}' no aparecio tras 30 s con mstsc. " +
-                        "Posible dialogo invisible en Session 0.");
+                        BackendText.Get("rdp.mstscSessionTimeout", user.Username));
                 }
 
                 clientPid = proc.Id;
