@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Indata mottagen: typ={0} flaggor={1:X} dx={2} dy={3} kod={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Indatainjektion (10 s): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: skickade={0} ring_upptagen={1} indata={2} injiceringsfel={3} senaste_fel={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Insamlingslatens (10 s): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Insamlingslatens (10 s): {0}",
+  "seat.restartAdjustingResolution": "Justerar sessionen till {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "Startar om sessionen…",
+  "seatIpc.invalidMessageLength": "Ogiltig meddelandelängd för röret: {0} byte.",
+  "seatIpc.invalidJsonObject": "JSON-innehållet är inte ett objekt.",
+  "seatHost.frameLatencyName": "komposition→skärm",
+  "seatHost.cursorLatencyName": "indata→skärm"
 }
