@@ -171,5 +171,13 @@
   "power.noPending": "Není naplánováno žádné vypnutí ke zrušení ({0}).",
   "power.shutdownFailed": "Chyba shutdown.exe: {0}",
   "power.scheduled": "{0} naplánováno za {1} s.",
-  "settings.logLevelChanged": "Úroveň protokolu: {0} → {1}."
+  "settings.logLevelChanged": "Úroveň protokolu: {0} → {1}.",
+  "seat.restartSession": "[Stanoviště] Restartuje se relace „{1}“ stanoviště „{0}“ bez vypnutí stanoviště.",
+  "seat.restartSizeMismatch": "Relace se obnovila ve velikosti {0}x{1} místo {2}x{3}.",
+  "seat.restartSessionDone": "[Stanoviště] „{0}“: relace byla restartována; stanoviště zůstává v relaci Windows {1}.",
+  "seat.restartSessionFailed": "[Stanoviště] „{0}“: relaci se nepodařilo restartovat bez vypnutí stanoviště ({1}); stanoviště se znovu vytvoří.",
+  "seat.restartSeatFailed": "[Stanoviště] „{0}“: stanoviště se nepodařilo znovu spustit: {1}",
+  "seat.waitingImageFailed": "[Stanoviště] „{0}“: nepodařilo se zobrazit čekací obrazovku: {1}",
+  "seat.sessionDidNotRestart": "Relace se znovu nespustila.",
+  "seat.sessionRestartTimeout": "Časový limit restartování relace vypršel."
 }
