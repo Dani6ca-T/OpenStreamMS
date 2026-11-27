@@ -581,6 +581,7 @@
   "seatHost.monitorResolutionChanged": "[SeatHost] Разрешение монитора изменено на {0}x{1}; запрошена настройка сеанса.",
   "seatHost.presenterCovered": "[SeatHost] Презентер перекрыт другим окном (PID {0}); возвращаем его на передний план (попытка {1}).",
   "seatHost.consoleWindowsMoved": "[SeatHost] Перемещено окон консоли с физического монитора на её экран: {0}.",
-  "seatHost.consoleWindowMoveFailed": "[SeatHost] Не удалось переместить окно из области {0} на экран консоли.",
-  "seatHost.cursorShaderInitFailed": "[SeatHost] Не удалось инициализировать шейдеры курсора: {0}"
+  "seatHost.consoleWindowMoveFailed": "[SeatHost] Не удалось переместить окно из области {0} на экран консоли (возможно, приложение запущено с повышенными правами). Закройте и откройте его заново, чтобы переместить на нужный экран.",
+  "seatHost.cursorShaderInitFailed": "[SeatHost] Не удалось инициализировать шейдеры курсора: {0}",
+  "seatHost.createWindowFailed": "Не удалось выполнить CreateWindowEx."
 }
