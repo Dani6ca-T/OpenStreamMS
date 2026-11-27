@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Impossibile rimuovere le prenotazioni dei controller: {0}",
   "gamepad.padClaimed": "Controller {0} → '{1}' (sessione Windows {2}): controller acquisito da questo servizio.",
   "gamepad.padOwnerUnknown": "Impossibile determinare quale sessione ha creato il controller {0}; resta visibile in tutte le sessioni.",
-  "gamepad.osmsPadOutsideSession": "Controller OsmsPad {0} → sessione Windows {1} (non appartiene a una sessione OpenStreamMS)."
+  "gamepad.osmsPadOutsideSession": "Controller OsmsPad {0} → sessione Windows {1} (non appartiene a una sessione OpenStreamMS).",
+  "gamepad.padAssignedCompositeMember": "Controller {0} di '{1}' ({2}) → sessione '{3}' (sessione Windows {4}).",
+  "gamepad.padAssignedSession": "Controller {0} → sessione '{1}' (sessione Windows {2}).",
+  "gamepad.padRetargeted": "Il controller {0} ({1}) passa alla sessione '{2}' (sessione Windows {3}) a causa di una modifica della sessione composita."
 }
