@@ -460,5 +460,6 @@
   "error.seatName": "Platsens namn krävs.",
   "error.stopSeat": "Stoppa platsen innan du ändrar dess konfiguration.",
   "error.primaryMonitor": "Den primära bildskärmen kan inte tilldelas en plats.",
-  "error.assigned": "Den valda resursen är redan tilldelad."
+  "error.assigned": "Den valda resursen är redan tilldelad.",
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" tilldelad plats {2} ({3}x{4})."
 }
