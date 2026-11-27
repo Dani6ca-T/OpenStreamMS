@@ -2,6 +2,7 @@ using Nefarius.ViGEm.Client;
 using Nefarius.ViGEm.Client.Targets;
 using Nefarius.ViGEm.Client.Targets.Xbox360;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.ServiceProcess;
 
 namespace OpenStreamMS.Services.Gamepad;
@@ -47,7 +48,7 @@ internal sealed class ViGEmPads : IDisposable
         try { return new ViGEmPads(new ViGEmClient()); }
         catch (Exception ex)
         {
-            Logger.Warning($"[PadCapture] No se pudo abrir ViGEmBus: {ex.Message}");
+            Logger.Warning(BackendText.Get("vigem.openFailed", ex.Message));
             return null;
         }
     }
