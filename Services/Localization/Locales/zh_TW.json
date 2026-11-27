@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "該目錄不在清單中。",
   "ext.catalogEntryMissing": "目錄中已不再列出 {0}。",
   "ext.invalidPackage": "套件不是有效的擴充功能：{0}",
-  "ext.noManifest": "套件中沒有 {0}。"
+  "ext.noManifest": "套件中沒有 {0}。",
+  "cli.error.missingSeatAgentPipe": "錯誤：缺少 --seat-agent 的管道名稱。",
+  "cli.error.missingSeatHostPipe": "錯誤：缺少 --seat-host 的管道名稱。",
+  "cli.error.unknownCommand": "未知命令：'{0}'",
+  "cli.error.helpHint": "使用 --help 查看可用命令。",
+  "cli.error.adminRequired": "錯誤：此操作需要系統管理員權限。",
+  "cli.error.adminHint": "請使用「以系統管理員身分執行」啟動 .exe 檔案。"
 }
