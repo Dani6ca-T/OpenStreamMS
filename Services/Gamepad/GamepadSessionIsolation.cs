@@ -1040,11 +1040,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             bool moved = _physical.TryGetValue(node, out var previous);
             _physical[node] = target;
             Logger.Log(target == _console
-                ? $"[Gamepad] Mando físico {node} visible solo en la sesión de consola ({target})."
-                : $"[Gamepad] Mando físico {node} asignado a un puesto o sesión de stream: visible solo en la sesión {target}.");
+                ? BackendText.Get("gamepad.physicalPadConsole", node, target)
+                : BackendText.Get("gamepad.physicalPadAssigned", node, target));
             if (target != _console && SteamXboxFilter.InStack(node))
-                Logger.Warning($"[Gamepad] {node} lleva el filtro {SteamXboxFilter.FilterName} de Steam en su pila: el Steam de las demás " +
-                               "sesiones (la consola incluida) lo sigue leyendo. Desconéctalo y vuelve a conectarlo con el puesto o stream ya encendido.");
+                Logger.Warning(BackendText.Get("gamepad.steamFilterWarning", node, SteamXboxFilter.FilterName));
             if (!started.Contains(node) || !(moved || otherSessions)) continue;
             try
             {
@@ -1053,12 +1052,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 // entraría en bucle.
                 bool ok = moved ? DevSetup.RestartOrCycle(node, $"para que la sesión {previous} deje de leerlo")
                                 : DevSetup.Restart(node);
-                if (moved && ok) Logger.Log($"[Gamepad] {node} reiniciado: la sesión {previous} deja de leerlo.");
+                if (moved && ok) Logger.Log(BackendText.Get("gamepad.physicalPadRestarted", node, previous));
             }
             catch (Win32Exception ex)
             {
-                Logger.Warning($"[Gamepad] No se pudo reiniciar {node}: {ex.Message}. " +
-                               "La sesión que ya lo tuviera abierto lo sigue viendo hasta que lo cierre.");
+                Logger.Warning(BackendText.Get("gamepad.physicalPadRestartFailed", node, ex.Message));
             }
         }
     }
@@ -1103,7 +1101,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
         catch (Win32Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudieron quitar las entradas de sesión de HidHide: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.clearJailsFailed", ex.Message));
         }
     }
 
@@ -1111,7 +1109,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
     private void Unhide(Pad pad)
     {
         if (pad.Hidden.Count > 0 && UpdateJails(add: [], remove: pad.Hidden))
-            Logger.Log($"[Gamepad] Mando {pad.InstanceId} retirado; sus nodos HID salen de la lista negra de HidHide.", pad.Session);
+            Logger.Log(BackendText.Get("gamepad.padRemoved", pad.InstanceId), pad.Session);
     }
 
     /// <summary>
@@ -1127,7 +1125,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                            .Where(id => !Cm.Exists(id) && !_knownNodes.ContainsKey(id))
                            .ToList();
         if (stale.Count > 0 && UpdateJails(add: [], remove: stale))
-            Logger.Log($"[Gamepad] Quitadas {stale.Count} entradas antiguas de la lista negra de HidHide.");
+            Logger.Log(BackendText.Get("gamepad.staleJailsRemoved", stale.Count));
     }
 
     /// <summary>
@@ -1150,7 +1148,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             bool known = _absent.ContainsKey(id);
             _absent[id] = target;
             if (known)
-                Logger.Log($"[Gamepad] Mando físico {id} (no conectado ahora) pasa a la sesión {target}: lo estará en cuanto aparezca.");
+                Logger.Log(BackendText.Get("gamepad.absentPadAssigned", id, target));
         }
     }
 
@@ -1173,7 +1171,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo guardar {KnownNodesPath}: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.knownNodesSaveFailed", KnownNodesPath, ex.Message));
         }
     }
 
@@ -1187,7 +1185,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo leer {KnownNodesPath}: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.knownNodesReadFailed", KnownNodesPath, ex.Message));
         }
         return new(StringComparer.OrdinalIgnoreCase);
     }
@@ -1214,7 +1212,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
         catch (Win32Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo actualizar la lista negra de HidHide: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.hidHideBlacklistUpdateFailed", ex.Message));
             return false;
         }
     }
