@@ -748,9 +748,9 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                     vdd = ConsoleDisplay.List().FirstOrDefault(IsConsoleHalfDisplay);
                 }
                 if (vdd is not { Active: true, Gdi: { } gdi })
-                    throw new InvalidOperationException("la pantalla virtual no apareció en la consola");
+                    throw new InvalidOperationException(BackendText.Get("seats.consoleVirtualDisplayMissing"));
                 if (!ConsoleDisplay.MakePrimary(id, gatherFrom: mon.DevicePath))
-                    throw new InvalidOperationException("no se pudo hacer principal la pantalla virtual");
+                    throw new InvalidOperationException(BackendText.Get("seats.consoleVirtualDisplayPrimaryFailed"));
 
                 // Agente como SYSTEM: también captura el escritorio seguro (UAC) de la consola.
                 // "blank": partes libres que no son de la consola (forma de L), tapadas de negro.
@@ -761,12 +761,11 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                         ["blank"] = new JsonArray(parts.Skip(1).Select(p => (JsonNode)p.ToString()).ToArray()),
                     });
                 StartBridge(half.Active, presentation);
-                Logger.Log($"[Seats] La consola ocupa la parte {area} de '{mon.FriendlyName}' con su propia pantalla de {vdd.Width}x{vdd.Height}" +
-                           (parts.Count > 1 ? $"; tapado: {string.Join(", ", parts.Skip(1))}." : "."));
+                Logger.Log(BackendText.Get("seats.consoleAreaApplied", area, mon.FriendlyName, vdd.Width, vdd.Height, parts.Count > 1 ? string.Join(", ", parts.Skip(1)) : ""));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Seats] No se pudo dar a la consola su parte ({ex.Message}); queda el respaldo.");
+                Logger.Warning(BackendText.Get("seats.consoleAreaFallback", ex.Message));
                 StopConsoleHalf();
             }
         }
@@ -783,10 +782,10 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             SeatHostControl.RequestCloseSeat(half.Presentation.Id);
             // Primero el físico vuelve a ser el principal; después se quita la virtual.
             if (!ConsoleDisplay.MakePrimary(half.MonitorPath))
-                Logger.Warning("[Seats] No se pudo devolver el monitor principal a la consola; se recupera al quitar la pantalla virtual.");
+                Logger.Warning(BackendText.Get("seats.consoleMonitorRestoreFailed"));
             half.Display.Dispose();
             _consoleHalf = null;
-            Logger.Log("[Seats] La consola vuelve a tener su monitor entero.");
+            Logger.Log(BackendText.Get("seats.consoleMonitorRestored"));
         }
     }
 
@@ -839,11 +838,11 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             new ProcessInSession().LaunchInSession(session.RdpSessionId,
                 Path.Combine(Environment.SystemDirectory, "rundll32.exe"), "user32.dll,LockWorkStation",
                 waitForExit: true, waitTimeoutMs: 5000);
-            Logger.Log($"[Seats] '{seat.Name}': sesión bloqueada; pedirá la contraseña de '{session.Username}'.");
+            Logger.Log(BackendText.Get("seats.sessionLocked", seat.Name, session.Username));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] '{seat.Name}': no se pudo bloquear la sesión: {ex.Message}");
+            Logger.Warning(BackendText.Get("seats.sessionLockFailed", seat.Name, ex.Message));
         }
     }
 
