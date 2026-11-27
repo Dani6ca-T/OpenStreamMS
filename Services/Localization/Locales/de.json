@@ -171,5 +171,13 @@
   "power.noPending": "Es gibt kein ausstehendes Herunterfahren zum Abbrechen ({0}).",
   "power.shutdownFailed": "Fehler bei shutdown.exe: {0}",
   "power.scheduled": "{0} in {1} Sekunden geplant.",
-  "settings.logLevelChanged": "Protokollstufe: {0} → {1}."
+  "settings.logLevelChanged": "Protokollstufe: {0} → {1}.",
+  "seat.restartSession": "[Sitzplätze] Sitzung „{1}“ von „{0}“ wird neu gestartet, ohne den Sitzplatz auszuschalten.",
+  "seat.restartSizeMismatch": "Die Sitzung wurde mit {0}x{1} statt {2}x{3} wiederhergestellt.",
+  "seat.restartSessionDone": "[Sitzplätze] „{0}“: Sitzung neu gestartet; der Sitzplatz bleibt in Windows-Sitzung {1}.",
+  "seat.restartSessionFailed": "[Sitzplätze] „{0}“: Sitzung konnte nicht ohne Ausschalten des Sitzplatzes neu gestartet werden ({1}); der Sitzplatz wird neu aufgebaut.",
+  "seat.restartSeatFailed": "[Sitzplätze] „{0}“: Sitzplatz konnte nicht erneut gestartet werden: {1}",
+  "seat.waitingImageFailed": "[Sitzplätze] „{0}“: Wartbild konnte nicht angezeigt werden: {1}",
+  "seat.sessionDidNotRestart": "Die Sitzung wurde nicht erneut gestartet.",
+  "seat.sessionRestartTimeout": "Zeitüberschreitung beim Neustart der Sitzung."
 }
