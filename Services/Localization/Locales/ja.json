@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "「{0}」：{1} 台のデバイスをセッション {2} に割り当てました。",
   "seats.devicePortEmpty": "「{0}」：「{1}」のポートに何も接続されていません（{2}, {3}）。別のポート、ハブ、ドックに移動した場合は再割り当てしてください。",
   "seats.started": "シート「{0}」はアクティブです。",
-  "seats.startFailed": "シート「{0}」を起動できませんでした：{1}"
+  "seats.startFailed": "シート「{0}」を起動できませんでした：{1}",
+  "seats.textureConfigMissing": "エージェントがテクスチャ構成を送信しませんでした。",
+  "seats.textureHandlesMissing": "エージェントがテクスチャハンドルを提供しませんでした。",
+  "seats.presenterReadyMissing": "プレゼンターが確認応答を送信しませんでした。",
+  "seats.microphoneDisconnected": "「{0}」：マイク「{1}」が接続されていません。マイクなしでシートを起動します。",
+  "seats.sessionResolutionRestoreFailed": "「{0}」：セッションの解像度を復元できませんでした：{1}",
+  "seats.stopped": "シート「{0}」を停止しました。",
+  "seats.vigemMissing": "「{0}」：ViGEmBus がインストールされていません。コントローラーは HidHide で分離されます。",
+  "seats.sessionUserUnknown": "「{0}」：セッション {1} のユーザーを特定できません。他の USB デバイスはすべてのセッションで表示されます。",
+  "seats.rawInputShared": "「{0}」：{1} はコンソールと共有されたままです（Raw Input）。",
+  "seats.usbEventsSent": "「{1}」のエージェントに {0} 件のイベントを送信しました（最新：type={2} flags={3} dx={4} dy={5}）。",
+  "seats.usbInputSendFailed": "「{0}」のエージェントに入力を送信できませんでした：{1}",
+  "seats.inputInterfacesCaptured": "「{0}」：{2} 個中 {1} 個の入力インターフェイスをコンソールから分離しました。"
 }
