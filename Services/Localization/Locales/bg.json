@@ -273,5 +273,11 @@
   "rdp.startMstsc": "Стартиране на mstsc ({0}x{1}, {2} fps, {3} bpp, мащаб {4} %, хардуерен AVC444)…",
   "rdp.mstscExecutableMissing": "Неуспешно стартиране на mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc приключи с ExitCode={0}, без да създаде сесия за „{1}“. Възможен е невидим диалог (сертификат/идентификационни данни) или отказ от NLA.",
-  "rdp.mstscSessionTimeout": "Сесията за „{0}“ не се появи след 30 сек. с mstsc. Възможен е невидим диалог в Session 0."
+  "rdp.mstscSessionTimeout": "Сесията за „{0}“ не се появи след 30 сек. с mstsc. Възможен е невидим диалог в Session 0.",
+  "rdp.cmdkeyFailed": "cmdkey {0} не успя: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP приключи преждевременно. ExitCode={0}",
+  "rdp.sessionDetected": "Сесията е открита при опит {0} ({1}): {2} (FreeRDP PID={3})",
+  "rdp.sessionModeRelaxed": "разширен режим",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Изчакване на сесия… опит {0}/20"
 }
