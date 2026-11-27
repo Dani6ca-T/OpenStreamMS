@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Stanowiska] „{0}”: nie można ponownie uruchomić stanowiska: {1}",
   "seat.waitingImageFailed": "[Stanowiska] „{0}”: nie można wyświetlić obrazu oczekiwania: {1}",
   "seat.sessionDidNotRestart": "Sesja nie została ponownie uruchomiona.",
-  "seat.sessionRestartTimeout": "Przekroczono limit czasu ponownego uruchamiania sesji."
+  "seat.sessionRestartTimeout": "Przekroczono limit czasu ponownego uruchamiania sesji.",
+  "composite.created": "[Sesje złożone] Utworzono sesję złożoną „{0}” ({1}) z: {2}",
+  "composite.updated": "[{0}] Zmieniono sesję złożoną.",
+  "composite.startingMember": "[{0}] Uruchamianie „{1}” dla sesji złożonej…",
+  "composite.steamConfigFailed": "[{0}] Nie można skonfigurować aplikacji Steam sesji złożonej: {1}",
+  "composite.startAborted": "[{0}] Uruchamianie przerwane (sesja została zatrzymana podczas uruchamiania).",
+  "composite.started": "[{0}] Sesja złożona aktywna: {1}; klawiatura i mysz z „{2}” (sesja Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Nie można usunąć {1}: {2}",
+  "composite.stoppingMember": "[{0}] Zatrzymywanie „{1}”, uruchomionej przez sesję złożoną.",
+  "composite.restoreResolutionFailed": "[{0}] Nie udało się przywrócić rozdzielczości „{1}”: {2}",
+  "composite.keyboardStopped": "[{0}] Sesja klawiatury została zatrzymana; zatrzymywanie sesji złożonej.",
+  "composite.keyboardSessionChanged": "[{0}] Sesja klawiatury przeszła do sesji Windows {1}; ponowne uruchamianie Sunshine.",
+  "composite.watchFailed": "[{0}] Błąd monitorowania sesji złożonej: {1}",
+  "composite.waitingImageFailed": "[{0}] Nie można przygotować obrazu oczekiwania dla pola {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Akcja Steam „{1}” nie powiodła się w sesji Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: „{1}” w {2} sesjach.",
+  "composite.steamOpen": "otwieranie",
+  "composite.steamClose": "zamykanie"
 }
