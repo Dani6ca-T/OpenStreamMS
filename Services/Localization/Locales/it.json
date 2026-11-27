@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings riuscito — display a {0}Hz nella sessione {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings ha restituito OK, ma il display segnala {0}Hz (richiesti {1}Hz) nella sessione {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings non riuscito nella sessione {0}: {1} (display a {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Impossibile leggere il risultato di ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Impossibile leggere il risultato di ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "Errore WTSEnumerateSessions: {0}",
+  "rdp.sessionInfo": "Sessione {0} ({1}) protocollo={2} utente='{3}'",
+  "rdp.sessionUnlocked": "Sessione {0} sbloccata (flag={1}) dopo {2} ms.",
+  "rdp.sessionStillLocked": "Sessione {0} ancora bloccata dopo {1} ms. Sunshine potrebbe passare alla codifica software (libx264). Controlla la schermata di blocco.",
+  "rdp.userAlreadyHasOtherSession": "'{0}' ha già la sessione {1} ({2}).",
+  "rdp.disconnected": "disconnessa",
+  "rdp.termServiceChangedToManual": "TermService era disabilitato → impostato su Manuale.",
+  "rdp.termServiceStarted": "TermService avviato (Desktop remoto nativo).",
+  "rdp.termServiceEnsureFailed": "Impossibile garantire l'esecuzione di TermService: {0}. Se Desktop remoto è disattivato, la connessione loopback fallirà; abilitalo in Sistema → Desktop remoto o riavvia Windows.",
+  "rdp.registryKeyOpenFailed": "Impossibile aprire HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Impossibile scrivere {0} in HKLM\\\\{1}: {2}"
 }
