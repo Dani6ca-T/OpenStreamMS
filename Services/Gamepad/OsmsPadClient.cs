@@ -1,6 +1,7 @@
 using Microsoft.Win32.SafeHandles;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Gamepad;
 
@@ -49,7 +50,7 @@ internal sealed class OsmsPadClient : IDisposable
         var h = CreateFileW(path, 0xC0000000, 3, IntPtr.Zero, 3, 0x40000000 /*OVERLAPPED*/, IntPtr.Zero);
         if (h.IsInvalid)
         {
-            Logger.Warning($"[OsmsPad] No se pudo abrir el driver: error {Marshal.GetLastWin32Error()}.");
+            Logger.Warning(BackendText.Get("osmsPad.openFailed", Marshal.GetLastWin32Error()));
             h.Dispose();
             return null;
         }
