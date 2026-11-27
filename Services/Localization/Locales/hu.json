@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] A Steam „{1}” művelete sikertelen a(z) {2}. Windows-munkamenetben: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: „{1}” {2} munkamenetben.",
   "composite.steamOpen": "megnyitás",
-  "composite.steamClose": "bezárás"
+  "composite.steamClose": "bezárás",
+  "gamepad.hidHideNotOpen": "A HidHide-ot nem nyitotta meg az elkülönítési szolgáltatás; a ViGEm-vezérlő megjelenésekor elkülönítésre kerül.",
+  "gamepad.deviceArrivalWatchUnavailable": "Az eszközök érkezése nem figyelhető; csak másodpercenkénti ellenőrzés történik.",
+  "gamepad.hidHideNotInstalled": "A HidHide nincs telepítve: a vezérlők minden munkamenetben láthatók lesznek.",
+  "gamepad.hidHideEnabled": "HidHide aktiválva.",
+  "gamepad.hidHideConfigureFailed": "A HidHide konfigurálása nem sikerült: {0}",
+  "gamepad.monitorFailed": "Hiba a vezérlők figyelésekor: {0}"
 }
