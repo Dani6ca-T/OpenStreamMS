@@ -339,5 +339,13 @@
   "seats.rawInputShared": "„{0}“: {1} zůstává sdíleno s konzolí (Raw Input).",
   "seats.usbEventsSent": "Agentovi „{1}“ odesláno {0} událostí (poslední: typ={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Nepodařilo se odeslat vstup agentovi „{0}“: {1}",
-  "seats.inputInterfacesCaptured": "„{0}“: {1} z {2} vstupních rozhraní odděleno od konzole."
+  "seats.inputInterfacesCaptured": "„{0}“: {1} z {2} vstupních rozhraní odděleno od konzole.",
+  "seats.consoleVirtualDisplayMissing": "Virtuální obrazovka se v konzoli neobjevila.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Nepodařilo se nastavit virtuální obrazovku jako hlavní.",
+  "seats.consoleAreaApplied": "Konzole používá část {0} monitoru „{1}“ s vlastní obrazovkou {2}x{3}. Zakrytá část: {4}",
+  "seats.consoleAreaFallback": "Nepodařilo se předat konzoli její část ({0}); zůstává záložní řešení.",
+  "seats.consoleMonitorRestoreFailed": "Nepodařilo se vrátit hlavní monitor konzoli; obnoví se po odebrání virtuální obrazovky.",
+  "seats.consoleMonitorRestored": "Konzole má opět celý svůj monitor.",
+  "seats.sessionLocked": "„{0}“: relace je uzamčena; bude vyžadováno heslo uživatele „{1}“.",
+  "seats.sessionLockFailed": "„{0}“: nepodařilo se uzamknout relaci: {1}"
 }
