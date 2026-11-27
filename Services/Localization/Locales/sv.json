@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Det gick inte att justera behörigheter för \"{0}\" i {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Brandvägg ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Uppdaterar Sunshine-instansen: {1} → {2} (config/, parkopplingar, autentiseringsuppgifter och inställningar bevaras).",
-  "session.logHudEnsureFailed": "[HUD] Det gick inte att initiera HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Det gick inte att initiera HUD: {0}",
+  "error.seatName": "Platsens namn krävs.",
+  "error.stopSeat": "Stoppa platsen innan du ändrar dess konfiguration.",
+  "error.primaryMonitor": "Den primära bildskärmen kan inte tilldelas en plats.",
+  "error.assigned": "Den valda resursen är redan tilldelad."
 }
