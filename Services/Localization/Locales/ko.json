@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp이 연결되지 않았습니다. 콘솔 세션 {0}에서 독립 프레젠터를 시작합니다...",
   "seatHostControl.consoleUserMissing": "[Seats] 실제 콘솔에 로그인한 사용자가 없습니다.",
   "seatHostControl.trayHostConnected": "[TrayApp] 좌석 호스트 제어 파이프에 연결되었습니다.",
-  "seatHostControl.commandProcessingError": "[TrayApp] 좌석 명령 처리 오류: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] 좌석 명령 처리 오류: {0}",
+  "guideGuard.disabled": "[Seats] Guide 버튼: 좌석이 활성화된 동안 {0}의 컨트롤러 Game Bar를 비활성화했습니다.",
+  "guideGuard.disableFailed": "[Seats] Guide 버튼: {0}의 컨트롤러 Game Bar를 비활성화하지 못했습니다: {1}",
+  "guideGuard.restored": "[Seats] Guide 버튼: {0}의 컨트롤러 Game Bar를 복원했습니다.",
+  "guideGuard.restoreFailed": "[Seats] Guide 버튼: {0}의 컨트롤러 Game Bar를 복원하지 못했습니다: {1}",
+  "handleBroker.openSourceFailed": "원본 PID {0}의 OpenProcess 실패.",
+  "handleBroker.openTargetFailed": "대상 PID {0}의 OpenProcess 실패.",
+  "handleBroker.duplicateFailed": "PID {0}에서 PID {1}(으)로 DuplicateHandle 실패.",
+  "seatStore.readFailed": "[Seats] seats.json을 읽지 못했습니다: {0}",
+  "seatStore.saveFailed": "[Seats] seats.json을 저장하지 못했습니다: {0}",
+  "seatIpc.unexpectedClient": "[Seats] {0} 파이프: 예상하지 못한 클라이언트 프로세스 {1}을(를) 거부했습니다.",
+  "seatIpc.notServicePipe": "파이프가 서비스 소유가 아닙니다 (프로세스 {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] 입력 수신: 키보드",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] 입력 수신: 유형={0} 플래그={1:X} dx={2} dy={3} 코드={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] 10초 입력 주입: {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10초: 전송={0} 링_사용중={1} 입력={2} 주입_실패={3} 마지막_오류={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10초 캡처 지연 시간: {0}"
 }
