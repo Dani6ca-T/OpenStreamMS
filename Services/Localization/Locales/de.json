@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Start vor Beginn abgebrochen (ein anderer Befehl ist eingetroffen).",
   "session.logCreatingRdpSession": "[{0}] RDP-Sitzung für Benutzer „{1}“ wird gestartet...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine konnte nicht gestartet werden: {1}",
-  "session.logAutoStartFailed": "[{0}] Automatischer Start fehlgeschlagen: {1}"
+  "session.logAutoStartFailed": "[{0}] Automatischer Start fehlgeschlagen: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Start abgebrochen (Sitzung wurde während der RDP-Erstellung beendet).",
+  "session.logRdpSessionReused": "[{0}] Vorhandene RDP-Sitzung wiederverwendet; kein neuer RDP-Client gestartet.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Start abgebrochen (Sitzung wurde während des Sunshine-Starts beendet).",
+  "session.logSessionActiveRdp": "[{0}] Sitzung aktiv (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Start abgebrochen (Sitzung wurde nach Abschluss des Starts beendet).",
+  "session.logWaitingForConsoleUser": "[{0}] Sie wird gestartet, sobald sich jemand bei Windows anmeldet.",
+  "session.logLocalSessionActive": "[{0}] Lokale Sitzung aktiv (Windows-Sitzung {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine-Zugangsdaten zurückgesetzt; Sunshine beendet und wird automatisch neu gestartet.",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine-Vorlage geändert; Instanz wird aktualisiert: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine-Instanz konnte nicht aktualisiert werden: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Firewallregel konnte nicht hinzugefügt werden: {0}"
 }
