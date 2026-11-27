@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Controller {0} ({1}) moved to session '{2}' (Windows session {3}) because the composite session changed.",
   "gamepad.futurePadsReserved": "Upcoming Moonlight controllers are hidden in advance until their session is known ({0}).",
   "gamepad.futurePadReservationsReleased": "No streams running: upcoming controller reservations released.",
-  "gamepad.futurePadReservationFailed": "Could not reserve upcoming controllers in HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Could not reserve upcoming controllers in HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} has been visible only in session '{1}' ({2}) since arrival; restarted so that session can detect it.",
+  "gamepad.nodeVisibleAfterRestart": "{0} is visible only in session '{1}' ({2}); restarted to close handles held by other sessions.",
+  "gamepad.nodeRestartDeferred": "{0} is visible only in session '{1}' ({2}), but Windows deferred its restart because another process has it open; processes that already opened it will keep seeing it until they close it.",
+  "gamepad.nodeLateRestartFailed": "{0} was hidden late and could not be restarted: {1}. A process in another session that already had it open can still see it.",
+  "gamepad.nodeVisibleSession": "{0} is visible only in session '{1}' ({2})."
 }
