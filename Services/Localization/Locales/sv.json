@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings lyckades — skärmen körs med {0}Hz i session {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings returnerade lyckat resultat, men skärmen rapporterar {0}Hz (begärt {1}Hz) i session {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings misslyckades i session {0}: {1} (skärmen {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Det gick inte att läsa resultatet från ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Det gick inte att läsa resultatet från ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions-fel: {0}",
+  "rdp.sessionInfo": "Session {0} ({1}) protokoll={2} användare='{3}'",
+  "rdp.sessionUnlocked": "Session {0} upplåst (flag={1}) efter {2} ms.",
+  "rdp.sessionStillLocked": "Session {0} är fortfarande låst efter {1} ms. Sunshine kan falla tillbaka till programvarukodning (libx264). Kontrollera låsskärmen.",
+  "rdp.userAlreadyHasOtherSession": "”{0}” har redan session {1} ({2}).",
+  "rdp.disconnected": "frånkopplad",
+  "rdp.termServiceChangedToManual": "TermService var inaktiverad → ändrad till Manuell.",
+  "rdp.termServiceStarted": "TermService startad (inbyggt Fjärrskrivbord).",
+  "rdp.termServiceEnsureFailed": "Det gick inte att säkerställa att TermService körs: {0}. Om Fjärrskrivbord är avstängt misslyckas loopback-anslutningen; aktivera det under System → Fjärrskrivbord eller starta om Windows.",
+  "rdp.registryKeyOpenFailed": "Det gick inte att öppna HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Det gick inte att skriva {0} i HKLM\\\\{1}: {2}"
 }
