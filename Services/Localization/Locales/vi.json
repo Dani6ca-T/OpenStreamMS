@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "Chưa cài đặt HidHide: bộ điều khiển sẽ hiển thị trong mọi phiên.",
   "gamepad.hidHideEnabled": "Đã bật HidHide.",
   "gamepad.hidHideConfigureFailed": "Không thể cấu hình HidHide: {0}",
-  "gamepad.monitorFailed": "Lỗi khi theo dõi bộ điều khiển: {0}"
+  "gamepad.monitorFailed": "Lỗi khi theo dõi bộ điều khiển: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} hiện khả dụng: tay cầm được cô lập theo phiên.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} không hỗ trợ cô lập theo phiên (cần phiên bản {1} trở lên): tay cầm sẽ hiển thị trong mọi phiên. Hãy cập nhật HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: chế độ đảo ngược {0}; danh sách cho phép ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Các ứng dụng trong danh sách cho phép của HidHide có thể thấy tay cầm từ mọi phiên, ngay cả khi được gán cho phiên khác.",
+  "gamepad.hidHideWhitelistReadFailed": "Không thể đọc danh sách cho phép của HidHide: {0}",
+  "gamepad.controllerToVkDisabled": "Đã tắt ControllerToVKMapping (bỏ qua cô lập tay cầm theo phiên).",
+  "gamepad.controllerToVkDisableFailed": "Không thể tắt ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Không thể chuẩn bị jail HidHide cho tay cầm ViGEm: {0}"
 }
