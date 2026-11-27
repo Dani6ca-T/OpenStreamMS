@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Controller {0} ({1}) wurde aufgrund einer Änderung der zusammengesetzten Sitzung zu Sitzung „{2}“ (Windows-Sitzung {3}) verschoben.",
   "gamepad.futurePadsReserved": "Nächste Moonlight-Controller werden vorab verborgen, bis ihre Sitzung bekannt ist ({0}).",
   "gamepad.futurePadReservationsReleased": "Keine Streams aktiv: Vorabreservierung der nächsten Controller aufgehoben.",
-  "gamepad.futurePadReservationFailed": "Nächste Controller konnten in HidHide nicht reserviert werden: {0}"
+  "gamepad.futurePadReservationFailed": "Nächste Controller konnten in HidHide nicht reserviert werden: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} ist seit dem Erscheinen nur in Sitzung „{1}“ ({2}) sichtbar; wurde neu gestartet, damit diese Sitzung ihn erkennt.",
+  "gamepad.nodeVisibleAfterRestart": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar; wurde neu gestartet, um Handles anderer Sitzungen zu schließen.",
+  "gamepad.nodeRestartDeferred": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar, aber Windows hat den Neustart aufgeschoben (ein anderer Prozess verwendet das Gerät); bereits geöffnete Handles bleiben bis zum Schließen sichtbar.",
+  "gamepad.nodeLateRestartFailed": "{0} wurde verspätet verborgen und konnte nicht neu gestartet werden: {1}. Ein Prozess einer anderen Sitzung, der das Gerät bereits geöffnet hat, sieht es weiterhin.",
+  "gamepad.nodeVisibleSession": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar."
 }
