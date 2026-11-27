@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] No se pudieron ajustar los permisos de \"{0}\" en {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Actualizando Sunshine de la instancia: {1} → {2} (se conservan config/, emparejamientos, credenciales y ajustes).",
-  "session.logHudEnsureFailed": "[HUD] No se pudo inicializar el HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] No se pudo inicializar el HUD: {0}",
+  "error.seatName": "El nombre del puesto es obligatorio.",
+  "error.stopSeat": "Detén el puesto antes de cambiar su configuración.",
+  "error.primaryMonitor": "No se puede asignar el monitor principal a un puesto.",
+  "error.assigned": "El recurso seleccionado ya está asignado."
 }
