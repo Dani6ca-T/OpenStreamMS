@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} chỉ hiển thị trong phiên '{1}' ({2}); đã khởi động lại để đóng các handle của phiên khác.",
   "gamepad.nodeRestartDeferred": "{0} chỉ hiển thị trong phiên '{1}' ({2}), nhưng Windows hoãn khởi động lại vì tiến trình khác đang mở; các tiến trình đã mở vẫn thấy thiết bị cho đến khi đóng lại.",
   "gamepad.nodeLateRestartFailed": "{0} bị ẩn muộn và không thể khởi động lại: {1}. Tiến trình ở phiên khác đã mở thiết bị vẫn tiếp tục nhìn thấy nó.",
-  "gamepad.nodeVisibleSession": "{0} chỉ hiển thị trong phiên '{1}' ({2})."
+  "gamepad.nodeVisibleSession": "{0} chỉ hiển thị trong phiên '{1}' ({2}).",
+  "gamepad.consoleSessionChanged": "Phiên bảng điều khiển chuyển từ {0} sang {1}: đang gán lại các tay cầm vật lý.",
+  "gamepad.sideInputDriverRestored": "{0} (bàn phím hoặc chuột của tay cầm) đã trở về trình điều khiển: tay cầm đang ở bảng điều khiển.",
+  "gamepad.sideInputCaptured": "{0} (bàn phím hoặc chuột của tay cầm) được tách ra khi tay cầm ở phiên khác: các phím của nó (ví dụ nút chụp) không còn gửi đến bảng điều khiển."
 }
