@@ -558,7 +558,7 @@ internal static partial class DiagnosticsBundle
         var stderr = p.StandardError.ReadToEndAsync();
         var stdout = p.StandardOutput.ReadToEndAsync();
         if (!p.WaitForExit(30_000)) { try { p.Kill(); } catch { } return BackendText.Get("diagnostics.commandTimedOut", exe, args); }
-        return $"> {exe} {args}  (código {p.ExitCode})\n{stdout.Result}{stderr.Result}";
+        return BackendText.Get("diagnostics.commandResult", exe, args, p.ExitCode, stdout.Result, stderr.Result);
     }
 
     // ── Datos personales ─────────────────────────────────────────────────────
