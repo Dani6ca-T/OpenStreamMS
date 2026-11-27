@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "メインモニターをコンソールに戻せませんでした。仮想ディスプレイの削除時に復元されます。",
   "seats.consoleMonitorRestored": "コンソールは再びモニター全体を使用します。",
   "seats.sessionLocked": "「{0}」：セッションをロックしました。「{1}」のパスワードが必要になります。",
-  "seats.sessionLockFailed": "「{0}」：セッションをロックできませんでした：{1}"
+  "seats.sessionLockFailed": "「{0}」：セッションをロックできませんでした：{1}",
+  "seats.sessionDisconnectedFromSeat": "「{0}」：シートからセッションが切断されました。OpenStreamMS から再起動するまでシートを停止します。",
+  "seats.stopAfterDisconnectFailed": "「{0}」：切断後に停止できませんでした：{1}",
+  "seats.windowsSessionChanged": "「{0}」：Windows セッションが {1} から {2} に変更されました。コントローラーを再割り当てします。",
+  "seats.monitorModeChanged": "「{0}」：モニターモードが変更されました。セッションを再調整します。",
+  "seats.readjustFailed": "シートを再調整できませんでした：{0}",
+  "seats.agentDisconnected": "「{0}」：セッションエージェントが切断されました。",
+  "seats.presenterDisconnected": "「{0}」：コンソールプレゼンターが切断されました。",
+  "seats.consoleAreaLost": "コンソール領域の映像が失われました（{0}）。コンソールのモニターを復元します。",
+  "seats.seatLost": "シート「{0}」を停止します：{1}。",
+  "seats.stopAfterLossFailed": "「{0}」：切断後に停止できませんでした：{1}",
+  "seats.sessionStartFailed": "セッションの起動に失敗しました。",
+  "seats.sessionStartTimeout": "セッションが時間内にアクティブになりませんでした。"
 }
