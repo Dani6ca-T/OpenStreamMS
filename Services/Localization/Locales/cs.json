@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf aktualizován ({0}) v: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: přihlašovací údaje jsou již aktuální (uživatel={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: přihlašovací údaje jsou již aktuální; root vyčištěn (uživatel={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: přihlašovací údaje nastaveny (uživatel={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: přihlašovací údaje nastaveny (uživatel={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Před zastavením se nepodařilo vyžádat čisté vyprázdnění: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Nepodařilo se spustit sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Nepodařilo se obnovit root po --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "Nepodařilo se ověřit jedinečné ID: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Nepodařilo se obnovit sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Nepodařilo se spustit zrcadlení sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Nepodařilo se zkopírovat {0} do zálohy: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Nepodařilo se obnovit {0}: {1}"
 }
