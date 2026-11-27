@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Den här platsen använder samma användare som konsolen och kan inte starta på egen hand. Starta den från OpenStreamMS eller tilldela den en annan session.",
   "seats.monitorAlreadyAssigned": "Skärmen är redan tilldelad platsen ”{0}”.",
   "seats.monitorAreaOverlap": "Det här skärmområdet överlappar området för platsen ”{0}”.",
-  "seats.notFound": "Plats {0} finns inte."
+  "seats.notFound": "Plats {0} finns inte.",
+  "session.logStopping": "[{0}] Stoppar...",
+  "session.logRestartRequested": "[{0}] Omstart begärd (aktuellt tillstånd: {1}).",
+  "session.logRestartSuperseded": "[{0}] Omstart avbruten: ett annat kommando kom medan tjänsten stoppades.",
+  "session.logSunshineKillTimeout": "[{0}] Tidsgränsen överskreds när Sunshine skulle avslutas.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Windows-session {1} avslutades inte helt.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) stoppad.",
+  "session.logStopWarning": "[{0}] Varning vid stopp: {1}",
+  "session.logStopped": "[{0}] Stoppad."
 }
