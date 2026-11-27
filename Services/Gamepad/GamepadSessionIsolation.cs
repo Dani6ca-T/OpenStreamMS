@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 using OpenStreamMS.Core.Api;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
