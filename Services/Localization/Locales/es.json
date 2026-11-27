@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf actualizado ({0}) en: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: credenciales ya actualizadas (user={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: credenciales ya actualizadas; root limpiado (user={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: credenciales establecidas (user={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: credenciales establecidas (user={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] No se pudo solicitar flush limpio antes de parar: {0}",
+  "sunshine.credentialsCliLaunchFailed": "No se pudo lanzar sunshine.exe --creds",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] No se pudo restaurar root tras --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "[Sunshine] No se pudo comprobar el uniqueid: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] No se pudo restaurar sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] No se pudo iniciar mirror de sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] No se pudo copiar {0} a backup: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] No se pudo restaurar {0}: {1}"
 }
