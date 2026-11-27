@@ -623,5 +623,20 @@
   "seatInput.createFailed": "[SeatInput] No se pudo crear el enrutador de entrada: {0}",
   "seatInput.stopped": "[SeatInput] Enrutador de entrada detenido.",
   "seatInput.createWindowFailed": "CreateWindowEx (escudo) falló",
-  "seatInput.rawInputError": "[SeatInput] {0}"
+  "seatInput.rawInputError": "[SeatInput] {0}",
+  "seatAudio.enumerateInputsFailed": "[Seats] No se pudieron enumerar los micrófonos: {0}",
+  "seatAudio.enumerateOutputsFailed": "[Seats] No se pudieron enumerar las salidas de audio: {0}",
+  "consoleDisplay.noConsoleUser": "[Seats] No hay ningún usuario con sesión en la consola: no se pueden gestionar los monitores.",
+  "consoleDisplay.noResult": "[Seats] --display {0} no devolvió resultado.",
+  "consoleDisplay.commandFailed": "[Seats] --display {0} falló: {1}",
+  "consoleDisplay.windowsMoved": "[Seats] Ventanas de la consola llevadas a la pantalla nueva: {0}.",
+  "consoleDisplay.windowsMovedPartial": "[Seats] Ventanas de la consola llevadas a la pantalla nueva: {0}; no se pudieron mover: {1}.",
+  "consoleLock.noConsoleUser": "[Seats] No hay usuario en la consola: no se puede impedir que se bloquee.",
+  "consoleLock.userHiveNotLoaded": "El registro del usuario no está cargado.",
+  "consoleLock.engaged": "[Seats] Bloqueo de la consola desactivado para '{0}' mientras haya puestos encendidos.",
+  "consoleLock.engageFailed": "[Seats] No se pudo impedir el bloqueo de la consola: {0}",
+  "consoleLock.journalEmpty": "Registro vacío.",
+  "consoleLock.userNotLoggedOn": "[Seats] '{0}' no tiene sesión: el bloqueo se restaurará más tarde.",
+  "consoleLock.released": "[Seats] Bloqueo de la consola restaurado para '{0}'.",
+  "consoleLock.releaseFailed": "[Seats] No se pudo restaurar el bloqueo de la consola: {0}"
 }
