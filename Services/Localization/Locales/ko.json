@@ -171,5 +171,13 @@
   "power.noPending": "취소할 대기 중인 종료가 없습니다({0}).",
   "power.shutdownFailed": "shutdown.exe 오류: {0}",
   "power.scheduled": "{1}초 후 {0} 예약됨.",
-  "settings.logLevelChanged": "로그 수준: {0} → {1}."
+  "settings.logLevelChanged": "로그 수준: {0} → {1}.",
+  "seat.restartSession": "[좌석] 좌석을 끄지 않고 '{0}' 좌석의 '{1}' 세션을 다시 시작합니다.",
+  "seat.restartSizeMismatch": "세션이 {2}x{3}이 아닌 {0}x{1} 크기로 돌아왔습니다.",
+  "seat.restartSessionDone": "[좌석] '{0}': 세션이 다시 시작되었습니다. 좌석은 Windows 세션 {1}에 유지됩니다.",
+  "seat.restartSessionFailed": "[좌석] '{0}': 좌석을 끄지 않고 세션을 다시 시작할 수 없습니다({1}). 좌석을 다시 구성합니다.",
+  "seat.restartSeatFailed": "[좌석] '{0}': 좌석을 다시 시작할 수 없습니다: {1}",
+  "seat.waitingImageFailed": "[좌석] '{0}': 대기 이미지를 표시할 수 없습니다: {1}",
+  "seat.sessionDidNotRestart": "세션이 다시 시작되지 않았습니다.",
+  "seat.sessionRestartTimeout": "세션 다시 시작 시간이 초과되었습니다."
 }
