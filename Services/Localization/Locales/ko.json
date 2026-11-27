@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "활성화",
   "gamepad.stateDisabled": "비활성화",
   "gamepad.stateEmpty": "비어 있음",
-  "gamepad.unknownVersion": "알 수 없는 버전"
+  "gamepad.unknownVersion": "알 수 없는 버전",
+  "gamepad.predictedPadClaimed": "{0}은(는) 연결하기 전부터 세션 {1}에만 표시됩니다('{2}').",
+  "gamepad.releaseReservationsFailed": "컨트롤러 예약을 해제할 수 없습니다: {0}",
+  "gamepad.padClaimed": "컨트롤러 {0} → '{1}'(Windows 세션 {2}): 이 서비스가 컨트롤러를 선점했습니다.",
+  "gamepad.padOwnerUnknown": "컨트롤러 {0}을(를) 생성한 세션을 확인할 수 없습니다. 모든 세션에 계속 표시됩니다.",
+  "gamepad.osmsPadOutsideSession": "OsmsPad 컨트롤러 {0} → Windows 세션 {1}(OpenStreamMS 세션에 속하지 않음)."
 }
