@@ -631,13 +631,13 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             pad.Session = target;
             pad.SessionName = member.Name;
             pad.WindowsSession = member.RdpSessionId;
-            Logger.Log($"[Gamepad] Mando {pad.Index} de '{session.Name}' ({pad.InstanceId}) → sesión '{member.Name}' (sesión de Windows {member.RdpSessionId})", target);
+            Logger.Log(BackendText.Get("gamepad.padAssignedCompositeMember", pad.Index, session.Name, pad.InstanceId, member.Name, member.RdpSessionId), target);
             return;
         }
         pad.Session = owner;
         pad.SessionName = session.Name;
         pad.WindowsSession = session.RdpSessionId;
-        Logger.Log($"[Gamepad] Mando {pad.InstanceId} → sesión '{session.Name}' (sesión de Windows {session.RdpSessionId})", owner);
+        Logger.Log(BackendText.Get("gamepad.padAssignedSession", pad.InstanceId, session.Name, session.RdpSessionId), owner);
     }
 
     /// <summary>
@@ -658,7 +658,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         pad.Session = target;
         pad.SessionName = session.Name;
         pad.WindowsSession = session.RdpSessionId;
-        Logger.Log($"[Gamepad] Mando {pad.Index} ({pad.InstanceId}) pasa a la sesión '{session.Name}' (sesión de Windows {session.RdpSessionId}) por un cambio en la sesión compuesta.", target);
+        Logger.Log(BackendText.Get("gamepad.padRetargeted", pad.Index, pad.InstanceId, session.Name, session.RdpSessionId), target);
         Hide(pad);
     }
 
