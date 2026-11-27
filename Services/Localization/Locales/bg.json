@@ -339,5 +339,13 @@
   "seats.rawInputShared": "„{0}“: {1} остава споделен с конзолата (Raw Input).",
   "seats.usbEventsSent": "Изпратени са {0} събития към агента на „{1}“ (последно: тип={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Неуспешно изпращане на вход към агента на „{0}“: {1}",
-  "seats.inputInterfacesCaptured": "„{0}“: {1} от {2} входни интерфейса са отделени от конзолата."
+  "seats.inputInterfacesCaptured": "„{0}“: {1} от {2} входни интерфейса са отделени от конзолата.",
+  "seats.consoleVirtualDisplayMissing": "Виртуалният екран не се появи в конзолата.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Неуспешно задаване на виртуалния екран като основен.",
+  "seats.consoleAreaApplied": "Конзолата използва част {0} от „{1}“ със собствен екран {2}x{3}. Покрита част: {4}",
+  "seats.consoleAreaFallback": "Неуспешно предоставяне на частта на конзолата ({0}); остава резервният вариант.",
+  "seats.consoleMonitorRestoreFailed": "Неуспешно връщане на основния монитор към конзолата; ще бъде възстановен при премахване на виртуалния екран.",
+  "seats.consoleMonitorRestored": "Конзолата отново използва целия си монитор.",
+  "seats.sessionLocked": "„{0}“: сесията е заключена; ще бъде поискана паролата на „{1}“.",
+  "seats.sessionLockFailed": "„{0}“: неуспешно заключване на сесията: {1}"
 }
