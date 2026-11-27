@@ -212,8 +212,8 @@ public static class SeatAgent
                             if (Interlocked.Increment(ref _inputsReceived) <= 3)
                                 // Del teclado, nunca la tecla: podría ser la contraseña (#101).
                                 Logger.Log(ev.Kind == SeatInputEvent.Keyboard
-                                    ? $"[SeatAgent] Entrada recibida: teclado"
-                                    : $"[SeatAgent] Entrada recibida: tipo={ev.Kind} flags={ev.Flags:X} dx={ev.Dx} dy={ev.Dy} código={ev.Code:X}");
+                                    ? BackendText.Get("seatAgent.inputReceivedKeyboard")
+                                    : BackendText.Get("seatAgent.inputReceivedDetails", ev.Kind, ev.Flags, ev.Dx, ev.Dy, ev.Code));
                             injector.Inject(ev);
                             injectLatency.AddSince(ev.Qpc);
                             if (ev.Kind == SeatInputEvent.Mouse && (ev.Dx != 0 || ev.Dy != 0))
@@ -224,7 +224,7 @@ public static class SeatAgent
                             if (Environment.TickCount64 >= nextInjectStats)
                             {
                                 nextInjectStats = Environment.TickCount64 + 10_000;
-                                if (injectLatency.Flush() is { Length: > 0 } st) Logger.Log($"[SeatAgent] 10 s:{st}");
+                                if (injectLatency.Flush() is { Length: > 0 } st) Logger.Log(BackendText.Get("seatAgent.injectStats", st));
                             }
                         }
                         else Logger.Warning(BackendText.Get("seatAgent.invalidInputMessage", data.Length, SeatInputEvent.Size));
@@ -283,8 +283,7 @@ public static class SeatAgent
             if (Environment.TickCount64 >= nextStats)
             {
                 nextStats += 10_000;
-                Logger.Log($"[SeatAgent] 10 s: enviados={sent} anillo_ocupado={ringBusy} entrada={_inputsReceived} " +
-                           $"inyección_fallida={Injector.Failures} último_error={Injector.LastError} {Injector.Diagnostics()}");
+                Logger.Log(BackendText.Get("seatAgent.captureStats", sent, ringBusy, _inputsReceived, Injector.Failures, Injector.LastError, Injector.Diagnostics()));
             }
             var res = dupl.AcquireNextFrame(100, out var info, out var dres);
             if (res == Vortice.DXGI.ResultCode.WaitTimeout) continue;
@@ -429,7 +428,7 @@ public static class SeatAgent
                 if (now >= nextStats)
                 {
                     nextStats = now + 10_000;
-                    if (latency.Flush() is { Length: > 0 } st) Logger.Log($"[SeatAgent] 10 s:{st}");
+                    if (latency.Flush() is { Length: > 0 } st) Logger.Log(BackendText.Get("seatAgent.captureLatencyStats", st));
                 }
                 if (!Injector.TryGetCursorPos(out int x, out int y))
                 {
