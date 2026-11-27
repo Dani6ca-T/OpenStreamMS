@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "已从 HidHide 中移除按会话隔离手柄的设置，并恢复 Steam 的 steamxbox 筛选器。",
   "uninstall.seatsRestored": "已恢复工作站键盘/鼠标、控制台锁定保护、关机权限以及每位用户单会话设置。",
   "uninstall.trayRemoved": "已从自动启动中移除托盘图标。",
-  "uninstall.driverError": "{0}：{1}"
+  "uninstall.driverError": "{0}：{1}",
+  "install.executable": "可执行文件：",
+  "install.configPath": "配置："
 }
