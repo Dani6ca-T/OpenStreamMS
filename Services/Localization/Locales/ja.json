@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell を利用できません。",
   "steamIsolation.shortcutDescription": "他のセッションから分離された Steam (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] 「{1}」の音声をキーボード セッション「{2}」に転送しました。",
-  "compositeAudio.forwardFailed": "[{0}] 「{1}」の音声を転送できませんでした: {2}"
+  "compositeAudio.forwardFailed": "[{0}] 「{1}」の音声を転送できませんでした: {2}",
+  "hud.launched": "[HUD] Windows セッション {0} で起動しました (PID {1}): Ctrl+Alt+H または Guide + Back。",
+  "hud.launchFailed": "[HUD] Windows セッション {0} で起動できませんでした: {1}"
 }
