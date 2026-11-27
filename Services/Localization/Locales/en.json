@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, scale {3}%.",
   "rdp.betterRdpPoliciesApplied": "BetterRDP policies applied.",
   "rdp.mstscClientPoliciesApplied": "mstsc client policies applied (no pre-connection dialogs).",
-  "rdp.mstscClientPoliciesFailed": "Could not apply mstsc HKCU policies: {0}"
+  "rdp.mstscClientPoliciesFailed": "Could not apply mstsc HKCU policies: {0}",
+  "rdp.videoRegistryKeyMissing": "HKLM\\\\{0} not found.",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0} applied to HKLM\\\\{1} ({2}).",
+  "rdp.noVirtualAdapterFound": "No virtual RDP adapter found under Control\\\\Video — VRefresh unchanged. The session will use the driver's default refresh rate.",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0} applied to {1} virtual adapter(s).",
+  "rdp.refreshRegistryFailed": "Error setting VRefresh in registry: {0}",
+  "rdp.sessionTempResolveFailed": "Could not resolve TEMP for session {0}: {1}"
 }
