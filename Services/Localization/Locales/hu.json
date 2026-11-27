@@ -273,5 +273,11 @@
   "rdp.startMstsc": "mstsc indítása ({0}x{1}, {2} fps, {3} bpp, {4} % méretezés, AVC444 hardver)…",
   "rdp.mstscExecutableMissing": "Az mstsc.exe nem indítható el",
   "rdp.mstscExitedNoSession": "Az mstsc ExitCode={0} kóddal kilépett, de nem hozott létre munkamenetet ehhez: „{1}”. Lehetséges láthatatlan tanúsítvány-/hitelesítési párbeszédablak vagy NLA-elutasítás.",
-  "rdp.mstscSessionTimeout": "A(z) „{0}” munkamenet 30 másodperc után sem jelent meg mstsc használatával. Lehetséges láthatatlan párbeszédablak a Session 0-ban."
+  "rdp.mstscSessionTimeout": "A(z) „{0}” munkamenet 30 másodperc után sem jelent meg mstsc használatával. Lehetséges láthatatlan párbeszédablak a Session 0-ban.",
+  "rdp.cmdkeyFailed": "A cmdkey {0} sikertelen: {1}",
+  "rdp.freeRdpPrematureExit": "A FreeRDP idő előtt kilépett. ExitCode={0}",
+  "rdp.sessionDetected": "Munkamenet észlelve a(z) {0}. próbálkozáskor ({1}): {2} (FreeRDP PID={3})",
+  "rdp.sessionModeRelaxed": "engedékeny mód",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Várakozás a munkamenetre… {0}/20. próbálkozás"
 }
