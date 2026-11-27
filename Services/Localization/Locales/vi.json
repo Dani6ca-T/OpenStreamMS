@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Không thể chuyển tiếp bàn phím và chuột đến '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Không thể ghi {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Không thể xóa {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Lần thử mstsc trước đó đã thất bại: {1}"
+  "rdp.mstscFailureContext": "{0} Lần thử mstsc trước đó đã thất bại: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Không thể đọc đường dẫn hồ sơ của phiên.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Hộp cát hồ sơ độc lập: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] AppData được cách ly: cục bộ={0}; chuyển vùng={1}",
+  "streamProfile.explorerNotRunning": "Không có tiến trình Explorer nào đang chạy để khởi động lại trong phiên {0}.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Đã khởi động lại Explorer trong phiên {0} bằng hồ sơ phát trực tuyến.",
+  "streamProfile.logoffRetry": "[StreamProfile] Phiên {0} không đăng xuất trong 30 giây; đang kết thúc các tiến trình của '{1}' rồi thử đăng xuất lại.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Phiên {0} đã đăng xuất sau khi kết thúc {1} tiến trình của người dùng.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Phiên {0} vẫn hoạt động sau khi đăng xuất.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Không thể phân giải SID của '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses thất bại ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Không thể mở '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Không thể kết thúc '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] Đã kết thúc '{0}' (PID {1}) trong phiên {2}."
 }
