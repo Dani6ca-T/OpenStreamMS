@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "Physical controller {0} is assigned to a seat or stream session: visible only in session {1}.",
   "gamepad.steamFilterWarning": "{0} has Steam filter {1} in its device stack: Steam in other sessions (including the console) can still read it. Unplug and reconnect it after the seat or stream is running.",
   "gamepad.physicalPadRestarted": "{0} restarted: session {1} can no longer read it.",
-  "gamepad.physicalPadRestartFailed": "Could not restart {0}: {1}. The session that already had it open will keep seeing it until it closes it."
+  "gamepad.physicalPadRestartFailed": "Could not restart {0}: {1}. The session that already had it open will keep seeing it until it closes it.",
+  "gamepad.padRemoved": "Controller {0} removed; its HID nodes were removed from the HidHide blacklist.",
+  "gamepad.staleJailsRemoved": "Removed {0} stale entries from the HidHide blacklist.",
+  "gamepad.absentPadAssigned": "Physical controller {0} (currently disconnected) is assigned to session {1}; it will belong there when it appears.",
+  "gamepad.knownNodesSaveFailed": "Could not save {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Could not read {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Could not update the HidHide blacklist: {0}"
 }
