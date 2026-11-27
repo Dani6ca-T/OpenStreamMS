@@ -1,4 +1,5 @@
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -106,12 +107,12 @@ internal static class SeatInputRouter
                 new() { usUsagePage = 1, usUsage = 6 /*teclado*/, dwFlags = Native.RIDEV_INPUTSINK, hwndTarget = _hwnd },
             ];
             if (!Native.RegisterRawInputDevices(devs, (uint)devs.Length, (uint)Marshal.SizeOf<Native.RAWINPUTDEVICE>()))
-                Logger.Warning($"[SeatInput] RegisterRawInputDevices falló: {Marshal.GetLastWin32Error()}");
-            Logger.Log("[SeatInput] Enrutador de entrada y escudo de consola activos.");
+                Logger.Warning(BackendText.Get("seatInput.registerFailed", Marshal.GetLastWin32Error()));
+            Logger.Log(BackendText.Get("seatInput.started"));
         }
         catch (Exception ex)
         {
-            Logger.Error($"[SeatInput] No se pudo crear el enrutador de entrada: {ex.Message}");
+            Logger.Error(BackendText.Get("seatInput.createFailed", ex.Message));
             ready.Set();
             return;
         }
@@ -128,7 +129,7 @@ internal static class SeatInputRouter
         Native.DestroyWindow(_hwnd);
         _hwnd = IntPtr.Zero;
         _portOf.Clear();
-        Logger.Log("[SeatInput] Enrutador de entrada detenido.");
+        Logger.Log(BackendText.Get("seatInput.stopped"));
     }
 
     /// <summary>
@@ -151,7 +152,7 @@ internal static class SeatInputRouter
             Native.WS_EX_TOPMOST | Native.WS_EX_TOOLWINDOW | Native.WS_EX_LAYERED,
             cls, "OpenStreamMS", Native.WS_POPUP,   // oculta hasta que un puesto hace clic o teclea
             0, 0, ShieldSize, ShieldSize, IntPtr.Zero, IntPtr.Zero, wc.hInstance, IntPtr.Zero);
-        if (hwnd == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error(), "CreateWindowEx (escudo) falló");
+        if (hwnd == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("seatInput.createWindowFailed"));
         Native.SetLayeredWindowAttributes(hwnd, 0, 1, Native.LWA_ALPHA);
         return hwnd;
     }
@@ -161,7 +162,7 @@ internal static class SeatInputRouter
         switch (msg)
         {
             case Native.WM_INPUT:
-                try { OnRawInput(lParam); } catch (Exception ex) { Logger.Warning($"[SeatInput] {ex.Message}"); }
+                try { OnRawInput(lParam); } catch (Exception ex) { Logger.Warning(BackendText.Get("seatInput.rawInputError", ex.Message)); }
                 break;   // DefWindowProc libera el bloque de Raw Input
             case Native.WM_SETCURSOR:
                 if (_shielded) return 1;   // no cambiar la forma del cursor de la consola
