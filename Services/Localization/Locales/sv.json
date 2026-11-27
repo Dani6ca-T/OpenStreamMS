@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] '{0}': {1} är fortfarande synlig i Windows (det gick inte att växla till WinUSB).",
   "padCapture.captured": "[PadCapture] '{0}': handkontrollen på {1} togs bort från Windows ({2} handkontroller och {3} ytterligare gränssnitt via WinUSB); levereras till session {4} som virtuell handkontroll.",
   "padCapture.restored": "[PadCapture] '{0}': {1} handkontrollgränssnitt återställdes till Windows.",
-  "steamXboxFilter.removed": "[Gamepad] Tog bort Steam-filtret {0} från {1} handkontrollklasser medan handkontroller isoleras. Nya enheter exponeras inte längre för alla sessioner via \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Tog bort Steam-filtret {0} från {1} handkontrollklasser medan handkontroller isoleras. Nya enheter exponeras inte längre för alla sessioner via \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Det gick inte att ta bort Steam-filtret {0}: {1}. Steam i andra sessioner (inklusive konsolen) kan fortfarande läsa isolerade handkontroller.",
   "steamXboxFilter.restored": "Återställde Steam-filtret {0} i {1} handkontrollklasser; inga isolerade handkontroller finns kvar i andra sessioner.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Det gick inte att återställa Steam-filtret {0}: {1}. Ett nytt försök görs nästa gång tjänsten startar."
