@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Nieprawidłowa długość komunikatu potoku: {0} bajtów.",
   "seatIpc.invalidJsonObject": "Dane JSON nie są obiektem.",
   "seatHost.frameLatencyName": "kompozycja→ekran",
-  "seatHost.cursorLatencyName": "wejście→ekran"
+  "seatHost.cursorLatencyName": "wejście→ekran",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "Wysyłanie dźwięku z sesji Windows {0}: {1}",
+  "audioRelay.playing": "Odtwarzanie na „{0}”: {1}",
+  "audioRelay.invalidHeader": "Nieprawidłowy nagłówek przekazywania audio.",
+  "audioRelay.noOutputDevice": "Sesja klawiatury nie ma urządzenia wyjściowego audio.",
+  "audioRelay.invalidBlock": "Nieprawidłowy blok audio.",
+  "inputRelay.started": "[InputRelay] Przekazywanie klawiatury i myszy sesji złożonej dla sesji Windows {0} ({1}).",
+  "inputRelay.createFailed": "Nie udało się utworzyć {0}: {1}",
+  "inputRelay.invalidHeader": "Nieprawidłowy nagłówek przekazywania wejścia.",
+  "inputRelay.invalidBatch": "Nieprawidłowa partia danych wejściowych.",
+  "osmsPad.openFailed": "[OsmsPad] Nie udało się otworzyć sterownika: błąd {0}.",
+  "vigem.openFailed": "[PadCapture] Nie udało się otworzyć ViGEmBus: {0}"
 }
