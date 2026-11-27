@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] apps.json の拡張機能アプリを設定できませんでした: {0}",
   "sunshine.launching": "[Sunshine] セッション {0} で起動中: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] 起動に失敗しました: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] ログでエンコーダーを確認できませんでした。設定は変更しません。"
+  "sunshine.encoderUnconfirmed": "[Sunshine] ログでエンコーダーを確認できませんでした。設定は変更しません。",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json が存在しないため、assets のテンプレートを使用します。",
+  "sunshineCfg.appsCreated": "[SunshineCfg] virtual-display を設定した apps.json を作成しました: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] virtual-display を設定した apps.json を更新しました: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "apps.json には virtual-display が既に設定されています。変更はありません。",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') を、ブロックしない取り消し処理で設定しました: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "複合セッションの Big Picture は、すべてのセッションで開閉します: {0}",
+  "sunshineCfg.extensionAppsUpdated": "拡張機能アプリを更新しました ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "Reboot および Power Off アプリを設定しました: {0}"
 }
