@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Odebrano dane wejściowe: typ={0} flagi={1:X} dx={2} dy={3} kod={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Wstrzykiwanie wejścia (10 s): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: wysłano={0} pierścień_zajęty={1} wejście={2} błędy_wstrzykiwania={3} ostatni_błąd={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Opóźnienie przechwytywania (10 s): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Opóźnienie przechwytywania (10 s): {0}",
+  "seat.restartAdjustingResolution": "Dostosowywanie sesji do {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "Ponowne uruchamianie sesji…",
+  "seatIpc.invalidMessageLength": "Nieprawidłowa długość komunikatu potoku: {0} bajtów.",
+  "seatIpc.invalidJsonObject": "Dane JSON nie są obiektem.",
+  "seatHost.frameLatencyName": "kompozycja→ekran",
+  "seatHost.cursorLatencyName": "wejście→ekran"
 }
