@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Det gick inte att förbereda Steam för \"{0}\": {1}",
   "service.started": "[Service] OpenStreamMS startat. API:t är tillgängligt på den konfigurerade porten.",
   "service.multiRdpCheckFailed": "[Service] Kontroll av multi-RDP misslyckades: {0}",
-  "service.stopped": "[Service] Stoppad."
+  "service.stopped": "[Service] Stoppad.",
+  "isolatedUser.winStationsKeyMissing": "Windows-registernyckeln HKLM\\{0} finns inte.",
+  "isolatedUser.rdpTcpKeyMissing": "Windows-registernyckeln HKLM\\{0} finns inte.",
+  "steamIsolation.userRegistryNotLoaded": "Användarens registerdata är inte inlästa.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell är inte tillgängligt.",
+  "steamIsolation.shortcutDescription": "Steam isolerat från andra sessioner (OpenStreamMS)"
 }
