@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Không thể điều chỉnh quyền của \"{0}\" tại {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Tường lửa ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Đang cập nhật phiên bản Sunshine: {1} → {2} (giữ nguyên config/, ghép đôi, thông tin xác thực và cài đặt).",
-  "session.logHudEnsureFailed": "[HUD] Không thể khởi tạo HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Không thể khởi tạo HUD: {0}",
+  "error.seatName": "Tên chỗ là bắt buộc.",
+  "error.stopSeat": "Hãy dừng chỗ trước khi thay đổi cấu hình.",
+  "error.primaryMonitor": "Không thể gán màn hình chính cho một chỗ.",
+  "error.assigned": "Tài nguyên đã chọn đã được gán."
 }
