@@ -171,5 +171,13 @@
   "power.noPending": "Brak oczekującego wyłączenia do anulowania ({0}).",
   "power.shutdownFailed": "Błąd shutdown.exe: {0}",
   "power.scheduled": "{0} zaplanowano za {1} s.",
-  "settings.logLevelChanged": "Poziom dziennika: {0} → {1}."
+  "settings.logLevelChanged": "Poziom dziennika: {0} → {1}.",
+  "seat.restartSession": "[Stanowiska] Ponowne uruchamianie sesji „{1}” stanowiska „{0}” bez wyłączania stanowiska.",
+  "seat.restartSizeMismatch": "Sesja wróciła w rozmiarze {0}x{1} zamiast {2}x{3}.",
+  "seat.restartSessionDone": "[Stanowiska] „{0}”: sesja uruchomiona ponownie; stanowisko pozostaje w sesji Windows {1}.",
+  "seat.restartSessionFailed": "[Stanowiska] „{0}”: nie można ponownie uruchomić sesji bez wyłączania stanowiska ({1}); stanowisko zostanie odtworzone.",
+  "seat.restartSeatFailed": "[Stanowiska] „{0}”: nie można ponownie uruchomić stanowiska: {1}",
+  "seat.waitingImageFailed": "[Stanowiska] „{0}”: nie można wyświetlić obrazu oczekiwania: {1}",
+  "seat.sessionDidNotRestart": "Sesja nie została ponownie uruchomiona.",
+  "seat.sessionRestartTimeout": "Przekroczono limit czasu ponownego uruchamiania sesji."
 }
