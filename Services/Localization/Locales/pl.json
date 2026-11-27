@@ -318,5 +318,14 @@
   "seats.managerStarted": "Menedżer stanowisk uruchomiony ({0} stanowisk).",
   "seats.multiRdpCheckTimeout": "Kontrola multi-RDP nie zakończyła się w ciągu 120 s; stanowiska i tak zostaną uruchomione automatycznie.",
   "seats.autoStartSameConsoleUser": "„{0}” nie zostanie uruchomione automatycznie: używa tego samego użytkownika co konsola.",
-  "seats.autoStartFailed": "Automatyczne uruchomienie „{0}” nie powiodło się: {1}"
+  "seats.autoStartFailed": "Automatyczne uruchomienie „{0}” nie powiodło się: {1}",
+  "seats.monitorBusy": "Monitor jest używany przez stanowisko „{0}”.",
+  "seats.created": "Utworzono stanowisko „{0}”.",
+  "seats.deleted": "Usunięto stanowisko „{0}”.",
+  "seats.microphoneAlreadyAssigned": "Mikrofon jest już przypisany do stanowiska „{0}”.",
+  "seats.monitorActivationFailed": "„{0}”: nie można aktywować monitora; zostanie wyświetlony, jeśli był już aktywny.",
+  "seats.devicesAssigned": "„{0}”: {1} urządzeń przypisano do sesji {2}.",
+  "seats.devicePortEmpty": "„{0}”: nic nie jest podłączone do portu „{1}” ({2}, {3}). Jeśli przeniesiono urządzenie do innego portu, koncentratora lub stacji dokującej, przypisz je ponownie.",
+  "seats.started": "Stanowisko „{0}” aktywne.",
+  "seats.startFailed": "Nie udało się uruchomić stanowiska „{0}”: {1}"
 }
