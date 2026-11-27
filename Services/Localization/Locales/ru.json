@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Не удалось настроить Steam для «{0}»: {1}",
   "service.started": "[Service] OpenStreamMS запущен. API доступен на настроенном порту.",
   "service.multiRdpCheckFailed": "[Service] Ошибка проверки multi-RDP: {0}",
-  "service.stopped": "[Service] Остановлен."
+  "service.stopped": "[Service] Остановлен.",
+  "isolatedUser.winStationsKeyMissing": "В реестре Windows отсутствует раздел HKLM\\{0}.",
+  "isolatedUser.rdpTcpKeyMissing": "В реестре Windows отсутствует раздел HKLM\\{0}.",
+  "steamIsolation.userRegistryNotLoaded": "Раздел реестра пользователя не загружен.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell недоступен.",
+  "steamIsolation.shortcutDescription": "Steam изолирован от других сеансов (OpenStreamMS)"
 }
