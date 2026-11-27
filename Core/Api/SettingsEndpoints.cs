@@ -76,7 +76,7 @@ public static class SettingsEndpoints
                      return Results.BadRequest(RequestCulture.T("settings.invalidLogLevel"));
 
                  // Se avisa antes de cambiarlo: con "Off" o "Error" ya no quedaría constancia.
-                 Logger.Warning($"[Settings] Nivel de log: {cfg.LogThreshold} → {level}.");
+                 Logger.Warning(RequestCulture.T("settings.logLevelChanged", cfg.LogThreshold, level));
                  cfg.LogLevel = level.ToString();
                  cfg.Save();
                  Logger.SetThreshold(level);
