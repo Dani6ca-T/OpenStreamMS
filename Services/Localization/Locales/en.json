@@ -460,5 +460,6 @@
   "error.seatName": "Seat name is required.",
   "error.stopSeat": "Stop the seat before changing its configuration.",
   "error.primaryMonitor": "The primary monitor cannot be assigned to a seat.",
-  "error.assigned": "The selected resource is already assigned."
+  "error.assigned": "The selected resource is already assigned.",
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" assigned to slot {2} ({3}x{4})."
 }
