@@ -583,8 +583,8 @@ namespace OpenStreamMS.Core.Helpers
                     string output;
                     lock (outputTail)
                         output = outputTail.Count == 0
-                            ? " FreeRDP no escribio nada."
-                            : " Salida de FreeRDP: " + string.Join(" | ", outputTail.Where(l => l.Trim().Length > 0));
+                            ? " " + BackendText.Get("rdp.freeRdpNoOutput")
+                            : " " + BackendText.Get("rdp.freeRdpOutputPrefix") + string.Join(" | ", outputTail.Where(l => l.Trim().Length > 0));
                     throw new InvalidOperationException(
                         BackendText.Get("rdp.freeRdpExitedNoSession", proc.ExitCode, proc.ExitCode, user.Username, ExplainFreeRdpExit(proc.ExitCode, rdpWidth, rdpHeight), output));
                 }
