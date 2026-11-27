@@ -339,5 +339,13 @@
   "seats.rawInputShared": "'{0}': {1}, konsolla paylaşılmaya devam ediyor (Raw Input).",
   "seats.usbEventsSent": "'{1}' aracısına {0} olay gönderildi (son: tür={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "'{0}' aracısına giriş gönderilemedi: {1}",
-  "seats.inputInterfacesCaptured": "'{0}': {2} giriş arabiriminden {1} tanesi konsoldan ayrıldı."
+  "seats.inputInterfacesCaptured": "'{0}': {2} giriş arabiriminden {1} tanesi konsoldan ayrıldı.",
+  "seats.consoleVirtualDisplayMissing": "Sanal ekran konsolda görünmedi.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Sanal ekran birincil yapılamadı.",
+  "seats.consoleAreaApplied": "Konsol, kendi {2}x{3} ekranıyla '{1}' alanının {0} bölümünü kullanıyor. Kapatılan alan: {4}",
+  "seats.consoleAreaFallback": "Konsola kendi alanı verilemedi ({0}); yedek çözüm etkin kalıyor.",
+  "seats.consoleMonitorRestoreFailed": "Birincil monitör konsola geri verilemedi; sanal ekran kaldırıldığında kurtarılacak.",
+  "seats.consoleMonitorRestored": "Konsol yeniden monitörünün tamamını kullanıyor.",
+  "seats.sessionLocked": "'{0}': oturum kilitlendi; '{1}' kullanıcısının parolası istenecek.",
+  "seats.sessionLockFailed": "'{0}': oturum kilitlenemedi: {1}"
 }
