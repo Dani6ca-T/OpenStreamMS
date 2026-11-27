@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "TermService konnte nicht sichergestellt werden: {0}. Wenn Remotedesktop deaktiviert ist, schlägt die Loopback-Verbindung fehl; aktivieren Sie es unter System → Remotedesktop oder starten Sie Windows neu.",
   "rdp.registryKeyOpenFailed": "HKLM\\\\{0} konnte nicht geöffnet werden",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "{0} konnte nicht in HKLM\\\\{1} geschrieben werden: {2}"
+  "rdp.registryWriteFailed": "{0} konnte nicht in HKLM\\\\{1} geschrieben werden: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP hat keine Ausgabe geschrieben.",
+  "rdp.freeRdpOutputPrefix": "FreeRDP-Ausgabe: "
 }
