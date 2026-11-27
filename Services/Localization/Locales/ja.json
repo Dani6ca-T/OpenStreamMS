@@ -171,5 +171,13 @@
   "power.noPending": "キャンセルできる保留中のシャットダウンはありません（{0}）。",
   "power.shutdownFailed": "shutdown.exe エラー: {0}",
   "power.scheduled": "{0} を {1} 秒後に予定しました。",
-  "settings.logLevelChanged": "ログレベル: {0} → {1}。"
+  "settings.logLevelChanged": "ログレベル: {0} → {1}。",
+  "seat.restartSession": "[シート] シート '{0}' を停止せずに、セッション '{1}' を再起動しています。",
+  "seat.restartSizeMismatch": "セッションは {2}x{3} ではなく {0}x{1} で復帰しました。",
+  "seat.restartSessionDone": "[シート] '{0}': セッションを再起動しました。シートは Windows セッション {1} のままです。",
+  "seat.restartSessionFailed": "[シート] '{0}': シートを停止せずにセッションを再起動できませんでした ({1})。シートを再構築します。",
+  "seat.restartSeatFailed": "[シート] '{0}': シートを再起動できませんでした: {1}",
+  "seat.waitingImageFailed": "[シート] '{0}': 待機画像を表示できませんでした: {1}",
+  "seat.sessionDidNotRestart": "セッションは再起動しませんでした。",
+  "seat.sessionRestartTimeout": "セッションの再起動がタイムアウトしました。"
 }
