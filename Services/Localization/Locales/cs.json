@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "V Control\\\\Video nebyl nalezen žádný virtuální adaptér RDP — VRefresh nebyl změněn. Relace použije výchozí frekvenci ovladače.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} použito na {1} virtuálních adaptérech.",
   "rdp.refreshRegistryFailed": "Chyba při nastavování VRefresh v registru: {0}",
-  "rdp.sessionTempResolveFailed": "Nepodařilo se zjistit TEMP relace {0}: {1}"
+  "rdp.sessionTempResolveFailed": "Nepodařilo se zjistit TEMP relace {0}: {1}",
+  "rdp.displayFrequencyChangeFailed": "Nepodařilo se změnit frekvenci displeje v relaci {0}: {1}",
+  "rdp.displayFrequencyChangeLaunched": "ChangeDisplaySettings({0}Hz) spuštěno v relaci {1} (bez ověření).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings v relaci {0}: chybí soubor s výsledkem — skript nebyl dokončen.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings úspěšné — displej {0}Hz v relaci {1}.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings vrátil úspěch, ale displej hlásí {0}Hz (požadováno {1}Hz) v relaci {2}.",
+  "rdp.displayFrequencyFailed": "ChangeDisplaySettings selhalo v relaci {0}: {1} (displej {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Nepodařilo se přečíst výsledek ChangeDisplaySettings: {0}"
 }
