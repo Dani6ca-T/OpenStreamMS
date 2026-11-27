@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, měřítko {3} %.",
   "rdp.betterRdpPoliciesApplied": "Zásady BetterRDP byly použity.",
   "rdp.mstscClientPoliciesApplied": "Zásady klienta mstsc byly použity (bez dialogů před připojením).",
-  "rdp.mstscClientPoliciesFailed": "Nepodařilo se použít zásady HKCU mstsc: {0}"
+  "rdp.mstscClientPoliciesFailed": "Nepodařilo se použít zásady HKCU mstsc: {0}",
+  "rdp.videoRegistryKeyMissing": "HKLM\\\\{0} nebyl nalezen.",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0} použito na HKLM\\\\{1} ({2}).",
+  "rdp.noVirtualAdapterFound": "V Control\\\\Video nebyl nalezen žádný virtuální adaptér RDP — VRefresh nebyl změněn. Relace použije výchozí frekvenci ovladače.",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0} použito na {1} virtuálních adaptérech.",
+  "rdp.refreshRegistryFailed": "Chyba při nastavování VRefresh v registru: {0}",
+  "rdp.sessionTempResolveFailed": "Nepodařilo se zjistit TEMP relace {0}: {1}"
 }
