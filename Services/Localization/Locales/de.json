@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Tastatur und Maus konnten nicht an „{1}“ weitergeleitet werden: {2}",
   "compositeInput.writeFailed": "[{0}] {1} konnte nicht geschrieben werden: {2}",
   "compositeInput.deleteFailed": "[{0}] {1} konnte nicht gelöscht werden: {2}",
-  "rdp.mstscFailureContext": "{0} Der vorherige mstsc-Versuch ist fehlgeschlagen: {1}"
+  "rdp.mstscFailureContext": "{0} Der vorherige mstsc-Versuch ist fehlgeschlagen: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Die Profilpfade der Sitzung konnten nicht gelesen werden.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Isolierte Profil-Sandbox: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Isolierte AppData: lokal={0}; Roaming={1}",
+  "streamProfile.explorerNotRunning": "[StreamProfile] In Sitzung {0} lief kein Explorer, der neu gestartet werden konnte.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer wurde in Sitzung {0} mit dem Stream-Profil neu gestartet.",
+  "streamProfile.logoffRetry": "[StreamProfile] Sitzung {0} wurde innerhalb von 30 Sekunden nicht abgemeldet; Prozesse von '{1}' werden beendet und die Abmeldung wird erneut versucht.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Sitzung {0} nach Beenden von {1} Benutzerprozess(en) abgemeldet.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Sitzung {0} ist nach der Abmeldung weiterhin aktiv.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] SID für '{0}' konnte nicht aufgelöst werden: {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses fehlgeschlagen ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] '{0}' (PID {1}) konnte nicht geöffnet werden: {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] '{0}' (PID {1}) konnte nicht beendet werden: {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) in Sitzung {2} beendet."
 }
