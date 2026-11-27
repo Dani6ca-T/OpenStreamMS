@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "Nepodařilo se aktualizovat černou listinu HidHide: {0}",
   "gamepad.usbPortCycled": "{0}: jiný proces jej používal a Windows odložil restart; port USB byl odpojen a znovu připojen ({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows odložil restart (zařízení používá jiný proces) a port USB se nepodařilo cyklovat ({1}). Proces, který jej již otevřel, jej stále vidí, dokud jej nezavře.",
-  "gamepad.clearJailsFailed": "Nepodařilo se odebrat položky relací z HidHide: {0}"
+  "gamepad.clearJailsFailed": "Nepodařilo se odebrat položky relací z HidHide: {0}",
+  "rdp.remoteIddProviderMissing": "Zachytávání RemoteIdd bez poskytovatele v RDP-Tcp: nainstalujte jej pomocí Native/RemoteIdd/Provider/install.ps1.",
+  "rdp.consoleSessionConflict": "Upozornění: „{0}“ již má relaci konzole (SessionId={1}). Izolace zvuku může být částečná.",
+  "rdp.sessionExists": "Existující relace pro „{0}“: {1}",
+  "rdp.createViaMstsc": "Pro „{0}“ neexistuje relace, vytváří se přes mstsc (AVC444 HW)…",
+  "rdp.mstscFailedFallback": "mstsc selhal ({0}); opakuje se pokus přes FreeRDP…",
+  "rdp.createViaFreeRdp": "Pro „{0}“ neexistuje relace, vytváří se přes FreeRDP…",
+  "rdp.microphoneForcesFreeRdp": "Při přiřazeném mikrofonu se používá FreeRDP (mstsc neumožňuje vybrat mikrofon).",
+  "rdp.reconnecting": "Znovupřipojování relace {0} na {1}x{2} při {3} fps…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) selhalo: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc selhal při opětovném připojení ({0}); opakuje se pokus přes FreeRDP…",
+  "rdp.reconnectWrongSession": "Opětovné připojení skončilo v relaci {0} místo {1}.",
+  "rdp.sessionReconnected": "Relace {0} byla znovu připojena za {1} ms."
 }
