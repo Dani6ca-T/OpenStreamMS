@@ -434,7 +434,7 @@
   "session.logLocalSessionActive": "[{0}] Локалната сесия е активна (Windows сесия {1}).",
   "session.logSunshineCredentialsReset": "[{0}] Данните за достъп до Sunshine са нулирани; Sunshine е спрян и ще се стартира автоматично.",
   "session.logSunshineTemplateUpdated": "[{0}] Шаблонът на Sunshine е променен; актуализиране на инстанцията: {1}",
-  "session.logSunshineInstanceUpdateFailed": "[{0}] Неуспешно актуализиране на инстанцията на Sunshine: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Неуспешна актуализация на екземпляра на Sunshine: {1}",
   "session.logFirewallRuleAddFailed": "[Sunshine] Неуспешно добавяне на правило във защитната стена: {0}",
   "session.logLocalSessionDesktop": "[{0}] Локална сесия: работен плот на „{1}\\\\{2}“ (Windows сесия {3}).",
   "session.logNativeIsolationActive": "[{0}] Активна е нативна изолация: специализиран потребител „{1}“ (профил: {2}).",
@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile е пропуснат: нативната изолация вече осигурява отделен профил.",
   "session.logStreamProfileConfiguring": "[{0}] Конфигуриране на отделен профил за поточно предаване...",
   "session.logStartFailed": "[{0}] Неуспешно стартиране: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Избраният протокол включва WebRTC, но конфигурираната версия на Sunshine не го поддържа (използвайте sunshine-webrtc); ще работи само Moonlight."
+  "session.logWebRtcUnsupported": "[{0}] Избраният протокол включва WebRTC, но конфигурираната версия на Sunshine не го поддържа (използвайте sunshine-webrtc); ще работи само Moonlight.",
+  "session.logSaveFailed": "[SessionService] Неуспешно записване на сесиите: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Резервно копие на нечетимия файл със сесии е записано в „{0}“.",
+  "session.logUnreadableBackupFailed": "[SessionService] Неуспешно преместване на нечетимия файл със сесии: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] WebRTC портове са назначени на съществуващите сесии.",
+  "session.logLoadFailed": "[SessionService] Неуспешно зареждане на сесиите: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Предупреждение при спиране на Sunshine след изоставено стартиране: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Екземплярът на Sunshine вече съществува в: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Неуспешно почистване на копираното състояние на шаблона: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Разрешенията на екземпляра са настроени за „{0}“ (запис само в config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Неуспешно настройване на разрешенията за „{0}“ в {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Защитна стена ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Актуализиране на екземпляра на Sunshine: {1} → {2} (config/, сдвояванията, идентификационните данни и настройките се запазват)."
 }
