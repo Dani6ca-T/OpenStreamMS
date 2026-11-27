@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Đã chuyển tiếp âm thanh từ '{1}' đến phiên bàn phím '{2}'.",
   "compositeAudio.forwardFailed": "[{0}] Không thể chuyển tiếp âm thanh từ '{1}': {2}",
   "hud.launched": "[HUD] Đã khởi chạy trong phiên Windows {0} (PID {1}): Ctrl+Alt+H hoặc Guide + Back.",
-  "hud.launchFailed": "[HUD] Không thể khởi chạy trong phiên Windows {0}: {1}"
+  "hud.launchFailed": "[HUD] Không thể khởi chạy trong phiên Windows {0}: {1}",
+  "compositeInput.routed": "[{0}] Đã chuyển tiếp bàn phím và chuột đến '{1}' (phiên Windows {2}).",
+  "compositeInput.routeFailed": "[{0}] Không thể chuyển tiếp bàn phím và chuột đến '{1}': {2}",
+  "compositeInput.writeFailed": "[{0}] Không thể ghi {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Không thể xóa {1}: {2}"
 }
