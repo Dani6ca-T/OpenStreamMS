@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Đã nhận đầu vào: loại={0} cờ={1:X} dx={2} dy={3} mã={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Tiêm đầu vào (10 giây): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 giây: đã gửi={0} vòng_bận={1} đầu_vào={2} lỗi_tiêm={3} lỗi_cuối={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Độ trễ thu nhận (10 giây): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Độ trễ thu nhận (10 giây): {0}",
+  "seat.restartAdjustingResolution": "Đang điều chỉnh phiên thành {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "Đang khởi động lại phiên…",
+  "seatIpc.invalidMessageLength": "Độ dài thông điệp pipe không hợp lệ: {0} byte.",
+  "seatIpc.invalidJsonObject": "Payload JSON không phải là một đối tượng.",
+  "seatHost.frameLatencyName": "tổng hợp→màn hình",
+  "seatHost.cursorLatencyName": "đầu vào→màn hình"
 }
