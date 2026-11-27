@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell không khả dụng.",
   "steamIsolation.shortcutDescription": "Steam được cách ly khỏi các phiên khác (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] Đã chuyển tiếp âm thanh từ '{1}' đến phiên bàn phím '{2}'.",
-  "compositeAudio.forwardFailed": "[{0}] Không thể chuyển tiếp âm thanh từ '{1}': {2}"
+  "compositeAudio.forwardFailed": "[{0}] Không thể chuyển tiếp âm thanh từ '{1}': {2}",
+  "hud.launched": "[HUD] Đã khởi chạy trong phiên Windows {0} (PID {1}): Ctrl+Alt+H hoặc Guide + Back.",
+  "hud.launchFailed": "[HUD] Không thể khởi chạy trong phiên Windows {0}: {1}"
 }
