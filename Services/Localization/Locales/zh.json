@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[席位]“{0}”：无法重新启动席位：{1}",
   "seat.waitingImageFailed": "[席位]“{0}”：无法显示等待画面：{1}",
   "seat.sessionDidNotRestart": "会话未能重新启动。",
-  "seat.sessionRestartTimeout": "会话重启超时。"
+  "seat.sessionRestartTimeout": "会话重启超时。",
+  "composite.created": "[组合会话] 已创建组合会话“{0}”（{1}），成员：{2}",
+  "composite.updated": "[{0}] 组合会话已修改。",
+  "composite.startingMember": "[{0}] 正在为组合会话启动“{1}”…",
+  "composite.steamConfigFailed": "[{0}] 无法配置组合会话的 Steam 应用：{1}",
+  "composite.startAborted": "[{0}] 启动已中止（会话在启动过程中被停止）。",
+  "composite.started": "[{0}] 组合会话已启动：{1}；键盘和鼠标来自“{2}”（Windows 会话 {3}）。",
+  "composite.deleteFileFailed": "[{0}] 无法删除 {1}：{2}",
+  "composite.stoppingMember": "[{0}] 正在停止由组合会话启动的“{1}”。",
+  "composite.restoreResolutionFailed": "[{0}] “{1}”无法恢复原分辨率：{2}",
+  "composite.keyboardStopped": "[{0}] 键盘会话已停止；正在停止组合会话。",
+  "composite.keyboardSessionChanged": "[{0}] 键盘会话已切换到 Windows 会话 {1}；正在重新启动 Sunshine。",
+  "composite.watchFailed": "[{0}] 监视组合会话时出错：{1}",
+  "composite.waitingImageFailed": "[{0}] 无法为槽位 {1} 准备等待图像：{2}",
+  "composite.steamActionFailed": "[{0}] 在 Windows 会话 {2} 中执行 Steam“{1}”操作失败：{3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture：在 {2} 个会话中执行“{1}”。",
+  "composite.steamOpen": "打开",
+  "composite.steamClose": "关闭"
 }
