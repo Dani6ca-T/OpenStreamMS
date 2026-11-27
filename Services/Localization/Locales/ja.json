@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd：{0}x{1} @ {2} Hz、スケール {3}%。",
   "rdp.betterRdpPoliciesApplied": "BetterRDP ポリシーを適用しました。",
   "rdp.mstscClientPoliciesApplied": "mstsc クライアントポリシーを適用しました（接続前ダイアログなし）。",
-  "rdp.mstscClientPoliciesFailed": "mstsc の HKCU ポリシーを適用できませんでした：{0}"
+  "rdp.mstscClientPoliciesFailed": "mstsc の HKCU ポリシーを適用できませんでした：{0}",
+  "rdp.videoRegistryKeyMissing": "HKLM\\\\{0} が見つかりません。",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0} を HKLM\\\\{1} に適用しました（{2}）。",
+  "rdp.noVirtualAdapterFound": "Control\\\\Video に仮想 RDP アダプターが見つかりません。VRefresh は変更されず、セッションはドライバーの既定のリフレッシュレートを使用します。",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0} を {1} 個の仮想アダプターに適用しました。",
+  "rdp.refreshRegistryFailed": "レジストリで VRefresh を設定中にエラーが発生しました：{0}",
+  "rdp.sessionTempResolveFailed": "セッション {0} の TEMP を解決できませんでした：{1}"
 }
