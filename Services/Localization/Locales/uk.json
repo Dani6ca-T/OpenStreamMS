@@ -381,5 +381,6 @@
   "session.logSunshinePauseWarning": "[{0}] Попередження під час призупинення Sunshine: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine призупинено ({1}).",
   "session.logSunshineResumed": "[{0}] Роботу Sunshine відновлено; його буде запущено автоматично.",
-  "session.logMuteRdpClient": "[{0}] Вимкнення звуку клієнта RDP (PID={1}) на хості..."
+  "session.logMuteRdpClient": "[{0}] Вимкнення звуку клієнта RDP (PID={1}) на хості...",
+  "session.logRdpDisplay": "[{0}] Дисплей RDP: {1}x{2} при {3} кадр/с; мікрофон: {4}"
 }
