@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "已从自动启动中移除托盘图标。",
   "uninstall.driverError": "{0}：{1}",
   "install.executable": "可执行文件：",
-  "install.configPath": "配置："
+  "install.configPath": "配置：",
+  "diagnostics.logGenerated": "已生成诊断包（{0} KB，包含 {1} 天的事件）。",
+  "diagnostics.logGenerateFailed": "无法生成诊断包：{0}",
+  "hud.sessionRestarted": "已从 HUD 重启会话“{0}”。",
+  "hud.powerDenied": "已拒绝来自“{0}”的关机/重启请求：该会话没有权限。",
+  "hud.powerRequested": "“{1}”请求对电脑执行{0}。",
+  "hud.powerCancelled": "已从“{0}”取消关机/重启。",
+  "power.cancelled": "已取消关机/重启。",
+  "power.noPending": "没有待取消的关机操作（{0}）。",
+  "power.shutdownFailed": "shutdown.exe 失败：{0}",
+  "power.scheduled": "已安排在 {1} 秒后{0}。",
+  "settings.logLevelChanged": "日志级别：{0} → {1}。"
 }
