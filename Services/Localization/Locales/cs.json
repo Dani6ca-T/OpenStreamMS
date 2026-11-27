@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] Nepodařilo se nakonfigurovat aplikace rozšíření v apps.json: {0}",
   "sunshine.launching": "[Sunshine] Spouštění v relaci {0}: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Spuštění se nezdařilo: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] V protokolu se nepodařilo potvrdit kodér; nastavení zůstává beze změny."
+  "sunshine.encoderUnconfirmed": "[Sunshine] V protokolu se nepodařilo potvrdit kodér; nastavení zůstává beze změny.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json neexistuje; používá se šablona z assets.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] apps.json vytvořen s virtual-display v: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] apps.json aktualizován s virtual-display v: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "virtual-display je v apps.json již nakonfigurován; beze změn.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') nakonfigurován s neblokujícím vrácením: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture složené relace se otevírá a zavírá ve všech jejích relacích: {0}",
+  "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Aplikace rozšíření aktualizovány ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Aplikace Reboot a Power Off nakonfigurovány: {0}"
 }
