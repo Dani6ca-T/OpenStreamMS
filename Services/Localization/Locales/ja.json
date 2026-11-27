@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] 入力を受信: 種類={0} フラグ={1:X} dx={2} dy={3} コード={4:X}",
   "seatAgent.injectStats": "[SeatAgent] 10秒間の入力注入: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10秒: 送信={0} リング使用中={1} 入力={2} 注入失敗={3} 最終エラー={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] 10秒間のキャプチャ遅延: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10秒間のキャプチャ遅延: {0}",
+  "seat.restartAdjustingResolution": "セッションを {0}x{1} @ {2} Hz に調整中…",
+  "seat.restartRestartingSession": "セッションを再起動中…",
+  "seatIpc.invalidMessageLength": "パイプメッセージの長さが無効です: {0} バイト。",
+  "seatIpc.invalidJsonObject": "JSON ペイロードがオブジェクトではありません。",
+  "seatHost.frameLatencyName": "合成→ディスプレイ",
+  "seatHost.cursorLatencyName": "入力→ディスプレイ"
 }
