@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Nie można zwolnić rezerwacji kontrolerów: {0}",
   "gamepad.padClaimed": "Kontroler {0} → „{1}” (sesja Windows {2}): kontroler przejęty przez tę usługę.",
   "gamepad.padOwnerUnknown": "Nie można ustalić, która sesja utworzyła kontroler {0}; pozostaje widoczny we wszystkich sesjach.",
-  "gamepad.osmsPadOutsideSession": "Kontroler OsmsPad {0} → sesja Windows {1} (nie należy do żadnej sesji OpenStreamMS)."
+  "gamepad.osmsPadOutsideSession": "Kontroler OsmsPad {0} → sesja Windows {1} (nie należy do żadnej sesji OpenStreamMS).",
+  "gamepad.padAssignedCompositeMember": "Kontroler {0} z „{1}” ({2}) → sesja „{3}” (sesja Windows {4}).",
+  "gamepad.padAssignedSession": "Kontroler {0} → sesja „{1}” (sesja Windows {2}).",
+  "gamepad.padRetargeted": "Kontroler {0} ({1}) przeniesiono do sesji „{2}” (sesja Windows {3}) z powodu zmiany sesji złożonej."
 }
