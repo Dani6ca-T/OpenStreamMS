@@ -437,10 +437,10 @@ public partial class StreamSessionService
             }
             catch (Exception ex)
             {
-                Logger.Warning(BackendText.Get("composite.steamActionFailed", c.Name, open ? "open" : "close", windowsSession, ex.Message), c.Id);
+                Logger.Warning(BackendText.Get("composite.steamActionFailed", c.Name, BackendText.Get(open ? "composite.steamOpen" : "composite.steamClose"), windowsSession, ex.Message), c.Id);
             }
         }
-        Logger.Log(BackendText.Get("composite.steamActionDone", c.Name, open ? "open" : "close", launched), c.Id);
+        Logger.Log(BackendText.Get("composite.steamActionDone", c.Name, BackendText.Get(open ? "composite.steamOpen" : "composite.steamClose"), launched), c.Id);
         return launched;
     }
 
