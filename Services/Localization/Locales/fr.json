@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "activé",
   "gamepad.stateDisabled": "désactivé",
   "gamepad.stateEmpty": "vide",
-  "gamepad.unknownVersion": "version inconnue"
+  "gamepad.unknownVersion": "version inconnue",
+  "gamepad.predictedPadClaimed": "{0} est visible uniquement dans la session {1}, même avant son branchement (« {2} »).",
+  "gamepad.releaseReservationsFailed": "Impossible de libérer les réservations des manettes : {0}",
+  "gamepad.padClaimed": "Manette {0} → « {1} » (session Windows {2}) : manette prise en charge par ce service.",
+  "gamepad.padOwnerUnknown": "Impossible de déterminer quelle session a créé la manette {0} ; elle reste visible dans toutes les sessions.",
+  "gamepad.osmsPadOutsideSession": "Manette OsmsPad {0} → session Windows {1} (n’appartient à aucune session OpenStreamMS)."
 }
