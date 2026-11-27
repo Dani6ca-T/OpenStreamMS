@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp nie jest połączony; uruchamianie samodzielnego prezentera w sesji konsoli {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Do konsoli fizycznej nie jest zalogowany żaden użytkownik.",
   "seatHostControl.trayHostConnected": "[TrayApp] Połączono z potokiem sterowania hostem stanowisk.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Błąd podczas przetwarzania polecenia stanowiska: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Błąd podczas przetwarzania polecenia stanowiska: {0}",
+  "guideGuard.disabled": "[Seats] Przycisk Guide: Game Bar kontrolera dla {0} wyłączony na czas działania stanowisk.",
+  "guideGuard.disableFailed": "[Seats] Przycisk Guide: nie udało się wyłączyć Game Bar kontrolera dla {0}: {1}",
+  "guideGuard.restored": "[Seats] Przycisk Guide: Game Bar kontrolera dla {0} przywrócony.",
+  "guideGuard.restoreFailed": "[Seats] Przycisk Guide: nie udało się przywrócić Game Bar kontrolera dla {0}: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess nie powiódł się dla źródłowego PID {0}.",
+  "handleBroker.openTargetFailed": "OpenProcess nie powiódł się dla docelowego PID {0}.",
+  "handleBroker.duplicateFailed": "DuplicateHandle nie powiódł się z PID {0} do PID {1}.",
+  "seatStore.readFailed": "[Seats] Nie udało się odczytać seats.json: {0}",
+  "seatStore.saveFailed": "[Seats] Nie udało się zapisać seats.json: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Potok {0}: odrzucono nieoczekiwany proces klienta {1}.",
+  "seatIpc.notServicePipe": "Potok nie należy do usługi (proces {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Odebrano dane wejściowe: klawiatura",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Odebrano dane wejściowe: typ={0} flagi={1:X} dx={2} dy={3} kod={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Wstrzykiwanie wejścia (10 s): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s: wysłano={0} pierścień_zajęty={1} wejście={2} błędy_wstrzykiwania={3} ostatni_błąd={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Opóźnienie przechwytywania (10 s): {0}"
 }
