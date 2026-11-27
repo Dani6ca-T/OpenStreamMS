@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "увімкнено",
   "gamepad.stateDisabled": "вимкнено",
   "gamepad.stateEmpty": "порожній",
-  "gamepad.unknownVersion": "невідома версія"
+  "gamepad.unknownVersion": "невідома версія",
+  "gamepad.predictedPadClaimed": "{0} видно лише в сеансі {1} ще до підключення («{2}»).",
+  "gamepad.releaseReservationsFailed": "Не вдалося зняти резервування контролерів: {0}",
+  "gamepad.padClaimed": "Контролер {0} → «{1}» (сеанс Windows {2}): контролер захоплено цією службою.",
+  "gamepad.padOwnerUnknown": "Не вдалося визначити, який сеанс створив контролер {0}; він залишається видимим в усіх сеансах.",
+  "gamepad.osmsPadOutsideSession": "Контролер OsmsPad {0} → сеанс Windows {1} (не належить до жодного сеансу OpenStreamMS)."
 }
