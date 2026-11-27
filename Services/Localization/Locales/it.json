@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Audio di '{1}' inoltrato alla sessione della tastiera '{2}'.",
   "compositeAudio.forwardFailed": "[{0}] Impossibile inoltrare l'audio di '{1}': {2}",
   "hud.launched": "[HUD] Avviato nella sessione Windows {0} (PID {1}): Ctrl+Alt+H o Guida + Back.",
-  "hud.launchFailed": "[HUD] Impossibile avviare nella sessione Windows {0}: {1}"
+  "hud.launchFailed": "[HUD] Impossibile avviare nella sessione Windows {0}: {1}",
+  "compositeInput.routed": "[{0}] Tastiera e mouse inoltrati a '{1}' (sessione Windows {2}).",
+  "compositeInput.routeFailed": "[{0}] Impossibile inoltrare tastiera e mouse a '{1}': {2}",
+  "compositeInput.writeFailed": "[{0}] Impossibile scrivere {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Impossibile eliminare {1}: {2}"
 }
