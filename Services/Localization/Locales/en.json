@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Could not change primary monitor: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig (deactivate) failed: {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor removed from the desktop: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Could not deactivate monitor: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Could not deactivate monitor: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Host control pipe: rejected process {0}; it is not in the console session.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp connected to the host control pipe.",
+  "seatHostControl.controlPipeError": "[Seats] Host control pipe error: {0}",
+  "seatHostControl.openSeatSent": "[Seats] 'open_seat' command sent to TrayApp for seat {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Could not send 'open_seat' to TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp is not connected; launching standalone presenter in console session {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] No user is signed in to the physical console.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Connected to the seat host control pipe.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Error processing seat command: {0}"
 }
