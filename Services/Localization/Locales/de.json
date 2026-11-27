@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Infobereich-Symbol aus dem Autostart entfernt.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Programmdatei:",
-  "install.configPath": "Konfiguration:"
+  "install.configPath": "Konfiguration:",
+  "diagnostics.logGenerated": "Diagnosepaket erstellt ({0} KB, Ereignisse der letzten {1} Tage).",
+  "diagnostics.logGenerateFailed": "Diagnosepaket konnte nicht erstellt werden: {0}",
+  "hud.sessionRestarted": "Sitzung „{0}“ wurde über das HUD neu gestartet.",
+  "hud.powerDenied": "Herunterfahren/Neustart von „{0}“ abgelehnt: Die Sitzung hat keine Berechtigung.",
+  "hud.powerRequested": "{0} des PCs wurde von „{1}“ angefordert.",
+  "hud.powerCancelled": "Herunterfahren/Neustart wurde von „{0}“ abgebrochen.",
+  "power.cancelled": "Herunterfahren/Neustart abgebrochen.",
+  "power.noPending": "Es gibt kein ausstehendes Herunterfahren zum Abbrechen ({0}).",
+  "power.shutdownFailed": "Fehler bei shutdown.exe: {0}",
+  "power.scheduled": "{0} in {1} Sekunden geplant.",
+  "settings.logLevelChanged": "Protokollstufe: {0} → {1}."
 }
