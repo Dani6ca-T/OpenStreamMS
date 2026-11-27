@@ -1,6 +1,7 @@
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.ComponentModel;
@@ -63,13 +64,13 @@ public static class SeatHost
         _activeSeats.Clear();
         foreach (var h in hosts) h.Stop();
         foreach (var h in hosts) h.Join(timeoutMs);
-        if (hosts.Count > 0) Logger.Log($"[SeatHost] {hosts.Count} presentador(es) cerrados al salir.");
+        if (hosts.Count > 0) Logger.Log(BackendText.Get("seatHost.closedOnExit", hosts.Count));
     }
 
     /// <summary>Ejecución como proceso independiente: <c>OpenStreamMS.exe --seat-host &lt;pipeName&gt; [seatId]</c>.</summary>
     public static int RunStandalone(string pipeName, Guid seatId)
     {
-        Logger.Log($"[SeatHost] Modo independiente iniciado para tubería '{pipeName}' (seatId={seatId})");
+        Logger.Log(BackendText.Get("seatHost.standaloneStarted", pipeName, seatId));
         var host = new ActiveSeatHost(seatId, pipeName, null, null, []);
         _activeSeats[seatId] = host;
         host.Start();
@@ -153,7 +154,7 @@ internal sealed class ActiveSeatHost
 
     private void RunPresenter()
     {
-        Logger.Log($"[SeatHost] Conectando a la tubería del servicio: {_pipeName}");
+        Logger.Log(BackendText.Get("seatHost.connectingPipe", _pipeName));
         SeatChannel channel;
         try
         {
@@ -161,7 +162,7 @@ internal sealed class ActiveSeatHost
         }
         catch (Exception ex)
         {
-            Logger.Error($"[SeatHost] No se pudo conectar a la tubería '{_pipeName}': {ex.Message}");
+            Logger.Error(BackendText.Get("seatHost.pipeConnectFailed", _pipeName, ex.Message));
             _exitEvent.Set();
             return;
         }
@@ -181,7 +182,7 @@ internal sealed class ActiveSeatHost
                 var initMsg = channel.Receive();
                 if (initMsg is null || initMsg.Value.Type != SeatMsg.Json)
                 {
-                    Logger.Error("[SeatHost] No se recibió el mensaje de inicialización.");
+                    Logger.Error(BackendText.Get("seatHost.initMessageMissing"));
                     return;
                 }
 
@@ -221,7 +222,7 @@ internal sealed class ActiveSeatHost
                 var handles = initJson["handles"]?.AsArray().Select(h => h!.GetValue<long>()).ToArray() ?? [];
                 if (handles.Length == 0)
                 {
-                    Logger.Error("[SeatHost] El mensaje de inicialización no contiene handles de textura.");
+                    Logger.Error(BackendText.Get("seatHost.textureHandlesMissing"));
                     return;
                 }
 
@@ -230,10 +231,10 @@ internal sealed class ActiveSeatHost
                 //    mano o de un puesto anterior), Activate no lo coloca y puede tocar al primario
                 //    por todo un borde; el cursor de la consola se colaría en el puesto.
                 if (_monitor is not null && !DisplayTopology.PlaceAtCorner(_monitor.DevicePath))
-                    Logger.Warning("[SeatHost] No se pudo llevar el monitor a la esquina del primario.");
+                    Logger.Warning(BackendText.Get("seatHost.monitorPlacementFailed"));
                 var (monX, monY, monW, monH) = LocateMonitor(width, height);
 
-                Logger.Log($"[SeatHost] Presentando en ventana ({monX},{monY} {monW}x{monH})");
+                Logger.Log(BackendText.Get("seatHost.presentingWindow", monX, monY, monW, monH));
 
                 // 4. Crear ventana a pantalla completa: WS_EX_NOACTIVATE | WS_EX_TRANSPARENT
                 _hwnd = CreatePresenterWindow(monX, monY, monW, monH);
@@ -324,7 +325,7 @@ internal sealed class ActiveSeatHost
                 _inputChannel = channel;
 
                 // 13. Bucle principal de presentación y bombeo de mensajes de Windows
-                Logger.Log($"[SeatHost] Presentador activo ({width}x{height} → {monW}x{monH}) y enrutando periféricos.");
+                Logger.Log(BackendText.Get("seatHost.presenterActive", width, height, monW, monH));
                 IntPtr[] wakeHandles = [_wake.SafeWaitHandle.DangerousGetHandle()];
                 int lastSeq = 0, lastCursor = 0;
                 bool haveFrame = false;
@@ -351,7 +352,7 @@ internal sealed class ActiveSeatHost
                             Native.SetWindowPos(_hwnd, Native.HWND_TOPMOST, now.X, now.Y, now.W, now.H, Native.SWP_NOACTIVATE);
                             ShareWithConsole(now);
                             PlaceBlanks();
-                            Logger.Log($"[SeatHost] El monitor se ha movido: ventana recolocada en ({now.X},{now.Y} {now.W}x{now.H}).");
+                            Logger.Log(BackendText.Get("seatHost.monitorMoved", now.X, now.Y, now.W, now.H));
                         }
                         else if (settleAt != 0 && Environment.TickCount64 >= settleAt)
                         {
@@ -372,7 +373,7 @@ internal sealed class ActiveSeatHost
                     if (Environment.TickCount64 >= nextStats)
                     {
                         nextStats += 10_000;
-                        Logger.Log($"[SeatHost] 10 s: avisos={_frameSeq} copiados={copied} ocupados={busy} presentados={presented} entrada={SeatInputRouter.Routed} audio_cortes={_audioBuffer?.Underruns} audio_descartes={_audioBuffer?.Drops}" +
+                        Logger.Log(BackendText.Get("seatHost.stats", _frameSeq, copied, busy, presented, SeatInputRouter.Routed, _audioBuffer?.Underruns, _audioBuffer?.Drops) +
                                    frameLatency.Flush() + cursorLatency.Flush());
                     }
                     // Despierta con un fotograma/cursor nuevo o con un mensaje de la ventana.
@@ -396,7 +397,7 @@ internal sealed class ActiveSeatHost
                         }
                         _currentFrameIdx = -1;
                         lastSeq = _frameSeq;
-                        Logger.Log($"[SeatHost] Agente nuevo de la sesión: {newHandles.Length} textura(s).");
+                        Logger.Log(BackendText.Get("seatHost.newAgent", newHandles.Length));
                     }
                     if (Interlocked.Exchange(ref _pendingWaiting, null) is { } waiting && waiting.Length == width * height * 4)
                     {
@@ -448,7 +449,7 @@ internal sealed class ActiveSeatHost
             }
             catch (Exception ex)
             {
-                Logger.Error($"[SeatHost] Error en el presentador: {ex.Message}");
+                Logger.Error(BackendText.Get("seatHost.presenterError", ex.Message));
             }
             finally
             {
@@ -562,7 +563,7 @@ internal sealed class ActiveSeatHost
                         {
                             // El agente escribe su log como el usuario del puesto (a veces en su %TEMP%);
                             // repetirlo aquí lo deja donde se mira.
-                            Logger.Error($"[SeatHost] {json["reason"]?.GetValue<string>() ?? "El puesto no tiene dispositivo de audio."}");
+                            Logger.Error(json["reason"]?.GetValue<string>() ?? BackendText.Get("seatAgent.audioDeviceMissing"));
                         }
                     }
                     catch { }
@@ -584,7 +585,7 @@ internal sealed class ActiveSeatHost
 
             if (dev is null)
             {
-                Logger.Warning($"[SeatHost] Dispositivo de audio no encontrado: {_audioOutId}");
+                Logger.Warning(BackendText.Get("seatHost.audioDeviceNotFound", _audioOutId));
                 return;
             }
 
@@ -594,7 +595,7 @@ internal sealed class ActiveSeatHost
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SeatHost] No se pudo inicializar audio: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatHost.audioInitFailed", ex.Message));
         }
     }
 
@@ -612,11 +613,11 @@ internal sealed class ActiveSeatHost
             _wasapiOut = new WasapiOut(dev, AudioClientShareMode.Shared, true, 10);
             _wasapiOut.Init(_audioBuffer);
             _wasapiOut.Play();
-            Logger.Log($"[SeatHost] Salida de audio lista en '{dev.FriendlyName}' ({wf})");
+            Logger.Log(BackendText.Get("seatHost.audioOutputReady", dev.FriendlyName, wf));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SeatHost] Error al iniciar WasapiOut: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatHost.wasapiStartFailed", ex.Message));
         }
     }
 
@@ -632,7 +633,7 @@ internal sealed class ActiveSeatHost
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SeatHost] Error configurando formato de audio: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatHost.audioFormatFailed", ex.Message));
         }
     }
 
@@ -653,11 +654,11 @@ internal sealed class ActiveSeatHost
     {
         if (_monitor is null) return asked;
         if (!DisplayTopology.PlaceAtCorner(_monitor.DevicePath))
-            Logger.Warning("[SeatHost] No se pudo devolver el monitor a la esquina del primario.");
+            Logger.Warning(BackendText.Get("seatHost.monitorRestoreFailed"));
 
         if (_monitor.Width > 0 && _monitor.Height > 0) return asked;    // resolución fijada en el puesto
         if ((now.W, now.H) == asked) return asked;
-        Logger.Log($"[SeatHost] El monitor está ahora a {now.W}x{now.H}: se pide ajustar la sesión.");
+        Logger.Log(BackendText.Get("seatHost.monitorResolutionChanged", now.W, now.H));
         channel.SendJson(new JsonObject { ["op"] = "monitor_mode", ["width"] = now.W, ["height"] = now.H });
         return (now.W, now.H);
     }
@@ -741,7 +742,7 @@ internal sealed class ActiveSeatHost
             Native.SetWindowPos(hwnd, Native.HWND_TOPMOST, 0, 0, 0, 0,
                                 Native.SWP_NOMOVE | Native.SWP_NOSIZE | Native.SWP_NOACTIVATE);
             if (++_raised is 1 or 10 or 100)
-                Logger.Log($"[SeatHost] Presentador tapado por otra ventana (pid {pid}); vuelve arriba ({_raised} vez/veces).");
+                Logger.Log(BackendText.Get("seatHost.presenterCovered", pid, _raised));
             return;
         }
     }
@@ -830,10 +831,10 @@ internal sealed class ActiveSeatHost
         if (physical is not { Width: > 0, Height: > 0 }) return;
         var (moved, failed) = ConsoleWindows.Sweep(ConsoleWindows.Area.Of(physical), _consoleArea);
         if (moved > 0 && (_swept += moved) < 50)
-            Logger.Log($"[SeatHost] {moved} ventana(s) de la consola traídas del monitor físico a su pantalla.");
+            Logger.Log(BackendText.Get("seatHost.consoleWindowsMoved", moved));
         // Una misma ventana que no se deja mover fallaría en cada barrido: se anota una vez.
         foreach (var h in failed.Where(_unmovable.Add))
-            Logger.Warning($"[SeatHost] No se puede traer a la pantalla de la consola una ventana de {ConsoleWindows.Describe(h)} " +
+            Logger.Warning(BackendText.Get("seatHost.consoleWindowMoveFailed", ConsoleWindows.Describe(h)) +
                            "(¿programa elevado?). Cerrarla y abrirla la saca en la pantalla buena.");
     }
 
@@ -970,7 +971,7 @@ float4 ps_main(PS_IN input) : SV_TARGET {
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SeatHost] No se pudieron inicializar shaders de cursor: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatHost.cursorShaderInitFailed", ex.Message));
         }
     }
 
