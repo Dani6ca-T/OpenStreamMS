@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide ist nicht installiert: Controller sind in allen Sitzungen sichtbar.",
   "gamepad.hidHideEnabled": "HidHide aktiviert.",
   "gamepad.hidHideConfigureFailed": "HidHide konnte nicht konfiguriert werden: {0}",
-  "gamepad.monitorFailed": "Fehler bei der Überwachung der Controller: {0}"
+  "gamepad.monitorFailed": "Fehler bei der Überwachung der Controller: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} ist verfügbar: Controller sind sitzungsweise isoliert.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} unterstützt keine sitzungsbezogene Isolation (Version {1} oder neuer erforderlich): Controller sind in allen Sitzungen sichtbar. Aktualisieren Sie HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: umgekehrter Modus {0}; Zulassungsliste ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Programme auf der HidHide-Zulassungsliste sehen Controller aus allen Sitzungen, auch wenn diese einer anderen Sitzung zugewiesen sind.",
+  "gamepad.hidHideWhitelistReadFailed": "HidHide-Zulassungsliste konnte nicht gelesen werden: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping wurde deaktiviert (umgeht die sitzungsbezogene Controller-Isolation).",
+  "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping konnte nicht deaktiviert werden: {0}",
+  "gamepad.jailPrepareFailed": "HidHide-Jail für den ViGEm-Controller konnte nicht vorbereitet werden: {0}"
 }
