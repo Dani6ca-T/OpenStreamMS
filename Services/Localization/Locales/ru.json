@@ -583,5 +583,15 @@
   "seatHost.consoleWindowsMoved": "[SeatHost] Перемещено окон консоли с физического монитора на её экран: {0}.",
   "seatHost.consoleWindowMoveFailed": "[SeatHost] Не удалось переместить окно из области {0} на экран консоли (возможно, приложение запущено с повышенными правами). Закройте и откройте его заново, чтобы переместить на нужный экран.",
   "seatHost.cursorShaderInitFailed": "[SeatHost] Не удалось инициализировать шейдеры курсора: {0}",
-  "seatHost.createWindowFailed": "Не удалось выполнить CreateWindowEx."
+  "seatHost.createWindowFailed": "Не удалось выполнить CreateWindowEx.",
+  "seatAccess.nothingConnected": "[SeatAccess] Для «{0}» на порту {1} ничего не подключено; устройство будет зарезервировано после подключения.",
+  "seatAccess.rootReserved": "[SeatAccess] {0} был зарезервирован для рабочего места; снова предоставляем его всем сеансам.",
+  "seatAccess.pendingNodes": "[SeatAccess] Отключено зарезервированных узлов: {0}; они будут освобождены после подключения.",
+  "seatAccess.restoreTargetFailed": "[SeatAccess] Не удалось восстановить {0}: {1}",
+  "seatAccess.deviceReserved": "[SeatAccess] «{0}»: устройство {1} зарезервировано (узлов: {2}); другие сеансы не могут его открыть.",
+  "seatAccess.reserveFailed": "[SeatAccess] «{0}»: не удалось зарезервировать {1}: {2}",
+  "seatAccess.deviceReleased": "[SeatAccess] Устройство {0} снова доступно всем сеансам.",
+  "seatAccess.releaseFailed": "[SeatAccess] Не удалось освободить {0}: {1}",
+  "seatAccess.securityDescriptorChangeFailed": "{0}: не удалось изменить дескриптор безопасности",
+  "seatAccess.deviceNotFound": "{0}: устройство не найдено"
 }
