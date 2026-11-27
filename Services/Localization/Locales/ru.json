@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Значок в системном трее удалён из автозапуска.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Исполняемый файл:",
-  "install.configPath": "Конфигурация:"
+  "install.configPath": "Конфигурация:",
+  "diagnostics.logGenerated": "Пакет диагностики создан ({0} КБ, события за {1} дн.).",
+  "diagnostics.logGenerateFailed": "Не удалось создать пакет диагностики: {0}",
+  "hud.sessionRestarted": "Сеанс «{0}» перезапущен из HUD.",
+  "hud.powerDenied": "Отклонено выключение/перезагрузка от «{0}»: у сеанса нет разрешения.",
+  "hud.powerRequested": "«{1}» запросил(а) {0} компьютера.",
+  "hud.powerCancelled": "Выключение/перезагрузка отменены из «{0}».",
+  "power.cancelled": "Выключение/перезагрузка отменены.",
+  "power.noPending": "Нет ожидающего выключения для отмены ({0}).",
+  "power.shutdownFailed": "Ошибка shutdown.exe: {0}",
+  "power.scheduled": "{0} запланировано через {1} с.",
+  "settings.logLevelChanged": "Уровень журнала: {0} → {1}."
 }
