@@ -101,7 +101,7 @@ namespace OpenStreamMS.Services.Sunshine
 
                 var crash = SunshineCrashDetector.TryFindRecentFault(_sunshineExe, deadPid, _lastStartLocal);
                 var message = crash ??
-                    $"Sunshine exited unexpectedly (PID={deadPid}); no recent Application Error event found.";
+                    BackendText.Get("sunshine.unexpectedExit", deadPid);
 
                 Logger.Log($"[Sunshine] {message}");
                 return new SunshineRunResult(SunshineRunStatus.UnexpectedExit, 0, message);
@@ -109,7 +109,7 @@ namespace OpenStreamMS.Services.Sunshine
 
             if (!File.Exists(_sunshineExe))
             {
-                var message = $"sunshine.exe not found at: {_sunshineExe}";
+                var message = BackendText.Get("sunshine.executableNotFound", _sunshineExe);
                 Logger.Error($"[Sunshine] {message}");
                 return new SunshineRunResult(SunshineRunStatus.LaunchFailed, 0, message);
             }
@@ -301,13 +301,13 @@ namespace OpenStreamMS.Services.Sunshine
                 }
 
                 if (_sunshinePid > 0)
-                    Logger.Info($"[Sunshine] Started with PID {_sunshinePid}");
+                    Logger.Info(BackendText.Get("sunshine.started", _sunshinePid));
                 else
-                    Logger.Error("[Sunshine] Could not launch");
+                    Logger.Error(BackendText.Get("sunshine.processLaunchFailed"));
 
                 return _sunshinePid > 0
                     ? new SunshineRunResult(SunshineRunStatus.Started, _sunshinePid)
-                    : new SunshineRunResult(SunshineRunStatus.LaunchFailed, 0, "Could not launch sunshine.exe.");
+                    : new SunshineRunResult(SunshineRunStatus.LaunchFailed, 0, BackendText.Get("sunshine.processLaunchFailed"));
             }
             catch (Exception ex)
             {
@@ -332,7 +332,7 @@ namespace OpenStreamMS.Services.Sunshine
 
             if (verdict == EncoderVerdict.Hardware)
             {
-                Logger.Log("[Sunshine] Encoder hardware confirmado (amdvce/h264_amf).");
+                Logger.Log(BackendText.Get("sunshine.encoderHardwareConfirmed"));
                 return current;
             }
             if (verdict == EncoderVerdict.Unknown)
@@ -341,8 +341,7 @@ namespace OpenStreamMS.Services.Sunshine
                 return current;
             }
 
-            Logger.Warning("[Sunshine] El sondeo cayó a encode SOFTWARE (libx264 → 4K diente de sierra). " +
-                           "Relanzando una vez con la sesión ya desbloqueada para forzar GPU...");
+            Logger.Warning(BackendText.Get("sunshine.softwareEncoderFallback"));
             try { if (_sunshinePid > 0) KillProcessTree(_sunshinePid); } catch { }
             _sunshinePid = 0;
 
@@ -352,9 +351,9 @@ namespace OpenStreamMS.Services.Sunshine
             {
                 var v2 = WaitForEncoderVerdict(retryMark, timeoutMs: EncoderVerdictTimeoutMs);
                 if (v2 == EncoderVerdict.Hardware)
-                    Logger.Log("[Sunshine] Tras relanzar: encoder hardware confirmado.");
+                    Logger.Log(BackendText.Get("sunshine.encoderHardwareConfirmedAfterRetry"));
                 else
-                    Logger.Warning($"[Sunshine] Tras relanzar el encoder sigue sin confirmarse como hardware (verdict={v2}).");
+                    Logger.Warning(BackendText.Get("sunshine.encoderUnconfirmedAfterRetry", v2));
             }
             return retry;
         }
@@ -432,7 +431,7 @@ namespace OpenStreamMS.Services.Sunshine
                 if (!process.HasExited)
                 {
                     process.Kill();
-                    Logger.Log($"[Sunshine] Proceso {_sunshinePid} detenido");
+                    Logger.Log(BackendText.Get("sunshine.processStopped", _sunshinePid));
                 }
             }
             catch { /* ya terminó */ }
@@ -472,12 +471,12 @@ namespace OpenStreamMS.Services.Sunshine
 
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
                 using var resp = http.Send(req, HttpCompletionOption.ResponseHeadersRead, cts.Token);
-                Logger.Log($"[Sunshine] /api/restart solicitado antes de parar (HTTP {(int)resp.StatusCode}) para flushear state.");
+                Logger.Log(BackendText.Get("sunshine.cleanFlushRequested", (int)resp.StatusCode));
 
                 if (WaitForProcessExit(pid, TimeSpan.FromSeconds(3)))
-                    Logger.Log($"[Sunshine] Proceso {pid} salió limpiamente tras flush de state.");
+                    Logger.Log(BackendText.Get("sunshine.cleanFlushExited", pid));
                 else
-                    Logger.Warning($"[Sunshine] El proceso {pid} no salió tras /api/restart; se usará kill como fallback.");
+                    Logger.Warning(BackendText.Get("sunshine.cleanFlushFallback", pid));
             }
             catch (Exception ex)
             {
@@ -558,13 +557,13 @@ namespace OpenStreamMS.Services.Sunshine
                 if (launcher.ExitCode is not { } code)
                 {
                     try { KillProcessTree(pid); } catch { }
-                    throw new TimeoutException("sunshine.exe --creds no terminó en 15 s");
+                    throw new TimeoutException(BackendText.Get("sunshine.credentialsTimeout"));
                 }
                 if (code != 0)
-                    throw new Exception($"sunshine.exe --creds devolvió exit code {code}");
+                    throw new Exception(BackendText.Get("sunshine.credentialsExitCode", code));
 
                 RestoreStateRoot(stateFile, preservedRoot);
-                Logger.Log($"[Sunshine] Credenciales provisionadas vía --creds en la sesión {sessionId} (user={creds.Username})");
+                Logger.Log(BackendText.Get("sunshine.credentialsProvisionedInSession", sessionId, creds.Username));
                 return;
             }
 
@@ -596,16 +595,16 @@ namespace OpenStreamMS.Services.Sunshine
             }
 
             if (!string.IsNullOrWhiteSpace(stdout))
-                Logger.Log($"[Sunshine] --creds stdout: {stdout.Trim()}");
+                Logger.Log(BackendText.Get("sunshine.credentialsStdout", stdout.Trim()));
             if (!string.IsNullOrWhiteSpace(stderr))
-                Logger.Log($"[Sunshine] --creds stderr: {stderr.Trim()}");
+                Logger.Log(BackendText.Get("sunshine.credentialsStderr", stderr.Trim()));
 
             if (p.ExitCode != 0)
-                throw new Exception($"sunshine.exe --creds devolvió exit code {p.ExitCode}");
+                throw new Exception(BackendText.Get("sunshine.credentialsExitCode", p.ExitCode));
 
             RestoreStateRoot(stateFile, preservedRoot);
 
-            Logger.Log($"[Sunshine] Credenciales provisionadas vía --creds (user={creds.Username})");
+            Logger.Log(BackendText.Get("sunshine.credentialsProvisioned", creds.Username));
         }
 
         /// <summary>
@@ -639,13 +638,13 @@ namespace OpenStreamMS.Services.Sunshine
             {
                 if (!File.Exists(stateFile))
                 {
-                    Logger.Warning("[Sunshine] sunshine_state.json no existe tras --creds; no se restaura root.");
+                    Logger.Warning(BackendText.Get("sunshine.stateMissingAfterCredentials"));
                     return;
                 }
 
                 if (JsonNode.Parse(File.ReadAllText(stateFile)) is not JsonObject state)
                 {
-                    Logger.Warning("[Sunshine] sunshine_state.json no es JSON valido tras --creds; no se restaura root.");
+                    Logger.Warning(BackendText.Get("sunshine.stateInvalidJsonAfterCredentials"));
                     return;
                 }
 
@@ -666,7 +665,7 @@ namespace OpenStreamMS.Services.Sunshine
                 // Si --creds dejó al menos los mismos devices que teníamos, respetar.
                 if (preservedCount == 0 || newCount >= preservedCount)
                 {
-                    Logger.Log($"[Sunshine] sunshine_state.json: root tras --creds OK (preserved={preservedCount}, new={newCount}); sin restaurar.");
+                    Logger.Log(BackendText.Get("sunshine.stateRootAlreadyCurrent", preservedCount, newCount));
                     return;
                 }
 
@@ -675,7 +674,7 @@ namespace OpenStreamMS.Services.Sunshine
                     stateFile,
                     state.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
 
-                Logger.Log($"[Sunshine] sunshine_state.json: root restaurado tras --creds (named_devices={preservedCount}, eran={newCount}).");
+                Logger.Log(BackendText.Get("sunshine.stateRootRestored", preservedCount, newCount));
             }
             catch (Exception ex)
             {
@@ -705,8 +704,7 @@ namespace OpenStreamMS.Services.Sunshine
                 var fresh = Guid.NewGuid().ToString().ToUpperInvariant();
                 root["uniqueid"] = fresh;
                 File.WriteAllText(path, state.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
-                Logger.Warning($"[Sunshine] Another session was using the same uniqueid ({current}); this one changes to {fresh}. " +
-                               "In Moonlight it will appear as a new host.");
+                Logger.Warning(BackendText.Get("sunshine.uniqueIdCollision", current, fresh));
                 MirrorStateToBackup(force: true);
             }
             catch (Exception ex)
@@ -745,7 +743,7 @@ namespace OpenStreamMS.Services.Sunshine
                 var backup = GetBestRestoreCandidate();
                 if (backup is null)
                 {
-                    Logger.Log("[Sunshine] No hay backup util de sunshine_state.json para restaurar.");
+                    Logger.Log(BackendText.Get("sunshine.noUsefulStateBackup"));
                     return;
                 }
 
@@ -757,12 +755,12 @@ namespace OpenStreamMS.Services.Sunshine
                 // devices are what must survive restarts and accidental recreation.
                 if (!ShouldRestoreState(active, backup))
                 {
-                    Logger.Log($"[Sunshine] sunshine_state.json activo conserva estado suficiente (devices={active.NamedDeviceCount}, creds={active.HasCredentials}); no se restaura.");
+                    Logger.Log(BackendText.Get("sunshine.stateBackupAlreadySufficient", active.NamedDeviceCount, active.HasCredentials));
                     return;
                 }
 
                 File.Copy(backup.Path, activePath, overwrite: true);
-                Logger.Log($"[Sunshine] sunshine_state.json restaurado desde backup (devices={backup.NamedDeviceCount}, creds={backup.HasCredentials}): {backup.Path} -> {activePath}");
+                Logger.Log(BackendText.Get("sunshine.stateBackupRestored", backup.NamedDeviceCount, backup.HasCredentials, backup.Path, activePath));
             }
             catch (Exception ex)
             {
@@ -1049,7 +1047,7 @@ namespace OpenStreamMS.Services.Sunshine
 
                 Directory.CreateDirectory(Path.GetDirectoryName(active)!);
                 File.Copy(backup, active, overwrite: true);
-                Logger.Log($"[Sunshine] {TvClientsFileName} restaurado desde backup: {backup}");
+                Logger.Log(BackendText.Get("sunshine.tvClientsBackupRestored", TvClientsFileName, backup));
             }
             catch (Exception ex)
             {
@@ -1076,7 +1074,7 @@ namespace OpenStreamMS.Services.Sunshine
 
                     if (!activeState.ValidJson)
                     {
-                        Logger.Warning("[Sunshine] Mirror omitido: sunshine_state.json activo no es JSON valido.");
+                        Logger.Warning(BackendText.Get("sunshine.stateMirrorInvalidJson"));
                         return;
                     }
 
@@ -1088,7 +1086,7 @@ namespace OpenStreamMS.Services.Sunshine
                     // del usuario y debe sobrescribir el backup.
                     if (!activeState.HasNamedDevicesKey && targetStates.Any(t => t.HasNamedDevicesKey))
                     {
-                        Logger.Warning("[Sunshine] Mirror omitido: activo sin named_devices y backup con named_devices; backup preservado.");
+                        Logger.Warning(BackendText.Get("sunshine.stateMirrorPreservedBackup"));
                         return;
                     }
 
@@ -1118,7 +1116,7 @@ namespace OpenStreamMS.Services.Sunshine
                         }
 
                         if (lastErr is not null)
-                            Logger.Warning($"[Sunshine] Mirror de state.json bloqueado tras 3 intentos ({target}): {lastErr.Message}");
+                            Logger.Warning(BackendText.Get("sunshine.stateMirrorCopyFailed", target, lastErr.Message));
                     }
 
                     _lastMirrorUtc = now;
@@ -1126,7 +1124,7 @@ namespace OpenStreamMS.Services.Sunshine
                 catch (IOException) { /* archivo en uso, proximo evento lo cogera */ }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Sunshine] Error copiando sunshine_state.json a backup: {ex.Message}");
+                    Logger.Warning(BackendText.Get("sunshine.stateBackupCopyFailed", ex.Message));
                 }
             }
         }
