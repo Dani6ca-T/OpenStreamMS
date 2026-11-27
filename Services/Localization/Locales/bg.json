@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Основният монитор не може да бъде сменен: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Грешка в SetDisplayConfig (деактивиране): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Мониторът е премахнат от работния плот: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Мониторът не може да бъде деактивиран: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Мониторът не може да бъде деактивиран: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Канал за управление на хоста: процес {0} е отхвърлен, защото не е в конзолната сесия.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp е свързан към канала за управление на хоста.",
+  "seatHostControl.controlPipeError": "[Seats] Грешка в канала за управление на хоста: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Командата 'open_seat' е изпратена до TrayApp за работно място {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Командата 'open_seat' не може да бъде изпратена до TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp не е свързан; стартира се самостоятелен визуализатор в конзолната сесия {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Няма влязъл потребител във физическата конзола.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Свързан към канала за управление на хостовете на работните места.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Грешка при обработка на команда за работно място: {0}"
 }
