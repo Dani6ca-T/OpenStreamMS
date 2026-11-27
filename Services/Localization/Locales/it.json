@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "Il controller fisico {0} è assegnato a un posto o a una sessione di streaming: visibile solo nella sessione {1}.",
   "gamepad.steamFilterWarning": "{0} contiene il filtro Steam {1} nello stack: Steam delle altre sessioni (console inclusa) può ancora leggerlo. Scollegalo e ricollegalo dopo aver avviato il posto o lo stream.",
   "gamepad.physicalPadRestarted": "{0} riavviato: la sessione {1} non può più leggerlo.",
-  "gamepad.physicalPadRestartFailed": "Impossibile riavviare {0}: {1}. La sessione che lo aveva già aperto continuerà a vederlo finché non lo chiude."
+  "gamepad.physicalPadRestartFailed": "Impossibile riavviare {0}: {1}. La sessione che lo aveva già aperto continuerà a vederlo finché non lo chiude.",
+  "gamepad.padRemoved": "Controller {0} rimosso; i relativi nodi HID sono stati eliminati dalla lista nera di HidHide.",
+  "gamepad.staleJailsRemoved": "Rimosse {0} voci obsolete dalla lista nera di HidHide.",
+  "gamepad.absentPadAssigned": "Il controller fisico {0} (attualmente scollegato) è assegnato alla sessione {1}: vi apparterrà quando comparirà.",
+  "gamepad.knownNodesSaveFailed": "Impossibile salvare {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Impossibile leggere {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Impossibile aggiornare la lista nera di HidHide: {0}"
 }
