@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Nem sikerült megváltoztatni az elsődleges monitort: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig hiba (deaktiválás): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] A monitor eltávolítva az asztalról: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Nem sikerült deaktiválni a monitort: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Nem sikerült deaktiválni a monitort: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Gazdagép-vezérlőcsatorna: a(z) {0} folyamat elutasítva, mert nem a konzolmunkamenethez tartozik.",
+  "seatHostControl.trayConnected": "[Seats] A TrayApp csatlakozott a gazdagép vezérlőcsatornájához.",
+  "seatHostControl.controlPipeError": "[Seats] Hiba a gazdagép vezérlőcsatornáján: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Az 'open_seat' parancs elküldve a TrayApp számára, állomás: {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Nem sikerült elküldeni az 'open_seat' parancsot a TrayApp számára: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] A TrayApp nincs csatlakoztatva; önálló megjelenítő indul a(z) {0} konzolmunkamenetben...",
+  "seatHostControl.consoleUserMissing": "[Seats] Nincs bejelentkezett felhasználó a fizikai konzolon.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Csatlakozva az állomásmegjelenítők vezérlőcsatornájához.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Hiba az állomásparancs feldolgozásakor: {0}"
 }
