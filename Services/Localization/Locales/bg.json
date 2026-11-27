@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession за сесия {0} не успя: {1}",
   "rdp.logoffCompleted": "Сесия {0} е затворена (изход) за {1} ms.",
   "rdp.logoffSessionCompleted": "Сесия {0} е затворена (изход).",
-  "rdp.logoffWarning": "Предупреждение WTSLogoffSession (сесия {0}): {1}"
+  "rdp.logoffWarning": "Предупреждение WTSLogoffSession (сесия {0}): {1}",
+  "rdp.startFreeRdp": "Стартиране на FreeRDP ({0}x{1}, {2} fps, {3} bpp, мащаб {4} %, без gfx)…",
+  "rdp.freeRdpExecutableMissing": "Неуспешно стартиране на wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP приключи с ExitCode={0} (0x{1:X}), без да създаде сесия за „{2}“. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Сесията за „{0}“ не се появи след 30 сек. Проверете потребителя и паролата, дали отдалеченият работен плот е включен и дали потребителят е в групата „Потребители на отдалечен работен плот“.",
+  "rdp.startMstsc": "Стартиране на mstsc ({0}x{1}, {2} fps, {3} bpp, мащаб {4} %, хардуерен AVC444)…",
+  "rdp.mstscExecutableMissing": "Неуспешно стартиране на mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc приключи с ExitCode={0}, без да създаде сесия за „{1}“. Възможен е невидим диалог (сертификат/идентификационни данни) или отказ от NLA.",
+  "rdp.mstscSessionTimeout": "Сесията за „{0}“ не се появи след 30 сек. с mstsc. Възможен е невидим диалог в Session 0."
 }
