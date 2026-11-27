@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] Dostosowano uprawnienia instancji dla „{0}” (zapis tylko do config): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Nie można dostosować uprawnień „{0}” w {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Zapora ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Aktualizowanie instancji Sunshine: {1} → {2} (config/, parowania, dane logowania i ustawienia zostaną zachowane)."
+  "session.logSunshineInstanceUpdating": "[{0}] Aktualizowanie instancji Sunshine: {1} → {2} (config/, parowania, dane logowania i ustawienia zostaną zachowane).",
+  "session.logHudEnsureFailed": "[HUD] Nie można zainicjować HUD: {0}"
 }
