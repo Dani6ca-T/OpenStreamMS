@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Stanoviště] „{0}“: stanoviště se nepodařilo znovu spustit: {1}",
   "seat.waitingImageFailed": "[Stanoviště] „{0}“: nepodařilo se zobrazit čekací obrazovku: {1}",
   "seat.sessionDidNotRestart": "Relace se znovu nespustila.",
-  "seat.sessionRestartTimeout": "Časový limit restartování relace vypršel."
+  "seat.sessionRestartTimeout": "Časový limit restartování relace vypršel.",
+  "composite.created": "[Složené relace] Vytvořena složená relace „{0}“ ({1}) s: {2}",
+  "composite.updated": "[{0}] Složená relace byla změněna.",
+  "composite.startingMember": "[{0}] Spouští se „{1}“ pro složenou relaci…",
+  "composite.steamConfigFailed": "[{0}] Nepodařilo se nakonfigurovat aplikaci Steam pro složenou relaci: {1}",
+  "composite.startAborted": "[{0}] Spuštění přerušeno (relace byla během spouštění zastavena).",
+  "composite.started": "[{0}] Složená relace je aktivní: {1}; klávesnice a myš z „{2}“ (relace Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Nepodařilo se odstranit {1}: {2}",
+  "composite.stoppingMember": "[{0}] Zastavuje se „{1}“, které spustila složená relace.",
+  "composite.restoreResolutionFailed": "[{0}] „{1}“ nemohlo obnovit své rozlišení: {2}",
+  "composite.keyboardStopped": "[{0}] Relace klávesnice byla zastavena; složená relace se také zastaví.",
+  "composite.keyboardSessionChanged": "[{0}] Relace klávesnice přešla do relace Windows {1}; Sunshine se znovu spustí.",
+  "composite.watchFailed": "[{0}] Chyba při sledování složené relace: {1}",
+  "composite.waitingImageFailed": "[{0}] Nepodařilo se připravit čekací obraz pro slot {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Akce Steam „{1}“ v relaci Windows {2} selhala: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: akce „{1}“ provedena v {2} relacích.",
+  "composite.steamOpen": "otevření",
+  "composite.steamClose": "zavření"
 }
