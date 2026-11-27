@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Đã xóa tính năng cô lập tay cầm theo phiên khỏi HidHide; đã khôi phục bộ lọc steamxbox của Steam.",
   "uninstall.seatsRestored": "Đã khôi phục bàn phím/chuột của chỗ ngồi, bảo vệ khóa console, quyền tắt máy và thiết lập một phiên cho mỗi người dùng.",
   "uninstall.trayRemoved": "Đã xóa biểu tượng khay hệ thống khỏi tự khởi động.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Tệp thực thi:",
+  "install.configPath": "Cấu hình:"
 }
