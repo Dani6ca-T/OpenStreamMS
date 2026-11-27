@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Isolamento dei controller per sessione rimosso da HidHide; filtro steamxbox di Steam ripristinato.",
   "uninstall.seatsRestored": "Ripristinati tastiere/mouse delle postazioni, protezione della console, diritto di arresto e limite di una sessione per utente.",
   "uninstall.trayRemoved": "Icona nell'area di notifica rimossa dall'avvio automatico.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Eseguibile:",
+  "install.configPath": "Configurazione:"
 }
