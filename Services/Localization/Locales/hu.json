@@ -359,5 +359,16 @@
   "seats.seatLost": "A(z) „{0}” munkaállomás leáll: {1}.",
   "seats.stopAfterLossFailed": "„{0}”: a megszakítás után nem sikerült leállítani: {1}",
   "seats.sessionStartFailed": "A munkamenet indítása sikertelen.",
-  "seats.sessionStartTimeout": "A munkamenet nem vált időben aktívvá."
+  "seats.sessionStartTimeout": "A munkamenet nem vált időben aktívvá.",
+  "seats.statusStartingSession": "Munkamenet indítása…",
+  "seats.statusPoweringMonitor": "Monitor bekapcsolása…",
+  "seats.statusStartingAgent": "Rögzítő- és képi ügynök indítása…",
+  "seats.statusStartingPresenter": "Megjelenítő indítása a konzolon…",
+  "seats.statusSeparatingGamepads": "Munkaállomás vezérlőinek elkülönítése…",
+  "seats.statusReservingUsb": "Munkaállomás USB-eszközeinek lefoglalása…",
+  "seats.statusSeparatingInput": "Munkaállomás egerének és billentyűzetének elkülönítése…",
+  "seats.statusLockingSession": "Munkamenet zárolása: a munkaállomás jelszót fog kérni…",
+  "seats.statusActive": "Aktív: kép, hang és perifériák csatlakoztatva.",
+  "seats.statusDisconnectedFromSeat": "A munkaállomásról leválasztva. Indítsa újra az OpenStreamMS-ből.",
+  "seats.statusStoppedAfterError": "Leállítva: {0}. Indítsa újra az OpenStreamMS-ből."
 }
