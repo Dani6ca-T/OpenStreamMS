@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Неуспешно настройване на разрешенията за „{0}“ в {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Защитна стена ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Актуализиране на екземпляра на Sunshine: {1} → {2} (config/, сдвояванията, идентификационните данни и настройките се запазват).",
-  "session.logHudEnsureFailed": "[HUD] Неуспешна инициализация на HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Неуспешна инициализация на HUD: {0}",
+  "error.seatName": "Името на мястото е задължително.",
+  "error.stopSeat": "Спрете мястото, преди да промените конфигурацията му.",
+  "error.primaryMonitor": "Основният монитор не може да бъде назначен на място.",
+  "error.assigned": "Избраният ресурс вече е назначен."
 }
