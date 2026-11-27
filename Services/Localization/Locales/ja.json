@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "物理コントローラー {0}（現在未接続）をセッション {1} に割り当てました。再接続時にそのセッションに属します。",
   "gamepad.knownNodesSaveFailed": "{0} を保存できませんでした：{1}",
   "gamepad.knownNodesReadFailed": "{0} を読み取れませんでした：{1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "HidHide のブラックリストを更新できませんでした：{0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "HidHide のブラックリストを更新できませんでした：{0}",
+  "gamepad.usbPortCycled": "{0}：別のプロセスが使用中のため Windows が再起動を延期しました。USB ポートを切断して再接続しました（{1}）{2}。",
+  "gamepad.usbPortCycleFailed": "{0}：Windows が再起動を延期し（別プロセスが使用中）、USB ポートを再接続できませんでした（{1}）。既に開いているプロセスには、閉じるまで引き続き表示されます。"
 }
