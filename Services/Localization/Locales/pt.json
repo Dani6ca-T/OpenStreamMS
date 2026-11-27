@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Não foi possível devolver o monitor principal à consola; será recuperado ao remover o ecrã virtual.",
   "seats.consoleMonitorRestored": "A consola volta a ter o monitor inteiro.",
   "seats.sessionLocked": "'{0}': sessão bloqueada; será pedida a palavra-passe de '{1}'.",
-  "seats.sessionLockFailed": "'{0}': não foi possível bloquear a sessão: {1}"
+  "seats.sessionLockFailed": "'{0}': não foi possível bloquear a sessão: {1}",
+  "seats.sessionDisconnectedFromSeat": "'{0}': a sessão foi desligada a partir do posto; este desliga-se até ser novamente ligado no OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "'{0}': não foi possível parar após a desconexão: {1}",
+  "seats.windowsSessionChanged": "'{0}': a sessão do Windows mudou de {1} para {2}; os comandos estão a ser reatribuídos.",
+  "seats.monitorModeChanged": "'{0}': o modo do monitor mudou; a sessão está a ser reajustada.",
+  "seats.readjustFailed": "Não foi possível reajustar o posto: {0}",
+  "seats.agentDisconnected": "'{0}': o agente da sessão desligou-se.",
+  "seats.presenterDisconnected": "'{0}': o apresentador da consola desligou-se.",
+  "seats.consoleAreaLost": "A área da consola perdeu a imagem ({0}); a consola recupera o monitor.",
+  "seats.seatLost": "O posto '{0}' está a desligar-se: {1}.",
+  "seats.stopAfterLossFailed": "'{0}': não foi possível desligar após a interrupção: {1}",
+  "seats.sessionStartFailed": "Falha ao iniciar a sessão.",
+  "seats.sessionStartTimeout": "A sessão não ficou ativa a tempo."
 }
