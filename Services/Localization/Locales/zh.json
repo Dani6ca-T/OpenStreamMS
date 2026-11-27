@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] 无法为“{0}”准备 Steam：{1}",
   "service.started": "[Service] OpenStreamMS 已启动。API 可通过配置的端口访问。",
   "service.multiRdpCheckFailed": "[Service] Multi-RDP 检查失败：{0}",
-  "service.stopped": "[Service] 已停止。"
+  "service.stopped": "[Service] 已停止。",
+  "isolatedUser.winStationsKeyMissing": "Windows 注册表项 HKLM\\{0} 不存在。",
+  "isolatedUser.rdpTcpKeyMissing": "Windows 注册表项 HKLM\\{0} 不存在。",
+  "steamIsolation.userRegistryNotLoaded": "用户注册表配置单元尚未加载。",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell 不可用。",
+  "steamIsolation.shortcutDescription": "与其他会话隔离的 Steam (OpenStreamMS)"
 }
