@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Primární monitor se nepodařilo změnit: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Chyba SetDisplayConfig (deaktivace): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor byl odebrán z plochy: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Monitor se nepodařilo deaktivovat: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Monitor se nepodařilo deaktivovat: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Řídicí kanál hostitele: proces {0} byl odmítnut, protože není v relaci konzole.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp se připojil k řídicímu kanálu hostitele.",
+  "seatHostControl.controlPipeError": "[Seats] Chyba řídicího kanálu hostitele: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Příkaz 'open_seat' byl odeslán do TrayApp pro stanici {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Příkaz 'open_seat' se nepodařilo odeslat do TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp není připojen; spouští se samostatný prezentér v relaci konzole {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Ve fyzické konzoli není přihlášen žádný uživatel.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Připojeno k řídicímu kanálu hostitele stanic.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Chyba při zpracování příkazu stanice: {0}"
 }
