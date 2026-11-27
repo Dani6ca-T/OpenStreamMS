@@ -427,5 +427,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Облікові дані Sunshine скинуто; Sunshine зупинено, його буде запущено автоматично.",
   "session.logSunshineTemplateUpdated": "[{0}] Шаблон Sunshine змінено; оновлення екземпляра: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Не вдалося оновити екземпляр Sunshine: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Не вдалося додати правило брандмауера: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Не вдалося додати правило брандмауера: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Локальний сеанс: робочий стіл «{1}\\\\{2}» (сеанс Windows {3}).",
+  "session.logNativeIsolationActive": "[{0}] Нативну ізоляцію активовано: виділений користувач «{1}» (профіль: {2}).",
+  "session.ephemeral": "тимчасовий",
+  "session.persistent": "постійний",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile пропущено: нативна ізоляція вже забезпечує окремий профіль.",
+  "session.logStreamProfileConfiguring": "[{0}] Налаштування окремого профілю потокового передавання...",
+  "session.logStartFailed": "[{0}] Не вдалося запустити: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Вибраний протокол містить WebRTC, але налаштована збірка Sunshine його не підтримує (використайте sunshine-webrtc); працюватиме лише Moonlight."
 }
