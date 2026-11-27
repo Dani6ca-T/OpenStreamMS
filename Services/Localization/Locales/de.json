@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Sitzungsbezogene Gamepad-Isolierung aus HidHide entfernt; Steams steamxbox-Filter wiederhergestellt.",
   "uninstall.seatsRestored": "Tastaturen/Mäuse der Sitzplätze, Konsolenschutz, Herunterfahrrecht und Ein-Sitzung-pro-Benutzer-Einstellung wiederhergestellt.",
   "uninstall.trayRemoved": "Infobereich-Symbol aus dem Autostart entfernt.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Programmdatei:",
+  "install.configPath": "Konfiguration:"
 }
