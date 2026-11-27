@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Core.Helpers
 {
@@ -96,12 +97,12 @@ namespace OpenStreamMS.Core.Helpers
                 };
                 File.WriteAllText(ConfigFile, JsonSerializer.Serialize(def, JsonOpts));
                 SecureFile.RestrictToAdmins(ConfigFile);
-                Console.WriteLine($"[Config] Creado config por defecto en: {ConfigFile}");
+                Console.WriteLine("[Config] " + BackendText.Get("serviceConfig.created", ConfigFile));
                 return def;
             }
 
             var cfg = JsonSerializer.Deserialize<ServiceConfig>(File.ReadAllText(ConfigFile))
-                      ?? throw new InvalidOperationException("Config inválida");
+                      ?? throw new InvalidOperationException(BackendText.Get("serviceConfig.invalid"));
 
             if (!Path.IsPathRooted(cfg.SunshineExePath))
                 cfg.SunshineExePath = Path.Combine(
