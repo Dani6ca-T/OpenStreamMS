@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Não foi possível encaminhar o teclado e o mouse para '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Não foi possível gravar {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Não foi possível excluir {1}: {2}",
-  "rdp.mstscFailureContext": "{0} A tentativa anterior com mstsc falhou: {1}"
+  "rdp.mstscFailureContext": "{0} A tentativa anterior com mstsc falhou: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Não foi possível ler os caminhos do perfil da sessão.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Ambiente isolado do perfil: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] AppData isolado: local={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "[StreamProfile] Não havia Explorer em execução para reiniciar na sessão {0}.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer reiniciado na sessão {0} com o perfil de streaming.",
+  "streamProfile.logoffRetry": "[StreamProfile] A sessão {0} não encerrou em 30 s; os processos de '{1}' serão finalizados e o logoff será tentado novamente.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Sessão {0} encerrada após finalizar {1} processo(s) do usuário.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] A sessão {0} continua ativa após o logoff.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Não foi possível resolver o SID de '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] Falha em WTSEnumerateProcesses ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Não foi possível abrir '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Não foi possível finalizar '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) finalizado na sessão {2}."
 }
