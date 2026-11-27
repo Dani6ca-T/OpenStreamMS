@@ -339,5 +339,13 @@
   "seats.rawInputShared": "„{0}“: {1} bleibt mit der Konsole geteilt (Raw Input).",
   "seats.usbEventsSent": "{0} Ereignisse an Agent von „{1}“ gesendet (zuletzt: Typ={2} Flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Eingabe konnte nicht an Agent von „{0}“ gesendet werden: {1}",
-  "seats.inputInterfacesCaptured": "„{0}“: {1} von {2} Eingabeschnittstellen von der Konsole getrennt."
+  "seats.inputInterfacesCaptured": "„{0}“: {1} von {2} Eingabeschnittstellen von der Konsole getrennt.",
+  "seats.consoleVirtualDisplayMissing": "Der virtuelle Bildschirm ist in der Konsole nicht erschienen.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Der virtuelle Bildschirm konnte nicht als primärer Bildschirm festgelegt werden.",
+  "seats.consoleAreaApplied": "Die Konsole verwendet Bereich {0} von „{1}“ mit eigenem Bildschirm {2}x{3}. Abgedeckter Bereich: {4}",
+  "seats.consoleAreaFallback": "Der Konsolenbereich konnte nicht bereitgestellt werden ({0}); die Ausweichlösung bleibt bestehen.",
+  "seats.consoleMonitorRestoreFailed": "Der primäre Monitor konnte nicht an die Konsole zurückgegeben werden; er wird beim Entfernen des virtuellen Bildschirms wiederhergestellt.",
+  "seats.consoleMonitorRestored": "Die Konsole hat wieder ihren vollständigen Monitor.",
+  "seats.sessionLocked": "„{0}“: Sitzung gesperrt; das Kennwort von „{1}“ wird angefordert.",
+  "seats.sessionLockFailed": "„{0}“: Sitzung konnte nicht gesperrt werden: {1}"
 }
