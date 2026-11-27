@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Không thể thay đổi màn hình chính: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig (hủy kích hoạt) thất bại: {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Đã gỡ màn hình khỏi desktop: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Không thể hủy kích hoạt màn hình: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Không thể hủy kích hoạt màn hình: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Pipe điều khiển máy chủ: đã từ chối tiến trình {0} vì không thuộc phiên console.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp đã kết nối với pipe điều khiển máy chủ.",
+  "seatHostControl.controlPipeError": "[Seats] Lỗi pipe điều khiển máy chủ: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Đã gửi lệnh 'open_seat' tới TrayApp cho seat {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Không thể gửi 'open_seat' tới TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp chưa kết nối; đang khởi chạy trình hiển thị độc lập trong phiên console {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Không có người dùng nào đăng nhập vào console vật lý.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Đã kết nối với pipe điều khiển máy chủ của các seat.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Lỗi khi xử lý lệnh seat: {0}"
 }
