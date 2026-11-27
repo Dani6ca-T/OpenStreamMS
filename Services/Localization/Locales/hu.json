@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] A TrayApp nincs csatlakoztatva; önálló megjelenítő indul a(z) {0} konzolmunkamenetben...",
   "seatHostControl.consoleUserMissing": "[Seats] Nincs bejelentkezett felhasználó a fizikai konzolon.",
   "seatHostControl.trayHostConnected": "[TrayApp] Csatlakozva az állomásmegjelenítők vezérlőcsatornájához.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Hiba az állomásparancs feldolgozásakor: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Hiba az állomásparancs feldolgozásakor: {0}",
+  "guideGuard.disabled": "[Seats] Guide gomb: a kontroller Game Bar letiltva ennél: {0}, amíg vannak aktív állomások.",
+  "guideGuard.disableFailed": "[Seats] Guide gomb: nem sikerült letiltani a kontroller Game Bart ennél: {0}: {1}",
+  "guideGuard.restored": "[Seats] Guide gomb: a kontroller Game Bar visszaállítva ennél: {0}.",
+  "guideGuard.restoreFailed": "[Seats] Guide gomb: nem sikerült visszaállítani a kontroller Game Bart ennél: {0}: {1}",
+  "handleBroker.openSourceFailed": "Az OpenProcess nem sikerült a(z) {0} forrás PID esetén.",
+  "handleBroker.openTargetFailed": "Az OpenProcess nem sikerült a(z) {0} cél PID esetén.",
+  "handleBroker.duplicateFailed": "A DuplicateHandle nem sikerült a(z) {0} PID-ről a(z) {1} PID-re.",
+  "seatStore.readFailed": "[Seats] Nem sikerült beolvasni a seats.json fájlt: {0}",
+  "seatStore.saveFailed": "[Seats] Nem sikerült menteni a seats.json fájlt: {0}",
+  "seatIpc.unexpectedClient": "[Seats] A(z) {0} csatorna elutasította a nem várt {1} ügyfélfolyamatot.",
+  "seatIpc.notServicePipe": "A csatorna nem a szolgáltatáshoz tartozik (folyamat: {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Bemenet érkezett: billentyűzet",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Bemenet érkezett: típus={0} jelzők={1:X} dx={2} dy={3} kód={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Bemenetbefecskendezés (10 mp): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 mp: elküldve={0} gyűrű_foglalt={1} bemenet={2} befecskendezési_hibák={3} utolsó_hiba={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Rögzítési késleltetés (10 mp): {0}"
 }
