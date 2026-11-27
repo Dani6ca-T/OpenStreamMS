@@ -339,5 +339,13 @@
   "seats.rawInputShared": "«{0}»: {1} остаётся общим с консолью (Raw Input).",
   "seats.usbEventsSent": "Агенту места «{1}» отправлено событий: {0} (последнее: тип={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Не удалось отправить ввод агенту места «{0}»: {1}",
-  "seats.inputInterfacesCaptured": "«{0}»: от консоли отделено интерфейсов ввода: {1} из {2}."
+  "seats.inputInterfacesCaptured": "«{0}»: от консоли отделено интерфейсов ввода: {1} из {2}.",
+  "seats.consoleVirtualDisplayMissing": "Виртуальный дисплей не появился в консоли.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Не удалось сделать виртуальный дисплей основным.",
+  "seats.consoleAreaApplied": "Консоль занимает область {0} монитора «{1}» со своим экраном {2}x{3}. Закрытая область: {4}",
+  "seats.consoleAreaFallback": "Не удалось выделить консоли её часть ({0}); используется резервный вариант.",
+  "seats.consoleMonitorRestoreFailed": "Не удалось вернуть основной монитор консоли; он будет восстановлен после удаления виртуального дисплея.",
+  "seats.consoleMonitorRestored": "Консоль снова использует весь монитор.",
+  "seats.sessionLocked": "«{0}»: сеанс заблокирован; потребуется пароль пользователя «{1}».",
+  "seats.sessionLockFailed": "«{0}»: не удалось заблокировать сеанс: {1}"
 }
