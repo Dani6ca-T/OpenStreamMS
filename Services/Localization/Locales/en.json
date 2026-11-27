@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Configured Steam Big Picture ('{0}') with non-blocking undo: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Composite-session Steam Big Picture opens and closes in all its sessions: {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Updated extension apps ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Configured Reboot and Power Off apps: {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Configured Reboot and Power Off apps: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json updated with isolated profile environment: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json updated without isolated profile environment: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort must be greater than 0.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver reverted from osmspad to vigembus: OsmsPad Xbox Series controllers lose XInput in stream sessions.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] Removed capture = remoteidd: RemoteIdd is not active in RDP-Tcp, so Sunshine uses default capture.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] OpenStreamMS defaults applied: {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] sunshine.conf was already up to date: {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] sunshine.conf updated ({0}) at: {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf updated ({0}) at: {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: credentials already current (user={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: credentials already current; root cleaned (user={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: credentials set (user={0})"
 }
