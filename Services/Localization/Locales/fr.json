@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Ce catalogue n'est pas dans la liste.",
   "ext.catalogEntryMissing": "Le catalogue ne liste plus {0}.",
   "ext.invalidPackage": "Le paquet n'est pas une extension valide : {0}",
-  "ext.noManifest": "Le paquet ne contient pas de {0}."
+  "ext.noManifest": "Le paquet ne contient pas de {0}.",
+  "cli.error.missingSeatAgentPipe": "ERREUR : nom du canal manquant pour --seat-agent.",
+  "cli.error.missingSeatHostPipe": "ERREUR : nom du canal manquant pour --seat-host.",
+  "cli.error.unknownCommand": "Commande inconnue : « {0} »",
+  "cli.error.helpHint": "Utilisez --help pour afficher les commandes disponibles.",
+  "cli.error.adminRequired": "ERREUR : cette opération nécessite des droits administrateur.",
+  "cli.error.adminHint": "Lancez le fichier .exe avec « Exécuter en tant qu’administrateur »."
 }
