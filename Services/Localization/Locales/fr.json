@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Impossible d’ajuster les autorisations de « {0} » dans {1} : {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Pare-feu ({0}) : {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Mise à jour de l’instance Sunshine : {1} → {2} (config/, associations, identifiants et paramètres sont conservés).",
-  "session.logHudEnsureFailed": "[HUD] Impossible d’initialiser le HUD : {0}"
+  "session.logHudEnsureFailed": "[HUD] Impossible d’initialiser le HUD : {0}",
+  "error.seatName": "Le nom du poste est obligatoire.",
+  "error.stopSeat": "Arrêtez le poste avant de modifier sa configuration.",
+  "error.primaryMonitor": "Le moniteur principal ne peut pas être attribué à un poste.",
+  "error.assigned": "La ressource sélectionnée est déjà attribuée."
 }
