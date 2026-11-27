@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Windows-session {1} avslutades inte helt.",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) stoppad.",
   "session.logStopWarning": "[{0}] Varning vid stopp: {1}",
-  "session.logStopped": "[{0}] Stoppad."
+  "session.logStopped": "[{0}] Stoppad.",
+  "session.logProtocolChanged": "[{0}] Strömningsprotokoll: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Varning när Sunshine stoppas ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine stoppades på grund av {1}; det startas om automatiskt.",
+  "session.logSunshinePauseWarning": "[{0}] Varning när Sunshine pausas: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine pausad ({1}).",
+  "session.logSunshineResumed": "[{0}] Sunshine återupptogs; det startas om automatiskt.",
+  "session.logMuteRdpClient": "[{0}] Ljud av för RDP-klienten (PID={1}) på värddatorn..."
 }
