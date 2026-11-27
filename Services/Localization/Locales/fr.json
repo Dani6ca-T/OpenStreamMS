@@ -460,5 +460,6 @@
   "error.seatName": "Le nom du poste est obligatoire.",
   "error.stopSeat": "Arrêtez le poste avant de modifier sa configuration.",
   "error.primaryMonitor": "Le moniteur principal ne peut pas être attribué à un poste.",
-  "error.assigned": "La ressource sélectionnée est déjà attribuée."
+  "error.assigned": "La ressource sélectionnée est déjà attribuée.",
+  "composite.logMemberAssignedToSlot": "[{0}] « {1} » attribué à l’emplacement {2} ({3}x{4})."
 }
