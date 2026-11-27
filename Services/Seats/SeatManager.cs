@@ -157,7 +157,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
     {
         if (_seats.Values.FirstOrDefault(s => s.State is SeatState.Running or SeatState.Starting
                                               && s.Monitor?.DevicePath == devicePath) is { } busy)
-            throw new InvalidOperationException($"El monitor lo está usando el puesto '{busy.Name}'.");
+            throw new InvalidOperationException(BackendText.Get("seats.monitorBusy", busy.Name));
         SeatIdentify.TestMonitor(devicePath);
     }
 
@@ -173,7 +173,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         Validate(seat, seat.Id);
         _seats[seat.Id] = seat;
         Save();
-        Logger.Log($"[Seats] Puesto creado: '{seat.Name}'.");
+        Logger.Log(BackendText.Get("seats.created", seat.Name));
         return seat;
     }
 
@@ -253,7 +253,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             if (candidate.SessionId is { } sid && other.SessionId == sid)
                 throw new ArgumentException(BackendText.Get("error.assigned"));
             if (candidate.AudioInId is { } mic && string.Equals(other.AudioInId, mic, StringComparison.OrdinalIgnoreCase))
-                throw new ArgumentException($"El micrófono ya está asignado al puesto '{other.Name}'.");
+                throw new ArgumentException(BackendText.Get("seats.microphoneAlreadyAssigned", other.Name));
             var shared = candidate.Devices.FirstOrDefault(d =>
                 other.Devices.Any(o => o.UsbPort.Equals(d.UsbPort, StringComparison.OrdinalIgnoreCase)));
             if (shared is not null)
@@ -267,7 +267,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         if (seat.State == SeatState.Running) Stop(id);
         _seats.TryRemove(id, out _);
         Save();
-        Logger.Log($"[Seats] Puesto borrado: '{seat.Name}'.");
+        Logger.Log(BackendText.Get("seats.deleted", seat.Name));
     }
 
     // ── Encendido / apagado ──────────────────────────────────────────────────
@@ -310,7 +310,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                 if (_consoleHalf?.MonitorPath == seat.Monitor.DevicePath) StopConsoleHalf();
                 Status(seat, "Encendiendo el monitor…");
                 if (!ConsoleDisplay.Activate(seat.Monitor.DevicePath))
-                    Logger.Warning($"[Seats] '{seat.Name}': no se pudo activar el monitor; se presentará igualmente si ya estaba activo.");
+                    Logger.Warning(BackendText.Get("seats.monitorActivationFailed", seat.Name));
             }
 
             // 4. Ajustar la pantalla RDP al monitor: la resolución fijada en el puesto o, si
@@ -335,11 +335,10 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
 
             // 5. Mandos del puesto → la sesión (lo aplica GamepadSessionIsolation con los
             //    puertos USB de seat.Devices; aquí solo se registra la intención).
-            Logger.Log($"[Seats] '{seat.Name}': {seat.Devices.Count} dispositivo(s) asignados a la sesión {session.RdpSessionId}.");
+            Logger.Log(BackendText.Get("seats.devicesAssigned", seat.Name, seat.Devices.Count, session.RdpSessionId));
             // Un puerto vacío arranca el puesto sin ese aparato: que quede claro por qué.
             foreach (var d in seat.Devices.Where(d => !DeviceTopology.IsPortPresent(d.UsbPort)))
-                Logger.Warning($"[Seats] '{seat.Name}': no hay nada conectado en el puerto de '{d.Label}' ({d.Kind}, {d.UsbPort}). " +
-                               "Si lo cambiaste de puerto, de hub o de dock, vuelve a asignarlo.");
+                Logger.Warning(BackendText.Get("seats.devicePortEmpty", seat.Name, d.Label, d.Kind, d.UsbPort));
             ReserveDevices(seat, session.RdpSessionId);
 
             // 6. Lanzar agente en la sesión y presentador en la consola.
@@ -370,7 +369,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             seat.State = SeatState.Running;
             seat.StatusDetail = "Activo: imagen, audio y periféricos conectados.";
             Interlocked.Increment(ref _generation);   // que GamepadSessionIsolation reasigne los mandos
-            Logger.Log($"[Seats] Puesto '{seat.Name}' activo.");
+            Logger.Log(BackendText.Get("seats.started", seat.Name));
             OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
                 OpenStreamMS.Services.Extensions.ExtensionEvent.SeatStart,
                 StreamSessionService.HookContextFor(session) with { SeatId = seat.Id, SeatName = seat.Name });
@@ -381,7 +380,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         {
             seat.State = SeatState.Error;
             seat.ErrorMessage = ex.Message;
-            Logger.Error($"[Seats] '{seat.Name}' no pudo arrancar: {ex.Message}");
+            Logger.Error(BackendText.Get("seats.startFailed", seat.Name, ex.Message));
             try { Stop(seat.Id); } catch { /* best effort */ }
         }
     }
