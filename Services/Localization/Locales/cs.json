@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Izolace ovladačů v HidHide byla odstraněna a filtr steamxbox služby Steam obnoven.",
   "uninstall.seatsRestored": "Klávesnice/myši stanovišť, ochrana konzole, právo vypnutí a nastavení jedné relace na uživatele byly obnoveny.",
   "uninstall.trayRemoved": "Ikona v oznamovací oblasti byla odebrána z automatického spuštění.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Spustitelný soubor:",
+  "install.configPath": "Konfigurace:"
 }
