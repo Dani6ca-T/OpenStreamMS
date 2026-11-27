@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "在 Control\\\\Video 中未找到虚拟 RDP 适配器 — 未更改 VRefresh。会话将使用驱动程序默认刷新率。",
   "rdp.refreshAppliedToAdapters": "已将 VRefresh={0} 应用于 {1} 个虚拟适配器。",
   "rdp.refreshRegistryFailed": "在注册表中设置 VRefresh 时出错：{0}",
-  "rdp.sessionTempResolveFailed": "无法解析会话 {0} 的 TEMP：{1}"
+  "rdp.sessionTempResolveFailed": "无法解析会话 {0} 的 TEMP：{1}",
+  "rdp.displayFrequencyChangeFailed": "无法更改会话 {0} 中的显示器频率：{1}",
+  "rdp.displayFrequencyChangeLaunched": "已在会话 {1} 中启动 ChangeDisplaySettings({0}Hz)（未经验证）。",
+  "rdp.displayFrequencyResultMissing": "会话 {0} 的 ChangeDisplaySettings：缺少结果文件 — 脚本未完成。",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings 成功 — 会话 {1} 的显示器为 {0}Hz。",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings 返回成功，但会话 {2} 的显示器报告 {0}Hz（请求 {1}Hz）。",
+  "rdp.displayFrequencyFailed": "会话 {0} 中的 ChangeDisplaySettings 失败：{1}（显示器 {2}Hz）。",
+  "rdp.displayFrequencyResultReadFailed": "无法读取 ChangeDisplaySettings 结果：{0}"
 }
