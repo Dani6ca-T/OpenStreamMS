@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] Разрешенията на екземпляра са настроени за „{0}“ (запис само в config): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Неуспешно настройване на разрешенията за „{0}“ в {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Защитна стена ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Актуализиране на екземпляра на Sunshine: {1} → {2} (config/, сдвояванията, идентификационните данни и настройките се запазват)."
+  "session.logSunshineInstanceUpdating": "[{0}] Актуализиране на екземпляра на Sunshine: {1} → {2} (config/, сдвояванията, идентификационните данни и настройките се запазват).",
+  "session.logHudEnsureFailed": "[HUD] Неуспешна инициализация на HUD: {0}"
 }
