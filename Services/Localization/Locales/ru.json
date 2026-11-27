@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Не удалось перенаправить клавиатуру и мышь в «{1}»: {2}",
   "compositeInput.writeFailed": "[{0}] Не удалось записать {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Не удалось удалить {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Предыдущая попытка через mstsc завершилась ошибкой: {1}"
+  "rdp.mstscFailureContext": "{0} Предыдущая попытка через mstsc завершилась ошибкой: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Не удалось прочитать пути профиля сеанса.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Изолированная песочница профиля: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Изолированный AppData: локальный={0}; перемещаемый={1}",
+  "streamProfile.explorerNotRunning": "[StreamProfile] В сеансе {0} нет запущенного Explorer для перезапуска.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer перезапущен в сеансе {0} с профилем потоковой сессии.",
+  "streamProfile.logoffRetry": "[StreamProfile] Сеанс {0} не завершился за 30 с; завершаются процессы пользователя «{1}», затем выход будет повторён.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Сеанс {0} завершён после остановки процессов пользователя: {1}.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Сеанс {0} остаётся активным после выхода.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Не удалось определить SID пользователя «{0}»: {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] Ошибка WTSEnumerateProcesses ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Не удалось открыть процесс «{0}» (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Не удалось завершить процесс «{0}» (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] Процесс «{0}» (PID {1}) завершён в сеансе {2}."
 }
