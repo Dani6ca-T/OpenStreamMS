@@ -557,5 +557,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Captura de audio loopback iniciada: {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] No se pudo inicializar la captura de audio: {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Cambiando al escritorio de entrada '{0}' (antes '{1}').",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] No se pudo cambiar al escritorio de entrada '{0}': {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] No se pudo cambiar al escritorio de entrada '{0}': {1}",
+  "seatAgent.audioDeviceMissing": "La sesión del puesto no tiene ningún dispositivo de reproducción (Windows no creó \"Remote Audio\"): el puesto no tendrá sonido."
 }
