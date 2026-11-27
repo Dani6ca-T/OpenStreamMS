@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) 실패: {1}",
   "rdp.mstscReconnectFailedFallback": "mstsc 재연결 실패({0}); FreeRDP로 다시 시도합니다…",
   "rdp.reconnectWrongSession": "재연결 결과 세션 {1}이(가) 아닌 {0} 세션에 연결되었습니다.",
-  "rdp.sessionReconnected": "세션 {0}을(를) {1}ms 만에 다시 연결했습니다."
+  "rdp.sessionReconnected": "세션 {0}을(를) {1}ms 만에 다시 연결했습니다.",
+  "rdp.freeRdpClientDisconnected": "FreeRDP 클라이언트 연결이 끊겼습니다. 세션 {0}은(는) 활성 상태로 유지됩니다(VDD).",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession 경고: {0}",
+  "rdp.logoffFailed": "세션 {0}의 WTSLogoffSession 실패: {1}",
+  "rdp.logoffCompleted": "세션 {0} 로그오프 완료({1}ms).",
+  "rdp.logoffSessionCompleted": "세션 {0} 로그오프 완료.",
+  "rdp.logoffWarning": "WTSLogoffSession 경고(세션 {0}): {1}"
 }
