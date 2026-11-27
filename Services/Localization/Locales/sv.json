@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Ingen virtuell RDP-adapter hittades i Control\\\\Video — VRefresh ändrades inte. Sessionen använder drivrutinens standardfrekvens.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} tillämpades på {1} virtuella adaptrar.",
   "rdp.refreshRegistryFailed": "Fel när VRefresh skulle anges i registret: {0}",
-  "rdp.sessionTempResolveFailed": "Det gick inte att hitta TEMP för session {0}: {1}"
+  "rdp.sessionTempResolveFailed": "Det gick inte att hitta TEMP för session {0}: {1}",
+  "rdp.displayFrequencyChangeFailed": "Det gick inte att ändra bildskärmens frekvens i session {0}: {1}",
+  "rdp.displayFrequencyChangeLaunched": "ChangeDisplaySettings({0}Hz) startades i session {1} (ej verifierad).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings i session {0}: resultatfil saknas — skriptet slutfördes inte.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings lyckades — skärmen körs med {0}Hz i session {1}.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings returnerade lyckat resultat, men skärmen rapporterar {0}Hz (begärt {1}Hz) i session {2}.",
+  "rdp.displayFrequencyFailed": "ChangeDisplaySettings misslyckades i session {0}: {1} (skärmen {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Det gick inte att läsa resultatet från ChangeDisplaySettings: {0}"
 }
