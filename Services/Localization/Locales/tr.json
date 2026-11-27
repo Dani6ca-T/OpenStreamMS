@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] {1} konumunda \"{0}\" izinleri ayarlanamadı: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Güvenlik duvarı ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Sunshine örneği güncelleniyor: {1} → {2} (config/, eşleştirmeler, kimlik bilgileri ve ayarlar korunur).",
-  "session.logHudEnsureFailed": "[HUD] HUD başlatılamadı: {0}"
+  "session.logHudEnsureFailed": "[HUD] HUD başlatılamadı: {0}",
+  "error.seatName": "Koltuk adı gereklidir.",
+  "error.stopSeat": "Yapılandırmasını değiştirmeden önce koltuğu durdurun.",
+  "error.primaryMonitor": "Birincil monitör bir koltuğa atanamaz.",
+  "error.assigned": "Seçilen kaynak zaten atanmış."
 }
