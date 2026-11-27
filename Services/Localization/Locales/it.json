@@ -273,5 +273,11 @@
   "rdp.startMstsc": "Avvio mstsc ({0}x{1}, {2} fps, {3} bpp, scala {4} %, AVC444 hardware)…",
   "rdp.mstscExecutableMissing": "Impossibile avviare mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc è terminato con ExitCode={0} senza creare una sessione per '{1}'. Possibile finestra invisibile (certificato/credenziali) o rifiuto NLA.",
-  "rdp.mstscSessionTimeout": "La sessione per '{0}' non è comparsa dopo 30 secondi con mstsc. Possibile finestra invisibile in Session 0."
+  "rdp.mstscSessionTimeout": "La sessione per '{0}' non è comparsa dopo 30 secondi con mstsc. Possibile finestra invisibile in Session 0.",
+  "rdp.cmdkeyFailed": "cmdkey {0} non riuscito: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP terminato prematuramente. ExitCode={0}",
+  "rdp.sessionDetected": "Sessione rilevata al tentativo {0} ({1}): {2} (PID FreeRDP={3})",
+  "rdp.sessionModeRelaxed": "modalità estesa",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "In attesa della sessione… tentativo {0}/20"
 }
