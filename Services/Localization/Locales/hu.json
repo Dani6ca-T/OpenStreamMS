@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] „{0}”: {1} továbbra is látható a Windowsban (nem sikerült WinUSB-re váltani).",
   "padCapture.captured": "[PadCapture] „{0}”: a(z) {1} porton lévő vezérlő eltávolítva a Windowsból ({2} vezérlő és {3} további felület WinUSB-n); virtuális vezérlőként továbbítva a(z) {4} munkamenetbe.",
   "padCapture.restored": "[PadCapture] „{0}”: {1} vezérlőfelület visszaadva a Windowsnak.",
-  "steamXboxFilter.removed": "[Gamepad] A(z) {0} Steam-szűrő eltávolítva {1} vezérlőosztályból, amíg a vezérlők elkülönítése aktív. Az új eszközök többé nem érhetők el minden munkamenet számára a \\\\Device\\\\nvagipmanControl útvonalon.",
+  "steamXboxFilter.removed": "[Gamepad] A(z) {0} Steam-szűrő eltávolítva {1} vezérlőosztályból, amíg a vezérlők elkülönítése aktív. Az új eszközök többé nem érhetők el minden munkamenet számára a \\Device\\nvagipmanControl útvonalon.",
   "steamXboxFilter.removeFailed": "[Gamepad] Nem sikerült eltávolítani a(z) {0} Steam-szűrőt: {1}. Más munkamenetek Steamje (a konzolé is) továbbra is olvashatja az elkülönített vezérlőket.",
   "steamXboxFilter.restored": "A(z) {0} Steam-szűrő visszaállítva {1} vezérlőosztályban; más munkamenetekben már nincs elkülönített vezérlő.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Nem sikerült visszaállítani a(z) {0} Steam-szűrőt: {1}. A következő szolgáltatásindításkor újrapróbáljuk."
