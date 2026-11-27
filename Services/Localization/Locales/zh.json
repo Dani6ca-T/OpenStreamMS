@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) 失败：{1}",
   "rdp.mstscReconnectFailedFallback": "mstsc 重新连接失败（{0}）；正在改用 FreeRDP 重试…",
   "rdp.reconnectWrongSession": "重新连接到了会话 {0}，而不是 {1}。",
-  "rdp.sessionReconnected": "会话 {0} 已在 {1} ms 内重新连接。"
+  "rdp.sessionReconnected": "会话 {0} 已在 {1} ms 内重新连接。",
+  "rdp.freeRdpClientDisconnected": "FreeRDP 客户端已断开；会话 {0} 仍保持活动状态（VDD）。",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession 警告：{0}",
+  "rdp.logoffFailed": "会话 {0} 的 WTSLogoffSession 失败：{1}",
+  "rdp.logoffCompleted": "会话 {0} 已在 {1} ms 内注销。",
+  "rdp.logoffSessionCompleted": "会话 {0} 已注销。",
+  "rdp.logoffWarning": "WTSLogoffSession 警告（会话 {0}）：{1}"
 }
