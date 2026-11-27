@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] A WTSEnumerateProcesses sikertelen ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Nem sikerült megnyitni: '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Nem sikerült leállítani: '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) leállítva a(z) {2}. munkamenetben."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) leállítva a(z) {2}. munkamenetben.",
+  "sunshine.configUpdateFailed": "[Sunshine] Nem sikerült frissíteni a sunshine.conf fájlt: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Nem sikerült beállítani a hitelesítő adatokat: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Nem sikerült konfigurálni a VDD-t az apps.json fájlban: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Nem sikerült konfigurálni az elkülönített környezetet az apps.json fájlban: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Nem sikerült konfigurálni a Steam-bejegyzést az apps.json fájlban: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Nem sikerült konfigurálni a Reboot/Power Off bejegyzéseket az apps.json fájlban: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Nem sikerült konfigurálni a bővítmények alkalmazásait az apps.json fájlban: {0}",
+  "sunshine.launching": "[Sunshine] Indítás a(z) {0}. munkamenetben: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Sikertelen indítás: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] A naplóban nem sikerült megerősíteni a kódolót; változatlanul marad."
 }
