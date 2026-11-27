@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Det gick inte att skriva {0} i HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP skrev ingen utdata.",
-  "rdp.freeRdpOutputPrefix": "FreeRDP-utdata: "
+  "rdp.freeRdpOutputPrefix": "FreeRDP-utdata: ",
+  "seats.usbArrivalWatchUnavailable": "Det gick inte att övervaka anslutning av USB-enheter: ett infångat tangentbord eller en mus återställs vid nästa start.",
+  "seats.usbDriversRestoreFailed": "Det gick inte att återställa USB-drivrutiner: {0}",
+  "seats.reservedDevicesReleaseFailed": "Det gick inte att frigöra reserverade enheter: {0}",
+  "seats.managerStarted": "Plats hanteraren startad ({0} plats(er)).",
+  "seats.multiRdpCheckTimeout": "Multi-RDP-kontrollen slutfördes inte inom 120 s; platserna startas ändå automatiskt.",
+  "seats.autoStartSameConsoleUser": "'{0}' startas inte automatiskt: använder samma användare som konsolen.",
+  "seats.autoStartFailed": "Automatisk start av '{0}' misslyckades: {1}"
 }
