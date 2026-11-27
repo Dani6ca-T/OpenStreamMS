@@ -190,17 +190,16 @@ public sealed class RdpWrapperManager
     {
         var st = GetStatus();
         if (st.Allowed)
-            Logger.Log($"[MultiRdp] Varias sesiones a la vez: sí ({st.Source}). Estado: {st}");
+            Logger.Log(BackendText.Get("rdpwrap.statusAllowed", st.Source, st));
         else if (st.Pending)
-            Logger.Warning($"[MultiRdp] Varias sesiones a la vez: pendiente de que se cargue el servicio de Escritorio remoto. Estado: {st}");
+            Logger.Warning(BackendText.Get("rdpwrap.statusPending", st));
         else
-            Logger.Warning($"[MultiRdp] Este equipo no admite varias sesiones a la vez: solo funciona una sesión RDP. Estado: {st}");
+            Logger.Warning(BackendText.Get("rdpwrap.statusSingleSession", st));
 
         if (!IsRemoteIddActive()) return;
         if (IsRemoteIddPendingRestart())
         {
-            Logger.Error("[MultiRdp] RemoteIdd instalado y pendiente de reiniciar el equipo: hasta entonces los " +
-                         "puestos usan la captura de siempre.");
+            Logger.Error(BackendText.Get("rdpwrap.remoteIddPendingRestart"));
             return;
         }
         // Si Windows no puede montar la pantalla del puesto, cada sesión se corta al minuto: no
@@ -216,7 +215,7 @@ public sealed class RdpWrapperManager
         if (problem is null)
         {
             ClearRemoteIddOff();
-            Logger.Log("[MultiRdp] RDP-Tcp escuchando con el proveedor de RemoteIdd: RemoteIdd disponible.");
+            Logger.Log(BackendText.Get("rdpwrap.remoteIddListening"));
             WatchRemoteIddDevice();
             return;
         }
@@ -227,7 +226,7 @@ public sealed class RdpWrapperManager
         LeaveRemoteIdd();
         SaveRemoteIddOff(problem);
         ApplyTermServiceChange();
-        Logger.Log($"[MultiRdp] RemoteIdd fuera de RDP-Tcp. Estado: {GetStatus()}");
+        Logger.Log(BackendText.Get("rdpwrap.remoteIddInactive", GetStatus()));
     }
 
     /// <summary>Null si el equipo admite varias sesiones y RDP-Tcp escucha; si no, el código del motivo.</summary>
@@ -284,7 +283,7 @@ public sealed class RdpWrapperManager
                 }
             }
         }
-        catch (Exception ex) { Logger.Warning($"[MultiRdp] No se pudo leer {PnpConfigChannel}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("rdpwrap.eventLogReadFailed", PnpConfigChannel, ex.Message)); }
         return false;
     }
 
@@ -318,12 +317,12 @@ public sealed class RdpWrapperManager
                 if (rec is null || !IsRemoteIddDeviceEvent(rec)) return;
                 if (Interlocked.Exchange(ref _deviceFailureHandled, 1) == 1) return;
                 try { TurnOffAfterDeviceFailure(); }
-                catch (Exception ex) { Logger.Error($"[MultiRdp] No se pudo quitar RemoteIdd tras el fallo de su pantalla: {ex.Message}"); }
+                catch (Exception ex) { Logger.Error(BackendText.Get("rdpwrap.removeAfterDeviceFailureFailed", ex.Message)); }
             };
             watcher.Enabled = true;
             _deviceWatcher = watcher;
         }
-        catch (Exception ex) { Logger.Warning($"[MultiRdp] No se puede vigilar {PnpConfigChannel}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("rdpwrap.deviceWatchFailed", PnpConfigChannel, ex.Message)); }
     }
 
     private static void TurnOffAfterDeviceFailure()
@@ -384,7 +383,7 @@ public sealed class RdpWrapperManager
     private static void SaveRemoteIddOff(string reason)
     {
         try { WriteRemoteIddOff(RemoteIddOffFile, reason); }
-        catch (Exception ex) { Logger.Warning($"[MultiRdp] No se pudo guardar el motivo de quitar RemoteIdd: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("rdpwrap.offReasonSaveFailed", ex.Message)); }
     }
 
     private static void ClearRemoteIddOff()
@@ -416,7 +415,7 @@ public sealed class RdpWrapperManager
         var inner = key.GetValue("OsmsInnerProtocol_Object") as string;
         if (string.IsNullOrWhiteSpace(inner)) inner = RdpCoreTsClsid;
         key.SetValue("LoadableProtocol_Object", inner, Microsoft.Win32.RegistryValueKind.String);
-        Logger.Log($"[MultiRdp] RDP-Tcp devuelto a {inner} (RemoteIdd fuera).");
+        Logger.Log(BackendText.Get("rdpwrap.rdpTcpRestored", inner));
     }
 
     /// <summary>
