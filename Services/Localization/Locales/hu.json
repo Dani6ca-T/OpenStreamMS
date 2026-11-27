@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Nem sikerült visszaadni az elsődleges monitort a konzolnak; a virtuális kijelző eltávolításakor helyreáll.",
   "seats.consoleMonitorRestored": "A konzol ismét a teljes monitorát használja.",
   "seats.sessionLocked": "„{0}”: a munkamenet zárolva; a(z) „{1}” jelszava szükséges lesz.",
-  "seats.sessionLockFailed": "„{0}”: nem sikerült zárolni a munkamenetet: {1}"
+  "seats.sessionLockFailed": "„{0}”: nem sikerült zárolni a munkamenetet: {1}",
+  "seats.sessionDisconnectedFromSeat": "„{0}”: a munkamenet leválasztódott a munkaállomásról; leáll, amíg újra el nem indítják az OpenStreamMS-ből.",
+  "seats.stopAfterDisconnectFailed": "„{0}”: leválasztás után nem sikerült leállítani: {1}",
+  "seats.windowsSessionChanged": "„{0}”: a Windows-munkamenet {1}-ről {2}-re változott; a vezérlők újrahozzárendelése folyamatban.",
+  "seats.monitorModeChanged": "„{0}”: a monitor módja megváltozott; a munkamenet újraigazítása folyamatban.",
+  "seats.readjustFailed": "Nem sikerült újraigazítani a munkaállomást: {0}",
+  "seats.agentDisconnected": "„{0}”: a munkamenetügynök lecsatlakozott.",
+  "seats.presenterDisconnected": "„{0}”: a konzol megjelenítője lecsatlakozott.",
+  "seats.consoleAreaLost": "A konzol területén megszűnt a kép ({0}); a konzol visszaállítja a monitorát.",
+  "seats.seatLost": "A(z) „{0}” munkaállomás leáll: {1}.",
+  "seats.stopAfterLossFailed": "„{0}”: a megszakítás után nem sikerült leállítani: {1}",
+  "seats.sessionStartFailed": "A munkamenet indítása sikertelen.",
+  "seats.sessionStartTimeout": "A munkamenet nem vált időben aktívvá."
 }
