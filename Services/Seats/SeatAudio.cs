@@ -1,3 +1,4 @@
+using OpenStreamMS.Services.Localization;
 using NAudio.CoreAudioApi;
 
 namespace OpenStreamMS.Services.Seats;
@@ -17,7 +18,7 @@ public static class SeatAudio
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] No se pudieron enumerar los micrófonos: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatAudio.enumerateInputsFailed", ex.Message));
             return [];
         }
     }
@@ -34,7 +35,7 @@ public static class SeatAudio
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] No se pudieron enumerar las salidas de audio: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatAudio.enumerateOutputsFailed", ex.Message));
             return [];
         }
     }
