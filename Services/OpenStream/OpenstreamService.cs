@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Hosting;
 using OpenStreamMS.Core.Api;
 using OpenStreamMS.Services.Session;
+using OpenStreamMS.Services.Localization;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -39,10 +40,10 @@ namespace OpenStreamMS.Services.OpenStream
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Logger.Log("[Service] OpenStreamMS iniciado. API disponible en el puerto configurado.");
+            Logger.Log(BackendText.Get("service.started"));
             // Antes de los puestos: estado del multi-RDP y, si RDP-Tcp no funciona con RemoteIdd, RemoteIdd fuera.
             try { await Task.Run(() => _rdpWrapper.EnsureMultiRdp(stoppingToken), stoppingToken); }
-            catch (Exception ex) { Logger.Error($"[Service] Comprobación de multi-RDP fallida: {ex}"); }
+            catch (Exception ex) { Logger.Error(BackendText.Get("service.multiRdpCheckFailed", ex)); }
             _timer.Start();
             _sessionSvc.AutoStartEnabled();
             await Task.Delay(Timeout.Infinite, stoppingToken)
@@ -52,7 +53,7 @@ namespace OpenStreamMS.Services.OpenStream
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             _timer.Stop();
-            Logger.Log("[Service] Detenido.");
+            Logger.Log(BackendText.Get("service.stopped"));
             return base.StopAsync(cancellationToken);
         }
     }
