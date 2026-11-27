@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings succeeded — display at {0}Hz in session {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings returned success, but display reports {0}Hz (requested {1}Hz) in session {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings failed in session {0}: {1} (display at {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Could not read ChangeDisplaySettings result: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Could not read ChangeDisplaySettings result: {0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions error: {0}",
+  "rdp.sessionInfo": "Session {0} ({1}) protocol={2} user='{3}'",
+  "rdp.sessionUnlocked": "Session {0} unlocked (flag={1}) after {2} ms.",
+  "rdp.sessionStillLocked": "Session {0} STILL locked after {1} ms. Sunshine may fall back to software encoding (libx264). Check the lock screen.",
+  "rdp.userAlreadyHasOtherSession": "'{0}' already has session {1} ({2}).",
+  "rdp.disconnected": "disconnected",
+  "rdp.termServiceChangedToManual": "TermService was Disabled → changed to Manual.",
+  "rdp.termServiceStarted": "TermService started (native Remote Desktop).",
+  "rdp.termServiceEnsureFailed": "Could not ensure TermService is running: {0}. If Remote Desktop is off, loopback connection will fail; enable it in System → Remote Desktop or restart Windows.",
+  "rdp.registryKeyOpenFailed": "Could not open HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Could not write {0} in HKLM\\\\{1}: {2}"
 }
