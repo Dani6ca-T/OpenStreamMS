@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp не підключено; запускається автономний презентер у консольному сеансі {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] У фізичній консолі немає користувача, який увійшов у систему.",
   "seatHostControl.trayHostConnected": "[TrayApp] Підключено до каналу керування презентерами робочих місць.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Помилка обробки команди робочого місця: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Помилка обробки команди робочого місця: {0}",
+  "guideGuard.disabled": "[Seats] Кнопка Guide: Game Bar контролера вимкнено для {0}, поки активні робочі місця.",
+  "guideGuard.disableFailed": "[Seats] Кнопка Guide: не вдалося вимкнути Game Bar контролера для {0}: {1}",
+  "guideGuard.restored": "[Seats] Кнопка Guide: Game Bar контролера відновлено для {0}.",
+  "guideGuard.restoreFailed": "[Seats] Кнопка Guide: не вдалося відновити Game Bar контролера для {0}: {1}",
+  "handleBroker.openSourceFailed": "Не вдалося виконати OpenProcess для вихідного PID {0}.",
+  "handleBroker.openTargetFailed": "Не вдалося виконати OpenProcess для цільового PID {0}.",
+  "handleBroker.duplicateFailed": "Не вдалося виконати DuplicateHandle з PID {0} до PID {1}.",
+  "seatStore.readFailed": "[Seats] Не вдалося прочитати seats.json: {0}",
+  "seatStore.saveFailed": "[Seats] Не вдалося зберегти seats.json: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Канал {0}: відхилено неочікуваний клієнтський процес {1}.",
+  "seatIpc.notServicePipe": "Канал не належить службі (процес {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Отримано ввід: клавіатура",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Отримано ввід: тип={0} прапорці={1:X} dx={2} dy={3} код={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Введення за 10 с: {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 с: надіслано={0} кільце_зайняте={1} ввід={2} помилки_введення={3} остання_помилка={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Затримка захоплення за 10 с: {0}"
 }
