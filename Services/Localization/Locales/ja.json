@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Sunshine の一時停止中の警告: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine を一時停止しました ({1})。",
   "session.logSunshineResumed": "[{0}] Sunshine を再開しました。自動的に再起動します。",
-  "session.logMuteRdpClient": "[{0}] ホスト上の RDP クライアント (PID={1}) をミュートしています..."
+  "session.logMuteRdpClient": "[{0}] ホスト上の RDP クライアント (PID={1}) をミュートしています...",
+  "session.logRdpDisplay": "[{0}] RDP ディスプレイ: {1}x{2}、{3} fps、マイク: {4}"
 }
