@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "Impossible de lire la liste blanche HidHide : {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping désactivé (contourne l’isolation des manettes par session).",
   "gamepad.controllerToVkDisableFailed": "Impossible de désactiver ControllerToVKMapping : {0}",
-  "gamepad.jailPrepareFailed": "Impossible de préparer le jail HidHide de la manette ViGEm : {0}"
+  "gamepad.jailPrepareFailed": "Impossible de préparer le jail HidHide de la manette ViGEm : {0}",
+  "gamepad.stateEnabled": "activé",
+  "gamepad.stateDisabled": "désactivé",
+  "gamepad.stateEmpty": "vide",
+  "gamepad.unknownVersion": "version inconnue"
 }
