@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "セッション構成を更新しました。",
   "session.logRestartAfterConfigFailed": "構成の更新後にセッションを再起動できませんでした: {0}",
   "session.alreadyInState": "セッションはすでに状態 {0} です。",
-  "error.request": "リクエストを完了できませんでした。"
+  "error.request": "リクエストを完了できませんでした。",
+  "session.logPairingStateMirrorCompleted": "[{0}] ペアリング変更後の sunshine_state.json の遅延ミラーが完了しました。",
+  "session.logPairingStateMirrorFailed": "[{0}] ペアリング変更後の sunshine_state.json の遅延ミラーに失敗しました: {1}",
+  "session.logAutoStartingEnabled": "有効なセッション {0} 件を自動起動しています...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Windows セッション ({1}) を検出しました。ローカルセッションを起動します。",
+  "session.logConsoleSessionStartFailed": "[{0}] Windows へのログオン後に起動できませんでした: {1}",
+  "session.logMonitorFailed": "[{0}] 監視エラー: {1}",
+  "session.logLoadedFromDisk": "[SessionService] ディスクから {0} 件のセッションを読み込みました。",
+  "session.logWindowsSessionCloseWarning": "[{0}] Windows セッション {1} の終了中に警告: {2}",
+  "session.logStartAbandoned": "[{0}] 別のコマンドを受信したため、開始前に起動を中止しました。",
+  "session.logCreatingRdpSession": "[{0}] ユーザー「{1}」の RDP セッションを起動しています...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine を起動できませんでした: {1}",
+  "session.logAutoStartFailed": "[{0}] 自動起動に失敗しました: {1}"
 }
