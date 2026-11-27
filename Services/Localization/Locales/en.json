@@ -318,5 +318,14 @@
   "seats.managerStarted": "Seat manager started ({0} seat(s)).",
   "seats.multiRdpCheckTimeout": "Multi-RDP check did not finish within 120 s; seats will still be auto-started.",
   "seats.autoStartSameConsoleUser": "'{0}' will not auto-start: it uses the same user as the console.",
-  "seats.autoStartFailed": "Auto-start of '{0}' failed: {1}"
+  "seats.autoStartFailed": "Auto-start of '{0}' failed: {1}",
+  "seats.monitorBusy": "Monitor is in use by seat '{0}'.",
+  "seats.created": "Seat '{0}' created.",
+  "seats.deleted": "Seat '{0}' deleted.",
+  "seats.microphoneAlreadyAssigned": "Microphone is already assigned to seat '{0}'.",
+  "seats.monitorActivationFailed": "'{0}': could not activate monitor; it will still be presented if it was already active.",
+  "seats.devicesAssigned": "'{0}': {1} device(s) assigned to session {2}.",
+  "seats.devicePortEmpty": "'{0}': nothing is connected to the port for '{1}' ({2}, {3}). If you moved it to another port, hub, or dock, assign it again.",
+  "seats.started": "Seat '{0}' active.",
+  "seats.startFailed": "Seat '{0}' failed to start: {1}"
 }
