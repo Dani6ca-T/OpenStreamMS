@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] Instansbehörigheter justerade för \"{0}\" (skrivåtkomst endast till config): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Det gick inte att justera behörigheter för \"{0}\" i {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Brandvägg ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Uppdaterar Sunshine-instansen: {1} → {2} (config/, parkopplingar, autentiseringsuppgifter och inställningar bevaras)."
+  "session.logSunshineInstanceUpdating": "[{0}] Uppdaterar Sunshine-instansen: {1} → {2} (config/, parkopplingar, autentiseringsuppgifter och inställningar bevaras).",
+  "session.logHudEnsureFailed": "[HUD] Det gick inte att initiera HUD: {0}"
 }
