@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Đã xóa biểu tượng khay hệ thống khỏi tự khởi động.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Tệp thực thi:",
-  "install.configPath": "Cấu hình:"
+  "install.configPath": "Cấu hình:",
+  "diagnostics.logGenerated": "Đã tạo gói chẩn đoán ({0} KB, sự kiện trong {1} ngày).",
+  "diagnostics.logGenerateFailed": "Không thể tạo gói chẩn đoán: {0}",
+  "hud.sessionRestarted": "Phiên '{0}' đã được khởi động lại từ HUD.",
+  "hud.powerDenied": "Từ chối thao tác nguồn từ '{0}': phiên không có quyền.",
+  "hud.powerRequested": "'{1}' đã yêu cầu {0} PC.",
+  "hud.powerCancelled": "Đã hủy tắt máy/khởi động lại từ '{0}'.",
+  "power.cancelled": "Đã hủy tắt máy/khởi động lại.",
+  "power.noPending": "Không có lệnh tắt máy đang chờ để hủy ({0}).",
+  "power.shutdownFailed": "shutdown.exe gặp lỗi: {0}",
+  "power.scheduled": "Đã lên lịch {0} sau {1} giây.",
+  "settings.logLevelChanged": "Mức nhật ký: {0} → {1}."
 }
