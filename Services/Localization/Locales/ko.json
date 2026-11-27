@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Control\\\\Video에서 가상 RDP 어댑터를 찾을 수 없습니다. VRefresh를 변경하지 않았으며 세션은 드라이버 기본 주사율을 사용합니다.",
   "rdp.refreshAppliedToAdapters": "가상 어댑터 {1}개에 VRefresh={0}을(를) 적용했습니다.",
   "rdp.refreshRegistryFailed": "레지스트리에서 VRefresh 설정 오류: {0}",
-  "rdp.sessionTempResolveFailed": "세션 {0}의 TEMP를 확인할 수 없습니다: {1}"
+  "rdp.sessionTempResolveFailed": "세션 {0}의 TEMP를 확인할 수 없습니다: {1}",
+  "rdp.displayFrequencyChangeFailed": "세션 {0}에서 디스플레이 주파수를 변경할 수 없습니다: {1}",
+  "rdp.displayFrequencyChangeLaunched": "세션 {1}에서 ChangeDisplaySettings({0}Hz)를 시작했습니다(검증되지 않음).",
+  "rdp.displayFrequencyResultMissing": "세션 {0}의 ChangeDisplaySettings: 결과 파일이 없습니다. 스크립트가 완료되지 않았습니다.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings 성공 — 세션 {1}의 디스플레이가 {0}Hz입니다.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings가 성공을 반환했지만 세션 {2}의 디스플레이는 {0}Hz를 보고합니다(요청 {1}Hz).",
+  "rdp.displayFrequencyFailed": "세션 {0}에서 ChangeDisplaySettings 실패: {1}(디스플레이 {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings 결과를 읽을 수 없습니다: {0}"
 }
