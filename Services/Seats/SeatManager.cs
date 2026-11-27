@@ -660,7 +660,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                     ev.Qpc = Stopwatch.GetTimestamp();   // el informe acaba de llegar del aparato
                     active.AgentChannel.Send(SeatMsg.Input, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref ev, 1)));
                     if (++sent is 1 or 100 or 1000)
-                        Logger.Log(BackendText.Get("seats.usbEventsSent", sent, seat.Name, ev.Kind, ev.Flags, ev.Dx, ev.Dy));
+                        Logger.Log(BackendText.Get("seats.usbEventsSent", sent, seat.Name, ev.Kind, ev.Flags.ToString("X"), ev.Dx, ev.Dy));
                 }
                 catch (Exception ex) when (!active.Cts.IsCancellationRequested)
                 {
