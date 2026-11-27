@@ -869,7 +869,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         if (console != _console)
         {
             if (_console != NoSession)
-                Logger.Log($"[Gamepad] La sesión de consola pasa de {_console} a {console}: se reasignan los mandos físicos.");
+                Logger.Log(BackendText.Get("gamepad.consoleSessionChanged", _console, console));
             _console = console;
         }
         foreach (var gone in _physical.Keys.Where(id => !Cm.Exists(id)).ToList())
@@ -924,7 +924,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (!Cm.Exists(node)) continue;
             _sideInputs.Remove(node);
             if (Seats.UsbCapture.Release(node))
-                Logger.Log($"[Gamepad] {node} (teclado o ratón del mando) vuelve a su driver: el mando está en la consola.");
+                Logger.Log(BackendText.Get("gamepad.sideInputDriverRestored", node));
         }
 
         foreach (var node in want)
@@ -934,8 +934,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (Seats.UsbCapture.Capture(node))
             {
                 _sideInputs.Add(node);
-                Logger.Log($"[Gamepad] {node} (teclado o ratón del mando) apartado mientras el mando está en otra sesión: " +
-                           "sus teclas (p. ej. el botón de captura) ya no llegan a la consola.");
+                Logger.Log(BackendText.Get("gamepad.sideInputCaptured", node));
             }
         }
     }
