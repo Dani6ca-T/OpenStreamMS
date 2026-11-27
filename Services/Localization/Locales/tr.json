@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "'{0}': {1} aygıt {2} oturumuna atandı.",
   "seats.devicePortEmpty": "'{0}': '{1}' bağlantı noktasına bağlı hiçbir şey yok ({2}, {3}). Başka bir bağlantı noktasına, hub'a veya dock'a taşıdıysanız yeniden atayın.",
   "seats.started": "'{0}' koltuğu etkin.",
-  "seats.startFailed": "'{0}' koltuğu başlatılamadı: {1}"
+  "seats.startFailed": "'{0}' koltuğu başlatılamadı: {1}",
+  "seats.textureConfigMissing": "Aracı doku yapılandırmasını göndermedi.",
+  "seats.textureHandlesMissing": "Aracı doku tanıtıcılarını sağlamadı.",
+  "seats.presenterReadyMissing": "Sunucu onay göndermedi.",
+  "seats.microphoneDisconnected": "'{0}': '{1}' mikrofonu bağlı değil; koltuk mikrofonsuz başlatılıyor.",
+  "seats.sessionResolutionRestoreFailed": "'{0}': oturum çözünürlüğü geri yüklenemedi: {1}",
+  "seats.stopped": "'{0}' koltuğu durduruldu.",
+  "seats.vigemMissing": "'{0}': ViGEmBus yüklü değil; denetleyiciler HidHide ile yalıtılıyor.",
+  "seats.sessionUserUnknown": "'{0}': {1} oturumunun kullanıcısı belirlenemedi; diğer USB aygıtları tüm oturumlarda görünür kalır.",
+  "seats.rawInputShared": "'{0}': {1}, konsolla paylaşılmaya devam ediyor (Raw Input).",
+  "seats.usbEventsSent": "'{1}' aracısına {0} olay gönderildi (son: tür={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "'{0}' aracısına giriş gönderilemedi: {1}",
+  "seats.inputInterfacesCaptured": "'{0}': {2} giriş arabiriminden {1} tanesi konsoldan ayrıldı."
 }
