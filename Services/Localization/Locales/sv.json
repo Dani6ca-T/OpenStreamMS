@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Sessionskonfigurationen uppdaterad.",
   "session.logRestartAfterConfigFailed": "Det gick inte att starta om sessionen efter konfigurationsuppdateringen: {0}",
   "session.alreadyInState": "Sessionen är redan i tillståndet {0}.",
-  "error.request": "Begäran kunde inte slutföras."
+  "error.request": "Begäran kunde inte slutföras.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Fördröjd spegling av sunshine_state.json slutfördes efter parkopplingsändringen.",
+  "session.logPairingStateMirrorFailed": "[{0}] Fördröjd spegling av sunshine_state.json misslyckades efter parkopplingsändringen: {1}",
+  "session.logAutoStartingEnabled": "Startar automatiskt {0} aktiverade session(er)...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Windows-session upptäckt ({1}); startar lokal session.",
+  "session.logConsoleSessionStartFailed": "[{0}] Det gick inte att starta efter Windows-inloggning: {1}",
+  "session.logMonitorFailed": "[{0}] Övervakningsfel: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Läste in {0} session(er) från disk.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Varning när Windows-session {1} stängdes: {2}",
+  "session.logStartAbandoned": "[{0}] Starten avbröts innan den började (ett annat kommando kom).",
+  "session.logCreatingRdpSession": "[{0}] Startar RDP-session för användaren \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine kunde inte startas: {1}",
+  "session.logAutoStartFailed": "[{0}] Automatisk start misslyckades: {1}"
 }
