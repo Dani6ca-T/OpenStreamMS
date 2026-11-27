@@ -448,5 +448,13 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Не вдалося налаштувати дозволи для «{0}» у {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Брандмауер ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Оновлення екземпляра Sunshine: {1} → {2} (config/, сполучення, облікові дані та налаштування зберігаються).",
-  "session.logHudEnsureFailed": "[HUD] Не вдалося ініціалізувати HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Не вдалося ініціалізувати HUD: {0}",
+  "session.logStopping": "[{0}] Зупинення...",
+  "session.logRestartRequested": "[{0}] Запитано перезапуск (поточний стан: {1}).",
+  "session.logRestartSuperseded": "Перезапуск скасовано: під час зупинення надійшла інша команда.",
+  "session.logSunshineKillTimeout": "[{0}] Час очікування завершення Sunshine вичерпано.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Сеанс Windows {1} не завершив закриття.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) зупинено.",
+  "session.logStopWarning": "[{0}] Попередження під час зупинення: {1}",
+  "session.logStopped": "[{0}] Зупинено."
 }
