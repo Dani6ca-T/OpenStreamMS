@@ -34,33 +34,33 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         // Antes de restaurar: uno que se conecte mientras tanto también vuelve a su driver.
         using var usbArrivals = UsbCapture.WatchArrivals();
         if (usbArrivals is null)
-            Logger.Warning("[Seats] No se pudo vigilar la llegada de dispositivos USB: un teclado o ratón que quedó capturado se restaurará en el próximo arranque.");
+            Logger.Warning(BackendText.Get("seats.usbArrivalWatchUnavailable"));
         try { UsbCapture.RestoreAll(); }
-        catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron restaurar los drivers USB: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("seats.usbDriversRestoreFailed", ex.Message)); }
         // Dispositivos reservados para un puesto (ACL): se liberan los que quedaran de una caída,
         // y se vigila la llegada para reservar lo que se enchufe en un puerto de un puesto encendido.
         using var accessArrivals = Gamepad.GamepadSessionIsolation.Cm.WatchEnumeration((id, _) => SeatDeviceAccess.OnDeviceArrived(id));
         try { SeatDeviceAccess.RestoreAll(); }
-        catch (Exception ex) { Logger.Warning($"[Seats] No se pudieron liberar los dispositivos reservados: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("seats.reservedDevicesReleaseFailed", ex.Message)); }
         ConsoleLockGuard.Release();   // si el servicio se cayó con un puesto encendido
         Gamepad.SteamXboxFilter.RestoreSaved();   // ídem con el filtro de Steam quitado
         // Sin puestos exclusivos nadie necesita quedarse sin apagar: el grupo Usuarios recupera el derecho.
         if (!_seats.Values.Any(s => s.ExclusiveSession)) ShutdownRight.Restore();
-        Logger.Log($"[Seats] Gestor de puestos iniciado ({_seats.Count} puesto(s)).");
+        Logger.Log(BackendText.Get("seats.managerStarted", _seats.Count));
         // Antes de autoarrancar, que termine la comprobación de multi-RDP/RemoteIdd: decide la
         // captura de los puestos y puede quitar RemoteIdd de RDP-Tcp.
         try { await OpenStreamMS.Services.Session.RdpWrapperManager.MultiRdpChecked.WaitAsync(TimeSpan.FromSeconds(120), stoppingToken); }
-        catch (TimeoutException) { Logger.Warning("[Seats] La comprobación de multi-RDP no terminó en 120 s; se autoarrancan los puestos igualmente."); }
+        catch (TimeoutException) { Logger.Warning(BackendText.Get("seats.multiRdpCheckTimeout")); }
         catch (OperationCanceledException) { return; }
         foreach (var seat in _seats.Values.Where(s => s.AutoStart && s.SessionId is not null))
         {
             if (UsesConsoleUser(seat.SessionId))
             {
-                Logger.Warning($"[Seats] '{seat.Name}' no se autoarranca: usa el mismo usuario que la consola.");
+                Logger.Warning(BackendText.Get("seats.autoStartSameConsoleUser", seat.Name));
                 continue;
             }
             try { Start(seat.Id); }
-            catch (Exception ex) { Logger.Warning($"[Seats] Autoarranque de '{seat.Name}' falló: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("seats.autoStartFailed", seat.Name, ex.Message)); }
         }
 
         try
