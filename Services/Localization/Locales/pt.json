@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Não foi possível escrever {0} em HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "O FreeRDP não escreveu nada.",
-  "rdp.freeRdpOutputPrefix": "Saída do FreeRDP: "
+  "rdp.freeRdpOutputPrefix": "Saída do FreeRDP: ",
+  "seats.usbArrivalWatchUnavailable": "Não foi possível monitorizar a chegada de dispositivos USB: um teclado ou rato capturado será restaurado no próximo arranque.",
+  "seats.usbDriversRestoreFailed": "Não foi possível restaurar os controladores USB: {0}",
+  "seats.reservedDevicesReleaseFailed": "Não foi possível libertar os dispositivos reservados: {0}",
+  "seats.managerStarted": "Gestor de postos iniciado ({0} posto(s)).",
+  "seats.multiRdpCheckTimeout": "A verificação multi-RDP não terminou em 120 s; os postos serão iniciados automaticamente na mesma.",
+  "seats.autoStartSameConsoleUser": "'{0}' não inicia automaticamente: utiliza o mesmo utilizador da consola.",
+  "seats.autoStartFailed": "Falha ao iniciar automaticamente '{0}': {1}"
 }
