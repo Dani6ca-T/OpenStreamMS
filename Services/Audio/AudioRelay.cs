@@ -5,6 +5,7 @@ using System.Security.Principal;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using OpenStreamMS.Services.Seats;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Audio;
 
@@ -38,7 +39,7 @@ internal static class AudioRelay
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[AudioRelay] {args[1]} {args[2]}: {ex.Message}");
+            Logger.Warning(BackendText.Get("audioRelay.operationFailed", args[1], args[2], ex.Message));
             return 1;
         }
     }
@@ -83,7 +84,7 @@ internal static class AudioRelay
             };
             cap.RecordingStopped += (_, _) => broken.Set();
             cap.StartRecording();
-            Logger.Log($"[AudioRelay] Enviando el audio de la sesión de Windows {System.Diagnostics.Process.GetCurrentProcess().SessionId}: {f}");
+            Logger.Log(BackendText.Get("audioRelay.sending", System.Diagnostics.Process.GetCurrentProcess().SessionId, f));
             while (!_stopping && !broken.Wait(500)) { }
             try { cap.StopRecording(); } catch { }
         }
@@ -112,23 +113,23 @@ internal static class AudioRelay
     {
         var header = new byte[16];
         pipe.ReadExactly(header);
-        if (!header.AsSpan(0, 4).SequenceEqual(Magic)) throw new IOException("cabecera no válida");
+        if (!header.AsSpan(0, 4).SequenceEqual(Magic)) throw new IOException(BackendText.Get("audioRelay.invalidHeader"));
         int rate = BitConverter.ToInt32(header, 4), channels = BitConverter.ToInt32(header, 8), bits = BitConverter.ToInt32(header, 12);
         var wf = bits > 0 ? WaveFormat.CreateIeeeFloatWaveFormat(rate, channels) : new WaveFormat(rate, -bits, channels);
 
-        MMDevice? dev = DefaultOutput() ?? throw new IOException("la sesión del teclado no tiene salida de audio");
+        MMDevice? dev = DefaultOutput() ?? throw new IOException(BackendText.Get("audioRelay.noOutputDevice"));
         var buffer = new SeatJitterBuffer(wf);
         using var output = new WasapiOut(dev, AudioClientShareMode.Shared, true, 10);
         output.Init(buffer);
         output.Play();
-        Logger.Log($"[AudioRelay] Reproduciendo en '{dev.FriendlyName}': {wf}");
+        Logger.Log(BackendText.Get("audioRelay.playing", dev.FriendlyName, wf));
 
         var len = new byte[4];
         while (!_stopping)
         {
             pipe.ReadExactly(len);
             int n = BitConverter.ToInt32(len);
-            if (n <= 0 || n > 1 << 20) throw new IOException("bloque no válido");
+            if (n <= 0 || n > 1 << 20) throw new IOException(BackendText.Get("audioRelay.invalidBlock"));
             var data = new byte[n];
             pipe.ReadExactly(data);
             buffer.Add(data);
