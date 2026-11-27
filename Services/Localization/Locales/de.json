@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Berechtigungen für „{0}“ unter {1} konnten nicht angepasst werden: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Sunshine-Instanz wird aktualisiert: {1} → {2} (config/, Kopplungen, Zugangsdaten und Einstellungen bleiben erhalten).",
-  "session.logHudEnsureFailed": "[HUD] HUD konnte nicht initialisiert werden: {0}"
+  "session.logHudEnsureFailed": "[HUD] HUD konnte nicht initialisiert werden: {0}",
+  "error.seatName": "Ein Sitzplatzname ist erforderlich.",
+  "error.stopSeat": "Beenden Sie den Sitzplatz, bevor Sie seine Konfiguration ändern.",
+  "error.primaryMonitor": "Der primäre Monitor kann keinem Sitzplatz zugewiesen werden.",
+  "error.assigned": "Die ausgewählte Ressource ist bereits zugewiesen."
 }
