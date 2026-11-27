@@ -137,5 +137,6 @@
   "purge.removeRegistry": "刪除 HKLM\\SOFTWARE\\OpenStreamMS",
   "purge.removeTemp": "刪除暫存檔",
   "serviceConfig.created": "已在以下位置建立預設設定：{0}",
-  "serviceConfig.invalid": "設定檔無效。"
+  "serviceConfig.invalid": "設定檔無效。",
+  "cli.help": "OpenStreamMS — 遊戲串流服務\n\n用法：\n  OpenStreamMS.exe --run               執行服務和 REST API\n  OpenStreamMS.exe --install           安裝 Windows 服務\n  OpenStreamMS.exe --uninstall         停止並移除服務\n  OpenStreamMS.exe --remove-deps       解除安裝 ViGEmBus 和 HidHide\n  OpenStreamMS.exe --purge-data        刪除程式資料夾以外的資料\n  OpenStreamMS.exe --tray              顯示系統匣圖示\n  OpenStreamMS.exe --open              在視窗中開啟控制面板\n  OpenStreamMS.exe --diagnostics [file.zip] [--days N]  建立診斷封存檔\n  OpenStreamMS.exe --seat-agent <pipe> [--output DISPLAY] [--no-audio]\n  OpenStreamMS.exe --seat-host <pipe>  執行本機工作站主機\n  OpenStreamMS.exe --help              顯示此說明\n\n網頁：\n  http://localhost:<ApiPort>/          控制面板（需要登入）\n  http://localhost:<ApiPort>/scalar/v1 互動式 API 文件\n\n設定 (service.config.json)：\n  SunshineExePath — sunshine.exe 的路徑\n  RdpBackground   — 隱藏 RDP 視窗\n  ApiPort         — Web/API 伺服器連接埠（預設：5000）\n  AdminUsername   — 控制面板使用者\n  LogLevel        — Error、Warning、Info 或 Off"
 }
