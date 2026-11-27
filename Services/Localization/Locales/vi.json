@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Đã đặt lại thông tin xác thực Sunshine; Sunshine đã dừng và sẽ tự động khởi chạy lại.",
   "session.logSunshineTemplateUpdated": "[{0}] Mẫu Sunshine đã thay đổi; đang cập nhật phiên bản: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Không thể cập nhật phiên bản Sunshine: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Không thể thêm quy tắc tường lửa: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Không thể thêm quy tắc tường lửa: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Phiên cục bộ: màn hình nền của \"{1}\\\\{2}\" (phiên Windows {3}).",
+  "session.logNativeIsolationActive": "[{0}] Cách ly gốc đang hoạt động: người dùng chuyên dụng \"{1}\" (hồ sơ: {2}).",
+  "session.ephemeral": "tạm thời",
+  "session.persistent": "lâu dài",
+  "session.logStreamProfileOmitted": "[{0}] Bỏ qua UseStreamProfile: tính năng cách ly gốc đã cung cấp hồ sơ riêng.",
+  "session.logStreamProfileConfiguring": "[{0}] Đang cấu hình hồ sơ truyền phát riêng...",
+  "session.logStartFailed": "[{0}] Khởi chạy thất bại: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Giao thức đã chọn có WebRTC nhưng bản dựng Sunshine được cấu hình không hỗ trợ (hãy dùng sunshine-webrtc); chỉ Moonlight hoạt động."
 }
