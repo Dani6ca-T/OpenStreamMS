@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Не удалось записать {0} в HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP ничего не вывел.",
-  "rdp.freeRdpOutputPrefix": "Вывод FreeRDP: "
+  "rdp.freeRdpOutputPrefix": "Вывод FreeRDP: ",
+  "seats.usbArrivalWatchUnavailable": "Не удалось отслеживать подключение USB-устройств: захваченная клавиатура или мышь будет восстановлена при следующем запуске.",
+  "seats.usbDriversRestoreFailed": "Не удалось восстановить драйверы USB: {0}",
+  "seats.reservedDevicesReleaseFailed": "Не удалось освободить зарезервированные устройства: {0}",
+  "seats.managerStarted": "Менеджер мест запущен (мест: {0}).",
+  "seats.multiRdpCheckTimeout": "Проверка multi-RDP не завершилась за 120 с; места всё равно будут запущены автоматически.",
+  "seats.autoStartSameConsoleUser": "«{0}» не будет запущено автоматически: используется тот же пользователь, что и у консоли.",
+  "seats.autoStartFailed": "Не удалось автоматически запустить «{0}»: {1}"
 }
