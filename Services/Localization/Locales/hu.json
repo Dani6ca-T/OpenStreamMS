@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Ez a katalógus nem szerepel a listában.",
   "ext.catalogEntryMissing": "A katalógus már nem tartalmazza ezt: {0}.",
   "ext.invalidPackage": "A csomag nem érvényes bővítmény: {0}",
-  "ext.noManifest": "A csomagban nincs {0}."
+  "ext.noManifest": "A csomagban nincs {0}.",
+  "cli.error.missingSeatAgentPipe": "HIBA: Hiányzik a cső neve a --seat-agent parancshoz.",
+  "cli.error.missingSeatHostPipe": "HIBA: Hiányzik a cső neve a --seat-host parancshoz.",
+  "cli.error.unknownCommand": "Ismeretlen parancs: „{0}”",
+  "cli.error.helpHint": "A rendelkezésre álló parancsokhoz használja a --help kapcsolót.",
+  "cli.error.adminRequired": "HIBA: A művelethez rendszergazdai jogosultság szükséges.",
+  "cli.error.adminHint": "Az .exe fájlt a „Futtatás rendszergazdaként” lehetőséggel indítsa."
 }
