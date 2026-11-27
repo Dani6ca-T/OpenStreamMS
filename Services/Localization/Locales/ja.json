@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] {1} の「{0}」の権限を調整できませんでした: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] ファイアウォール ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Sunshine インスタンスを更新中: {1} → {2}（config/、ペアリング、認証情報、設定は保持されます）。",
-  "session.logHudEnsureFailed": "[HUD] HUD を初期化できませんでした: {0}"
+  "session.logHudEnsureFailed": "[HUD] HUD を初期化できませんでした: {0}",
+  "error.seatName": "シート名は必須です。",
+  "error.stopSeat": "構成を変更する前にシートを停止してください。",
+  "error.primaryMonitor": "プライマリモニターはシートに割り当てられません。",
+  "error.assigned": "選択したリソースは既に割り当てられています。"
 }
