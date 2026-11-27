@@ -484,5 +484,6 @@
   "compositeInput.routed": "[{0}] Klavye ve fare '{1}' hedefine yönlendirildi (Windows oturumu {2}).",
   "compositeInput.routeFailed": "[{0}] Klavye ve fare '{1}' hedefine yönlendirilemedi: {2}",
   "compositeInput.writeFailed": "[{0}] {1} yazılamadı: {2}",
-  "compositeInput.deleteFailed": "[{0}] {1} silinemedi: {2}"
+  "compositeInput.deleteFailed": "[{0}] {1} silinemedi: {2}",
+  "rdp.mstscFailureContext": "{0} Önceki mstsc denemesi başarısız oldu: {1}"
 }
