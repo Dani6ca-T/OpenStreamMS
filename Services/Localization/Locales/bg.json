@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "sunshine.conf е актуализиран ({0}) в: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: идентификационните данни вече са актуални (потребител={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: идентификационните данни вече са актуални; root е изчистен (потребител={0})",
-  "sunshineCfg.credentialsSet": "sunshine_state.json: зададени са идентификационни данни (потребител={0})"
+  "sunshineCfg.credentialsSet": "sunshine_state.json: зададени са идентификационни данни (потребител={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Неуспешна заявка за чисто изчистване преди спиране: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Неуспешно стартиране на sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Неуспешно възстановяване на root след --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "Неуспешна проверка на уникалния идентификатор: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Неуспешно възстановяване на sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Неуспешно стартиране на огледалното копие на sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Неуспешно копиране на {0} в резервното копие: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Неуспешно възстановяване на {0}: {1}"
 }
