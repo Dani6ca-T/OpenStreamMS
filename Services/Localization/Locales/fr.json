@@ -359,5 +359,16 @@
   "seats.seatLost": "Le poste « {0} » s’arrête : {1}.",
   "seats.stopAfterLossFailed": "« {0} » : impossible d’arrêter après l’interruption : {1}",
   "seats.sessionStartFailed": "Échec du démarrage de la session.",
-  "seats.sessionStartTimeout": "La session n’est pas devenue active à temps."
+  "seats.sessionStartTimeout": "La session n’est pas devenue active à temps.",
+  "seats.statusStartingSession": "Démarrage de la session…",
+  "seats.statusPoweringMonitor": "Mise sous tension du moniteur…",
+  "seats.statusStartingAgent": "Démarrage de l’agent de capture et d’image…",
+  "seats.statusStartingPresenter": "Démarrage du présentateur dans la console…",
+  "seats.statusSeparatingGamepads": "Isolation des manettes du poste…",
+  "seats.statusReservingUsb": "Réservation des périphériques USB du poste…",
+  "seats.statusSeparatingInput": "Isolation de la souris et du clavier du poste…",
+  "seats.statusLockingSession": "Verrouillage de la session : le poste demandera un mot de passe…",
+  "seats.statusActive": "Actif : image, audio et périphériques connectés.",
+  "seats.statusDisconnectedFromSeat": "Déconnecté depuis le poste. Rallumez-le depuis OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Arrêté : {0}. Rallumez-le depuis OpenStreamMS."
 }
