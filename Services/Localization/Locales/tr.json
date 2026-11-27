@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "etkin",
   "gamepad.stateDisabled": "devre dışı",
   "gamepad.stateEmpty": "boş",
-  "gamepad.unknownVersion": "bilinmeyen sürüm"
+  "gamepad.unknownVersion": "bilinmeyen sürüm",
+  "gamepad.predictedPadClaimed": "{0}, takılmadan önce bile yalnızca {1}. oturumda görünür ('{2}').",
+  "gamepad.releaseReservationsFailed": "Denetleyici ayırmaları kaldırılamadı: {0}",
+  "gamepad.padClaimed": "Denetleyici {0} → '{1}' (Windows oturumu {2}): denetleyici bu hizmet tarafından alındı.",
+  "gamepad.padOwnerUnknown": "{0} denetleyicisini hangi oturumun oluşturduğu belirlenemedi; tüm oturumlarda görünür kalıyor.",
+  "gamepad.osmsPadOutsideSession": "OsmsPad denetleyicisi {0} → Windows oturumu {1} (herhangi bir OpenStreamMS oturumuna ait değil)."
 }
