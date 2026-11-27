@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Usunięto ikonę zasobnika z autostartu.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Plik wykonywalny:",
-  "install.configPath": "Konfiguracja:"
+  "install.configPath": "Konfiguracja:",
+  "diagnostics.logGenerated": "Utworzono pakiet diagnostyczny ({0} KB, zdarzenia z {1} dni).",
+  "diagnostics.logGenerateFailed": "Nie udało się utworzyć pakietu diagnostycznego: {0}",
+  "hud.sessionRestarted": "Sesja „{0}” została uruchomiona ponownie z poziomu HUD.",
+  "hud.powerDenied": "Odrzucono żądanie wyłączenia/ponownego uruchomienia z „{0}”: sesja nie ma uprawnień.",
+  "hud.powerRequested": "„{1}” zażądał(a) {0} komputera.",
+  "hud.powerCancelled": "Anulowano wyłączenie/ponowne uruchomienie z „{0}”.",
+  "power.cancelled": "Anulowano wyłączenie/ponowne uruchomienie.",
+  "power.noPending": "Brak oczekującego wyłączenia do anulowania ({0}).",
+  "power.shutdownFailed": "Błąd shutdown.exe: {0}",
+  "power.scheduled": "{0} zaplanowano za {1} s.",
+  "settings.logLevelChanged": "Poziom dziennika: {0} → {1}."
 }
