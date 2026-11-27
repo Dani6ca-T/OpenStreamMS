@@ -592,5 +592,11 @@
   "seatUsb.readerDisconnected": "[SeatUsb] {0} disconnected ({1}).",
   "seatUsb.readerError": "[SeatUsb] {0}: {1}",
   "seatUsb.noHidDescriptorBootEnabled": "[SeatUsb] {0}: no HID descriptor (error {1}, length {2}); boot protocol enabled.",
-  "seatUsb.noHidDescriptorBootRejected": "[SeatUsb] {0}: no HID descriptor (error {1}, length {2}); boot protocol rejected ({3})."
+  "seatUsb.noHidDescriptorBootRejected": "[SeatUsb] {0}: no HID descriptor (error {1}, length {2}); boot protocol rejected ({3}).",
+  "seatInput.registerFailed": "[SeatInput] RegisterRawInputDevices failed: {0}",
+  "seatInput.started": "[SeatInput] Input router and console shield are active.",
+  "seatInput.createFailed": "[SeatInput] Could not create the input router: {0}",
+  "seatInput.stopped": "[SeatInput] Input router stopped.",
+  "seatInput.createWindowFailed": "CreateWindowEx (shield) failed",
+  "seatInput.rawInputError": "[SeatInput] {0}"
 }
