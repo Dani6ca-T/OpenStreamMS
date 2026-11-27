@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') engellemeyen geri alma ile yapılandırıldı: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Birleşik oturumların Big Picture modu tüm oturumlarda açılır ve kapanır: {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Uzantı uygulamaları güncellendi ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot ve Power Off uygulamaları yapılandırıldı: {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot ve Power Off uygulamaları yapılandırıldı: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json yalıtılmış profil ortamıyla güncellendi: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json yalıtılmış profil ortamı olmadan güncellendi: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort 0'dan büyük olmalıdır.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver osmspad'den vigembus'a döndürüldü: OsmsPad Xbox Series denetleyicileri akış oturumlarında XInput özelliğini kaybeder.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] capture = remoteidd kaldırıldı: RemoteIdd RDP-Tcp üzerinde etkin değil; Sunshine varsayılan yakalamayı kullanıyor.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] OpenStreamMS varsayılanları uygulandı: {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] sunshine.conf zaten günceldi: {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] sunshine.conf güncellendi ({0}): {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf güncellendi ({0}): {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: kimlik bilgileri zaten güncel (kullanıcı={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: kimlik bilgileri zaten güncel; root temizlendi (kullanıcı={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: kimlik bilgileri ayarlandı (kullanıcı={0})"
 }
