@@ -374,7 +374,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         var version = HidHide.DriverVersion();
         SessionJailSupported = version is null || version >= HidHide.MinSessionJailVersion;
         if (SessionJailSupported)
-            Logger.Log(BackendText.Get("gamepad.hidHideVersionSupported", version?.ToString() ?? "(unknown version)"));
+            Logger.Log(BackendText.Get("gamepad.hidHideVersionSupported", version?.ToString() ?? BackendText.Get("gamepad.unknownVersion")));
         else
             Logger.Warning(BackendText.Get("gamepad.hidHideVersionUnsupported", version, HidHide.MinSessionJailVersion));
         LogHidHideExceptions(h);
@@ -392,7 +392,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         {
             var apps = HidHide.GetWhitelist(h);
             bool inverse = HidHide.GetInverse(h);
-            Logger.Log(BackendText.Get("gamepad.hidHideWhitelistStatus", inverse ? "enabled" : "disabled", apps.Count, apps.Count == 0 ? "empty" : string.Join(" | ", apps)));
+            Logger.Log(BackendText.Get("gamepad.hidHideWhitelistStatus", inverse ? BackendText.Get("gamepad.stateEnabled") : BackendText.Get("gamepad.stateDisabled"), apps.Count, apps.Count == 0 ? BackendText.Get("gamepad.stateEmpty") : string.Join(" | ", apps)));
             if (!inverse && apps.Count > 0)
                 Logger.Warning(BackendText.Get("gamepad.hidHideWhitelistWarning"));
         }
