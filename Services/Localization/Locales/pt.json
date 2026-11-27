@@ -461,5 +461,15 @@
   "error.stopSeat": "Pare o posto antes de alterar a respetiva configuração.",
   "error.primaryMonitor": "O monitor principal não pode ser atribuído a um posto.",
   "error.assigned": "O recurso selecionado já está atribuído.",
-  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" atribuído ao espaço {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" atribuído ao espaço {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] O utilizador \"{0}\" não é administrador nem membro de Remote Desktop Users; é concedido acesso ao Ambiente de Trabalho Remoto para iniciar a sessão.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Não foi possível verificar o acesso ao Ambiente de Trabalho Remoto de \"{0}\": {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] As permissões de RDP-Tcp não podem ser lidas (nem Security nem DefaultSecurity); não serão alteradas.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Não foi possível ocultar \"{0}\" do ecrã de início de sessão: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Não foi possível ajustar o acesso de \"{0}\" ao registo do Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam preparado para \"{0}\": steam:// e {1} atalhos utilizam osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Não foi possível preparar o Steam para \"{0}\": {1}",
+  "service.started": "[Service] OpenStreamMS iniciado. A API está disponível na porta configurada.",
+  "service.multiRdpCheckFailed": "[Service] Falha na verificação multi-RDP: {0}",
+  "service.stopped": "[Service] Parado."
 }
