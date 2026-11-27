@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Helyek] „{0}”: a hely nem indítható el újra: {1}",
   "seat.waitingImageFailed": "[Helyek] „{0}”: a várakozási kép nem jeleníthető meg: {1}",
   "seat.sessionDidNotRestart": "A munkamenet nem indult újra.",
-  "seat.sessionRestartTimeout": "A munkamenet újraindítása túllépte az időkorlátot."
+  "seat.sessionRestartTimeout": "A munkamenet újraindítása túllépte az időkorlátot.",
+  "composite.created": "[Összetett munkamenetek] Létrehozva: „{0}” ({1}); tagok: {2}",
+  "composite.updated": "[{0}] Az összetett munkamenet módosítva.",
+  "composite.startingMember": "[{0}] „{1}” indítása az összetett munkamenethez…",
+  "composite.steamConfigFailed": "[{0}] Nem sikerült beállítani az összetett munkamenet Steam-alkalmazását: {1}",
+  "composite.startAborted": "[{0}] Indítás megszakítva (a munkamenetet indítás közben leállították).",
+  "composite.started": "[{0}] Az összetett munkamenet aktív: {1}; billentyűzet és egér innen: „{2}” (Windows-munkamenet: {3}).",
+  "composite.deleteFileFailed": "[{0}] Nem sikerült törölni: {1}: {2}",
+  "composite.stoppingMember": "[{0}] „{1}” leállítása, amelyet az összetett munkamenet indított.",
+  "composite.restoreResolutionFailed": "[{0}] „{1}” nem tudta visszaállítani a felbontását: {2}",
+  "composite.keyboardStopped": "[{0}] A billentyűzet-munkamenet leállt; az összetett munkamenet is leáll.",
+  "composite.keyboardSessionChanged": "[{0}] A billentyűzet-munkamenet a(z) {1}. Windows-munkamenetbe került; a Sunshine újraindul.",
+  "composite.watchFailed": "[{0}] Hiba az összetett munkamenet figyelésekor: {1}",
+  "composite.waitingImageFailed": "[{0}] Nem sikerült előkészíteni a várakozási képet a(z) {1}. helyhez: {2}",
+  "composite.steamActionFailed": "[{0}] A Steam „{1}” művelete sikertelen a(z) {2}. Windows-munkamenetben: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: „{1}” {2} munkamenetben.",
+  "composite.steamOpen": "megnyitás",
+  "composite.steamClose": "bezárás"
 }
