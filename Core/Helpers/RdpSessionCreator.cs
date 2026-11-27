@@ -1,6 +1,7 @@
 using Microsoft.Win32;
 using OpenStreamMS.Core.Api;
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -128,7 +129,7 @@ namespace OpenStreamMS.Core.Helpers
             if (!string.Equals(key?.GetValue("LoadableProtocol_Object") as string, RemoteIddProviderClsid,
                                StringComparison.OrdinalIgnoreCase))
                 throw new InvalidOperationException(
-                    "[RDP] Captura RemoteIdd sin su proveedor en RDP-Tcp: instálalo con Native/RemoteIdd/Provider/install.ps1.");
+                    BackendText.Get("rdp.remoteIddProviderMissing"));
             return LoopbackHost;
         }
 
@@ -157,8 +158,7 @@ namespace OpenStreamMS.Core.Helpers
 
             if (FindConflictingConsoleSession(user) is { } conflict)
                 Logger.Log(
-                    $"[RDP] Aviso: '{FormatPrincipal(user)}' ya tiene sesion de consola " +
-                    $"(SessionId={conflict.SessionId}). El aislamiento de audio puede ser parcial.");
+                    BackendText.Get("rdp.consoleSessionConflict", FormatPrincipal(user), conflict.SessionId)");
 
             // Lo que se escribe en el registro para esta conexion es global (termsrv y RemoteIdd lo
             // leen al aceptarla): dos conexiones a la vez se pisarian los valores.
@@ -167,7 +167,7 @@ namespace OpenStreamMS.Core.Helpers
                 int existing = FindSessionByUsername(user.Username);
                 if (existing >= 0)
                 {
-                    Logger.Log($"[RDP] Sesion existente para '{user.Username}': {existing}");
+                    Logger.Log(BackendText.Get("rdp.sessionExists", user.Username, existing));
                     return (uint)existing;
                 }
 
@@ -186,18 +186,18 @@ namespace OpenStreamMS.Core.Helpers
                 {
                     try
                     {
-                        Logger.Log($"[RDP] Sin sesion para '{user.Username}', creando via mstsc (AVC444 hw)...");
+                        Logger.Log(BackendText.Get("rdp.createViaMstsc", user.Username));
                         return CreateSessionWithMstsc(user, address, rdpWidth, rdpHeight,
                                                       rdpFrameRate, rdpColorDepth, display, out freeRdpPid);
                     }
                     catch (Exception ex)
                     {
-                        Logger.Warning($"[RDP] mstsc fallo ({ex.Message}); reintentando con FreeRDP...");
+                        Logger.Warning(BackendText.Get("rdp.mstscFailedFallback", ex.Message));
                         mstscError = ex;
                     }
                 }
 
-                Logger.Log($"[RDP] Sin sesion para '{user.Username}', creando via FreeRDP...");
+                Logger.Log(BackendText.Get("rdp.createViaFreeRdp", user.Username));
                 int pid = 0;
                 uint id = WithMstscError(mstscError, () => CreateSessionWithFreeRdp(user, address, rdpWidth, rdpHeight,
                                                                                 rdpFrameRate, rdpColorDepth, display, out pid));
@@ -247,18 +247,18 @@ namespace OpenStreamMS.Core.Helpers
             // mstsc no deja elegir el micrófono: con uno asignado, FreeRDP.
             if (microphone is not null && preferMstsc)
             {
-                Logger.Log("[RDP] Con micrófono asignado se conecta con FreeRDP (mstsc no permite elegirlo).");
+                Logger.Log(BackendText.Get("rdp.microphoneForcesFreeRdp"));
                 preferMstsc = false;
             }
             string address = RdpAddress(remoteIdd);
-            Logger.Log($"[RDP] Reconectando la sesión {sessionId} a {rdpWidth}x{rdpHeight} @ {rdpFrameRate} fps...");
+            Logger.Log(BackendText.Get("rdp.reconnecting", sessionId, rdpWidth, rdpHeight, rdpFrameRate));
 
             lock (ConnectLock)
             {
                 if (remoteIdd) ApplyRemoteIddMode(rdpWidth, rdpHeight, rdpFrameRate, display.Scale);
 
                 if (!WTSDisconnectSession(IntPtr.Zero, (int)sessionId, true))
-                    Logger.Warning($"[RDP] WTSDisconnectSession({sessionId}) falló: {Marshal.GetLastWin32Error()}");
+                    Logger.Warning(BackendText.Get("rdp.disconnectSessionFailed", sessionId, Marshal.GetLastWin32Error()));
 
                 var sw = Stopwatch.StartNew();
                 while (sw.Elapsed.TotalSeconds < 10 &&
@@ -275,7 +275,7 @@ namespace OpenStreamMS.Core.Helpers
                     try { id = CreateSessionWithMstsc(user, address, rdpWidth, rdpHeight, rdpFrameRate, rdpColorDepth, display, out clientPid); }
                     catch (Exception ex)
                     {
-                        Logger.Warning($"[RDP] mstsc falló al reconectar ({ex.Message}); reintentando con FreeRDP...");
+                        Logger.Warning(BackendText.Get("rdp.mstscReconnectFailedFallback", ex.Message));
                         int pid = 0;
                         id = WithMstscError(ex, () => CreateSessionWithFreeRdp(user, address, rdpWidth, rdpHeight,
                                                                                rdpFrameRate, rdpColorDepth, display, out pid));
@@ -289,8 +289,8 @@ namespace OpenStreamMS.Core.Helpers
                 }
 
                 if (id != sessionId)
-                    Logger.Warning($"[RDP] La reconexión cayó en la sesión {id} en lugar de la {sessionId}.");
-                Logger.Log($"[RDP] Sesión {id} reconectada en {sw.ElapsedMilliseconds} ms.");
+                    Logger.Warning(BackendText.Get("rdp.reconnectWrongSession", id, sessionId));
+                Logger.Log(BackendText.Get("rdp.sessionReconnected", id, sw.ElapsedMilliseconds));
                 return id;
             }
         }
