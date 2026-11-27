@@ -1051,7 +1051,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SessionService] No se pudieron guardar las sesiones: {ex.Message}");
+            Logger.Warning(BackendText.Get("session.logSaveFailed", ex.Message));
         }
     }
 
@@ -1068,11 +1068,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             var backup = $"{SessionsFile}.corrupt-{DateTime.Now:yyyyMMdd-HHmmss}";
             File.Copy(SessionsFile, backup, overwrite: true);
             SecureFile.RestrictToAdmins(backup);
-            Logger.Warning($"[SessionService] Copia del fichero ilegible guardada en '{backup}'.");
+            Logger.Warning(BackendText.Get("session.logUnreadableBackupSaved", backup));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SessionService] No se pudo apartar el fichero de sesiones ilegible: {ex.Message}");
+            Logger.Warning(BackendText.Get("session.logUnreadableBackupFailed", ex.Message));
         }
     }
 
@@ -1152,13 +1152,13 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             Logger.Log(BackendText.Get("session.logLoadedFromDisk", data.Length));
             if (migrated)
             {
-                Logger.Log("[SessionService] Puertos WebRTC asignados a sesiones existentes.");
+                Logger.Log(BackendText.Get("session.logWebRtcPortsAssigned"));
                 SaveSessions();
             }
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SessionService] No se pudieron cargar las sesiones: {ex.Message}");
+            Logger.Warning(BackendText.Get("session.logLoadFailed", ex.Message));
             BackupUnreadableSessionsFile();
         }
     }
@@ -1180,7 +1180,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (_sunshine.TryRemove(session.Id, out var stale))
         {
             try { stale.Stop(); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al parar Sunshine de un arranque abandonado: {ex.Message}", session.Id); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logAbandonedStartSunshineStopFailed", session.Name, ex.Message), session.Id); }
         }
         session.SunshinePid = 0;
 
@@ -1467,7 +1467,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         else
         {
-            Logger.Log($"[{session.Name}] Instancia de Sunshine ya existe en: {instanceDir}", session.Id);
+            Logger.Log(BackendText.Get("session.logSunshineInstanceAlreadyExists", session.Name, instanceDir), session.Id);
             SyncSunshineInstanceBinaries(session, instanceDir, instanceExe);
         }
 
@@ -1503,7 +1503,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[{session.Name}] No se pudo limpiar el estado copiado de la plantilla de Sunshine: {ex.Message}", session.Id);
+            Logger.Warning(BackendText.Get("session.logCopiedTemplateStateCleanupFailed", session.Name, ex.Message), session.Id);
         }
     }
 
@@ -1554,8 +1554,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (templateVer == instanceVer && new FileInfo(templateExe).Length == new FileInfo(instanceExe).Length)
             return;
 
-        Logger.Log($"[{session.Name}] Actualizando Sunshine de la instancia: {instanceVer} → {templateVer} " +
-                   "(se conserva config/: pareos, credenciales y ajustes).", session.Id);
+        Logger.Log(BackendText.Get("session.logSunshineInstanceUpdating", session.Name, instanceVer, templateVer), session.Id);
         try
         {
             var webDir = Path.Combine(instanceDir, "assets", "web");
@@ -1580,7 +1579,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         {
             // Tipicamente un sunshine.exe huerfano bloqueando ficheros. Se sigue con lo
             // que haya: la comparacion de version reintentara en el proximo arranque.
-            Logger.Warning($"[{session.Name}] No se pudo actualizar Sunshine de la instancia: {ex.Message}", session.Id);
+            Logger.Warning(BackendText.Get("session.logSunshineInstanceUpdateFailed", session.Name, ex.Message), session.Id);
         }
     }
 
@@ -1629,11 +1628,11 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 FileSystemRights.Modify, all, PropagationFlags.None, AccessControlType.Allow));
             config.SetAccessControl(cs);
 
-            Logger.Log($"[SessionService] Permisos de la instancia ajustados para '{account}' (escritura solo en config): {dir}", sessionId);
+            Logger.Log(BackendText.Get("session.logInstancePermissionsAdjusted", account, dir), sessionId);
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SessionService] No se pudieron ajustar los permisos de '{account}' en {dir}: {ex.Message}", sessionId);
+            Logger.Warning(BackendText.Get("session.logInstancePermissionsAdjustFailed", account, dir, ex.Message), sessionId);
         }
     }
 
@@ -1701,7 +1700,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 opened.Add($"WebRTC TCP {session.WebRtcPort}, UDP {udp}");
             }
 
-            Logger.Log($"[Sunshine] Firewall ({session.StreamProtocol.ToConfigValue()}): {string.Join("; ", opened)} ({session.Id})");
+            Logger.Log(BackendText.Get("session.logFirewallRulesOpened", session.StreamProtocol.ToConfigValue(), string.Join("; ", opened), session.Id));
         }
         catch (Exception ex)
         {
