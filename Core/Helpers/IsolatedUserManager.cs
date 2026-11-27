@@ -718,9 +718,9 @@ internal static class IsolatedUserManager
     static void SetWinStationAccess(SecurityIdentifier sid, bool grant)
     {
         using var root = Registry.LocalMachine.OpenSubKey(WinStationsKey)
-            ?? throw new InvalidOperationException($"no existe HKLM\\{WinStationsKey}");
+            ?? throw new InvalidOperationException(BackendText.Get("isolatedUser.winStationsKeyMissing", WinStationsKey));
         using var rdpTcp = Registry.LocalMachine.OpenSubKey(RdpTcpKey, writable: true)
-            ?? throw new InvalidOperationException($"no existe HKLM\\{RdpTcpKey}");
+            ?? throw new InvalidOperationException(BackendText.Get("isolatedUser.rdpTcpKeyMissing", RdpTcpKey));
 
         var defaultBytes = root.GetValue("DefaultSecurity") as byte[];
         var currentBytes = rdpTcp.GetValue("Security") as byte[] ?? defaultBytes;
