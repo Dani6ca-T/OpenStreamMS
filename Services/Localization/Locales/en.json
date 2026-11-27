@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Tray icon removed from auto-start.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Executable:",
-  "install.configPath": "Config:"
+  "install.configPath": "Config:",
+  "diagnostics.logGenerated": "Diagnostic bundle generated ({0} KB, {1} day(s) of events).",
+  "diagnostics.logGenerateFailed": "Could not generate diagnostic bundle: {0}",
+  "hud.sessionRestarted": "Session '{0}' restarted from its HUD.",
+  "hud.powerDenied": "Power action rejected from '{0}': the session is not allowed.",
+  "hud.powerRequested": "PC {0} requested by '{1}'.",
+  "hud.powerCancelled": "Power action cancelled from '{0}'.",
+  "power.cancelled": "Shutdown/restart cancelled.",
+  "power.noPending": "No pending shutdown to cancel ({0}).",
+  "power.shutdownFailed": "shutdown.exe failed: {0}",
+  "power.scheduled": "{0} scheduled in {1}s.",
+  "settings.logLevelChanged": "Log level: {0} → {1}."
 }
