@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható; újraindítva a többi munkamenet foglalásainak lezárásához.",
   "gamepad.nodeRestartDeferred": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható, de a Windows elhalasztotta az újraindítást, mert másik folyamat használja; a már megnyitott folyamatok bezárásig továbbra is látják.",
   "gamepad.nodeLateRestartFailed": "A(z) {0} későn lett elrejtve, és nem sikerült újraindítani: {1}. Egy másik munkamenet már megnyitott folyamata továbbra is látja.",
-  "gamepad.nodeVisibleSession": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható."
+  "gamepad.nodeVisibleSession": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható.",
+  "gamepad.consoleSessionChanged": "A konzolmunkamenet {0}-ról {1}-re változott: a fizikai vezérlők újrahozzárendelése folyamatban.",
+  "gamepad.sideInputDriverRestored": "A(z) {0} (a vezérlő billentyűzete vagy egere) visszatér az illesztőprogramjához: a vezérlő a konzolhoz tartozik.",
+  "gamepad.sideInputCaptured": "A(z) {0} (a vezérlő billentyűzete vagy egere) elkülönítve, amíg a vezérlő másik munkamenetben van: a billentyűi (pl. a képernyőkép gomb) már nem jutnak el a konzolhoz."
 }
