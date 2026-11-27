@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} jest widoczny tylko w sesji „{1}” ({2}); uruchomiono ponownie, aby zamknąć uchwyty innych sesji.",
   "gamepad.nodeRestartDeferred": "{0} jest widoczny tylko w sesji „{1}” ({2}), ale Windows odroczył ponowne uruchomienie, ponieważ używa go inny proces; procesy, które już go otworzyły, nadal go widzą, dopóki go nie zamkną.",
   "gamepad.nodeLateRestartFailed": "{0} został ukryty z opóźnieniem i nie można go ponownie uruchomić: {1}. Proces z innej sesji, który już go otworzył, nadal go widzi.",
-  "gamepad.nodeVisibleSession": "{0} jest widoczny tylko w sesji „{1}” ({2})."
+  "gamepad.nodeVisibleSession": "{0} jest widoczny tylko w sesji „{1}” ({2}).",
+  "gamepad.consoleSessionChanged": "Sesja konsoli zmieniła się z {0} na {1}: ponowne przypisywanie kontrolerów fizycznych.",
+  "gamepad.sideInputDriverRestored": "{0} (klawiatura lub mysz kontrolera) wraca do swojego sterownika: kontroler jest przy konsoli.",
+  "gamepad.sideInputCaptured": "{0} (klawiatura lub mysz kontrolera) została odłączona, gdy kontroler znajduje się w innej sesji: jej klawisze (np. przycisk przechwytywania) nie docierają już do konsoli."
 }
