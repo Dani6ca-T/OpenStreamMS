@@ -171,5 +171,13 @@
   "power.noPending": "没有待取消的关机操作（{0}）。",
   "power.shutdownFailed": "shutdown.exe 失败：{0}",
   "power.scheduled": "已安排在 {1} 秒后{0}。",
-  "settings.logLevelChanged": "日志级别：{0} → {1}。"
+  "settings.logLevelChanged": "日志级别：{0} → {1}。",
+  "seat.restartSession": "[席位] 正在重启席位“{0}”的会话“{1}”，不会关闭席位。",
+  "seat.restartSizeMismatch": "会话恢复后的尺寸为 {0}x{1}，而不是 {2}x{3}。",
+  "seat.restartSessionDone": "[席位]“{0}”：会话已重启；席位仍位于 Windows 会话 {1} 中。",
+  "seat.restartSessionFailed": "[席位]“{0}”：无法在不关闭席位的情况下重启会话（{1}）；将重新创建席位。",
+  "seat.restartSeatFailed": "[席位]“{0}”：无法重新启动席位：{1}",
+  "seat.waitingImageFailed": "[席位]“{0}”：无法显示等待画面：{1}",
+  "seat.sessionDidNotRestart": "会话未能重新启动。",
+  "seat.sessionRestartTimeout": "会话重启超时。"
 }
