@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "복합 세션 변경으로 컨트롤러 {0}({1})이(가) 세션 '{2}'(Windows 세션 {3})으로 이동했습니다.",
   "gamepad.futurePadsReserved": "다음 Moonlight 컨트롤러는 세션을 확인할 때까지 미리 숨겨집니다({0}).",
   "gamepad.futurePadReservationsReleased": "실행 중인 스트림이 없습니다. 다음 컨트롤러 예약을 해제했습니다.",
-  "gamepad.futurePadReservationFailed": "HidHide에서 다음 컨트롤러를 예약할 수 없습니다: {0}"
+  "gamepad.futurePadReservationFailed": "HidHide에서 다음 컨트롤러를 예약할 수 없습니다: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0}은(는) 나타난 이후 세션 '{1}'({2})에만 표시됩니다. 해당 세션에서 감지하도록 다시 시작했습니다.",
+  "gamepad.nodeVisibleAfterRestart": "{0}은(는) 세션 '{1}'({2})에만 표시됩니다. 다른 세션의 핸들을 닫기 위해 다시 시작했습니다.",
+  "gamepad.nodeRestartDeferred": "{0}은(는) 세션 '{1}'({2})에만 표시되지만 다른 프로세스가 사용 중이어서 Windows가 다시 시작을 연기했습니다. 이미 연 프로세스는 닫을 때까지 계속 볼 수 있습니다.",
+  "gamepad.nodeLateRestartFailed": "{0}을(를) 늦게 숨겼으며 다시 시작할 수 없습니다: {1}. 다른 세션에서 이미 열어 둔 프로세스는 계속 볼 수 있습니다.",
+  "gamepad.nodeVisibleSession": "{0}은(는) 세션 '{1}'({2})에만 표시됩니다."
 }
