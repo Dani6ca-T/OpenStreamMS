@@ -795,7 +795,7 @@ internal sealed class ActiveSeatHost
             style, x, y, w, h, IntPtr.Zero, IntPtr.Zero, wc.hInstance, IntPtr.Zero);
 
         if (hwnd == IntPtr.Zero)
-            throw new Win32Exception(Marshal.GetLastWin32Error(), "CreateWindowEx falló");
+            throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("seatHost.createWindowFailed"));
 
         // Peek (pasar el ratón por una miniatura de la barra de tareas) vuelve transparentes todas
         // las demás ventanas, también las "siempre encima": el puesto dejaría ver lo que hay detrás.
@@ -834,8 +834,7 @@ internal sealed class ActiveSeatHost
             Logger.Log(BackendText.Get("seatHost.consoleWindowsMoved", moved));
         // Una misma ventana que no se deja mover fallaría en cada barrido: se anota una vez.
         foreach (var h in failed.Where(_unmovable.Add))
-            Logger.Warning(BackendText.Get("seatHost.consoleWindowMoveFailed", ConsoleWindows.Describe(h)) +
-                           "(¿programa elevado?). Cerrarla y abrirla la saca en la pantalla buena.");
+            Logger.Warning(BackendText.Get("seatHost.consoleWindowMoveFailed", ConsoleWindows.Describe(h)));
     }
 
     private void Cleanup()
