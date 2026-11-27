@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Munkamenet-konfiguráció frissítve.",
   "session.logRestartAfterConfigFailed": "Nem sikerült újraindítani a munkamenetet a konfiguráció frissítése után: {0}",
   "session.alreadyInState": "A munkamenet már ebben az állapotban van: {0}.",
-  "error.request": "A kérés nem hajtható végre."
+  "error.request": "A kérés nem hajtható végre.",
+  "session.logPairingStateMirrorCompleted": "[{0}] A sunshine_state.json késleltetett tükrözése befejeződött a párosítás módosítása után.",
+  "session.logPairingStateMirrorFailed": "[{0}] A sunshine_state.json késleltetett tükrözése nem sikerült a párosítás módosítása után: {1}",
+  "session.logAutoStartingEnabled": "{0} engedélyezett munkamenet automatikus indítása...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Windows-munkamenet észlelve ({1}); helyi munkamenet indítása.",
+  "session.logConsoleSessionStartFailed": "[{0}] Nem sikerült elindítani a Windows-bejelentkezés után: {1}",
+  "session.logMonitorFailed": "[{0}] Megfigyelési hiba: {1}",
+  "session.logLoadedFromDisk": "[SessionService] {0} munkamenet betöltve a lemezről.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Figyelmeztetés a(z) {1} Windows-munkamenet bezárásakor: {2}",
+  "session.logStartAbandoned": "[{0}] Indítás megszakítva a kezdete előtt (másik parancs érkezett).",
+  "session.logCreatingRdpSession": "[{0}] RDP-munkamenet indítása a(z) \"{1}\" felhasználóhoz...",
+  "session.logSunshineLaunchFailed": "[{0}] A Sunshine indítása nem sikerült: {1}",
+  "session.logAutoStartFailed": "[{0}] Az automatikus indítás nem sikerült: {1}"
 }
