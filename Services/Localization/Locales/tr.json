@@ -318,5 +318,14 @@
   "seats.managerStarted": "Koltuk yöneticisi başlatıldı ({0} koltuk).",
   "seats.multiRdpCheckTimeout": "Multi-RDP denetimi 120 saniye içinde tamamlanmadı; koltuklar yine de otomatik başlatılacak.",
   "seats.autoStartSameConsoleUser": "'{0}' otomatik başlatılmayacak: konsolla aynı kullanıcıyı kullanıyor.",
-  "seats.autoStartFailed": "'{0}' otomatik başlatılamadı: {1}"
+  "seats.autoStartFailed": "'{0}' otomatik başlatılamadı: {1}",
+  "seats.monitorBusy": "Monitör '{0}' koltuğu tarafından kullanılıyor.",
+  "seats.created": "'{0}' koltuğu oluşturuldu.",
+  "seats.deleted": "'{0}' koltuğu silindi.",
+  "seats.microphoneAlreadyAssigned": "Mikrofon zaten '{0}' koltuğuna atanmış.",
+  "seats.monitorActivationFailed": "'{0}': monitör etkinleştirilemedi; zaten etkinse yine de görüntülenecek.",
+  "seats.devicesAssigned": "'{0}': {1} aygıt {2} oturumuna atandı.",
+  "seats.devicePortEmpty": "'{0}': '{1}' bağlantı noktasına bağlı hiçbir şey yok ({2}, {3}). Başka bir bağlantı noktasına, hub'a veya dock'a taşıdıysanız yeniden atayın.",
+  "seats.started": "'{0}' koltuğu etkin.",
+  "seats.startFailed": "'{0}' koltuğu başlatılamadı: {1}"
 }
