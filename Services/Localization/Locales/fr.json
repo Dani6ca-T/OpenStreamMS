@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "La manette {0} ({1}) passe à la session « {2} » (session Windows {3}) à la suite d’un changement de session composite.",
   "gamepad.futurePadsReserved": "Les prochaines manettes Moonlight sont masquées à l’avance jusqu’à ce que leur session soit connue ({0}).",
   "gamepad.futurePadReservationsReleased": "Aucun stream actif : les réservations des prochaines manettes ont été libérées.",
-  "gamepad.futurePadReservationFailed": "Impossible de réserver les prochaines manettes dans HidHide : {0}"
+  "gamepad.futurePadReservationFailed": "Impossible de réserver les prochaines manettes dans HidHide : {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} est visible uniquement dans la session « {1} » ({2}) depuis son arrivée ; redémarré pour que cette session le détecte.",
+  "gamepad.nodeVisibleAfterRestart": "{0} est visible uniquement dans la session « {1} » ({2}) ; redémarré pour fermer les handles des autres sessions.",
+  "gamepad.nodeRestartDeferred": "{0} est visible uniquement dans la session « {1} » ({2}), mais Windows a différé son redémarrage car un autre processus l’utilise ; les processus qui l’ont déjà ouvert continueront de le voir jusqu’à sa fermeture.",
+  "gamepad.nodeLateRestartFailed": "{0} a été masqué tardivement et n’a pas pu être redémarré : {1}. Un processus d’une autre session qui l’avait déjà ouvert le voit toujours.",
+  "gamepad.nodeVisibleSession": "{0} est visible uniquement dans la session « {1} » ({2})."
 }
