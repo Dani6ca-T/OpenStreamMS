@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] Помилка WTSEnumerateProcesses ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Не вдалося відкрити '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Не вдалося завершити '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) завершено в сеансі {2}."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) завершено в сеансі {2}.",
+  "sunshine.configUpdateFailed": "[Sunshine] Не вдалося оновити sunshine.conf: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Не вдалося налаштувати облікові дані: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Не вдалося налаштувати VDD в apps.json: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Не вдалося налаштувати ізольоване середовище в apps.json: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Не вдалося налаштувати запис Steam в apps.json: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Не вдалося налаштувати записи Reboot/Power Off в apps.json: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Не вдалося налаштувати програми розширень в apps.json: {0}",
+  "sunshine.launching": "[Sunshine] Запуск у сеансі {0}: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Не вдалося запустити: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] Не вдалося підтвердити кодер у журналі; залишаємо поточне налаштування."
 }
