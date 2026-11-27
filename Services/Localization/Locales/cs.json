@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] Oprávnění instance upravena pro \"{0}\" (zápis pouze do config): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Nepodařilo se upravit oprávnění pro \"{0}\" v {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Brána firewall ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Aktualizace instance Sunshine: {1} → {2} (config/, párování, přihlašovací údaje a nastavení zůstávají zachovány)."
+  "session.logSunshineInstanceUpdating": "[{0}] Aktualizace instance Sunshine: {1} → {2} (config/, párování, přihlašovací údaje a nastavení zůstávají zachovány).",
+  "session.logHudEnsureFailed": "[HUD] HUD se nepodařilo inicializovat: {0}"
 }
