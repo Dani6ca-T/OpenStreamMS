@@ -1,4 +1,5 @@
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -52,7 +53,7 @@ public static class SeatHostControl
                 if (!LocalCaller.IsInConsoleSession(clientPid))
                 {
                     server.Dispose();
-                    Logger.Warning($"[Seats] Canal de control de anfitrión: rechazado el proceso {clientPid}, no está en la consola.");
+                    Logger.Warning(BackendText.Get("seatHostControl.rejectedProcess", clientPid));
                     await Task.Delay(500, ct);
                     continue;
                 }
@@ -63,7 +64,7 @@ public static class SeatHostControl
                     _serverPipe = server;
                     _serverChannel = new SeatChannel(server);
                 }
-                Logger.Log("[Seats] TrayApp conectado al canal de control de anfitrión.");
+                Logger.Log(BackendText.Get("seatHostControl.trayConnected"));
 
                 // Leer mensajes hasta que se desconecte
                 while (_serverRunning && !ct.IsCancellationRequested)
@@ -77,7 +78,7 @@ public static class SeatHostControl
             {
                 if (_serverRunning)
                 {
-                    Logger.Warning($"[Seats] Canal de control de anfitrión: {ex.Message}");
+                    Logger.Warning(BackendText.Get("seatHostControl.controlPipeError", ex.Message));
                     await Task.Delay(1000, ct);
                 }
             }
@@ -133,12 +134,12 @@ public static class SeatHostControl
                 try
                 {
                     _serverChannel.SendJson(msg);
-                    Logger.Log($"[Seats] Orden 'open_seat' enviada a TrayApp para puesto {seatId}.");
+                    Logger.Log(BackendText.Get("seatHostControl.openSeatSent", seatId));
                     return;
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Seats] No se pudo enviar 'open_seat' a TrayApp: {ex.Message}");
+                    Logger.Warning(BackendText.Get("seatHostControl.openSeatSendFailed", ex.Message));
                 }
             }
         }
@@ -146,7 +147,7 @@ public static class SeatHostControl
         // Si TrayApp no está conectado, lanzar proceso independiente en la consola
         if (ConsoleSession.TryGetUser(out uint consoleId, out _, out _))
         {
-            Logger.Log($"[Seats] TrayApp no conectado; lanzando presentador independiente en sesión de consola {consoleId}...");
+            Logger.Log(BackendText.Get("seatHostControl.trayNotConnectedLaunch", consoleId));
             new ProcessInSession().LaunchInSession(
                 consoleId,
                 Environment.ProcessPath!,
@@ -154,7 +155,7 @@ public static class SeatHostControl
         }
         else
         {
-            Logger.Warning("[Seats] No hay ningún usuario con sesión iniciada en la consola física.");
+            Logger.Warning(BackendText.Get("seatHostControl.consoleUserMissing"));
         }
     }
 
@@ -205,7 +206,7 @@ public static class SeatHostControl
                 await client.ConnectAsync(5000, ct);
                 SeatPipes.RequireServiceServer(client);
                 using var channel = new SeatChannel(client);
-                Logger.Log("[TrayApp] Conectado al canal de control de anfitrión de puestos.");
+                Logger.Log(BackendText.Get("seatHostControl.trayHostConnected"));
 
                 while (!ct.IsCancellationRequested)
                 {
@@ -240,7 +241,7 @@ public static class SeatHostControl
                         }
                         catch (Exception ex)
                         {
-                            Logger.Warning($"[TrayApp] Error procesando orden de puesto: {ex.Message}");
+                            Logger.Warning(BackendText.Get("seatHostControl.commandProcessingError", ex.Message));
                         }
                     }
                 }
