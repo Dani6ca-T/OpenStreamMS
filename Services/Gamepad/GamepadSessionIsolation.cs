@@ -176,7 +176,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         {
             if (_sharedHidHide is not { IsInvalid: false, IsClosed: false } h)
             {
-                Logger.Warning("[Gamepad] HidHide no está abierto por el aislamiento; el mando ViGEm se aislará al aparecer.");
+                Logger.Warning(BackendText.Get("gamepad.hidHideNotOpen"));
                 return false;
             }
             try
@@ -297,7 +297,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
 
         using var notification = Cm.WatchEnumeration((id, enumerated) => _arrivals.Writer.TryWrite((id, enumerated)));
         if (notification is null)
-            Logger.Warning("[Gamepad] No se pudo escuchar la llegada de dispositivos; solo se revisarán cada segundo.");
+            Logger.Warning(BackendText.Get("gamepad.deviceArrivalWatchUnavailable"));
 
         // Todo el trabajo en este bucle (un solo hilo): llegadas al instante y una
         // revisión periódica para lo que se escape (mandos previos, asignaciones pendientes).
@@ -318,7 +318,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 }
                 catch (Exception ex) when (ex is not OperationCanceledException)
                 {
-                    Logger.Warning($"[Gamepad] Error vigilando mandos: {ex.Message}");
+                    Logger.Warning(BackendText.Get("gamepad.monitorFailed", ex.Message));
                 }
             }
         }
@@ -348,7 +348,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (!_hidHideWarned)
             {
                 _hidHideWarned = true;
-                Logger.Warning("[Gamepad] HidHide no está instalado: los mandos serán visibles en todas las sesiones.");
+                Logger.Warning(BackendText.Get("gamepad.hidHideNotInstalled"));
             }
             return false;
         }
@@ -357,12 +357,12 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (!HidHide.GetActive(h))
             {
                 HidHide.SetActive(h, true);
-                Logger.Log("[Gamepad] HidHide activado.");
+                Logger.Log(BackendText.Get("gamepad.hidHideEnabled"));
             }
         }
         catch (Win32Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo configurar HidHide: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.hidHideConfigureFailed", ex.Message));
             h.Dispose();
             return false;
         }
