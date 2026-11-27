@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "Desteklenen istemciler için etkin (varsayılan)",
     "wan_encryption_mode_2": "Tüm istemciler için gerekli",
     "wan_encryption_mode_desc": "Bu, İnternet üzerinden akış yaparken şifrelemenin ne zaman kullanılacağını belirler. Şifreleme, özellikle daha az güçlü ana bilgisayarlarda ve istemcilerde akış performansını düşürebilir."
+  ,
+    "port_webrtc_discovery": "Moonlight WebRTC TV keşfi",
+    "port_webrtc_media": "Moonlight WebRTC video ve ses",
+    "port_webrtc_media_any": "Herhangi biri",
+    "port_webrtc_signaling": "Moonlight WebRTC TV bağlantısı",
+    "stream_protocol": "Akış Protokolleri",
+    "stream_protocol_both": "Her ikisi",
+    "stream_protocol_desc": "Sunshine'ın hizmet verdiği istemciler: Moonlight uygulamaları, Samsung Tizen TV'lerde Moonlight WebRTC veya her ikisi. Kapalı protokolün bağlantı noktaları kapalı kalır.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Moonlight WebRTC Son Medya Bağlantı Noktası",
+    "webrtc_media_port_max_desc": "WebRTC'nin video ve ses için kullanabileceği son UDP bağlantı noktası. 0, aralığı 65535'e kadar açık bırakır.",
+    "webrtc_media_port_min": "Moonlight WebRTC İlk Medya Bağlantı Noktası",
+    "webrtc_media_port_min_desc": "WebRTC'nin video ve ses için kullanabileceği ilk UDP bağlantı noktası; böylece güvenlik duvarında yalnızca bu aralığın açılması yeterlidir. Her iki bağlantı noktası da 0 ise WebRTC herhangi bir bağlantı noktası seçebilir.",
+    "webrtc_port": "Moonlight WebRTC TV Bağlantı Noktası",
+    "webrtc_port_desc": "TV'nin bağlandığı WebSocket'in TCP bağlantı noktası. PC adresiyle birlikte başka bir bağlantı noktası girilmezse TV uygulaması 8000'i kullanır. Aralık: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "Sunshine’ın izinlere ihtiyacı var",
