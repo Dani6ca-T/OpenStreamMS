@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Dieser Sitzplatz verwendet denselben Benutzer wie die Konsole und kann nicht eigenständig starten. Starten Sie ihn über OpenStreamMS oder weisen Sie ihm eine andere Sitzung zu.",
   "seats.monitorAlreadyAssigned": "Der Monitor ist bereits Sitzplatz „{0}“ zugewiesen.",
   "seats.monitorAreaOverlap": "Dieser Monitorbereich überschneidet sich mit dem Bereich von Sitzplatz „{0}“.",
-  "seats.notFound": "Sitzplatz {0} ist nicht vorhanden."
+  "seats.notFound": "Sitzplatz {0} ist nicht vorhanden.",
+  "session.logStopping": "[{0}] Wird beendet...",
+  "session.logRestartRequested": "[{0}] Neustart angefordert (aktueller Status: {1}).",
+  "session.logRestartSuperseded": "[{0}] Neustart abgebrochen: Während des Beendens ist ein anderer Befehl eingetroffen.",
+  "session.logSunshineKillTimeout": "[{0}] Zeitüberschreitung beim Beenden von Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Die Windows-Sitzung {1} wurde nicht vollständig geschlossen.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) beendet.",
+  "session.logStopWarning": "[{0}] Warnung beim Beenden: {1}",
+  "session.logStopped": "[{0}] Beendet."
 }
