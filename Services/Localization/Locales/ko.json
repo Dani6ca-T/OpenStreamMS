@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "sunshine.conf 업데이트됨 ({0}): {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: 자격 증명이 이미 최신 상태입니다(사용자={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: 자격 증명이 이미 최신 상태이며 root를 정리했습니다(사용자={0})",
-  "sunshineCfg.credentialsSet": "sunshine_state.json: 자격 증명을 설정했습니다(사용자={0})"
+  "sunshineCfg.credentialsSet": "sunshine_state.json: 자격 증명을 설정했습니다(사용자={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] 중지 전에 정상적인 플러시를 요청하지 못했습니다: {0}",
+  "sunshine.credentialsCliLaunchFailed": "sunshine.exe --creds를 시작하지 못했습니다.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] --creds 후 root를 복원하지 못했습니다: {0}",
+  "sunshine.uniqueIdCheckFailed": "고유 ID를 확인하지 못했습니다: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] sunshine_state.json을 복원하지 못했습니다: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] sunshine_state.json 미러를 시작하지 못했습니다: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] {0}을(를) 백업에 복사하지 못했습니다: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] {0}을(를) 복원하지 못했습니다: {1}"
 }
