@@ -193,7 +193,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             }
             catch (Win32Exception ex)
             {
-                Logger.Warning($"[Gamepad] No se pudo preparar el jail de HidHide del mando ViGEm: {ex.Message}");
+                Logger.Warning(BackendText.Get("gamepad.jailPrepareFailed", ex.Message));
                 return false;
             }
         }
@@ -374,10 +374,9 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         var version = HidHide.DriverVersion();
         SessionJailSupported = version is null || version >= HidHide.MinSessionJailVersion;
         if (SessionJailSupported)
-            Logger.Log($"[Gamepad] HidHide {version?.ToString() ?? "(versión desconocida)"} disponible: mandos aislados por sesión.");
+            Logger.Log(BackendText.Get("gamepad.hidHideVersionSupported", version?.ToString() ?? "(unknown version)"));
         else
-            Logger.Warning($"[Gamepad] HidHide {version} no aísla por sesión (hace falta {HidHide.MinSessionJailVersion} o posterior): " +
-                           "los mandos serán visibles en todas las sesiones. Actualiza HidHide.");
+            Logger.Warning(BackendText.Get("gamepad.hidHideVersionUnsupported", version, HidHide.MinSessionJailVersion));
         LogHidHideExceptions(h);
         RemoveStaleJails();
         return true;
@@ -393,15 +392,13 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         {
             var apps = HidHide.GetWhitelist(h);
             bool inverse = HidHide.GetInverse(h);
-            Logger.Log($"[Gamepad] HidHide: modo inverso {(inverse ? "activado" : "desactivado")}; " +
-                       $"lista blanca ({apps.Count}): {(apps.Count == 0 ? "vacía" : string.Join(" | ", apps))}.");
+            Logger.Log(BackendText.Get("gamepad.hidHideWhitelistStatus", inverse ? "enabled" : "disabled", apps.Count, apps.Count == 0 ? "empty" : string.Join(" | ", apps)));
             if (!inverse && apps.Count > 0)
-                Logger.Warning("[Gamepad] Los programas de la lista blanca de HidHide ven los mandos de todas las sesiones, " +
-                               "aunque estén asignados a otra.");
+                Logger.Warning(BackendText.Get("gamepad.hidHideWhitelistWarning"));
         }
         catch (Win32Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo leer la lista blanca de HidHide: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.hidHideWhitelistReadFailed", ex.Message));
         }
     }
 
@@ -417,11 +414,11 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 @"SOFTWARE\Microsoft\Input\Settings\ControllerProcessor\ControllerToVKMapping");
             if (key.GetValue("Enabled") is int v && v == 0) return;
             key.SetValue("Enabled", 0, RegistryValueKind.DWord);
-            Logger.Log("[Gamepad] ControllerToVKMapping desactivado (ignora el aislamiento de mandos por sesión).");
+            Logger.Log(BackendText.Get("gamepad.controllerToVkDisabled"));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo desactivar ControllerToVKMapping: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.controllerToVkDisableFailed", ex.Message));
         }
     }
 
