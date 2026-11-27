@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Ovladač {0} ({1}) byl přesunut do relace „{2}“ (relace Windows {3}) kvůli změně složené relace.",
   "gamepad.futurePadsReserved": "Následující ovladače Moonlight jsou předem skryty, dokud nebude známa jejich relace ({0}).",
   "gamepad.futurePadReservationsReleased": "Neprobíhá žádný stream: předběžná rezervace dalších ovladačů byla odebrána.",
-  "gamepad.futurePadReservationFailed": "Nepodařilo se rezervovat další ovladače v HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Nepodařilo se rezervovat další ovladače v HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} je viditelný pouze v relaci „{1}“ ({2}) od svého připojení; byl restartován, aby jej tato relace rozpoznala.",
+  "gamepad.nodeVisibleAfterRestart": "{0} je viditelný pouze v relaci „{1}“ ({2}); byl restartován, aby se zavřely handly ostatních relací.",
+  "gamepad.nodeRestartDeferred": "{0} je viditelný pouze v relaci „{1}“ ({2}), ale Windows odložil restart (používá jej jiný proces); procesy, které jej již otevřely, jej uvidí, dokud jej nezavřou.",
+  "gamepad.nodeLateRestartFailed": "{0} byl skryt pozdě a nepodařilo se jej restartovat: {1}. Proces z jiné relace, který jej již otevřel, jej stále vidí.",
+  "gamepad.nodeVisibleSession": "{0} je viditelný pouze v relaci „{1}“ ({2})."
 }
