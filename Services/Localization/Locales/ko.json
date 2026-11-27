@@ -460,5 +460,6 @@
   "error.seatName": "좌석 이름은 필수입니다.",
   "error.stopSeat": "구성을 변경하기 전에 좌석을 중지하세요.",
   "error.primaryMonitor": "기본 모니터는 좌석에 할당할 수 없습니다.",
-  "error.assigned": "선택한 리소스는 이미 할당되어 있습니다."
+  "error.assigned": "선택한 리소스는 이미 할당되어 있습니다.",
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\"을(를) 슬롯 {2}에 할당했습니다({3}x{4})."
 }
