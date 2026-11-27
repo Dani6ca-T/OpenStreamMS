@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Seats;
 
@@ -90,7 +91,7 @@ public static class DisplayTopology
     public static bool Activate(string devicePath)
     {
         var target = Enumerate().FirstOrDefault(d => d.DevicePath == devicePath);
-        if (target is null) { Logger.Warning($"[Seats] Monitor no encontrado: {devicePath}"); return false; }
+        if (target is null) { Logger.Warning(BackendText.Get("displayTopology.monitorNotFound", devicePath)); return false; }
         if (target.Active) return true;
 
         GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, out var na, out var nma);
@@ -109,12 +110,12 @@ public static class DisplayTopology
             cand.sMode = cand.tMode = 0xFFFFFFFF;   // sin modo: lo elige Windows
             var combined = active.Take((int)na).Append(cand).ToArray();
             int r = SetDisplayConfig((uint)combined.Length, combined, nma, modes, SDC_APPLY | SDC_USE_SUPPLIED_DISPLAY_CONFIG | SDC_ALLOW_CHANGES | SDC_SAVE_TO_DATABASE);
-            if (r != 0) { Logger.Warning($"[Seats] SetDisplayConfig (activar) err={r}"); return false; }
-            Logger.Log($"[Seats] Monitor activado: {target.FriendlyName}");
+            if (r != 0) { Logger.Warning(BackendText.Get("displayTopology.activateConfigFailed", r)); return false; }
+            Logger.Log(BackendText.Get("displayTopology.monitorActivated", target.FriendlyName));
             PlaceAtCorner(devicePath);
             return true;
         }
-        catch (Exception ex) { Logger.Warning($"[Seats] No se pudo activar el monitor: {ex.Message}"); return false; }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("displayTopology.activateFailed", ex.Message)); return false; }
         finally { Marshal.FreeHGlobal(modes); Marshal.FreeHGlobal(modesAll); }
     }
 
@@ -149,13 +150,13 @@ public static class DisplayTopology
             *(int*)(seat + 28) = primW;
             *(int*)(seat + 32) = primH;
             int r = SetDisplayConfig(np, paths.Take((int)np).ToArray(), nm, modes, SDC_APPLY | SDC_USE_SUPPLIED_DISPLAY_CONFIG | SDC_SAVE_TO_DATABASE);
-            if (r != 0) { Logger.Warning($"[Seats] SetDisplayConfig (colocar en esquina) err={r}"); return false; }
-            Logger.Log($"[Seats] Monitor '{target.FriendlyName}' colocado en la esquina ({primW},{primH}).");
+            if (r != 0) { Logger.Warning(BackendText.Get("displayTopology.placeConfigFailed", r)); return false; }
+            Logger.Log(BackendText.Get("displayTopology.monitorPlaced", target.FriendlyName, primW, primH));
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] No se pudo colocar el monitor en la esquina: {ex.Message}");
+            Logger.Warning(BackendText.Get("displayTopology.placeFailed", ex.Message));
             return false;
         }
         finally { Marshal.FreeHGlobal(modes); }
@@ -182,7 +183,7 @@ public static class DisplayTopology
     public static unsafe bool MakePrimary(string id)
     {
         var target = Find(id);
-        if (target is null || !target.Active) { Logger.Warning($"[Seats] MakePrimary: monitor no activo: {id}"); return false; }
+        if (target is null || !target.Active) { Logger.Warning(BackendText.Get("displayTopology.primaryMonitorInactive", id)); return false; }
         if (target.PosX == 0 && target.PosY == 0) return true;
 
         GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, out var np, out var nm);
@@ -202,11 +203,11 @@ public static class DisplayTopology
             }
             int r = SetDisplayConfig(np, paths.Take((int)np).ToArray(), nm, modes,
                                      SDC_APPLY | SDC_USE_SUPPLIED_DISPLAY_CONFIG | SDC_SAVE_TO_DATABASE);
-            if (r != 0) { Logger.Warning($"[Seats] SetDisplayConfig (principal) err={r}"); return false; }
-            Logger.Log($"[Seats] Monitor principal: {target.FriendlyName} (estaba en {target.PosX},{target.PosY}).");
+            if (r != 0) { Logger.Warning(BackendText.Get("displayTopology.primaryConfigFailed", r)); return false; }
+            Logger.Log(BackendText.Get("displayTopology.primaryChanged", target.FriendlyName, target.PosX, target.PosY));
             return true;
         }
-        catch (Exception ex) { Logger.Warning($"[Seats] No se pudo cambiar el monitor principal: {ex.Message}"); return false; }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("displayTopology.primaryChangeFailed", ex.Message)); return false; }
         finally { Marshal.FreeHGlobal(modes); }
     }
 
@@ -234,12 +235,12 @@ public static class DisplayTopology
                     if (all[i].tLo == target.AdapterLow && all[i].tId == target.TargetId) all[i].flags &= ~DISPLAYCONFIG_PATH_ACTIVE;
                 int r2 = SetDisplayConfig((uint)all.Length, all, nm, modes,
                                           SDC_APPLY | SDC_USE_SUPPLIED_DISPLAY_CONFIG | SDC_ALLOW_CHANGES | SDC_SAVE_TO_DATABASE);
-                if (r2 != 0) { Logger.Warning($"[Seats] SetDisplayConfig (desactivar) err={r}/{r2}"); return false; }
+                if (r2 != 0) { Logger.Warning(BackendText.Get("displayTopology.deactivateConfigFailed", r, r2)); return false; }
             }
-            Logger.Log($"[Seats] Monitor sacado del escritorio: {target.FriendlyName}");
+            Logger.Log(BackendText.Get("displayTopology.monitorDeactivated", target.FriendlyName));
             return true;
         }
-        catch (Exception ex) { Logger.Warning($"[Seats] No se pudo desactivar el monitor: {ex.Message}"); return false; }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("displayTopology.deactivateFailed", ex.Message)); return false; }
         finally { Marshal.FreeHGlobal(modes); }
     }
 }
