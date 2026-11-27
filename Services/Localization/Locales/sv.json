@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide är inte installerat: handkontroller är synliga i alla sessioner.",
   "gamepad.hidHideEnabled": "HidHide aktiverat.",
   "gamepad.hidHideConfigureFailed": "Det gick inte att konfigurera HidHide: {0}",
-  "gamepad.monitorFailed": "Fel vid övervakning av handkontroller: {0}"
+  "gamepad.monitorFailed": "Fel vid övervakning av handkontroller: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} är tillgängligt: handkontroller isoleras per session.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} stöder inte sessionsisolering (version {1} eller senare krävs): handkontroller kommer att vara synliga i alla sessioner. Uppdatera HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: omvänt läge {0}; vitlista ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Program på HidHides vitlista kan se handkontroller från alla sessioner, även när de har tilldelats en annan session.",
+  "gamepad.hidHideWhitelistReadFailed": "Det gick inte att läsa HidHides vitlista: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping har inaktiverats (kringgår isolering av handkontroller per session).",
+  "gamepad.controllerToVkDisableFailed": "Det gick inte att inaktivera ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Det gick inte att förbereda HidHide-jail för ViGEm-handkontrollen: {0}"
 }
