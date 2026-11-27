@@ -1584,12 +1584,10 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (Restart(instanceId)) return true;
             if (UsbPort.Cycle(instanceId, out var detail))
             {
-                Logger.Log($"[Gamepad] {instanceId}: alguien lo tenía abierto y Windows aplazó el reinicio; " +
-                           $"se ha desconectado y reconectado su puerto USB ({detail}) {why}.");
+                Logger.Log(BackendText.Get("gamepad.usbPortCycled", instanceId, detail, why));
                 return true;
             }
-            Logger.Warning($"[Gamepad] {instanceId}: Windows aplazó el reinicio (lo tiene abierto otro proceso) y no se pudo " +
-                           $"reciclar su puerto USB ({detail}). Lo sigue leyendo quien ya lo tuviera abierto hasta que lo cierre.");
+            Logger.Warning(BackendText.Get("gamepad.usbPortCycleFailed", instanceId, detail));
             return false;
         }
     }
