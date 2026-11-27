@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses selhalo ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Nepodařilo se otevřít '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Nepodařilo se ukončit '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) ukončen v relaci {2}."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) ukončen v relaci {2}.",
+  "sunshine.configUpdateFailed": "[Sunshine] Nepodařilo se aktualizovat sunshine.conf: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Nepodařilo se připravit přihlašovací údaje: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Nepodařilo se nakonfigurovat VDD v apps.json: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Nepodařilo se nakonfigurovat izolované prostředí v apps.json: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Nepodařilo se nakonfigurovat položku Steam v apps.json: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Nepodařilo se nakonfigurovat položky Reboot/Power Off v apps.json: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Nepodařilo se nakonfigurovat aplikace rozšíření v apps.json: {0}",
+  "sunshine.launching": "[Sunshine] Spouštění v relaci {0}: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Spuštění se nezdařilo: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] V protokolu se nepodařilo potvrdit kodér; nastavení zůstává beze změny."
 }
