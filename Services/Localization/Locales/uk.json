@@ -171,5 +171,13 @@
   "power.noPending": "Немає очікуваного вимкнення для скасування ({0}).",
   "power.shutdownFailed": "Помилка shutdown.exe: {0}",
   "power.scheduled": "{0} заплановано через {1} с.",
-  "settings.logLevelChanged": "Рівень журналювання: {0} → {1}."
+  "settings.logLevelChanged": "Рівень журналювання: {0} → {1}.",
+  "seat.restartSession": "[Місця] Перезапуск сеансу «{1}» місця «{0}» без вимкнення місця.",
+  "seat.restartSizeMismatch": "Сеанс відновився з розміром {0}x{1} замість {2}x{3}.",
+  "seat.restartSessionDone": "[Місця] «{0}»: сеанс перезапущено; місце залишається в сеансі Windows {1}.",
+  "seat.restartSessionFailed": "[Місця] «{0}»: не вдалося перезапустити сеанс без вимкнення місця ({1}); місце буде створено заново.",
+  "seat.restartSeatFailed": "[Місця] «{0}»: не вдалося знову запустити місце: {1}",
+  "seat.waitingImageFailed": "[Місця] «{0}»: не вдалося показати зображення очікування: {1}",
+  "seat.sessionDidNotRestart": "Сеанс не запустився повторно.",
+  "seat.sessionRestartTimeout": "Час очікування перезапуску сеансу вичерпано."
 }
