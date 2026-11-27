@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Icône de la zone de notification retirée du démarrage automatique.",
   "uninstall.driverError": "{0} : {1}",
   "install.executable": "Exécutable :",
-  "install.configPath": "Configuration :"
+  "install.configPath": "Configuration :",
+  "diagnostics.logGenerated": "Archive de diagnostic générée ({0} Ko, événements sur {1} jour(s)).",
+  "diagnostics.logGenerateFailed": "Impossible de générer l’archive de diagnostic : {0}",
+  "hud.sessionRestarted": "La session « {0} » a été redémarrée depuis son HUD.",
+  "hud.powerDenied": "Arrêt/redémarrage refusé depuis « {0} » : la session n’y est pas autorisée.",
+  "hud.powerRequested": "{0} du PC demandé par « {1} ».",
+  "hud.powerCancelled": "Arrêt/redémarrage annulé depuis « {0} ».",
+  "power.cancelled": "Arrêt/redémarrage annulé.",
+  "power.noPending": "Aucun arrêt en attente à annuler ({0}).",
+  "power.shutdownFailed": "Échec de shutdown.exe : {0}",
+  "power.scheduled": "{0} planifié dans {1} s.",
+  "settings.logLevelChanged": "Niveau de journalisation : {0} → {1}."
 }
