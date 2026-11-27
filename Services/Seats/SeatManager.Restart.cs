@@ -62,7 +62,7 @@ public sealed partial class SeatManager
             var hz = seat.Monitor is { } mon && ResolveMode(mon, session) is { } m ? m.Hz : session.RdpFrameRate;
             if (active.Width != session.RdpWidth || active.Height != session.RdpHeight || hz != session.RdpFrameRate || mic is not null)
             {
-                Status(seat, $"Ajustando la sesión a {active.Width}x{active.Height} @ {hz} Hz…");
+                Status(seat, BackendText.Get("seat.restartAdjustingResolution", active.Width, active.Height, hz));
                 sessions.ReconnectRdp(session.Id, active.Width, active.Height, hz, mic);
             }
 
@@ -131,7 +131,7 @@ public sealed partial class SeatManager
             var path = Path.Combine(dir, $"seat-wait-{seat.Id:N}.bgra");
             File.WriteAllBytes(path, WaitingImage.Render(active.Width, active.Height, session.Name, BackendText.Get("composite.reconnecting")));
             active.HostChannel.SendJson(new JsonObject { ["op"] = "waiting", ["path"] = path });
-            Status(seat, "Reiniciando la sesión…");
+            Status(seat, BackendText.Get("seat.restartRestartingSession"));
         }
         catch (Exception ex)
         {
