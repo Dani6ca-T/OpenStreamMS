@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "That catalog isn't in the list.",
   "ext.catalogEntryMissing": "The catalog no longer lists {0}.",
   "ext.invalidPackage": "The package isn't a valid extension: {0}",
-  "ext.noManifest": "The package has no {0}."
+  "ext.noManifest": "The package has no {0}.",
+  "cli.error.missingSeatAgentPipe": "ERROR: Missing pipe name for --seat-agent.",
+  "cli.error.missingSeatHostPipe": "ERROR: Missing pipe name for --seat-host.",
+  "cli.error.unknownCommand": "Unknown command: '{0}'",
+  "cli.error.helpHint": "Use --help to see available commands.",
+  "cli.error.adminRequired": "ERROR: This operation requires administrator privileges.",
+  "cli.error.adminHint": "Run the .exe using 'Run as administrator'."
 }
