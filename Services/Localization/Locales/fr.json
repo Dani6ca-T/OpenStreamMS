@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Verrouillage de la session : le poste demandera un mot de passe…",
   "seats.statusActive": "Actif : image, audio et périphériques connectés.",
   "seats.statusDisconnectedFromSeat": "Déconnecté depuis le poste. Rallumez-le depuis OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Arrêté : {0}. Rallumez-le depuis OpenStreamMS."
+  "seats.statusStoppedAfterError": "Arrêté : {0}. Rallumez-le depuis OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Ce poste utilise le même utilisateur que la console et ne peut pas démarrer seul. Démarrez-le depuis OpenStreamMS ou attribuez-lui une autre session.",
+  "seats.monitorAlreadyAssigned": "Le moniteur est déjà affecté au poste « {0} ».",
+  "seats.monitorAreaOverlap": "Cette zone du moniteur chevauche celle du poste « {0} ».",
+  "seats.notFound": "Le poste {0} n’existe pas."
 }
