@@ -1,5 +1,5 @@
 {
-  "GroupService": "Service:",
+  "GroupService": "Tjänst:",
   "TaskStartService": "Starta tjänsten direkt efter installationen",
   "IconComment": "OpenStreamMS kontrollpanel",
   "StatusInstallService": "Registrera Windows-tjänsten och installera drivrutiner (ViGEmBus, HidHide)...",
