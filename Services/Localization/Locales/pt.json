@@ -171,5 +171,13 @@
   "power.noPending": "Não há desligamento pendente para cancelar ({0}).",
   "power.shutdownFailed": "Falha do shutdown.exe: {0}",
   "power.scheduled": "{0} agendado para daqui a {1}s.",
-  "settings.logLevelChanged": "Nível de log: {0} → {1}."
+  "settings.logLevelChanged": "Nível de log: {0} → {1}.",
+  "seat.restartSession": "[Lugares] Reiniciando a sessão '{1}' do lugar '{0}' sem desligar o lugar.",
+  "seat.restartSizeMismatch": "A sessão voltou em {0}x{1} em vez de {2}x{3}.",
+  "seat.restartSessionDone": "[Lugares] '{0}': sessão reiniciada; o lugar continua na sessão do Windows {1}.",
+  "seat.restartSessionFailed": "[Lugares] '{0}': não foi possível reiniciar a sessão sem desligar o lugar ({1}); o lugar será reconstruído.",
+  "seat.restartSeatFailed": "[Lugares] '{0}': não foi possível ligar o lugar novamente: {1}",
+  "seat.waitingImageFailed": "[Lugares] '{0}': não foi possível mostrar a imagem de espera: {1}",
+  "seat.sessionDidNotRestart": "A sessão não voltou a iniciar.",
+  "seat.sessionRestartTimeout": "O tempo limite para reiniciar a sessão foi excedido."
 }
