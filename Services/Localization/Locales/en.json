@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} is visible only in session '{1}' ({2}).",
   "gamepad.consoleSessionChanged": "Console session changed from {0} to {1}: physical controllers are being reassigned.",
   "gamepad.sideInputDriverRestored": "{0} (controller keyboard or mouse) returned to its driver: the controller is at the console.",
-  "gamepad.sideInputCaptured": "{0} (controller keyboard or mouse) was detached while the controller is in another session: its keys (e.g. the capture button) no longer reach the console."
+  "gamepad.sideInputCaptured": "{0} (controller keyboard or mouse) was detached while the controller is in another session: its keys (e.g. the capture button) no longer reach the console.",
+  "gamepad.physicalPadConsole": "Physical controller {0} is visible only in the console session ({1}).",
+  "gamepad.physicalPadAssigned": "Physical controller {0} is assigned to a seat or stream session: visible only in session {1}.",
+  "gamepad.steamFilterWarning": "{0} has Steam filter {1} in its device stack: Steam in other sessions (including the console) can still read it. Unplug and reconnect it after the seat or stream is running.",
+  "gamepad.physicalPadRestarted": "{0} restarted: session {1} can no longer read it.",
+  "gamepad.physicalPadRestartFailed": "Could not restart {0}: {1}. The session that already had it open will keep seeing it until it closes it."
 }
