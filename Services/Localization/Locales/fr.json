@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Impossible de changer le moniteur principal : {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Échec de SetDisplayConfig (désactivation) : {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Moniteur retiré du bureau : {0}",
-  "displayTopology.deactivateFailed": "[Seats] Impossible de désactiver le moniteur : {0}"
+  "displayTopology.deactivateFailed": "[Seats] Impossible de désactiver le moniteur : {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Canal de contrôle de l’hôte : processus {0} rejeté, car il n’appartient pas à la session de la console.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp connecté au canal de contrôle de l’hôte.",
+  "seatHostControl.controlPipeError": "[Seats] Erreur du canal de contrôle de l’hôte : {0}",
+  "seatHostControl.openSeatSent": "[Seats] Commande 'open_seat' envoyée à TrayApp pour le poste {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Impossible d’envoyer 'open_seat' à TrayApp : {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp n’est pas connecté ; lancement du présentateur autonome dans la session de console {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Aucun utilisateur n’est connecté à la console physique.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Connecté au canal de contrôle des hôtes de postes.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Erreur lors du traitement de la commande du poste : {0}"
 }
