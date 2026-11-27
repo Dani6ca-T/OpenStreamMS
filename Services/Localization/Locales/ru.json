@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Сбой Sunshine с STATUS_BREAKPOINT ({0}) в модуле {1} (PID={2}).",
   "sunshineCrash.fault": "Сбой Sunshine: {0} в модуле {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Не удалось прочитать событие Application Error: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil вернул {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil вернул {0}: {1}",
+  "sunshine.stateMirrorStarted": "Запущено зеркалирование sunshine_state.json: {0}"
 }
