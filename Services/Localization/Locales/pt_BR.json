@@ -237,5 +237,15 @@
   "consoleLock.journalEmpty": "Empty journal.",
   "consoleLock.userNotLoggedOn": "[Seats] '{0}' has no active session; console locking will be restored later.",
   "consoleLock.released": "[Seats] Console locking restored for '{0}'.",
-  "consoleLock.releaseFailed": "[Seats] Could not restore console locking: {0}"
+  "consoleLock.releaseFailed": "[Seats] Could not restore console locking: {0}",
+  "seatIdentify.commandFailed": "[Seats] --identify {0} failed: {1}",
+  "seatIdentify.operationFailed": "[Identify] {0}: {1}",
+  "seatIdentify.displayNotConnected": "[Identify] The display is not connected.",
+  "seatIdentify.displayActivateFailed": "[Identify] Could not activate '{0}'.",
+  "virtualDisplay.created": "[VirtualDisplay] Virtual display {0}x{1}@{2} created (target {3}, watchdog {4} s).",
+  "virtualDisplay.sudovdaMissing": "[VirtualDisplay] SudoVDA is not installed; the console cannot have its own half.",
+  "virtualDisplay.createFailed": "[VirtualDisplay] Could not create the virtual display: {0}",
+  "virtualDisplay.removeFailed": "[VirtualDisplay] Could not remove the virtual display: {0}",
+  "virtualDisplay.removed": "[VirtualDisplay] Virtual display removed.",
+  "virtualDisplay.ioctlFailed": "SudoVDA IOCTL 0x{0}"
 }
