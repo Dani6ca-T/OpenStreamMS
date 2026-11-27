@@ -318,5 +318,14 @@
   "seats.managerStarted": "좌석 관리자가 시작되었습니다({0}개 좌석).",
   "seats.multiRdpCheckTimeout": "multi-RDP 확인이 120초 내에 완료되지 않았습니다. 좌석은 계속 자동 시작됩니다.",
   "seats.autoStartSameConsoleUser": "'{0}'은(는) 자동 시작되지 않습니다. 콘솔과 동일한 사용자를 사용합니다.",
-  "seats.autoStartFailed": "'{0}' 자동 시작 실패: {1}"
+  "seats.autoStartFailed": "'{0}' 자동 시작 실패: {1}",
+  "seats.monitorBusy": "모니터를 좌석 '{0}'에서 사용 중입니다.",
+  "seats.created": "좌석 '{0}'이(가) 생성되었습니다.",
+  "seats.deleted": "좌석 '{0}'이(가) 삭제되었습니다.",
+  "seats.microphoneAlreadyAssigned": "마이크가 이미 좌석 '{0}'에 할당되어 있습니다.",
+  "seats.monitorActivationFailed": "'{0}': 모니터를 활성화할 수 없습니다. 이미 활성 상태라면 계속 표시됩니다.",
+  "seats.devicesAssigned": "'{0}': 세션 {2}에 장치 {1}개가 할당되었습니다.",
+  "seats.devicePortEmpty": "'{0}': '{1}' 포트에 연결된 장치가 없습니다({2}, {3}). 다른 포트, 허브 또는 도크로 옮겼다면 다시 할당하세요.",
+  "seats.started": "좌석 '{0}'이(가) 활성 상태입니다.",
+  "seats.startFailed": "좌석 '{0}' 시작 실패: {1}"
 }
