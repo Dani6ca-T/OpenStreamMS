@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) başarısız: {1}",
   "rdp.mstscReconnectFailedFallback": "mstsc yeniden bağlanamadı ({0}); FreeRDP ile yeniden deneniyor…",
   "rdp.reconnectWrongSession": "Yeniden bağlantı {1} yerine {0} oturumuna ulaştı.",
-  "rdp.sessionReconnected": "{0} oturumu {1} ms içinde yeniden bağlandı."
+  "rdp.sessionReconnected": "{0} oturumu {1} ms içinde yeniden bağlandı.",
+  "rdp.freeRdpClientDisconnected": "FreeRDP istemcisinin bağlantısı kesildi; {0} oturumu etkin kalıyor (VDD).",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession uyarısı: {0}",
+  "rdp.logoffFailed": "{0} oturumu için WTSLogoffSession başarısız: {1}",
+  "rdp.logoffCompleted": "{0} oturumu {1} ms içinde kapatıldı.",
+  "rdp.logoffSessionCompleted": "{0} oturumu kapatıldı.",
+  "rdp.logoffWarning": "WTSLogoffSession uyarısı (oturum {0}): {1}"
 }
