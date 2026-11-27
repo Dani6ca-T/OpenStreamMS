@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine се срина със STATUS_BREAKPOINT ({0}) в {1} (PID={2}).",
   "sunshineCrash.fault": "Sunshine се срина с {0} в {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Не може да се прочете събитието Application Error: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil върна {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil върна {0}: {1}",
+  "sunshine.stateMirrorStarted": "Стартирано е огледално копиране на sunshine_state.json: {0}"
 }
