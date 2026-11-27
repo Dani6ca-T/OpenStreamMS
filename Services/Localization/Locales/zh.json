@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "无法确保 TermService 正在运行：{0}。如果远程桌面已关闭，环回连接将失败；请在“系统 → 远程桌面”中启用，或重启 Windows。",
   "rdp.registryKeyOpenFailed": "无法打开 HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "无法将 {0} 写入 HKLM\\\\{1}：{2}"
+  "rdp.registryWriteFailed": "无法将 {0} 写入 HKLM\\\\{1}：{2}",
+  "rdp.freeRdpNoOutput": "FreeRDP 未输出任何内容。",
+  "rdp.freeRdpOutputPrefix": "FreeRDP 输出："
 }
