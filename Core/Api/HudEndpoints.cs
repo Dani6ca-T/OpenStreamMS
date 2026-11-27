@@ -3,6 +3,7 @@ using OpenStreamMS.Services;
 using OpenStreamMS.Services.Gamepad;
 using OpenStreamMS.Services.Metrics;
 using OpenStreamMS.Services.Seats;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Core.Api;
 
@@ -74,7 +75,7 @@ public static class HudEndpoints
                 var (blocked, by) = RestartBlock(me, sessions, seats);
                 if (blocked is not null)
                     return Results.Conflict(new { blocked, by });
-                Logger.Warning($"[HUD] '{me.Name}' se reinicia desde su HUD.", me.Id);
+                Logger.Warning(RequestCulture.T("hud.sessionRestarted", me.Name), me.Id);
                 // Con un puesto encendido, el puesto sigue: logo en su monitor y agente nuevo al volver.
                 if (seats.RunningSeatOf(me.Id) is { State: SeatState.Running } seat) seats.RestartSession(seat.Id);
                 else sessions.Restart(me.Id);
@@ -103,7 +104,7 @@ public static class HudEndpoints
                 var session = CallerSession(caller, sessions);
                 if (session?.AllowPower != true)
                 {
-                    Logger.Warning($"[HUD] Apagar/reiniciar rechazado desde '{session?.Name ?? $"Windows {caller}"}': la sesión no tiene permiso.");
+                    Logger.Warning(RequestCulture.T("hud.powerDenied", session?.Name ?? $"Windows {caller}"));
                     return Results.StatusCode(StatusCodes.Status403Forbidden);
                 }
                 var who = session.Name;
@@ -112,10 +113,10 @@ public static class HudEndpoints
                     case "restart":
                     case "shutdown":
                         bool restart = action.Equals("restart", StringComparison.OrdinalIgnoreCase);
-                        Logger.Warning($"[HUD] {(restart ? "Reinicio" : "Apagado")} del PC pedido desde '{who}'.");
+                        Logger.Warning(RequestCulture.T("hud.powerRequested", restart ? RequestCulture.T("power.restartMessage") : RequestCulture.T("power.shutdownMessage"), who));
                         return PowerEndpoints.RunShutdown(restart, new PowerActionRequest(PowerDelaySeconds));
                     case "cancel":
-                        Logger.Log($"[HUD] Apagado/reinicio cancelado desde '{who}'.");
+                        Logger.Log(RequestCulture.T("hud.powerCancelled", who));
                         return PowerEndpoints.Cancel();
                     default:
                         return Results.BadRequest("action: restart | shutdown | cancel");
