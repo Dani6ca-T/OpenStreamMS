@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] apps.json에서 확장 앱을 구성하지 못했습니다: {0}",
   "sunshine.launching": "[Sunshine] 세션 {0}에서 시작 중: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] 시작 실패: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] 로그에서 인코더를 확인하지 못해 현재 설정을 유지합니다."
+  "sunshine.encoderUnconfirmed": "[Sunshine] 로그에서 인코더를 확인하지 못해 현재 설정을 유지합니다.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json이 없어 assets 템플릿을 사용합니다.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] virtual-display가 설정된 apps.json을 만들었습니다: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] virtual-display가 설정된 apps.json을 업데이트했습니다: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "apps.json에 virtual-display가 이미 구성되어 있습니다. 변경 사항이 없습니다.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] 차단하지 않는 실행 취소 기능으로 Steam Big Picture('{0}')를 구성했습니다: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "복합 세션의 Big Picture는 모든 세션에서 열리고 닫힙니다: {0}",
+  "sunshineCfg.extensionAppsUpdated": "확장 앱을 업데이트했습니다({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "Reboot 및 Power Off 앱을 구성했습니다: {0}"
 }
