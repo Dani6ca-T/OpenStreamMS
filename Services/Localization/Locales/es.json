@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Aviso al pausar Sunshine: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine en pausa ({1}).",
   "session.logSunshineResumed": "[{0}] Sunshine reanudado; se relanzará automáticamente.",
-  "session.logMuteRdpClient": "[{0}] Silenciando el cliente RDP (PID={1}) en el host..."
+  "session.logMuteRdpClient": "[{0}] Silenciando el cliente RDP (PID={1}) en el host...",
+  "session.logRdpDisplay": "[{0}] Pantalla RDP: {1}x{2} a {3} fps; micrófono: {4}"
 }
