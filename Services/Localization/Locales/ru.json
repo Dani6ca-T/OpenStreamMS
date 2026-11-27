@@ -171,5 +171,13 @@
   "power.noPending": "Нет ожидающего выключения для отмены ({0}).",
   "power.shutdownFailed": "Ошибка shutdown.exe: {0}",
   "power.scheduled": "{0} запланировано через {1} с.",
-  "settings.logLevelChanged": "Уровень журнала: {0} → {1}."
+  "settings.logLevelChanged": "Уровень журнала: {0} → {1}.",
+  "seat.restartSession": "[Места] Перезапуск сеанса «{1}» места «{0}» без выключения места.",
+  "seat.restartSizeMismatch": "Сеанс восстановился с размером {0}x{1} вместо {2}x{3}.",
+  "seat.restartSessionDone": "[Места] «{0}»: сеанс перезапущен; место остаётся в сеансе Windows {1}.",
+  "seat.restartSessionFailed": "[Места] «{0}»: не удалось перезапустить сеанс без выключения места ({1}); место будет пересоздано.",
+  "seat.restartSeatFailed": "[Места] «{0}»: не удалось снова запустить место: {1}",
+  "seat.waitingImageFailed": "[Места] «{0}»: не удалось показать изображение ожидания: {1}",
+  "seat.sessionDidNotRestart": "Сеанс не запустился повторно.",
+  "seat.sessionRestartTimeout": "Истекло время ожидания перезапуска сеанса."
 }
