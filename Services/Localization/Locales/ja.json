@@ -339,5 +339,13 @@
   "seats.rawInputShared": "「{0}」：{1} はコンソールと共有されたままです（Raw Input）。",
   "seats.usbEventsSent": "「{1}」のエージェントに {0} 件のイベントを送信しました（最新：type={2} flags={3} dx={4} dy={5}）。",
   "seats.usbInputSendFailed": "「{0}」のエージェントに入力を送信できませんでした：{1}",
-  "seats.inputInterfacesCaptured": "「{0}」：{2} 個中 {1} 個の入力インターフェイスをコンソールから分離しました。"
+  "seats.inputInterfacesCaptured": "「{0}」：{2} 個中 {1} 個の入力インターフェイスをコンソールから分離しました。",
+  "seats.consoleVirtualDisplayMissing": "仮想ディスプレイがコンソールに表示されませんでした。",
+  "seats.consoleVirtualDisplayPrimaryFailed": "仮想ディスプレイをメインに設定できませんでした。",
+  "seats.consoleAreaApplied": "コンソールは「{1}」の領域 {0} を独自の {2}x{3} ディスプレイで使用します。マスク領域：{4}",
+  "seats.consoleAreaFallback": "コンソールに領域を割り当てられませんでした（{0}）。フォールバックを維持します。",
+  "seats.consoleMonitorRestoreFailed": "メインモニターをコンソールに戻せませんでした。仮想ディスプレイの削除時に復元されます。",
+  "seats.consoleMonitorRestored": "コンソールは再びモニター全体を使用します。",
+  "seats.sessionLocked": "「{0}」：セッションをロックしました。「{1}」のパスワードが必要になります。",
+  "seats.sessionLockFailed": "「{0}」：セッションをロックできませんでした：{1}"
 }
