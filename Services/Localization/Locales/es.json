@@ -581,6 +581,7 @@
   "seatHost.monitorResolutionChanged": "[SeatHost] El monitor ahora está a {0}x{1}: se solicita ajustar la sesión.",
   "seatHost.presenterCovered": "[SeatHost] Otra ventana cubrió el presentador (pid {0}); se vuelve a traer al frente (intento {1}).",
   "seatHost.consoleWindowsMoved": "[SeatHost] Se movieron {0} ventana(s) de la consola desde el monitor físico a su pantalla.",
-  "seatHost.consoleWindowMoveFailed": "[SeatHost] No se puede mover a la pantalla de la consola una ventana de {0}.",
-  "seatHost.cursorShaderInitFailed": "[SeatHost] No se pudieron inicializar los sombreadores del cursor: {0}"
+  "seatHost.consoleWindowMoveFailed": "[SeatHost] No se puede mover una ventana de {0} a la pantalla de la consola (es posible que la aplicación esté elevada). Ciérrela y vuelva a abrirla para moverla a la pantalla correcta.",
+  "seatHost.cursorShaderInitFailed": "[SeatHost] No se pudieron inicializar los sombreadores del cursor: {0}",
+  "seatHost.createWindowFailed": "Error en CreateWindowEx."
 }
