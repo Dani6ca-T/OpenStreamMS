@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "管道消息长度无效：{0} 字节。",
   "seatIpc.invalidJsonObject": "JSON 负载不是对象。",
   "seatHost.frameLatencyName": "合成→显示器",
-  "seatHost.cursorLatencyName": "输入→显示器"
+  "seatHost.cursorLatencyName": "输入→显示器",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}：{2}",
+  "audioRelay.sending": "正在从 Windows 会话 {0} 发送音频：{1}",
+  "audioRelay.playing": "正在“{0}”上播放：{1}",
+  "audioRelay.invalidHeader": "音频中继标头无效。",
+  "audioRelay.noOutputDevice": "键盘会话没有音频输出设备。",
+  "audioRelay.invalidBlock": "音频数据块无效。",
+  "inputRelay.started": "[InputRelay] Windows 会话 {0} ({1}) 的组合键盘和鼠标中继。",
+  "inputRelay.createFailed": "无法创建 {0}：{1}",
+  "inputRelay.invalidHeader": "输入中继标头无效。",
+  "inputRelay.invalidBatch": "输入批次无效。",
+  "osmsPad.openFailed": "[OsmsPad] 无法打开驱动程序：错误 {0}。",
+  "vigem.openFailed": "[PadCapture] 无法打开 ViGEmBus：{0}"
 }
