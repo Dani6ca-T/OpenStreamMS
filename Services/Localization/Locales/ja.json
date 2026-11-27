@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "通知領域アイコンを自動起動から削除しました。",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "実行ファイル:",
-  "install.configPath": "設定ファイル:"
+  "install.configPath": "設定ファイル:",
+  "diagnostics.logGenerated": "診断パッケージを生成しました（{0} KB、過去 {1} 日間のイベント）。",
+  "diagnostics.logGenerateFailed": "診断パッケージを生成できませんでした: {0}",
+  "hud.sessionRestarted": "セッション「{0}」を HUD から再起動しました。",
+  "hud.powerDenied": "「{0}」からの電源操作を拒否しました。このセッションには権限がありません。",
+  "hud.powerRequested": "「{1}」が PC の {0} を要求しました。",
+  "hud.powerCancelled": "「{0}」からのシャットダウン／再起動をキャンセルしました。",
+  "power.cancelled": "シャットダウン／再起動をキャンセルしました。",
+  "power.noPending": "キャンセルできる保留中のシャットダウンはありません（{0}）。",
+  "power.shutdownFailed": "shutdown.exe エラー: {0}",
+  "power.scheduled": "{0} を {1} 秒後に予定しました。",
+  "settings.logLevelChanged": "ログレベル: {0} → {1}。"
 }
