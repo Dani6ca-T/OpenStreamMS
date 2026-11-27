@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Démarrage abandonné avant son lancement (une autre commande est arrivée).",
   "session.logCreatingRdpSession": "[{0}] Démarrage de la session RDP pour l’utilisateur « {1} »...",
   "session.logSunshineLaunchFailed": "[{0}] Impossible de démarrer Sunshine : {1}",
-  "session.logAutoStartFailed": "[{0}] Échec du démarrage automatique : {1}"
+  "session.logAutoStartFailed": "[{0}] Échec du démarrage automatique : {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Démarrage annulé (la session a été arrêtée pendant la création RDP).",
+  "session.logRdpSessionReused": "[{0}] Session RDP existante réutilisée ; aucun nouveau client RDP n’a été lancé.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Démarrage annulé (la session a été arrêtée pendant le lancement de Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Session active (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Démarrage annulé (la session a été arrêtée après la fin du lancement).",
+  "session.logWaitingForConsoleUser": "[{0}] Elle démarrera lorsqu’un utilisateur ouvrira une session Windows.",
+  "session.logLocalSessionActive": "[{0}] Session locale active (session Windows {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Identifiants Sunshine réinitialisés ; Sunshine arrêté et relancé automatiquement.",
+  "session.logSunshineTemplateUpdated": "[{0}] Modèle Sunshine modifié ; mise à jour de l’instance : {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Impossible de mettre à jour l’instance Sunshine : {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Impossible d’ajouter la règle du pare-feu : {0}"
 }
