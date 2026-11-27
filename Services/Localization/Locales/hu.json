@@ -318,5 +318,14 @@
   "seats.managerStarted": "Munkaállomás-kezelő elindult ({0} munkaállomás).",
   "seats.multiRdpCheckTimeout": "A multi-RDP ellenőrzés 120 másodpercen belül nem fejeződött be; a munkaállomások ettől függetlenül automatikusan elindulnak.",
   "seats.autoStartSameConsoleUser": "A(z) „{0}” nem indul automatikusan: ugyanazt a felhasználót használja, mint a konzol.",
-  "seats.autoStartFailed": "A(z) „{0}” automatikus indítása sikertelen: {1}"
+  "seats.autoStartFailed": "A(z) „{0}” automatikus indítása sikertelen: {1}",
+  "seats.monitorBusy": "A monitort a(z) „{0}” munkaállomás használja.",
+  "seats.created": "A(z) „{0}” munkaállomás létrehozva.",
+  "seats.deleted": "A(z) „{0}” munkaállomás törölve.",
+  "seats.microphoneAlreadyAssigned": "A mikrofon már a(z) „{0}” munkaállomáshoz van rendelve.",
+  "seats.monitorActivationFailed": "„{0}”: a monitor aktiválása nem sikerült; ha már aktív volt, akkor is megjelenik.",
+  "seats.devicesAssigned": "„{0}”: {1} eszköz hozzárendelve a(z) {2}. munkamenethez.",
+  "seats.devicePortEmpty": "„{0}”: nincs eszköz csatlakoztatva a(z) „{1}” portjához ({2}, {3}). Ha másik portra, hubra vagy dokkolóra helyezte, rendelje hozzá újra.",
+  "seats.started": "A(z) „{0}” munkaállomás aktív.",
+  "seats.startFailed": "A(z) „{0}” munkaállomás indítása sikertelen: {1}"
 }
