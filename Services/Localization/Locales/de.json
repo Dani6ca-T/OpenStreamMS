@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, Skalierung {3} %.",
   "rdp.betterRdpPoliciesApplied": "BetterRDP-Richtlinien angewendet.",
   "rdp.mstscClientPoliciesApplied": "mstsc-Clientrichtlinien angewendet (keine Dialoge vor dem Verbindungsaufbau).",
-  "rdp.mstscClientPoliciesFailed": "mstsc-HKCU-Richtlinien konnten nicht angewendet werden: {0}"
+  "rdp.mstscClientPoliciesFailed": "mstsc-HKCU-Richtlinien konnten nicht angewendet werden: {0}",
+  "rdp.videoRegistryKeyMissing": "HKLM\\\\{0} nicht gefunden.",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0} auf HKLM\\\\{1} angewendet ({2}).",
+  "rdp.noVirtualAdapterFound": "Kein virtueller RDP-Adapter unter Control\\\\Video gefunden — VRefresh unverändert. Die Sitzung verwendet die Standardfrequenz des Treibers.",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0} auf {1} virtuellen Adaptern angewendet.",
+  "rdp.refreshRegistryFailed": "Fehler beim Festlegen von VRefresh in der Registrierung: {0}",
+  "rdp.sessionTempResolveFailed": "TEMP der Sitzung {0} konnte nicht ermittelt werden: {1}"
 }
