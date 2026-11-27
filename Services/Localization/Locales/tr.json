@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide yüklü değil: denetleyiciler tüm oturumlarda görünür olacak.",
   "gamepad.hidHideEnabled": "HidHide etkinleştirildi.",
   "gamepad.hidHideConfigureFailed": "HidHide yapılandırılamadı: {0}",
-  "gamepad.monitorFailed": "Denetleyiciler izlenirken hata oluştu: {0}"
+  "gamepad.monitorFailed": "Denetleyiciler izlenirken hata oluştu: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} kullanılabilir: denetleyiciler oturuma göre yalıtılmıştır.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} oturum yalıtımını desteklemiyor ({1} veya üzeri sürüm gerekli): denetleyiciler tüm oturumlarda görünür olacaktır. HidHide'ı güncelleyin.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: ters mod {0}; izin listesi ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "HidHide izin listesindeki uygulamalar, başka bir oturuma atanmış olsalar bile tüm oturumların denetleyicilerini görebilir.",
+  "gamepad.hidHideWhitelistReadFailed": "HidHide izin listesi okunamadı: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping devre dışı bırakıldı (oturum başına denetleyici yalıtımını atlar).",
+  "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping devre dışı bırakılamadı: {0}",
+  "gamepad.jailPrepareFailed": "ViGEm denetleyicisi için HidHide jail hazırlanamadı: {0}"
 }
