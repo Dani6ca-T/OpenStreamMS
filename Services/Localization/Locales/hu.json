@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "Nem sikerült beolvasni a HidHide engedélyezőlistáját: {0}",
   "gamepad.controllerToVkDisabled": "A ControllerToVKMapping letiltva (megkerüli a vezérlők munkamenetenkénti elkülönítését).",
   "gamepad.controllerToVkDisableFailed": "Nem sikerült letiltani a ControllerToVKMapping szolgáltatást: {0}",
-  "gamepad.jailPrepareFailed": "Nem sikerült előkészíteni a HidHide jailt a ViGEm-vezérlőhöz: {0}"
+  "gamepad.jailPrepareFailed": "Nem sikerült előkészíteni a HidHide jailt a ViGEm-vezérlőhöz: {0}",
+  "gamepad.stateEnabled": "engedélyezve",
+  "gamepad.stateDisabled": "letiltva",
+  "gamepad.stateEmpty": "üres",
+  "gamepad.unknownVersion": "ismeretlen verzió"
 }
