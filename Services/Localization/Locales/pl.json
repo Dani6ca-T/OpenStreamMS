@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} jest widoczny tylko w sesji „{1}” ({2}).",
   "gamepad.consoleSessionChanged": "Sesja konsoli zmieniła się z {0} na {1}: ponowne przypisywanie kontrolerów fizycznych.",
   "gamepad.sideInputDriverRestored": "{0} (klawiatura lub mysz kontrolera) wraca do swojego sterownika: kontroler jest przy konsoli.",
-  "gamepad.sideInputCaptured": "{0} (klawiatura lub mysz kontrolera) została odłączona, gdy kontroler znajduje się w innej sesji: jej klawisze (np. przycisk przechwytywania) nie docierają już do konsoli."
+  "gamepad.sideInputCaptured": "{0} (klawiatura lub mysz kontrolera) została odłączona, gdy kontroler znajduje się w innej sesji: jej klawisze (np. przycisk przechwytywania) nie docierają już do konsoli.",
+  "gamepad.physicalPadConsole": "Kontroler fizyczny {0} jest widoczny tylko w sesji konsoli ({1}).",
+  "gamepad.physicalPadAssigned": "Kontroler fizyczny {0} przypisano do stanowiska lub sesji streamingu: jest widoczny tylko w sesji {1}.",
+  "gamepad.steamFilterWarning": "{0} ma w stosie filtr Steam {1}: Steam w innych sesjach (łącznie z konsolą) nadal może go odczytywać. Odłącz go i podłącz ponownie po uruchomieniu stanowiska lub streamu.",
+  "gamepad.physicalPadRestarted": "{0} uruchomiono ponownie: sesja {1} nie może już go odczytywać.",
+  "gamepad.physicalPadRestartFailed": "Nie można ponownie uruchomić {0}: {1}. Sesja, która już go otworzyła, nadal będzie go widzieć do momentu zamknięcia."
 }
