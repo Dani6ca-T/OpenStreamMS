@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] 已跳过 UseStreamProfile：原生隔离已提供独立配置文件。",
   "session.logStreamProfileConfiguring": "[{0}] 正在配置独立的串流配置文件...",
   "session.logStartFailed": "[{0}] 启动失败：{1}",
-  "session.logWebRtcUnsupported": "[{0}] 所选协议包含 WebRTC，但当前配置的 Sunshine 版本不支持（请使用 sunshine-webrtc）；只有 Moonlight 可用。"
+  "session.logWebRtcUnsupported": "[{0}] 所选协议包含 WebRTC，但当前配置的 Sunshine 版本不支持（请使用 sunshine-webrtc）；只有 Moonlight 可用。",
+  "session.logSaveFailed": "[SessionService] 无法保存会话：{0}",
+  "session.logUnreadableBackupSaved": "[SessionService] 无法读取的会话文件备份已保存到“{0}”。",
+  "session.logUnreadableBackupFailed": "[SessionService] 无法将无法读取的会话文件移出：{0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] 已为现有会话分配 WebRTC 端口。",
+  "session.logLoadFailed": "[SessionService] 无法加载会话：{0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] 清理已放弃的启动任务时停止 Sunshine 出现警告：{1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Sunshine 实例已存在于：{1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] 无法清理从模板复制的状态：{1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] 已为“{0}”调整实例权限（仅允许写入 config）：{1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] 无法调整“{0}”在 {1} 中的权限：{2}",
+  "session.logFirewallRulesOpened": "[Sunshine] 防火墙（{0}）：{1}（{2}）",
+  "session.logSunshineInstanceUpdating": "[{0}] 正在更新 Sunshine 实例：{1} → {2}（保留 config/、配对、凭据和设置）。"
 }
