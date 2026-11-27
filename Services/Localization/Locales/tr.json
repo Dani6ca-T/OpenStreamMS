@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Sunshine kimlik bilgileri sıfırlandı; Sunshine durduruldu ve otomatik olarak yeniden başlatılacak.",
   "session.logSunshineTemplateUpdated": "[{0}] Sunshine şablonu değişti; örnek güncelleniyor: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine örneği güncellenemedi: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Güvenlik duvarı kuralı eklenemedi: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Güvenlik duvarı kuralı eklenemedi: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Yerel oturum: \"{1}\\\\{2}\" masaüstü (Windows oturumu {3}).",
+  "session.logNativeIsolationActive": "[{0}] Yerel yalıtım etkin: özel kullanıcı \"{1}\" (profil: {2}).",
+  "session.ephemeral": "geçici",
+  "session.persistent": "kalıcı",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile atlandı: yerel yalıtım zaten ayrı bir profil sağlıyor.",
+  "session.logStreamProfileConfiguring": "[{0}] Ayrı bir akış profili yapılandırılıyor...",
+  "session.logStartFailed": "[{0}] Başlatma başarısız: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Seçilen protokol WebRTC içeriyor ancak yapılandırılan Sunshine derlemesi bunu desteklemiyor (sunshine-webrtc kullanın); yalnızca Moonlight çalışır."
 }
