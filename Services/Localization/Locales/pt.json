@@ -339,5 +339,13 @@
   "seats.rawInputShared": "'{0}': {1} continua partilhado com a consola (Raw Input).",
   "seats.usbEventsSent": "{0} evento(s) enviados ao agente de '{1}' (último: tipo={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Não foi possível enviar a entrada ao agente de '{0}': {1}",
-  "seats.inputInterfacesCaptured": "'{0}': {1} de {2} interfaces de entrada separadas da consola."
+  "seats.inputInterfacesCaptured": "'{0}': {1} de {2} interfaces de entrada separadas da consola.",
+  "seats.consoleVirtualDisplayMissing": "O ecrã virtual não apareceu na consola.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Não foi possível definir o ecrã virtual como principal.",
+  "seats.consoleAreaApplied": "A consola ocupa a área {0} de '{1}' com o seu próprio ecrã {2}x{3}. Área tapada: {4}",
+  "seats.consoleAreaFallback": "Não foi possível atribuir a área à consola ({0}); mantém-se a alternativa.",
+  "seats.consoleMonitorRestoreFailed": "Não foi possível devolver o monitor principal à consola; será recuperado ao remover o ecrã virtual.",
+  "seats.consoleMonitorRestored": "A consola volta a ter o monitor inteiro.",
+  "seats.sessionLocked": "'{0}': sessão bloqueada; será pedida a palavra-passe de '{1}'.",
+  "seats.sessionLockFailed": "'{0}': não foi possível bloquear a sessão: {1}"
 }
