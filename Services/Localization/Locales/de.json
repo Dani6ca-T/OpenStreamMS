@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "HidHide-Zulassungsliste konnte nicht gelesen werden: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping wurde deaktiviert (umgeht die sitzungsbezogene Controller-Isolation).",
   "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping konnte nicht deaktiviert werden: {0}",
-  "gamepad.jailPrepareFailed": "HidHide-Jail für den ViGEm-Controller konnte nicht vorbereitet werden: {0}"
+  "gamepad.jailPrepareFailed": "HidHide-Jail für den ViGEm-Controller konnte nicht vorbereitet werden: {0}",
+  "gamepad.stateEnabled": "aktiviert",
+  "gamepad.stateDisabled": "deaktiviert",
+  "gamepad.stateEmpty": "leer",
+  "gamepad.unknownVersion": "unbekannte Version"
 }
