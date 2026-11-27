@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Ikona v oznamovací oblasti byla odebrána z automatického spuštění.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Spustitelný soubor:",
-  "install.configPath": "Konfigurace:"
+  "install.configPath": "Konfigurace:",
+  "diagnostics.logGenerated": "Vygenerován diagnostický balíček ({0} KB, události za {1} dní).",
+  "diagnostics.logGenerateFailed": "Nepodařilo se vygenerovat diagnostický balíček: {0}",
+  "hud.sessionRestarted": "Relace „{0}“ byla restartována z HUD.",
+  "hud.powerDenied": "Vypnutí/restart zamítnut z „{0}“: relace nemá oprávnění.",
+  "hud.powerRequested": "„{1}“ požádal(a) o {0} počítače.",
+  "hud.powerCancelled": "Vypnutí/restart z „{0}“ bylo zrušeno.",
+  "power.cancelled": "Vypnutí/restart byl zrušen.",
+  "power.noPending": "Není naplánováno žádné vypnutí ke zrušení ({0}).",
+  "power.shutdownFailed": "Chyba shutdown.exe: {0}",
+  "power.scheduled": "{0} naplánováno za {1} s.",
+  "settings.logLevelChanged": "Úroveň protokolu: {0} → {1}."
 }
