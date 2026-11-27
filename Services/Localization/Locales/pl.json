@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "Nie można odczytać {0}: {1}",
   "gamepad.hidHideBlacklistUpdateFailed": "Nie można zaktualizować czarnej listy HidHide: {0}",
   "gamepad.usbPortCycled": "{0}: używał go inny proces, więc Windows odroczył ponowne uruchomienie; port USB został odłączony i ponownie podłączony ({1}) {2}.",
-  "gamepad.usbPortCycleFailed": "{0}: Windows odroczył ponowne uruchomienie (urządzenie jest używane przez inny proces) i nie można było ponownie uruchomić portu USB ({1}). Proces, który już je otworzył, nadal je widzi do momentu zamknięcia."
+  "gamepad.usbPortCycleFailed": "{0}: Windows odroczył ponowne uruchomienie (urządzenie jest używane przez inny proces) i nie można było ponownie uruchomić portu USB ({1}). Proces, który już je otworzył, nadal je widzi do momentu zamknięcia.",
+  "gamepad.clearJailsFailed": "Nie można usunąć wpisów sesji z HidHide: {0}"
 }
