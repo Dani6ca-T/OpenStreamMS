@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "aktiviert",
   "gamepad.stateDisabled": "deaktiviert",
   "gamepad.stateEmpty": "leer",
-  "gamepad.unknownVersion": "unbekannte Version"
+  "gamepad.unknownVersion": "unbekannte Version",
+  "gamepad.predictedPadClaimed": "{0} ist bereits vor dem Anschließen nur in Sitzung {1} sichtbar („{2}“).",
+  "gamepad.releaseReservationsFailed": "Controller-Reservierungen konnten nicht aufgehoben werden: {0}",
+  "gamepad.padClaimed": "Controller {0} → „{1}“ (Windows-Sitzung {2}): Controller wurde von diesem Dienst übernommen.",
+  "gamepad.padOwnerUnknown": "Die Sitzung, die Controller {0} erstellt hat, konnte nicht ermittelt werden; er bleibt in allen Sitzungen sichtbar.",
+  "gamepad.osmsPadOutsideSession": "OsmsPad-Controller {0} → Windows-Sitzung {1} (gehört zu keiner OpenStreamMS-Sitzung)."
 }
