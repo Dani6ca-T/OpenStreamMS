@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Không tìm thấy bộ điều hợp RDP ảo trong Control\\\\Video — không đổi VRefresh. Phiên sẽ dùng tần số làm mới mặc định của trình điều khiển.",
   "rdp.refreshAppliedToAdapters": "Đã áp dụng VRefresh={0} cho {1} bộ điều hợp ảo.",
   "rdp.refreshRegistryFailed": "Lỗi khi đặt VRefresh trong registry: {0}",
-  "rdp.sessionTempResolveFailed": "Không thể xác định TEMP cho phiên {0}: {1}"
+  "rdp.sessionTempResolveFailed": "Không thể xác định TEMP cho phiên {0}: {1}",
+  "rdp.displayFrequencyChangeFailed": "Không thể đổi tần số màn hình trong phiên {0}: {1}",
+  "rdp.displayFrequencyChangeLaunched": "Đã chạy ChangeDisplaySettings({0}Hz) trong phiên {1} (chưa xác minh).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings trong phiên {0}: thiếu tệp kết quả — tập lệnh chưa hoàn tất.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings thành công — màn hình {0}Hz trong phiên {1}.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings báo thành công nhưng màn hình báo {0}Hz (yêu cầu {1}Hz) trong phiên {2}.",
+  "rdp.displayFrequencyFailed": "ChangeDisplaySettings thất bại trong phiên {0}: {1} (màn hình {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Không thể đọc kết quả ChangeDisplaySettings: {0}"
 }
