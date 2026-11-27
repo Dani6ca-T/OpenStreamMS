@@ -359,5 +359,16 @@
   "seats.seatLost": "Il posto '{0}' si arresta: {1}.",
   "seats.stopAfterLossFailed": "'{0}': impossibile arrestare dopo l'interruzione: {1}",
   "seats.sessionStartFailed": "Avvio della sessione non riuscito.",
-  "seats.sessionStartTimeout": "La sessione non è diventata attiva in tempo."
+  "seats.sessionStartTimeout": "La sessione non è diventata attiva in tempo.",
+  "seats.statusStartingSession": "Avvio della sessione…",
+  "seats.statusPoweringMonitor": "Accensione del monitor…",
+  "seats.statusStartingAgent": "Avvio dell'agente di acquisizione e immagine…",
+  "seats.statusStartingPresenter": "Avvio del presenter nella console…",
+  "seats.statusSeparatingGamepads": "Separazione dei controller del posto…",
+  "seats.statusReservingUsb": "Prenotazione dei dispositivi USB del posto…",
+  "seats.statusSeparatingInput": "Separazione di mouse e tastiera del posto…",
+  "seats.statusLockingSession": "Blocco della sessione: il posto richiederà la password…",
+  "seats.statusActive": "Attivo: video, audio e periferiche connessi.",
+  "seats.statusDisconnectedFromSeat": "Disconnesso dal posto. Riaccendilo da OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Arrestato: {0}. Riaccendilo da OpenStreamMS."
 }
