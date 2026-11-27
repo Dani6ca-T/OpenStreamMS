@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp 尚未连接；正在控制台会话 {0} 中启动独立呈现器……",
   "seatHostControl.consoleUserMissing": "[Seats] 物理控制台没有已登录的用户。",
   "seatHostControl.trayHostConnected": "[TrayApp] 已连接到工作位主机控制管道。",
-  "seatHostControl.commandProcessingError": "[TrayApp] 处理工作位命令时出错：{0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] 处理工作位命令时出错：{0}",
+  "guideGuard.disabled": "[Seats] Guide 按钮：工作位运行期间，已为 {0} 禁用控制器 Game Bar。",
+  "guideGuard.disableFailed": "[Seats] Guide 按钮：无法为 {0} 禁用控制器 Game Bar：{1}",
+  "guideGuard.restored": "[Seats] Guide 按钮：已为 {0} 恢复控制器 Game Bar。",
+  "guideGuard.restoreFailed": "[Seats] Guide 按钮：无法为 {0} 恢复控制器 Game Bar：{1}",
+  "handleBroker.openSourceFailed": "源 PID {0} 的 OpenProcess 调用失败。",
+  "handleBroker.openTargetFailed": "目标 PID {0} 的 OpenProcess 调用失败。",
+  "handleBroker.duplicateFailed": "从 PID {0} 到 PID {1} 的 DuplicateHandle 调用失败。",
+  "seatStore.readFailed": "[Seats] 无法读取 seats.json：{0}",
+  "seatStore.saveFailed": "[Seats] 无法保存 seats.json：{0}",
+  "seatIpc.unexpectedClient": "[Seats] 管道 {0}：已拒绝意外的客户端进程 {1}。",
+  "seatIpc.notServicePipe": "该管道不属于服务（进程 {0}）。",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] 已收到输入：键盘",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] 已收到输入：类型={0} 标志={1:X} dx={2} dy={3} 代码={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] 10 秒输入注入：{0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 秒：已发送={0} 环形缓冲区繁忙={1} 输入={2} 注入失败={3} 上次错误={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10 秒捕获延迟：{0}"
 }
