@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "复合会话发生变化，控制器 {0}（{1}）已移至会话“{2}”（Windows 会话 {3}）。",
   "gamepad.futurePadsReserved": "后续 Moonlight 控制器会预先隐藏，直到确定其所属会话（{0}）。",
   "gamepad.futurePadReservationsReleased": "没有正在运行的串流：已释放后续控制器的预留。",
-  "gamepad.futurePadReservationFailed": "无法在 HidHide 中预留后续控制器：{0}"
+  "gamepad.futurePadReservationFailed": "无法在 HidHide 中预留后续控制器：{0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} 自出现起仅在会话“{1}”（{2}）中可见；已重启设备，以便该会话检测到它。",
+  "gamepad.nodeVisibleAfterRestart": "{0} 仅在会话“{1}”（{2}）中可见；已重启设备以关闭其他会话持有的句柄。",
+  "gamepad.nodeRestartDeferred": "{0} 仅在会话“{1}”（{2}）中可见，但其他进程正在使用它，Windows 因此推迟了重启；已打开它的进程会继续看到它，直到关闭设备。",
+  "gamepad.nodeLateRestartFailed": "{0} 隐藏得太晚，无法重启：{1}。其他会话中已打开该设备的进程仍能看到它。",
+  "gamepad.nodeVisibleSession": "{0} 仅在会话“{1}”（{2}）中可见。"
 }
