@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp chưa kết nối; đang khởi chạy trình hiển thị độc lập trong phiên console {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Không có người dùng nào đăng nhập vào console vật lý.",
   "seatHostControl.trayHostConnected": "[TrayApp] Đã kết nối với pipe điều khiển máy chủ của các seat.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Lỗi khi xử lý lệnh seat: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Lỗi khi xử lý lệnh seat: {0}",
+  "guideGuard.disabled": "[Seats] Nút Guide: đã tắt Game Bar của tay cầm cho {0} khi còn seat đang hoạt động.",
+  "guideGuard.disableFailed": "[Seats] Nút Guide: không thể tắt Game Bar của tay cầm cho {0}: {1}",
+  "guideGuard.restored": "[Seats] Nút Guide: đã khôi phục Game Bar của tay cầm cho {0}.",
+  "guideGuard.restoreFailed": "[Seats] Nút Guide: không thể khôi phục Game Bar của tay cầm cho {0}: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess thất bại với PID nguồn {0}.",
+  "handleBroker.openTargetFailed": "OpenProcess thất bại với PID đích {0}.",
+  "handleBroker.duplicateFailed": "DuplicateHandle thất bại từ PID {0} sang PID {1}.",
+  "seatStore.readFailed": "[Seats] Không thể đọc seats.json: {0}",
+  "seatStore.saveFailed": "[Seats] Không thể lưu seats.json: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Pipe {0}: đã từ chối tiến trình máy khách không mong đợi {1}.",
+  "seatIpc.notServicePipe": "Pipe không thuộc dịch vụ (tiến trình {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Đã nhận đầu vào: bàn phím",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Đã nhận đầu vào: loại={0} cờ={1:X} dx={2} dy={3} mã={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Tiêm đầu vào (10 giây): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 giây: đã gửi={0} vòng_bận={1} đầu_vào={2} lỗi_tiêm={3} lỗi_cuối={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Độ trễ thu nhận (10 giây): {0}"
 }
