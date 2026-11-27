@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell 不可用。",
   "steamIsolation.shortcutDescription": "与其他会话隔离的 Steam (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] 已将“{1}”的音频转发到键盘会话“{2}”。",
-  "compositeAudio.forwardFailed": "[{0}] 无法转发“{1}”的音频：{2}"
+  "compositeAudio.forwardFailed": "[{0}] 无法转发“{1}”的音频：{2}",
+  "hud.launched": "[HUD] 已在 Windows 会话 {0} 中启动（PID {1}）：Ctrl+Alt+H 或 Guide + Back。",
+  "hud.launchFailed": "[HUD] 无法在 Windows 会话 {0} 中启动：{1}"
 }
