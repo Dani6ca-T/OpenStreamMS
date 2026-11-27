@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Dieser Katalog ist nicht in der Liste.",
   "ext.catalogEntryMissing": "Der Katalog führt {0} nicht mehr.",
   "ext.invalidPackage": "Das Paket ist keine gültige Erweiterung: {0}",
-  "ext.noManifest": "Das Paket enthält kein {0}."
+  "ext.noManifest": "Das Paket enthält kein {0}.",
+  "cli.error.missingSeatAgentPipe": "FEHLER: Der Pipe-Name für --seat-agent fehlt.",
+  "cli.error.missingSeatHostPipe": "FEHLER: Der Pipe-Name für --seat-host fehlt.",
+  "cli.error.unknownCommand": "Unbekannter Befehl: „{0}“",
+  "cli.error.helpHint": "Verwenden Sie --help, um die verfügbaren Befehle anzuzeigen.",
+  "cli.error.adminRequired": "FEHLER: Für diesen Vorgang sind Administratorrechte erforderlich.",
+  "cli.error.adminHint": "Starten Sie die .exe-Datei mit „Als Administrator ausführen“."
 }
