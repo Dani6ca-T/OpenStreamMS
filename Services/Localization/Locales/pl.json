@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Kontroler {0} ({1}) przeniesiono do sesji „{2}” (sesja Windows {3}) z powodu zmiany sesji złożonej.",
   "gamepad.futurePadsReserved": "Następne kontrolery Moonlight są ukrywane z wyprzedzeniem do czasu ustalenia ich sesji ({0}).",
   "gamepad.futurePadReservationsReleased": "Brak aktywnych strumieni: zwolniono rezerwację następnych kontrolerów.",
-  "gamepad.futurePadReservationFailed": "Nie można zarezerwować następnych kontrolerów w HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Nie można zarezerwować następnych kontrolerów w HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} od chwili pojawienia się jest widoczny tylko w sesji „{1}” ({2}); uruchomiono ponownie, aby sesja go wykryła.",
+  "gamepad.nodeVisibleAfterRestart": "{0} jest widoczny tylko w sesji „{1}” ({2}); uruchomiono ponownie, aby zamknąć uchwyty innych sesji.",
+  "gamepad.nodeRestartDeferred": "{0} jest widoczny tylko w sesji „{1}” ({2}), ale Windows odroczył ponowne uruchomienie, ponieważ używa go inny proces; procesy, które już go otworzyły, nadal go widzą, dopóki go nie zamkną.",
+  "gamepad.nodeLateRestartFailed": "{0} został ukryty z opóźnieniem i nie można go ponownie uruchomić: {1}. Proces z innej sesji, który już go otworzył, nadal go widzi.",
+  "gamepad.nodeVisibleSession": "{0} jest widoczny tylko w sesji „{1}” ({2})."
 }
