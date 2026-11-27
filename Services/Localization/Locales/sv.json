@@ -339,5 +339,13 @@
   "seats.rawInputShared": "”{0}”: {1} är fortfarande delad med konsolen (Raw Input).",
   "seats.usbEventsSent": "{0} händelser skickades till agenten för ”{1}” (senast: typ={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Det gick inte att skicka indata till agenten för ”{0}”: {1}",
-  "seats.inputInterfacesCaptured": "”{0}”: {1} av {2} inmatningsgränssnitt separerades från konsolen."
+  "seats.inputInterfacesCaptured": "”{0}”: {1} av {2} inmatningsgränssnitt separerades från konsolen.",
+  "seats.consoleVirtualDisplayMissing": "Den virtuella skärmen visades inte i konsolen.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Det gick inte att göra den virtuella skärmen till primär.",
+  "seats.consoleAreaApplied": "Konsolen använder område {0} av ”{1}” med en egen skärm på {2}x{3}. Täckt område: {4}",
+  "seats.consoleAreaFallback": "Det gick inte att ge konsolen dess område ({0}); reservlösningen finns kvar.",
+  "seats.consoleMonitorRestoreFailed": "Det gick inte att återställa den primära skärmen till konsolen; den återställs när den virtuella skärmen tas bort.",
+  "seats.consoleMonitorRestored": "Konsolen har hela skärmen igen.",
+  "seats.sessionLocked": "”{0}”: sessionen är låst; lösenordet för ”{1}” kommer att krävas.",
+  "seats.sessionLockFailed": "”{0}”: det gick inte att låsa sessionen: {1}"
 }
