@@ -621,7 +621,7 @@ internal static class IsolatedUserManager
         try
         {
             if (rc == NERR_UserNotFound) return null;
-            if (rc != NERR_Success) throw new InvalidOperationException($"NetUserGetLocalGroups={rc}");
+            if (rc != NERR_Success) throw new InvalidOperationException(BackendText.Get("isolatedUser.localGroupsQueryFailed", rc));
             var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             for (int i = 0; i < read; i++)
                 if (Marshal.PtrToStringUni(Marshal.ReadIntPtr(buf, i * IntPtr.Size)) is { } name) set.Add(name);
