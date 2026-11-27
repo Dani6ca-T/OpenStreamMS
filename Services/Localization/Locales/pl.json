@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "Kontroler fizyczny {0} przypisano do stanowiska lub sesji streamingu: jest widoczny tylko w sesji {1}.",
   "gamepad.steamFilterWarning": "{0} ma w stosie filtr Steam {1}: Steam w innych sesjach (łącznie z konsolą) nadal może go odczytywać. Odłącz go i podłącz ponownie po uruchomieniu stanowiska lub streamu.",
   "gamepad.physicalPadRestarted": "{0} uruchomiono ponownie: sesja {1} nie może już go odczytywać.",
-  "gamepad.physicalPadRestartFailed": "Nie można ponownie uruchomić {0}: {1}. Sesja, która już go otworzyła, nadal będzie go widzieć do momentu zamknięcia."
+  "gamepad.physicalPadRestartFailed": "Nie można ponownie uruchomić {0}: {1}. Sesja, która już go otworzyła, nadal będzie go widzieć do momentu zamknięcia.",
+  "gamepad.padRemoved": "Kontroler {0} usunięto; jego węzły HID usunięto z czarnej listy HidHide.",
+  "gamepad.staleJailsRemoved": "Usunięto {0} nieaktualnych wpisów z czarnej listy HidHide.",
+  "gamepad.absentPadAssigned": "Kontroler fizyczny {0} (obecnie odłączony) przypisano do sesji {1}; będzie do niej należeć po ponownym pojawieniu się.",
+  "gamepad.knownNodesSaveFailed": "Nie można zapisać {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Nie można odczytać {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Nie można zaktualizować czarnej listy HidHide: {0}"
 }
