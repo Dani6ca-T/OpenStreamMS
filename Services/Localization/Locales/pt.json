@@ -318,5 +318,14 @@
   "seats.managerStarted": "Gestor de postos iniciado ({0} posto(s)).",
   "seats.multiRdpCheckTimeout": "A verificação multi-RDP não terminou em 120 s; os postos serão iniciados automaticamente na mesma.",
   "seats.autoStartSameConsoleUser": "'{0}' não inicia automaticamente: utiliza o mesmo utilizador da consola.",
-  "seats.autoStartFailed": "Falha ao iniciar automaticamente '{0}': {1}"
+  "seats.autoStartFailed": "Falha ao iniciar automaticamente '{0}': {1}",
+  "seats.monitorBusy": "O monitor está a ser utilizado pelo posto '{0}'.",
+  "seats.created": "Posto '{0}' criado.",
+  "seats.deleted": "Posto '{0}' eliminado.",
+  "seats.microphoneAlreadyAssigned": "O microfone já está atribuído ao posto '{0}'.",
+  "seats.monitorActivationFailed": "'{0}': não foi possível ativar o monitor; será apresentado na mesma se já estiver ativo.",
+  "seats.devicesAssigned": "'{0}': {1} dispositivo(s) atribuído(s) à sessão {2}.",
+  "seats.devicePortEmpty": "'{0}': não há nada ligado à porta de '{1}' ({2}, {3}). Se o mudou para outra porta, hub ou dock, volte a atribuí-lo.",
+  "seats.started": "Posto '{0}' ativo.",
+  "seats.startFailed": "Falha ao iniciar o posto '{0}': {1}"
 }
