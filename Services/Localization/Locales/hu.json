@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "A Sunshine STATUS_BREAKPOINT hibával állt le ({0}) itt: {1} (PID={2}).",
   "sunshineCrash.fault": "A Sunshine hibával állt le: {0}, hely: {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Nem sikerült beolvasni az Application Error eseményt: {0}",
-  "sunshineCrash.wevtutilFailed": "A wevtutil eredménye {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "A wevtutil eredménye {0}: {1}",
+  "sunshine.stateMirrorStarted": "A sunshine_state.json állapottükrözése elindult: {0}"
 }
