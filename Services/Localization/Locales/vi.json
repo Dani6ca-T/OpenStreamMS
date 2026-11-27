@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings thành công — màn hình {0}Hz trong phiên {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings báo thành công nhưng màn hình báo {0}Hz (yêu cầu {1}Hz) trong phiên {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings thất bại trong phiên {0}: {1} (màn hình {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Không thể đọc kết quả ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Không thể đọc kết quả ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "Lỗi WTSEnumerateSessions: {0}",
+  "rdp.sessionInfo": "Phiên {0} ({1}) giao thức={2} người dùng='{3}'",
+  "rdp.sessionUnlocked": "Phiên {0} đã mở khóa (flag={1}) sau {2} ms.",
+  "rdp.sessionStillLocked": "Phiên {0} vẫn bị khóa sau {1} ms. Sunshine có thể chuyển sang mã hóa phần mềm (libx264). Kiểm tra màn hình khóa.",
+  "rdp.userAlreadyHasOtherSession": "'{0}' đã có phiên {1} ({2}).",
+  "rdp.disconnected": "đã ngắt kết nối",
+  "rdp.termServiceChangedToManual": "TermService đang bị Tắt → đã chuyển sang Thủ công.",
+  "rdp.termServiceStarted": "TermService đã khởi động (Remote Desktop gốc).",
+  "rdp.termServiceEnsureFailed": "Không thể đảm bảo TermService đang chạy: {0}. Nếu Remote Desktop tắt, kết nối loopback sẽ thất bại; hãy bật trong Hệ thống → Remote Desktop hoặc khởi động lại Windows.",
+  "rdp.registryKeyOpenFailed": "Không thể mở HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Không thể ghi {0} vào HKLM\\\\{1}: {2}"
 }
