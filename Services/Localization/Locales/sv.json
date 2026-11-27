@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Ogiltig meddelandelängd för röret: {0} byte.",
   "seatIpc.invalidJsonObject": "JSON-innehållet är inte ett objekt.",
   "seatHost.frameLatencyName": "komposition→skärm",
-  "seatHost.cursorLatencyName": "indata→skärm"
+  "seatHost.cursorLatencyName": "indata→skärm",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "Skickar ljud från Windows-session {0}: {1}",
+  "audioRelay.playing": "Spelar upp på '{0}': {1}",
+  "audioRelay.invalidHeader": "Ogiltigt ljudrelähuvud.",
+  "audioRelay.noOutputDevice": "Tangentbordssessionen saknar ljudutgångsenhet.",
+  "audioRelay.invalidBlock": "Ogiltigt ljudblock.",
+  "inputRelay.started": "[InputRelay] Tangentbords- och musrelä för den sammansatta sessionen för Windows-session {0} ({1}).",
+  "inputRelay.createFailed": "Det gick inte att skapa {0}: {1}",
+  "inputRelay.invalidHeader": "Ogiltigt indatarelähuvud.",
+  "inputRelay.invalidBatch": "Ogiltig indatabatch.",
+  "osmsPad.openFailed": "[OsmsPad] Det gick inte att öppna drivrutinen: fel {0}.",
+  "vigem.openFailed": "[PadCapture] Det gick inte att öppna ViGEmBus: {0}"
 }
