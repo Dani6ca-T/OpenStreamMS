@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell을 사용할 수 없습니다.",
   "steamIsolation.shortcutDescription": "다른 세션과 격리된 Steam (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] '{1}'의 오디오를 키보드 세션 '{2}'(으)로 전달했습니다.",
-  "compositeAudio.forwardFailed": "[{0}] '{1}'의 오디오를 전달하지 못했습니다: {2}"
+  "compositeAudio.forwardFailed": "[{0}] '{1}'의 오디오를 전달하지 못했습니다: {2}",
+  "hud.launched": "[HUD] Windows 세션 {0}에서 시작했습니다(PID {1}): Ctrl+Alt+H 또는 Guide + Back.",
+  "hud.launchFailed": "[HUD] Windows 세션 {0}에서 시작하지 못했습니다: {1}"
 }
