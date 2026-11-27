@@ -642,8 +642,8 @@ namespace OpenStreamMS.Services.Sunshine
                 File.AppendAllLines(markerFile, newlyApplied);
                 var added = newlyApplied.Where(k => defaults.ContainsKey(k) && !present.Contains(k)).ToList();
                 if (added.Count > 0)
-                    Logger.Log(Logger.Log(BackendText.Get("sunshineCfg.defaultsApplied",
-                               string.Join(", ", added.Select(k => $"{k}={defaults[k]}")))););
+                    Logger.Log(BackendText.Get("sunshineCfg.defaultsApplied",
+                               string.Join(", ", added.Select(k => $"{k}={defaults[k]}"))));
             }
 
             if (File.Exists(confFile) &&
