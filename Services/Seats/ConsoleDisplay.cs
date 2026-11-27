@@ -1,3 +1,4 @@
+using OpenStreamMS.Services.Localization;
 using OpenStreamMS.Core.Helpers;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -34,7 +35,7 @@ public static class ConsoleDisplay
     {
         if (!ConsoleSession.TryGetUser(out var consoleId, out _, out _))
         {
-            Logger.Warning("[Seats] No hay nadie con sesión en la consola: no se pueden gestionar los monitores.");
+            Logger.Warning(BackendText.Get("consoleDisplay.noConsoleUser"));
             return default;
         }
         EnsureDir();
@@ -46,14 +47,14 @@ public static class ConsoleDisplay
                                                    waitForExit: true, waitTimeoutMs: 15000);
             if (!File.Exists(outFile))
             {
-                Logger.Warning($"[Seats] --display {command} no devolvió resultado.");
+                Logger.Warning(BackendText.Get("consoleDisplay.noResult", command));
                 return default;
             }
             return JsonSerializer.Deserialize<T>(File.ReadAllText(outFile));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] --display {command} falló: {ex.Message}");
+            Logger.Warning(BackendText.Get("consoleDisplay.commandFailed", command, ex.Message));
             return default;
         }
         finally
@@ -90,8 +91,9 @@ public static class ConsoleDisplay
         if (windows.Count == 0 || DisplayTopology.Find(id) is not { Active: true, Width: > 0 } to) return true;
 
         var (moved, failed) = ConsoleWindows.Move(windows, ConsoleWindows.Area.Of(from!), ConsoleWindows.Area.Of(to));
-        Logger.Log($"[Seats] Ventanas de la consola llevadas a la pantalla nueva: {moved}" +
-                   (failed.Count > 0 ? $"; no se pudieron mover: {string.Join(", ", failed.Select(ConsoleWindows.Describe))}." : "."));
+        Logger.Log(failed.Count > 0
+            ? BackendText.Get("consoleDisplay.windowsMovedPartial", moved, string.Join(", ", failed.Select(ConsoleWindows.Describe)))
+            : BackendText.Get("consoleDisplay.windowsMoved", moved));
         return true;
     }
 
