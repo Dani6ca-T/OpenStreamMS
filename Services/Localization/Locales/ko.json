@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Sunshine 일시 중지 중 경고: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine 일시 중지됨({1}).",
   "session.logSunshineResumed": "[{0}] Sunshine이 재개되었습니다. 자동으로 다시 시작됩니다.",
-  "session.logMuteRdpClient": "[{0}] 호스트에서 RDP 클라이언트(PID={1}) 음소거 중..."
+  "session.logMuteRdpClient": "[{0}] 호스트에서 RDP 클라이언트(PID={1}) 음소거 중...",
+  "session.logRdpDisplay": "[{0}] RDP 디스플레이: {1}x{2}, {3}fps; 마이크: {4}"
 }
