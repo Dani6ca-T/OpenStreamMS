@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Sessionsbaserad handkontrollisolering har tagits bort från HidHide; Steams steamxbox-filter har återställts.",
   "uninstall.seatsRestored": "Tangentbord/möss för platser, konsolskydd, avstängningsbehörighet och inställningen en session per användare har återställts.",
   "uninstall.trayRemoved": "Ikonen i systemfältet har tagits bort från automatisk start.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Körbar fil:",
+  "install.configPath": "Konfiguration:"
 }
