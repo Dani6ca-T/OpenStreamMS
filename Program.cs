@@ -551,16 +551,23 @@ static void Install(bool silent = false)
 
     var apiPort = ServiceConfig.Load().ApiPort;
     AddApiFirewallRule(apiPort);
-    if (!silent) Console.WriteLine($"[Install] Firewall rule added for port {apiPort} (TCP).");
+    if (!silent) Console.WriteLine("[Install] " + BackendText.Get("install.firewallAdded", apiPort));
 
     // Drivers de mando: ViGEmBus (mando virtual) y HidHide (aislamiento por sesión)
     foreach (NefariusDriverManager driver in new NefariusDriverManager[] { new ViGEmBusManager(), new HidHideManager() })
     {
         driver.EnsureInstalled();
         var st = driver.GetStatus();
-        Console.WriteLine(st.Installed
-            ? $"[Install] {driver.Name} installed ({st.InstalledVersion ?? "unknown version"}){(st.RebootRequired ? "; requires Windows reboot" : "")}."
-            : $"[Install] WARNING: could not install {driver.Name}; can be installed from the web dashboard.");
+        if (st.Installed)
+        {
+            Console.WriteLine("[Install] " + BackendText.Get("install.driverInstalled", driver.Name, st.InstalledVersion ?? "unknown version"));
+            if (st.RebootRequired)
+                Console.WriteLine("[Install] " + BackendText.Get("install.driverRebootRequired", driver.Name));
+        }
+        else
+        {
+            Console.WriteLine("[Install] " + BackendText.Get("install.driverFailed", driver.Name));
+        }
     }
 
     // El asistente de instalación antiguo dejaba su propia entrada en "Aplicaciones": ahora solo
@@ -573,7 +580,7 @@ static void Install(bool silent = false)
     using (var key = Registry.LocalMachine.OpenSubKey(RunKey, writable: true))
     {
         key?.SetValue("OpenStreamMSTray", $"\"{exePath}\" --tray");
-        Console.WriteLine("[Install] Tray icon registered for auto-start.");
+        Console.WriteLine("[Install] " + BackendText.Get("install.trayRegistered"));
     }
     Console.WriteLine();
 
@@ -581,63 +588,63 @@ static void Install(bool silent = false)
     {
         if (!File.Exists(configPath))
         {
-            Console.WriteLine("[Install] WARNING: service.config.json not found.");
-            Console.WriteLine($"[Install]          A default one will be created at {configPath} when the service starts.");
+            Console.WriteLine("[Install] " + BackendText.Get("install.configMissing"));
+            Console.WriteLine("[Install] " + BackendText.Get("install.configWillCreate", configPath));
             Console.WriteLine();
         }
         else
         {
-            Console.WriteLine("[Install] service.config.json found.");
+            Console.WriteLine("[Install] " + BackendText.Get("install.configFound"));
         }
 
-        Console.Write("[Install] Start the service now? (Y/n): ");
+        Console.Write("[Install] " + BackendText.Get("install.startPrompt"));
         var answer = Console.ReadLine()?.Trim().ToUpperInvariant();
         if (answer is "" or "Y" or "S")
         {
             RunSc($"start \"{ServiceName}\"");
-            Console.WriteLine("[Install] Service started.");
+            Console.WriteLine("[Install] " + BackendText.Get("install.serviceStarted"));
         }
         else
         {
-            Console.WriteLine($"[Install] You can start it later with:  sc start {ServiceName}");
+            Console.WriteLine("[Install] " + BackendText.Get("install.serviceStartLater", ServiceName));
         }
 
-        Console.WriteLine("[Install] Installation complete.");
+        Console.WriteLine("[Install] " + BackendText.Get("install.complete"));
     }
 }
 
 static void Uninstall(bool silent = false)
 {
     RequireAdmin();
-    if (!silent) Console.WriteLine("[Uninstall] Stopping service...");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.stopping"));
     RunSc($"stop \"{ServiceName}\"");
     Thread.Sleep(2000);
-    if (!silent) Console.WriteLine("[Uninstall] Deleting service...");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.deleting"));
     RunSc($"delete \"{ServiceName}\"");
-    if (!silent) Console.WriteLine("[Uninstall] Service deleted.");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.deleted"));
 
     RemoveApiFirewallRule();
     // Session rules ("OpenStreamMS - Sunshine <name> ..."): netsh doesn't support wildcards.
     RunProcess("powershell.exe", "-NoProfile -NonInteractive -Command \"Get-NetFirewallRule -DisplayName 'OpenStreamMS - Sunshine *' " +
                                  "-ErrorAction SilentlyContinue | Remove-NetFirewallRule -ErrorAction SilentlyContinue\"");
-    if (!silent) Console.WriteLine("[Uninstall] API and session firewall rules removed.");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.firewallRemoved"));
 
     // Without the service no one would maintain them: gamepads would stay hidden from other sessions
     OpenStreamMS.Services.Gamepad.GamepadSessionIsolation.ClearJails();
     OpenStreamMS.Services.Gamepad.SteamXboxFilter.RestoreSaved();
-    if (!silent) Console.WriteLine("[Uninstall] Per-session gamepad isolation removed from HidHide; Steam's steamxbox filter restored.");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.gamepadRestored"));
 
     // What seats change in the system while on, in case the service stopped without cleanup, and the shutdown right removed from Users group.
     OpenStreamMS.Services.Seats.UsbCapture.RestoreAll();
     OpenStreamMS.Services.Seats.ConsoleLockGuard.Release();
     OpenStreamMS.Core.Helpers.ShutdownRight.Restore();
     OpenStreamMS.Core.Helpers.SingleSessionPerUser.RestoreSaved();
-    if (!silent) Console.WriteLine("[Uninstall] Seat keyboards/mice, console lock guard, shutdown right and single session per user restored.");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.seatsRestored"));
 
     const string RunKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
     using var key = Registry.LocalMachine.OpenSubKey(RunKey, writable: true);
     key?.DeleteValue("OpenStreamMSTray", throwOnMissingValue: false);
-    if (!silent) Console.WriteLine("[Uninstall] Tray icon removed from auto-start.");
+    if (!silent) Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.trayRemoved"));
 }
 
 static void RemoveDependencies()
@@ -649,9 +656,9 @@ static void RemoveDependencies()
         try
         {
             driver.UninstallAsync().GetAwaiter().GetResult();
-            Console.WriteLine($"[Uninstall] {driver.Name} uninstalled.");
+            Console.WriteLine("[Uninstall] " + BackendText.Get("driver.uninstalled", driver.Name));
         }
-        catch (Exception ex) { Console.WriteLine($"[Uninstall] {driver.Name}: {ex.Message}"); }
+        catch (Exception ex) { Console.WriteLine("[Uninstall] " + BackendText.Get("uninstall.driverError", driver.Name, ex.Message)); }
     }
 }
 
