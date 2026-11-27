@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile ignorato: l’isolamento nativo fornisce già un profilo separato.",
   "session.logStreamProfileConfiguring": "[{0}] Configurazione di un profilo di streaming separato...",
   "session.logStartFailed": "[{0}] Avvio non riuscito: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Il protocollo selezionato include WebRTC, ma la build di Sunshine configurata non lo supporta (usa sunshine-webrtc); funzionerà solo Moonlight."
+  "session.logWebRtcUnsupported": "[{0}] Il protocollo selezionato include WebRTC, ma la build di Sunshine configurata non lo supporta (usa sunshine-webrtc); funzionerà solo Moonlight.",
+  "session.logSaveFailed": "[SessionService] Impossibile salvare le sessioni: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Backup del file delle sessioni illeggibile salvato in \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] Impossibile spostare il file delle sessioni illeggibile: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Porte WebRTC assegnate alle sessioni esistenti.",
+  "session.logLoadFailed": "[SessionService] Impossibile caricare le sessioni: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Avviso durante l’arresto di Sunshine dopo un avvio abbandonato: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] L’istanza Sunshine esiste già in: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Impossibile pulire lo stato copiato dal modello: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Autorizzazioni dell’istanza aggiornate per \"{0}\" (scrittura consentita solo in config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Impossibile modificare le autorizzazioni di \"{0}\" in {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Aggiornamento dell’istanza Sunshine: {1} → {2} (config/, associazioni, credenziali e impostazioni vengono conservati)."
 }
