@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "コントローラーの予約を解除できませんでした：{0}",
   "gamepad.padClaimed": "コントローラー {0} →「{1}」（Windows セッション {2}）：このサービスがコントローラーを取得しました。",
   "gamepad.padOwnerUnknown": "コントローラー {0} を作成したセッションを特定できません。すべてのセッションに表示されたままです。",
-  "gamepad.osmsPadOutsideSession": "OsmsPad コントローラー {0} → Windows セッション {1}（OpenStreamMS のセッションには属していません）。"
+  "gamepad.osmsPadOutsideSession": "OsmsPad コントローラー {0} → Windows セッション {1}（OpenStreamMS のセッションには属していません）。",
+  "gamepad.padAssignedCompositeMember": "「{1}」のコントローラー {0}（{2}）→ セッション「{3}」（Windows セッション {4}）。",
+  "gamepad.padAssignedSession": "コントローラー {0} → セッション「{1}」（Windows セッション {2}）。",
+  "gamepad.padRetargeted": "複合セッションの変更により、コントローラー {0}（{1}）をセッション「{2}」（Windows セッション {3}）に移動しました。"
 }
