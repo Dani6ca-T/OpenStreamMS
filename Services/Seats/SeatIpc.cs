@@ -89,7 +89,7 @@ internal sealed class SeatChannel(Stream stream) : IDisposable
     {
         if (!ReadExactly(_header)) return null;
         int len = BinaryPrimitives.ReadInt32LittleEndian(_header);
-        if (len < 0 || len > MaxMessage) throw new InvalidDataException($"Mensaje de {len} bytes");
+        if (len < 0 || len > MaxMessage) throw new InvalidDataException(BackendText.Get("seatIpc.invalidMessageLength", len));
         var data = new byte[len];
         if (len > 0 && !ReadExactly(data)) return null;
         return ((SeatMsg)_header[4], data);
@@ -108,7 +108,7 @@ internal sealed class SeatChannel(Stream stream) : IDisposable
     }
 
     public static JsonObject ParseJson(byte[] data) =>
-        JsonNode.Parse(data) as JsonObject ?? throw new InvalidDataException("JSON no es un objeto");
+        JsonNode.Parse(data) as JsonObject ?? throw new InvalidDataException(BackendText.Get("seatIpc.invalidJsonObject"));
 
     public void Dispose() => stream.Dispose();
 }
