@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Postes] « {0} » : impossible de rallumer le poste : {1}",
   "seat.waitingImageFailed": "[Postes] « {0} » : impossible d’afficher l’image d’attente : {1}",
   "seat.sessionDidNotRestart": "La session n’a pas redémarré.",
-  "seat.sessionRestartTimeout": "Le délai de redémarrage de la session a expiré."
+  "seat.sessionRestartTimeout": "Le délai de redémarrage de la session a expiré.",
+  "composite.created": "[Sessions composites] Session composite « {0} » ({1}) créée avec : {2}",
+  "composite.updated": "[{0}] Session composite modifiée.",
+  "composite.startingMember": "[{0}] Démarrage de « {1} » pour la session composite…",
+  "composite.steamConfigFailed": "[{0}] Impossible de configurer l’application Steam de la session composite : {1}",
+  "composite.startAborted": "[{0}] Démarrage annulé (la session a été arrêtée pendant son démarrage).",
+  "composite.started": "[{0}] Session composite active : {1} ; clavier et souris de « {2} » (session Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Impossible de supprimer {1} : {2}",
+  "composite.stoppingMember": "[{0}] Arrêt de « {1} », démarrée par la session composite.",
+  "composite.restoreResolutionFailed": "[{0}] « {1} » n’a pas pu retrouver sa résolution : {2}",
+  "composite.keyboardStopped": "[{0}] La session du clavier s’est arrêtée ; arrêt de la session composite.",
+  "composite.keyboardSessionChanged": "[{0}] La session du clavier est passée à la session Windows {1} ; relancement de Sunshine.",
+  "composite.watchFailed": "[{0}] Erreur lors de la surveillance de la session composite : {1}",
+  "composite.waitingImageFailed": "[{0}] Impossible de préparer l’image d’attente du slot {1} : {2}",
+  "composite.steamActionFailed": "[{0}] Échec de l’action Steam « {1} » dans la session Windows {2} : {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture : « {1} » dans {2} session(s).",
+  "composite.steamOpen": "ouvrir",
+  "composite.steamClose": "fermer"
 }
