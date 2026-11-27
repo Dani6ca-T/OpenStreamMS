@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Munkamenet zárolása: a munkaállomás jelszót fog kérni…",
   "seats.statusActive": "Aktív: kép, hang és perifériák csatlakoztatva.",
   "seats.statusDisconnectedFromSeat": "A munkaállomásról leválasztva. Indítsa újra az OpenStreamMS-ből.",
-  "seats.statusStoppedAfterError": "Leállítva: {0}. Indítsa újra az OpenStreamMS-ből."
+  "seats.statusStoppedAfterError": "Leállítva: {0}. Indítsa újra az OpenStreamMS-ből.",
+  "seats.consoleUserAutoStartError": "Ez a munkaállomás ugyanazt a felhasználót használja, mint a konzol, ezért önállóan nem indulhat. Indítsa el az OpenStreamMS-ből, vagy rendeljen hozzá másik munkamenetet.",
+  "seats.monitorAlreadyAssigned": "A monitor már a(z) „{0}” munkaállomáshoz van rendelve.",
+  "seats.monitorAreaOverlap": "A monitor ezen része átfedésben van a(z) „{0}” munkaállomás részével.",
+  "seats.notFound": "A(z) {0} munkaállomás nem létezik."
 }
