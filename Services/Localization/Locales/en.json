@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "'{0}': {1} device(s) assigned to session {2}.",
   "seats.devicePortEmpty": "'{0}': nothing is connected to the port for '{1}' ({2}, {3}). If you moved it to another port, hub, or dock, assign it again.",
   "seats.started": "Seat '{0}' active.",
-  "seats.startFailed": "Seat '{0}' failed to start: {1}"
+  "seats.startFailed": "Seat '{0}' failed to start: {1}",
+  "seats.textureConfigMissing": "Agent did not send the texture configuration.",
+  "seats.textureHandlesMissing": "Agent did not provide texture handles.",
+  "seats.presenterReadyMissing": "Presenter did not send confirmation.",
+  "seats.microphoneDisconnected": "'{0}': microphone '{1}' is not connected; the seat starts without a microphone.",
+  "seats.sessionResolutionRestoreFailed": "'{0}': could not restore the session resolution: {1}",
+  "seats.stopped": "Seat '{0}' stopped.",
+  "seats.vigemMissing": "'{0}': ViGEmBus is not installed; controllers are isolated with HidHide.",
+  "seats.sessionUserUnknown": "'{0}': could not determine the user of session {1}; its other USB devices remain visible in all sessions.",
+  "seats.rawInputShared": "'{0}': {1} remains shared with the console (Raw Input).",
+  "seats.usbEventsSent": "{0} event(s) sent to the agent for '{1}' (last: type={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Could not send input to the agent for '{0}': {1}",
+  "seats.inputInterfacesCaptured": "'{0}': {1} of {2} input interface(s) separated from the console."
 }
