@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp non è connesso; avvio del presentatore autonomo nella sessione della console {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Nessun utente ha effettuato l'accesso alla console fisica.",
   "seatHostControl.trayHostConnected": "[TrayApp] Connesso alla pipe di controllo degli host dei posti.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Errore durante l'elaborazione del comando del posto: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Errore durante l'elaborazione del comando del posto: {0}",
+  "guideGuard.disabled": "[Seats] Pulsante Guida: Game Bar del controller disattivata per {0} finché sono attivi dei posti.",
+  "guideGuard.disableFailed": "[Seats] Pulsante Guida: impossibile disattivare la Game Bar del controller per {0}: {1}",
+  "guideGuard.restored": "[Seats] Pulsante Guida: Game Bar del controller ripristinata per {0}.",
+  "guideGuard.restoreFailed": "[Seats] Pulsante Guida: impossibile ripristinare la Game Bar del controller per {0}: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess non riuscito per il PID di origine {0}.",
+  "handleBroker.openTargetFailed": "OpenProcess non riuscito per il PID di destinazione {0}.",
+  "handleBroker.duplicateFailed": "DuplicateHandle non riuscito dal PID {0} al PID {1}.",
+  "seatStore.readFailed": "[Seats] Impossibile leggere seats.json: {0}",
+  "seatStore.saveFailed": "[Seats] Impossibile salvare seats.json: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Pipe {0}: processo client imprevisto {1} rifiutato.",
+  "seatIpc.notServicePipe": "La pipe non appartiene al servizio (processo {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Input ricevuto: tastiera",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Input ricevuto: tipo={0} flag={1:X} dx={2} dy={3} codice={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Iniezione input (10 s): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s: inviati={0} anello_occupato={1} input={2} errori_iniezione={3} ultimo_errore={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latenza acquisizione (10 s): {0}"
 }
