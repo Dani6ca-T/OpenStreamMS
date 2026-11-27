@@ -835,12 +835,12 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     await Task.Delay(delay);
                     if (session.State != SessionState.Running) return;
                     mgr.FlushStateMirror();
-                    Logger.Log($"[{session.Name}] Mirror diferido de sunshine_state.json ejecutado tras mutación de pareos.", id);
+                    Logger.Log(BackendText.Get("session.logPairingStateMirrorCompleted", session.Name), id);
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error($"[{session.Name}] Error en mirror diferido tras mutación de pareos: {ex.Message}", id);
+                Logger.Error(BackendText.Get("session.logPairingStateMirrorFailed", session.Name, ex.Message), id);
             }
             finally
             {
@@ -889,13 +889,13 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         var toStart = _sessions.Values.Where(s => s.Enabled).ToList();
         if (toStart.Count == 0) return;
 
-        Logger.Log($"[SessionService] Auto-arrancando {toStart.Count} sesión(es) habilitada(s)...");
+        Logger.Log(BackendText.Get("session.logAutoStartingEnabled", toStart.Count));
         foreach (var session in toStart)
         {
             try { Start(session.Id); }
             catch (Exception ex)
             {
-                Logger.Log($"[{session.Name}] No se pudo auto-arrancar: {ex.Message}");
+                Logger.Warning(BackendText.Get("session.logAutoStartFailed", session.Name, ex.Message));
             }
         }
     }
@@ -929,9 +929,9 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             if (!ready) continue;
 
             _awaitingConsoleUser.TryRemove(id, out _);
-            Logger.Log($"[{session.Name}] Hay una sesión iniciada en Windows ({consoleId}): se arranca la sesión local.", session.Id);
+            Logger.Log(BackendText.Get("session.logConsoleSessionDetectedStartLocal", session.Name, consoleId), session.Id);
             try { Start(id); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] No se pudo arrancar al iniciar sesión en Windows: {ex.Message}", session.Id); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logConsoleSessionStartFailed", session.Name, ex.Message), session.Id); }
         }
     }
 
@@ -968,12 +968,12 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 {
                     var launchError = result.Message ?? BackendText.Get("error.request");
                     if (FailIfStillRunning(session, launchError))
-                        Logger.Error($"[{session.Name}] Sunshine no pudo arrancar: {launchError}", session.Id);
+                        Logger.Error(BackendText.Get("session.logSunshineLaunchFailed", session.Name, launchError), session.Id);
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error($"[{session.Name}] Error en monitorización: {ex.Message}", session.Id);
+                Logger.Error(BackendText.Get("session.logMonitorFailed", session.Name, ex.Message), session.Id);
                 FailIfStillRunning(session, ex.Message);
             }
             finally
@@ -1149,7 +1149,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 }
                 _sessions[session.Id] = session;
             }
-            Logger.Log($"[SessionService] {data.Length} sesión(es) cargadas desde disco.");
+            Logger.Log(BackendText.Get("session.logLoadedFromDisk", data.Length));
             if (migrated)
             {
                 Logger.Log("[SessionService] Puertos WebRTC asignados a sesiones existentes.");
@@ -1193,7 +1193,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (rdpId > 0)
         {
             try { StreamProfileSetup.LogoffSession(rdpId); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al cerrar la sesión Windows {rdpId}: {ex.Message}", session.Id); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logWindowsSessionCloseWarning", session.Name, rdpId, ex.Message), session.Id); }
             if (session.RdpSessionId == rdpId) session.RdpSessionId = 0;
         }
         if (freeRdpPid > 0)
@@ -1225,7 +1225,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         {
             if (!StartStillWanted(session, generation))
             {
-                Logger.Log($"[{session.Name}] Inicio abandonado antes de empezar (llegó otra orden).", session.Id);
+                Logger.Log(BackendText.Get("session.logStartAbandoned", session.Name), session.Id);
                 return;
             }
 
@@ -1276,7 +1276,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 IsolatedUserManager.EnsureRemoteLogonForOwnAccount(session.Username, session.Domain);
             }
 
-            Logger.Log($"[{session.Name}] Iniciando sesión RDP para usuario '{user.Username}'...", session.Id);
+            Logger.Log(BackendText.Get("session.logCreatingRdpSession", session.Name, user.Username), session.Id);
             session.StartPhase = "rdp";
 
             var rdpId = RdpSessionCreator.GetOrCreateSession(user,
