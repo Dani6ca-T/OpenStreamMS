@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Phiên Windows {1} chưa đóng xong.",
   "session.logFreeRdpStopped": "[{0}] Đã dừng FreeRDP (PID {1}).",
   "session.logStopWarning": "[{0}] Cảnh báo khi dừng: {1}",
-  "session.logStopped": "[{0}] Đã dừng."
+  "session.logStopped": "[{0}] Đã dừng.",
+  "session.logProtocolChanged": "[{0}] Giao thức truyền phát: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Cảnh báo khi dừng Sunshine ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine đã dừng do {1}; sẽ tự động khởi chạy lại.",
+  "session.logSunshinePauseWarning": "[{0}] Cảnh báo khi tạm dừng Sunshine: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine đã tạm dừng ({1}).",
+  "session.logSunshineResumed": "[{0}] Sunshine đã tiếp tục; sẽ tự động khởi chạy lại.",
+  "session.logMuteRdpClient": "[{0}] Đang tắt tiếng ứng dụng khách RDP (PID={1}) trên máy chủ..."
 }
