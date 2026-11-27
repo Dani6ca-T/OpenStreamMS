@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile hoppades över: inbyggd isolering tillhandahåller redan en separat profil.",
   "session.logStreamProfileConfiguring": "[{0}] Konfigurerar en separat strömningsprofil...",
   "session.logStartFailed": "[{0}] Starten misslyckades: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Det valda protokollet innehåller WebRTC, men den konfigurerade Sunshine-versionen stöder det inte (använd sunshine-webrtc); endast Moonlight fungerar."
+  "session.logWebRtcUnsupported": "[{0}] Det valda protokollet innehåller WebRTC, men den konfigurerade Sunshine-versionen stöder det inte (använd sunshine-webrtc); endast Moonlight fungerar.",
+  "session.logSaveFailed": "[SessionService] Det gick inte att spara sessionerna: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Säkerhetskopia av den oläsbara sessionsfilen sparad i \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] Det gick inte att flytta undan den oläsbara sessionsfilen: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] WebRTC-portar tilldelade till befintliga sessioner.",
+  "session.logLoadFailed": "[SessionService] Det gick inte att läsa in sessionerna: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Varning när Sunshine stoppades efter en övergiven start: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Sunshine-instansen finns redan på: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Det gick inte att rensa kopierat malltillstånd: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Instansbehörigheter justerade för \"{0}\" (skrivåtkomst endast till config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Det gick inte att justera behörigheter för \"{0}\" i {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Brandvägg ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Uppdaterar Sunshine-instansen: {1} → {2} (config/, parkopplingar, autentiseringsuppgifter och inställningar bevaras)."
 }
