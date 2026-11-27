@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Получен ввод: тип={0} флаги={1:X} dx={2} dy={3} код={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Ввод за 10 с: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 с: отправлено={0} кольцо_занято={1} ввод={2} сбоев_ввода={3} последняя_ошибка={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Задержка захвата за 10 с: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Задержка захвата за 10 с: {0}",
+  "seat.restartAdjustingResolution": "Настройка сеанса: {0}x{1} при {2} Гц…",
+  "seat.restartRestartingSession": "Перезапуск сеанса…",
+  "seatIpc.invalidMessageLength": "Недопустимая длина сообщения канала: {0} байт.",
+  "seatIpc.invalidJsonObject": "Данные JSON не являются объектом.",
+  "seatHost.frameLatencyName": "композиция→экран",
+  "seatHost.cursorLatencyName": "ввод→экран"
 }
