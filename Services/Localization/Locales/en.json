@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Could not prepare Steam for \"{0}\": {1}",
   "service.started": "[Service] OpenStreamMS started. API is available on the configured port.",
   "service.multiRdpCheckFailed": "[Service] Multi-RDP check failed: {0}",
-  "service.stopped": "[Service] Stopped."
+  "service.stopped": "[Service] Stopped.",
+  "isolatedUser.winStationsKeyMissing": "Windows registry key HKLM\\{0} does not exist.",
+  "isolatedUser.rdpTcpKeyMissing": "Windows registry key HKLM\\{0} does not exist.",
+  "steamIsolation.userRegistryNotLoaded": "The user's registry hive is not loaded.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell is unavailable.",
+  "steamIsolation.shortcutDescription": "Steam isolated from other sessions (OpenStreamMS)"
 }
