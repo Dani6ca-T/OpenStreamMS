@@ -318,5 +318,14 @@
   "seats.managerStarted": "シートマネージャーを起動しました（{0} シート）。",
   "seats.multiRdpCheckTimeout": "multi-RDP の確認が 120 秒以内に完了しませんでした。シートは引き続き自動起動します。",
   "seats.autoStartSameConsoleUser": "「{0}」は自動起動しません。コンソールと同じユーザーを使用しています。",
-  "seats.autoStartFailed": "「{0}」の自動起動に失敗しました：{1}"
+  "seats.autoStartFailed": "「{0}」の自動起動に失敗しました：{1}",
+  "seats.monitorBusy": "モニターはシート「{0}」で使用中です。",
+  "seats.created": "シート「{0}」を作成しました。",
+  "seats.deleted": "シート「{0}」を削除しました。",
+  "seats.microphoneAlreadyAssigned": "マイクは既にシート「{0}」に割り当てられています。",
+  "seats.monitorActivationFailed": "「{0}」：モニターを有効にできませんでした。既に有効な場合は引き続き表示されます。",
+  "seats.devicesAssigned": "「{0}」：{1} 台のデバイスをセッション {2} に割り当てました。",
+  "seats.devicePortEmpty": "「{0}」：「{1}」のポートに何も接続されていません（{2}, {3}）。別のポート、ハブ、ドックに移動した場合は再割り当てしてください。",
+  "seats.started": "シート「{0}」はアクティブです。",
+  "seats.startFailed": "シート「{0}」を起動できませんでした：{1}"
 }
