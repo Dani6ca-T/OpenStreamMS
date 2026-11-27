@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Ez a munkaállomás ugyanazt a felhasználót használja, mint a konzol, ezért önállóan nem indulhat. Indítsa el az OpenStreamMS-ből, vagy rendeljen hozzá másik munkamenetet.",
   "seats.monitorAlreadyAssigned": "A monitor már a(z) „{0}” munkaállomáshoz van rendelve.",
   "seats.monitorAreaOverlap": "A monitor ezen része átfedésben van a(z) „{0}” munkaállomás részével.",
-  "seats.notFound": "A(z) {0} munkaállomás nem létezik."
+  "seats.notFound": "A(z) {0} munkaállomás nem létezik.",
+  "session.logStopping": "[{0}] Leállítás...",
+  "session.logRestartRequested": "[{0}] Újraindítás kérve (jelenlegi állapot: {1}).",
+  "session.logRestartSuperseded": "[{0}] Újraindítás megszakítva: leállítás közben másik parancs érkezett.",
+  "session.logSunshineKillTimeout": "[{0}] Időtúllépés a Sunshine leállításakor.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] A(z) {1} Windows-munkamenet bezárása nem fejeződött be.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) leállítva.",
+  "session.logStopWarning": "[{0}] Figyelmeztetés leállítás közben: {1}",
+  "session.logStopped": "[{0}] Leállítva."
 }
