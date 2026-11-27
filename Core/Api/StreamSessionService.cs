@@ -525,7 +525,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
 
         session.StreamProtocol = protocol;
         SaveSessions();
-        Logger.Log($"[{session.Name}] Protocolo de streaming: {protocol.ToConfigValue()}.", session.Id);
+        Logger.Log(BackendText.Get("session.logProtocolChanged", session.Name, protocol.ToConfigValue()), session.Id);
 
         if (Directory.Exists(GetSunshineInstanceDir(id)))
         {
@@ -561,10 +561,10 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             if (_sunshine.TryRemove(session.Id, out var mgr))
             {
                 try { mgr.Stop(); }
-                catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al parar Sunshine ({reason}): {ex.Message}", session.Id); }
+                catch (Exception ex) { Logger.Warning(BackendText.Get("session.logSunshineStopWarning", session.Name, reason, ex.Message), session.Id); }
             }
             session.SunshinePid = 0;
-            Logger.Log($"[{session.Name}] Sunshine detenido por {reason}; se relanzará automáticamente.", session.Id);
+            Logger.Log(BackendText.Get("session.logSunshineStoppedForRelaunch", session.Name, reason), session.Id);
         }
         finally
         {
@@ -590,17 +590,17 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (_sunshine.TryRemove(id, out var mgr))
         {
             try { mgr.Stop(); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al pausar Sunshine: {ex.Message}", id); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logSunshinePauseWarning", session.Name, ex.Message), id); }
         }
         session.SunshinePid = 0;
-        Logger.Log($"[{session.Name}] Sunshine en pausa ({reason}).", id);
+        Logger.Log(BackendText.Get("session.logSunshinePaused", session.Name, reason), id);
     }
 
     /// <summary>Quita la pausa: el monitor relanza Sunshine en su siguiente pasada.</summary>
     public void ResumeSunshine(Guid id)
     {
         if (_sunshinePaused.TryRemove(id, out _) && _sessions.TryGetValue(id, out var session))
-            Logger.Log($"[{session.Name}] Sunshine reanudado; se relanzará automáticamente.", id);
+            Logger.Log(BackendText.Get("session.logSunshineResumed", session.Name), id);
     }
 
     /// <summary>
@@ -640,7 +640,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     private static void MuteRdpClientOnHost(StreamSession session, int clientPid)
     {
         if (RdpSessionCreator.IsFreeRdpProcess(clientPid)) return;
-        Logger.Log($"[{session.Name}] Silenciando el cliente RDP (PID={clientPid}) en el host...", session.Id);
+        Logger.Log(BackendText.Get("session.logMuteRdpClient", session.Name, clientPid), session.Id);
         AudioSessionMuter.StartPersistentMute((uint)clientPid);
     }
 
