@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "'{0}': {1} dispositivo(s) asignados a la sesión {2}.",
   "seats.devicePortEmpty": "'{0}': no hay nada conectado en el puerto de '{1}' ({2}, {3}). Si lo cambiaste de puerto, hub o dock, vuelve a asignarlo.",
   "seats.started": "Puesto '{0}' activo.",
-  "seats.startFailed": "El puesto '{0}' no pudo arrancar: {1}"
+  "seats.startFailed": "El puesto '{0}' no pudo arrancar: {1}",
+  "seats.textureConfigMissing": "El agente no envió la configuración de texturas.",
+  "seats.textureHandlesMissing": "El agente no proporcionó los identificadores de texturas.",
+  "seats.presenterReadyMissing": "El presentador no envió confirmación.",
+  "seats.microphoneDisconnected": "'{0}': el micrófono '{1}' no está conectado; el puesto arranca sin micrófono.",
+  "seats.sessionResolutionRestoreFailed": "'{0}': no se pudo restaurar la resolución de la sesión: {1}",
+  "seats.stopped": "Puesto '{0}' detenido.",
+  "seats.vigemMissing": "'{0}': ViGEmBus no está instalado; los mandos se aíslan con HidHide.",
+  "seats.sessionUserUnknown": "'{0}': no se pudo saber el usuario de la sesión {1}; sus otros dispositivos USB quedan visibles en todas las sesiones.",
+  "seats.rawInputShared": "'{0}': {1} sigue compartido con la consola (Raw Input).",
+  "seats.usbEventsSent": "{0} evento(s) enviados al agente de '{1}' (último: tipo={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "No se pudo enviar la entrada al agente de '{0}': {1}",
+  "seats.inputInterfacesCaptured": "'{0}': {1} de {2} interfaces de entrada separadas de la consola."
 }
