@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] '{0}' için Steam hazırlanamadı: {1}",
   "service.started": "[Service] OpenStreamMS başlatıldı. API yapılandırılan bağlantı noktasında kullanılabilir.",
   "service.multiRdpCheckFailed": "[Service] Multi-RDP denetimi başarısız oldu: {0}",
-  "service.stopped": "[Service] Durduruldu."
+  "service.stopped": "[Service] Durduruldu.",
+  "isolatedUser.winStationsKeyMissing": "HKLM\\{0} Windows kayıt defteri anahtarı mevcut değil.",
+  "isolatedUser.rdpTcpKeyMissing": "HKLM\\{0} Windows kayıt defteri anahtarı mevcut değil.",
+  "steamIsolation.userRegistryNotLoaded": "Kullanıcının kayıt defteri kovanı yüklenmemiş.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell kullanılamıyor.",
+  "steamIsolation.shortcutDescription": "Diğer oturumlardan yalıtılmış Steam (OpenStreamMS)"
 }
