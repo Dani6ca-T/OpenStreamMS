@@ -45,11 +45,11 @@ public partial class StreamSessionService
             try
             {
                 int pid = new ProcessInSession().LaunchInSession(ws, exe, "--hud", visible: true);
-                Logger.Log($"[HUD] Lanzado en la sesión de Windows {ws} (PID {pid}): Ctrl+Alt+H o Guía + Back.");
+                Logger.Log(BackendText.Get("hud.launched", ws, pid));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[HUD] No se pudo lanzar en la sesión de Windows {ws}: {ex.Message}");
+                Logger.Warning(BackendText.Get("hud.launchFailed", ws, ex.Message));
             }
         }
     }
