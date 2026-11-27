@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "HidHide izin listesi okunamadı: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping devre dışı bırakıldı (oturum başına denetleyici yalıtımını atlar).",
   "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping devre dışı bırakılamadı: {0}",
-  "gamepad.jailPrepareFailed": "ViGEm denetleyicisi için HidHide jail hazırlanamadı: {0}"
+  "gamepad.jailPrepareFailed": "ViGEm denetleyicisi için HidHide jail hazırlanamadı: {0}",
+  "gamepad.stateEnabled": "etkin",
+  "gamepad.stateDisabled": "devre dışı",
+  "gamepad.stateEmpty": "boş",
+  "gamepad.unknownVersion": "bilinmeyen sürüm"
 }
