@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "잘못된 파이프 메시지 길이: {0}바이트.",
   "seatIpc.invalidJsonObject": "JSON 페이로드가 개체가 아닙니다.",
   "seatHost.frameLatencyName": "합성→디스플레이",
-  "seatHost.cursorLatencyName": "입력→디스플레이"
+  "seatHost.cursorLatencyName": "입력→디스플레이",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "Windows 세션 {0}에서 오디오 전송 중: {1}",
+  "audioRelay.playing": "'{0}'에서 재생 중: {1}",
+  "audioRelay.invalidHeader": "오디오 릴레이 헤더가 잘못되었습니다.",
+  "audioRelay.noOutputDevice": "키보드 세션에 오디오 출력 장치가 없습니다.",
+  "audioRelay.invalidBlock": "잘못된 오디오 블록입니다.",
+  "inputRelay.started": "[InputRelay] Windows 세션 {0} ({1})의 복합 키보드 및 마우스 릴레이입니다.",
+  "inputRelay.createFailed": "{0}을(를) 만들지 못했습니다: {1}",
+  "inputRelay.invalidHeader": "입력 릴레이 헤더가 잘못되었습니다.",
+  "inputRelay.invalidBatch": "입력 배치가 잘못되었습니다.",
+  "osmsPad.openFailed": "[OsmsPad] 드라이버를 열지 못했습니다: 오류 {0}.",
+  "vigem.openFailed": "[PadCapture] ViGEmBus를 열지 못했습니다: {0}"
 }
