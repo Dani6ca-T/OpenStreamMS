@@ -127,7 +127,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         if (predicted is not null && !Jail(add: [HidHide.JailEntry(predicted, windowsSession)], remove: [predicted]))
             predicted = null;
         if (predicted is not null)
-            Logger.Log($"[Gamepad] {predicted} visible solo en la sesión {windowsSession} desde antes de enchufarlo ('{name}').");
+            Logger.Log(BackendText.Get("gamepad.predictedPadClaimed", predicted, windowsSession, name));
         List<string> expired;
         lock (_claimsLock)
         {
@@ -327,7 +327,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         finally
         {
             ReleaseSideInputs();
-            try { ReleaseReservations(); } catch (Exception ex) { Logger.Warning($"[Gamepad] No se pudieron quitar las reservas de mandos: {ex.Message}"); }
+            try { ReleaseReservations(); } catch (Exception ex) { Logger.Warning(BackendText.Get("gamepad.releaseReservationsFailed", ex.Message)); }
             lock (_jailLock) _sharedHidHide = null;
             _hidHide?.Dispose();
         }
@@ -547,7 +547,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             pad.Session = Guid.Empty;
             pad.SessionName = claimedBy;
             pad.WindowsSession = claimedSession;
-            Logger.Log($"[Gamepad] Mando {pad.InstanceId} → '{claimedBy}' (sesión de Windows {claimedSession}): mando capturado por este servicio.");
+            Logger.Log(BackendText.Get("gamepad.padClaimed", pad.InstanceId, claimedBy, claimedSession));
             return;
         }
 
@@ -576,7 +576,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             pad.GaveUp = true;
             // Nació reservado: sin dueño, vuelve a ser visible en todas como antes.
             if (_reserved.Remove(pad.InstanceId)) ReserveJails([], [pad.InstanceId]);
-            Logger.Warning($"[Gamepad] No se pudo saber qué sesión creó el mando {pad.InstanceId}; queda visible en todas.");
+            Logger.Warning(BackendText.Get("gamepad.padOwnerUnknown", pad.InstanceId));
             return;
         }
 
@@ -607,7 +607,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             pad.Session = Guid.Empty;
             pad.SessionName = $"Windows {windowsSession}";
             pad.WindowsSession = windowsSession;
-            Logger.Log($"[Gamepad] Mando OsmsPad {pad.InstanceId} → sesión de Windows {windowsSession} (no es de ninguna sesión de OpenStreamMS)");
+            Logger.Log(BackendText.Get("gamepad.osmsPadOutsideSession", pad.InstanceId, windowsSession));
             return;
         }
         // El número del mando en su Sunshine solo hace falta para la sesión compuesta: se espera un poco
