@@ -558,5 +558,15 @@
   "seatAgent.audioCaptureFailed": "[SeatAgent] Impossible d’initialiser la capture audio : {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Passage au bureau de saisie '{0}' (précédemment '{1}').",
   "seatAgent.switchInputDesktopFailed": "[SeatAgent] Impossible de passer au bureau de saisie '{0}' : {1}",
-  "seatAgent.audioDeviceMissing": "La session du poste ne dispose d’aucun périphérique de lecture (Windows n’a pas créé « Remote Audio ») ; le poste n’aura pas de son."
+  "seatAgent.audioDeviceMissing": "La session du poste ne dispose d’aucun périphérique de lecture (Windows n’a pas créé « Remote Audio ») ; le poste n’aura pas de son.",
+  "seatAccess.nothingConnected": "[SeatAccess] Nothing is connected to {1} for '{0}'; it will be reserved when a device is connected.",
+  "seatAccess.rootReserved": "[SeatAccess] {0} was reserved for a seat; making it available to all sessions again.",
+  "seatAccess.pendingNodes": "[SeatAccess] {0} reserved node(s) are disconnected; they will be released when connected.",
+  "seatAccess.restoreTargetFailed": "[SeatAccess] Failed to restore {0}: {1}",
+  "seatAccess.deviceReserved": "[SeatAccess] '{0}': {1} reserved ({2} node(s)); other sessions cannot open it.",
+  "seatAccess.reserveFailed": "[SeatAccess] '{0}': failed to reserve {1}: {2}",
+  "seatAccess.deviceReleased": "[SeatAccess] {0} is available to all sessions again.",
+  "seatAccess.releaseFailed": "[SeatAccess] Failed to release {0}: {1}",
+  "seatAccess.securityDescriptorChangeFailed": "{0}: could not change its security descriptor",
+  "seatAccess.deviceNotFound": "{0}: device not found"
 }
