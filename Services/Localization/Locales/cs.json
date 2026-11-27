@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Konfigurace relace aktualizována.",
   "session.logRestartAfterConfigFailed": "Po aktualizaci konfigurace se nepodařilo relaci restartovat: {0}",
   "session.alreadyInState": "Relace je již ve stavu {0}.",
-  "error.request": "Požadavek se nepodařilo dokončit."
+  "error.request": "Požadavek se nepodařilo dokončit.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Odložené zrcadlení sunshine_state.json po změně párování dokončeno.",
+  "session.logPairingStateMirrorFailed": "[{0}] Odložené zrcadlení sunshine_state.json po změně párování selhalo: {1}",
+  "session.logAutoStartingEnabled": "Automaticky se spouští {0} povolených relací...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Zjištěna relace Windows ({1}); spouští se místní relace.",
+  "session.logConsoleSessionStartFailed": "[{0}] Po přihlášení do Windows se nepodařilo spustit: {1}",
+  "session.logMonitorFailed": "[{0}] Chyba monitorování: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Z disku načteno relací: {0}.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Upozornění při zavírání relace Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Spuštění zrušeno ještě před zahájením (dorazil jiný příkaz).",
+  "session.logCreatingRdpSession": "[{0}] Spouštění relace RDP pro uživatele \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine se nepodařilo spustit: {1}",
+  "session.logAutoStartFailed": "[{0}] Automatické spuštění selhalo: {1}"
 }
