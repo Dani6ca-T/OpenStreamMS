@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile přeskočeno: nativní izolace již poskytuje vlastní profil.",
   "session.logStreamProfileConfiguring": "[{0}] Konfiguruje se samostatný profil streamování...",
   "session.logStartFailed": "[{0}] Spuštění se nezdařilo: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Vybraný protokol zahrnuje WebRTC, ale nakonfigurovaná verze Sunshine jej nepodporuje (použijte sunshine-webrtc); bude fungovat pouze Moonlight."
+  "session.logWebRtcUnsupported": "[{0}] Vybraný protokol zahrnuje WebRTC, ale nakonfigurovaná verze Sunshine jej nepodporuje (použijte sunshine-webrtc); bude fungovat pouze Moonlight.",
+  "session.logSaveFailed": "[SessionService] Relace se nepodařilo uložit: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Záloha nečitelného souboru relací uložena do \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] Nečitelný soubor relací se nepodařilo odložit: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Porty WebRTC přiřazeny existujícím relacím.",
+  "session.logLoadFailed": "[SessionService] Relace se nepodařilo načíst: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Upozornění při zastavování Sunshine po opuštěném spuštění: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Instance Sunshine již existuje v: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Nepodařilo se vyčistit zkopírovaný stav šablony: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Oprávnění instance upravena pro \"{0}\" (zápis pouze do config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Nepodařilo se upravit oprávnění pro \"{0}\" v {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Brána firewall ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Aktualizace instance Sunshine: {1} → {2} (config/, párování, přihlašovací údaje a nastavení zůstávají zachovány)."
 }
