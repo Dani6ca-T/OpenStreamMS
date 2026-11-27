@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine は {1} で STATUS_BREAKPOINT ({0}) により失敗しました (PID={2})。",
   "sunshineCrash.fault": "Sunshine は {1} で {0} により失敗しました (PID={2})。",
   "sunshineCrash.readApplicationErrorFailed": "Application Error イベントを読み取れませんでした: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil が {0} を返しました: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil が {0} を返しました: {1}",
+  "sunshine.stateMirrorStarted": "sunshine_state.json の状態ミラーを開始しました: {0}"
 }
