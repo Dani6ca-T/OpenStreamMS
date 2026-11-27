@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Figyelmeztetés a Sunshine szüneteltetésekor: {1}",
   "session.logSunshinePaused": "[{0}] A Sunshine szünetel ({1}).",
   "session.logSunshineResumed": "[{0}] A Sunshine folytatódott; automatikusan újraindul.",
-  "session.logMuteRdpClient": "[{0}] Az RDP-ügyfél (PID={1}) némítása a gazdagépen..."
+  "session.logMuteRdpClient": "[{0}] Az RDP-ügyfél (PID={1}) némítása a gazdagépen...",
+  "session.logRdpDisplay": "[{0}] RDP-kijelző: {1}x{2}, {3} fps; mikrofon: {4}"
 }
