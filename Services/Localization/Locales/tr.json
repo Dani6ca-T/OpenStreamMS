@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Tepsi simgesi otomatik başlatmadan kaldırıldı.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Çalıştırılabilir dosya:",
-  "install.configPath": "Yapılandırma:"
+  "install.configPath": "Yapılandırma:",
+  "diagnostics.logGenerated": "Tanılama paketi oluşturuldu ({0} KB, {1} günlük olaylar).",
+  "diagnostics.logGenerateFailed": "Tanılama paketi oluşturulamadı: {0}",
+  "hud.sessionRestarted": "'{0}' oturumu HUD üzerinden yeniden başlatıldı.",
+  "hud.powerDenied": "'{0}' kaynağından kapatma/yeniden başlatma reddedildi: oturumun izni yok.",
+  "hud.powerRequested": "PC için {0}, '{1}' tarafından istendi.",
+  "hud.powerCancelled": "'{0}' kaynağından kapatma/yeniden başlatma iptal edildi.",
+  "power.cancelled": "Kapatma/yeniden başlatma iptal edildi.",
+  "power.noPending": "İptal edilecek bekleyen kapatma yok ({0}).",
+  "power.shutdownFailed": "shutdown.exe hatası: {0}",
+  "power.scheduled": "{0}, {1} sn sonra planlandı.",
+  "settings.logLevelChanged": "Günlük düzeyi: {0} → {1}."
 }
