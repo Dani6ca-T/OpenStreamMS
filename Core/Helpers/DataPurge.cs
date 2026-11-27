@@ -60,8 +60,8 @@ namespace OpenStreamMS.Core.Helpers
 
         static void Step(string what, Action action)
         {
-            try { action(); Console.WriteLine($"[Purge] {BackendText.Get("purge.stepOk", what)}"); }
-            catch (Exception ex) { Console.WriteLine($"[Purge] {BackendText.Get("purge.stepError", what, ex.Message)}"); }
+            try { action(); Console.WriteLine("[Purge] " + BackendText.Get("purge.stepOk", what)); }
+            catch (Exception ex) { Console.WriteLine("[Purge] " + BackendText.Get("purge.stepError", what, ex.Message)); }
         }
 
         /// <summary>Un perfil cargado no se puede borrar: primero se cierra su sesión.</summary>
