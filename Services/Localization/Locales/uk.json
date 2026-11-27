@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Значок у системному треї видалено з автозапуску.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Виконуваний файл:",
-  "install.configPath": "Конфігурація:"
+  "install.configPath": "Конфігурація:",
+  "diagnostics.logGenerated": "Пакет діагностики створено ({0} КБ, події за {1} дн.).",
+  "diagnostics.logGenerateFailed": "Не вдалося створити пакет діагностики: {0}",
+  "hud.sessionRestarted": "Сеанс «{0}» перезапущено з HUD.",
+  "hud.powerDenied": "Відхилено вимкнення/перезапуск від «{0}»: сеанс не має дозволу.",
+  "hud.powerRequested": "«{1}» запросив(ла) {0} комп’ютера.",
+  "hud.powerCancelled": "Вимкнення/перезапуск скасовано з «{0}».",
+  "power.cancelled": "Вимкнення/перезапуск скасовано.",
+  "power.noPending": "Немає очікуваного вимкнення для скасування ({0}).",
+  "power.shutdownFailed": "Помилка shutdown.exe: {0}",
+  "power.scheduled": "{0} заплановано через {1} с.",
+  "settings.logLevelChanged": "Рівень журналювання: {0} → {1}."
 }
