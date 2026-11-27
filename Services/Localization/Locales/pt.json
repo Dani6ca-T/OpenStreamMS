@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp não está ligado; a iniciar o apresentador autónomo na sessão da consola {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Não existe nenhum utilizador com sessão iniciada na consola física.",
   "seatHostControl.trayHostConnected": "[TrayApp] Ligado ao canal de controlo dos anfitriões dos postos.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Erro ao processar o comando do posto: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Erro ao processar o comando do posto: {0}",
+  "guideGuard.disabled": "[Seats] Botão Guia: Game Bar do comando desativada para {0} enquanto houver postos ativos.",
+  "guideGuard.disableFailed": "[Seats] Botão Guia: não foi possível desativar a Game Bar do comando para {0}: {1}",
+  "guideGuard.restored": "[Seats] Botão Guia: Game Bar do comando restaurada para {0}.",
+  "guideGuard.restoreFailed": "[Seats] Botão Guia: não foi possível restaurar a Game Bar do comando para {0}: {1}",
+  "handleBroker.openSourceFailed": "Falha de OpenProcess para o PID de origem {0}.",
+  "handleBroker.openTargetFailed": "Falha de OpenProcess para o PID de destino {0}.",
+  "handleBroker.duplicateFailed": "Falha de DuplicateHandle do PID {0} para o PID {1}.",
+  "seatStore.readFailed": "[Seats] Não foi possível ler seats.json: {0}",
+  "seatStore.saveFailed": "[Seats] Não foi possível guardar seats.json: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Canal {0}: processo cliente inesperado {1} rejeitado.",
+  "seatIpc.notServicePipe": "O canal não pertence ao serviço (processo {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Entrada recebida: teclado",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Entrada recebida: tipo={0} flags={1:X} dx={2} dy={3} código={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Injeção de entrada (10 s): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s: enviados={0} anel_ocupado={1} entrada={2} falhas_injeção={3} último_erro={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latência de captura (10 s): {0}"
 }
