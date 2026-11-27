@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "Nepodařilo se přečíst {0}: {1}",
   "gamepad.hidHideBlacklistUpdateFailed": "Nepodařilo se aktualizovat černou listinu HidHide: {0}",
   "gamepad.usbPortCycled": "{0}: jiný proces jej používal a Windows odložil restart; port USB byl odpojen a znovu připojen ({1}) {2}.",
-  "gamepad.usbPortCycleFailed": "{0}: Windows odložil restart (zařízení používá jiný proces) a port USB se nepodařilo cyklovat ({1}). Proces, který jej již otevřel, jej stále vidí, dokud jej nezavře."
+  "gamepad.usbPortCycleFailed": "{0}: Windows odložil restart (zařízení používá jiný proces) a port USB se nepodařilo cyklovat ({1}). Proces, který jej již otevřel, jej stále vidí, dokud jej nezavře.",
+  "gamepad.clearJailsFailed": "Nepodařilo se odebrat položky relací z HidHide: {0}"
 }
