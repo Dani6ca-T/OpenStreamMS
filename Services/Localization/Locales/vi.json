@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Tay cầm {0} ({1}) được chuyển sang phiên '{2}' (phiên Windows {3}) do phiên tổng hợp thay đổi.",
   "gamepad.futurePadsReserved": "Các tay cầm Moonlight sắp tới được ẩn trước cho đến khi xác định được phiên ({0}).",
   "gamepad.futurePadReservationsReleased": "Không có luồng nào đang chạy: đã giải phóng đặt trước các tay cầm tiếp theo.",
-  "gamepad.futurePadReservationFailed": "Không thể đặt trước các tay cầm tiếp theo trong HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Không thể đặt trước các tay cầm tiếp theo trong HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} chỉ hiển thị trong phiên '{1}' ({2}) kể từ khi xuất hiện; đã khởi động lại để phiên đó nhận diện.",
+  "gamepad.nodeVisibleAfterRestart": "{0} chỉ hiển thị trong phiên '{1}' ({2}); đã khởi động lại để đóng các handle của phiên khác.",
+  "gamepad.nodeRestartDeferred": "{0} chỉ hiển thị trong phiên '{1}' ({2}), nhưng Windows hoãn khởi động lại vì tiến trình khác đang mở; các tiến trình đã mở vẫn thấy thiết bị cho đến khi đóng lại.",
+  "gamepad.nodeLateRestartFailed": "{0} bị ẩn muộn và không thể khởi động lại: {1}. Tiến trình ở phiên khác đã mở thiết bị vẫn tiếp tục nhìn thấy nó.",
+  "gamepad.nodeVisibleSession": "{0} chỉ hiển thị trong phiên '{1}' ({2})."
 }
