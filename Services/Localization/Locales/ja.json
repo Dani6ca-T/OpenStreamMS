@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Windows セッション {2} で Steam の '{1}' に失敗しました: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: {2} セッションで '{1}'。",
   "composite.steamOpen": "開く",
-  "composite.steamClose": "閉じる"
+  "composite.steamClose": "閉じる",
+  "gamepad.hidHideNotOpen": "分離サービスによってHidHideが開かれていません。ViGEmコントローラーは検出時に分離されます。",
+  "gamepad.deviceArrivalWatchUnavailable": "デバイスの到着を監視できません。1秒ごとの確認のみ行います。",
+  "gamepad.hidHideNotInstalled": "HidHideがインストールされていません。コントローラーはすべてのセッションで表示されます。",
+  "gamepad.hidHideEnabled": "HidHideを有効にしました。",
+  "gamepad.hidHideConfigureFailed": "HidHideを設定できませんでした: {0}",
+  "gamepad.monitorFailed": "コントローラーの監視中にエラーが発生しました: {0}"
 }
