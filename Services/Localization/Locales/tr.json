@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "{0}. denemede oturum algılandı ({1}): {2} (FreeRDP PID={3})",
   "rdp.sessionModeRelaxed": "genişletilmiş mod",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "Oturum bekleniyor… deneme {0}/20"
+  "rdp.waitingSession": "Oturum bekleniyor… deneme {0}/20",
+  "rdp.frameRateConfigured": "Kare hızı={0} fps | aralık={1} ms (bileşim {2} Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, ölçek {3} %.",
+  "rdp.betterRdpPoliciesApplied": "BetterRDP ilkeleri uygulandı.",
+  "rdp.mstscClientPoliciesApplied": "mstsc istemci ilkeleri uygulandı (bağlantı öncesi iletişim kutusu yok).",
+  "rdp.mstscClientPoliciesFailed": "mstsc HKCU ilkeleri uygulanamadı: {0}"
 }
