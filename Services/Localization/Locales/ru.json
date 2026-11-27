@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Удалена изоляция геймпадов по сеансам в HidHide; восстановлен фильтр steamxbox Steam.",
   "uninstall.seatsRestored": "Восстановлены клавиатуры/мыши рабочих мест, защита консоли, право на выключение и ограничение одной сессии на пользователя.",
   "uninstall.trayRemoved": "Значок в системном трее удалён из автозапуска.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Исполняемый файл:",
+  "install.configPath": "Конфигурация:"
 }
