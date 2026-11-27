@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Không tồn tại khóa registry Windows HKLM\\{0}.",
   "steamIsolation.userRegistryNotLoaded": "Hive registry của người dùng chưa được tải.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell không khả dụng.",
-  "steamIsolation.shortcutDescription": "Steam được cách ly khỏi các phiên khác (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Steam được cách ly khỏi các phiên khác (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] Đã chuyển tiếp âm thanh từ '{1}' đến phiên bàn phím '{2}'.",
+  "compositeAudio.forwardFailed": "[{0}] Không thể chuyển tiếp âm thanh từ '{1}': {2}"
 }
