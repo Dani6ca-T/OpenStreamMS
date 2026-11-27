@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Đã cập nhật cấu hình phiên.",
   "session.logRestartAfterConfigFailed": "Không thể khởi động lại phiên sau khi cập nhật cấu hình: {0}",
   "session.alreadyInState": "Phiên đã ở trạng thái {0}.",
-  "error.request": "Không thể hoàn tất yêu cầu."
+  "error.request": "Không thể hoàn tất yêu cầu.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Đã hoàn tất sao chép trễ sunshine_state.json sau khi thay đổi ghép đôi.",
+  "session.logPairingStateMirrorFailed": "[{0}] Sao chép trễ sunshine_state.json thất bại sau khi thay đổi ghép đôi: {1}",
+  "session.logAutoStartingEnabled": "Đang tự động khởi chạy {0} phiên đã bật...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Phát hiện phiên Windows ({1}); đang khởi chạy phiên cục bộ.",
+  "session.logConsoleSessionStartFailed": "[{0}] Không thể khởi chạy sau khi đăng nhập Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Lỗi giám sát: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Đã tải {0} phiên từ đĩa.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Cảnh báo khi đóng phiên Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Đã hủy khởi chạy trước khi bắt đầu (có lệnh khác đến).",
+  "session.logCreatingRdpSession": "[{0}] Đang khởi chạy phiên RDP cho người dùng \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Không thể khởi chạy Sunshine: {1}",
+  "session.logAutoStartFailed": "[{0}] Tự động khởi chạy thất bại: {1}"
 }
