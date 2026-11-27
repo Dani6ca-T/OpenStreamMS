@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Неуспешно записване на {0} в HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP не изведе нищо.",
-  "rdp.freeRdpOutputPrefix": "Изход от FreeRDP: "
+  "rdp.freeRdpOutputPrefix": "Изход от FreeRDP: ",
+  "seats.usbArrivalWatchUnavailable": "Не може да се следи появата на USB устройства: заснета клавиатура или мишка ще бъде възстановена при следващото стартиране.",
+  "seats.usbDriversRestoreFailed": "Неуспешно възстановяване на USB драйверите: {0}",
+  "seats.reservedDevicesReleaseFailed": "Неуспешно освобождаване на резервираните устройства: {0}",
+  "seats.managerStarted": "Мениджърът на местата е стартиран ({0} места).",
+  "seats.multiRdpCheckTimeout": "Проверката на multi-RDP не завърши за 120 сек.; местата ще се стартират автоматично въпреки това.",
+  "seats.autoStartSameConsoleUser": "„{0}“ няма да се стартира автоматично: използва същия потребител като конзолата.",
+  "seats.autoStartFailed": "Автоматичното стартиране на „{0}“ не успя: {1}"
 }
