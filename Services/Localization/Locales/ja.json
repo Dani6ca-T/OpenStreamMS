@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Sunshine の認証情報をリセットしました。Sunshine は停止し、自動的に再起動します。",
   "session.logSunshineTemplateUpdated": "[{0}] Sunshine テンプレートが変更されました。インスタンスを更新中: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine インスタンスを更新できませんでした: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] ファイアウォール規則を追加できませんでした: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] ファイアウォール規則を追加できませんでした: {0}",
+  "session.logLocalSessionDesktop": "[{0}] ローカルセッション: 「{1}\\\\{2}」のデスクトップ（Windows セッション {3}）。",
+  "session.logNativeIsolationActive": "[{0}] ネイティブ分離が有効: 専用ユーザー「{1}」（プロファイル: {2}）。",
+  "session.ephemeral": "一時",
+  "session.persistent": "永続",
+  "session.logStreamProfileOmitted": "[{0}] ネイティブ分離で専用プロファイルが提供されるため、UseStreamProfile をスキップしました。",
+  "session.logStreamProfileConfiguring": "[{0}] 専用ストリーミングプロファイルを設定しています...",
+  "session.logStartFailed": "[{0}] 起動に失敗しました: {1}",
+  "session.logWebRtcUnsupported": "[{0}] 選択されたプロトコルには WebRTC が含まれていますが、設定された Sunshine ビルドは対応していません（sunshine-webrtc を使用してください）。Moonlight のみ動作します。"
 }
