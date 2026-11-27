@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] メインモニターを変更できませんでした: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig (無効化) に失敗しました: {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] モニターをデスクトップから取り外しました: {0}",
-  "displayTopology.deactivateFailed": "[Seats] モニターを無効にできませんでした: {0}"
+  "displayTopology.deactivateFailed": "[Seats] モニターを無効にできませんでした: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] ホスト制御パイプ: コンソールセッションに属していないプロセス {0} を拒否しました。",
+  "seatHostControl.trayConnected": "[Seats] TrayApp がホスト制御パイプに接続しました。",
+  "seatHostControl.controlPipeError": "[Seats] ホスト制御パイプのエラー: {0}",
+  "seatHostControl.openSeatSent": "[Seats] シート {0} の 'open_seat' コマンドを TrayApp に送信しました。",
+  "seatHostControl.openSeatSendFailed": "[Seats] TrayApp に 'open_seat' を送信できませんでした: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp が未接続のため、コンソールセッション {0} でスタンドアロンプレゼンターを起動します...",
+  "seatHostControl.consoleUserMissing": "[Seats] 物理コンソールにサインインしているユーザーがいません。",
+  "seatHostControl.trayHostConnected": "[TrayApp] シートホスト制御パイプに接続しました。",
+  "seatHostControl.commandProcessingError": "[TrayApp] シートコマンドの処理中にエラーが発生しました: {0}"
 }
