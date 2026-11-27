@@ -273,5 +273,11 @@
   "rdp.startMstsc": "正在启动 mstsc（{0}x{1}，{2} fps，{3} bpp，缩放 {4}%，AVC444 硬件）…",
   "rdp.mstscExecutableMissing": "无法启动 mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc 以 ExitCode={0} 退出，未能为“{1}”创建会话。可能存在不可见的证书/凭据对话框，或 NLA 拒绝连接。",
-  "rdp.mstscSessionTimeout": "使用 mstsc 时，“{0}”的会话在 30 秒后仍未出现。Session 0 中可能存在不可见的对话框。"
+  "rdp.mstscSessionTimeout": "使用 mstsc 时，“{0}”的会话在 30 秒后仍未出现。Session 0 中可能存在不可见的对话框。",
+  "rdp.cmdkeyFailed": "cmdkey {0} 失败：{1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP 提前退出。ExitCode={0}",
+  "rdp.sessionDetected": "第 {0} 次尝试检测到会话（{1}）：{2}（FreeRDP PID={3}）",
+  "rdp.sessionModeRelaxed": "宽松模式",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "正在等待会话…第 {0}/20 次尝试"
 }
