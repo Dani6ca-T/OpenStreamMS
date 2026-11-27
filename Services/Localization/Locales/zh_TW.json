@@ -181,5 +181,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Loopback audio capture started: {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] Could not initialize audio capture: {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Switching to input desktop '{0}' (previously '{1}').",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Could not switch to input desktop '{0}': {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Could not switch to input desktop '{0}': {1}",
+  "seatAgent.audioDeviceMissing": "此工作階段沒有播放裝置（Windows 未建立「Remote Audio」）；此席位將沒有聲音。"
 }
