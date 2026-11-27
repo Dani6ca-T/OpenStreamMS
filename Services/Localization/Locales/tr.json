@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Sunshine duraklatılırken uyarı: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine duraklatıldı ({1}).",
   "session.logSunshineResumed": "[{0}] Sunshine devam ettirildi; otomatik olarak yeniden başlatılacak.",
-  "session.logMuteRdpClient": "[{0}] Ana bilgisayarda RDP istemcisinin (PID={1}) sesi kapatılıyor..."
+  "session.logMuteRdpClient": "[{0}] Ana bilgisayarda RDP istemcisinin (PID={1}) sesi kapatılıyor...",
+  "session.logRdpDisplay": "[{0}] RDP görüntüsü: {1}x{2} @ {3} fps; mikrofon: {4}"
 }
