@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "engedélyezve",
   "gamepad.stateDisabled": "letiltva",
   "gamepad.stateEmpty": "üres",
-  "gamepad.unknownVersion": "ismeretlen verzió"
+  "gamepad.unknownVersion": "ismeretlen verzió",
+  "gamepad.predictedPadClaimed": "A(z) {0} már csatlakoztatás előtt is csak a(z) {1}. munkamenetben látható („{2}”).",
+  "gamepad.releaseReservationsFailed": "Nem sikerült feloldani a vezérlők foglalásait: {0}",
+  "gamepad.padClaimed": "{0} vezérlő → „{1}” (Windows-munkamenet: {2}): a szolgáltatás lefoglalta a vezérlőt.",
+  "gamepad.padOwnerUnknown": "Nem állapítható meg, melyik munkamenet hozta létre a(z) {0} vezérlőt; minden munkamenetben látható marad.",
+  "gamepad.osmsPadOutsideSession": "OsmsPad {0} vezérlő → Windows-munkamenet {1} (nem tartozik OpenStreamMS-munkamenethez)."
 }
