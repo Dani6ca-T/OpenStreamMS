@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf обновлён ({0}) в файле: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: учётные данные уже актуальны (пользователь={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: учётные данные уже актуальны; root очищен (пользователь={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: учётные данные заданы (пользователь={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: учётные данные заданы (пользователь={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Не удалось запросить корректное сохранение состояния перед остановкой: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Не удалось запустить sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Не удалось восстановить root после --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "[Sunshine] Не удалось проверить уникальный идентификатор: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Не удалось восстановить sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Не удалось запустить зеркалирование sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Не удалось скопировать {0} в резервную копию: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Не удалось восстановить {0}: {1}"
 }
