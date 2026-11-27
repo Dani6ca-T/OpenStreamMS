@@ -53,12 +53,12 @@ public partial class StreamSessionService
                 int play = launcher.LaunchInSession(owner.RdpSessionId, exe, $"--audio-relay play {pipe}");
                 int send = launcher.LaunchInSession(m.RdpSessionId, exe, $"--audio-relay send {pipe}");
                 relays[m.Id] = new AudioRelayProcs(owner.RdpSessionId, m.RdpSessionId, play, send);
-                Logger.Log($"[{c.Name}] Sonido de '{m.Name}' reenviado a la sesión del teclado '{owner.Name}'.", c.Id);
+                Logger.Log(BackendText.Get("compositeAudio.forwarded", c.Name, m.Name, owner.Name), c.Id);
             }
             catch (Exception ex)
             {
                 relays.TryRemove(m.Id, out _);
-                Logger.Warning($"[{c.Name}] No se pudo reenviar el sonido de '{m.Name}': {ex.Message}", c.Id);
+                Logger.Warning(BackendText.Get("compositeAudio.forwardFailed", c.Name, m.Name, ex.Message), c.Id);
             }
         }
     }
