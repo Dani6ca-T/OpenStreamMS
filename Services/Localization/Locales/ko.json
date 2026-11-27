@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "세션 {0}의 WTSLogoffSession 실패: {1}",
   "rdp.logoffCompleted": "세션 {0} 로그오프 완료({1}ms).",
   "rdp.logoffSessionCompleted": "세션 {0} 로그오프 완료.",
-  "rdp.logoffWarning": "WTSLogoffSession 경고(세션 {0}): {1}"
+  "rdp.logoffWarning": "WTSLogoffSession 경고(세션 {0}): {1}",
+  "rdp.startFreeRdp": "FreeRDP 시작 중({0}x{1}, {2}fps, {3}bpp, 배율 {4}%, gfx 없음)…",
+  "rdp.freeRdpExecutableMissing": "wfreerdp.exe를 시작할 수 없습니다",
+  "rdp.freeRdpExitedNoSession": "FreeRDP가 ExitCode={0}(0x{1:X})로 종료되었으며 '{2}' 세션을 만들지 못했습니다. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "30초 후에도 '{0}' 세션이 나타나지 않았습니다. 사용자 이름과 암호, 원격 데스크톱 활성화 여부, 원격 데스크톱 사용자 그룹을 확인하세요.",
+  "rdp.startMstsc": "mstsc 시작 중({0}x{1}, {2}fps, {3}bpp, 배율 {4}%, AVC444 하드웨어)…",
+  "rdp.mstscExecutableMissing": "mstsc.exe를 시작할 수 없습니다",
+  "rdp.mstscExitedNoSession": "mstsc가 ExitCode={0}로 종료되었으며 '{1}' 세션을 만들지 못했습니다. 인증서/자격 증명 대화상자가 보이지 않거나 NLA가 거부했을 수 있습니다.",
+  "rdp.mstscSessionTimeout": "mstsc에서 30초 후에도 '{0}' 세션이 나타나지 않았습니다. Session 0에서 대화상자가 보이지 않을 수 있습니다."
 }
