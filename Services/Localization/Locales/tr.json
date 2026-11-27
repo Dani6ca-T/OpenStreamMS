@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Oturum kilitleniyor: koltuk parola isteyecek…",
   "seats.statusActive": "Etkin: video, ses ve çevre birimleri bağlı.",
   "seats.statusDisconnectedFromSeat": "Koltuktan bağlantı kesildi. OpenStreamMS üzerinden yeniden açın.",
-  "seats.statusStoppedAfterError": "Durduruldu: {0}. OpenStreamMS üzerinden yeniden açın."
+  "seats.statusStoppedAfterError": "Durduruldu: {0}. OpenStreamMS üzerinden yeniden açın.",
+  "seats.consoleUserAutoStartError": "Bu koltuk konsolla aynı kullanıcıyı kullanıyor ve kendi başına başlatılamaz. OpenStreamMS'den başlatın veya başka bir oturum atayın.",
+  "seats.monitorAlreadyAssigned": "Monitör zaten '{0}' koltuğuna atanmış.",
+  "seats.monitorAreaOverlap": "Bu monitör alanı '{0}' koltuğunun alanıyla çakışıyor.",
+  "seats.notFound": "{0} koltuğu mevcut değil."
 }
