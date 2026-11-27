@@ -46,7 +46,7 @@ public partial class StreamSessionService
         var owner = c.CompositeInput ?? c.Composite![0].Session;
         if (memberId == owner) _compositeInputTarget.TryRemove(c.Id, out _);
         else _compositeInputTarget[c.Id] = memberId;
-        Logger.Log($"[{c.Name}] Teclado y ratón a '{m.Name}' (sesión de Windows {m.RdpSessionId}).", c.Id);
+        Logger.Log(BackendText.Get("compositeInput.routed", c.Name, m.Name, m.RdpSessionId), c.Id);
         EnsureCompositeInput(c);
     }
 
@@ -91,7 +91,7 @@ public partial class StreamSessionService
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[{c.Name}] No se pudo pasar el teclado y el ratón a '{target.Name}': {ex.Message}", c.Id);
+                Logger.Warning(BackendText.Get("compositeInput.routeFailed", c.Name, target.Name, ex.Message), c.Id);
                 DeleteInputFile(c, path);
                 return;
             }
@@ -109,14 +109,14 @@ public partial class StreamSessionService
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[{c.Name}] No se pudo escribir {MosaicLayout.InputFileName}: {ex.Message}", c.Id);
+            Logger.Warning(BackendText.Get("compositeInput.writeFailed", c.Name, MosaicLayout.InputFileName, ex.Message), c.Id);
         }
     }
 
     private static void DeleteInputFile(StreamSession c, string path)
     {
         try { if (File.Exists(path)) File.Delete(path); }
-        catch (Exception ex) { Logger.Warning($"[{c.Name}] No se pudo borrar {MosaicLayout.InputFileName}: {ex.Message}", c.Id); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("compositeInput.deleteFailed", c.Name, MosaicLayout.InputFileName, ex.Message), c.Id); }
     }
 
     private void StopInputRelay(Guid compositeId)
