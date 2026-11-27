@@ -318,5 +318,14 @@
   "seats.managerStarted": "Správce pracovišť spuštěn ({0} pracovišť).",
   "seats.multiRdpCheckTimeout": "Kontrola multi-RDP nebyla dokončena za 120 s; pracoviště se přesto automaticky spustí.",
   "seats.autoStartSameConsoleUser": "„{0}“ se nespustí automaticky: používá stejného uživatele jako konzole.",
-  "seats.autoStartFailed": "Automatické spuštění „{0}“ selhalo: {1}"
+  "seats.autoStartFailed": "Automatické spuštění „{0}“ selhalo: {1}",
+  "seats.monitorBusy": "Monitor používá pracoviště „{0}“.",
+  "seats.created": "Pracoviště „{0}“ vytvořeno.",
+  "seats.deleted": "Pracoviště „{0}“ odstraněno.",
+  "seats.microphoneAlreadyAssigned": "Mikrofon je již přiřazen pracovišti „{0}“.",
+  "seats.monitorActivationFailed": "„{0}“: monitor se nepodařilo aktivovat; zobrazí se, pokud již byl aktivní.",
+  "seats.devicesAssigned": "„{0}“: {1} zařízení přiřazeno k relaci {2}.",
+  "seats.devicePortEmpty": "„{0}“: k portu zařízení „{1}“ není nic připojeno ({2}, {3}). Pokud jste jej přesunuli na jiný port, rozbočovač nebo dok, přiřaďte jej znovu.",
+  "seats.started": "Pracoviště „{0}“ je aktivní.",
+  "seats.startFailed": "Pracoviště „{0}“ se nepodařilo spustit: {1}"
 }
