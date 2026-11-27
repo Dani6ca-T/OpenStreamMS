@@ -339,5 +339,13 @@
   "seats.rawInputShared": "'{0}': {1} resta condiviso con la console (Raw Input).",
   "seats.usbEventsSent": "{0} eventi inviati all'agente di '{1}' (ultimo: tipo={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Impossibile inviare l'input all'agente di '{0}': {1}",
-  "seats.inputInterfacesCaptured": "'{0}': {1} di {2} interfacce di input separate dalla console."
+  "seats.inputInterfacesCaptured": "'{0}': {1} di {2} interfacce di input separate dalla console.",
+  "seats.consoleVirtualDisplayMissing": "Il display virtuale non è apparso nella console.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Impossibile impostare il display virtuale come principale.",
+  "seats.consoleAreaApplied": "La console occupa la parte {0} di '{1}' con il proprio display {2}x{3}. Parte coperta: {4}",
+  "seats.consoleAreaFallback": "Impossibile assegnare la propria parte alla console ({0}); resta la soluzione di riserva.",
+  "seats.consoleMonitorRestoreFailed": "Impossibile restituire il monitor principale alla console; verrà ripristinato rimuovendo il display virtuale.",
+  "seats.consoleMonitorRestored": "La console torna ad avere il monitor intero.",
+  "seats.sessionLocked": "'{0}': sessione bloccata; verrà richiesta la password di '{1}'.",
+  "seats.sessionLockFailed": "'{0}': impossibile bloccare la sessione: {1}"
 }
