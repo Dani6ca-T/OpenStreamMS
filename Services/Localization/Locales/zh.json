@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Sunshine 凭据已重置；Sunshine 已停止并将自动重新启动。",
   "session.logSunshineTemplateUpdated": "[{0}] Sunshine 模板已更改；正在更新实例：{1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] 无法更新 Sunshine 实例：{1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] 无法添加防火墙规则：{0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] 无法添加防火墙规则：{0}",
+  "session.logLocalSessionDesktop": "[{0}] 本地会话：“{1}\\\\{2}”的桌面（Windows 会话 {3}）。",
+  "session.logNativeIsolationActive": "[{0}] 原生隔离已启用：专用用户“{1}”（配置文件：{2}）。",
+  "session.ephemeral": "临时",
+  "session.persistent": "持久",
+  "session.logStreamProfileOmitted": "[{0}] 已跳过 UseStreamProfile：原生隔离已提供独立配置文件。",
+  "session.logStreamProfileConfiguring": "[{0}] 正在配置独立的串流配置文件...",
+  "session.logStartFailed": "[{0}] 启动失败：{1}",
+  "session.logWebRtcUnsupported": "[{0}] 所选协议包含 WebRTC，但当前配置的 Sunshine 版本不支持（请使用 sunshine-webrtc）；只有 Moonlight 可用。"
 }
