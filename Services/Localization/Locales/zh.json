@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "正在锁定会话：座位将要求输入密码…",
   "seats.statusActive": "活动：视频、音频和外围设备均已连接。",
   "seats.statusDisconnectedFromSeat": "已从座位断开。请从 OpenStreamMS 重新启动。",
-  "seats.statusStoppedAfterError": "已停止：{0}。请从 OpenStreamMS 重新启动。"
+  "seats.statusStoppedAfterError": "已停止：{0}。请从 OpenStreamMS 重新启动。",
+  "seats.consoleUserAutoStartError": "此座位与控制台使用相同用户，无法独立启动。请从 OpenStreamMS 启动，或为其分配其他会话。",
+  "seats.monitorAlreadyAssigned": "显示器已分配给座位“{0}”。",
+  "seats.monitorAreaOverlap": "此显示器区域与座位“{0}”的区域重叠。",
+  "seats.notFound": "座位 {0} 不存在。"
 }
