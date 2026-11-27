@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "Неуспешно прочитане на белия списък на HidHide: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping е деактивиран (заобикаля изолацията на контролерите по сесии).",
   "gamepad.controllerToVkDisableFailed": "Неуспешно деактивиране на ControllerToVKMapping: {0}",
-  "gamepad.jailPrepareFailed": "Неуспешна подготовка на HidHide jail за контролера ViGEm: {0}"
+  "gamepad.jailPrepareFailed": "Неуспешна подготовка на HidHide jail за контролера ViGEm: {0}",
+  "gamepad.stateEnabled": "включен",
+  "gamepad.stateDisabled": "изключен",
+  "gamepad.stateEmpty": "празен",
+  "gamepad.unknownVersion": "неизвестна версия"
 }
