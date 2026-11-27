@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Filtr Steam {0} byl odebrán z {1} tříd ovladačů, dokud jsou ovladače izolované. Nová zařízení již nejsou zveřejňována všem relacím přes \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Filtr Steam {0} se nepodařilo odebrat: {1}. Steam v jiných relacích (včetně konzole) může stále číst izolované ovladače.",
   "steamXboxFilter.restored": "[Gamepad] Filtr Steam {0} byl obnoven v {1} třídách ovladačů; v jiných relacích již nejsou izolované ovladače.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Filtr Steam {0} se nepodařilo obnovit: {1}. Opakování proběhne při příštím spuštění služby."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Filtr Steam {0} se nepodařilo obnovit: {1}. Opakování proběhne při příštím spuštění služby.",
+  "gamepad.restartReasonPreviousSession": "aby relace {0} už zařízení nemohla číst"
 }
