@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Lugares] '{0}': não foi possível ligar o lugar novamente: {1}",
   "seat.waitingImageFailed": "[Lugares] '{0}': não foi possível mostrar a imagem de espera: {1}",
   "seat.sessionDidNotRestart": "A sessão não voltou a iniciar.",
-  "seat.sessionRestartTimeout": "O tempo limite para reiniciar a sessão foi excedido."
+  "seat.sessionRestartTimeout": "O tempo limite para reiniciar a sessão foi excedido.",
+  "composite.created": "[Sessões compostas] Sessão composta '{0}' ({1}) criada com: {2}",
+  "composite.updated": "[{0}] Sessão composta alterada.",
+  "composite.startingMember": "[{0}] Iniciando '{1}' para a sessão composta…",
+  "composite.steamConfigFailed": "[{0}] Não foi possível configurar o aplicativo Steam da sessão composta: {1}",
+  "composite.startAborted": "[{0}] Inicialização cancelada (a sessão foi parada durante a inicialização).",
+  "composite.started": "[{0}] Sessão composta ativa: {1}; teclado e mouse de '{2}' (sessão do Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Não foi possível excluir {1}: {2}",
+  "composite.stoppingMember": "[{0}] Parando '{1}', iniciada pela sessão composta.",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' não conseguiu restaurar sua resolução: {2}",
+  "composite.keyboardStopped": "[{0}] A sessão do teclado parou; a sessão composta também será parada.",
+  "composite.keyboardSessionChanged": "[{0}] A sessão do teclado passou para a sessão do Windows {1}; reiniciando o Sunshine.",
+  "composite.watchFailed": "[{0}] Erro ao monitorar a sessão composta: {1}",
+  "composite.waitingImageFailed": "[{0}] Não foi possível preparar a imagem de espera do espaço {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Ação Steam '{1}' falhou na sessão do Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' em {2} sessão(ões).",
+  "composite.steamOpen": "abrir",
+  "composite.steamClose": "fechar"
 }
