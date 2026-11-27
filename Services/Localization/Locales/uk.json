@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Цього каталогу немає у списку.",
   "ext.catalogEntryMissing": "У каталозі більше немає {0}.",
   "ext.invalidPackage": "Пакет не є дійсним розширенням: {0}",
-  "ext.noManifest": "У пакеті немає {0}."
+  "ext.noManifest": "У пакеті немає {0}.",
+  "cli.error.missingSeatAgentPipe": "ПОМИЛКА: не вказано ім’я каналу для --seat-agent.",
+  "cli.error.missingSeatHostPipe": "ПОМИЛКА: не вказано ім’я каналу для --seat-host.",
+  "cli.error.unknownCommand": "Невідома команда: «{0}»",
+  "cli.error.helpHint": "Використайте --help, щоб переглянути доступні команди.",
+  "cli.error.adminRequired": "ПОМИЛКА: для цієї операції потрібні права адміністратора.",
+  "cli.error.adminHint": "Запустіть .exe за допомогою пункту «Запуск від імені адміністратора»."
 }
