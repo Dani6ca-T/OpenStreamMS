@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Nem sikerült módosítani \"{0}\" jogosultságait itt: {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Tűzfal ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Sunshine-példány frissítése: {1} → {2} (a config/, párosítások, hitelesítő adatok és beállítások megmaradnak).",
-  "session.logHudEnsureFailed": "[HUD] Nem sikerült inicializálni a HUD-ot: {0}"
+  "session.logHudEnsureFailed": "[HUD] Nem sikerült inicializálni a HUD-ot: {0}",
+  "error.seatName": "A hely neve kötelező.",
+  "error.stopSeat": "A konfiguráció módosítása előtt állítsa le a helyet.",
+  "error.primaryMonitor": "Az elsődleges monitor nem rendelhető hozzá egy helyhez.",
+  "error.assigned": "A kiválasztott erőforrás már hozzá van rendelve."
 }
