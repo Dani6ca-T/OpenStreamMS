@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Det gick inte att vidarebefordra tangentbord och mus till '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Det gick inte att skriva {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Det gick inte att ta bort {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Det tidigare mstsc-försöket misslyckades: {1}"
+  "rdp.mstscFailureContext": "{0} Det tidigare mstsc-försöket misslyckades: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Det gick inte att läsa sessionens profilsökvägar.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Isolerad profilsandlåda: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Isolerad AppData: lokal={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "Det fanns ingen Explorer-process att starta om i session {0}.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer startades om i session {0} med strömningsprofilen.",
+  "streamProfile.logoffRetry": "[StreamProfile] Session {0} loggade inte ut inom 30 sekunder; processerna för '{1}' avslutas och utloggningen försöks igen.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Session {0} loggades ut efter att {1} användarprocess(er) avslutats.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Session {0} är fortfarande aktiv efter utloggning.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Det gick inte att lösa SID för '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses misslyckades ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Det gick inte att öppna '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Det gick inte att avsluta '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) avslutades i session {2}."
 }
