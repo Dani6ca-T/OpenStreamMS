@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "有効",
   "gamepad.stateDisabled": "無効",
   "gamepad.stateEmpty": "空",
-  "gamepad.unknownVersion": "不明なバージョン"
+  "gamepad.unknownVersion": "不明なバージョン",
+  "gamepad.predictedPadClaimed": "{0} は接続前からセッション {1} のみに表示されています（「{2}」）。",
+  "gamepad.releaseReservationsFailed": "コントローラーの予約を解除できませんでした：{0}",
+  "gamepad.padClaimed": "コントローラー {0} →「{1}」（Windows セッション {2}）：このサービスがコントローラーを取得しました。",
+  "gamepad.padOwnerUnknown": "コントローラー {0} を作成したセッションを特定できません。すべてのセッションに表示されたままです。",
+  "gamepad.osmsPadOutsideSession": "OsmsPad コントローラー {0} → Windows セッション {1}（OpenStreamMS のセッションには属していません）。"
 }
