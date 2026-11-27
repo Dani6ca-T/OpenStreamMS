@@ -137,5 +137,6 @@
   "purge.removeRegistry": "Remove HKLM\\SOFTWARE\\OpenStreamMS",
   "purge.removeTemp": "Remove temporary files",
   "serviceConfig.created": "Created default configuration at: {0}",
-  "serviceConfig.invalid": "Invalid configuration file."
+  "serviceConfig.invalid": "Invalid configuration file.",
+  "cli.help": "OpenStreamMS — Game Streaming Service\n\nUsage:\n  OpenStreamMS.exe --run               Run the service and REST API\n  OpenStreamMS.exe --install           Install the Windows service\n  OpenStreamMS.exe --uninstall         Stop and remove the service\n  OpenStreamMS.exe --remove-deps       Uninstall ViGEmBus and HidHide\n  OpenStreamMS.exe --purge-data        Delete data outside the programme folder\n  OpenStreamMS.exe --tray              Show the system tray icon\n  OpenStreamMS.exe --open              Open the control panel in a window\n  OpenStreamMS.exe --diagnostics [file.zip] [--days N]  Create a diagnostic archive\n  OpenStreamMS.exe --seat-agent <pipe> [--output DISPLAY] [--no-audio]\n  OpenStreamMS.exe --seat-host <pipe>  Run the local seat host\n  OpenStreamMS.exe --help              Show this help\n\nWeb:\n  http://localhost:<ApiPort>/          Control panel (login required)\n  http://localhost:<ApiPort>/scalar/v1 Interactive API documentation\n\nConfiguration (service.config.json):\n  SunshineExePath — path to sunshine.exe\n  RdpBackground   — hide the RDP window\n  ApiPort         — web/API server port (default: 5000)\n  AdminUsername   — control panel user\n  LogLevel        — Error, Warning, Info or Off"
 }
