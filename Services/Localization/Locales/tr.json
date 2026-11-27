@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} yalnızca '{1}' oturumunda ({2}) görünür.",
   "gamepad.consoleSessionChanged": "Konsol oturumu {0} konumundan {1} konumuna geçti: fiziksel denetleyiciler yeniden atanıyor.",
   "gamepad.sideInputDriverRestored": "{0} (denetleyicinin klavyesi veya faresi) sürücüsüne döndü: denetleyici konsolda.",
-  "gamepad.sideInputCaptured": "Denetleyici başka bir oturumdayken {0} (denetleyicinin klavyesi veya faresi) ayrıldı: tuşları (ör. yakalama düğmesi) artık konsola ulaşmıyor."
+  "gamepad.sideInputCaptured": "Denetleyici başka bir oturumdayken {0} (denetleyicinin klavyesi veya faresi) ayrıldı: tuşları (ör. yakalama düğmesi) artık konsola ulaşmıyor.",
+  "gamepad.physicalPadConsole": "Fiziksel denetleyici {0} yalnızca konsol oturumunda ({1}) görünür.",
+  "gamepad.physicalPadAssigned": "Fiziksel denetleyici {0} bir koltuğa veya akış oturumuna atandı: yalnızca {1} oturumunda görünür.",
+  "gamepad.steamFilterWarning": "{0} aygıt yığınında Steam filtresi {1} var: konsol dahil diğer oturumlardaki Steam hâlâ okuyabilir. Koltuk veya akış çalıştıktan sonra çıkarıp yeniden takın.",
+  "gamepad.physicalPadRestarted": "{0} yeniden başlatıldı: {1} oturumu artık okuyamıyor.",
+  "gamepad.physicalPadRestartFailed": "{0} yeniden başlatılamadı: {1}. Önceden açmış olan oturum, kapatana kadar görmeye devam eder."
 }
