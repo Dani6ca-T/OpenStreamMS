@@ -318,5 +318,14 @@
   "seats.managerStarted": "Trình quản lý chỗ ngồi đã khởi động ({0} chỗ).",
   "seats.multiRdpCheckTimeout": "Kiểm tra multi-RDP không hoàn tất trong 120 giây; các chỗ vẫn sẽ tự khởi động.",
   "seats.autoStartSameConsoleUser": "'{0}' sẽ không tự khởi động: dùng cùng người dùng với bảng điều khiển.",
-  "seats.autoStartFailed": "Không thể tự khởi động '{0}': {1}"
+  "seats.autoStartFailed": "Không thể tự khởi động '{0}': {1}",
+  "seats.monitorBusy": "Màn hình đang được chỗ '{0}' sử dụng.",
+  "seats.created": "Đã tạo chỗ '{0}'.",
+  "seats.deleted": "Đã xóa chỗ '{0}'.",
+  "seats.microphoneAlreadyAssigned": "Micrô đã được gán cho chỗ '{0}'.",
+  "seats.monitorActivationFailed": "'{0}': không thể kích hoạt màn hình; vẫn sẽ hiển thị nếu nó đã hoạt động.",
+  "seats.devicesAssigned": "'{0}': đã gán {1} thiết bị cho phiên {2}.",
+  "seats.devicePortEmpty": "'{0}': không có gì được kết nối với cổng của '{1}' ({2}, {3}). Nếu bạn chuyển sang cổng, hub hoặc dock khác, hãy gán lại.",
+  "seats.started": "Chỗ '{0}' đang hoạt động.",
+  "seats.startFailed": "Không thể khởi động chỗ '{0}': {1}"
 }
