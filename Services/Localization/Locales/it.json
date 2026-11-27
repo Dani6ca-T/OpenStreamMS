@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Credenziali Sunshine reimpostate; Sunshine arrestato e riavviato automaticamente.",
   "session.logSunshineTemplateUpdated": "[{0}] Modello Sunshine modificato; aggiornamento dell’istanza: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Impossibile aggiornare l’istanza Sunshine: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Impossibile aggiungere la regola del firewall: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Impossibile aggiungere la regola del firewall: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Sessione locale: desktop di \"{1}\\\\{2}\" (sessione Windows {3}).",
+  "session.logNativeIsolationActive": "[{0}] Isolamento nativo attivo: utente dedicato \"{1}\" (profilo: {2}).",
+  "session.ephemeral": "temporaneo",
+  "session.persistent": "persistente",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile ignorato: l’isolamento nativo fornisce già un profilo separato.",
+  "session.logStreamProfileConfiguring": "[{0}] Configurazione di un profilo di streaming separato...",
+  "session.logStartFailed": "[{0}] Avvio non riuscito: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Il protocollo selezionato include WebRTC, ma la build di Sunshine configurata non lo supporta (usa sunshine-webrtc); funzionerà solo Moonlight."
 }
