@@ -638,5 +638,15 @@
   "consoleLock.journalEmpty": "Журнал пуст.",
   "consoleLock.userNotLoggedOn": "[Seats] У пользователя '{0}' нет активного сеанса: блокировка будет восстановлена позже.",
   "consoleLock.released": "[Seats] Блокировка консоли восстановлена для '{0}'.",
-  "consoleLock.releaseFailed": "[Seats] Не удалось восстановить блокировку консоли: {0}"
+  "consoleLock.releaseFailed": "[Seats] Не удалось восстановить блокировку консоли: {0}",
+  "seatIdentify.commandFailed": "[Seats] Ошибка команды --identify {0}: {1}",
+  "seatIdentify.operationFailed": "[Identify] {0}: {1}",
+  "seatIdentify.displayNotConnected": "[Identify] Монитор не подключён.",
+  "seatIdentify.displayActivateFailed": "[Identify] Не удалось включить монитор '{0}'.",
+  "virtualDisplay.created": "[VirtualDisplay] Создан виртуальный экран {0}x{1}@{2} (target {3}, watchdog {4} с).",
+  "virtualDisplay.sudovdaMissing": "[VirtualDisplay] SudoVDA не установлен: консоль не может получить собственную половину экрана.",
+  "virtualDisplay.createFailed": "[VirtualDisplay] Не удалось создать виртуальный экран: {0}",
+  "virtualDisplay.removeFailed": "[VirtualDisplay] Не удалось удалить виртуальный экран: {0}",
+  "virtualDisplay.removed": "[VirtualDisplay] Виртуальный экран удалён.",
+  "virtualDisplay.ioctlFailed": "SudoVDA IOCTL 0x{0}"
 }
