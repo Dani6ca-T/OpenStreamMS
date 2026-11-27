@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile ignorado: o isolamento nativo já fornece um perfil próprio.",
   "session.logStreamProfileConfiguring": "[{0}] A configurar um perfil de transmissão independente...",
   "session.logStartFailed": "[{0}] Falha ao iniciar: {1}",
-  "session.logWebRtcUnsupported": "[{0}] O protocolo selecionado inclui WebRTC, mas a versão configurada do Sunshine não o suporta (utilize sunshine-webrtc); apenas o Moonlight funcionará."
+  "session.logWebRtcUnsupported": "[{0}] O protocolo selecionado inclui WebRTC, mas a versão configurada do Sunshine não o suporta (utilize sunshine-webrtc); apenas o Moonlight funcionará.",
+  "session.logSaveFailed": "[SessionService] Não foi possível guardar as sessões: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Cópia de segurança do ficheiro de sessões ilegível guardada em \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] Não foi possível colocar de lado o ficheiro de sessões ilegível: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Portas WebRTC atribuídas às sessões existentes.",
+  "session.logLoadFailed": "[SessionService] Não foi possível carregar as sessões: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Aviso ao parar o Sunshine após um arranque abandonado: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] A instância do Sunshine já existe em: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Não foi possível limpar o estado copiado do modelo: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Permissões da instância ajustadas para \"{0}\" (escrita apenas em config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Não foi possível ajustar as permissões de \"{0}\" em {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] A atualizar a instância do Sunshine: {1} → {2} (config/, emparelhamentos, credenciais e definições são preservados)."
 }
