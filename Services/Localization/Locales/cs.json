@@ -490,7 +490,7 @@
   "streamProfile.sandboxCreated": "[StreamProfile] Izolované prostředí profilu: {0}",
   "streamProfile.appDataIsolated": "[StreamProfile] Izolované AppData: místní={0}; roaming={1}",
   "streamProfile.explorerNotRunning": "V relaci {0} neběžel žádný Explorer, který by bylo možné restartovat.",
-  "streamProfile.explorerRestarted": "[StreamProfile] Explorer byl restartován v relaci {0 s profilem streamu.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer byl restartován v relaci Windows {0} s profilem streamu.",
   "streamProfile.logoffRetry": "[StreamProfile] Relace {0} se do 30 s neodhlásila; procesy uživatele '{1}' budou ukončeny a odhlášení se zopakuje.",
   "streamProfile.logoffCompleted": "[StreamProfile] Relace {0} byla odhlášena po ukončení {1} uživatelských procesů.",
   "streamProfile.logoffStillOpen": "[StreamProfile] Relace {0} zůstává po odhlášení aktivní.",
