@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "OsmsPad 控制器 {0} → Windows 会话 {1}（不属于任何 OpenStreamMS 会话）。",
   "gamepad.padAssignedCompositeMember": "来自“{1}”的控制器 {0}（{2}）→ 会话“{3}”（Windows 会话 {4}）。",
   "gamepad.padAssignedSession": "控制器 {0} → 会话“{1}”（Windows 会话 {2}）。",
-  "gamepad.padRetargeted": "复合会话发生变化，控制器 {0}（{1}）已移至会话“{2}”（Windows 会话 {3}）。"
+  "gamepad.padRetargeted": "复合会话发生变化，控制器 {0}（{1}）已移至会话“{2}”（Windows 会话 {3}）。",
+  "gamepad.futurePadsReserved": "后续 Moonlight 控制器会预先隐藏，直到确定其所属会话（{0}）。",
+  "gamepad.futurePadReservationsReleased": "没有正在运行的串流：已释放后续控制器的预留。",
+  "gamepad.futurePadReservationFailed": "无法在 HidHide 中预留后续控制器：{0}"
 }
