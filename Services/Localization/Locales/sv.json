@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) misslyckades: {1}",
   "rdp.mstscReconnectFailedFallback": "mstsc kunde inte återansluta ({0}); försöker igen med FreeRDP…",
   "rdp.reconnectWrongSession": "Återanslutningen hamnade i session {0} i stället för {1}.",
-  "rdp.sessionReconnected": "Session {0} återansluten på {1} ms."
+  "rdp.sessionReconnected": "Session {0} återansluten på {1} ms.",
+  "rdp.freeRdpClientDisconnected": "FreeRDP-klienten frånkopplad; session {0} är fortfarande aktiv (VDD).",
+  "rdp.disconnectSessionWarning": "WTSDisconnectSession-varning: {0}",
+  "rdp.logoffFailed": "WTSLogoffSession för session {0} misslyckades: {1}",
+  "rdp.logoffCompleted": "Session {0} loggades ut på {1} ms.",
+  "rdp.logoffSessionCompleted": "Session {0} loggades ut.",
+  "rdp.logoffWarning": "WTSLogoffSession-varning (session {0}): {1}"
 }
