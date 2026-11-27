@@ -171,5 +171,13 @@
   "power.noPending": "Nincs megszakítható függő leállítás ({0}).",
   "power.shutdownFailed": "shutdown.exe hiba: {0}",
   "power.scheduled": "{0} ütemezve {1} másodperc múlva.",
-  "settings.logLevelChanged": "Naplózási szint: {0} → {1}."
+  "settings.logLevelChanged": "Naplózási szint: {0} → {1}.",
+  "seat.restartSession": "[Helyek] A(z) „{0}” hely „{1}” munkamenetének újraindítása a hely leállítása nélkül.",
+  "seat.restartSizeMismatch": "A munkamenet {0}x{1} mérettel tért vissza a várt {2}x{3} helyett.",
+  "seat.restartSessionDone": "[Helyek] „{0}”: a munkamenet újraindult; a hely továbbra is a(z) {1}. Windows-munkamenetben van.",
+  "seat.restartSessionFailed": "[Helyek] „{0}”: a munkamenet nem indítható újra a hely leállítása nélkül ({1}); a hely újraépül.",
+  "seat.restartSeatFailed": "[Helyek] „{0}”: a hely nem indítható el újra: {1}",
+  "seat.waitingImageFailed": "[Helyek] „{0}”: a várakozási kép nem jeleníthető meg: {1}",
+  "seat.sessionDidNotRestart": "A munkamenet nem indult újra.",
+  "seat.sessionRestartTimeout": "A munkamenet újraindítása túllépte az időkorlátot."
 }
