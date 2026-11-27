@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Nie można przygotować Steam dla użytkownika „{0}”: {1}",
   "service.started": "[Service] Uruchomiono OpenStreamMS. API jest dostępne na skonfigurowanym porcie.",
   "service.multiRdpCheckFailed": "[Service] Nie powiodło się sprawdzanie Multi-RDP: {0}",
-  "service.stopped": "[Service] Zatrzymano."
+  "service.stopped": "[Service] Zatrzymano.",
+  "isolatedUser.winStationsKeyMissing": "Klucz rejestru Windows HKLM\\{0} nie istnieje.",
+  "isolatedUser.rdpTcpKeyMissing": "Klucz rejestru Windows HKLM\\{0} nie istnieje.",
+  "steamIsolation.userRegistryNotLoaded": "Gałąź rejestru użytkownika nie jest załadowana.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell jest niedostępny.",
+  "steamIsolation.shortcutDescription": "Steam odizolowany od innych sesji (OpenStreamMS)"
 }
