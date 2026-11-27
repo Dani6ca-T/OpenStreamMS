@@ -273,5 +273,11 @@
   "rdp.startMstsc": "mstsc başlatılıyor ({0}x{1}, {2} fps, {3} bpp, ölçek {4}%, AVC444 donanım)…",
   "rdp.mstscExecutableMissing": "mstsc.exe başlatılamadı",
   "rdp.mstscExitedNoSession": "mstsc ExitCode={0} ile sonlandı ve '{1}' için oturum oluşturamadı. Görünmeyen sertifika/kimlik bilgisi iletişim kutusu veya NLA reddi olabilir.",
-  "rdp.mstscSessionTimeout": "mstsc ile '{0}' oturumu 30 saniye içinde görünmedi. Session 0 içinde görünmeyen bir iletişim kutusu olabilir."
+  "rdp.mstscSessionTimeout": "mstsc ile '{0}' oturumu 30 saniye içinde görünmedi. Session 0 içinde görünmeyen bir iletişim kutusu olabilir.",
+  "rdp.cmdkeyFailed": "cmdkey {0} başarısız: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP beklenmedik şekilde sonlandı. ExitCode={0}",
+  "rdp.sessionDetected": "{0}. denemede oturum algılandı ({1}): {2} (FreeRDP PID={3})",
+  "rdp.sessionModeRelaxed": "genişletilmiş mod",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Oturum bekleniyor… deneme {0}/20"
 }
