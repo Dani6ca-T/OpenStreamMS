@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] No se pudo cambiar el monitor principal: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Error en SetDisplayConfig (desactivar): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor retirado del escritorio: {0}",
-  "displayTopology.deactivateFailed": "[Seats] No se pudo desactivar el monitor: {0}"
+  "displayTopology.deactivateFailed": "[Seats] No se pudo desactivar el monitor: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Canal de control del anfitrión: proceso {0} rechazado; no pertenece a la sesión de consola.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp conectado al canal de control del anfitrión.",
+  "seatHostControl.controlPipeError": "[Seats] Error en el canal de control del anfitrión: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Orden 'open_seat' enviada a TrayApp para el puesto {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] No se pudo enviar 'open_seat' a TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp no está conectado; iniciando el presentador independiente en la sesión de consola {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] No hay ningún usuario con sesión iniciada en la consola física.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Conectado al canal de control del anfitrión de puestos.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Error al procesar la orden del puesto: {0}"
 }
