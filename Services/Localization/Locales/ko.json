@@ -339,5 +339,13 @@
   "seats.rawInputShared": "'{0}': {1}이(가) 콘솔과 계속 공유됩니다(Raw Input).",
   "seats.usbEventsSent": "'{1}' 에이전트에 이벤트 {0}개 전송(마지막: 유형={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "'{0}' 에이전트에 입력을 보낼 수 없습니다: {1}",
-  "seats.inputInterfacesCaptured": "'{0}': 입력 인터페이스 {2}개 중 {1}개를 콘솔에서 분리했습니다."
+  "seats.inputInterfacesCaptured": "'{0}': 입력 인터페이스 {2}개 중 {1}개를 콘솔에서 분리했습니다.",
+  "seats.consoleVirtualDisplayMissing": "가상 디스플레이가 콘솔에 나타나지 않았습니다.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "가상 디스플레이를 기본 디스플레이로 설정할 수 없습니다.",
+  "seats.consoleAreaApplied": "콘솔은 자체 {2}x{3} 디스플레이로 '{1}'의 {0} 영역을 사용합니다. 가려진 영역: {4}",
+  "seats.consoleAreaFallback": "콘솔에 해당 영역을 제공할 수 없습니다({0}). 대체 구성이 유지됩니다.",
+  "seats.consoleMonitorRestoreFailed": "기본 모니터를 콘솔로 반환할 수 없습니다. 가상 디스플레이를 제거하면 복구됩니다.",
+  "seats.consoleMonitorRestored": "콘솔이 다시 전체 모니터를 사용합니다.",
+  "seats.sessionLocked": "'{0}': 세션이 잠겼습니다. '{1}'의 암호가 필요합니다.",
+  "seats.sessionLockFailed": "'{0}': 세션을 잠글 수 없습니다: {1}"
 }
