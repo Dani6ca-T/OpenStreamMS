@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0}은(는) 세션 '{1}'({2})에만 표시됩니다. 다른 세션의 핸들을 닫기 위해 다시 시작했습니다.",
   "gamepad.nodeRestartDeferred": "{0}은(는) 세션 '{1}'({2})에만 표시되지만 다른 프로세스가 사용 중이어서 Windows가 다시 시작을 연기했습니다. 이미 연 프로세스는 닫을 때까지 계속 볼 수 있습니다.",
   "gamepad.nodeLateRestartFailed": "{0}을(를) 늦게 숨겼으며 다시 시작할 수 없습니다: {1}. 다른 세션에서 이미 열어 둔 프로세스는 계속 볼 수 있습니다.",
-  "gamepad.nodeVisibleSession": "{0}은(는) 세션 '{1}'({2})에만 표시됩니다."
+  "gamepad.nodeVisibleSession": "{0}은(는) 세션 '{1}'({2})에만 표시됩니다.",
+  "gamepad.consoleSessionChanged": "콘솔 세션이 {0}에서 {1}(으)로 변경되어 물리 컨트롤러를 다시 할당합니다.",
+  "gamepad.sideInputDriverRestored": "{0}(컨트롤러 키보드 또는 마우스)이(가) 드라이버로 돌아갔습니다. 컨트롤러는 콘솔에 있습니다.",
+  "gamepad.sideInputCaptured": "컨트롤러가 다른 세션에 있는 동안 {0}(컨트롤러 키보드 또는 마우스)을(를) 분리했습니다. 키 입력(예: 캡처 버튼)이 더 이상 콘솔에 전달되지 않습니다."
 }
