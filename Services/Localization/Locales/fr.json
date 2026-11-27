@@ -171,5 +171,13 @@
   "power.noPending": "Aucun arrêt en attente à annuler ({0}).",
   "power.shutdownFailed": "Échec de shutdown.exe : {0}",
   "power.scheduled": "{0} planifié dans {1} s.",
-  "settings.logLevelChanged": "Niveau de journalisation : {0} → {1}."
+  "settings.logLevelChanged": "Niveau de journalisation : {0} → {1}.",
+  "seat.restartSession": "[Postes] Redémarrage de la session « {1} » du poste « {0} » sans éteindre le poste.",
+  "seat.restartSizeMismatch": "La session est revenue en {0}x{1} au lieu de {2}x{3}.",
+  "seat.restartSessionDone": "[Postes] « {0} » : session redémarrée ; le poste reste dans la session Windows {1}.",
+  "seat.restartSessionFailed": "[Postes] « {0} » : impossible de redémarrer la session sans éteindre le poste ({1}) ; le poste va être recréé.",
+  "seat.restartSeatFailed": "[Postes] « {0} » : impossible de rallumer le poste : {1}",
+  "seat.waitingImageFailed": "[Postes] « {0} » : impossible d’afficher l’image d’attente : {1}",
+  "seat.sessionDidNotRestart": "La session n’a pas redémarré.",
+  "seat.sessionRestartTimeout": "Le délai de redémarrage de la session a expiré."
 }
