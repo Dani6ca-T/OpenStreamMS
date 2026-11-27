@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Steam action '{1}' failed in Windows session {2}: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' in {2} session(s).",
   "composite.steamOpen": "open",
-  "composite.steamClose": "close"
+  "composite.steamClose": "close",
+  "gamepad.hidHideNotOpen": "HidHide is not open by the isolation service; the ViGEm controller will be isolated when it appears.",
+  "gamepad.deviceArrivalWatchUnavailable": "Device arrivals cannot be monitored; devices will only be checked every second.",
+  "gamepad.hidHideNotInstalled": "HidHide is not installed: controllers will be visible in all sessions.",
+  "gamepad.hidHideEnabled": "HidHide enabled.",
+  "gamepad.hidHideConfigureFailed": "Could not configure HidHide: {0}",
+  "gamepad.monitorFailed": "Error monitoring controllers: {0}"
 }
