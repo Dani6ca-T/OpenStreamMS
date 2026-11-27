@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] '{0}': {1}이(가) Windows에 계속 표시됩니다 (WinUSB로 전환하지 못했습니다).",
   "padCapture.captured": "[PadCapture] '{0}': {1}의 컨트롤러를 Windows에서 분리했습니다 (WinUSB의 컨트롤러 {2}개 및 추가 인터페이스 {3}개). 세션 {4}에 가상 컨트롤러로 전달합니다.",
   "padCapture.restored": "[PadCapture] '{0}': 컨트롤러 인터페이스 {1}개를 Windows에 반환했습니다.",
-  "steamXboxFilter.removed": "[Gamepad] 컨트롤러가 격리된 동안 Steam 필터 {0}을(를) 컨트롤러 클래스 {1}개에서 제거했습니다. 새 장치는 \\\\Device\\\\nvagipmanControl을 통해 모든 세션에 노출되지 않습니다.",
+  "steamXboxFilter.removed": "[Gamepad] 컨트롤러가 격리된 동안 Steam 필터 {0}을(를) 컨트롤러 클래스 {1}개에서 제거했습니다. 새 장치는 \\Device\\nvagipmanControl을 통해 모든 세션에 노출되지 않습니다.",
   "steamXboxFilter.removeFailed": "[Gamepad] Steam 필터 {0}을(를) 제거하지 못했습니다: {1}. 다른 세션(콘솔 포함)의 Steam이 격리된 컨트롤러를 계속 읽을 수 있습니다.",
   "steamXboxFilter.restored": "Steam 필터 {0}을(를) 컨트롤러 클래스 {1}개에 복원했습니다. 다른 세션에 격리된 컨트롤러가 더 이상 없습니다.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Steam 필터 {0}을(를) 복원하지 못했습니다: {1}. 다음 서비스 시작 시 다시 시도합니다."
