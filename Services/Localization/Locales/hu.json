@@ -460,5 +460,6 @@
   "error.seatName": "A hely neve kötelező.",
   "error.stopSeat": "A konfiguráció módosítása előtt állítsa le a helyet.",
   "error.primaryMonitor": "Az elsődleges monitor nem rendelhető hozzá egy helyhez.",
-  "error.assigned": "A kiválasztott erőforrás már hozzá van rendelve."
+  "error.assigned": "A kiválasztott erőforrás már hozzá van rendelve.",
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" hozzárendelve a(z) {2}. helyhez ({3}x{4})."
 }
