@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Input ricevuto: tipo={0} flag={1:X} dx={2} dy={3} codice={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Iniezione input (10 s): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: inviati={0} anello_occupato={1} input={2} errori_iniezione={3} ultimo_errore={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Latenza acquisizione (10 s): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latenza acquisizione (10 s): {0}",
+  "seat.restartAdjustingResolution": "Adeguamento della sessione a {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "Riavvio della sessione…",
+  "seatIpc.invalidMessageLength": "Lunghezza del messaggio della pipe non valida: {0} byte.",
+  "seatIpc.invalidJsonObject": "Il payload JSON non è un oggetto.",
+  "seatHost.frameLatencyName": "composizione→schermo",
+  "seatHost.cursorLatencyName": "input→schermo"
 }
