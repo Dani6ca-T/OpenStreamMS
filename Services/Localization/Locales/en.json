@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide is not installed: controllers will be visible in all sessions.",
   "gamepad.hidHideEnabled": "HidHide enabled.",
   "gamepad.hidHideConfigureFailed": "Could not configure HidHide: {0}",
-  "gamepad.monitorFailed": "Error monitoring controllers: {0}"
+  "gamepad.monitorFailed": "Error monitoring controllers: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} is available: controllers are isolated by session.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} does not support session isolation (version {1} or later is required): controllers will be visible in all sessions. Update HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: inverse mode {0}; whitelist ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Applications on the HidHide whitelist can see controllers from all sessions, even when assigned to another session.",
+  "gamepad.hidHideWhitelistReadFailed": "Could not read the HidHide whitelist: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping disabled (it bypasses per-session controller isolation).",
+  "gamepad.controllerToVkDisableFailed": "Could not disable ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Could not prepare the HidHide jail for the ViGEm controller: {0}"
 }
