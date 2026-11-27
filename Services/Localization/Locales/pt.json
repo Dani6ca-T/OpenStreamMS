@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Entrada recebida: tipo={0} flags={1:X} dx={2} dy={3} código={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Injeção de entrada (10 s): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: enviados={0} anel_ocupado={1} entrada={2} falhas_injeção={3} último_erro={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Latência de captura (10 s): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latência de captura (10 s): {0}",
+  "seat.restartAdjustingResolution": "A ajustar a sessão para {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "A reiniciar a sessão…",
+  "seatIpc.invalidMessageLength": "Comprimento inválido da mensagem do canal: {0} bytes.",
+  "seatIpc.invalidJsonObject": "O conteúdo JSON não é um objeto.",
+  "seatHost.frameLatencyName": "composição→ecrã",
+  "seatHost.cursorLatencyName": "entrada→ecrã"
 }
