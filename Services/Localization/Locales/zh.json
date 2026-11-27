@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "未安装 HidHide：控制器将在所有会话中可见。",
   "gamepad.hidHideEnabled": "HidHide 已启用。",
   "gamepad.hidHideConfigureFailed": "无法配置 HidHide：{0}",
-  "gamepad.monitorFailed": "监视控制器时出错：{0}"
+  "gamepad.monitorFailed": "监视控制器时出错：{0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} 可用：控制器已按会话隔离。",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} 不支持按会话隔离（需要 {1} 或更高版本）：控制器将在所有会话中可见。请更新 HidHide。",
+  "gamepad.hidHideWhitelistStatus": "HidHide：反向模式 {0}；白名单（{1}）：{2}。",
+  "gamepad.hidHideWhitelistWarning": "HidHide 白名单中的程序可以看到所有会话的控制器，即使这些控制器已分配给其他会话。",
+  "gamepad.hidHideWhitelistReadFailed": "无法读取 HidHide 白名单：{0}",
+  "gamepad.controllerToVkDisabled": "已禁用 ControllerToVKMapping（它会绕过按会话进行的控制器隔离）。",
+  "gamepad.controllerToVkDisableFailed": "无法禁用 ControllerToVKMapping：{0}",
+  "gamepad.jailPrepareFailed": "无法为 ViGEm 控制器准备 HidHide jail：{0}"
 }
