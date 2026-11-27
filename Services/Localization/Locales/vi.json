@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine gặp lỗi STATUS_BREAKPOINT ({0}) trong {1} (PID={2}).",
   "sunshineCrash.fault": "Sunshine gặp lỗi {0} trong {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Không thể đọc sự kiện Application Error: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil trả về {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil trả về {0}: {1}",
+  "sunshine.stateMirrorStarted": "Đã khởi chạy mirror sunshine_state.json: {0}"
 }
