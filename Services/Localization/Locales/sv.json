@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "Det gick inte att uppdatera HidHides svartlista: {0}",
   "gamepad.usbPortCycled": "{0}: en annan process hade den öppen och Windows sköt upp omstarten; USB-porten kopplades från och anslöts igen ({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows sköt upp omstarten (en annan process använder den) och USB-porten kunde inte återställas ({1}). Processen som redan hade öppnat den kan fortfarande se den tills den stängs.",
-  "gamepad.clearJailsFailed": "Det gick inte att ta bort sessionsposter från HidHide: {0}"
+  "gamepad.clearJailsFailed": "Det gick inte att ta bort sessionsposter från HidHide: {0}",
+  "rdp.remoteIddProviderMissing": "RemoteIdd-avbildning saknar leverantör i RDP-Tcp: installera den med Native/RemoteIdd/Provider/install.ps1.",
+  "rdp.consoleSessionConflict": "Varning: ”{0}” har redan en konsolsession (SessionId={1}). Ljudisoleringen kan vara ofullständig.",
+  "rdp.sessionExists": "Befintlig session för ”{0}”: {1}",
+  "rdp.createViaMstsc": "Ingen session för ”{0}”, skapar via mstsc (AVC444-hårdvara)…",
+  "rdp.mstscFailedFallback": "mstsc misslyckades ({0}); försöker igen med FreeRDP…",
+  "rdp.createViaFreeRdp": "Ingen session för ”{0}”, skapar via FreeRDP…",
+  "rdp.microphoneForcesFreeRdp": "Med en tilldelad mikrofon ansluts via FreeRDP (mstsc kan inte välja mikrofon).",
+  "rdp.reconnecting": "Återansluter session {0} med {1}x{2} vid {3} fps…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) misslyckades: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc kunde inte återansluta ({0}); försöker igen med FreeRDP…",
+  "rdp.reconnectWrongSession": "Återanslutningen hamnade i session {0} i stället för {1}.",
+  "rdp.sessionReconnected": "Session {0} återansluten på {1} ms."
 }
