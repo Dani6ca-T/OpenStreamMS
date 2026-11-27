@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Control\\\\Video に仮想 RDP アダプターが見つかりません。VRefresh は変更されず、セッションはドライバーの既定のリフレッシュレートを使用します。",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} を {1} 個の仮想アダプターに適用しました。",
   "rdp.refreshRegistryFailed": "レジストリで VRefresh を設定中にエラーが発生しました：{0}",
-  "rdp.sessionTempResolveFailed": "セッション {0} の TEMP を解決できませんでした：{1}"
+  "rdp.sessionTempResolveFailed": "セッション {0} の TEMP を解決できませんでした：{1}",
+  "rdp.displayFrequencyChangeFailed": "セッション {0} のディスプレイ周波数を変更できませんでした：{1}",
+  "rdp.displayFrequencyChangeLaunched": "セッション {1} で ChangeDisplaySettings({0}Hz) を開始しました（未検証）。",
+  "rdp.displayFrequencyResultMissing": "セッション {0} の ChangeDisplaySettings：結果ファイルがありません。スクリプトが完了していません。",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings 成功 — セッション {1} のディスプレイは {0}Hz です。",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings は成功を返しましたが、セッション {2} のディスプレイは {0}Hz を報告しています（要求 {1}Hz）。",
+  "rdp.displayFrequencyFailed": "セッション {0} の ChangeDisplaySettings に失敗しました：{1}（ディスプレイ {2}Hz）。",
+  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings の結果を読み取れませんでした：{0}"
 }
