@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Ljud från '{1}' vidarebefordrades till tangentbordssessionen '{2}'.",
   "compositeAudio.forwardFailed": "[{0}] Det gick inte att vidarebefordra ljud från '{1}': {2}",
   "hud.launched": "[HUD] Startad i Windows-session {0} (PID {1}): Ctrl+Alt+H eller Guide + Back.",
-  "hud.launchFailed": "[HUD] Det gick inte att starta i Windows-session {0}: {1}"
+  "hud.launchFailed": "[HUD] Det gick inte att starta i Windows-session {0}: {1}",
+  "compositeInput.routed": "[{0}] Tangentbord och mus vidarebefordrades till '{1}' (Windows-session {2}).",
+  "compositeInput.routeFailed": "[{0}] Det gick inte att vidarebefordra tangentbord och mus till '{1}': {2}",
+  "compositeInput.writeFailed": "[{0}] Det gick inte att skriva {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Det gick inte att ta bort {1}: {2}"
 }
