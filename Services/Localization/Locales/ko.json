@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine이 {1}에서 STATUS_BREAKPOINT ({0}) 오류로 실패했습니다 (PID={2}).",
   "sunshineCrash.fault": "Sunshine이 {1}에서 {0} 오류로 실패했습니다 (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Application Error 이벤트를 읽지 못했습니다: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil 반환값 {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil 반환값 {0}: {1}",
+  "sunshine.stateMirrorStarted": "sunshine_state.json 상태 미러링을 시작했습니다: {0}"
 }
