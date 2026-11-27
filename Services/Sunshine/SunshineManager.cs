@@ -1,4 +1,5 @@
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -127,7 +128,7 @@ namespace OpenStreamMS.Services.Sunshine
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Sunshine] No se pudo actualizar sunshine.conf: {ex.Message}");
+                    Logger.Warning(BackendText.Get("sunshine.configUpdateFailed", ex.Message));
                 }
 
                 if (_creds is not null)
@@ -138,7 +139,7 @@ namespace OpenStreamMS.Services.Sunshine
                     }
                     catch (Exception ex)
                     {
-                        Logger.Warning($"[Sunshine] No se pudo provisionar credenciales: {ex.Message}");
+                        Logger.Warning(BackendText.Get("sunshine.credentialsProvisionFailed", ex.Message));
                     }
                 }
 
@@ -152,7 +153,7 @@ namespace OpenStreamMS.Services.Sunshine
                     }
                     catch (Exception ex)
                     {
-                        Logger.Warning($"[Sunshine] No se pudo configurar VDD en apps.json: {ex.Message}");
+                        Logger.Warning(BackendText.Get("sunshine.vddConfigFailed", ex.Message));
                     }
                 }
 
@@ -162,7 +163,7 @@ namespace OpenStreamMS.Services.Sunshine
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Sunshine] No se pudo configurar entorno aislado en apps.json: {ex.Message}");
+                    Logger.Warning(BackendText.Get("sunshine.isolatedEnvironmentConfigFailed", ex.Message));
                 }
 
                 try
@@ -171,7 +172,7 @@ namespace OpenStreamMS.Services.Sunshine
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Sunshine] No se pudo configurar la entrada de Steam en apps.json: {ex.Message}");
+                    Logger.Warning(BackendText.Get("sunshine.steamEntryConfigFailed", ex.Message));
                 }
 
                 try
@@ -180,7 +181,7 @@ namespace OpenStreamMS.Services.Sunshine
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Sunshine] No se pudieron configurar las entradas Reboot/Power Off en apps.json: {ex.Message}");
+                    Logger.Warning(BackendText.Get("sunshine.powerEntriesConfigFailed", ex.Message));
                 }
 
                 try
@@ -190,7 +191,7 @@ namespace OpenStreamMS.Services.Sunshine
                 }
                 catch (Exception ex)
                 {
-                    Logger.Warning($"[Sunshine] No se pudieron configurar las apps de extensiones en apps.json: {ex.Message}");
+                    Logger.Warning(BackendText.Get("sunshine.extensionAppsConfigFailed", ex.Message));
                 }
 
                 _configured = true;
@@ -267,7 +268,7 @@ namespace OpenStreamMS.Services.Sunshine
         /// </summary>
         private SunshineRunResult StartSunshineProcess(uint sessionId, string argQuoted)
         {
-            Logger.Log($"[Sunshine] Lanzando en sesión {sessionId}: {_sunshineExe} {argQuoted}");
+            Logger.Log(BackendText.Get("sunshine.launching", sessionId, _sunshineExe, argQuoted));
             try
             {
                 _lastStartLocal = DateTime.Now;
@@ -310,7 +311,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Error($"[Sunshine] Error al lanzar: {ex.Message}");
+                Logger.Error(BackendText.Get("sunshine.launchFailed", ex.Message));
                 _sunshinePid = 0;
                 return new SunshineRunResult(SunshineRunStatus.LaunchFailed, 0, ex.Message);
             }
@@ -336,7 +337,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             if (verdict == EncoderVerdict.Unknown)
             {
-                Logger.Warning("[Sunshine] No se pudo confirmar el encoder en el log; se deja como está.");
+                Logger.Warning(BackendText.Get("sunshine.encoderUnconfirmed"));
                 return current;
             }
 
