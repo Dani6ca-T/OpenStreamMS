@@ -359,5 +359,16 @@
   "seats.seatLost": "Місце «{0}» вимикається: {1}.",
   "seats.stopAfterLossFailed": "«{0}»: не вдалося вимкнути після переривання: {1}",
   "seats.sessionStartFailed": "Не вдалося запустити сеанс.",
-  "seats.sessionStartTimeout": "Сеанс не став активним вчасно."
+  "seats.sessionStartTimeout": "Сеанс не став активним вчасно.",
+  "seats.statusStartingSession": "Запуск сеансу…",
+  "seats.statusPoweringMonitor": "Увімкнення монітора…",
+  "seats.statusStartingAgent": "Запуск агента захоплення та зображення…",
+  "seats.statusStartingPresenter": "Запуск презентера в консолі…",
+  "seats.statusSeparatingGamepads": "Відокремлення контролерів місця…",
+  "seats.statusReservingUsb": "Резервування USB-пристроїв місця…",
+  "seats.statusSeparatingInput": "Відокремлення миші та клавіатури місця…",
+  "seats.statusLockingSession": "Блокування сеансу: місце вимагатиме пароль…",
+  "seats.statusActive": "Активно: зображення, звук і периферію підключено.",
+  "seats.statusDisconnectedFromSeat": "Від’єднано з боку місця. Увімкніть знову через OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Зупинено: {0}. Увімкніть знову через OpenStreamMS."
 }
