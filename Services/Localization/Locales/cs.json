@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} je viditelný pouze v relaci „{1}“ ({2}).",
   "gamepad.consoleSessionChanged": "Relace konzole se změnila z {0} na {1}: fyzické ovladače se znovu přiřazují.",
   "gamepad.sideInputDriverRestored": "{0} (klávesnice nebo myš ovladače) se vrací ke svému ovladači: ovladač je v konzoli.",
-  "gamepad.sideInputCaptured": "{0} (klávesnice nebo myš ovladače) byla odpojena, zatímco je ovladač v jiné relaci: její klávesy (např. tlačítko snímku) již nedosáhnou do konzole."
+  "gamepad.sideInputCaptured": "{0} (klávesnice nebo myš ovladače) byla odpojena, zatímco je ovladač v jiné relaci: její klávesy (např. tlačítko snímku) již nedosáhnou do konzole.",
+  "gamepad.physicalPadConsole": "Fyzický ovladač {0} je viditelný pouze v relaci konzole ({1}).",
+  "gamepad.physicalPadAssigned": "Fyzický ovladač {0} je přiřazen k pracovní stanici nebo streamovací relaci: je viditelný pouze v relaci {1}.",
+  "gamepad.steamFilterWarning": "{0} má ve svém zásobníku filtr Steam {1}: Steam v ostatních relacích (včetně konzole) jej stále čte. Odpojte jej a znovu připojte, až bude pracovní stanice nebo stream spuštěn.",
+  "gamepad.physicalPadRestarted": "{0} byl restartován: relace {1} jej již nemůže číst.",
+  "gamepad.physicalPadRestartFailed": "Ovladač {0} se nepodařilo restartovat: {1}. Relace, která jej již otevřela, jej uvidí, dokud jej nezavře."
 }
