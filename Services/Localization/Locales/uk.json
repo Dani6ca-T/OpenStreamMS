@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Не вдалося виконати дію Steam «{1}» у сеансі Windows {2}: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: «{1}» у сеансах ({2}).",
   "composite.steamOpen": "відкриття",
-  "composite.steamClose": "закриття"
+  "composite.steamClose": "закриття",
+  "gamepad.hidHideNotOpen": "HidHide не відкрито службою ізоляції; контролер ViGEm буде ізольовано після виявлення.",
+  "gamepad.deviceArrivalWatchUnavailable": "Не вдалося відстежувати появу пристроїв; перевірка виконуватиметься щосекунди.",
+  "gamepad.hidHideNotInstalled": "HidHide не встановлено: контролери будуть видимі в усіх сеансах.",
+  "gamepad.hidHideEnabled": "HidHide активовано.",
+  "gamepad.hidHideConfigureFailed": "Не вдалося налаштувати HidHide: {0}",
+  "gamepad.monitorFailed": "Помилка під час відстеження контролерів: {0}"
 }
