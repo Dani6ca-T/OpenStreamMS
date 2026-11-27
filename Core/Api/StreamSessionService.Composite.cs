@@ -251,7 +251,7 @@ public partial class StreamSessionService
             if (applied.GetValueOrDefault(m.Id) == target) continue;
             ReconnectRdp(m.Id, target.Width, target.Height, c.RdpFrameRate);
             applied[m.Id] = target;
-            Logger.Log($"[{c.Name}] '{m.Name}' en el hueco {slot.Area} ({target.Width}x{target.Height}).", c.Id);
+            Logger.Log(BackendText.Get("composite.logMemberAssignedToSlot", c.Name, m.Name, slot.Area, target.Width, target.Height), c.Id);
         }
         WriteCompositeFile(c);
         Interlocked.Increment(ref _compositeGeneration);
