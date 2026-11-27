@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] 无法调整“{0}”在 {1} 中的权限：{2}",
   "session.logFirewallRulesOpened": "[Sunshine] 防火墙（{0}）：{1}（{2}）",
   "session.logSunshineInstanceUpdating": "[{0}] 正在更新 Sunshine 实例：{1} → {2}（保留 config/、配对、凭据和设置）。",
-  "session.logHudEnsureFailed": "[HUD] 无法初始化 HUD：{0}"
+  "session.logHudEnsureFailed": "[HUD] 无法初始化 HUD：{0}",
+  "error.seatName": "必须填写席位名称。",
+  "error.stopSeat": "更改席位配置前，请先停止该席位。",
+  "error.primaryMonitor": "主显示器不能分配给席位。",
+  "error.assigned": "所选资源已被分配。"
 }
