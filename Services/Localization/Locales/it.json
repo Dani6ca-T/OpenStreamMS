@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Postazioni] '{0}': impossibile riaccendere la postazione: {1}",
   "seat.waitingImageFailed": "[Postazioni] '{0}': impossibile mostrare l'immagine di attesa: {1}",
   "seat.sessionDidNotRestart": "La sessione non è stata riavviata.",
-  "seat.sessionRestartTimeout": "Tempo scaduto durante il riavvio della sessione."
+  "seat.sessionRestartTimeout": "Tempo scaduto durante il riavvio della sessione.",
+  "composite.created": "[Sessioni composite] Creata la sessione composite '{0}' ({1}) con: {2}",
+  "composite.updated": "[{0}] Sessione composite modificata.",
+  "composite.startingMember": "[{0}] Avvio di '{1}' per la sessione composite…",
+  "composite.steamConfigFailed": "[{0}] Impossibile configurare l'app Steam della sessione composite: {1}",
+  "composite.startAborted": "[{0}] Avvio annullato (la sessione è stata arrestata durante l'avvio).",
+  "composite.started": "[{0}] Sessione composite attiva: {1}; tastiera e mouse da '{2}' (sessione Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Impossibile eliminare {1}: {2}",
+  "composite.stoppingMember": "[{0}] Arresto di '{1}', avviata dalla sessione composite.",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' non è riuscita a ripristinare la risoluzione: {2}",
+  "composite.keyboardStopped": "[{0}] La sessione della tastiera si è arrestata; arresto della sessione composite.",
+  "composite.keyboardSessionChanged": "[{0}] La sessione della tastiera è passata alla sessione Windows {1}; Sunshine verrà riavviato.",
+  "composite.watchFailed": "[{0}] Errore durante il monitoraggio della sessione composite: {1}",
+  "composite.waitingImageFailed": "[{0}] Impossibile preparare l'immagine di attesa per lo slot {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Azione Steam '{1}' non riuscita nella sessione Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' in {2} sessione/i.",
+  "composite.steamOpen": "apertura",
+  "composite.steamClose": "chiusura"
 }
