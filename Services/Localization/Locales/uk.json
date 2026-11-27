@@ -404,5 +404,17 @@
   "session.logConfigUpdated": "Конфігурацію сеансу оновлено.",
   "session.logRestartAfterConfigFailed": "Не вдалося перезапустити сеанс після оновлення конфігурації: {0}",
   "session.alreadyInState": "Сеанс уже перебуває у стані {0}.",
-  "error.request": "Не вдалося виконати запит."
+  "error.request": "Не вдалося виконати запит.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Відкладене копіювання sunshine_state.json після зміни сполучення завершено.",
+  "session.logPairingStateMirrorFailed": "[{0}] Не вдалося виконати відкладене копіювання sunshine_state.json після зміни сполучення: {1}",
+  "session.logAutoStartingEnabled": "Автозапуск {0} увімкнених сеансів...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Виявлено сеанс Windows ({1}); запускається локальний сеанс.",
+  "session.logConsoleSessionStartFailed": "[{0}] Не вдалося запустити після входу до Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Помилка моніторингу: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Завантажено сеансів із диска: {0}.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Попередження під час закриття сеансу Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Запуск скасовано до початку (надійшла інша команда).",
+  "session.logCreatingRdpSession": "[{0}] Запуск сеансу RDP для користувача «{1}»...",
+  "session.logSunshineLaunchFailed": "[{0}] Не вдалося запустити Sunshine: {1}",
+  "session.logAutoStartFailed": "[{0}] Не вдалося виконати автозапуск: {1}"
 }
