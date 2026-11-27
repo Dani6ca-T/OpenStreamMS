@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "sunshine.conf оновлено ({0}) у: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: облікові дані вже актуальні (користувач={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: облікові дані вже актуальні; root очищено (користувач={0})",
-  "sunshineCfg.credentialsSet": "sunshine_state.json: облікові дані встановлено (користувач={0})"
+  "sunshineCfg.credentialsSet": "sunshine_state.json: облікові дані встановлено (користувач={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Не вдалося запросити коректне скидання перед зупинкою: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Не вдалося запустити sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Не вдалося відновити root після --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "Не вдалося перевірити унікальний ідентифікатор: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Не вдалося відновити sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Не вдалося запустити дзеркалювання sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Не вдалося скопіювати {0} до резервної копії: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Не вдалося відновити {0}: {1}"
 }
