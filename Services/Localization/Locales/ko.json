@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] 기본 격리가 별도 프로필을 제공하므로 UseStreamProfile을 건너뜁니다.",
   "session.logStreamProfileConfiguring": "[{0}] 별도의 스트리밍 프로필을 구성하는 중...",
   "session.logStartFailed": "[{0}] 시작 실패: {1}",
-  "session.logWebRtcUnsupported": "[{0}] 선택한 프로토콜에 WebRTC가 포함되어 있지만 구성된 Sunshine 빌드에서 지원하지 않습니다(sunshine-webrtc 사용). Moonlight만 작동합니다."
+  "session.logWebRtcUnsupported": "[{0}] 선택한 프로토콜에 WebRTC가 포함되어 있지만 구성된 Sunshine 빌드에서 지원하지 않습니다(sunshine-webrtc 사용). Moonlight만 작동합니다.",
+  "session.logSaveFailed": "[SessionService] 세션을 저장하지 못했습니다: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] 읽을 수 없는 세션 파일의 백업을 \"{0}\"에 저장했습니다.",
+  "session.logUnreadableBackupFailed": "[SessionService] 읽을 수 없는 세션 파일을 옮기지 못했습니다: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] 기존 세션에 WebRTC 포트를 할당했습니다.",
+  "session.logLoadFailed": "[SessionService] 세션을 불러오지 못했습니다: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] 중단된 시작 작업에서 Sunshine을 중지하는 중 경고: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Sunshine 인스턴스가 이미 존재합니다: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] 복사된 템플릿 상태를 정리하지 못했습니다: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] \"{0}\"의 인스턴스 권한 조정됨(config에만 쓰기 허용): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] {1}에서 \"{0}\"의 권한을 조정하지 못했습니다: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] 방화벽({0}): {1}({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine 인스턴스 업데이트 중: {1} → {2}(config/, 페어링, 자격 증명 및 설정 유지)."
 }
