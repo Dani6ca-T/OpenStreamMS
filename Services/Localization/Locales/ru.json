@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession для сеанса {0} завершился ошибкой: {1}",
   "rdp.logoffCompleted": "Сеанс {0} завершён (выход) за {1} мс.",
   "rdp.logoffSessionCompleted": "Сеанс {0} завершён (выход).",
-  "rdp.logoffWarning": "Предупреждение WTSLogoffSession (сеанс {0}): {1}"
+  "rdp.logoffWarning": "Предупреждение WTSLogoffSession (сеанс {0}): {1}",
+  "rdp.startFreeRdp": "Запуск FreeRDP ({0}x{1}, {2} fps, {3} bpp, масштаб {4}%, без gfx)…",
+  "rdp.freeRdpExecutableMissing": "Не удалось запустить wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP завершился с ExitCode={0} (0x{1:X}), не создав сеанс для «{2}». {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Сеанс для «{0}» не появился за 30 секунд. Проверьте имя пользователя и пароль, включён ли удалённый рабочий стол и входит ли пользователь в группу «Пользователи удалённого рабочего стола».",
+  "rdp.startMstsc": "Запуск mstsc ({0}x{1}, {2} fps, {3} bpp, масштаб {4}%, аппаратный AVC444)…",
+  "rdp.mstscExecutableMissing": "Не удалось запустить mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc завершился с ExitCode={0}, не создав сеанс для «{1}». Возможен невидимый диалог сертификата/учётных данных или отказ NLA.",
+  "rdp.mstscSessionTimeout": "Сеанс для «{0}» не появился за 30 секунд при использовании mstsc. Возможно, в Session 0 скрыто диалоговое окно."
 }
