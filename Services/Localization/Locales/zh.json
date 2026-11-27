@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Windows 会话 {1} 未能完成关闭。",
   "session.logFreeRdpStopped": "[{0}] 已停止 FreeRDP（PID {1}）。",
   "session.logStopWarning": "[{0}] 停止时出现警告：{1}",
-  "session.logStopped": "[{0}] 已停止。"
+  "session.logStopped": "[{0}] 已停止。",
+  "session.logProtocolChanged": "[{0}] 流媒体协议：{1}。",
+  "session.logSunshineStopWarning": "[{0}] 停止 Sunshine 时出现警告（{1}）：{2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine 因 {1} 已停止；将自动重新启动。",
+  "session.logSunshinePauseWarning": "[{0}] 暂停 Sunshine 时出现警告：{1}",
+  "session.logSunshinePaused": "[{0}] Sunshine 已暂停（{1}）。",
+  "session.logSunshineResumed": "[{0}] Sunshine 已恢复；将自动重新启动。",
+  "session.logMuteRdpClient": "[{0}] 正在主机上静音 RDP 客户端（PID={1}）..."
 }
