@@ -171,5 +171,13 @@
   "power.noPending": "Няма чакащо изключване за отмяна ({0}).",
   "power.shutdownFailed": "Грешка в shutdown.exe: {0}",
   "power.scheduled": "{0} е планирано след {1} сек.",
-  "settings.logLevelChanged": "Ниво на журнала: {0} → {1}."
+  "settings.logLevelChanged": "Ниво на журнала: {0} → {1}.",
+  "seat.restartSession": "[Места] Рестартиране на сесията „{1}“ на „{0}“ без изключване на мястото.",
+  "seat.restartSizeMismatch": "Сесията се върна с размер {0}x{1} вместо {2}x{3}.",
+  "seat.restartSessionDone": "[Места] „{0}“: сесията е рестартирана; мястото остава в сесията на Windows {1}.",
+  "seat.restartSessionFailed": "[Места] „{0}“: сесията не може да се рестартира без изключване на мястото ({1}); мястото ще бъде стартирано отново.",
+  "seat.restartSeatFailed": "[Места] „{0}“: мястото не може да бъде стартирано отново: {1}",
+  "seat.waitingImageFailed": "[Места] „{0}“: изображението за изчакване не може да бъде показано: {1}",
+  "seat.sessionDidNotRestart": "Сесията не се стартира отново.",
+  "seat.sessionRestartTimeout": "Времето за рестартиране на сесията изтече."
 }
