@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf uppdaterades ({0}) i: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter redan uppdaterade (användare={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter redan uppdaterade; root rensad (användare={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter angivna (användare={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter angivna (användare={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Det gick inte att begära en ren tömning innan stopp: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Det gick inte att starta sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Det gick inte att återställa root efter --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "[Sunshine] Det gick inte att kontrollera det unika ID:t: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Det gick inte att återställa sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Det gick inte att starta speglingen av sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Det gick inte att kopiera {0} till säkerhetskopian: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Det gick inte att återställa {0}: {1}"
 }
