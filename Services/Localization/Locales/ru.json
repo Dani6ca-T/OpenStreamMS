@@ -623,5 +623,20 @@
   "seatInput.createFailed": "[SeatInput] Не удалось создать маршрутизатор ввода: {0}",
   "seatInput.stopped": "[SeatInput] Маршрутизатор ввода остановлен.",
   "seatInput.createWindowFailed": "Ошибка CreateWindowEx (экранный блокиратор)",
-  "seatInput.rawInputError": "[SeatInput] {0}"
+  "seatInput.rawInputError": "[SeatInput] {0}",
+  "seatAudio.enumerateInputsFailed": "[Seats] Не удалось получить список микрофонов: {0}",
+  "seatAudio.enumerateOutputsFailed": "[Seats] Не удалось получить список устройств вывода звука: {0}",
+  "consoleDisplay.noConsoleUser": "[Seats] В консоли нет активного пользователя: управлять мониторами невозможно.",
+  "consoleDisplay.noResult": "[Seats] Команда --display {0} не вернула результат.",
+  "consoleDisplay.commandFailed": "[Seats] Ошибка команды --display {0}: {1}",
+  "consoleDisplay.windowsMoved": "[Seats] Перемещено окон консоли на новый экран: {0}.",
+  "consoleDisplay.windowsMovedPartial": "[Seats] Перемещено окон консоли на новый экран: {0}; не удалось переместить: {1}.",
+  "consoleLock.noConsoleUser": "[Seats] Нет пользователя консоли: отключить блокировку невозможно.",
+  "consoleLock.userHiveNotLoaded": "Раздел реестра пользователя не загружен.",
+  "consoleLock.engaged": "[Seats] Блокировка консоли отключена для '{0}' на время работы мест.",
+  "consoleLock.engageFailed": "[Seats] Не удалось запретить блокировку консоли: {0}",
+  "consoleLock.journalEmpty": "Журнал пуст.",
+  "consoleLock.userNotLoggedOn": "[Seats] У пользователя '{0}' нет активного сеанса: блокировка будет восстановлена позже.",
+  "consoleLock.released": "[Seats] Блокировка консоли восстановлена для '{0}'.",
+  "consoleLock.releaseFailed": "[Seats] Не удалось восстановить блокировку консоли: {0}"
 }
