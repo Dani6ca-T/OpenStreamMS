@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] 다른 명령이 도착하여 시작 전에 작업이 취소되었습니다.",
   "session.logCreatingRdpSession": "[{0}] 사용자 \"{1}\"의 RDP 세션을 시작하는 중...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine을 시작하지 못했습니다: {1}",
-  "session.logAutoStartFailed": "[{0}] 자동 시작 실패: {1}"
+  "session.logAutoStartFailed": "[{0}] 자동 시작 실패: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] RDP 생성 중 세션이 중지되어 시작이 취소되었습니다.",
+  "session.logRdpSessionReused": "[{0}] 기존 RDP 세션을 재사용했습니다. 새 RDP 클라이언트는 시작되지 않았습니다.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Sunshine 시작 중 세션이 중지되어 시작이 취소되었습니다.",
+  "session.logSessionActiveRdp": "[{0}] 세션 활성 상태(RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] 시작이 완료된 후 세션이 중지되어 시작이 취소되었습니다.",
+  "session.logWaitingForConsoleUser": "[{0}] 누군가 Windows에 로그인하면 시작됩니다.",
+  "session.logLocalSessionActive": "[{0}] 로컬 세션 활성 상태(Windows 세션 {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine 자격 증명이 초기화되었습니다. Sunshine이 중지되었으며 자동으로 다시 시작됩니다.",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine 템플릿이 변경되어 인스턴스를 업데이트합니다: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine 인스턴스를 업데이트하지 못했습니다: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] 방화벽 규칙을 추가하지 못했습니다: {0}"
 }
