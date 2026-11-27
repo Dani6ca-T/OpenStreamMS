@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "지원되는 클라이언트에 사용(기본값)",
     "wan_encryption_mode_2": "모든 사용자에게 필수",
     "wan_encryption_mode_desc": "인터넷을 통해 스트리밍할 때 암호화를 사용할 시기를 결정합니다. 암호화는 특히 성능이 낮은 호스트와 클라이언트에서 스트리밍 성능을 저하시킬 수 있습니다."
+  ,
+    "port_webrtc_discovery": "Moonlight WebRTC TV 검색",
+    "port_webrtc_media": "Moonlight WebRTC 비디오 및 오디오",
+    "port_webrtc_media_any": "모두",
+    "port_webrtc_signaling": "Moonlight WebRTC TV 연결",
+    "stream_protocol": "스트리밍 프로토콜",
+    "stream_protocol_both": "모두",
+    "stream_protocol_desc": "Sunshine이 제공할 클라이언트를 선택합니다: Moonlight 앱, Samsung Tizen TV의 Moonlight WebRTC 또는 둘 다. 꺼진 프로토콜의 포트는 닫힌 상태로 유지됩니다.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Moonlight WebRTC 마지막 미디어 포트",
+    "webrtc_media_port_max_desc": "WebRTC가 비디오와 오디오에 사용할 수 있는 마지막 UDP 포트입니다. 0이면 범위가 65535까지 열립니다.",
+    "webrtc_media_port_min": "Moonlight WebRTC 첫 미디어 포트",
+    "webrtc_media_port_min_desc": "WebRTC가 비디오와 오디오에 사용할 수 있는 첫 UDP 포트입니다. 방화벽에서는 이 범위만 열면 됩니다. 두 포트가 모두 0이면 WebRTC가 임의의 포트를 선택합니다.",
+    "webrtc_port": "Moonlight WebRTC TV 포트",
+    "webrtc_port_desc": "TV가 연결하는 WebSocket의 TCP 포트입니다. PC 주소와 함께 다른 포트를 지정하지 않으면 TV 앱은 8000을 사용합니다. 범위: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "Sunshine에 권한이 필요합니다",
