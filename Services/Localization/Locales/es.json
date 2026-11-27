@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "activado",
   "gamepad.stateDisabled": "desactivado",
   "gamepad.stateEmpty": "vacía",
-  "gamepad.unknownVersion": "versión desconocida"
+  "gamepad.unknownVersion": "versión desconocida",
+  "gamepad.predictedPadClaimed": "{0} solo es visible en la sesión {1} incluso antes de conectarlo ('{2}').",
+  "gamepad.releaseReservationsFailed": "No se pudieron quitar las reservas de mandos: {0}",
+  "gamepad.padClaimed": "Mando {0} → '{1}' (sesión de Windows {2}): este servicio ha capturado el mando.",
+  "gamepad.padOwnerUnknown": "No se pudo determinar qué sesión creó el mando {0}; sigue visible en todas las sesiones.",
+  "gamepad.osmsPadOutsideSession": "Mando OsmsPad {0} → sesión de Windows {1} (no pertenece a ninguna sesión de OpenStreamMS)."
 }
