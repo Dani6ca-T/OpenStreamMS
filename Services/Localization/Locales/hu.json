@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Nem sikerült előkészíteni a Steamet a(z) \"{0}\" felhasználóhoz: {1}",
   "service.started": "[Service] Az OpenStreamMS elindult. Az API a beállított porton érhető el.",
   "service.multiRdpCheckFailed": "[Service] A multi-RDP ellenőrzése nem sikerült: {0}",
-  "service.stopped": "[Service] Leállítva."
+  "service.stopped": "[Service] Leállítva.",
+  "isolatedUser.winStationsKeyMissing": "A(z) HKLM\\{0} Windows rendszerleíró kulcs nem létezik.",
+  "isolatedUser.rdpTcpKeyMissing": "A(z) HKLM\\{0} Windows rendszerleíró kulcs nem létezik.",
+  "steamIsolation.userRegistryNotLoaded": "A felhasználó rendszerleíró adatbázisa nincs betöltve.",
+  "steamIsolation.wscriptUnavailable": "A WScript.Shell nem érhető el.",
+  "steamIsolation.shortcutDescription": "A többi munkamenettől elkülönített Steam (OpenStreamMS)"
 }
