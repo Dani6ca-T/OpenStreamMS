@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Конфигурацията на сесията е актуализирана.",
   "session.logRestartAfterConfigFailed": "Сесията не може да бъде рестартирана след актуализацията на конфигурацията: {0}",
   "session.alreadyInState": "Сесията вече е в състояние {0}.",
-  "error.request": "Заявката не може да бъде изпълнена."
+  "error.request": "Заявката не може да бъде изпълнена.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Отложеното копиране на sunshine_state.json след промяна на сдвояването завърши.",
+  "session.logPairingStateMirrorFailed": "[{0}] Неуспешно отложено копиране на sunshine_state.json след промяна на сдвояването: {1}",
+  "session.logAutoStartingEnabled": "Автоматично стартиране на {0} разрешени сесии...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Открита е Windows сесия ({1}); стартира се локалната сесия.",
+  "session.logConsoleSessionStartFailed": "[{0}] Неуспешно стартиране след влизане в Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Грешка при наблюдение: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Заредени сесии от диска: {0}.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Предупреждение при затваряне на Windows сесия {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Стартирането е прекратено преди началото (получена е друга команда).",
+  "session.logCreatingRdpSession": "[{0}] Стартиране на RDP сесия за потребител „{1}“...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine не успя да стартира: {1}",
+  "session.logAutoStartFailed": "[{0}] Неуспешно автоматично стартиране: {1}"
 }
