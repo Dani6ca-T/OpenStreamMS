@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Dźwięk z „{1}” przekazano do sesji klawiatury „{2}”.",
   "compositeAudio.forwardFailed": "[{0}] Nie można przekazać dźwięku z „{1}”: {2}",
   "hud.launched": "[HUD] Uruchomiono w sesji Windows {0} (PID {1}): Ctrl+Alt+H lub Guide + Back.",
-  "hud.launchFailed": "[HUD] Nie można uruchomić w sesji Windows {0}: {1}"
+  "hud.launchFailed": "[HUD] Nie można uruchomić w sesji Windows {0}: {1}",
+  "compositeInput.routed": "[{0}] Klawiatura i mysz przekierowane do „{1}” (sesja Windows {2}).",
+  "compositeInput.routeFailed": "[{0}] Nie można przekierować klawiatury i myszy do „{1}”: {2}",
+  "compositeInput.writeFailed": "[{0}] Nie można zapisać {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Nie można usunąć {1}: {2}"
 }
