@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses misslyckades ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Det gick inte att öppna '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Det gick inte att avsluta '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) avslutades i session {2}."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) avslutades i session {2}.",
+  "sunshine.configUpdateFailed": "[Sunshine] Det gick inte att uppdatera sunshine.conf: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Det gick inte att tillhandahålla autentiseringsuppgifter: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Det gick inte att konfigurera VDD i apps.json: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Det gick inte att konfigurera den isolerade miljön i apps.json: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Det gick inte att konfigurera Steam-posten i apps.json: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Det gick inte att konfigurera Reboot/Power Off-posterna i apps.json: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Det gick inte att konfigurera tilläggsappar i apps.json: {0}",
+  "sunshine.launching": "[Sunshine] Startar i session {0}: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Det gick inte att starta: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] Det gick inte att bekräfta kodaren i loggen; lämnar den oförändrad."
 }
