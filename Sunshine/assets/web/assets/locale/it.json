@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "Abilitato per i client supportati (predefinito)",
     "wan_encryption_mode_2": "Obbligatorio per tutti i client",
     "wan_encryption_mode_desc": "Questo determina quando la crittografia sarà utilizzata durante lo streaming su Internet. La crittografia può ridurre le prestazioni di streaming, in particolare su host e client meno potenti."
+  ,
+    "port_webrtc_discovery": "Rilevamento TV Moonlight WebRTC",
+    "port_webrtc_media": "Video e audio Moonlight WebRTC",
+    "port_webrtc_media_any": "Qualsiasi",
+    "port_webrtc_signaling": "Connessione TV Moonlight WebRTC",
+    "stream_protocol": "Protocolli di streaming",
+    "stream_protocol_both": "Entrambi",
+    "stream_protocol_desc": "Quali client serve Sunshine: app Moonlight, Moonlight WebRTC sui televisori Samsung Tizen oppure entrambi. Le porte del protocollo disattivato restano chiuse.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Ultima porta multimediale Moonlight WebRTC",
+    "webrtc_media_port_max_desc": "Ultima porta UDP che WebRTC può usare per video e audio. 0 lascia l'intervallo aperto fino a 65535.",
+    "webrtc_media_port_min": "Prima porta multimediale Moonlight WebRTC",
+    "webrtc_media_port_min_desc": "Prima porta UDP che WebRTC può usare per video e audio, così nel firewall è necessario aprire solo questo intervallo. Se entrambe le porte sono 0, WebRTC può scegliere qualsiasi porta.",
+    "webrtc_port": "Porta TV Moonlight WebRTC",
+    "webrtc_port_desc": "Porta TCP del WebSocket a cui si connette il televisore. L'app TV usa 8000, a meno che non venga specificata un'altra porta insieme all'indirizzo del PC. Intervallo: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "Sunshine ha bisogno di autorizzazioni",
