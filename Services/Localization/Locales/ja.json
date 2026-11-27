@@ -461,5 +461,15 @@
   "error.stopSeat": "構成を変更する前にシートを停止してください。",
   "error.primaryMonitor": "プライマリモニターはシートに割り当てられません。",
   "error.assigned": "選択したリソースは既に割り当てられています。",
-  "composite.logMemberAssignedToSlot": "[{0}] 「{1}」をスロット {2}（{3}x{4}）に割り当てました。"
+  "composite.logMemberAssignedToSlot": "[{0}] 「{1}」をスロット {2}（{3}x{4}）に割り当てました。",
+  "isolatedUser.remoteLogonGrant": "[RDP] ユーザー「{0}」は管理者でも Remote Desktop Users のメンバーでもないため、セッションを開始できるようにリモート デスクトップへのアクセスを許可します。",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] ユーザー「{0}」のリモート デスクトップ アクセスを確認できませんでした: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] RDP-Tcp のアクセス許可を読み取れません（Security と DefaultSecurity のどちらも取得できません）。変更せずに残します。",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] サインイン画面で「{0}」を非表示にできませんでした: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Steam レジストリへの「{0}」のアクセス権を変更できませんでした: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] ユーザー「{0}」の Steam を準備しました。steam:// と {1} 個のショートカットで osms-steam.exe を使用します。",
+  "steamIsolation.prepareFailed": "[SteamIsolation] ユーザー「{0}」の Steam を準備できませんでした: {1}",
+  "service.started": "[Service] OpenStreamMS が起動しました。API は設定されたポートで利用できます。",
+  "service.multiRdpCheckFailed": "[Service] Multi-RDP の確認に失敗しました: {0}",
+  "service.stopped": "[Service] 停止しました。"
 }
