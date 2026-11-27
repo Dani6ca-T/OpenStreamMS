@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Windows {2} oturumunda Steam '{1}' işlemi başarısız: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: {2} oturumda '{1}'.",
   "composite.steamOpen": "açma",
-  "composite.steamClose": "kapatma"
+  "composite.steamClose": "kapatma",
+  "gamepad.hidHideNotOpen": "HidHide yalıtım hizmeti tarafından açık değil; ViGEm denetleyicisi göründüğünde yalıtılacak.",
+  "gamepad.deviceArrivalWatchUnavailable": "Aygıtların gelişi izlenemedi; yalnızca her saniye kontrol edilecek.",
+  "gamepad.hidHideNotInstalled": "HidHide yüklü değil: denetleyiciler tüm oturumlarda görünür olacak.",
+  "gamepad.hidHideEnabled": "HidHide etkinleştirildi.",
+  "gamepad.hidHideConfigureFailed": "HidHide yapılandırılamadı: {0}",
+  "gamepad.monitorFailed": "Denetleyiciler izlenirken hata oluştu: {0}"
 }
