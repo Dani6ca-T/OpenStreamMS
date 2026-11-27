@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Tego katalogu nie ma na liście.",
   "ext.catalogEntryMissing": "Katalog nie zawiera już {0}.",
   "ext.invalidPackage": "Pakiet nie jest prawidłowym rozszerzeniem: {0}",
-  "ext.noManifest": "Pakiet nie zawiera {0}."
+  "ext.noManifest": "Pakiet nie zawiera {0}.",
+  "cli.error.missingSeatAgentPipe": "BŁĄD: Brak nazwy potoku dla --seat-agent.",
+  "cli.error.missingSeatHostPipe": "BŁĄD: Brak nazwy potoku dla --seat-host.",
+  "cli.error.unknownCommand": "Nieznane polecenie: „{0}”",
+  "cli.error.helpHint": "Użyj --help, aby wyświetlić dostępne polecenia.",
+  "cli.error.adminRequired": "BŁĄD: Ta operacja wymaga uprawnień administratora.",
+  "cli.error.adminHint": "Uruchom plik .exe za pomocą opcji „Uruchom jako administrator”."
 }
