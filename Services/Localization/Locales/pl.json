@@ -359,5 +359,16 @@
   "seats.seatLost": "Stanowisko „{0}” jest wyłączane: {1}.",
   "seats.stopAfterLossFailed": "„{0}”: nie można wyłączyć po przerwaniu: {1}",
   "seats.sessionStartFailed": "Nie udało się uruchomić sesji.",
-  "seats.sessionStartTimeout": "Sesja nie stała się aktywna na czas."
+  "seats.sessionStartTimeout": "Sesja nie stała się aktywna na czas.",
+  "seats.statusStartingSession": "Uruchamianie sesji…",
+  "seats.statusPoweringMonitor": "Włączanie monitora…",
+  "seats.statusStartingAgent": "Uruchamianie agenta przechwytywania i obrazu…",
+  "seats.statusStartingPresenter": "Uruchamianie prezentera w konsoli…",
+  "seats.statusSeparatingGamepads": "Odłączanie kontrolerów stanowiska…",
+  "seats.statusReservingUsb": "Rezerwowanie urządzeń USB stanowiska…",
+  "seats.statusSeparatingInput": "Odłączanie myszy i klawiatury stanowiska…",
+  "seats.statusLockingSession": "Blokowanie sesji: stanowisko będzie wymagać hasła…",
+  "seats.statusActive": "Aktywne: obraz, dźwięk i urządzenia peryferyjne połączone.",
+  "seats.statusDisconnectedFromSeat": "Rozłączono ze stanowiska. Włącz je ponownie z OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Zatrzymano: {0}. Włącz ponownie z OpenStreamMS."
 }
