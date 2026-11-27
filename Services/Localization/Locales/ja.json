@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "そのカタログは一覧にありません。",
   "ext.catalogEntryMissing": "カタログに {0} が含まれなくなりました。",
   "ext.invalidPackage": "パッケージは有効な拡張機能ではありません: {0}",
-  "ext.noManifest": "パッケージに {0} がありません。"
+  "ext.noManifest": "パッケージに {0} がありません。",
+  "cli.error.missingSeatAgentPipe": "エラー: --seat-agent のパイプ名が指定されていません。",
+  "cli.error.missingSeatHostPipe": "エラー: --seat-host のパイプ名が指定されていません。",
+  "cli.error.unknownCommand": "不明なコマンド: '{0}'",
+  "cli.error.helpHint": "使用可能なコマンドを表示するには --help を使用してください。",
+  "cli.error.adminRequired": "エラー: この操作には管理者権限が必要です。",
+  "cli.error.adminHint": ".exe ファイルを「管理者として実行」で起動してください。"
 }
