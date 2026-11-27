@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} 仅在会话“{1}”（{2}）中可见。",
   "gamepad.consoleSessionChanged": "控制台会话从 {0} 切换到 {1}：正在重新分配物理控制器。",
   "gamepad.sideInputDriverRestored": "{0}（控制器的键盘或鼠标）已恢复到其驱动程序：控制器位于控制台。",
-  "gamepad.sideInputCaptured": "控制器位于其他会话时，已隔离 {0}（控制器的键盘或鼠标）：其按键（例如捕获按钮）不再传送到控制台。"
+  "gamepad.sideInputCaptured": "控制器位于其他会话时，已隔离 {0}（控制器的键盘或鼠标）：其按键（例如捕获按钮）不再传送到控制台。",
+  "gamepad.physicalPadConsole": "物理控制器 {0} 仅在控制台会话（{1}）中可见。",
+  "gamepad.physicalPadAssigned": "物理控制器 {0} 已分配给座位或串流会话：仅在会话 {1} 中可见。",
+  "gamepad.steamFilterWarning": "{0} 的设备堆栈中包含 Steam 过滤器 {1}：其他会话（包括控制台）中的 Steam 仍能读取它。请在座位或串流启动后拔下并重新连接。",
+  "gamepad.physicalPadRestarted": "{0} 已重启：会话 {1} 不再能读取它。",
+  "gamepad.physicalPadRestartFailed": "无法重启 {0}：{1}。已经打开设备的会话会继续看到它，直到关闭设备。"
 }
