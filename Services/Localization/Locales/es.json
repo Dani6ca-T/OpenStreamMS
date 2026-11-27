@@ -171,5 +171,13 @@
   "power.noPending": "No hay ningún apagado pendiente que cancelar ({0}).",
   "power.shutdownFailed": "Error de shutdown.exe: {0}",
   "power.scheduled": "{0} programado en {1}s.",
-  "settings.logLevelChanged": "Nivel de registro: {0} → {1}."
+  "settings.logLevelChanged": "Nivel de registro: {0} → {1}.",
+  "seat.restartSession": "[Puestos] Reiniciando la sesión '{1}' del puesto '{0}' sin apagarlo.",
+  "seat.restartSizeMismatch": "La sesión volvió a {0}x{1} en vez de {2}x{3}.",
+  "seat.restartSessionDone": "[Puestos] '{0}': sesión reiniciada; el puesto sigue en la sesión de Windows {1}.",
+  "seat.restartSessionFailed": "[Puestos] '{0}': no se pudo reiniciar su sesión sin apagar el puesto ({1}); se rehace el puesto.",
+  "seat.restartSeatFailed": "[Puestos] '{0}': no se pudo volver a encender el puesto: {1}",
+  "seat.waitingImageFailed": "[Puestos] '{0}': no se pudo mostrar la imagen de espera: {1}",
+  "seat.sessionDidNotRestart": "La sesión no volvió a arrancar.",
+  "seat.sessionRestartTimeout": "Se agotó el tiempo de espera para reiniciar la sesión."
 }
