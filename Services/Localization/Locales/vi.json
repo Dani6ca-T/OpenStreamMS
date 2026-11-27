@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession cho phiên {0} thất bại: {1}",
   "rdp.logoffCompleted": "Phiên {0} đã đăng xuất trong {1} ms.",
   "rdp.logoffSessionCompleted": "Phiên {0} đã đăng xuất.",
-  "rdp.logoffWarning": "Cảnh báo WTSLogoffSession (phiên {0}): {1}"
+  "rdp.logoffWarning": "Cảnh báo WTSLogoffSession (phiên {0}): {1}",
+  "rdp.startFreeRdp": "Đang khởi chạy FreeRDP ({0}x{1}, {2} fps, {3} bpp, tỷ lệ {4}%, không gfx)…",
+  "rdp.freeRdpExecutableMissing": "Không thể khởi chạy wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP thoát với ExitCode={0} (0x{1:X}) mà không tạo phiên cho '{2}'. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Phiên cho '{0}' không xuất hiện sau 30 giây. Kiểm tra tên người dùng và mật khẩu, Remote Desktop đã bật và người dùng thuộc nhóm Remote Desktop Users.",
+  "rdp.startMstsc": "Đang khởi chạy mstsc ({0}x{1}, {2} fps, {3} bpp, tỷ lệ {4}%, AVC444 phần cứng)…",
+  "rdp.mstscExecutableMissing": "Không thể khởi chạy mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc thoát với ExitCode={0} mà không tạo phiên cho '{1}'. Có thể hộp thoại chứng chỉ/thông tin đăng nhập bị ẩn hoặc NLA từ chối.",
+  "rdp.mstscSessionTimeout": "Phiên cho '{0}' không xuất hiện sau 30 giây với mstsc. Có thể hộp thoại bị ẩn trong Session 0."
 }
