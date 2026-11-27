@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Nie można przywrócić głównego monitora konsoli; zostanie odzyskany po usunięciu ekranu wirtualnego.",
   "seats.consoleMonitorRestored": "Konsola znów ma cały monitor.",
   "seats.sessionLocked": "„{0}”: sesja zablokowana; wymagane będzie hasło użytkownika „{1}”.",
-  "seats.sessionLockFailed": "„{0}”: nie można zablokować sesji: {1}"
+  "seats.sessionLockFailed": "„{0}”: nie można zablokować sesji: {1}",
+  "seats.sessionDisconnectedFromSeat": "„{0}”: sesja została rozłączona ze stanowiska; stanowisko zostanie wyłączone do ponownego uruchomienia z OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "„{0}”: nie można zatrzymać po rozłączeniu: {1}",
+  "seats.windowsSessionChanged": "„{0}”: sesja Windows zmieniła się z {1} na {2}; kontrolery są ponownie przypisywane.",
+  "seats.monitorModeChanged": "„{0}”: zmienił się tryb monitora; trwa ponowne dostosowanie sesji.",
+  "seats.readjustFailed": "Nie można ponownie dostosować stanowiska: {0}",
+  "seats.agentDisconnected": "„{0}”: agent sesji został rozłączony.",
+  "seats.presenterDisconnected": "„{0}”: prezenter konsoli został rozłączony.",
+  "seats.consoleAreaLost": "Obszar konsoli utracił obraz ({0}); konsola odzyskuje monitor.",
+  "seats.seatLost": "Stanowisko „{0}” jest wyłączane: {1}.",
+  "seats.stopAfterLossFailed": "„{0}”: nie można wyłączyć po przerwaniu: {1}",
+  "seats.sessionStartFailed": "Nie udało się uruchomić sesji.",
+  "seats.sessionStartTimeout": "Sesja nie stała się aktywna na czas."
 }
