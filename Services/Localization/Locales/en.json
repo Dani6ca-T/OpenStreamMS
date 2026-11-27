@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "Could not read the HidHide whitelist: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping disabled (it bypasses per-session controller isolation).",
   "gamepad.controllerToVkDisableFailed": "Could not disable ControllerToVKMapping: {0}",
-  "gamepad.jailPrepareFailed": "Could not prepare the HidHide jail for the ViGEm controller: {0}"
+  "gamepad.jailPrepareFailed": "Could not prepare the HidHide jail for the ViGEm controller: {0}",
+  "gamepad.stateEnabled": "enabled",
+  "gamepad.stateDisabled": "disabled",
+  "gamepad.stateEmpty": "empty",
+  "gamepad.unknownVersion": "unknown version"
 }
