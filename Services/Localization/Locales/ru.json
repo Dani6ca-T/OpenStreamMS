@@ -461,5 +461,15 @@
   "error.stopSeat": "Остановите место перед изменением его конфигурации.",
   "error.primaryMonitor": "Основной монитор нельзя назначить месту.",
   "error.assigned": "Выбранный ресурс уже назначен.",
-  "composite.logMemberAssignedToSlot": "[{0}] «{1}» назначен в слот {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] «{1}» назначен в слот {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Пользователь «{0}» не является администратором и не входит в Remote Desktop Users; ему предоставляется доступ к удалённому рабочему столу для запуска сеанса.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Не удалось проверить доступ к удалённому рабочему столу для «{0}»: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Не удалось прочитать разрешения RDP-Tcp (ни Security, ни DefaultSecurity); они не изменяются.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Не удалось скрыть «{0}» с экрана входа: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Не удалось настроить доступ пользователя «{0}» к реестру Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam настроен для «{0}»: steam:// и ярлыки ({1}) используют osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Не удалось настроить Steam для «{0}»: {1}",
+  "service.started": "[Service] OpenStreamMS запущен. API доступен на настроенном порту.",
+  "service.multiRdpCheckFailed": "[Service] Ошибка проверки multi-RDP: {0}",
+  "service.stopped": "[Service] Остановлен."
 }
