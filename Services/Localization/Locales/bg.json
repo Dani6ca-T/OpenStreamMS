@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Неуспешно връщане на основния монитор към конзолата; ще бъде възстановен при премахване на виртуалния екран.",
   "seats.consoleMonitorRestored": "Конзолата отново използва целия си монитор.",
   "seats.sessionLocked": "„{0}“: сесията е заключена; ще бъде поискана паролата на „{1}“.",
-  "seats.sessionLockFailed": "„{0}“: неуспешно заключване на сесията: {1}"
+  "seats.sessionLockFailed": "„{0}“: неуспешно заключване на сесията: {1}",
+  "seats.sessionDisconnectedFromSeat": "„{0}“: сесията е прекъсната от мястото; то се изключва, докато не бъде включено отново от OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "„{0}“: неуспешно изключване след прекъсване: {1}",
+  "seats.windowsSessionChanged": "„{0}“: Windows сесията се промени от {1} на {2}; контролерите се преназначават.",
+  "seats.monitorModeChanged": "„{0}“: режимът на монитора се промени; сесията се настройва отново.",
+  "seats.readjustFailed": "Неуспешно пренастройване на мястото: {0}",
+  "seats.agentDisconnected": "„{0}“: агентът на сесията се прекъсна.",
+  "seats.presenterDisconnected": "„{0}“: презентаторът на конзолата се прекъсна.",
+  "seats.consoleAreaLost": "Частта на конзолата остана без изображение ({0}); конзолата възстановява монитора си.",
+  "seats.seatLost": "Място „{0}“ се изключва: {1}.",
+  "seats.stopAfterLossFailed": "„{0}“: неуспешно изключване след прекъсване: {1}",
+  "seats.sessionStartFailed": "Сесията не успя да стартира.",
+  "seats.sessionStartTimeout": "Сесията не стана активна навреме."
 }
