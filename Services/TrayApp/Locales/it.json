@@ -11,7 +11,7 @@
   "open": "Apri OpenStreamMS",
   "exit": "Esci",
   "offline": "OpenStreamMS: il servizio non risponde",
-  "state.Running": "On",
+  "state.Running": "In esecuzione",
   "state.Starting": "Inizio...",
   "state.Stopping": "Arresto...",
   "state.Stopped": "Spento",
