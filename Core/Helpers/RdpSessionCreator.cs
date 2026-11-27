@@ -1199,7 +1199,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo cambiar frecuencia de display en sesion {sessionId}: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.displayFrequencyChangeFailed", sessionId, ex.Message));
             }
         }
 
@@ -1211,7 +1211,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
         {
             if (resultFile is null)
             {
-                Logger.Log($"[RDP] ChangeDisplaySettings({requestedHz}Hz) lanzado en sesion {sessionId} (sin verificacion).");
+                Logger.Log(BackendText.Get("rdp.displayFrequencyChangeLaunched", requestedHz, sessionId));
                 return;
             }
 
@@ -1219,8 +1219,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
             {
                 if (!File.Exists(resultFile))
                 {
-                    Logger.Warning($"[RDP] ChangeDisplaySettings en sesion {sessionId}: " +
-                                   "sin fichero de resultado — el script no llego a completarse.");
+                    Logger.Warning(BackendText.Get("rdp.displayFrequencyResultMissing", sessionId));
                     return;
                 }
 
@@ -1231,17 +1230,15 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                 string actualHz = parts.Length > 1 ? parts[1] : "?";
 
                 if (code == 0 && actualHz == requestedHz.ToString())
-                    Logger.Log($"[RDP] ChangeDisplaySettings OK — display a {actualHz}Hz en sesion {sessionId}.");
+                    Logger.Log(BackendText.Get("rdp.displayFrequencyVerified", actualHz, sessionId));
                 else if (code == 0)
-                    Logger.Warning($"[RDP] ChangeDisplaySettings devolvio OK pero el display reporta " +
-                                   $"{actualHz}Hz (pedido {requestedHz}Hz) en sesion {sessionId}.");
+                    Logger.Warning(BackendText.Get("rdp.displayFrequencyMismatch", actualHz, requestedHz, sessionId));
                 else
-                    Logger.Warning($"[RDP] ChangeDisplaySettings fallo en sesion {sessionId}: " +
-                                   $"{DispChangeName(code)} (display a {actualHz}Hz).");
+                    Logger.Warning(BackendText.Get("rdp.displayFrequencyFailed", sessionId, DispChangeName(code), actualHz));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo leer resultado de ChangeDisplaySettings: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.displayFrequencyResultReadFailed", ex.Message));
             }
         }
 
