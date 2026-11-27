@@ -1294,7 +1294,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
 
             if (!WTSEnumerateSessions(IntPtr.Zero, 0, 1, out IntPtr pSessions, out int count))
             {
-                Logger.Error($"[RDP] WTSEnumerateSessions error: {Marshal.GetLastWin32Error()}");
+                Logger.Error(BackendText.Get("rdp.enumerateSessionsFailed", Marshal.GetLastWin32Error()));
                 return sessions;
             }
 
@@ -1312,8 +1312,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                     var protocol = QuerySessionProtocol(raw.SessionId);
 
                     if (logSessions)
-                        Logger.Log($"[RDP] Sesion {raw.SessionId} ({raw.pWinStationName}) " +
-                                   $"proto={protocol} usuario='{FormatPrincipal(domain, user)}'");
+                        Logger.Log(BackendText.Get("rdp.sessionInfo", raw.SessionId, raw.pWinStationName, protocol, FormatPrincipal(domain, user)));
 
                     sessions.Add(new RdpSessionInfo(
                         raw.SessionId, raw.pWinStationName ?? "",
@@ -1399,10 +1398,9 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
 
             bool unlocked = flag != WtsSessionStateLock;   // 1 (unlock) o -1 (unknown)
             if (unlocked)
-                Logger.Log($"[RDP] Sesion {sessionId} desbloqueada (flag={flag}) tras {sw.ElapsedMilliseconds} ms.");
+                Logger.Log(BackendText.Get("rdp.sessionUnlocked", sessionId, flag, sw.ElapsedMilliseconds));
             else
-                Logger.Warning($"[RDP] Session {sessionId} STILL locked after {timeoutMs} ms: " +
-                               "Sunshine may fall back to software encode (libx264). Check lock screen.");
+                Logger.Warning(BackendText.Get("rdp.sessionStillLocked", sessionId, timeoutMs));
             return unlocked;
         }
 
@@ -1471,8 +1469,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
             var other = EnumerateSessions(logSessions: false).FirstOrDefault(s =>
                 s.SessionId != 0 && s.SessionId != exceptSessionId && SamePrincipal(s, user));
             if (other is null) return null;
-            Logger.Log($"[RDP] '{FormatPrincipal(user)}' ya tiene la sesión {other.SessionId} " +
-                       $"({(string.IsNullOrEmpty(other.WinStationName) ? "desconectada" : other.WinStationName)}).");
+            Logger.Log(BackendText.Get("rdp.userAlreadyHasOtherSession", FormatPrincipal(user), other.SessionId, string.IsNullOrEmpty(other.WinStationName) ? BackendText.Get("rdp.disconnected") : other.WinStationName));
             return SingleSessionPerUser.Suspend();
         }
 
@@ -1494,7 +1491,7 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                     if (key?.GetValue("Start") is int start && start == 4)
                     {
                         key.SetValue("Start", 3, RegistryValueKind.DWord);
-                        Logger.Log("[RDP] TermService estaba Deshabilitado → cambiado a Manual.");
+                        Logger.Log(BackendText.Get("rdp.termServiceChangedToManual"));
                     }
                 }
 
@@ -1505,14 +1502,12 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
                 {
                     sc.Start();
                     sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(15));
-                    Logger.Log("[RDP] TermService arrancado (Escritorio Remoto nativo).");
+                    Logger.Log(BackendText.Get("rdp.termServiceStarted"));
                 }
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo garantizar TermService en ejecucion: {ex.Message}. " +
-                               "Si Escritorio Remoto esta apagado, la conexion loopback fallara; " +
-                               "habilitalo en Sistema → Escritorio remoto o reinicia Windows.");
+                Logger.Warning(BackendText.Get("rdp.termServiceEnsureFailed", ex.Message));
             }
         }
 
@@ -1526,13 +1521,13 @@ $dmVerify.dmSize = [System.Runtime.InteropServices.Marshal]::SizeOf($dmVerify)
             try
             {
                 using var key = Registry.LocalMachine.CreateSubKey(path, writable: true)
-                    ?? throw new InvalidOperationException($"no se pudo abrir HKLM\\{path}");
+                    ?? throw new InvalidOperationException(BackendText.Get("rdp.registryKeyOpenFailed", path));
                 key.SetValue(name, value, kind);
-                Logger.Log($"[RDP] HKLM\\{path}\\{name} = {value}");
+                Logger.Log(BackendText.Get("rdp.registryValueWritten", path, name, value));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo escribir {name} en HKLM\\{path}: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.registryWriteFailed", name, path, ex.Message));
             }
         }
 
