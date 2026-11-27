@@ -359,5 +359,16 @@
   "seats.seatLost": "O posto '{0}' está a desligar-se: {1}.",
   "seats.stopAfterLossFailed": "'{0}': não foi possível desligar após a interrupção: {1}",
   "seats.sessionStartFailed": "Falha ao iniciar a sessão.",
-  "seats.sessionStartTimeout": "A sessão não ficou ativa a tempo."
+  "seats.sessionStartTimeout": "A sessão não ficou ativa a tempo.",
+  "seats.statusStartingSession": "A iniciar a sessão…",
+  "seats.statusPoweringMonitor": "A ligar o monitor…",
+  "seats.statusStartingAgent": "A iniciar o agente de captura e imagem…",
+  "seats.statusStartingPresenter": "A iniciar o apresentador na consola…",
+  "seats.statusSeparatingGamepads": "A separar os comandos do posto…",
+  "seats.statusReservingUsb": "A reservar os dispositivos USB do posto…",
+  "seats.statusSeparatingInput": "A separar o rato e o teclado do posto…",
+  "seats.statusLockingSession": "A bloquear a sessão: o posto irá pedir a palavra-passe…",
+  "seats.statusActive": "Ativo: imagem, áudio e periféricos ligados.",
+  "seats.statusDisconnectedFromSeat": "Desligado a partir do posto. Volte a ligá-lo no OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Parado: {0}. Volte a ligá-lo no OpenStreamMS."
 }
