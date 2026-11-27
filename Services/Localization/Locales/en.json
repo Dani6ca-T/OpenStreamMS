@@ -461,5 +461,15 @@
   "error.stopSeat": "Stop the seat before changing its configuration.",
   "error.primaryMonitor": "The primary monitor cannot be assigned to a seat.",
   "error.assigned": "The selected resource is already assigned.",
-  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" assigned to slot {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" assigned to slot {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] User \"{0}\" is not an administrator or a member of Remote Desktop Users; granting Remote Desktop access so the session can start.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Could not check Remote Desktop access for \"{0}\": {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] RDP-Tcp permissions are not readable (neither Security nor DefaultSecurity); leaving them unchanged.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Could not hide \"{0}\" from the sign-in screen: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Could not adjust \"{0}\" access to the Steam registry: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam prepared for \"{0}\": steam:// and {1} shortcuts use osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Could not prepare Steam for \"{0}\": {1}",
+  "service.started": "[Service] OpenStreamMS started. API is available on the configured port.",
+  "service.multiRdpCheckFailed": "[Service] Multi-RDP check failed: {0}",
+  "service.stopped": "[Service] Stopped."
 }
