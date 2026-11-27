@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "A ChangeDisplaySettings sikeres — kijelző {0}Hz a(z) {1}. munkamenetben.",
   "rdp.displayFrequencyMismatch": "A ChangeDisplaySettings sikert jelzett, de a kijelző {0}Hz-et mutat ({1}Hz kérve) a(z) {2}. munkamenetben.",
   "rdp.displayFrequencyFailed": "A ChangeDisplaySettings sikertelen a(z) {0}. munkamenetben: {1} (kijelző {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Nem sikerült beolvasni a ChangeDisplaySettings eredményét: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Nem sikerült beolvasni a ChangeDisplaySettings eredményét: {0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions hiba: {0}",
+  "rdp.sessionInfo": "Munkamenet {0} ({1}) protokoll={2} felhasználó='{3}'",
+  "rdp.sessionUnlocked": "A(z) {0}. munkamenet feloldva (flag={1}) {2} ms után.",
+  "rdp.sessionStillLocked": "A(z) {0}. munkamenet {1} ms után is zárolva van. A Sunshine szoftveres kódolásra (libx264) válthat. Ellenőrizze a zárolási képernyőt.",
+  "rdp.userAlreadyHasOtherSession": "A(z) „{0}” már rendelkezik a(z) {1}. munkamenettel ({2}).",
+  "rdp.disconnected": "leválasztva",
+  "rdp.termServiceChangedToManual": "A TermService le volt tiltva → Manual értékre módosítva.",
+  "rdp.termServiceStarted": "A TermService elindult (natív Távoli asztal).",
+  "rdp.termServiceEnsureFailed": "Nem sikerült biztosítani a TermService futását: {0}. Ha a Távoli asztal ki van kapcsolva, a loopback kapcsolat sikertelen lesz; engedélyezze a Rendszer → Távoli asztal résznél, vagy indítsa újra a Windowst.",
+  "rdp.registryKeyOpenFailed": "Nem sikerült megnyitni: HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Nem sikerült beírni a(z) {0} értéket ide: HKLM\\\\{1}: {2}"
 }
