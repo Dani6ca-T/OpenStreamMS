@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Det gick inte att ändra primär skärm: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig misslyckades (inaktivera): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Skärmen togs bort från skrivbordet: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Det gick inte att inaktivera skärmen: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Det gick inte att inaktivera skärmen: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Värdstyrningsrör: processen {0} avvisades eftersom den inte tillhör konsolsessionen.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp anslöt till värdstyrningsröret.",
+  "seatHostControl.controlPipeError": "[Seats] Fel i värdstyrningsröret: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Kommandot 'open_seat' skickades till TrayApp för arbetsplats {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Det gick inte att skicka 'open_seat' till TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp är inte ansluten; startar fristående presentatör i konsolsession {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Ingen användare är inloggad på den fysiska konsolen.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Ansluten till styrningsröret för arbetsplatsernas värdar.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Fel vid bearbetning av arbetsplatskommando: {0}"
 }
