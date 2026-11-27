@@ -484,5 +484,6 @@
   "compositeInput.routed": "[{0}] 키보드와 마우스를 '{1}'(으)로 전달했습니다(Windows 세션 {2}).",
   "compositeInput.routeFailed": "[{0}] 키보드와 마우스를 '{1}'(으)로 전달하지 못했습니다: {2}",
   "compositeInput.writeFailed": "[{0}] {1}을(를) 쓰지 못했습니다: {2}",
-  "compositeInput.deleteFailed": "[{0}] {1}을(를) 삭제하지 못했습니다: {2}"
+  "compositeInput.deleteFailed": "[{0}] {1}을(를) 삭제하지 못했습니다: {2}",
+  "rdp.mstscFailureContext": "{0} 이전 mstsc 시도가 실패했습니다: {1}"
 }
