@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Сесията на Windows {1} не приключи затварянето си.",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) е спрян.",
   "session.logStopWarning": "[{0}] Предупреждение при спиране: {1}",
-  "session.logStopped": "[{0}] Спряно."
+  "session.logStopped": "[{0}] Спряно.",
+  "session.logProtocolChanged": "[{0}] Протокол за поточно предаване: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Предупреждение при спиране на Sunshine ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine е спрян поради {1}; ще се стартира автоматично отново.",
+  "session.logSunshinePauseWarning": "[{0}] Предупреждение при пауза на Sunshine: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine е на пауза ({1}).",
+  "session.logSunshineResumed": "[{0}] Sunshine е възобновен; ще се стартира автоматично отново.",
+  "session.logMuteRdpClient": "[{0}] Изключване на звука на RDP клиента (PID={1}) на хоста..."
 }
