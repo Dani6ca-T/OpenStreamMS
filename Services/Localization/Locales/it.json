@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Impossibile modificare le autorizzazioni di \"{0}\" in {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Aggiornamento dell’istanza Sunshine: {1} → {2} (config/, associazioni, credenziali e impostazioni vengono conservati).",
-  "session.logHudEnsureFailed": "[HUD] Impossibile inizializzare l’HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Impossibile inizializzare l’HUD: {0}",
+  "error.seatName": "Il nome della postazione è obbligatorio.",
+  "error.stopSeat": "Arresta la postazione prima di modificarne la configurazione.",
+  "error.primaryMonitor": "Il monitor principale non può essere assegnato a una postazione.",
+  "error.assigned": "La risorsa selezionata è già assegnata."
 }
