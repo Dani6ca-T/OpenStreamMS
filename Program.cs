@@ -541,8 +541,8 @@ static void Install(bool silent = false)
 
     if (!silent)
     {
-        Console.WriteLine($"[Install] Executable : {exePath}");
-        Console.WriteLine($"[Install] Config      : {configPath}");
+        Console.WriteLine("[Install] " + BackendText.Get("install.executable") + " " + exePath);
+        Console.WriteLine("[Install] " + BackendText.Get("install.configPath") + " " + configPath);
         Console.WriteLine();
     }
 
