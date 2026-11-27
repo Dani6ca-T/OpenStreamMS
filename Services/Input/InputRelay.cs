@@ -2,6 +2,7 @@ using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Input;
 
@@ -32,7 +33,7 @@ internal static class InputRelay
         var security = new PipeSecurity();
         security.AddAccessRule(new PipeAccessRule(new SecurityIdentifier(WellKnownSidType.LocalSystemSid, null),
                                                   PipeAccessRights.FullControl, AccessControlType.Allow));
-        Logger.Log($"[InputRelay] Teclado y ratón de la compuesta para la sesión de Windows {session} ({name}).");
+        Logger.Log(BackendText.Get("inputRelay.started", session, name));
 
         int failures = 0;
         while (true)
@@ -52,7 +53,7 @@ internal static class InputRelay
                 // Otro proceso ya tiene ese nombre (otro relé de esta sesión): se reintenta un rato.
                 if (++failures >= 30)
                 {
-                    Logger.Warning($"[InputRelay] No se pudo crear {name}: {ex.Message}");
+                    Logger.Warning(BackendText.Get("inputRelay.createFailed", name, ex.Message));
                     return 3;
                 }
                 Thread.Sleep(1000);
@@ -72,9 +73,9 @@ internal static class InputRelay
             while (true)
             {
                 pipe.ReadExactly(header);
-                if (BitConverter.ToUInt32(header, 0) != Magic) throw new EndOfStreamException("cabecera no válida");
+                if (BitConverter.ToUInt32(header, 0) != Magic) throw new EndOfStreamException(BackendText.Get("inputRelay.invalidHeader"));
                 int count = (int)BitConverter.ToUInt32(header, 4);
-                if (count is <= 0 or > MaxBatch) throw new EndOfStreamException("lote no válido");
+                if (count is <= 0 or > MaxBatch) throw new EndOfStreamException(BackendText.Get("inputRelay.invalidBatch"));
                 if (buffer.Length < count * size) buffer = new byte[count * size];
                 if (inputs.Length < count) inputs = new INPUT[count];
                 pipe.ReadExactly(buffer, 0, count * size);
