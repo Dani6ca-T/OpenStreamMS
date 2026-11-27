@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Esse catálogo não está na lista.",
   "ext.catalogEntryMissing": "O catálogo não lista mais {0}.",
   "ext.invalidPackage": "O pacote não é uma extensão válida: {0}",
-  "ext.noManifest": "O pacote não tem {0}."
+  "ext.noManifest": "O pacote não tem {0}.",
+  "cli.error.missingSeatAgentPipe": "ERRO: Falta o nome do pipe para --seat-agent.",
+  "cli.error.missingSeatHostPipe": "ERRO: Falta o nome do pipe para --seat-host.",
+  "cli.error.unknownCommand": "Comando desconhecido: '{0}'",
+  "cli.error.helpHint": "Use --help para ver os comandos disponíveis.",
+  "cli.error.adminRequired": "ERRO: Esta operação requer privilégios de administrador.",
+  "cli.error.adminHint": "Execute o arquivo .exe usando 'Executar como administrador'."
 }
