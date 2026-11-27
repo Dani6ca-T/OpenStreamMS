@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses thất bại ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Không thể mở '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Không thể kết thúc '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] Đã kết thúc '{0}' (PID {1}) trong phiên {2}."
+  "streamProfile.processTerminated": "[StreamProfile] Đã kết thúc '{0}' (PID {1}) trong phiên {2}.",
+  "sunshine.configUpdateFailed": "[Sunshine] Không thể cập nhật sunshine.conf: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Không thể cấp thông tin xác thực: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Không thể cấu hình VDD trong apps.json: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Không thể cấu hình môi trường cách ly trong apps.json: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Không thể cấu hình mục Steam trong apps.json: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Không thể cấu hình các mục Reboot/Power Off trong apps.json: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Không thể cấu hình ứng dụng tiện ích mở rộng trong apps.json: {0}",
+  "sunshine.launching": "[Sunshine] Đang khởi chạy trong phiên {0}: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Khởi chạy thất bại: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] Không thể xác nhận bộ mã hóa trong nhật ký; giữ nguyên cấu hình."
 }
