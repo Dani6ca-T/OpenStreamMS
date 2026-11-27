@@ -73,7 +73,7 @@ internal static class SteamIsolation
     {
         var sid = new NTAccount(username).Translate(typeof(SecurityIdentifier)).Value;
         using var hive = Registry.Users.OpenSubKey(sid, writable: true)
-            ?? throw new InvalidOperationException("el registro del usuario no está cargado");
+            ?? throw new InvalidOperationException(BackendText.Get("steamIsolation.userRegistryNotLoaded"));
         using (var k = hive.CreateSubKey(@"Software\Classes\steam"))
         {
             k.SetValue("", "URL:steam protocol");
@@ -86,7 +86,7 @@ internal static class SteamIsolation
     private static void CreateShortcut(string path, string steamExe)
     {
         var shellType = Type.GetTypeFromProgID("WScript.Shell")
-            ?? throw new InvalidOperationException("WScript.Shell no disponible");
+            ?? throw new InvalidOperationException(BackendText.Get("steamIsolation.wscriptUnavailable"));
         dynamic shell = Activator.CreateInstance(shellType)!;
         try
         {
@@ -94,7 +94,7 @@ internal static class SteamIsolation
             link.TargetPath = Launcher;
             link.WorkingDirectory = Path.GetDirectoryName(Launcher);
             link.IconLocation = $"{steamExe},0";
-            link.Description = "Steam aislado de las demás sesiones (OpenStreamMS)";
+            link.Description = BackendText.Get("steamIsolation.shortcutDescription");
             link.Save();
         }
         finally { System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell); }
