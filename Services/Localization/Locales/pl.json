@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell jest niedostępny.",
   "steamIsolation.shortcutDescription": "Steam odizolowany od innych sesji (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] Dźwięk z „{1}” przekazano do sesji klawiatury „{2}”.",
-  "compositeAudio.forwardFailed": "[{0}] Nie można przekazać dźwięku z „{1}”: {2}"
+  "compositeAudio.forwardFailed": "[{0}] Nie można przekazać dźwięku z „{1}”: {2}",
+  "hud.launched": "[HUD] Uruchomiono w sesji Windows {0} (PID {1}): Ctrl+Alt+H lub Guide + Back.",
+  "hud.launchFailed": "[HUD] Nie można uruchomić w sesji Windows {0}: {1}"
 }
