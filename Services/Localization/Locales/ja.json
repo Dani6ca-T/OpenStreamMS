@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] 「{0}」のインスタンス権限を調整しました（config のみ書き込み可）: {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] {1} の「{0}」の権限を調整できませんでした: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] ファイアウォール ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Sunshine インスタンスを更新中: {1} → {2}（config/、ペアリング、認証情報、設定は保持されます）。"
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine インスタンスを更新中: {1} → {2}（config/、ペアリング、認証情報、設定は保持されます）。",
+  "session.logHudEnsureFailed": "[HUD] HUD を初期化できませんでした: {0}"
 }
