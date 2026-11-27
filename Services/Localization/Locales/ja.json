@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] ユーザー「{0}」の Steam を準備できませんでした: {1}",
   "service.started": "[Service] OpenStreamMS が起動しました。API は設定されたポートで利用できます。",
   "service.multiRdpCheckFailed": "[Service] Multi-RDP の確認に失敗しました: {0}",
-  "service.stopped": "[Service] 停止しました。"
+  "service.stopped": "[Service] 停止しました。",
+  "isolatedUser.winStationsKeyMissing": "Windows レジストリ キー HKLM\\{0} が存在しません。",
+  "isolatedUser.rdpTcpKeyMissing": "Windows レジストリ キー HKLM\\{0} が存在しません。",
+  "steamIsolation.userRegistryNotLoaded": "ユーザーのレジストリ ハイブが読み込まれていません。",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell を利用できません。",
+  "steamIsolation.shortcutDescription": "他のセッションから分離された Steam (OpenStreamMS)"
 }
