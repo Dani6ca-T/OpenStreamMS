@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, tỷ lệ {3}%.",
   "rdp.betterRdpPoliciesApplied": "Đã áp dụng chính sách BetterRDP.",
   "rdp.mstscClientPoliciesApplied": "Đã áp dụng chính sách máy khách mstsc (không có hộp thoại trước khi kết nối).",
-  "rdp.mstscClientPoliciesFailed": "Không thể áp dụng chính sách HKCU của mstsc: {0}"
+  "rdp.mstscClientPoliciesFailed": "Không thể áp dụng chính sách HKCU của mstsc: {0}",
+  "rdp.videoRegistryKeyMissing": "Không tìm thấy HKLM\\\\{0}.",
+  "rdp.refreshRegistryValueApplied": "Đã áp dụng VRefresh={0} cho HKLM\\\\{1} ({2}).",
+  "rdp.noVirtualAdapterFound": "Không tìm thấy bộ điều hợp RDP ảo trong Control\\\\Video — không đổi VRefresh. Phiên sẽ dùng tần số làm mới mặc định của trình điều khiển.",
+  "rdp.refreshAppliedToAdapters": "Đã áp dụng VRefresh={0} cho {1} bộ điều hợp ảo.",
+  "rdp.refreshRegistryFailed": "Lỗi khi đặt VRefresh trong registry: {0}",
+  "rdp.sessionTempResolveFailed": "Không thể xác định TEMP cho phiên {0}: {1}"
 }
