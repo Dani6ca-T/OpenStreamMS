@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Uruchamianie anulowane przed rozpoczęciem (nadeszło inne polecenie).",
   "session.logCreatingRdpSession": "[{0}] Uruchamianie sesji RDP dla użytkownika \"{1}\"...",
   "session.logSunshineLaunchFailed": "[{0}] Nie można uruchomić Sunshine: {1}",
-  "session.logAutoStartFailed": "[{0}] Automatyczne uruchomienie nie powiodło się: {1}"
+  "session.logAutoStartFailed": "[{0}] Automatyczne uruchomienie nie powiodło się: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Uruchamianie anulowane (sesja została zatrzymana podczas tworzenia RDP).",
+  "session.logRdpSessionReused": "[{0}] Ponownie użyto istniejącej sesji RDP; nie uruchomiono nowego klienta RDP.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Uruchamianie anulowane (sesja została zatrzymana podczas uruchamiania Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Sesja aktywna (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Uruchamianie anulowane (sesja została zatrzymana po zakończeniu uruchamiania).",
+  "session.logWaitingForConsoleUser": "[{0}] Zostanie uruchomiona, gdy ktoś zaloguje się do Windows.",
+  "session.logLocalSessionActive": "[{0}] Sesja lokalna aktywna (sesja Windows {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Zresetowano dane logowania Sunshine; Sunshine zatrzymano i zostanie automatycznie uruchomiony ponownie.",
+  "session.logSunshineTemplateUpdated": "[{0}] Zmieniono szablon Sunshine; aktualizowanie instancji: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Nie można zaktualizować instancji Sunshine: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Nie można dodać reguły zapory: {0}"
 }
