@@ -359,5 +359,16 @@
   "seats.seatLost": "좌석 '{0}' 종료 중: {1}.",
   "seats.stopAfterLossFailed": "'{0}': 중단 후 종료할 수 없습니다: {1}",
   "seats.sessionStartFailed": "세션 시작 실패.",
-  "seats.sessionStartTimeout": "세션이 제시간에 활성화되지 않았습니다."
+  "seats.sessionStartTimeout": "세션이 제시간에 활성화되지 않았습니다.",
+  "seats.statusStartingSession": "세션 시작 중…",
+  "seats.statusPoweringMonitor": "모니터 전원 켜는 중…",
+  "seats.statusStartingAgent": "캡처 및 이미지 에이전트 시작 중…",
+  "seats.statusStartingPresenter": "콘솔에서 프레젠터 시작 중…",
+  "seats.statusSeparatingGamepads": "좌석 컨트롤러 분리 중…",
+  "seats.statusReservingUsb": "좌석 USB 장치 예약 중…",
+  "seats.statusSeparatingInput": "좌석 마우스 및 키보드 분리 중…",
+  "seats.statusLockingSession": "세션 잠금 중: 좌석에서 암호를 요구합니다…",
+  "seats.statusActive": "활성: 영상, 오디오 및 주변 장치 연결됨.",
+  "seats.statusDisconnectedFromSeat": "좌석에서 연결이 끊겼습니다. OpenStreamMS에서 다시 켜세요.",
+  "seats.statusStoppedAfterError": "중지됨: {0}. OpenStreamMS에서 다시 켜세요."
 }
