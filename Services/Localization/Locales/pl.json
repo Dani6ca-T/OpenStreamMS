@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Nie udało się zmienić monitora głównego: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Błąd SetDisplayConfig (dezaktywacja): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor usunięty z pulpitu: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Nie udało się dezaktywować monitora: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Nie udało się dezaktywować monitora: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Potok sterowania hostem: odrzucono proces {0}, ponieważ nie należy do sesji konsoli.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp połączono z potokiem sterowania hostem.",
+  "seatHostControl.controlPipeError": "[Seats] Błąd potoku sterowania hostem: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Wysłano do TrayApp polecenie 'open_seat' dla stanowiska {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Nie udało się wysłać polecenia 'open_seat' do TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp nie jest połączony; uruchamianie samodzielnego prezentera w sesji konsoli {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Do konsoli fizycznej nie jest zalogowany żaden użytkownik.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Połączono z potokiem sterowania hostem stanowisk.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Błąd podczas przetwarzania polecenia stanowiska: {0}"
 }
