@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Could not route keyboard and mouse to '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Could not write {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Could not delete {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Earlier mstsc attempt failed: {1}"
+  "rdp.mstscFailureContext": "{0} Earlier mstsc attempt failed: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Could not read the session profile paths.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Independent profile sandbox: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Isolated AppData: local={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "[StreamProfile] No Explorer process was running to restart in session {0}.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer restarted in session {0} with the stream profile.",
+  "streamProfile.logoffRetry": "[StreamProfile] Session {0} did not log off within 30 seconds; terminating processes for '{1}' and retrying logoff.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Session {0} logged off after terminating {1} user process(es).",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Session {0} is still active after logoff.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Could not resolve the SID for '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses failed ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Could not open '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Could not terminate '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) terminated in session {2}."
 }
