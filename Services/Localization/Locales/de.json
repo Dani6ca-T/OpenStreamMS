@@ -359,5 +359,16 @@
   "seats.seatLost": "Sitzplatz „{0}“ wird ausgeschaltet: {1}.",
   "seats.stopAfterLossFailed": "„{0}“: Ausschalten nach Verbindungsabbruch fehlgeschlagen: {1}",
   "seats.sessionStartFailed": "Sitzung konnte nicht gestartet werden.",
-  "seats.sessionStartTimeout": "Sitzung wurde nicht rechtzeitig aktiv."
+  "seats.sessionStartTimeout": "Sitzung wurde nicht rechtzeitig aktiv.",
+  "seats.statusStartingSession": "Sitzung wird gestartet…",
+  "seats.statusPoweringMonitor": "Monitor wird eingeschaltet…",
+  "seats.statusStartingAgent": "Erfassungs- und Bildagent wird gestartet…",
+  "seats.statusStartingPresenter": "Presenter in der Konsole wird gestartet…",
+  "seats.statusSeparatingGamepads": "Controller des Sitzplatzes werden getrennt…",
+  "seats.statusReservingUsb": "USB-Geräte des Sitzplatzes werden reserviert…",
+  "seats.statusSeparatingInput": "Maus und Tastatur des Sitzplatzes werden getrennt…",
+  "seats.statusLockingSession": "Sitzung wird gesperrt: Sitzplatz fordert das Kennwort an…",
+  "seats.statusActive": "Aktiv: Bild, Audio und Peripheriegeräte verbunden.",
+  "seats.statusDisconnectedFromSeat": "Vom Sitzplatz getrennt. Starten Sie ihn erneut über OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Ausgeschaltet: {0}. Starten Sie ihn erneut über OpenStreamMS."
 }
