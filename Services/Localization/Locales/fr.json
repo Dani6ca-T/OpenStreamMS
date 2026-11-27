@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Ce poste utilise le même utilisateur que la console et ne peut pas démarrer seul. Démarrez-le depuis OpenStreamMS ou attribuez-lui une autre session.",
   "seats.monitorAlreadyAssigned": "Le moniteur est déjà affecté au poste « {0} ».",
   "seats.monitorAreaOverlap": "Cette zone du moniteur chevauche celle du poste « {0} ».",
-  "seats.notFound": "Le poste {0} n’existe pas."
+  "seats.notFound": "Le poste {0} n’existe pas.",
+  "session.logStopping": "[{0}] Arrêt en cours...",
+  "session.logRestartRequested": "[{0}] Redémarrage demandé (état actuel : {1}).",
+  "session.logRestartSuperseded": "[{0}] Redémarrage annulé : une autre commande est arrivée pendant l’arrêt.",
+  "session.logSunshineKillTimeout": "[{0}] Délai dépassé lors de l’arrêt de Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] La session Windows {1} n’a pas fini de se fermer.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) arrêté.",
+  "session.logStopWarning": "[{0}] Avertissement lors de l’arrêt : {1}",
+  "session.logStopped": "[{0}] Arrêtée."
 }
