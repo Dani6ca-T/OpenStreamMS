@@ -6,6 +6,7 @@ using OpenStreamMS.Services.OpenStream;
 using OpenStreamMS.Services.Session;
 using OpenStreamMS.Services.TrayApp;
 using OpenStreamMS.Services.Drivers;
+using OpenStreamMS.Services.Localization;
 using Scalar.AspNetCore;
 using System.Diagnostics;
 using System.Net;
@@ -70,7 +71,7 @@ switch (command)
         if (args.Length < 2)
         {
             AttachParentConsole();
-            Console.Error.WriteLine("ERROR: Falta el nombre de la tubería para --seat-agent.");
+            Console.Error.WriteLine(BackendText.Get("cli.error.missingSeatAgentPipe"));
             Environment.Exit(1);
         }
         {
@@ -85,7 +86,7 @@ switch (command)
         if (args.Length < 2)
         {
             AttachParentConsole();
-            Console.Error.WriteLine("ERROR: Falta el nombre de la tubería para --seat-host.");
+            Console.Error.WriteLine(BackendText.Get("cli.error.missingSeatHostPipe"));
             Environment.Exit(1);
         }
         Guid hostSeatId = args.Length > 2 && Guid.TryParse(args[2], out var sid) ? sid : Guid.Empty;
@@ -110,8 +111,8 @@ switch (command)
         break;
     default:
         AttachParentConsole();
-        Console.Error.WriteLine($"Unknown command: '{args[0]}'");
-        Console.Error.WriteLine("Use --help to see available commands.");
+        Console.Error.WriteLine(BackendText.Get("cli.error.unknownCommand", args[0]));
+        Console.Error.WriteLine(BackendText.Get("cli.error.helpHint"));
         Environment.Exit(1);
         break;
 }
@@ -715,8 +716,8 @@ static void RequireAdmin()
     using var id = WindowsIdentity.GetCurrent();
     if (!new WindowsPrincipal(id).IsInRole(WindowsBuiltInRole.Administrator))
     {
-        Console.Error.WriteLine("ERROR: Esta operación requiere permisos de administrador.");
-        Console.Error.WriteLine("       Ejecuta el .exe con 'Ejecutar como administrador'.");
+        Console.Error.WriteLine(BackendText.Get("cli.error.adminRequired"));
+        Console.Error.WriteLine(BackendText.Get("cli.error.adminHint"));
         Environment.Exit(1);
     }
 }
