@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "HidHide のホワイトリストを読み取れませんでした：{0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping を無効にしました（セッションごとのコントローラー分離を回避するため）。",
   "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping を無効にできませんでした：{0}",
-  "gamepad.jailPrepareFailed": "ViGEm コントローラー用の HidHide jail を準備できませんでした：{0}"
+  "gamepad.jailPrepareFailed": "ViGEm コントローラー用の HidHide jail を準備できませんでした：{0}",
+  "gamepad.stateEnabled": "有効",
+  "gamepad.stateDisabled": "無効",
+  "gamepad.stateEmpty": "空",
+  "gamepad.unknownVersion": "不明なバージョン"
 }
