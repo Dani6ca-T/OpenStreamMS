@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Oturum yapılandırması güncellendi.",
   "session.logRestartAfterConfigFailed": "Yapılandırma güncellemesinden sonra oturum yeniden başlatılamadı: {0}",
   "session.alreadyInState": "Oturum zaten {0} durumunda.",
-  "error.request": "İstek tamamlanamadı."
+  "error.request": "İstek tamamlanamadı.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Eşleştirme değişikliğinden sonra sunshine_state.json ertelenmiş yansıtması tamamlandı.",
+  "session.logPairingStateMirrorFailed": "[{0}] Eşleştirme değişikliğinden sonra sunshine_state.json ertelenmiş yansıtması başarısız oldu: {1}",
+  "session.logAutoStartingEnabled": "{0} etkin oturum otomatik olarak başlatılıyor...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Windows oturumu algılandı ({1}); yerel oturum başlatılıyor.",
+  "session.logConsoleSessionStartFailed": "[{0}] Windows oturum açma işleminden sonra başlatılamadı: {1}",
+  "session.logMonitorFailed": "[{0}] İzleme hatası: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Diskten yüklenen oturum sayısı: {0}.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Windows oturumu {1} kapatılırken uyarı: {2}",
+  "session.logStartAbandoned": "[{0}] Başlatma başlamadan iptal edildi (başka bir komut geldi).",
+  "session.logCreatingRdpSession": "[{0}] \"{1}\" kullanıcısı için RDP oturumu başlatılıyor...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine başlatılamadı: {1}",
+  "session.logAutoStartFailed": "[{0}] Otomatik başlatma başarısız: {1}"
 }
