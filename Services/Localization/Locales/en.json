@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "Could not update the HidHide blacklist: {0}",
   "gamepad.usbPortCycled": "{0}: another process had it open and Windows deferred the restart; its USB port was disconnected and reconnected ({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows deferred the restart (another process has it open), and its USB port could not be cycled ({1}). The process that already had it open can still see it until it closes it.",
-  "gamepad.clearJailsFailed": "Could not remove session entries from HidHide: {0}"
+  "gamepad.clearJailsFailed": "Could not remove session entries from HidHide: {0}",
+  "rdp.remoteIddProviderMissing": "RemoteIdd capture has no provider in RDP-Tcp: install it using Native/RemoteIdd/Provider/install.ps1.",
+  "rdp.consoleSessionConflict": "Warning: '{0}' already has a console session (SessionId={1}). Audio isolation may be partial.",
+  "rdp.sessionExists": "Existing session for '{0}': {1}",
+  "rdp.createViaMstsc": "No session for '{0}', creating via mstsc (AVC444 hardware)…",
+  "rdp.mstscFailedFallback": "mstsc failed ({0}); retrying with FreeRDP…",
+  "rdp.createViaFreeRdp": "No session for '{0}', creating via FreeRDP…",
+  "rdp.microphoneForcesFreeRdp": "With a microphone assigned, connecting with FreeRDP (mstsc cannot select one).",
+  "rdp.reconnecting": "Reconnecting session {0} at {1}x{2} @ {3} fps…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) failed: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc reconnect failed ({0}); retrying with FreeRDP…",
+  "rdp.reconnectWrongSession": "Reconnection landed in session {0} instead of {1}.",
+  "rdp.sessionReconnected": "Session {0} reconnected in {1} ms."
 }
