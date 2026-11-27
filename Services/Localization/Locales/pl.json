@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "„{0}”: {1} urządzeń przypisano do sesji {2}.",
   "seats.devicePortEmpty": "„{0}”: nic nie jest podłączone do portu „{1}” ({2}, {3}). Jeśli przeniesiono urządzenie do innego portu, koncentratora lub stacji dokującej, przypisz je ponownie.",
   "seats.started": "Stanowisko „{0}” aktywne.",
-  "seats.startFailed": "Nie udało się uruchomić stanowiska „{0}”: {1}"
+  "seats.startFailed": "Nie udało się uruchomić stanowiska „{0}”: {1}",
+  "seats.textureConfigMissing": "Agent nie wysłał konfiguracji tekstur.",
+  "seats.textureHandlesMissing": "Agent nie przekazał uchwytów tekstur.",
+  "seats.presenterReadyMissing": "Prezenter nie wysłał potwierdzenia.",
+  "seats.microphoneDisconnected": "„{0}”: mikrofon „{1}” nie jest podłączony; stanowisko uruchamia się bez mikrofonu.",
+  "seats.sessionResolutionRestoreFailed": "„{0}”: nie można przywrócić rozdzielczości sesji: {1}",
+  "seats.stopped": "Stanowisko „{0}” zatrzymane.",
+  "seats.vigemMissing": "„{0}”: ViGEmBus nie jest zainstalowany; kontrolery są izolowane przez HidHide.",
+  "seats.sessionUserUnknown": "„{0}”: nie można ustalić użytkownika sesji {1}; pozostałe urządzenia USB pozostają widoczne we wszystkich sesjach.",
+  "seats.rawInputShared": "„{0}”: {1} nadal współdzielone z konsolą (Raw Input).",
+  "seats.usbEventsSent": "Wysłano {0} zdarzeń do agenta „{1}” (ostatnie: typ={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Nie można wysłać wejścia do agenta „{0}”: {1}",
+  "seats.inputInterfacesCaptured": "„{0}”: {1} z {2} interfejsów wejściowych odseparowano od konsoli."
 }
