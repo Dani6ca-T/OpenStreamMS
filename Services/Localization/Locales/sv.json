@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Windows-registernyckeln HKLM\\{0} finns inte.",
   "steamIsolation.userRegistryNotLoaded": "Användarens registerdata är inte inlästa.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell är inte tillgängligt.",
-  "steamIsolation.shortcutDescription": "Steam isolerat från andra sessioner (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Steam isolerat från andra sessioner (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] Ljud från '{1}' vidarebefordrades till tangentbordssessionen '{2}'.",
+  "compositeAudio.forwardFailed": "[{0}] Det gick inte att vidarebefordra ljud från '{1}': {2}"
 }
