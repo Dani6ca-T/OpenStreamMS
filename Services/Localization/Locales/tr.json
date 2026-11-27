@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "{0} okunamadı: {1}",
   "gamepad.hidHideBlacklistUpdateFailed": "HidHide kara listesi güncellenemedi: {0}",
   "gamepad.usbPortCycled": "{0}: başka bir işlem aygıtı açık tuttu ve Windows yeniden başlatmayı erteledi; USB bağlantı noktası çıkarılıp yeniden bağlandı ({1}) {2}.",
-  "gamepad.usbPortCycleFailed": "{0}: Windows yeniden başlatmayı erteledi (başka bir işlem aygıtı kullanıyor) ve USB bağlantı noktası yeniden başlatılamadı ({1}). Aygıtı önceden açmış işlem, kapatana kadar görmeye devam eder."
+  "gamepad.usbPortCycleFailed": "{0}: Windows yeniden başlatmayı erteledi (başka bir işlem aygıtı kullanıyor) ve USB bağlantı noktası yeniden başlatılamadı ({1}). Aygıtı önceden açmış işlem, kapatana kadar görmeye devam eder.",
+  "gamepad.clearJailsFailed": "HidHide oturum girdileri kaldırılamadı: {0}"
 }
