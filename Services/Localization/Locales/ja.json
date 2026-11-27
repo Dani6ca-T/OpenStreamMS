@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "sunshine.conf を更新しました ({0}): {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: 認証情報は既に最新です (ユーザー={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: 認証情報は既に最新で、root をクリーンアップしました (ユーザー={0})",
-  "sunshineCfg.credentialsSet": "sunshine_state.json: 認証情報を設定しました (ユーザー={0})"
+  "sunshineCfg.credentialsSet": "sunshine_state.json: 認証情報を設定しました (ユーザー={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] 停止前に正常なフラッシュを要求できませんでした: {0}",
+  "sunshine.credentialsCliLaunchFailed": "sunshine.exe --creds を起動できませんでした。",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] --creds 後に root を復元できませんでした: {0}",
+  "sunshine.uniqueIdCheckFailed": "一意の ID を確認できませんでした: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] sunshine_state.json を復元できませんでした: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] sunshine_state.json のミラーを開始できませんでした: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] {0} をバックアップにコピーできませんでした: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] {0} を復元できませんでした: {1}"
 }
