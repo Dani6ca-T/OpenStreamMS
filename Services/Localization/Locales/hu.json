@@ -461,5 +461,15 @@
   "error.stopSeat": "A konfiguráció módosítása előtt állítsa le a helyet.",
   "error.primaryMonitor": "Az elsődleges monitor nem rendelhető hozzá egy helyhez.",
   "error.assigned": "A kiválasztott erőforrás már hozzá van rendelve.",
-  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" hozzárendelve a(z) {2}. helyhez ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" hozzárendelve a(z) {2}. helyhez ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] A(z) \"{0}\" felhasználó nem rendszergazda és nem tagja a Remote Desktop Users csoportnak; távoli asztali hozzáférést kap a munkamenet indításához.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Nem sikerült ellenőrizni a(z) \"{0}\" távoli asztali hozzáférését: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Az RDP-Tcp engedélyei nem olvashatók (sem Security, sem DefaultSecurity); változatlanul maradnak.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Nem sikerült elrejteni a(z) \"{0}\" felhasználót a bejelentkezési képernyőről: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Nem sikerült módosítani a(z) \"{0}\" Steam rendszerleíró adatbázishoz való hozzáférését: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam előkészítve a(z) \"{0}\" felhasználóhoz: a steam:// és {1} parancsikon az osms-steam.exe fájlt használja.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Nem sikerült előkészíteni a Steamet a(z) \"{0}\" felhasználóhoz: {1}",
+  "service.started": "[Service] Az OpenStreamMS elindult. Az API a beállított porton érhető el.",
+  "service.multiRdpCheckFailed": "[Service] A multi-RDP ellenőrzése nem sikerült: {0}",
+  "service.stopped": "[Service] Leállítva."
 }
