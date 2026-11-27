@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, méretezés {3} %.",
   "rdp.betterRdpPoliciesApplied": "A BetterRDP házirendek alkalmazva.",
   "rdp.mstscClientPoliciesApplied": "Az mstsc ügyfélházirendek alkalmazva (nincsenek csatlakozás előtti párbeszédablakok).",
-  "rdp.mstscClientPoliciesFailed": "Nem sikerült alkalmazni az mstsc HKCU-házirendeket: {0}"
+  "rdp.mstscClientPoliciesFailed": "Nem sikerült alkalmazni az mstsc HKCU-házirendeket: {0}",
+  "rdp.videoRegistryKeyMissing": "A HKLM\\\\{0} nem található.",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0} alkalmazva itt: HKLM\\\\{1} ({2}).",
+  "rdp.noVirtualAdapterFound": "Nem található virtuális RDP-adapter a Control\\\\Video alatt — a VRefresh nem változott. A munkamenet az illesztőprogram alapértelmezett frissítési frekvenciáját használja.",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0} alkalmazva {1} virtuális adapteren.",
+  "rdp.refreshRegistryFailed": "Hiba a VRefresh beállításakor a rendszerleíró adatbázisban: {0}",
+  "rdp.sessionTempResolveFailed": "Nem sikerült feloldani a TEMP értéket a(z) {0}. munkamenethez: {1}"
 }
