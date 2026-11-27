@@ -1,3 +1,4 @@
+using OpenStreamMS.Services.Localization;
 using Microsoft.Win32.SafeHandles;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -47,7 +48,7 @@ public sealed class VirtualDisplay : IDisposable
                 try { Io<Empty, Empty>(0x888, default); } catch { /* el siguiente lo reintenta */ }
         }) { IsBackground = true, Name = "VirtualDisplay_Ping" };
         _ping.Start();
-        Logger.Log($"[VirtualDisplay] Pantalla virtual {width}x{height}@{hz} creada (target {TargetId}, watchdog {timeout} s).");
+        Logger.Log(BackendText.Get("virtualDisplay.created", width, height, hz, TargetId, timeout));
     }
 
     /// <summary>Crea la pantalla; null si SudoVDA no está instalado o la rechaza.</summary>
@@ -59,14 +60,14 @@ public sealed class VirtualDisplay : IDisposable
             dev = Open();
             if (dev is null)
             {
-                Logger.Warning("[VirtualDisplay] SudoVDA no está instalado: la consola no puede tener su propia mitad.");
+                Logger.Warning(BackendText.Get("virtualDisplay.sudovdaMissing"));
                 return null;
             }
             return new VirtualDisplay(dev, width, height, hz);
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[VirtualDisplay] No se pudo crear la pantalla virtual: {ex.Message}");
+            Logger.Warning(BackendText.Get("virtualDisplay.createFailed", ex.Message));
             dev?.Dispose();
             return null;
         }
@@ -76,9 +77,9 @@ public sealed class VirtualDisplay : IDisposable
     {
         _cts.Cancel();
         try { Io<RemoveParams, Empty>(0x801, new RemoveParams { Monitor = _monitor }); }
-        catch (Exception ex) { Logger.Warning($"[VirtualDisplay] No se pudo quitar la pantalla virtual: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("virtualDisplay.removeFailed", ex.Message)); }
         _dev.Dispose();
-        Logger.Log("[VirtualDisplay] Pantalla virtual quitada.");
+        Logger.Log(BackendText.Get("virtualDisplay.removed"));
     }
 
     private (uint Timeout, uint Countdown) Watchdog()
@@ -122,7 +123,7 @@ public sealed class VirtualDisplay : IDisposable
         {
             if (inSize > 0) Marshal.StructureToPtr(input, pin, false);
             if (!DeviceIoControl(_dev, Ctl(fn), pin, (uint)inSize, pout, (uint)outSize, out _, IntPtr.Zero))
-                throw new Win32Exception(Marshal.GetLastWin32Error(), $"SudoVDA IOCTL 0x{fn:X}");
+                throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("virtualDisplay.ioctlFailed", fn.ToString("X")));
             return outSize > 0 ? Marshal.PtrToStructure<TOut>(pout) : default;
         }
         finally
