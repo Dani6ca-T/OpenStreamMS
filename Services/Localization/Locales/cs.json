@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Tento katalog v seznamu není.",
   "ext.catalogEntryMissing": "Katalog už neuvádí {0}.",
   "ext.invalidPackage": "Balíček není platné rozšíření: {0}",
-  "ext.noManifest": "Balíček neobsahuje {0}."
+  "ext.noManifest": "Balíček neobsahuje {0}.",
+  "cli.error.missingSeatAgentPipe": "CHYBA: Chybí název kanálu pro --seat-agent.",
+  "cli.error.missingSeatHostPipe": "CHYBA: Chybí název kanálu pro --seat-host.",
+  "cli.error.unknownCommand": "Neznámý příkaz: „{0}“",
+  "cli.error.helpHint": "Dostupné příkazy zobrazíte pomocí --help.",
+  "cli.error.adminRequired": "CHYBA: Tato operace vyžaduje oprávnění správce.",
+  "cli.error.adminHint": "Spusťte soubor .exe pomocí možnosti „Spustit jako správce“."
 }
