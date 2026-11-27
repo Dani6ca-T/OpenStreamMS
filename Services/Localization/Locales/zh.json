@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "已启用",
   "gamepad.stateDisabled": "已禁用",
   "gamepad.stateEmpty": "空",
-  "gamepad.unknownVersion": "未知版本"
+  "gamepad.unknownVersion": "未知版本",
+  "gamepad.predictedPadClaimed": "{0} 在插入之前就仅在会话 {1} 中可见（“{2}”）。",
+  "gamepad.releaseReservationsFailed": "无法释放控制器预留：{0}",
+  "gamepad.padClaimed": "控制器 {0} → “{1}”（Windows 会话 {2}）：此服务已接管该控制器。",
+  "gamepad.padOwnerUnknown": "无法确定创建控制器 {0} 的会话；它仍会在所有会话中可见。",
+  "gamepad.osmsPadOutsideSession": "OsmsPad 控制器 {0} → Windows 会话 {1}（不属于任何 OpenStreamMS 会话）。"
 }
