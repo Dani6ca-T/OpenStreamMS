@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "No se pudo leer {0}: {1}",
   "gamepad.hidHideBlacklistUpdateFailed": "No se pudo actualizar la lista negra de HidHide: {0}",
   "gamepad.usbPortCycled": "{0}: otro proceso lo tenía abierto y Windows aplazó el reinicio; se desconectó y reconectó su puerto USB ({1}) {2}.",
-  "gamepad.usbPortCycleFailed": "{0}: Windows aplazó el reinicio (otro proceso lo tiene abierto) y no se pudo reciclar su puerto USB ({1}). El proceso que ya lo tenía abierto sigue viéndolo hasta que lo cierre."
+  "gamepad.usbPortCycleFailed": "{0}: Windows aplazó el reinicio (otro proceso lo tiene abierto) y no se pudo reciclar su puerto USB ({1}). El proceso que ya lo tenía abierto sigue viéndolo hasta que lo cierre.",
+  "gamepad.clearJailsFailed": "No se pudieron quitar las entradas de sesión de HidHide: {0}"
 }
