@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "已從 HidHide 移除依工作階段隔離控制器的設定，並還原 Steam 的 steamxbox 篩選器。",
   "uninstall.seatsRestored": "已還原工作站鍵盤/滑鼠、主控台鎖定保護、關機權限，以及每位使用者單一工作階段設定。",
   "uninstall.trayRemoved": "已從自動啟動中移除系統匣圖示。",
-  "uninstall.driverError": "{0}：{1}"
+  "uninstall.driverError": "{0}：{1}",
+  "install.executable": "可執行檔：",
+  "install.configPath": "設定："
 }
