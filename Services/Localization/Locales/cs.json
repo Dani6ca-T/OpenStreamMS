@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp není připojen; spouští se samostatný prezentér v relaci konzole {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Ve fyzické konzoli není přihlášen žádný uživatel.",
   "seatHostControl.trayHostConnected": "[TrayApp] Připojeno k řídicímu kanálu hostitele stanic.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Chyba při zpracování příkazu stanice: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Chyba při zpracování příkazu stanice: {0}",
+  "guideGuard.disabled": "[Seats] Tlačítko Guide: Game Bar ovladače je pro {0} vypnuta, dokud jsou aktivní stanice.",
+  "guideGuard.disableFailed": "[Seats] Tlačítko Guide: Game Bar ovladače pro {0} se nepodařilo vypnout: {1}",
+  "guideGuard.restored": "[Seats] Tlačítko Guide: Game Bar ovladače byla pro {0} obnovena.",
+  "guideGuard.restoreFailed": "[Seats] Tlačítko Guide: Game Bar ovladače pro {0} se nepodařilo obnovit: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess se nezdařil pro zdrojové PID {0}.",
+  "handleBroker.openTargetFailed": "OpenProcess se nezdařil pro cílové PID {0}.",
+  "handleBroker.duplicateFailed": "DuplicateHandle se nezdařil z PID {0} do PID {1}.",
+  "seatStore.readFailed": "[Seats] Soubor seats.json se nepodařilo přečíst: {0}",
+  "seatStore.saveFailed": "[Seats] Soubor seats.json se nepodařilo uložit: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Potrubí {0}: neočekávaný klientský proces {1} byl odmítnut.",
+  "seatIpc.notServicePipe": "Potrubí nepatří službě (proces {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Přijat vstup: klávesnice",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Přijat vstup: typ={0} příznaky={1:X} dx={2} dy={3} kód={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Injekce vstupu za 10 s: {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s: odesláno={0} kruh_zaneprázdněn={1} vstup={2} selhání_injekce={3} poslední_chyba={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latence snímání za 10 s: {0}"
 }
