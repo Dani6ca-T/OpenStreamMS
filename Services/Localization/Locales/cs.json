@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Přihlašovací údaje Sunshine resetovány; Sunshine zastaven a automaticky se znovu spustí.",
   "session.logSunshineTemplateUpdated": "[{0}] Šablona Sunshine se změnila; aktualizuje se instance: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Instanci Sunshine se nepodařilo aktualizovat: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Nepodařilo se přidat pravidlo brány firewall: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Nepodařilo se přidat pravidlo brány firewall: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Místní relace: plocha uživatele \"{1}\\\\{2}\" (relace Windows {3}).",
+  "session.logNativeIsolationActive": "[{0}] Aktivní nativní izolace: vyhrazený uživatel \"{1}\" (profil: {2}).",
+  "session.ephemeral": "dočasný",
+  "session.persistent": "trvalý",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile přeskočeno: nativní izolace již poskytuje vlastní profil.",
+  "session.logStreamProfileConfiguring": "[{0}] Konfiguruje se samostatný profil streamování...",
+  "session.logStartFailed": "[{0}] Spuštění se nezdařilo: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Vybraný protokol zahrnuje WebRTC, ale nakonfigurovaná verze Sunshine jej nepodporuje (použijte sunshine-webrtc); bude fungovat pouze Moonlight."
 }
