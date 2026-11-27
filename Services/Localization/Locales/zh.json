@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings 成功 — 会话 {1} 的显示器为 {0}Hz。",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings 返回成功，但会话 {2} 的显示器报告 {0}Hz（请求 {1}Hz）。",
   "rdp.displayFrequencyFailed": "会话 {0} 中的 ChangeDisplaySettings 失败：{1}（显示器 {2}Hz）。",
-  "rdp.displayFrequencyResultReadFailed": "无法读取 ChangeDisplaySettings 结果：{0}"
+  "rdp.displayFrequencyResultReadFailed": "无法读取 ChangeDisplaySettings 结果：{0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions 错误：{0}",
+  "rdp.sessionInfo": "会话 {0}（{1}）协议={2} 用户='{3}'",
+  "rdp.sessionUnlocked": "会话 {0} 已解锁（flag={1}），耗时 {2} ms。",
+  "rdp.sessionStillLocked": "会话 {0} 在 {1} ms 后仍处于锁定状态。Sunshine 可能回退到软件编码（libx264）。请检查锁屏界面。",
+  "rdp.userAlreadyHasOtherSession": "“{0}”已有会话 {1}（{2}）。",
+  "rdp.disconnected": "已断开",
+  "rdp.termServiceChangedToManual": "TermService 原为禁用状态 → 已更改为手动。",
+  "rdp.termServiceStarted": "TermService 已启动（原生远程桌面）。",
+  "rdp.termServiceEnsureFailed": "无法确保 TermService 正在运行：{0}。如果远程桌面已关闭，环回连接将失败；请在“系统 → 远程桌面”中启用，或重启 Windows。",
+  "rdp.registryKeyOpenFailed": "无法打开 HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "无法将 {0} 写入 HKLM\\\\{1}：{2}"
 }
