@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Учётные данные Sunshine сброшены; Sunshine остановлен и будет запущен автоматически.",
   "session.logSunshineTemplateUpdated": "[{0}] Шаблон Sunshine изменился; обновление экземпляра: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Не удалось обновить экземпляр Sunshine: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Не удалось добавить правило брандмауэра: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Не удалось добавить правило брандмауэра: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Локальный сеанс: рабочий стол «{1}\\\\{2}» (сеанс Windows {3}).",
+  "session.logNativeIsolationActive": "[{0}] Нативная изоляция активна: выделенный пользователь «{1}» (профиль: {2}).",
+  "session.ephemeral": "временный",
+  "session.persistent": "постоянный",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile пропущен: нативная изоляция уже предоставляет отдельный профиль.",
+  "session.logStreamProfileConfiguring": "[{0}] Настройка отдельного профиля потоковой передачи...",
+  "session.logStartFailed": "[{0}] Ошибка запуска: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Выбранный протокол включает WebRTC, но установленная сборка Sunshine его не поддерживает (нужна sunshine-webrtc); будет работать только Moonlight."
 }
