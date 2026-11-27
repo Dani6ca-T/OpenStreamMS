@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] “{0}”：{1} 仍在 Windows 中可见（无法切换到 WinUSB）。",
   "padCapture.captured": "[PadCapture] “{0}”：已将 {1} 上的控制器从 Windows 中隔离（WinUSB 中有 {2} 个控制器和 {3} 个附加接口）；作为虚拟控制器交付到会话 {4}。",
   "padCapture.restored": "[PadCapture] “{0}”：已将 {1} 个控制器接口还给 Windows。",
-  "steamXboxFilter.removed": "[Gamepad] 控制器隔离期间，已从 {1} 个控制器类中移除 Steam 筛选器 {0}。新设备不再通过 \\\\Device\\\\nvagipmanControl 发布到所有会话。",
+  "steamXboxFilter.removed": "[Gamepad] 控制器隔离期间，已从 {1} 个控制器类中移除 Steam 筛选器 {0}。新设备不再通过 \\Device\\nvagipmanControl 发布到所有会话。",
   "steamXboxFilter.removeFailed": "[Gamepad] 无法移除 Steam 筛选器 {0}：{1}。其他会话（包括控制台）中的 Steam 仍可能读取已隔离的控制器。",
   "steamXboxFilter.restored": "已在 {1} 个控制器类中恢复 Steam 筛选器 {0}；其他会话中已没有隔离的控制器。",
   "steamXboxFilter.restoreFailed": "[Gamepad] 无法恢复 Steam 筛选器 {0}：{1}。将在下次启动服务时重试。"
