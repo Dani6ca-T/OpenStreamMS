@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "セッション {0} の WTSLogoffSession に失敗しました：{1}",
   "rdp.logoffCompleted": "セッション {0} を {1} ms でログオフしました。",
   "rdp.logoffSessionCompleted": "セッション {0} をログオフしました。",
-  "rdp.logoffWarning": "WTSLogoffSession 警告（セッション {0}）：{1}"
+  "rdp.logoffWarning": "WTSLogoffSession 警告（セッション {0}）：{1}",
+  "rdp.startFreeRdp": "FreeRDP を起動しています（{0}x{1}、{2} fps、{3} bpp、スケール {4}%、gfx なし）…",
+  "rdp.freeRdpExecutableMissing": "wfreerdp.exe を起動できませんでした",
+  "rdp.freeRdpExitedNoSession": "FreeRDP は ExitCode={0}（0x{1:X}）で終了し、「{2}」のセッションを作成できませんでした。{3}{4}",
+  "rdp.freeRdpSessionTimeout": "「{0}」のセッションが 30 秒以内に表示されませんでした。ユーザー名とパスワード、リモートデスクトップの有効化、リモートデスクトップユーザーグループへの所属を確認してください。",
+  "rdp.startMstsc": "mstsc を起動しています（{0}x{1}、{2} fps、{3} bpp、スケール {4}%、AVC444 ハードウェア）…",
+  "rdp.mstscExecutableMissing": "mstsc.exe を起動できませんでした",
+  "rdp.mstscExitedNoSession": "mstsc は ExitCode={0} で終了し、「{1}」のセッションを作成できませんでした。証明書／資格情報の非表示ダイアログ、または NLA による拒否の可能性があります。",
+  "rdp.mstscSessionTimeout": "mstsc で「{0}」のセッションが 30 秒以内に表示されませんでした。Session 0 に非表示ダイアログがある可能性があります。"
 }
