@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] 別のコマンドを受信したため、開始前に起動を中止しました。",
   "session.logCreatingRdpSession": "[{0}] ユーザー「{1}」の RDP セッションを起動しています...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine を起動できませんでした: {1}",
-  "session.logAutoStartFailed": "[{0}] 自動起動に失敗しました: {1}"
+  "session.logAutoStartFailed": "[{0}] 自動起動に失敗しました: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] RDP 作成中にセッションが停止されたため、起動を中止しました。",
+  "session.logRdpSessionReused": "[{0}] 既存の RDP セッションを再利用しました。新しい RDP クライアントは起動していません。",
+  "session.logStartAbortedDuringSunshine": "[{0}] Sunshine の起動中にセッションが停止されたため、起動を中止しました。",
+  "session.logSessionActiveRdp": "[{0}] セッションはアクティブです（RDP={1}）。",
+  "session.logStartAbortedAfterLaunch": "[{0}] 起動完了後にセッションが停止されたため、起動を中止しました。",
+  "session.logWaitingForConsoleUser": "[{0}] 誰かが Windows にサインインすると起動します。",
+  "session.logLocalSessionActive": "[{0}] ローカルセッションがアクティブです（Windows セッション {1}）。",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine の認証情報をリセットしました。Sunshine は停止し、自動的に再起動します。",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine テンプレートが変更されました。インスタンスを更新中: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine インスタンスを更新できませんでした: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] ファイアウォール規則を追加できませんでした: {0}"
 }
