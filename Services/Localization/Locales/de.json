@@ -557,5 +557,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Loopback-Audioaufnahme gestartet: {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] Audioaufnahme konnte nicht initialisiert werden: {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Wechsel zum Eingabedesktop '{0}' (zuvor '{1}').",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Wechsel zum Eingabedesktop '{0}' fehlgeschlagen: {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Wechsel zum Eingabedesktop '{0}' fehlgeschlagen: {1}",
+  "seatAgent.audioDeviceMissing": "In der Seat-Sitzung ist kein Wiedergabegerät vorhanden (Windows hat „Remote Audio“ nicht erstellt); der Seat bleibt stumm."
 }
