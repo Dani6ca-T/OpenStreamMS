@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Nepodařilo se zajistit běh TermService: {0}. Pokud je Vzdálená plocha vypnutá, loopback připojení selže; povolte ji v Systém → Vzdálená plocha nebo restartujte Windows.",
   "rdp.registryKeyOpenFailed": "Nepodařilo se otevřít HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Nepodařilo se zapsat {0} do HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Nepodařilo se zapsat {0} do HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP nevytvořil žádný výstup.",
+  "rdp.freeRdpOutputPrefix": "Výstup FreeRDP: "
 }
