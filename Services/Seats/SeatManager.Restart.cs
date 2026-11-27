@@ -41,7 +41,7 @@ public sealed partial class SeatManager
     {
         try
         {
-            Logger.Log($"[Seats] '{seat.Name}': se reinicia su sesión '{session.Name}' sin apagar el puesto.");
+            Logger.Log(BackendText.Get("seat.restartSession", seat.Name, session.Name));
             ShowWaiting(seat, session, active);
 
             // Mandos y reserva de dispositivos: van atados a la sesión de Windows de ahora.
@@ -74,7 +74,7 @@ public sealed partial class SeatManager
                 // El presentador tiene el tamaño de antes: se rehace el puesto entero.
                 agent.Channel.Dispose();
                 agent.Server.Dispose();
-                throw new InvalidOperationException($"la sesión volvió a {agent.Width}x{agent.Height} en vez de {active.Width}x{active.Height}");
+                throw new InvalidOperationException(BackendText.Get("seat.restartSizeMismatch", agent.Width, agent.Height, active.Width, active.Height));
             }
             if (requiresLogin) LockSession(seat, session);
 
@@ -104,18 +104,18 @@ public sealed partial class SeatManager
 
             seat.StatusDetail = "Activo: imagen, audio y periféricos conectados.";
             Interlocked.Increment(ref _generation);   // que GamepadSessionIsolation reasigne los mandos
-            Logger.Log($"[Seats] '{seat.Name}': sesión reiniciada; el puesto sigue en la sesión de Windows {session.RdpSessionId}.");
+            Logger.Log(BackendText.Get("seat.restartSessionDone", seat.Name, session.RdpSessionId));
         }
         catch (Exception ex)
         {
-            Logger.Error($"[Seats] '{seat.Name}': no se pudo reiniciar su sesión sin apagarlo ({ex.Message}); se rehace el puesto.");
+            Logger.Error(BackendText.Get("seat.restartSessionFailed", seat.Name, ex.Message));
             _sessionRestarting.TryRemove(seat.Id, out _);
             try
             {
                 Stop(seat.Id, restarting: true);
                 Start(seat.Id);
             }
-            catch (Exception ex2) { Logger.Error($"[Seats] '{seat.Name}': no se pudo volver a encender: {ex2.Message}"); }
+            catch (Exception ex2) { Logger.Error(BackendText.Get("seat.restartSeatFailed", seat.Name, ex2.Message)); }
             return;
         }
         _sessionRestarting.TryRemove(seat.Id, out _);
@@ -135,7 +135,7 @@ public sealed partial class SeatManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] '{seat.Name}': sin imagen de espera: {ex.Message}");
+            Logger.Warning(BackendText.Get("seat.waitingImageFailed", seat.Name, ex.Message));
         }
     }
 
@@ -149,8 +149,8 @@ public sealed partial class SeatManager
         while (!(session.State == SessionState.Running && session.RdpSessionId > 0))
         {
             if (session.State is SessionState.Error or SessionState.Stopped)
-                throw new InvalidOperationException(session.ErrorMessage ?? "la sesión no volvió a arrancar");
-            if (DateTime.UtcNow > deadline) throw new TimeoutException("la sesión tarda demasiado en volver");
+                throw new InvalidOperationException(session.ErrorMessage ?? BackendText.Get("seat.sessionDidNotRestart"));
+            if (DateTime.UtcNow > deadline) throw new TimeoutException(BackendText.Get("seat.sessionRestartTimeout"));
             Thread.Sleep(500);
         }
     }
