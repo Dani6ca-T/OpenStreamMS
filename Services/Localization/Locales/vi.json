@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "Tay cầm vật lý {0} được gán cho một chỗ ngồi hoặc phiên phát trực tuyến: chỉ hiển thị trong phiên {1}.",
   "gamepad.steamFilterWarning": "{0} có bộ lọc Steam {1} trong chuỗi thiết bị: Steam ở các phiên khác (kể cả bảng điều khiển) vẫn có thể đọc. Hãy rút ra và cắm lại sau khi chỗ ngồi hoặc luồng đã chạy.",
   "gamepad.physicalPadRestarted": "{0} đã khởi động lại: phiên {1} không còn đọc được thiết bị.",
-  "gamepad.physicalPadRestartFailed": "Không thể khởi động lại {0}: {1}. Phiên đã mở thiết bị vẫn thấy nó cho đến khi đóng."
+  "gamepad.physicalPadRestartFailed": "Không thể khởi động lại {0}: {1}. Phiên đã mở thiết bị vẫn thấy nó cho đến khi đóng.",
+  "gamepad.padRemoved": "Đã gỡ tay cầm {0}; các nút HID của nó đã bị xóa khỏi danh sách chặn HidHide.",
+  "gamepad.staleJailsRemoved": "Đã xóa {0} mục cũ khỏi danh sách chặn HidHide.",
+  "gamepad.absentPadAssigned": "Tay cầm vật lý {0} (hiện đang ngắt kết nối) được gán cho phiên {1}; khi xuất hiện lại, nó sẽ thuộc phiên đó.",
+  "gamepad.knownNodesSaveFailed": "Không thể lưu {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Không thể đọc {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Không thể cập nhật danh sách chặn HidHide: {0}"
 }
