@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Não foi possível garantir a execução do TermService: {0}. Se o Ambiente de Trabalho Remoto estiver desligado, a ligação loopback falhará; ative-o em Sistema → Ambiente de Trabalho Remoto ou reinicie o Windows.",
   "rdp.registryKeyOpenFailed": "Não foi possível abrir HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Não foi possível escrever {0} em HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Não foi possível escrever {0} em HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "O FreeRDP não escreveu nada.",
+  "rdp.freeRdpOutputPrefix": "Saída do FreeRDP: "
 }
