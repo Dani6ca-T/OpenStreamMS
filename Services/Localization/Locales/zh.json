@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses 失败（{0}）。",
   "streamProfile.processOpenFailed": "[StreamProfile] 无法打开 '{0}'（PID {1}）：{2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] 无法终止 '{0}'（PID {1}）：{2}",
-  "streamProfile.processTerminated": "[StreamProfile] 已在会话 {2} 中终止 '{0}'（PID {1}）。"
+  "streamProfile.processTerminated": "[StreamProfile] 已在会话 {2} 中终止 '{0}'（PID {1}）。",
+  "sunshine.configUpdateFailed": "[Sunshine] 无法更新 sunshine.conf：{0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] 无法配置凭据：{0}",
+  "sunshine.vddConfigFailed": "[Sunshine] 无法在 apps.json 中配置 VDD：{0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] 无法在 apps.json 中配置隔离环境：{0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] 无法在 apps.json 中配置 Steam 条目：{0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] 无法在 apps.json 中配置 Reboot/Power Off 条目：{0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] 无法在 apps.json 中配置扩展应用：{0}",
+  "sunshine.launching": "[Sunshine] 正在会话 {0} 中启动：{1} {2}",
+  "sunshine.launchFailed": "[Sunshine] 启动失败：{0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] 无法从日志确认编码器；保持当前设置不变。"
 }
