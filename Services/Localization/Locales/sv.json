@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "OsmsPad-handkontroll {0} → Windows-session {1} (tillhör inte någon OpenStreamMS-session).",
   "gamepad.padAssignedCompositeMember": "Handkontroll {0} från ”{1}” ({2}) → session ”{3}” (Windows-session {4}).",
   "gamepad.padAssignedSession": "Handkontroll {0} → session ”{1}” (Windows-session {2}).",
-  "gamepad.padRetargeted": "Handkontroll {0} ({1}) flyttades till session ”{2}” (Windows-session {3}) när den sammansatta sessionen ändrades."
+  "gamepad.padRetargeted": "Handkontroll {0} ({1}) flyttades till session ”{2}” (Windows-session {3}) när den sammansatta sessionen ändrades.",
+  "gamepad.futurePadsReserved": "Kommande Moonlight-handkontroller döljs i förväg tills deras session är känd ({0}).",
+  "gamepad.futurePadReservationsReleased": "Inga aktiva strömmar: reservationerna för kommande handkontroller har släppts.",
+  "gamepad.futurePadReservationFailed": "Det gick inte att reservera kommande handkontroller i HidHide: {0}"
 }
