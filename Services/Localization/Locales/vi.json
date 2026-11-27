@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Không thể ghi {0} vào HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP không xuất ra dữ liệu nào.",
-  "rdp.freeRdpOutputPrefix": "Đầu ra FreeRDP: "
+  "rdp.freeRdpOutputPrefix": "Đầu ra FreeRDP: ",
+  "seats.usbArrivalWatchUnavailable": "Không thể theo dõi thiết bị USB mới: bàn phím hoặc chuột bị chiếm dụng sẽ được khôi phục ở lần khởi động tiếp theo.",
+  "seats.usbDriversRestoreFailed": "Không thể khôi phục trình điều khiển USB: {0}",
+  "seats.reservedDevicesReleaseFailed": "Không thể giải phóng thiết bị đã đặt trước: {0}",
+  "seats.managerStarted": "Trình quản lý chỗ ngồi đã khởi động ({0} chỗ).",
+  "seats.multiRdpCheckTimeout": "Kiểm tra multi-RDP không hoàn tất trong 120 giây; các chỗ vẫn sẽ tự khởi động.",
+  "seats.autoStartSameConsoleUser": "'{0}' sẽ không tự khởi động: dùng cùng người dùng với bảng điều khiển.",
+  "seats.autoStartFailed": "Không thể tự khởi động '{0}': {1}"
 }
