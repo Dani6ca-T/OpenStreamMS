@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHideがインストールされていません。コントローラーはすべてのセッションで表示されます。",
   "gamepad.hidHideEnabled": "HidHideを有効にしました。",
   "gamepad.hidHideConfigureFailed": "HidHideを設定できませんでした: {0}",
-  "gamepad.monitorFailed": "コントローラーの監視中にエラーが発生しました: {0}"
+  "gamepad.monitorFailed": "コントローラーの監視中にエラーが発生しました: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} が利用可能です。コントローラーはセッションごとに分離されています。",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} はセッション分離に対応していません（バージョン {1} 以降が必要です）。コントローラーはすべてのセッションに表示されます。HidHide を更新してください。",
+  "gamepad.hidHideWhitelistStatus": "HidHide：逆モード {0}、ホワイトリスト（{1}）：{2}。",
+  "gamepad.hidHideWhitelistWarning": "HidHide のホワイトリストに登録されたアプリは、別のセッションに割り当てられていても、すべてのセッションのコントローラーを認識できます。",
+  "gamepad.hidHideWhitelistReadFailed": "HidHide のホワイトリストを読み取れませんでした：{0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping を無効にしました（セッションごとのコントローラー分離を回避するため）。",
+  "gamepad.controllerToVkDisableFailed": "ControllerToVKMapping を無効にできませんでした：{0}",
+  "gamepad.jailPrepareFailed": "ViGEm コントローラー用の HidHide jail を準備できませんでした：{0}"
 }
