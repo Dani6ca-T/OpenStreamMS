@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] Nem sikerült konfigurálni a bővítmények alkalmazásait az apps.json fájlban: {0}",
   "sunshine.launching": "[Sunshine] Indítás a(z) {0}. munkamenetben: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Sikertelen indítás: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] A naplóban nem sikerült megerősíteni a kódolót; változatlanul marad."
+  "sunshine.encoderUnconfirmed": "[Sunshine] A naplóban nem sikerült megerősíteni a kódolót; változatlanul marad.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] Az apps.json nem létezik; az assets sablon használata.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] apps.json létrehozva virtual-display beállítással itt: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] apps.json frissítve virtual-display beállítással itt: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "Az apps.json fájlban a virtual-display már be van állítva; nincs szükség módosításra.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') konfigurálva nem blokkoló visszavonással: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Az összetett munkamenetek Big Picture módja minden munkamenetben megnyílik és bezárul: {0}",
+  "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Bővítményalkalmazások frissítve ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot és Power Off alkalmazások konfigurálva: {0}"
 }
