@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell ist nicht verfügbar.",
   "steamIsolation.shortcutDescription": "Steam ist von anderen Sitzungen isoliert (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] Audio von „{1}“ an die Tastatursitzung „{2}“ weitergeleitet.",
-  "compositeAudio.forwardFailed": "[{0}] Audio von „{1}“ konnte nicht weitergeleitet werden: {2}"
+  "compositeAudio.forwardFailed": "[{0}] Audio von „{1}“ konnte nicht weitergeleitet werden: {2}",
+  "hud.launched": "[HUD] In Windows-Sitzung {0} gestartet (PID {1}): Ctrl+Alt+H oder Guide + Back.",
+  "hud.launchFailed": "[HUD] Start in Windows-Sitzung {0} fehlgeschlagen: {1}"
 }
