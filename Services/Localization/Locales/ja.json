@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp が未接続のため、コンソールセッション {0} でスタンドアロンプレゼンターを起動します...",
   "seatHostControl.consoleUserMissing": "[Seats] 物理コンソールにサインインしているユーザーがいません。",
   "seatHostControl.trayHostConnected": "[TrayApp] シートホスト制御パイプに接続しました。",
-  "seatHostControl.commandProcessingError": "[TrayApp] シートコマンドの処理中にエラーが発生しました: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] シートコマンドの処理中にエラーが発生しました: {0}",
+  "guideGuard.disabled": "[Seats] Guide ボタン: ワークステーションが稼働中の間、{0} のコントローラー Game Bar を無効にしました。",
+  "guideGuard.disableFailed": "[Seats] Guide ボタン: {0} のコントローラー Game Bar を無効にできませんでした: {1}",
+  "guideGuard.restored": "[Seats] Guide ボタン: {0} のコントローラー Game Bar を復元しました。",
+  "guideGuard.restoreFailed": "[Seats] Guide ボタン: {0} のコントローラー Game Bar を復元できませんでした: {1}",
+  "handleBroker.openSourceFailed": "ソース PID {0} の OpenProcess に失敗しました。",
+  "handleBroker.openTargetFailed": "ターゲット PID {0} の OpenProcess に失敗しました。",
+  "handleBroker.duplicateFailed": "PID {0} から PID {1} への DuplicateHandle に失敗しました。",
+  "seatStore.readFailed": "[Seats] seats.json を読み込めませんでした: {0}",
+  "seatStore.saveFailed": "[Seats] seats.json を保存できませんでした: {0}",
+  "seatIpc.unexpectedClient": "[Seats] パイプ {0}: 想定外のクライアントプロセス {1} を拒否しました。",
+  "seatIpc.notServicePipe": "このパイプはサービスが所有していません (プロセス {0})。",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] 入力を受信: キーボード",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] 入力を受信: 種類={0} フラグ={1:X} dx={2} dy={3} コード={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] 10秒間の入力注入: {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10秒: 送信={0} リング使用中={1} 入力={2} 注入失敗={3} 最終エラー={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10秒間のキャプチャ遅延: {0}"
 }
