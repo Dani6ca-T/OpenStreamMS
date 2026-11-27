@@ -728,7 +728,7 @@ namespace OpenStreamMS.Core.Helpers
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] cmdkey {args.FirstOrDefault()} fallo: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.cmdkeyFailed", args.FirstOrDefault(), ex.Message));
             }
         }
 
@@ -747,7 +747,7 @@ namespace OpenStreamMS.Core.Helpers
                 // en vez de esperar a que venza el Sleep.
                 if (proc.WaitForExit(1500))
                 {
-                    Logger.Warning($"[RDP] FreeRDP termino prematuramente. ExitCode={proc.ExitCode}");
+                    Logger.Warning(BackendText.Get("rdp.freeRdpPrematureExit", proc.ExitCode));
                     return -1;
                 }
 
@@ -761,13 +761,11 @@ namespace OpenStreamMS.Core.Helpers
 
                 if (newSession >= 0)
                 {
-                    Logger.Log($"[RDP] Sesion detectada en intento {i + 1} " +
-                               $"({(relaxed ? "modo ampliado" : "RDP")}): " +
-                               $"{newSession} (FreeRDP PID={proc.Id})");
+                    Logger.Log(BackendText.Get("rdp.sessionDetected", i + 1, BackendText.Get(relaxed ? "rdp.sessionModeRelaxed" : "rdp.sessionModeRdp"), newSession, proc.Id));
                     return newSession;
                 }
 
-                Logger.Log($"[RDP] Esperando sesion... intento {i + 1}/20");
+                Logger.Log(BackendText.Get("rdp.waitingSession", i + 1));
             }
             return -1;
         }
