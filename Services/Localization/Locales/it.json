@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "Sessione rilevata al tentativo {0} ({1}): {2} (PID FreeRDP={3})",
   "rdp.sessionModeRelaxed": "modalità estesa",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "In attesa della sessione… tentativo {0}/20"
+  "rdp.waitingSession": "In attesa della sessione… tentativo {0}/20",
+  "rdp.frameRateConfigured": "FrameRate={0} fps | intervallo={1} ms (composizione {2} Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, scala {3} %.",
+  "rdp.betterRdpPoliciesApplied": "Criteri BetterRDP applicati.",
+  "rdp.mstscClientPoliciesApplied": "Criteri client mstsc applicati (nessuna finestra di dialogo prima della connessione).",
+  "rdp.mstscClientPoliciesFailed": "Impossibile applicare i criteri HKCU di mstsc: {0}"
 }
