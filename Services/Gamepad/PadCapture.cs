@@ -1,5 +1,6 @@
 using Microsoft.Win32.SafeHandles;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using OpenStreamMS.Services.Seats;
 using System.Runtime.InteropServices;
 
@@ -94,7 +95,7 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
             {
                 if (Open(out byte inPipe) is { } error)
                 {
-                    if (error != lastError) Logger.Log($"[PadCapture] Esperando a {_instanceId}: {error}");
+                    if (error != lastError) Logger.Log(BackendText.Get("padCapture.waiting", _instanceId, error));
                     lastError = error;
                     Close();
                     Thread.Sleep(1000);
@@ -105,7 +106,7 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                 var pad = _pads.Create(_session, _owner);
                 string virtualId = $"ViGEm X360 #{pad}";
                 lock (_handleLock) _pad = pad;
-                Logger.Log($"[PadCapture] '{_owner}': {_instanceId} → mando virtual {virtualId} en la sesión {_session}.");
+                Logger.Log(BackendText.Get("padCapture.virtualCreated", _owner, _instanceId, virtualId, _session));
                 SetLed(0);
 
                 var report = new byte[64];
@@ -117,7 +118,7 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                     while (!_stopping && WinUsb_ReadPipe(_winusb, inPipe, buf, report.Length, out int read, IntPtr.Zero))
                     {
                         // Diagnóstico: los primeros informes en crudo, para ver el formato real del mando.
-                        if (traced < 6) { traced++; Logger.Log($"[PadCapture] informe ({read} bytes): {Convert.ToHexString(report, 0, Math.Min(read, 32))}"); }
+                        if (traced < 6) { traced++; Logger.Log(BackendText.Get("padCapture.rawReport", read, Convert.ToHexString(report, 0, Math.Min(read, 32)))); }
                         // Informe de estado: tipo 0x00, longitud 0x14 (20 bytes). Hay otros (LED, auriculares).
                         if (read < 14 || report[0] != 0x00 || report[1] < 0x0E) continue;
                         var s = new PadState(
@@ -134,13 +135,13 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
                         lastSent = now;
                         _pads.Input(pad, s);
                         if (++sent is 1 or 50 or 500)
-                            Logger.Log($"[PadCapture] {sent} estado(s) entregados a {virtualId} (botones 0x{s.Buttons:X4}, LX {s.ThumbLX}, LY {s.ThumbLY}).");
+                            Logger.Log(BackendText.Get("padCapture.statesSent", sent, virtualId, s.Buttons, s.ThumbLX, s.ThumbLY));
                     }
-                if (!_stopping) Logger.Log($"[PadCapture] {_instanceId} desconectado o lectura fallida (error {Marshal.GetLastWin32Error()}, {sent} estado(s) entregados); se espera a que vuelva.");
+                if (!_stopping) Logger.Log(BackendText.Get("padCapture.readerDisconnected", _instanceId, Marshal.GetLastWin32Error(), sent));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[PadCapture] {_instanceId}: {ex.Message}");
+                Logger.Warning(BackendText.Get("padCapture.readerError", _instanceId, ex.Message));
                 Thread.Sleep(1000);
             }
             finally
@@ -156,19 +157,19 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
     {
         inPipe = 0;
         var g = UsbCapture.InterfaceGuid;
-        if (CM_Get_Device_Interface_List_SizeW(out int len, ref g, _instanceId, 0) != 0 || len <= 1) return "sin interfaz WinUSB (mando apagado o desconectado)";
+        if (CM_Get_Device_Interface_List_SizeW(out int len, ref g, _instanceId, 0) != 0 || len <= 1) return BackendText.Get("padCapture.winUsbInterfaceUnavailable");
         var list = new char[len];
-        if (CM_Get_Device_Interface_ListW(ref g, _instanceId, list, len, 0) != 0) return "sin interfaz WinUSB";
+        if (CM_Get_Device_Interface_ListW(ref g, _instanceId, list, len, 0) != 0) return BackendText.Get("padCapture.winUsbInterfaceUnavailable");
         string path = new string(list).Split('\0', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
-        if (path.Length == 0) return "sin interfaz WinUSB";
+        if (path.Length == 0) return BackendText.Get("padCapture.winUsbInterfaceUnavailable");
 
         var file = CreateFileW(path, 0xC0000000, 3, IntPtr.Zero, 3, 0x40000000 /*OVERLAPPED*/, IntPtr.Zero);
-        if (file.IsInvalid) return $"CreateFile {Marshal.GetLastWin32Error()}";
-        if (!WinUsb_Initialize(file, out var winusb)) { int e = Marshal.GetLastWin32Error(); file.Dispose(); return $"WinUsb_Initialize {e}"; }
+        if (file.IsInvalid) return BackendText.Get("padCapture.createFileFailed", Marshal.GetLastWin32Error());
+        if (!WinUsb_Initialize(file, out var winusb)) { int e = Marshal.GetLastWin32Error(); file.Dispose(); return BackendText.Get("padCapture.winUsbInitializeFailed", e); }
         lock (_handleLock) { _file = file; _winusb = winusb; }
 
         byte* ifd = stackalloc byte[9];
-        if (!WinUsb_QueryInterfaceSettings(winusb, 0, ifd)) return $"WinUsb_QueryInterfaceSettings {Marshal.GetLastWin32Error()}";
+        if (!WinUsb_QueryInterfaceSettings(winusb, 0, ifd)) return BackendText.Get("padCapture.queryInterfaceFailed", Marshal.GetLastWin32Error());
         byte* pi = stackalloc byte[12];
         byte outPipe = 0;
         for (byte e = 0; e < ifd[4]; e++)
@@ -177,7 +178,7 @@ internal sealed unsafe class Xbox360PadReader : IDisposable
             if ((pi[4] & 0x80) != 0) { if (inPipe == 0) inPipe = pi[4]; }
             else if (outPipe == 0) outPipe = pi[4];
         }
-        if (inPipe == 0) return $"sin endpoint de entrada ({ifd[4]} endpoints)";
+        if (inPipe == 0) return BackendText.Get("padCapture.inputEndpointMissing", ifd[4]);
         lock (_handleLock) _outPipe = outPipe;
         return null;
     }
@@ -291,7 +292,7 @@ internal sealed class SeatPadCapture : IDisposable
         lock (_lock)
         {
             if (_disposed || _pending.Count == 0) return;
-            Logger.Log($"[PadCapture] '{_owner}': {_pending.Count} mando(s) sin conectar o sin modo Xbox 360 todavía; se capturarán al aparecer.");
+            Logger.Log(BackendText.Get("padCapture.pending", _owner, _pending.Count));
             _watch = GamepadSessionIsolation.Cm.WatchEnumeration((id, _) =>
             {
                 // Hilo del sistema: solo se agenda. Varias llegadas seguidas → una pasada.
@@ -327,7 +328,7 @@ internal sealed class SeatPadCapture : IDisposable
                 catch (Exception ex)
                 {
                     // Se queda pendiente: la próxima pasada lo vuelve a intentar.
-                    Logger.Warning($"[PadCapture] '{_owner}': no se pudo capturar el mando de {port} ({ex.Message}); se reintenta.");
+                    Logger.Warning(BackendText.Get("padCapture.captureRetry", _owner, port, ex.Message));
                 }
             }
             if (_pending.Count == 0)
@@ -345,7 +346,7 @@ internal sealed class SeatPadCapture : IDisposable
         _client ??= ViGEmPads.Open();
         if (_client is null)
         {
-            Logger.Warning($"[PadCapture] '{_owner}': no se pudo abrir ViGEmBus; el mando de {port} se queda con HidHide.");
+            Logger.Warning(BackendText.Get("padCapture.vigemUnavailable", _owner, port));
             return false;
         }
         // Primero lo que no es el mando (teclado del botón de captura…), luego el mando.
@@ -353,7 +354,7 @@ internal sealed class SeatPadCapture : IDisposable
         {
             if (_captured.Contains(node, StringComparer.OrdinalIgnoreCase)) continue;
             if (UsbCapture.IsCaptured(node) || UsbCapture.Capture(node)) _captured.Add(node);
-            else Logger.Warning($"[PadCapture] '{_owner}': {node} sigue en Windows (no se pudo pasar a WinUSB).");
+            else Logger.Warning(BackendText.Get("padCapture.notCaptured", _owner, node));
         }
         var ready = pads.Where(p => _captured.Contains(p, StringComparer.OrdinalIgnoreCase)).ToList();
         if (ready.Count == 0) return true;   // el mando no pasó a WinUSB: sigue pendiente
@@ -362,8 +363,7 @@ internal sealed class SeatPadCapture : IDisposable
                 _readers.Add(new Xbox360PadReader(pad, _session, _owner, _client));
         _pending.Remove(port);
         _done.Add(port);
-        Logger.Log($"[PadCapture] '{_owner}': mando de {port} fuera de Windows ({ready.Count} mando(s) y " +
-                   $"{others.Count} interfaz(es) más en WinUSB); llega a la sesión {_session} como mando virtual.");
+        Logger.Log(BackendText.Get("padCapture.captured", _owner, port, ready.Count, others.Count, _session));
         return true;
     }
 
@@ -382,7 +382,7 @@ internal sealed class SeatPadCapture : IDisposable
             // lo devuelve en cuanto vuelva a aparecer.
             foreach (var node in _captured) UsbCapture.Release(node);
             if (_captured.Count > 0)
-                Logger.Log($"[PadCapture] '{_owner}': {_captured.Count} interfaz(es) de mando devueltas a Windows.");
+                Logger.Log(BackendText.Get("padCapture.restored", _owner, _captured.Count));
             SteamXboxFilter.Release(OwnerKey);
         }
     }
