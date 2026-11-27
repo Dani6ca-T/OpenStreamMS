@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] « {0} » : {1} reste visible dans Windows (impossible de passer à WinUSB).",
   "padCapture.captured": "[PadCapture] « {0} » : manette sur {1} retirée de Windows ({2} manette(s) et {3} interface(s) supplémentaire(s) via WinUSB) ; transmise à la session {4} comme manette virtuelle.",
   "padCapture.restored": "[PadCapture] « {0} » : {1} interface(s) de manette rendue(s) à Windows.",
-  "steamXboxFilter.removed": "[Gamepad] Filtre Steam {0} retiré de {1} classe(s) de manettes pendant l’isolation. Les nouveaux périphériques ne sont plus exposés à toutes les sessions via \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Filtre Steam {0} retiré de {1} classe(s) de manettes pendant l’isolation. Les nouveaux périphériques ne sont plus exposés à toutes les sessions via \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Impossible de retirer le filtre Steam {0} : {1}. Steam dans les autres sessions (y compris la console) peut encore lire les manettes isolées.",
   "steamXboxFilter.restored": "[Gamepad] Filtre Steam {0} restauré dans {1} classe(s) de manettes ; il ne reste plus de manettes isolées dans les autres sessions.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Impossible de restaurer le filtre Steam {0} : {1}. Une nouvelle tentative aura lieu au prochain démarrage du service."
