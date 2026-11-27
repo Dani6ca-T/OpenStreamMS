@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Geçersiz kanal iletisi uzunluğu: {0} bayt.",
   "seatIpc.invalidJsonObject": "JSON yükü bir nesne değil.",
   "seatHost.frameLatencyName": "bileşim→ekran",
-  "seatHost.cursorLatencyName": "giriş→ekran"
+  "seatHost.cursorLatencyName": "giriş→ekran",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "Windows {0} oturumundan ses gönderiliyor: {1}",
+  "audioRelay.playing": "'{0}' üzerinde oynatılıyor: {1}",
+  "audioRelay.invalidHeader": "Ses aktarım başlığı geçersiz.",
+  "audioRelay.noOutputDevice": "Klavye oturumunda ses çıkış aygıtı yok.",
+  "audioRelay.invalidBlock": "Ses bloğu geçersiz.",
+  "inputRelay.started": "[InputRelay] Windows {0} oturumu ({1}) için birleşik klavye ve fare aktarımı.",
+  "inputRelay.createFailed": "{0} oluşturulamadı: {1}",
+  "inputRelay.invalidHeader": "Giriş aktarım başlığı geçersiz.",
+  "inputRelay.invalidBatch": "Giriş grubu geçersiz.",
+  "osmsPad.openFailed": "[OsmsPad] Sürücü açılamadı: hata {0}.",
+  "vigem.openFailed": "[PadCapture] ViGEmBus açılamadı: {0}"
 }
