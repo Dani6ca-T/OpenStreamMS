@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Nem sikerült biztosítani a TermService futását: {0}. Ha a Távoli asztal ki van kapcsolva, a loopback kapcsolat sikertelen lesz; engedélyezze a Rendszer → Távoli asztal résznél, vagy indítsa újra a Windowst.",
   "rdp.registryKeyOpenFailed": "Nem sikerült megnyitni: HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Nem sikerült beírni a(z) {0} értéket ide: HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Nem sikerült beírni a(z) {0} értéket ide: HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "A FreeRDP nem írt ki semmit.",
+  "rdp.freeRdpOutputPrefix": "FreeRDP kimenet: "
 }
