@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Échec de l’action Steam « {1} » dans la session Windows {2} : {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture : « {1} » dans {2} session(s).",
   "composite.steamOpen": "ouvrir",
-  "composite.steamClose": "fermer"
+  "composite.steamClose": "fermer",
+  "gamepad.hidHideNotOpen": "HidHide n’est pas ouvert par le service d’isolation ; la manette ViGEm sera isolée lorsqu’elle apparaîtra.",
+  "gamepad.deviceArrivalWatchUnavailable": "Impossible de surveiller l’arrivée des périphériques ; une vérification sera effectuée chaque seconde.",
+  "gamepad.hidHideNotInstalled": "HidHide n’est pas installé : les manettes seront visibles dans toutes les sessions.",
+  "gamepad.hidHideEnabled": "HidHide activé.",
+  "gamepad.hidHideConfigureFailed": "Impossible de configurer HidHide : {0}",
+  "gamepad.monitorFailed": "Erreur lors de la surveillance des manettes : {0}"
 }
