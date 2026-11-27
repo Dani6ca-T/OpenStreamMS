@@ -484,5 +484,6 @@
   "compositeInput.routed": "[{0}] Tastatur und Maus an „{1}“ weitergeleitet (Windows-Sitzung {2}).",
   "compositeInput.routeFailed": "[{0}] Tastatur und Maus konnten nicht an „{1}“ weitergeleitet werden: {2}",
   "compositeInput.writeFailed": "[{0}] {1} konnte nicht geschrieben werden: {2}",
-  "compositeInput.deleteFailed": "[{0}] {1} konnte nicht gelöscht werden: {2}"
+  "compositeInput.deleteFailed": "[{0}] {1} konnte nicht gelöscht werden: {2}",
+  "rdp.mstscFailureContext": "{0} Der vorherige mstsc-Versuch ist fehlgeschlagen: {1}"
 }
