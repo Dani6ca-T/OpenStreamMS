@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] A sessão do Windows {1} não terminou de fechar.",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) parado.",
   "session.logStopWarning": "[{0}] Aviso ao parar: {1}",
-  "session.logStopped": "[{0}] Parada."
+  "session.logStopped": "[{0}] Parada.",
+  "session.logProtocolChanged": "[{0}] Protocolo de transmissão: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Aviso ao parar o Sunshine ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine parado devido a {1}; será reiniciado automaticamente.",
+  "session.logSunshinePauseWarning": "[{0}] Aviso ao pausar o Sunshine: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine em pausa ({1}).",
+  "session.logSunshineResumed": "[{0}] Sunshine retomado; será reiniciado automaticamente.",
+  "session.logMuteRdpClient": "[{0}] A silenciar o cliente RDP (PID={1}) no anfitrião..."
 }
