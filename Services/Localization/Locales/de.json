@@ -251,7 +251,7 @@
   "rdp.remoteIddProviderMissing": "RemoteIdd-Erfassung ohne Anbieter in RDP-Tcp: Installieren Sie ihn mit Native/RemoteIdd/Provider/install.ps1.",
   "rdp.consoleSessionConflict": "Warnung: „{0}“ hat bereits eine Konsolensitzung (SessionId={1}). Die Audioisolierung kann teilweise sein.",
   "rdp.sessionExists": "Vorhandene Sitzung für „{0}“: {1}",
-  "rdp.createViaMstsc": "Keine Sitzung für „{0“}, Erstellung über mstsc (AVC444-Hardware)…",
+  "rdp.createViaMstsc": "Keine Sitzung für „{0}“, wird über mstsc erstellt (AVC444-Hardware)…",
   "rdp.mstscFailedFallback": "mstsc fehlgeschlagen ({0}); erneuter Versuch mit FreeRDP…",
   "rdp.createViaFreeRdp": "Keine Sitzung für „{0}“, Erstellung über FreeRDP…",
   "rdp.microphoneForcesFreeRdp": "Bei zugewiesenem Mikrofon wird FreeRDP verwendet (mstsc kann kein Mikrofon auswählen).",
