@@ -374,5 +374,12 @@
   "seats.consoleUserAutoStartError": "Це місце використовує того самого користувача, що й консоль, тому не може запускатися самостійно. Запустіть його з OpenStreamMS або призначте інший сеанс.",
   "seats.monitorAlreadyAssigned": "Монітор уже призначено місцю «{0}».",
   "seats.monitorAreaOverlap": "Ця частина монітора перетинається з частиною місця «{0}».",
-  "seats.notFound": "Місце {0} не існує."
+  "seats.notFound": "Місце {0} не існує.",
+  "session.logProtocolChanged": "[{0}] Протокол потокового передавання: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Попередження під час зупинення Sunshine ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine зупинено через {1}; його буде запущено автоматично.",
+  "session.logSunshinePauseWarning": "[{0}] Попередження під час призупинення Sunshine: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine призупинено ({1}).",
+  "session.logSunshineResumed": "[{0}] Роботу Sunshine відновлено; його буде запущено автоматично.",
+  "session.logMuteRdpClient": "[{0}] Вимкнення звуку клієнта RDP (PID={1}) на хості..."
 }
