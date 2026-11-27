@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] 기본 모니터를 변경하지 못했습니다: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig(비활성화) 실패: {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] 모니터를 바탕 화면에서 제거했습니다: {0}",
-  "displayTopology.deactivateFailed": "[Seats] 모니터를 비활성화하지 못했습니다: {0}"
+  "displayTopology.deactivateFailed": "[Seats] 모니터를 비활성화하지 못했습니다: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] 호스트 제어 파이프: 콘솔 세션에 속하지 않은 프로세스 {0}을(를) 거부했습니다.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp이 호스트 제어 파이프에 연결되었습니다.",
+  "seatHostControl.controlPipeError": "[Seats] 호스트 제어 파이프 오류: {0}",
+  "seatHostControl.openSeatSent": "[Seats] 좌석 {0}에 대한 'open_seat' 명령을 TrayApp에 보냈습니다.",
+  "seatHostControl.openSeatSendFailed": "[Seats] TrayApp에 'open_seat' 명령을 보내지 못했습니다: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp이 연결되지 않았습니다. 콘솔 세션 {0}에서 독립 프레젠터를 시작합니다...",
+  "seatHostControl.consoleUserMissing": "[Seats] 실제 콘솔에 로그인한 사용자가 없습니다.",
+  "seatHostControl.trayHostConnected": "[TrayApp] 좌석 호스트 제어 파이프에 연결되었습니다.",
+  "seatHostControl.commandProcessingError": "[TrayApp] 좌석 명령 처리 오류: {0}"
 }
