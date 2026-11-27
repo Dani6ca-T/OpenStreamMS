@@ -451,7 +451,7 @@
   "session.logHudEnsureFailed": "[HUD] Не вдалося ініціалізувати HUD: {0}",
   "session.logStopping": "[{0}] Зупинення...",
   "session.logRestartRequested": "[{0}] Запитано перезапуск (поточний стан: {1}).",
-  "session.logRestartSuperseded": "Перезапуск скасовано: під час зупинення надійшла інша команда.",
+  "session.logRestartSuperseded": "[{0}] Перезапуск скасовано: під час зупинення надійшла інша команда.",
   "session.logSunshineKillTimeout": "[{0}] Час очікування завершення Sunshine вичерпано.",
   "session.logWindowsSessionCloseTimeout": "[{0}] Сеанс Windows {1} не завершив закриття.",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) зупинено.",
