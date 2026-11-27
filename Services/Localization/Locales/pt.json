@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Ação Steam '{1}' falhou na sessão do Windows {2}: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' em {2} sessão(ões).",
   "composite.steamOpen": "abrir",
-  "composite.steamClose": "fechar"
+  "composite.steamClose": "fechar",
+  "gamepad.hidHideNotOpen": "O HidHide não está aberto pelo serviço de isolamento; o comando ViGEm será isolado quando aparecer.",
+  "gamepad.deviceArrivalWatchUnavailable": "Não foi possível monitorizar a chegada de dispositivos; será feita apenas uma verificação por segundo.",
+  "gamepad.hidHideNotInstalled": "O HidHide não está instalado: os comandos ficarão visíveis em todas as sessões.",
+  "gamepad.hidHideEnabled": "HidHide ativado.",
+  "gamepad.hidHideConfigureFailed": "Não foi possível configurar o HidHide: {0}",
+  "gamepad.monitorFailed": "Erro ao monitorizar comandos: {0}"
 }
