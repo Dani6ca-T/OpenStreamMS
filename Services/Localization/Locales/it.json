@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Icona nell'area di notifica rimossa dall'avvio automatico.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Eseguibile:",
-  "install.configPath": "Configurazione:"
+  "install.configPath": "Configurazione:",
+  "diagnostics.logGenerated": "Pacchetto diagnostico generato ({0} KB, eventi di {1} giorni).",
+  "diagnostics.logGenerateFailed": "Impossibile generare il pacchetto diagnostico: {0}",
+  "hud.sessionRestarted": "La sessione '{0}' è stata riavviata dal suo HUD.",
+  "hud.powerDenied": "Spegnimento/riavvio rifiutato da '{0}': la sessione non dispone dell'autorizzazione.",
+  "hud.powerRequested": "{0} del PC richiesto da '{1}'.",
+  "hud.powerCancelled": "Spegnimento/riavvio annullato da '{0}'.",
+  "power.cancelled": "Spegnimento/riavvio annullato.",
+  "power.noPending": "Nessuno spegnimento in attesa da annullare ({0}).",
+  "power.shutdownFailed": "Errore di shutdown.exe: {0}",
+  "power.scheduled": "{0} pianificato tra {1}s.",
+  "settings.logLevelChanged": "Livello di registro: {0} → {1}."
 }
