@@ -273,5 +273,11 @@
   "rdp.startMstsc": "mstsc を起動しています（{0}x{1}、{2} fps、{3} bpp、スケール {4}%、AVC444 ハードウェア）…",
   "rdp.mstscExecutableMissing": "mstsc.exe を起動できませんでした",
   "rdp.mstscExitedNoSession": "mstsc は ExitCode={0} で終了し、「{1}」のセッションを作成できませんでした。証明書／資格情報の非表示ダイアログ、または NLA による拒否の可能性があります。",
-  "rdp.mstscSessionTimeout": "mstsc で「{0}」のセッションが 30 秒以内に表示されませんでした。Session 0 に非表示ダイアログがある可能性があります。"
+  "rdp.mstscSessionTimeout": "mstsc で「{0}」のセッションが 30 秒以内に表示されませんでした。Session 0 に非表示ダイアログがある可能性があります。",
+  "rdp.cmdkeyFailed": "cmdkey {0} に失敗しました：{1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP が予期せず終了しました。ExitCode={0}",
+  "rdp.sessionDetected": "試行 {0} 回目（{1}）でセッションを検出：{2}（FreeRDP PID={3}）",
+  "rdp.sessionModeRelaxed": "緩和モード",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "セッションを待機中… 試行 {0}/20"
 }
