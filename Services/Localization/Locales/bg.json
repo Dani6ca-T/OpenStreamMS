@@ -359,5 +359,16 @@
   "seats.seatLost": "Място „{0}“ се изключва: {1}.",
   "seats.stopAfterLossFailed": "„{0}“: неуспешно изключване след прекъсване: {1}",
   "seats.sessionStartFailed": "Сесията не успя да стартира.",
-  "seats.sessionStartTimeout": "Сесията не стана активна навреме."
+  "seats.sessionStartTimeout": "Сесията не стана активна навреме.",
+  "seats.statusStartingSession": "Стартиране на сесията…",
+  "seats.statusPoweringMonitor": "Включване на монитора…",
+  "seats.statusStartingAgent": "Стартиране на агента за заснемане и изображение…",
+  "seats.statusStartingPresenter": "Стартиране на презентатора в конзолата…",
+  "seats.statusSeparatingGamepads": "Отделяне на контролерите на мястото…",
+  "seats.statusReservingUsb": "Резервиране на USB устройствата на мястото…",
+  "seats.statusSeparatingInput": "Отделяне на мишката и клавиатурата на мястото…",
+  "seats.statusLockingSession": "Заключване на сесията: мястото ще изисква парола…",
+  "seats.statusActive": "Активно: изображение, звук и периферия са свързани.",
+  "seats.statusDisconnectedFromSeat": "Изключено от мястото. Включете го отново от OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Изключено: {0}. Включете го отново от OpenStreamMS."
 }
