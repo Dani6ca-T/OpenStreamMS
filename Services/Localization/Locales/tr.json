@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Bu katalog listede yok.",
   "ext.catalogEntryMissing": "Katalog artık {0} içermiyor.",
   "ext.invalidPackage": "Paket geçerli bir uzantı değil: {0}",
-  "ext.noManifest": "Pakette {0} yok."
+  "ext.noManifest": "Pakette {0} yok.",
+  "cli.error.missingSeatAgentPipe": "HATA: --seat-agent için kanal adı eksik.",
+  "cli.error.missingSeatHostPipe": "HATA: --seat-host için kanal adı eksik.",
+  "cli.error.unknownCommand": "Bilinmeyen komut: '{0}'",
+  "cli.error.helpHint": "Kullanılabilir komutları görmek için --help kullanın.",
+  "cli.error.adminRequired": "HATA: Bu işlem yönetici ayrıcalıkları gerektirir.",
+  "cli.error.adminHint": ".exe dosyasını 'Yönetici olarak çalıştır' seçeneğiyle başlatın."
 }
