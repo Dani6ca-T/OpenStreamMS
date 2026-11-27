@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "O comando físico {0} está atribuído a um posto ou sessão de streaming: visível apenas na sessão {1}.",
   "gamepad.steamFilterWarning": "{0} tem o filtro Steam {1} na sua pilha: o Steam das outras sessões (incluindo a consola) continua a lê-lo. Desligue-o e volte a ligá-lo depois de o posto ou stream estar ativo.",
   "gamepad.physicalPadRestarted": "{0} foi reiniciado: a sessão {1} deixou de o conseguir ler.",
-  "gamepad.physicalPadRestartFailed": "Não foi possível reiniciar {0}: {1}. A sessão que já o tinha aberto continuará a vê-lo até o fechar."
+  "gamepad.physicalPadRestartFailed": "Não foi possível reiniciar {0}: {1}. A sessão que já o tinha aberto continuará a vê-lo até o fechar.",
+  "gamepad.padRemoved": "Comando {0} removido; os respetivos nós HID foram removidos da lista negra do HidHide.",
+  "gamepad.staleJailsRemoved": "Foram removidas {0} entradas antigas da lista negra do HidHide.",
+  "gamepad.absentPadAssigned": "O comando físico {0} (atualmente desligado) foi atribuído à sessão {1}; pertencerá a essa sessão quando reaparecer.",
+  "gamepad.knownNodesSaveFailed": "Não foi possível guardar {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Não foi possível ler {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Não foi possível atualizar a lista negra do HidHide: {0}"
 }
