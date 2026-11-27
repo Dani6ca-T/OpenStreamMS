@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Zvuk z „{1}“ byl předán do relace klávesnice „{2}“.",
   "compositeAudio.forwardFailed": "[{0}] Zvuk z „{1}“ se nepodařilo předat: {2}",
   "hud.launched": "[HUD] Spuštěno v relaci Windows {0} (PID {1}): Ctrl+Alt+H nebo Guide + Back.",
-  "hud.launchFailed": "[HUD] Nelze spustit v relaci Windows {0}: {1}"
+  "hud.launchFailed": "[HUD] Nelze spustit v relaci Windows {0}: {1}",
+  "compositeInput.routed": "[{0}] Klávesnice a myš byly přesměrovány do „{1}“ (relace Windows {2}).",
+  "compositeInput.routeFailed": "[{0}] Klávesnici a myš se nepodařilo přesměrovat do „{1}“: {2}",
+  "compositeInput.writeFailed": "[{0}] Nepodařilo se zapsat {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Nepodařilo se odstranit {1}: {2}"
 }
