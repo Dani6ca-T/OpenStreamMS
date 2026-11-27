@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] Zaktualizowano sunshine.conf ({0}) w: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: dane logowania są już aktualne (użytkownik={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: dane logowania są już aktualne; root wyczyszczony (użytkownik={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: ustawiono dane logowania (użytkownik={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: ustawiono dane logowania (użytkownik={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Nie można zażądać czystego opróżnienia przed zatrzymaniem: {0}",
+  "sunshine.credentialsCliLaunchFailed": "Nie można uruchomić sunshine.exe --creds.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] Nie można przywrócić root po --creds: {0}",
+  "sunshine.uniqueIdCheckFailed": "Nie można sprawdzić unikatowego identyfikatora: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] Nie można przywrócić sunshine_state.json: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Nie można uruchomić kopii lustrzanej sunshine_state.json: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] Nie można skopiować {0} do kopii zapasowej: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] Nie można przywrócić {0}: {1}"
 }
