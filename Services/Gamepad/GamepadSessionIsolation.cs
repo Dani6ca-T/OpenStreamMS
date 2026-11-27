@@ -745,8 +745,8 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         {
             _reservationsLogged = active;
             Logger.Log(active
-                ? $"[Gamepad] Próximos mandos de Moonlight ocultos de antemano hasta saber su sesión ({string.Join(", ", _reserved.Order())})."
-                : "[Gamepad] Sin streams en marcha: quitada la reserva de los próximos mandos.");
+                ? BackendText.Get("gamepad.futurePadsReserved", string.Join(", ", _reserved.Order()))
+                : BackendText.Get("gamepad.futurePadReservationsReleased"));
         }
     }
 
@@ -776,7 +776,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
         }
         catch (Win32Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudieron reservar los próximos mandos en HidHide: {ex.Message}");
+            Logger.Warning(BackendText.Get("gamepad.futurePadReservationFailed", ex.Message));
             return null;
         }
     }
