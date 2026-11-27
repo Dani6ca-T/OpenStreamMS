@@ -638,5 +638,15 @@
   "consoleLock.journalEmpty": "Registro vacío.",
   "consoleLock.userNotLoggedOn": "[Seats] '{0}' no tiene sesión: el bloqueo se restaurará más tarde.",
   "consoleLock.released": "[Seats] Bloqueo de la consola restaurado para '{0}'.",
-  "consoleLock.releaseFailed": "[Seats] No se pudo restaurar el bloqueo de la consola: {0}"
+  "consoleLock.releaseFailed": "[Seats] No se pudo restaurar el bloqueo de la consola: {0}",
+  "seatIdentify.commandFailed": "[Seats] --identify {0} falló: {1}",
+  "seatIdentify.operationFailed": "[Identify] {0}: {1}",
+  "seatIdentify.displayNotConnected": "[Identify] El monitor no está conectado.",
+  "seatIdentify.displayActivateFailed": "[Identify] No se pudo encender '{0}'.",
+  "virtualDisplay.created": "[VirtualDisplay] Pantalla virtual {0}x{1}@{2} creada (target {3}, watchdog {4} s).",
+  "virtualDisplay.sudovdaMissing": "[VirtualDisplay] SudoVDA no está instalado: la consola no puede tener su propia mitad.",
+  "virtualDisplay.createFailed": "[VirtualDisplay] No se pudo crear la pantalla virtual: {0}",
+  "virtualDisplay.removeFailed": "[VirtualDisplay] No se pudo quitar la pantalla virtual: {0}",
+  "virtualDisplay.removed": "[VirtualDisplay] Pantalla virtual quitada.",
+  "virtualDisplay.ioctlFailed": "SudoVDA IOCTL 0x{0}"
 }
