@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "Включено за поддържаните клиенти (по подразбиране)",
     "wan_encryption_mode_2": "Задължително за всички клиенти",
     "wan_encryption_mode_desc": "Това определя дали да се използва шифроване при излъчване през Интернет. Шифроването може да намали производителността на излъчването, особено при не особено мощни сървъри и клиенти."
+  ,
+    "port_webrtc_discovery": "Откриване на Moonlight WebRTC телевизори",
+    "port_webrtc_media": "Видео и аудио на Moonlight WebRTC",
+    "port_webrtc_media_any": "Всякакъв",
+    "port_webrtc_signaling": "Връзка с Moonlight WebRTC телевизор",
+    "stream_protocol": "Протоколи за стрийминг",
+    "stream_protocol_both": "И двата",
+    "stream_protocol_desc": "Кои клиенти обслужва Sunshine: приложенията Moonlight, Moonlight WebRTC на телевизори Samsung Tizen или и двата варианта. Портовете на изключения протокол остават затворени.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Последен медиен порт за Moonlight WebRTC",
+    "webrtc_media_port_max_desc": "Последният UDP порт, който WebRTC може да използва за видео и аудио. 0 оставя диапазона отворен до 65535.",
+    "webrtc_media_port_min": "Първи медиен порт за Moonlight WebRTC",
+    "webrtc_media_port_min_desc": "Първият UDP порт за видео и аудио на WebRTC, така че във firewall да е отворен само този диапазон. Ако и двата порта са 0, WebRTC може да избере произволен порт.",
+    "webrtc_port": "Порт на Moonlight WebRTC телевизор",
+    "webrtc_port_desc": "TCP порт на WebSocket, към който се свързва телевизорът. Приложението на телевизора използва 8000, освен ако не е въведен друг порт заедно с адреса на компютъра. Диапазон: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "Sunshine се нуждае от разрешения",
