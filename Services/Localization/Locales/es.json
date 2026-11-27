@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell no está disponible.",
   "steamIsolation.shortcutDescription": "Steam aislado de las demás sesiones (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] Sonido de '{1}' reenviado a la sesión del teclado '{2}'.",
-  "compositeAudio.forwardFailed": "[{0}] No se pudo reenviar el sonido de '{1}': {2}"
+  "compositeAudio.forwardFailed": "[{0}] No se pudo reenviar el sonido de '{1}': {2}",
+  "hud.launched": "[HUD] Lanzado en la sesión de Windows {0} (PID {1}): Ctrl+Alt+H o Guía + Back.",
+  "hud.launchFailed": "[HUD] No se pudo lanzar en la sesión de Windows {0}: {1}"
 }
