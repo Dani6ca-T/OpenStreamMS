@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine selhal s STATUS_BREAKPOINT ({0}) v modulu {1} (PID={2}).",
   "sunshineCrash.fault": "Sunshine selhal s {0} v modulu {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Nepodařilo se přečíst událost Application Error: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil vrátil {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil vrátil {0}: {1}",
+  "sunshine.stateMirrorStarted": "Bylo spuštěno zrcadlení sunshine_state.json: {0}"
 }
