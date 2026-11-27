@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "Fiziksel denetleyici {0} bir koltuğa veya akış oturumuna atandı: yalnızca {1} oturumunda görünür.",
   "gamepad.steamFilterWarning": "{0} aygıt yığınında Steam filtresi {1} var: konsol dahil diğer oturumlardaki Steam hâlâ okuyabilir. Koltuk veya akış çalıştıktan sonra çıkarıp yeniden takın.",
   "gamepad.physicalPadRestarted": "{0} yeniden başlatıldı: {1} oturumu artık okuyamıyor.",
-  "gamepad.physicalPadRestartFailed": "{0} yeniden başlatılamadı: {1}. Önceden açmış olan oturum, kapatana kadar görmeye devam eder."
+  "gamepad.physicalPadRestartFailed": "{0} yeniden başlatılamadı: {1}. Önceden açmış olan oturum, kapatana kadar görmeye devam eder.",
+  "gamepad.padRemoved": "Denetleyici {0} kaldırıldı; HID düğümleri HidHide kara listesinden çıkarıldı.",
+  "gamepad.staleJailsRemoved": "HidHide kara listesinden {0} eski kayıt kaldırıldı.",
+  "gamepad.absentPadAssigned": "Fiziksel denetleyici {0} (şu anda bağlı değil) {1} oturumuna atandı; göründüğünde bu oturuma ait olacak.",
+  "gamepad.knownNodesSaveFailed": "{0} kaydedilemedi: {1}",
+  "gamepad.knownNodesReadFailed": "{0} okunamadı: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "HidHide kara listesi güncellenemedi: {0}"
 }
