@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Sunshine-autentiseringsuppgifter återställdes; Sunshine stoppades och startas om automatiskt.",
   "session.logSunshineTemplateUpdated": "[{0}] Sunshine-mallen ändrades; uppdaterar instansen: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Det gick inte att uppdatera Sunshine-instansen: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Det gick inte att lägga till brandväggsregeln: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Det gick inte att lägga till brandväggsregeln: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Lokal session: skrivbordet för \"{1}\\\\{2}\" (Windows-session {3}).",
+  "session.logNativeIsolationActive": "[{0}] Inbyggd isolering aktiv: dedikerad användare \"{1}\" (profil: {2}).",
+  "session.ephemeral": "tillfällig",
+  "session.persistent": "beständig",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile hoppades över: inbyggd isolering tillhandahåller redan en separat profil.",
+  "session.logStreamProfileConfiguring": "[{0}] Konfigurerar en separat strömningsprofil...",
+  "session.logStartFailed": "[{0}] Starten misslyckades: {1}",
+  "session.logWebRtcUnsupported": "[{0}] Det valda protokollet innehåller WebRTC, men den konfigurerade Sunshine-versionen stöder det inte (använd sunshine-webrtc); endast Moonlight fungerar."
 }
