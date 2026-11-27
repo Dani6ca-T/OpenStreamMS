@@ -313,7 +313,7 @@ namespace OpenStreamMS.Services.Sunshine
             {
                 Logger.Error(BackendText.Get("sunshine.launchFailed", ex.Message));
                 _sunshinePid = 0;
-                return new SunshineRunResult(SunshineRunStatus.LaunchFailed, 0, ex.Message);
+                return new SunshineRunResult(SunshineRunStatus.LaunchFailed, 0, BackendText.Get("sunshine.launchFailed", ex.Message));
             }
         }
 
