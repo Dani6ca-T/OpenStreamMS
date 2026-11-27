@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] 「{1}」の音声をキーボード セッション「{2}」に転送しました。",
   "compositeAudio.forwardFailed": "[{0}] 「{1}」の音声を転送できませんでした: {2}",
   "hud.launched": "[HUD] Windows セッション {0} で起動しました (PID {1}): Ctrl+Alt+H または Guide + Back。",
-  "hud.launchFailed": "[HUD] Windows セッション {0} で起動できませんでした: {1}"
+  "hud.launchFailed": "[HUD] Windows セッション {0} で起動できませんでした: {1}",
+  "compositeInput.routed": "[{0}] キーボードとマウスを「{1}」に転送しました (Windows セッション {2})。",
+  "compositeInput.routeFailed": "[{0}] キーボードとマウスを「{1}」に転送できませんでした: {2}",
+  "compositeInput.writeFailed": "[{0}] {1} を書き込めませんでした: {2}",
+  "compositeInput.deleteFailed": "[{0}] {1} を削除できませんでした: {2}"
 }
