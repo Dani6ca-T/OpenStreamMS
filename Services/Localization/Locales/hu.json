@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] A(z) „{1}” hangja továbbítva a(z) „{2}” billentyűzet-munkamenetébe.",
   "compositeAudio.forwardFailed": "[{0}] Nem sikerült továbbítani a(z) „{1}” hangját: {2}",
   "hud.launched": "[HUD] Elindítva a(z) {0}. Windows-munkamenetben (PID {1}): Ctrl+Alt+H vagy Guide + Back.",
-  "hud.launchFailed": "[HUD] Nem sikerült elindítani a(z) {0}. Windows-munkamenetben: {1}"
+  "hud.launchFailed": "[HUD] Nem sikerült elindítani a(z) {0}. Windows-munkamenetben: {1}",
+  "compositeInput.routed": "[{0}] A billentyűzet és az egér átirányítva ide: „{1}” (Windows-munkamenet: {2}).",
+  "compositeInput.routeFailed": "[{0}] Nem sikerült a billentyűzetet és az egeret ide irányítani: „{1}”: {2}",
+  "compositeInput.writeFailed": "[{0}] Nem sikerült írni: {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Nem sikerült törölni: {1}: {2}"
 }
