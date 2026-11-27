@@ -396,7 +396,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (allowPower is { } power && power != session.AllowPower)
         {
             session.AllowPower = power && !session.Local;
-            Logger.Warning($"[{session.Name}] Apagar y reiniciar el PC desde la sesión: {(session.AllowPower ? "permitido" : "no permitido")}.", session.Id);
+            Logger.Warning(BackendText.Get("session.logPowerPermission", session.AllowPower ? BackendText.Get("session.allowed") : BackendText.Get("session.denied")), session.Id);
         }
         if (StreamSession.NormalizeGamepadType(gamepadType) is { } gp && gp != session.GamepadType)
         {
