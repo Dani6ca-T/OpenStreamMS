@@ -461,5 +461,15 @@
   "error.stopSeat": "Před změnou konfigurace stanoviště jej zastavte.",
   "error.primaryMonitor": "Primární monitor nelze přiřadit stanovišti.",
   "error.assigned": "Vybraný prostředek je již přiřazen.",
-  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" přiřazen do slotu {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" přiřazen do slotu {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Uživatel \"{0}\" není správcem ani členem Remote Desktop Users; uděluje se mu přístup ke vzdálené ploše, aby bylo možné spustit relaci.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Nepodařilo se ověřit přístup ke vzdálené ploše uživatele \"{0}\": {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Oprávnění RDP-Tcp nelze přečíst (ani Security, ani DefaultSecurity); zůstávají beze změny.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Nepodařilo se skrýt uživatele \"{0}\" z přihlašovací obrazovky: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Nepodařilo se upravit přístup uživatele \"{0}\" k registru Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam připraven pro \"{0}\": steam:// a {1} zástupců používá osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Steam pro \"{0}\" se nepodařilo připravit: {1}",
+  "service.started": "[Service] OpenStreamMS spuštěn. API je dostupné na nakonfigurovaném portu.",
+  "service.multiRdpCheckFailed": "[Service] Kontrola multi-RDP selhala: {0}",
+  "service.stopped": "[Service] Zastaveno."
 }
