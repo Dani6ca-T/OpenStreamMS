@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] „{0}”: {1} pozostaje widoczny w systemie Windows (nie udało się przełączyć na WinUSB).",
   "padCapture.captured": "[PadCapture] „{0}”: kontroler na {1} usunięto z systemu Windows ({2} kontrolerów i {3} dodatkowe interfejsy w WinUSB); przekazano do sesji {4} jako kontroler wirtualny.",
   "padCapture.restored": "[PadCapture] „{0}”: przywrócono w systemie Windows {1} interfejsów kontrolera.",
-  "steamXboxFilter.removed": "[Gamepad] Usunięto filtr Steam {0} z {1} klas kontrolerów na czas izolowania kontrolerów. Nowe urządzenia nie są już udostępniane wszystkim sesjom przez \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Usunięto filtr Steam {0} z {1} klas kontrolerów na czas izolowania kontrolerów. Nowe urządzenia nie są już udostępniane wszystkim sesjom przez \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Nie udało się usunąć filtru Steam {0}: {1}. Steam w innych sesjach (w tym w konsoli) może nadal odczytywać izolowane kontrolery.",
   "steamXboxFilter.restored": "Przywrócono filtr Steam {0} w {1} klasach kontrolerów; w innych sesjach nie ma już izolowanych kontrolerów.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Nie udało się przywrócić filtru Steam {0}: {1}. Ponowna próba nastąpi przy następnym uruchomieniu usługi."
