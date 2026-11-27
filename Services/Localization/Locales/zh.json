@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd：{0}x{1} @ {2} Hz，缩放 {3}%。",
   "rdp.betterRdpPoliciesApplied": "已应用 BetterRDP 策略。",
   "rdp.mstscClientPoliciesApplied": "已应用 mstsc 客户端策略（连接前不显示对话框）。",
-  "rdp.mstscClientPoliciesFailed": "无法应用 mstsc HKCU 策略：{0}"
+  "rdp.mstscClientPoliciesFailed": "无法应用 mstsc HKCU 策略：{0}",
+  "rdp.videoRegistryKeyMissing": "未找到 HKLM\\\\{0}。",
+  "rdp.refreshRegistryValueApplied": "已将 VRefresh={0} 应用于 HKLM\\\\{1}（{2}）。",
+  "rdp.noVirtualAdapterFound": "在 Control\\\\Video 中未找到虚拟 RDP 适配器 — 未更改 VRefresh。会话将使用驱动程序默认刷新率。",
+  "rdp.refreshAppliedToAdapters": "已将 VRefresh={0} 应用于 {1} 个虚拟适配器。",
+  "rdp.refreshRegistryFailed": "在注册表中设置 VRefresh 时出错：{0}",
+  "rdp.sessionTempResolveFailed": "无法解析会话 {0} 的 TEMP：{1}"
 }
