@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf aktualisiert ({0}) unter: {1}",
   "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: Anmeldedaten bereits aktuell (Benutzer={0})",
   "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: Anmeldedaten bereits aktuell; root bereinigt (Benutzer={0})",
-  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: Anmeldedaten festgelegt (Benutzer={0})"
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: Anmeldedaten festgelegt (Benutzer={0})",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] Ein sauberer Flush vor dem Beenden konnte nicht angefordert werden: {0}",
+  "sunshine.credentialsCliLaunchFailed": "sunshine.exe --creds konnte nicht gestartet werden.",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] root konnte nach --creds nicht wiederhergestellt werden: {0}",
+  "sunshine.uniqueIdCheckFailed": "[Sunshine] Die eindeutige ID konnte nicht überprüft werden: {0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] sunshine_state.json konnte nicht wiederhergestellt werden: {0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] Die Spiegelung von sunshine_state.json konnte nicht gestartet werden: {0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] {0} konnte nicht in die Sicherung kopiert werden: {1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] {0} konnte nicht wiederhergestellt werden: {1}"
 }
