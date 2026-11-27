@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "Kontroler OsmsPad {0} → sesja Windows {1} (nie należy do żadnej sesji OpenStreamMS).",
   "gamepad.padAssignedCompositeMember": "Kontroler {0} z „{1}” ({2}) → sesja „{3}” (sesja Windows {4}).",
   "gamepad.padAssignedSession": "Kontroler {0} → sesja „{1}” (sesja Windows {2}).",
-  "gamepad.padRetargeted": "Kontroler {0} ({1}) przeniesiono do sesji „{2}” (sesja Windows {3}) z powodu zmiany sesji złożonej."
+  "gamepad.padRetargeted": "Kontroler {0} ({1}) przeniesiono do sesji „{2}” (sesja Windows {3}) z powodu zmiany sesji złożonej.",
+  "gamepad.futurePadsReserved": "Następne kontrolery Moonlight są ukrywane z wyprzedzeniem do czasu ustalenia ich sesji ({0}).",
+  "gamepad.futurePadReservationsReleased": "Brak aktywnych strumieni: zwolniono rezerwację następnych kontrolerów.",
+  "gamepad.futurePadReservationFailed": "Nie można zarezerwować następnych kontrolerów w HidHide: {0}"
 }
