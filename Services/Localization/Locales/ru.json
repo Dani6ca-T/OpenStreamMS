@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Не удалось вернуть основной монитор консоли; он будет восстановлен после удаления виртуального дисплея.",
   "seats.consoleMonitorRestored": "Консоль снова использует весь монитор.",
   "seats.sessionLocked": "«{0}»: сеанс заблокирован; потребуется пароль пользователя «{1}».",
-  "seats.sessionLockFailed": "«{0}»: не удалось заблокировать сеанс: {1}"
+  "seats.sessionLockFailed": "«{0}»: не удалось заблокировать сеанс: {1}",
+  "seats.sessionDisconnectedFromSeat": "«{0}»: сеанс отключён со стороны места; место выключается до повторного запуска из OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "«{0}»: не удалось остановить после отключения: {1}",
+  "seats.windowsSessionChanged": "«{0}»: сеанс Windows изменился с {1} на {2}; контроллеры переназначаются.",
+  "seats.monitorModeChanged": "«{0}»: режим монитора изменился; выполняется перенастройка сеанса.",
+  "seats.readjustFailed": "Не удалось перенастроить место: {0}",
+  "seats.agentDisconnected": "«{0}»: агент сеанса отключился.",
+  "seats.presenterDisconnected": "«{0}»: презентер консоли отключился.",
+  "seats.consoleAreaLost": "На части консоли пропало изображение ({0}); консоль восстанавливает свой монитор.",
+  "seats.seatLost": "Место «{0}» выключается: {1}.",
+  "seats.stopAfterLossFailed": "«{0}»: не удалось выключить после сбоя: {1}",
+  "seats.sessionStartFailed": "Не удалось запустить сеанс.",
+  "seats.sessionStartTimeout": "Сеанс не стал активным вовремя."
 }
