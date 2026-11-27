@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Это место использует того же пользователя, что и консоль, поэтому не может запускаться самостоятельно. Запустите его из OpenStreamMS или назначьте ему другой сеанс.",
   "seats.monitorAlreadyAssigned": "Монитор уже назначен месту «{0}».",
   "seats.monitorAreaOverlap": "Эта область монитора пересекается с областью места «{0}».",
-  "seats.notFound": "Место {0} не существует."
+  "seats.notFound": "Место {0} не существует.",
+  "session.logStopping": "[{0}] Остановка...",
+  "session.logRestartRequested": "[{0}] Запрошен перезапуск (текущее состояние: {1}).",
+  "session.logRestartSuperseded": "[{0}] Перезапуск отменён: во время остановки поступила другая команда.",
+  "session.logSunshineKillTimeout": "[{0}] Истекло время ожидания завершения Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Сеанс Windows {1} не завершил закрытие.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) остановлен.",
+  "session.logStopWarning": "[{0}] Предупреждение при остановке: {1}",
+  "session.logStopped": "[{0}] Остановлена."
 }
