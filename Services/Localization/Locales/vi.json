@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Độ dài thông điệp pipe không hợp lệ: {0} byte.",
   "seatIpc.invalidJsonObject": "Payload JSON không phải là một đối tượng.",
   "seatHost.frameLatencyName": "tổng hợp→màn hình",
-  "seatHost.cursorLatencyName": "đầu vào→màn hình"
+  "seatHost.cursorLatencyName": "đầu vào→màn hình",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "Đang gửi âm thanh từ phiên Windows {0}: {1}",
+  "audioRelay.playing": "Đang phát trên '{0}': {1}",
+  "audioRelay.invalidHeader": "Tiêu đề chuyển tiếp âm thanh không hợp lệ.",
+  "audioRelay.noOutputDevice": "Phiên bàn phím không có thiết bị đầu ra âm thanh.",
+  "audioRelay.invalidBlock": "Khối âm thanh không hợp lệ.",
+  "inputRelay.started": "[InputRelay] Chuyển tiếp bàn phím và chuột của phiên ghép cho phiên Windows {0} ({1}).",
+  "inputRelay.createFailed": "Không thể tạo {0}: {1}",
+  "inputRelay.invalidHeader": "Tiêu đề chuyển tiếp đầu vào không hợp lệ.",
+  "inputRelay.invalidBatch": "Lô đầu vào không hợp lệ.",
+  "osmsPad.openFailed": "[OsmsPad] Không thể mở trình điều khiển: lỗi {0}.",
+  "vigem.openFailed": "[PadCapture] Không thể mở ViGEmBus: {0}"
 }
