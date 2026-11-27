@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Ese catálogo no está en la lista.",
   "ext.catalogEntryMissing": "El catálogo ya no incluye {0}.",
   "ext.invalidPackage": "El paquete no es una extensión válida: {0}",
-  "ext.noManifest": "El paquete no tiene {0}."
+  "ext.noManifest": "El paquete no tiene {0}.",
+  "cli.error.missingSeatAgentPipe": "ERROR: Falta el nombre de la canalización para --seat-agent.",
+  "cli.error.missingSeatHostPipe": "ERROR: Falta el nombre de la canalización para --seat-host.",
+  "cli.error.unknownCommand": "Comando desconocido: '{0}'",
+  "cli.error.helpHint": "Use --help para ver los comandos disponibles.",
+  "cli.error.adminRequired": "ERROR: Esta operación requiere permisos de administrador.",
+  "cli.error.adminHint": "Ejecute el archivo .exe con 'Ejecutar como administrador'."
 }
