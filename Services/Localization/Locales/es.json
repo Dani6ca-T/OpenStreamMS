@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile omitido: el aislamiento nativo ya proporciona un perfil propio.",
   "session.logStreamProfileConfiguring": "[{0}] Configurando un perfil de streaming independiente...",
   "session.logStartFailed": "[{0}] Error al iniciar: {1}",
-  "session.logWebRtcUnsupported": "[{0}] El protocolo incluye WebRTC, pero la versión configurada de Sunshine no lo admite (usa sunshine-webrtc); solo funcionará Moonlight."
+  "session.logWebRtcUnsupported": "[{0}] El protocolo incluye WebRTC, pero la versión configurada de Sunshine no lo admite (usa sunshine-webrtc); solo funcionará Moonlight.",
+  "session.logSaveFailed": "[SessionService] No se pudieron guardar las sesiones: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Copia del archivo de sesiones ilegible guardada en \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] No se pudo apartar el archivo de sesiones ilegible: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Puertos WebRTC asignados a las sesiones existentes.",
+  "session.logLoadFailed": "[SessionService] No se pudieron cargar las sesiones: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Aviso al detener Sunshine de un inicio abandonado: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] La instancia de Sunshine ya existe en: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] No se pudo limpiar el estado copiado de la plantilla: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Permisos de la instancia ajustados para \"{0}\" (escritura solo en config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] No se pudieron ajustar los permisos de \"{0}\" en {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Actualizando Sunshine de la instancia: {1} → {2} (se conservan config/, emparejamientos, credenciales y ajustes)."
 }
