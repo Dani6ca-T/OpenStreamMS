@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "无法更新 HidHide 黑名单：{0}",
   "gamepad.usbPortCycled": "{0}：其他进程正在使用它，Windows 因此推迟了重启；USB 端口已断开并重新连接（{1}）{2}。",
   "gamepad.usbPortCycleFailed": "{0}：Windows 推迟了重启（其他进程正在使用设备），且无法重新连接 USB 端口（{1}）。已经打开设备的进程会继续看到它，直到关闭设备。",
-  "gamepad.clearJailsFailed": "无法从 HidHide 中删除会话条目：{0}"
+  "gamepad.clearJailsFailed": "无法从 HidHide 中删除会话条目：{0}",
+  "rdp.remoteIddProviderMissing": "RDP-Tcp 中没有 RemoteIdd 捕获提供程序：请使用 Native/RemoteIdd/Provider/install.ps1 安装。",
+  "rdp.consoleSessionConflict": "警告：“{0}”已有控制台会话（SessionId={1}）。音频隔离可能不完整。",
+  "rdp.sessionExists": "“{0}”的现有会话：{1}",
+  "rdp.createViaMstsc": "“{0}”没有会话，正在通过 mstsc（AVC444 硬件）创建…",
+  "rdp.mstscFailedFallback": "mstsc 失败（{0}）；正在改用 FreeRDP 重试…",
+  "rdp.createViaFreeRdp": "“{0}”没有会话，正在通过 FreeRDP 创建…",
+  "rdp.microphoneForcesFreeRdp": "分配了麦克风时使用 FreeRDP 连接（mstsc 无法选择麦克风）。",
+  "rdp.reconnecting": "正在将会话 {0} 以 {1}x{2}、{3} fps 重新连接…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) 失败：{1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc 重新连接失败（{0}）；正在改用 FreeRDP 重试…",
+  "rdp.reconnectWrongSession": "重新连接到了会话 {0}，而不是 {1}。",
+  "rdp.sessionReconnected": "会话 {0} 已在 {1} ms 内重新连接。"
 }
