@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "To stanowisko używa tego samego użytkownika co konsola i nie może uruchomić się samodzielnie. Uruchom je z OpenStreamMS lub przypisz mu inną sesję.",
   "seats.monitorAlreadyAssigned": "Monitor jest już przypisany do stanowiska „{0}”.",
   "seats.monitorAreaOverlap": "Ten obszar monitora nakłada się na obszar stanowiska „{0}”.",
-  "seats.notFound": "Stanowisko {0} nie istnieje."
+  "seats.notFound": "Stanowisko {0} nie istnieje.",
+  "session.logStopping": "[{0}] Zatrzymywanie...",
+  "session.logRestartRequested": "[{0}] Zażądano ponownego uruchomienia (bieżący stan: {1}).",
+  "session.logRestartSuperseded": "[{0}] Ponowne uruchomienie anulowane: podczas zatrzymywania nadeszło inne polecenie.",
+  "session.logSunshineKillTimeout": "[{0}] Przekroczono limit czasu kończenia procesu Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Sesja Windows {1} nie zakończyła zamykania.",
+  "session.logFreeRdpStopped": "[{0}] Zatrzymano FreeRDP (PID {1}).",
+  "session.logStopWarning": "[{0}] Ostrzeżenie podczas zatrzymywania: {1}",
+  "session.logStopped": "[{0}] Zatrzymano."
 }
