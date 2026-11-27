@@ -1,3 +1,4 @@
+using OpenStreamMS.Services.Localization;
 using Microsoft.Win32;
 using OpenStreamMS.Core.Helpers;
 using System.Security.Principal;
@@ -37,23 +38,23 @@ internal static class ConsoleLockGuard
             {
                 if (!ConsoleSession.TryGetUser(out _, out var domain, out var user))
                 {
-                    Logger.Warning("[Seats] No hay usuario en la consola: no se puede impedir que se bloquee.");
+                    Logger.Warning(BackendText.Get("consoleLock.noConsoleUser"));
                     return;
                 }
                 string account = string.IsNullOrEmpty(domain) ? user : $@"{domain}\{user}";
                 string sid = new NTAccount(account).Translate(typeof(SecurityIdentifier)).Value;
                 using var key = Registry.Users.CreateSubKey($@"{sid}\{PolicyKey}", writable: true)
-                    ?? throw new InvalidOperationException("el registro del usuario no está cargado");
+                    ?? throw new InvalidOperationException(BackendText.Get("consoleLock.userHiveNotLoaded"));
                 int? previous = key.GetValue(ValueName) is int v ? v : null;
 
                 Directory.CreateDirectory(Path.GetDirectoryName(JournalPath)!);
                 File.WriteAllText(JournalPath, JsonSerializer.Serialize(new Saved(sid, account, previous)));
                 key.SetValue(ValueName, 1, RegistryValueKind.DWord);
-                Logger.Log($"[Seats] Bloqueo de la consola desactivado para '{account}' mientras haya puestos encendidos.");
+                Logger.Log(BackendText.Get("consoleLock.engaged", account));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Seats] No se pudo impedir el bloqueo de la consola: {ex.Message}");
+                Logger.Warning(BackendText.Get("consoleLock.engageFailed", ex.Message));
             }
         }
     }
@@ -67,22 +68,22 @@ internal static class ConsoleLockGuard
             try
             {
                 var saved = JsonSerializer.Deserialize<Saved>(File.ReadAllText(JournalPath))
-                    ?? throw new InvalidDataException("registro vacío");
+                    ?? throw new InvalidDataException(BackendText.Get("consoleLock.journalEmpty"));
                 using var key = Registry.Users.OpenSubKey($@"{saved.Sid}\{PolicyKey}", writable: true);
                 if (key is null && Registry.Users.OpenSubKey(saved.Sid) is null)
                 {
                     // El usuario no tiene sesión (hive descargado): se reintenta en el próximo arranque.
-                    Logger.Warning($"[Seats] '{saved.User}' no tiene sesión: el bloqueo se restaurará más tarde.");
+                    Logger.Warning(BackendText.Get("consoleLock.userNotLoggedOn", saved.User));
                     return;
                 }
                 if (saved.Previous is { } prev) key?.SetValue(ValueName, prev, RegistryValueKind.DWord);
                 else key?.DeleteValue(ValueName, throwOnMissingValue: false);
                 File.Delete(JournalPath);
-                Logger.Log($"[Seats] Bloqueo de la consola restaurado para '{saved.User}'.");
+                Logger.Log(BackendText.Get("consoleLock.released", saved.User));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Seats] No se pudo restaurar el bloqueo de la consola: {ex.Message}");
+                Logger.Warning(BackendText.Get("consoleLock.releaseFailed", ex.Message));
             }
         }
     }
