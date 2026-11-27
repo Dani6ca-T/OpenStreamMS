@@ -218,7 +218,7 @@ namespace OpenStreamMS.Core.Helpers
             try { return freeRdp(); }
             catch (Exception ex) when (ex is InvalidOperationException or TimeoutException)
             {
-                string msg = $"{ex.Message} Antes fallo mstsc: {mstscError.Message}";
+                string msg = BackendText.Get("rdp.mstscFailureContext", ex.Message, mstscError.Message);
                 throw ex is TimeoutException ? new TimeoutException(msg, ex) : new InvalidOperationException(msg, ex);
             }
         }
