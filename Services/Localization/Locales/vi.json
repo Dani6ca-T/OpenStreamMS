@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Không thể chuẩn bị Steam cho \"{0}\": {1}",
   "service.started": "[Service] OpenStreamMS đã khởi động. API khả dụng trên cổng đã cấu hình.",
   "service.multiRdpCheckFailed": "[Service] Kiểm tra Multi-RDP thất bại: {0}",
-  "service.stopped": "[Service] Đã dừng."
+  "service.stopped": "[Service] Đã dừng.",
+  "isolatedUser.winStationsKeyMissing": "Không tồn tại khóa registry Windows HKLM\\{0}.",
+  "isolatedUser.rdpTcpKeyMissing": "Không tồn tại khóa registry Windows HKLM\\{0}.",
+  "steamIsolation.userRegistryNotLoaded": "Hive registry của người dùng chưa được tải.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell không khả dụng.",
+  "steamIsolation.shortcutDescription": "Steam được cách ly khỏi các phiên khác (OpenStreamMS)"
 }
