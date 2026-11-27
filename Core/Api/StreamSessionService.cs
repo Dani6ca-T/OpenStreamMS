@@ -627,8 +627,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         session.FreeRdpPid   = clientPid;
         if (clientPid > 0) MuteRdpClientOnHost(session, clientPid);
         RdpSessionCreator.ApplyDisplayFrequency(rdpId, frameRate);
-        Logger.Log($"[{session.Name}] Pantalla RDP: {width}x{height} @ {frameRate} fps" +
-                   (microphone is null ? "." : $", micrófono '{microphone}'."), id);
+        Logger.Log(BackendText.Get("session.logRdpDisplay", session.Name, width, height, frameRate, microphone ?? BackendText.Get("session.none")), id);
     }
 
     /// <summary>Usuario de Windows de la sesión (el dedicado si está aislada).</summary>
