@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] 无法在 apps.json 中配置扩展应用：{0}",
   "sunshine.launching": "[Sunshine] 正在会话 {0} 中启动：{1} {2}",
   "sunshine.launchFailed": "[Sunshine] 启动失败：{0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] 无法从日志确认编码器；保持当前设置不变。"
+  "sunshine.encoderUnconfirmed": "[Sunshine] 无法从日志确认编码器；保持当前设置不变。",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json 不存在，正在使用 assets 模板。",
+  "sunshineCfg.appsCreated": "[SunshineCfg] 已创建启用 virtual-display 的 apps.json：{0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] 已更新启用 virtual-display 的 apps.json：{0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "apps.json 已配置 virtual-display，无需更改。",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] 已配置 Steam Big Picture（'{0}'），并使用非阻塞撤销操作：{1}",
+  "sunshineCfg.compositeBigPictureConfigured": "组合会话的 Big Picture 会在其所有会话中打开和关闭：{0}",
+  "sunshineCfg.extensionAppsUpdated": "已更新扩展应用（{0}）：{1}",
+  "sunshineCfg.powerAppsConfigured": "已配置 Reboot 和 Power Off 应用：{0}"
 }
