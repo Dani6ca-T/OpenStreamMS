@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Audio from '{1}' forwarded to the keyboard session '{2}'.",
   "compositeAudio.forwardFailed": "[{0}] Could not forward audio from '{1}': {2}",
   "hud.launched": "[HUD] Launched in Windows session {0} (PID {1}): Ctrl+Alt+H or Guide + Back.",
-  "hud.launchFailed": "[HUD] Could not launch in Windows session {0}: {1}"
+  "hud.launchFailed": "[HUD] Could not launch in Windows session {0}: {1}",
+  "compositeInput.routed": "[{0}] Keyboard and mouse routed to '{1}' (Windows session {2}).",
+  "compositeInput.routeFailed": "[{0}] Could not route keyboard and mouse to '{1}': {2}",
+  "compositeInput.writeFailed": "[{0}] Could not write {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Could not delete {1}: {2}"
 }
