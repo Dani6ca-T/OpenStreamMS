@@ -733,35 +733,5 @@ static void AttachParentConsole()
 
 static void PrintHelp()
 {
-    Console.WriteLine($"""
-        OpenStreamMS — Game Streaming Service
-
-        Uso:
-          OpenStreamMS.exe --run               Ejecutar el servicio con web y API REST
-          OpenStreamMS.exe --install           Instalar y registrar el servicio de Windows
-          OpenStreamMS.exe --uninstall         Detener y eliminar el servicio de Windows
-          OpenStreamMS.exe --remove-deps       Desinstalar ViGEmBus y HidHide
-          OpenStreamMS.exe --purge-data        Borrar los datos fuera de la carpeta del programa
-                                               (ProgramData, usuarios osms-, perfiles de stream, temporales)
-          OpenStreamMS.exe --tray              Mostrar icono en la bandeja del sistema
-          OpenStreamMS.exe --open              Abrir el panel en su ventana (y la bandeja)
-          OpenStreamMS.exe --diagnostics [salida.zip] [--days N]
-                                               Generar el paquete de diagnóstico (por defecto
-                                               en el escritorio, eventos de 3 días)
-          OpenStreamMS.exe --seat-agent <pipe> [--output \\.\DISPLAYn] [--no-audio]
-                                               Ejecutar agente de puesto en la sesión
-          OpenStreamMS.exe --seat-host <pipe>  Ejecutar presentador de puesto en la consola
-          OpenStreamMS.exe --help              Mostrar esta ayuda
-
-        Interfaz web:
-          http://localhost:<ApiPort>/          Panel de control (requiere login)
-          http://localhost:<ApiPort>/scalar/v1 Documentación API interactiva
-
-        Configuración (service.config.json):
-          SunshineExePath  — ruta a sunshine.exe (relativa o absoluta)
-          RdpBackground    — true para ocultar la ventana RDP (producción)
-          ApiPort          — puerto del servidor web/API (defecto: 5000)
-          AdminUsername    — usuario del panel web (se configura en el primer arranque)
-          LogLevel         — Error (defecto), Warning, Info u Off (también en el panel: Más → Ajustes)
-        """);
+    Console.WriteLine(BackendText.Get("cli.help"));
 }
