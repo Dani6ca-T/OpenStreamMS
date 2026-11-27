@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] ネイティブ分離で専用プロファイルが提供されるため、UseStreamProfile をスキップしました。",
   "session.logStreamProfileConfiguring": "[{0}] 専用ストリーミングプロファイルを設定しています...",
   "session.logStartFailed": "[{0}] 起動に失敗しました: {1}",
-  "session.logWebRtcUnsupported": "[{0}] 選択されたプロトコルには WebRTC が含まれていますが、設定された Sunshine ビルドは対応していません（sunshine-webrtc を使用してください）。Moonlight のみ動作します。"
+  "session.logWebRtcUnsupported": "[{0}] 選択されたプロトコルには WebRTC が含まれていますが、設定された Sunshine ビルドは対応していません（sunshine-webrtc を使用してください）。Moonlight のみ動作します。",
+  "session.logSaveFailed": "[SessionService] セッションを保存できませんでした: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] 読み取れないセッションファイルのバックアップを「{0}」に保存しました。",
+  "session.logUnreadableBackupFailed": "[SessionService] 読み取れないセッションファイルを退避できませんでした: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] 既存のセッションに WebRTC ポートを割り当てました。",
+  "session.logLoadFailed": "[SessionService] セッションを読み込めませんでした: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] 放棄された起動処理から Sunshine を停止中に警告: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Sunshine インスタンスは既に存在します: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] コピーされたテンプレート状態をクリーンアップできませんでした: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] 「{0}」のインスタンス権限を調整しました（config のみ書き込み可）: {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] {1} の「{0}」の権限を調整できませんでした: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] ファイアウォール ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine インスタンスを更新中: {1} → {2}（config/、ペアリング、認証情報、設定は保持されます）。"
 }
