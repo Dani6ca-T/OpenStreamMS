@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp n’est pas connecté ; lancement du présentateur autonome dans la session de console {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Aucun utilisateur n’est connecté à la console physique.",
   "seatHostControl.trayHostConnected": "[TrayApp] Connecté au canal de contrôle des hôtes de postes.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Erreur lors du traitement de la commande du poste : {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Erreur lors du traitement de la commande du poste : {0}",
+  "guideGuard.disabled": "[Seats] Bouton Guide : Game Bar de la manette désactivée pour {0} tant que des postes sont actifs.",
+  "guideGuard.disableFailed": "[Seats] Bouton Guide : impossible de désactiver la Game Bar de la manette pour {0} : {1}",
+  "guideGuard.restored": "[Seats] Bouton Guide : Game Bar de la manette restaurée pour {0}.",
+  "guideGuard.restoreFailed": "[Seats] Bouton Guide : impossible de restaurer la Game Bar de la manette pour {0} : {1}",
+  "handleBroker.openSourceFailed": "Échec d’OpenProcess pour le PID source {0}.",
+  "handleBroker.openTargetFailed": "Échec d’OpenProcess pour le PID cible {0}.",
+  "handleBroker.duplicateFailed": "Échec de DuplicateHandle du PID {0} vers le PID {1}.",
+  "seatStore.readFailed": "[Seats] Impossible de lire seats.json : {0}",
+  "seatStore.saveFailed": "[Seats] Impossible d’enregistrer seats.json : {0}",
+  "seatIpc.unexpectedClient": "[Seats] Canal {0} : processus client inattendu {1} rejeté.",
+  "seatIpc.notServicePipe": "Le canal n’appartient pas au service (processus {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Entrée reçue : clavier",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Entrée reçue : type={0} indicateurs={1:X} dx={2} dy={3} code={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Injection des entrées sur 10 s : {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s : envoyés={0} anneau_occupé={1} entrées={2} échecs_injection={3} dernière_erreur={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Latence de capture sur 10 s : {0}"
 }
