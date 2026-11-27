@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Sunshine-hitelesítő adatok visszaállítva; a Sunshine leállt, és automatikusan újraindul.",
   "session.logSunshineTemplateUpdated": "[{0}] A Sunshine-sablon megváltozott; példány frissítése: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Nem sikerült frissíteni a Sunshine-példányt: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] Nem sikerült hozzáadni a tűzfalszabályt: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] Nem sikerült hozzáadni a tűzfalszabályt: {0}",
+  "session.logLocalSessionDesktop": "[{0}] Helyi munkamenet: \"{1}\\\\{2}\" asztala (Windows-munkamenet: {3}).",
+  "session.logNativeIsolationActive": "[{0}] Natív elkülönítés aktív: dedikált felhasználó \"{1}\" (profil: {2}).",
+  "session.ephemeral": "ideiglenes",
+  "session.persistent": "állandó",
+  "session.logStreamProfileOmitted": "[{0}] UseStreamProfile kihagyva: a natív elkülönítés már külön profilt biztosít.",
+  "session.logStreamProfileConfiguring": "[{0}] Külön streamingprofil konfigurálása...",
+  "session.logStartFailed": "[{0}] Az indítás nem sikerült: {1}",
+  "session.logWebRtcUnsupported": "[{0}] A kiválasztott protokoll WebRTC-t tartalmaz, de a beállított Sunshine-build nem támogatja (használja a sunshine-webrtc buildet); csak a Moonlight fog működni."
 }
