@@ -1019,7 +1019,7 @@ namespace OpenStreamMS.Core.Helpers
                 using var videoKey = Registry.LocalMachine.OpenSubKey(videoBase);
                 if (videoKey is null)
                 {
-                    Logger.Warning($"[RDP] HKLM\\{videoBase} no encontrado.");
+                    Logger.Warning(BackendText.Get("rdp.videoRegistryKeyMissing", videoBase));
                     return;
                 }
 
@@ -1041,20 +1041,19 @@ namespace OpenStreamMS.Core.Helpers
 
                         monKey.SetValue("DefaultSettings.VRefresh", frameRate, RegistryValueKind.DWord);
                         var desc = GetAdapterDescription(monKey);
-                        Logger.Log($"[RDP] VRefresh={frameRate} → HKLM\\{subPath} ({desc})");
+                        Logger.Log(BackendText.Get("rdp.refreshRegistryValueApplied", frameRate, subPath, desc));
                         applied++;
                     }
                 }
 
                 if (applied == 0)
-                    Logger.Warning("[RDP] Ningun adaptador virtual RDP encontrado en Control\\Video — " +
-                                   "VRefresh no cambiado. La sesion usara la frecuencia default del driver.");
+                    Logger.Warning(BackendText.Get("rdp.noVirtualAdapterFound"));
                 else
-                    Logger.Log($"[RDP] VRefresh={frameRate} aplicado a {applied} adaptador(es) virtual(es).");
+                    Logger.Log(BackendText.Get("rdp.refreshAppliedToAdapters", frameRate, applied));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] Error estableciendo VRefresh en registro: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.refreshRegistryFailed", ex.Message));
             }
         }
 
@@ -1117,7 +1116,7 @@ namespace OpenStreamMS.Core.Helpers
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo resolver TEMP de la sesion {sessionId}: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.sessionTempResolveFailed", sessionId, ex.Message));
             }
 
             string reportLine = resultFile is null
