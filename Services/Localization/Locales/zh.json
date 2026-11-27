@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] 已配置 Steam Big Picture（'{0}'），并使用非阻塞撤销操作：{1}",
   "sunshineCfg.compositeBigPictureConfigured": "组合会话的 Big Picture 会在其所有会话中打开和关闭：{0}",
   "sunshineCfg.extensionAppsUpdated": "已更新扩展应用（{0}）：{1}",
-  "sunshineCfg.powerAppsConfigured": "已配置 Reboot 和 Power Off 应用：{0}"
+  "sunshineCfg.powerAppsConfigured": "已配置 Reboot 和 Power Off 应用：{0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] 已使用隔离配置文件环境更新 apps.json：{0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] 已在不使用隔离配置文件环境的情况下更新 apps.json：{0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort 必须大于 0。",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] 已将 gamepad_driver 从 osmspad 恢复为 vigembus：OsmsPad Xbox Series 控制器在流会话中会失去 XInput。",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] 已移除 capture = remoteidd：RemoteIdd 未在 RDP-Tcp 中启用，因此 Sunshine 使用默认捕获方式。",
+  "sunshineCfg.defaultsApplied": "已应用 OpenStreamMS 默认设置：{0}",
+  "sunshineCfg.configAlreadyCurrent": "sunshine.conf 已是最新状态：{0}",
+  "sunshineCfg.configUpdated": "已更新 sunshine.conf（{0}）：{1}",
+  "sunshineCfg.configValuesUpdated": "已更新 sunshine.conf（{0}）：{1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json：凭据已是最新状态（用户={0}）",
+  "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json：凭据已是最新状态；已清理 root（用户={0}）",
+  "sunshineCfg.credentialsSet": "sunshine_state.json：已设置凭据（用户={0}）"
 }
