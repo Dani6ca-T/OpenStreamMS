@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Seats;
 
@@ -32,7 +33,7 @@ internal static class ConsoleShare
     public static void SetVirtual((int X, int Y, int W, int H)? rect)
     {
         _virtualRect = rect is { } r ? Rect(r) : null;
-        Logger.Log($"[ConsoleShare] Pantalla virtual de la consola: {Describe(_virtualRect)}.");
+        Logger.Log(BackendText.Get("consoleShare.virtualScreen", Describe(_virtualRect)));
         if (!SeatInputRouter.CursorFrozen) ReleaseClip();
     }
 
@@ -57,7 +58,7 @@ internal static class ConsoleShare
                 rc = Rect(seat),
             };
             if (!_parts.ContainsKey(seatId) && SHAppBarMessage(ABM_NEW, ref abd) == 0)
-                Logger.Warning("[ConsoleShare] El shell no aceptó la barra de aplicación del puesto.");
+                Logger.Warning(BackendText.Get("consoleShare.appBarRejected"));
             SHAppBarMessage(ABM_QUERYPOS, ref abd);
             abd.rc = Rect(seat);   // la mitad entera, aunque el shell proponga dejar sitio a la barra de tareas
             SHAppBarMessage(ABM_SETPOS, ref abd);
@@ -65,7 +66,7 @@ internal static class ConsoleShare
             _parts[seatId] = new Part(area, hwnd, Rect(monitor));
             Recompute();
         }
-        Logger.Log($"[ConsoleShare] Monitor principal dividido: puesto en {area}, consola en {Describe(_consoleRect)}.");
+        Logger.Log(BackendText.Get("consoleShare.primarySplit", area, Describe(_consoleRect)));
     }
 
     public static void Remove(Guid seatId)
@@ -77,7 +78,7 @@ internal static class ConsoleShare
             SHAppBarMessage(ABM_REMOVE, ref abd);
             Recompute();
         }
-        Logger.Log($"[ConsoleShare] Puesto fuera del monitor principal; consola en {Describe(_consoleRect)}.");
+        Logger.Log(BackendText.Get("consoleShare.seatRemoved", Describe(_consoleRect)));
     }
 
     /// <summary>Reaplica el recorte del cursor de la consola si Windows lo ha quitado.</summary>
