@@ -42,13 +42,13 @@ public static class DiagnosticsEndpoints
                         ExtraUsers: [cfg.AdminUsername]);
                     await Task.Run(() => DiagnosticsBundle.Write(stream, src, d));
                     fs.Position = 0;
-                    Logger.Log($"[Diag] Paquete de diagnóstico generado ({fs.Length / 1024} KB, eventos de {d} día(s)).");
+                    Logger.Log(BackendText.Get("diagnostics.logGenerated", fs.Length / 1024, d));
                     return Results.File(fs, "application/zip", $"openstreamms-diag-{DateTime.Now:yyyyMMdd-HHmmss}.zip");
                 }
                 catch (Exception ex)
                 {
                     fs?.Dispose();
-                    Logger.Error($"[Diag] No se pudo generar el paquete de diagnóstico: {ex.Message}");
+                    Logger.Error(BackendText.Get("diagnostics.logGenerateFailed", ex.Message));
                     return Results.Problem(ex.Message);
                 }
                 finally { Interlocked.Exchange(ref _busy, 0); }
