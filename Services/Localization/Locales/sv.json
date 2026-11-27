@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Steam-åtgärden '{1}' misslyckades i Windows-session {2}: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' i {2} session(er).",
   "composite.steamOpen": "öppna",
-  "composite.steamClose": "stänga"
+  "composite.steamClose": "stänga",
+  "gamepad.hidHideNotOpen": "HidHide är inte öppet av isoleringstjänsten; ViGEm-handkontrollen isoleras när den dyker upp.",
+  "gamepad.deviceArrivalWatchUnavailable": "Det går inte att övervaka när enheter ansluts; kontroll sker endast varje sekund.",
+  "gamepad.hidHideNotInstalled": "HidHide är inte installerat: handkontroller är synliga i alla sessioner.",
+  "gamepad.hidHideEnabled": "HidHide aktiverat.",
+  "gamepad.hidHideConfigureFailed": "Det gick inte att konfigurera HidHide: {0}",
+  "gamepad.monitorFailed": "Fel vid övervakning av handkontroller: {0}"
 }
