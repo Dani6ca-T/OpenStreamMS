@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) selhalo: {1}",
   "rdp.mstscReconnectFailedFallback": "mstsc selhal při opětovném připojení ({0}); opakuje se pokus přes FreeRDP…",
   "rdp.reconnectWrongSession": "Opětovné připojení skončilo v relaci {0} místo {1}.",
-  "rdp.sessionReconnected": "Relace {0} byla znovu připojena za {1} ms."
+  "rdp.sessionReconnected": "Relace {0} byla znovu připojena za {1} ms.",
+  "rdp.freeRdpClientDisconnected": "Klient FreeRDP byl odpojen; relace {0} zůstává aktivní (VDD).",
+  "rdp.disconnectSessionWarning": "Upozornění WTSDisconnectSession: {0}",
+  "rdp.logoffFailed": "WTSLogoffSession relace {0} selhalo: {1}",
+  "rdp.logoffCompleted": "Relace {0} byla odhlášena za {1} ms.",
+  "rdp.logoffSessionCompleted": "Relace {0} byla odhlášena.",
+  "rdp.logoffWarning": "Upozornění WTSLogoffSession (relace {0}): {1}"
 }
