@@ -318,5 +318,14 @@
   "seats.managerStarted": "Plats hanteraren startad ({0} plats(er)).",
   "seats.multiRdpCheckTimeout": "Multi-RDP-kontrollen slutfördes inte inom 120 s; platserna startas ändå automatiskt.",
   "seats.autoStartSameConsoleUser": "'{0}' startas inte automatiskt: använder samma användare som konsolen.",
-  "seats.autoStartFailed": "Automatisk start av '{0}' misslyckades: {1}"
+  "seats.autoStartFailed": "Automatisk start av '{0}' misslyckades: {1}",
+  "seats.monitorBusy": "Skärmen används av platsen ”{0}”.",
+  "seats.created": "Platsen ”{0}” skapades.",
+  "seats.deleted": "Platsen ”{0}” togs bort.",
+  "seats.microphoneAlreadyAssigned": "Mikrofonen är redan tilldelad platsen ”{0}”.",
+  "seats.monitorActivationFailed": "”{0}”: det gick inte att aktivera skärmen; den visas ändå om den redan var aktiv.",
+  "seats.devicesAssigned": "”{0}”: {1} enhet(er) tilldelade till session {2}.",
+  "seats.devicePortEmpty": "”{0}”: inget är anslutet till porten för ”{1}” ({2}, {3}). Om du flyttade den till en annan port, hubb eller docka, tilldela den igen.",
+  "seats.started": "Platsen ”{0}” är aktiv.",
+  "seats.startFailed": "Platsen ”{0}” kunde inte startas: {1}"
 }
