@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession для сеансу {0} завершився помилкою: {1}",
   "rdp.logoffCompleted": "Сеанс {0} завершено (вихід) за {1} мс.",
   "rdp.logoffSessionCompleted": "Сеанс {0} завершено (вихід).",
-  "rdp.logoffWarning": "Попередження WTSLogoffSession (сеанс {0}): {1}"
+  "rdp.logoffWarning": "Попередження WTSLogoffSession (сеанс {0}): {1}",
+  "rdp.startFreeRdp": "Запуск FreeRDP ({0}x{1}, {2} fps, {3} bpp, масштаб {4}%, без gfx)…",
+  "rdp.freeRdpExecutableMissing": "Не вдалося запустити wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP завершився з ExitCode={0} (0x{1:X}), не створивши сеанс для «{2}». {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Сеанс для «{0}» не з’явився за 30 секунд. Перевірте ім’я користувача й пароль, чи ввімкнено віддалений робочий стіл і чи входить користувач до групи користувачів віддаленого робочого столу.",
+  "rdp.startMstsc": "Запуск mstsc ({0}x{1}, {2} fps, {3} bpp, масштаб {4}%, апаратний AVC444)…",
+  "rdp.mstscExecutableMissing": "Не вдалося запустити mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc завершився з ExitCode={0}, не створивши сеанс для «{1}». Можливе невидиме вікно сертифіката/облікових даних або відмова NLA.",
+  "rdp.mstscSessionTimeout": "Сеанс для «{0}» не з’явився за 30 секунд через mstsc. Можливе невидиме діалогове вікно в Session 0."
 }
