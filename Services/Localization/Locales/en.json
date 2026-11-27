@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] '{0}': {1} remains visible in Windows (could not switch it to WinUSB).",
   "padCapture.captured": "[PadCapture] '{0}': controller on {1} removed from Windows ({2} controller(s) and {3} additional interface(s) on WinUSB); delivered to session {4} as a virtual controller.",
   "padCapture.restored": "[PadCapture] '{0}': returned {1} controller interface(s) to Windows.",
-  "steamXboxFilter.removed": "[Gamepad] Removed Steam filter {0} from {1} controller class(es) while isolated controllers are active. New devices are no longer exposed to every session through \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Removed Steam filter {0} from {1} controller class(es) while isolated controllers are active. New devices are no longer exposed to every session through \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Could not remove Steam filter {0}: {1}. Steam in other sessions (including the console) may still read isolated controllers.",
   "steamXboxFilter.restored": "[Gamepad] Restored Steam filter {0} on {1} controller class(es); no isolated controllers remain in other sessions.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Could not restore Steam filter {0}: {1}. It will be retried when the service next starts."
