@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] \"{0}\" için örnek izinleri ayarlandı (yazma yalnızca config için): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] {1} konumunda \"{0}\" izinleri ayarlanamadı: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Güvenlik duvarı ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Sunshine örneği güncelleniyor: {1} → {2} (config/, eşleştirmeler, kimlik bilgileri ve ayarlar korunur)."
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine örneği güncelleniyor: {1} → {2} (config/, eşleştirmeler, kimlik bilgileri ve ayarlar korunur).",
+  "session.logHudEnsureFailed": "[HUD] HUD başlatılamadı: {0}"
 }
