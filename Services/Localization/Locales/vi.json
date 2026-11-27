@@ -460,5 +460,6 @@
   "error.seatName": "Tên chỗ là bắt buộc.",
   "error.stopSeat": "Hãy dừng chỗ trước khi thay đổi cấu hình.",
   "error.primaryMonitor": "Không thể gán màn hình chính cho một chỗ.",
-  "error.assigned": "Tài nguyên đã chọn đã được gán."
+  "error.assigned": "Tài nguyên đã chọn đã được gán.",
+  "composite.logMemberAssignedToSlot": "[{0}] Đã gán \"{1}\" vào ô {2} ({3}x{4})."
 }
