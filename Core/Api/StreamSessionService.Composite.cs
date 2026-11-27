@@ -77,8 +77,7 @@ public partial class StreamSessionService
         };
         EnsurePortsAvailable(session, _sessions.Values);
         _sessions[session.Id] = session;
-        Logger.Log($"[SessionService] Sesión compuesta creada: '{session.Name}' ({session.Id}) con " +
-                   string.Join(", ", slots.Select(s => $"{_sessions[s.Session].Name} ({s.Area})")));
+        Logger.Log(BackendText.Get("composite.created", session.Name, session.Id, string.Join(", ", slots.Select(s => $"{_sessions[s.Session].Name} ({s.Area})"))));
         SaveSessions();
         return session;
     }
@@ -108,7 +107,7 @@ public partial class StreamSessionService
         if (def.StreamPort > 0) session.SunshineStreamPort = def.StreamPort;
         EnsurePortsAvailable(session, _sessions.Values);
         _sunshine.TryRemove(id, out _);   // el siguiente arranque escribe la configuración nueva
-        Logger.Log($"[{session.Name}] Sesión compuesta modificada.", id);
+        Logger.Log(BackendText.Get("composite.updated", session.Name), id);
         SaveSessions();
         return session;
     }
@@ -168,7 +167,7 @@ public partial class StreamSessionService
             c.StartPhase = "members";
             foreach (var m in members.Where(m => m.State is not (SessionState.Running or SessionState.Starting)))
             {
-                Logger.Log($"[{c.Name}] Arrancando '{m.Name}' para la sesión compuesta…", c.Id);
+                Logger.Log(BackendText.Get("composite.startingMember", c.Name, m.Name), c.Id);
                 Start(m.Id);
                 lock (started) started.Add(m.Id);
             }
@@ -191,7 +190,7 @@ public partial class StreamSessionService
             var user = ResolveUser(owner);
             EnsureSunshineInstance(c, user.Domain, user.Username);
             try { Services.Sunshine.SunshineConfigurator.ConfigureCompositeSteamEntry(GetSunshineInstanceExe(c.Id), c.Id); }
-            catch (Exception ex) { Logger.Warning($"[{c.Name}] No se pudo configurar la app Steam de la sesión compuesta: {ex.Message}", c.Id); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("composite.steamConfigFailed", c.Name, ex.Message), c.Id); }
             var result = GetOrCreateSunshineManager(c).EnsureRunning(c.RdpSessionId);
             c.SunshinePid = result.Pid;
             if (result.Status == Services.Sunshine.SunshineRunStatus.LaunchFailed)
@@ -210,11 +209,10 @@ public partial class StreamSessionService
             }
             if (!running)
             {
-                Logger.Log($"[{c.Name}] Inicio abortado (sesión detenida mientras arrancaba).", c.Id);
+                Logger.Log(BackendText.Get("composite.startAborted", c.Name), c.Id);
                 return;
             }
-            Logger.Log($"[{c.Name}] Sesión compuesta activa: {string.Join(", ", members.Select(m => m.Name))}; " +
-                       $"teclado y ratón de '{owner.Name}' (sesión de Windows {c.RdpSessionId}).", c.Id);
+            Logger.Log(BackendText.Get("composite.started", c.Name, string.Join(", ", members.Select(m => m.Name)), owner.Name, c.RdpSessionId), c.Id);
             EnsureCompositeAudio(c);
             EnsureCompositeInput(c);
         }
@@ -288,7 +286,7 @@ public partial class StreamSessionService
         StopCompositeAudio(c);
         StopCompositeInput(c, restarting);
         try { File.Delete(Path.Combine(SunshineConfigDir(c.Id), MosaicLayout.FileName)); }
-        catch (Exception ex) { Logger.Warning($"[{c.Name}] No se pudo borrar {MosaicLayout.FileName}: {ex.Message}", c.Id); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("composite.deleteFileFailed", c.Name, MosaicLayout.FileName, ex.Message), c.Id); }
 
         _compositeApplied.TryRemove(c.Id, out var applied);
         HashSet<Guid>? started = null;
@@ -301,7 +299,7 @@ public partial class StreamSessionService
             m.CompositeOf = null;
             if (started is not null && started.Contains(m.Id))
             {
-                Logger.Log($"[{c.Name}] Parando '{m.Name}', que arrancó la sesión compuesta.", c.Id);
+                Logger.Log(BackendText.Get("composite.stoppingMember", c.Name, m.Name), c.Id);
                 if (ownedByUs) ResumeSunshine(m.Id);
                 if (m.State is SessionState.Running or SessionState.Starting)
                     _ = Task.Run(() => { try { Stop(m.Id); } catch { } });
@@ -312,7 +310,7 @@ public partial class StreamSessionService
                 size != (m.RdpWidth, m.RdpHeight))
             {
                 try { ReconnectRdp(m.Id, m.RdpWidth, m.RdpHeight, m.RdpFrameRate); }
-                catch (Exception ex) { Logger.Warning($"[{c.Name}] '{m.Name}' no pudo volver a su resolución: {ex.Message}", c.Id); }
+                catch (Exception ex) { Logger.Warning(BackendText.Get("composite.restoreResolutionFailed", c.Name, m.Name, ex.Message), c.Id); }
             }
             ResumeSunshine(m.Id);
         }
@@ -335,7 +333,7 @@ public partial class StreamSessionService
                 var ownerId = c.CompositeInput ?? c.Composite![0].Session;
                 if (!_sessions.TryGetValue(ownerId, out var owner) || owner.State != SessionState.Running || owner.RdpSessionId == 0)
                 {
-                    Logger.Warning($"[{c.Name}] La sesión del teclado se ha parado: se para la sesión compuesta.", c.Id);
+                    Logger.Warning(BackendText.Get("composite.keyboardStopped", c.Name), c.Id);
                     _ = Task.Run(() => { try { Stop(c.Id); } catch { } });
                     continue;
                 }
@@ -364,7 +362,7 @@ public partial class StreamSessionService
 
                 if (owner.RdpSessionId != c.RdpSessionId)
                 {
-                    Logger.Log($"[{c.Name}] La sesión del teclado pasó a la sesión de Windows {owner.RdpSessionId}: se relanza Sunshine.", c.Id);
+                    Logger.Log(BackendText.Get("composite.keyboardSessionChanged", c.Name, owner.RdpSessionId), c.Id);
                     RelaunchSunshine(c, "cambio de sesión de Windows");
                     c.RdpSessionId = owner.RdpSessionId;
                     Interlocked.Increment(ref _compositeGeneration);
@@ -372,7 +370,7 @@ public partial class StreamSessionService
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[{c.Name}] Error vigilando la sesión compuesta: {ex.Message}", c.Id);
+                Logger.Warning(BackendText.Get("composite.watchFailed", c.Name, ex.Message), c.Id);
             }
         }
     }
@@ -406,7 +404,7 @@ public partial class StreamSessionService
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[{c.Name}] No se pudo preparar la imagen de espera del hueco {index + 1}: {ex.Message}", c.Id);
+            Logger.Warning(BackendText.Get("composite.waitingImageFailed", c.Name, index + 1, ex.Message), c.Id);
             return null;
         }
     }
@@ -439,10 +437,10 @@ public partial class StreamSessionService
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[{c.Name}] No se pudo {(open ? "abrir" : "cerrar")} Steam en la sesión de Windows {windowsSession}: {ex.Message}", c.Id);
+                Logger.Warning(BackendText.Get("composite.steamActionFailed", c.Name, open ? "open" : "close", windowsSession, ex.Message), c.Id);
             }
         }
-        Logger.Log($"[{c.Name}] Steam Big Picture {(open ? "abierto" : "cerrado")} en {launched} sesión(es).", c.Id);
+        Logger.Log(BackendText.Get("composite.steamActionDone", c.Name, open ? "open" : "close", launched), c.Id);
         return launched;
     }
 
