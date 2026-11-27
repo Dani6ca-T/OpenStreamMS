@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Запуск отменён до начала (поступила другая команда).",
   "session.logCreatingRdpSession": "[{0}] Запуск сеанса RDP для пользователя «{1}»...",
   "session.logSunshineLaunchFailed": "[{0}] Не удалось запустить Sunshine: {1}",
-  "session.logAutoStartFailed": "[{0}] Не удалось выполнить автозапуск: {1}"
+  "session.logAutoStartFailed": "[{0}] Не удалось выполнить автозапуск: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Запуск отменён (сеанс остановлен во время создания RDP).",
+  "session.logRdpSessionReused": "[{0}] Используется существующий сеанс RDP; новый клиент RDP не запускался.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Запуск отменён (сеанс остановлен во время запуска Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Сеанс активен (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Запуск отменён (сеанс остановлен после завершения запуска).",
+  "session.logWaitingForConsoleUser": "[{0}] Сеанс запустится, когда кто-нибудь войдёт в Windows.",
+  "session.logLocalSessionActive": "[{0}] Локальный сеанс активен (сеанс Windows {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Учётные данные Sunshine сброшены; Sunshine остановлен и будет запущен автоматически.",
+  "session.logSunshineTemplateUpdated": "[{0}] Шаблон Sunshine изменился; обновление экземпляра: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Не удалось обновить экземпляр Sunshine: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Не удалось добавить правило брандмауэра: {0}"
 }
