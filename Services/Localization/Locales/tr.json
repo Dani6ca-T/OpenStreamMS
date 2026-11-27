@@ -171,5 +171,13 @@
   "power.noPending": "İptal edilecek bekleyen kapatma yok ({0}).",
   "power.shutdownFailed": "shutdown.exe hatası: {0}",
   "power.scheduled": "{0}, {1} sn sonra planlandı.",
-  "settings.logLevelChanged": "Günlük düzeyi: {0} → {1}."
+  "settings.logLevelChanged": "Günlük düzeyi: {0} → {1}.",
+  "seat.restartSession": "[Koltuklar] '{0}' koltuğunun '{1}' oturumu koltuk kapatılmadan yeniden başlatılıyor.",
+  "seat.restartSizeMismatch": "Oturum {2}x{3} yerine {0}x{1} boyutunda geri döndü.",
+  "seat.restartSessionDone": "[Koltuklar] '{0}': oturum yeniden başlatıldı; koltuk Windows {1} oturumunda kalıyor.",
+  "seat.restartSessionFailed": "[Koltuklar] '{0}': koltuk kapatılmadan oturum yeniden başlatılamadı ({1}); koltuk yeniden oluşturulacak.",
+  "seat.restartSeatFailed": "[Koltuklar] '{0}': koltuk yeniden başlatılamadı: {1}",
+  "seat.waitingImageFailed": "[Koltuklar] '{0}': bekleme görüntüsü gösterilemedi: {1}",
+  "seat.sessionDidNotRestart": "Oturum yeniden başlamadı.",
+  "seat.sessionRestartTimeout": "Oturum yeniden başlatma zaman aşımına uğradı."
 }
