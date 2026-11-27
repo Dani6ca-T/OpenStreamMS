@@ -273,5 +273,11 @@
   "rdp.startMstsc": "Запуск mstsc ({0}x{1}, {2} fps, {3} bpp, масштаб {4}%, аппаратный AVC444)…",
   "rdp.mstscExecutableMissing": "Не удалось запустить mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc завершился с ExitCode={0}, не создав сеанс для «{1}». Возможен невидимый диалог сертификата/учётных данных или отказ NLA.",
-  "rdp.mstscSessionTimeout": "Сеанс для «{0}» не появился за 30 секунд при использовании mstsc. Возможно, в Session 0 скрыто диалоговое окно."
+  "rdp.mstscSessionTimeout": "Сеанс для «{0}» не появился за 30 секунд при использовании mstsc. Возможно, в Session 0 скрыто диалоговое окно.",
+  "rdp.cmdkeyFailed": "Ошибка cmdkey {0}: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP завершился преждевременно. ExitCode={0}",
+  "rdp.sessionDetected": "Сеанс обнаружен на попытке {0} ({1}): {2} (PID FreeRDP={3})",
+  "rdp.sessionModeRelaxed": "расширенный режим",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Ожидание сеанса… попытка {0}/20"
 }
