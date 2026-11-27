@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Премахната е изолацията на контролерите в HidHide; филтърът steamxbox на Steam е възстановен.",
   "uninstall.seatsRestored": "Възстановени са клавиатурите/мишките на работните места, защитата на конзолата, правото за изключване и настройката за една сесия на потребител.",
   "uninstall.trayRemoved": "Иконата в системната област е премахната от автоматичното стартиране.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Изпълним файл:",
+  "install.configPath": "Конфигурация:"
 }
