@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Comprimento inválido da mensagem do canal: {0} bytes.",
   "seatIpc.invalidJsonObject": "O conteúdo JSON não é um objeto.",
   "seatHost.frameLatencyName": "composição→ecrã",
-  "seatHost.cursorLatencyName": "entrada→ecrã"
+  "seatHost.cursorLatencyName": "entrada→ecrã",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "A enviar áudio da sessão Windows {0}: {1}",
+  "audioRelay.playing": "A reproduzir em '{0}': {1}",
+  "audioRelay.invalidHeader": "Cabeçalho do relé de áudio inválido.",
+  "audioRelay.noOutputDevice": "A sessão do teclado não tem um dispositivo de saída de áudio.",
+  "audioRelay.invalidBlock": "Bloco de áudio inválido.",
+  "inputRelay.started": "[InputRelay] Relé de teclado e rato da sessão composta para a sessão Windows {0} ({1}).",
+  "inputRelay.createFailed": "Não foi possível criar {0}: {1}",
+  "inputRelay.invalidHeader": "Cabeçalho do relé de entrada inválido.",
+  "inputRelay.invalidBatch": "Lote de entrada inválido.",
+  "osmsPad.openFailed": "[OsmsPad] Não foi possível abrir o controlador: erro {0}.",
+  "vigem.openFailed": "[PadCapture] Não foi possível abrir o ViGEmBus: {0}"
 }
