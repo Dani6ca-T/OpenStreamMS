@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "試行 {0} 回目（{1}）でセッションを検出：{2}（FreeRDP PID={3}）",
   "rdp.sessionModeRelaxed": "緩和モード",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "セッションを待機中… 試行 {0}/20"
+  "rdp.waitingSession": "セッションを待機中… 試行 {0}/20",
+  "rdp.frameRateConfigured": "フレームレート={0} fps | 間隔={1} ms（合成 {2} Hz、{3}）",
+  "rdp.remoteIddModeConfigured": "RemoteIdd：{0}x{1} @ {2} Hz、スケール {3}%。",
+  "rdp.betterRdpPoliciesApplied": "BetterRDP ポリシーを適用しました。",
+  "rdp.mstscClientPoliciesApplied": "mstsc クライアントポリシーを適用しました（接続前ダイアログなし）。",
+  "rdp.mstscClientPoliciesFailed": "mstsc の HKCU ポリシーを適用できませんでした：{0}"
 }
