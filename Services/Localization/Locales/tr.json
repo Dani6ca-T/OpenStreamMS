@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Başlatma başlamadan iptal edildi (başka bir komut geldi).",
   "session.logCreatingRdpSession": "[{0}] \"{1}\" kullanıcısı için RDP oturumu başlatılıyor...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine başlatılamadı: {1}",
-  "session.logAutoStartFailed": "[{0}] Otomatik başlatma başarısız: {1}"
+  "session.logAutoStartFailed": "[{0}] Otomatik başlatma başarısız: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Başlatma iptal edildi (RDP oluşturulurken oturum durduruldu).",
+  "session.logRdpSessionReused": "[{0}] Mevcut RDP oturumu yeniden kullanıldı; yeni bir RDP istemcisi başlatılmadı.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Başlatma iptal edildi (Sunshine başlatılırken oturum durduruldu).",
+  "session.logSessionActiveRdp": "[{0}] Oturum etkin (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Başlatma iptal edildi (başlatma tamamlandıktan sonra oturum durduruldu).",
+  "session.logWaitingForConsoleUser": "[{0}] Birisi Windows’ta oturum açtığında başlatılacak.",
+  "session.logLocalSessionActive": "[{0}] Yerel oturum etkin (Windows oturumu {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine kimlik bilgileri sıfırlandı; Sunshine durduruldu ve otomatik olarak yeniden başlatılacak.",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine şablonu değişti; örnek güncelleniyor: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine örneği güncellenemedi: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Güvenlik duvarı kuralı eklenemedi: {0}"
 }
