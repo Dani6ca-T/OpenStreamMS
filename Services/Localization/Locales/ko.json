@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "TermService 실행을 보장할 수 없습니다: {0}. 원격 데스크톱이 꺼져 있으면 루프백 연결이 실패합니다. 시스템 → 원격 데스크톱에서 켜거나 Windows를 다시 시작하세요.",
   "rdp.registryKeyOpenFailed": "HKLM\\\\{0}을(를) 열 수 없습니다",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "HKLM\\\\{1}에 {0}을(를) 쓸 수 없습니다: {2}"
+  "rdp.registryWriteFailed": "HKLM\\\\{1}에 {0}을(를) 쓸 수 없습니다: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP가 아무것도 출력하지 않았습니다.",
+  "rdp.freeRdpOutputPrefix": "FreeRDP 출력: "
 }
