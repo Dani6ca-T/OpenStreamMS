@@ -339,5 +339,13 @@
   "seats.rawInputShared": "„{0}”: a(z) {1} továbbra is megosztott a konzollal (Raw Input).",
   "seats.usbEventsSent": "{0} esemény elküldve a(z) „{1}” ügynöknek (utolsó: típus={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Nem sikerült bemenetet küldeni a(z) „{0}” ügynöknek: {1}",
-  "seats.inputInterfacesCaptured": "„{0}”: {1}/{2} bemeneti felület elkülönítve a konzoltól."
+  "seats.inputInterfacesCaptured": "„{0}”: {1}/{2} bemeneti felület elkülönítve a konzoltól.",
+  "seats.consoleVirtualDisplayMissing": "A virtuális kijelző nem jelent meg a konzolon.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Nem sikerült elsődlegessé tenni a virtuális kijelzőt.",
+  "seats.consoleAreaApplied": "A konzol a(z) „{1}” {0}. részét használja saját {2}x{3} képernyővel. Letakart rész: {4}",
+  "seats.consoleAreaFallback": "Nem sikerült a konzolnak adni a saját részét ({0}); a tartalék megoldás marad.",
+  "seats.consoleMonitorRestoreFailed": "Nem sikerült visszaadni az elsődleges monitort a konzolnak; a virtuális kijelző eltávolításakor helyreáll.",
+  "seats.consoleMonitorRestored": "A konzol ismét a teljes monitorát használja.",
+  "seats.sessionLocked": "„{0}”: a munkamenet zárolva; a(z) „{1}” jelszava szükséges lesz.",
+  "seats.sessionLockFailed": "„{0}”: nem sikerült zárolni a munkamenetet: {1}"
 }
