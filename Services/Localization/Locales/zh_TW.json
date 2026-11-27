@@ -53,7 +53,7 @@
   "driver.uninstalled": "{0} 解除安裝成功。",
   "driver.cancelled": "使用者取消。",
   "driver.rebootToFinish": "請重新啟動 Windows 以完成 {0} 的安裝。",
-  "driver.rebootThenReinstall": "必須重新啟動 Windows：在重新啟動並重新安裝 {0} 之前，{0} 無法使用。",
+  "driver.rebootThenReinstall": "必須重新啟動 Windows：重新啟動 Windows 並重新安裝後，{0} 才能正常運作。",
   "driver.fatalError": "安裝嚴重錯誤。請檢查 Windows Installer 記錄。",
   "driver.unknownExitCode": "未知結束代碼。",
   "driver.currentStatus": "目前狀態: installed={0}; version={1}; service={2}",
