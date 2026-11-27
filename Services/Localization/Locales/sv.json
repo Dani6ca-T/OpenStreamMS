@@ -273,5 +273,11 @@
   "rdp.startMstsc": "Startar mstsc ({0}x{1}, {2} fps, {3} bpp, skala {4}%, AVC444-hårdvara)…",
   "rdp.mstscExecutableMissing": "Det gick inte att starta mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc avslutades med ExitCode={0} utan att skapa en session för ”{1}”. Möjlig osynlig certifikat-/inloggningsdialog eller NLA-avslag.",
-  "rdp.mstscSessionTimeout": "Sessionen för ”{0}” visades inte efter 30 sekunder med mstsc. En dialogruta kan vara osynlig i Session 0."
+  "rdp.mstscSessionTimeout": "Sessionen för ”{0}” visades inte efter 30 sekunder med mstsc. En dialogruta kan vara osynlig i Session 0.",
+  "rdp.cmdkeyFailed": "cmdkey {0} misslyckades: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP avslutades i förtid. ExitCode={0}",
+  "rdp.sessionDetected": "Session upptäckt vid försök {0} ({1}): {2} (FreeRDP PID={3})",
+  "rdp.sessionModeRelaxed": "utökat läge",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Väntar på session… försök {0}/20"
 }
