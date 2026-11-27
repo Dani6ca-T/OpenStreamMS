@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Configuración de la sesión actualizada.",
   "session.logRestartAfterConfigFailed": "No se pudo reiniciar la sesión tras actualizar la configuración: {0}",
   "session.alreadyInState": "La sesión ya está en el estado {0}.",
-  "error.request": "No se pudo completar la solicitud."
+  "error.request": "No se pudo completar la solicitud.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Mirror diferido de sunshine_state.json completado tras el cambio de emparejamientos.",
+  "session.logPairingStateMirrorFailed": "[{0}] Error en el mirror diferido de sunshine_state.json tras el cambio de emparejamientos: {1}",
+  "session.logAutoStartingEnabled": "Autoarrancando {0} sesión(es) habilitada(s)...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Sesión de Windows detectada ({1}); iniciando la sesión local.",
+  "session.logConsoleSessionStartFailed": "[{0}] No se pudo iniciar tras el inicio de sesión en Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Error de monitorización: {1}",
+  "session.logLoadedFromDisk": "[SessionService] {0} sesión(es) cargadas desde disco.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Aviso al cerrar la sesión de Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Inicio abandonado antes de comenzar (llegó otra orden).",
+  "session.logCreatingRdpSession": "[{0}] Iniciando sesión RDP para el usuario \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine no pudo arrancar: {1}",
+  "session.logAutoStartFailed": "[{0}] No se pudo iniciar automáticamente: {1}"
 }
