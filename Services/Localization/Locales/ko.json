@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "기본 모니터를 콘솔로 반환할 수 없습니다. 가상 디스플레이를 제거하면 복구됩니다.",
   "seats.consoleMonitorRestored": "콘솔이 다시 전체 모니터를 사용합니다.",
   "seats.sessionLocked": "'{0}': 세션이 잠겼습니다. '{1}'의 암호가 필요합니다.",
-  "seats.sessionLockFailed": "'{0}': 세션을 잠글 수 없습니다: {1}"
+  "seats.sessionLockFailed": "'{0}': 세션을 잠글 수 없습니다: {1}",
+  "seats.sessionDisconnectedFromSeat": "'{0}': 좌석에서 세션 연결이 끊겼습니다. OpenStreamMS에서 다시 켤 때까지 좌석을 종료합니다.",
+  "seats.stopAfterDisconnectFailed": "'{0}': 연결 해제 후 중지할 수 없습니다: {1}",
+  "seats.windowsSessionChanged": "'{0}': Windows 세션이 {1}에서 {2}(으)로 변경되어 컨트롤러를 다시 할당합니다.",
+  "seats.monitorModeChanged": "'{0}': 모니터 모드가 변경되어 세션을 다시 조정합니다.",
+  "seats.readjustFailed": "좌석을 다시 조정할 수 없습니다: {0}",
+  "seats.agentDisconnected": "'{0}': 세션 에이전트 연결이 끊겼습니다.",
+  "seats.presenterDisconnected": "'{0}': 콘솔 프레젠터 연결이 끊겼습니다.",
+  "seats.consoleAreaLost": "콘솔 영역의 영상이 끊겼습니다({0}). 콘솔 모니터를 복구합니다.",
+  "seats.seatLost": "좌석 '{0}' 종료 중: {1}.",
+  "seats.stopAfterLossFailed": "'{0}': 중단 후 종료할 수 없습니다: {1}",
+  "seats.sessionStartFailed": "세션 시작 실패.",
+  "seats.sessionStartTimeout": "세션이 제시간에 활성화되지 않았습니다."
 }
