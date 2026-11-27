@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Không thể giải phóng các lượt giữ chỗ tay cầm: {0}",
   "gamepad.padClaimed": "Tay cầm {0} → '{1}' (phiên Windows {2}): tay cầm được dịch vụ này tiếp nhận.",
   "gamepad.padOwnerUnknown": "Không thể xác định phiên đã tạo tay cầm {0}; tay cầm vẫn hiển thị trong mọi phiên.",
-  "gamepad.osmsPadOutsideSession": "Tay cầm OsmsPad {0} → phiên Windows {1} (không thuộc phiên OpenStreamMS nào)."
+  "gamepad.osmsPadOutsideSession": "Tay cầm OsmsPad {0} → phiên Windows {1} (không thuộc phiên OpenStreamMS nào).",
+  "gamepad.padAssignedCompositeMember": "Tay cầm {0} từ '{1}' ({2}) → phiên '{3}' (phiên Windows {4}).",
+  "gamepad.padAssignedSession": "Tay cầm {0} → phiên '{1}' (phiên Windows {2}).",
+  "gamepad.padRetargeted": "Tay cầm {0} ({1}) được chuyển sang phiên '{2}' (phiên Windows {3}) do phiên tổng hợp thay đổi."
 }
