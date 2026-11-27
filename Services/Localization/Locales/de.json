@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile übersprungen: Die native Isolation stellt bereits ein eigenes Profil bereit.",
   "session.logStreamProfileConfiguring": "[{0}] Separates Streaming-Profil wird eingerichtet...",
   "session.logStartFailed": "[{0}] Start fehlgeschlagen: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Das ausgewählte Protokoll enthält WebRTC, aber der konfigurierte Sunshine-Build unterstützt es nicht (sunshine-webrtc verwenden); nur Moonlight funktioniert."
+  "session.logWebRtcUnsupported": "[{0}] Das ausgewählte Protokoll enthält WebRTC, aber der konfigurierte Sunshine-Build unterstützt es nicht (sunshine-webrtc verwenden); nur Moonlight funktioniert.",
+  "session.logSaveFailed": "[SessionService] Sitzungen konnten nicht gespeichert werden: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Sicherung der unlesbaren Sitzungsdatei gespeichert unter „{0}“.",
+  "session.logUnreadableBackupFailed": "[SessionService] Unlesbare Sitzungsdatei konnte nicht verschoben werden: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] WebRTC-Ports vorhandenen Sitzungen zugewiesen.",
+  "session.logLoadFailed": "[SessionService] Sitzungen konnten nicht geladen werden: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Warnung beim Beenden von Sunshine nach einem abgebrochenen Start: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Sunshine-Instanz ist bereits vorhanden unter: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Kopierter Vorlagenstatus konnte nicht bereinigt werden: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Instanzberechtigungen für „{0}“ angepasst (Schreibzugriff nur auf config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Berechtigungen für „{0}“ unter {1} konnten nicht angepasst werden: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Firewall ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine-Instanz wird aktualisiert: {1} → {2} (config/, Kopplungen, Zugangsdaten und Einstellungen bleiben erhalten)."
 }
