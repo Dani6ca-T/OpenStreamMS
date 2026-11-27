@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "Fiziksel denetleyici {0} (şu anda bağlı değil) {1} oturumuna atandı; göründüğünde bu oturuma ait olacak.",
   "gamepad.knownNodesSaveFailed": "{0} kaydedilemedi: {1}",
   "gamepad.knownNodesReadFailed": "{0} okunamadı: {1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "HidHide kara listesi güncellenemedi: {0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "HidHide kara listesi güncellenemedi: {0}",
+  "gamepad.usbPortCycled": "{0}: başka bir işlem aygıtı açık tuttu ve Windows yeniden başlatmayı erteledi; USB bağlantı noktası çıkarılıp yeniden bağlandı ({1}) {2}.",
+  "gamepad.usbPortCycleFailed": "{0}: Windows yeniden başlatmayı erteledi (başka bir işlem aygıtı kullanıyor) ve USB bağlantı noktası yeniden başlatılamadı ({1}). Aygıtı önceden açmış işlem, kapatana kadar görmeye devam eder."
 }
