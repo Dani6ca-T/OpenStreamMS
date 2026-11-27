@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Se eliminó el icono de bandeja del inicio automático.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Ejecutable:",
-  "install.configPath": "Configuración:"
+  "install.configPath": "Configuración:",
+  "diagnostics.logGenerated": "Paquete de diagnóstico generado ({0} KB, eventos de {1} día(s)).",
+  "diagnostics.logGenerateFailed": "No se pudo generar el paquete de diagnóstico: {0}",
+  "hud.sessionRestarted": "La sesión «{0}» se reinició desde su HUD.",
+  "hud.powerDenied": "Apagado/reinicio rechazado desde «{0}»: la sesión no tiene permiso.",
+  "hud.powerRequested": "{0} del PC solicitado desde «{1}».",
+  "hud.powerCancelled": "Apagado/reinicio cancelado desde «{0}».",
+  "power.cancelled": "Apagado/reinicio cancelado.",
+  "power.noPending": "No hay ningún apagado pendiente que cancelar ({0}).",
+  "power.shutdownFailed": "Error de shutdown.exe: {0}",
+  "power.scheduled": "{0} programado en {1}s.",
+  "settings.logLevelChanged": "Nivel de registro: {0} → {1}."
 }
