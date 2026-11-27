@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "Usunięto izolację kontrolerów dla sesji z HidHide; przywrócono filtr steamxbox Steam.",
   "uninstall.seatsRestored": "Przywrócono klawiatury/myszy stanowisk, ochronę konsoli, prawo zamykania systemu i ustawienie jednej sesji na użytkownika.",
   "uninstall.trayRemoved": "Usunięto ikonę zasobnika z autostartu.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Plik wykonywalny:",
+  "install.configPath": "Konfiguracja:"
 }
