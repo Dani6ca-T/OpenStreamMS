@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') nakonfigurován s neblokujícím vrácením: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture složené relace se otevírá a zavírá ve všech jejích relacích: {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Aplikace rozšíření aktualizovány ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Aplikace Reboot a Power Off nakonfigurovány: {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Aplikace Reboot a Power Off nakonfigurovány: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json aktualizován s izolovaným prostředím profilu: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json aktualizován bez izolovaného prostředí profilu: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort musí být větší než 0.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver vrácen z osmspad na vigembus: ovladače OsmsPad Xbox Series ztrácejí XInput v streamovacích relacích.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] Odebráno capture = remoteidd: RemoteIdd není aktivní v RDP-Tcp, Sunshine používá výchozí zachytávání.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] Použita výchozí nastavení OpenStreamMS: {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] sunshine.conf již byl aktuální: {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] sunshine.conf aktualizován ({0}) v: {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf aktualizován ({0}) v: {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: přihlašovací údaje jsou již aktuální (uživatel={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: přihlašovací údaje jsou již aktuální; root vyčištěn (uživatel={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: přihlašovací údaje nastaveny (uživatel={0})"
 }
