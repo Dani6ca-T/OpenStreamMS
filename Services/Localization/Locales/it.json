@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Nessun adattatore RDP virtuale trovato in Control\\\\Video — VRefresh invariato. La sessione userà la frequenza predefinita del driver.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} applicato a {1} adattatori virtuali.",
   "rdp.refreshRegistryFailed": "Errore durante l'impostazione di VRefresh nel registro: {0}",
-  "rdp.sessionTempResolveFailed": "Impossibile risolvere TEMP per la sessione {0}: {1}"
+  "rdp.sessionTempResolveFailed": "Impossibile risolvere TEMP per la sessione {0}: {1}",
+  "rdp.displayFrequencyChangeFailed": "Impossibile modificare la frequenza del display nella sessione {0}: {1}",
+  "rdp.displayFrequencyChangeLaunched": "ChangeDisplaySettings({0}Hz) avviato nella sessione {1} (non verificato).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings nella sessione {0}: file dei risultati mancante — lo script non è stato completato.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings riuscito — display a {0}Hz nella sessione {1}.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings ha restituito OK, ma il display segnala {0}Hz (richiesti {1}Hz) nella sessione {2}.",
+  "rdp.displayFrequencyFailed": "ChangeDisplaySettings non riuscito nella sessione {0}: {1} (display a {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Impossibile leggere il risultato di ChangeDisplaySettings: {0}"
 }
