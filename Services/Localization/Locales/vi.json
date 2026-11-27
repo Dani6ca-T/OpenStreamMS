@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "'{0}': đã gán {1} thiết bị cho phiên {2}.",
   "seats.devicePortEmpty": "'{0}': không có gì được kết nối với cổng của '{1}' ({2}, {3}). Nếu bạn chuyển sang cổng, hub hoặc dock khác, hãy gán lại.",
   "seats.started": "Chỗ '{0}' đang hoạt động.",
-  "seats.startFailed": "Không thể khởi động chỗ '{0}': {1}"
+  "seats.startFailed": "Không thể khởi động chỗ '{0}': {1}",
+  "seats.textureConfigMissing": "Tác nhân không gửi cấu hình kết cấu.",
+  "seats.textureHandlesMissing": "Tác nhân không cung cấp handle kết cấu.",
+  "seats.presenterReadyMissing": "Trình trình bày không gửi xác nhận.",
+  "seats.microphoneDisconnected": "'{0}': micrô '{1}' chưa kết nối; chỗ sẽ khởi động không có micrô.",
+  "seats.sessionResolutionRestoreFailed": "'{0}': không thể khôi phục độ phân giải phiên: {1}",
+  "seats.stopped": "Đã dừng chỗ '{0}'.",
+  "seats.vigemMissing": "'{0}': ViGEmBus chưa được cài đặt; tay cầm được cô lập bằng HidHide.",
+  "seats.sessionUserUnknown": "'{0}': không thể xác định người dùng của phiên {1}; các thiết bị USB khác vẫn hiển thị trong mọi phiên.",
+  "seats.rawInputShared": "'{0}': {1} vẫn được chia sẻ với bảng điều khiển (Raw Input).",
+  "seats.usbEventsSent": "Đã gửi {0} sự kiện đến tác nhân của '{1}' (cuối: loại={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Không thể gửi đầu vào đến tác nhân của '{0}': {1}",
+  "seats.inputInterfacesCaptured": "'{0}': đã tách {1}/{2} giao diện đầu vào khỏi bảng điều khiển."
 }
