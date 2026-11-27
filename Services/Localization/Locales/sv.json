@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Ikonen i systemfältet har tagits bort från automatisk start.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Körbar fil:",
-  "install.configPath": "Konfiguration:"
+  "install.configPath": "Konfiguration:",
+  "diagnostics.logGenerated": "Diagnospaket skapat ({0} KB, händelser från {1} dagar).",
+  "diagnostics.logGenerateFailed": "Det gick inte att skapa diagnospaketet: {0}",
+  "hud.sessionRestarted": "Sessionen ”{0}” startades om från sin HUD.",
+  "hud.powerDenied": "Avstängning/omstart nekades från ”{0}”: sessionen saknar behörighet.",
+  "hud.powerRequested": "{0} av datorn begärdes av ”{1}”.",
+  "hud.powerCancelled": "Avstängning/omstart avbröts från ”{0}”.",
+  "power.cancelled": "Avstängning/omstart avbruten.",
+  "power.noPending": "Det finns ingen väntande avstängning att avbryta ({0}).",
+  "power.shutdownFailed": "shutdown.exe misslyckades: {0}",
+  "power.scheduled": "{0} schemalagd om {1} sek.",
+  "settings.logLevelChanged": "Loggnivå: {0} → {1}."
 }
