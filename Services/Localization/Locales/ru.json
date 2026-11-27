@@ -456,5 +456,9 @@
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Не удалось настроить права для «{0}» в {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Брандмауэр ({0}): {1} ({2})",
   "session.logSunshineInstanceUpdating": "[{0}] Обновление экземпляра Sunshine: {1} → {2} (config/, сопряжения, учётные данные и настройки сохраняются).",
-  "session.logHudEnsureFailed": "[HUD] Не удалось инициализировать HUD: {0}"
+  "session.logHudEnsureFailed": "[HUD] Не удалось инициализировать HUD: {0}",
+  "error.seatName": "Укажите название места.",
+  "error.stopSeat": "Остановите место перед изменением его конфигурации.",
+  "error.primaryMonitor": "Основной монитор нельзя назначить месту.",
+  "error.assigned": "Выбранный ресурс уже назначен."
 }
