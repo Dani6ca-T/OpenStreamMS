@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} chỉ hiển thị trong phiên '{1}' ({2}).",
   "gamepad.consoleSessionChanged": "Phiên bảng điều khiển chuyển từ {0} sang {1}: đang gán lại các tay cầm vật lý.",
   "gamepad.sideInputDriverRestored": "{0} (bàn phím hoặc chuột của tay cầm) đã trở về trình điều khiển: tay cầm đang ở bảng điều khiển.",
-  "gamepad.sideInputCaptured": "{0} (bàn phím hoặc chuột của tay cầm) được tách ra khi tay cầm ở phiên khác: các phím của nó (ví dụ nút chụp) không còn gửi đến bảng điều khiển."
+  "gamepad.sideInputCaptured": "{0} (bàn phím hoặc chuột của tay cầm) được tách ra khi tay cầm ở phiên khác: các phím của nó (ví dụ nút chụp) không còn gửi đến bảng điều khiển.",
+  "gamepad.physicalPadConsole": "Tay cầm vật lý {0} chỉ hiển thị trong phiên bảng điều khiển ({1}).",
+  "gamepad.physicalPadAssigned": "Tay cầm vật lý {0} được gán cho một chỗ ngồi hoặc phiên phát trực tuyến: chỉ hiển thị trong phiên {1}.",
+  "gamepad.steamFilterWarning": "{0} có bộ lọc Steam {1} trong chuỗi thiết bị: Steam ở các phiên khác (kể cả bảng điều khiển) vẫn có thể đọc. Hãy rút ra và cắm lại sau khi chỗ ngồi hoặc luồng đã chạy.",
+  "gamepad.physicalPadRestarted": "{0} đã khởi động lại: phiên {1} không còn đọc được thiết bị.",
+  "gamepad.physicalPadRestartFailed": "Không thể khởi động lại {0}: {1}. Phiên đã mở thiết bị vẫn thấy nó cho đến khi đóng."
 }
