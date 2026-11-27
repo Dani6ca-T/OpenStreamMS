@@ -248,8 +248,8 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         {
             if (candidate.Monitor is { } m && other.Monitor is { } om && m.Overlaps(om))
                 throw new ArgumentException(om.Area == SeatScreenArea.Full
-                    ? $"El monitor ya está asignado al puesto '{other.Name}'."
-                    : $"Esa parte del monitor se solapa con la del puesto '{other.Name}'.");
+                    ? BackendText.Get("seats.monitorAlreadyAssigned", other.Name)
+                    : BackendText.Get("seats.monitorAreaOverlap", other.Name));
             if (candidate.SessionId is { } sid && other.SessionId == sid)
                 throw new ArgumentException(BackendText.Get("error.assigned"));
             if (candidate.AudioInId is { } mic && string.Equals(other.AudioInId, mic, StringComparison.OrdinalIgnoreCase))
@@ -791,8 +791,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
 
     // ── Usuario del puesto: contraseña y autoarranque ──────────────────────────
 
-    private const string ConsoleUserAutoStartError =
-        "This seat uses the same user as the console: it cannot start on its own. Start it from OpenStreamMS or assign it another session.";
+    private static string ConsoleUserAutoStartError => BackendText.Get("seats.consoleUserAutoStartError");
 
     /// <summary>Usuario de la consola: el que tiene sesión ahora o, si aún no, el del inicio automático.</summary>
     private static string? ConsoleUserName()
@@ -1113,7 +1112,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
     }
 
     private Seat Require(Guid id) => _seats.GetValueOrDefault(id)
-        ?? throw new KeyNotFoundException($"No existe el puesto {id}.");
+        ?? throw new KeyNotFoundException(BackendText.Get("seats.notFound", id));
 
     private void Save() { lock (_saveLock) SeatStore.Save(_seats.Values); }
 }
