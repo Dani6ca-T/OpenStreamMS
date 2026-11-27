@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "会话 {0} 的 WTSLogoffSession 失败：{1}",
   "rdp.logoffCompleted": "会话 {0} 已在 {1} ms 内注销。",
   "rdp.logoffSessionCompleted": "会话 {0} 已注销。",
-  "rdp.logoffWarning": "WTSLogoffSession 警告（会话 {0}）：{1}"
+  "rdp.logoffWarning": "WTSLogoffSession 警告（会话 {0}）：{1}",
+  "rdp.startFreeRdp": "正在启动 FreeRDP（{0}x{1}，{2} fps，{3} bpp，缩放 {4}%，无 gfx）…",
+  "rdp.freeRdpExecutableMissing": "无法启动 wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP 以 ExitCode={0}（0x{1:X}）退出，未能为“{2}”创建会话。{3}{4}",
+  "rdp.freeRdpSessionTimeout": "“{0}”的会话在 30 秒后仍未出现。请检查用户名和密码、是否启用远程桌面，以及用户是否属于“远程桌面用户”组。",
+  "rdp.startMstsc": "正在启动 mstsc（{0}x{1}，{2} fps，{3} bpp，缩放 {4}%，AVC444 硬件）…",
+  "rdp.mstscExecutableMissing": "无法启动 mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc 以 ExitCode={0} 退出，未能为“{1}”创建会话。可能存在不可见的证书/凭据对话框，或 NLA 拒绝连接。",
+  "rdp.mstscSessionTimeout": "使用 mstsc 时，“{0}”的会话在 30 秒后仍未出现。Session 0 中可能存在不可见的对话框。"
 }
