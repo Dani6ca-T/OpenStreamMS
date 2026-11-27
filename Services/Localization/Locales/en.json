@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "No virtual RDP adapter found under Control\\\\Video — VRefresh unchanged. The session will use the driver's default refresh rate.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0} applied to {1} virtual adapter(s).",
   "rdp.refreshRegistryFailed": "Error setting VRefresh in registry: {0}",
-  "rdp.sessionTempResolveFailed": "Could not resolve TEMP for session {0}: {1}"
+  "rdp.sessionTempResolveFailed": "Could not resolve TEMP for session {0}: {1}",
+  "rdp.displayFrequencyChangeFailed": "Could not change display frequency in session {0}: {1}",
+  "rdp.displayFrequencyChangeLaunched": "ChangeDisplaySettings({0}Hz) launched in session {1} (unverified).",
+  "rdp.displayFrequencyResultMissing": "ChangeDisplaySettings in session {0}: result file missing — script did not complete.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings succeeded — display at {0}Hz in session {1}.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings returned success, but display reports {0}Hz (requested {1}Hz) in session {2}.",
+  "rdp.displayFrequencyFailed": "ChangeDisplaySettings failed in session {0}: {1} (display at {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "Could not read ChangeDisplaySettings result: {0}"
 }
