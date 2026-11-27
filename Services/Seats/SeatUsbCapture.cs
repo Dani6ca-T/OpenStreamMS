@@ -1,5 +1,6 @@
 using OpenStreamMS.Core.Helpers;
 using OpenStreamMS.Services.Gamepad;
+using OpenStreamMS.Services.Localization;
 using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
@@ -95,15 +96,14 @@ internal static class UsbCapture
                 // Windows aplazó el cambio de driver: alguien tiene el nodo abierto (Steam con un
                 // mando). Desconectar y reconectar el puerto lo aplica ya y cierra esos handles.
                 bool cycled = GamepadSessionIsolation.UsbPort.Cycle(instanceId, out var detail);
-                Logger.Log($"[SeatUsb] {instanceId}: el cambio a WinUSB quedó pendiente (lo tenía abierto otro proceso); " +
-                           (cycled ? $"se ha reconectado su puerto USB ({detail})." : $"no se pudo reconectar el puerto ({detail})."));
+                Logger.Log(BackendText.Get(cycled ? "seatUsb.capturePendingCycled" : "seatUsb.capturePendingCycleFailed", instanceId, detail));
             }
             return true;
         }
         catch (Exception ex)
         {
             lock (_journalLock) _active.Remove(instanceId);
-            Logger.Warning($"[SeatUsb] No se pudo pasar {instanceId} a WinUSB: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatUsb.captureFailed", instanceId, ex.Message));
             // Install deja la clase como estaba si falla: el nodo sigue con su driver. Solo se
             // olvida si la anotación era nueva; una anterior sigue pendiente de restaurar.
             if (fresh) Journal(remove: instanceId);
@@ -125,7 +125,7 @@ internal static class UsbCapture
             Setup.Install(instanceId, winUsb: false, preferInf: record.Inf);
             ok = true;
         }
-        catch (Exception ex) { Logger.Warning($"[SeatUsb] No se pudo restaurar el driver de {instanceId}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("seatUsb.releaseFailed", instanceId, ex.Message)); }
         lock (_journalLock) _active.Remove(instanceId);
         // Si falla queda anotado y se reintenta al volver a conectarse o en el próximo arranque.
         if (ok) Journal(remove: instanceId);
@@ -139,11 +139,11 @@ internal static class UsbCapture
         foreach (var r in ReadJournal())
         {
             if (!GamepadSessionIsolation.Cm.Exists(r.Id)) { pending.Add(r.Id); continue; }
-            Logger.Log($"[SeatUsb] Restaurando el driver de {r.Id} (quedó capturado).");
+            Logger.Log(BackendText.Get("seatUsb.restoreStarted", r.Id));
             Release(r.Id);
         }
         if (pending.Count > 0)
-            Logger.Log($"[SeatUsb] {pending.Count} dispositivo(s) capturados están desconectados; se restaurarán al conectarse: {string.Join(", ", pending)}");
+            Logger.Log(BackendText.Get("seatUsb.restorePending", pending.Count, string.Join(", ", pending)));
     }
 
     /// <summary>
@@ -163,7 +163,7 @@ internal static class UsbCapture
             {
                 try
                 {
-                    Logger.Log($"[SeatUsb] {id} se ha conectado y quedó capturado de antes: se devuelve a su driver.");
+                    Logger.Log(BackendText.Get("seatUsb.arrivalRestoring", id));
                     Release(id);
                 }
                 finally { lock (_journalLock) _restoring.Remove(id); }
@@ -273,7 +273,7 @@ internal static class UsbCapture
             try
             {
                 if (!SetupDiOpenDeviceInfoW(set, instanceId, IntPtr.Zero, 0, ref dev))
-                    throw new InvalidOperationException($"dispositivo no encontrado ({Marshal.GetLastWin32Error()})");
+                    throw new InvalidOperationException(BackendText.Get("seatUsb.deviceNotFound", Marshal.GetLastWin32Error()));
 
                 int listType = SPDIT_COMPATDRIVER;
                 if (winUsb)
@@ -290,12 +290,12 @@ internal static class UsbCapture
                     string inf = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "INF", "winusb.inf") + "\0";
                     fixed (char* c = inf) Buffer.MemoryCopy(c, dip + DIP_PATH_OFFSET, 520, inf.Length * 2);
                     if (!SetupDiSetDeviceInstallParamsW(set, ref dev, dip))
-                        throw new InvalidOperationException($"SetupDiSetDeviceInstallParams ({Marshal.GetLastWin32Error()})");
+                        throw new InvalidOperationException(BackendText.Get("seatUsb.setInstallParamsFailed", Marshal.GetLastWin32Error()));
                     listType = SPDIT_CLASSDRIVER;
                 }
 
                 if (!SetupDiBuildDriverInfoList(set, ref dev, listType))
-                    throw new InvalidOperationException($"SetupDiBuildDriverInfoList ({Marshal.GetLastWin32Error()})");
+                    throw new InvalidOperationException(BackendText.Get("seatUsb.buildDriverListFailed", Marshal.GetLastWin32Error()));
 
                 // Por orden de preferencia: winusb.inf, o el driver de antes y si no input.inf.
                 string[] wanted = winUsb ? ["winusb.inf"]
@@ -318,16 +318,16 @@ internal static class UsbCapture
                     if (rank >= 0 && rank < bestRank) { best = i; bestRank = rank; }
                 }
                 if (best < 0)
-                    throw new InvalidOperationException($"no hay driver {string.Join(" ni ", wanted)} para este dispositivo");
+                    throw new InvalidOperationException(BackendText.Get("seatUsb.driverNotFound", string.Join(" or ", wanted)));
 
                 new Span<byte>(drv, DRVINFO_SIZE).Clear();
                 *(int*)drv = DRVINFO_SIZE;
                 if (!SetupDiEnumDriverInfoW(set, ref dev, listType, best, drv))
-                    throw new InvalidOperationException($"SetupDiEnumDriverInfo ({Marshal.GetLastWin32Error()})");
+                    throw new InvalidOperationException(BackendText.Get("seatUsb.enumDriverInfoFailed", Marshal.GetLastWin32Error()));
                 if (!DiInstallDevice(IntPtr.Zero, set, ref dev, drv, 0, out bool needReboot))
-                    throw new InvalidOperationException($"DiInstallDevice ({Marshal.GetLastWin32Error():X})");
+                    throw new InvalidOperationException(BackendText.Get("seatUsb.installDriverFailed", Marshal.GetLastWin32Error().ToString("X")));
                 classChanged = false;
-                Logger.Log($"[SeatUsb] {instanceId} → {new string((char*)(drv + 16))} ({wanted[bestRank]}).");
+                Logger.Log(BackendText.Get("seatUsb.driverInstalled", instanceId, new string((char*)(drv + 16)), wanted[bestRank]));
                 return needReboot;
             }
             catch when (classChanged && rollbackClass is not null)
@@ -335,7 +335,7 @@ internal static class UsbCapture
                 // La clase cambió pero WinUSB no se instaló: el nodo quedaría como "USBDevice" sin
                 // driver y nadie lo restauraría. Se devuelve su clase; el driver anterior sigue.
                 try { SetClass(set, ref dev, rollbackClass); }
-                catch (Exception ex) { Logger.Warning($"[SeatUsb] {instanceId}: no se pudo devolver su clase ({ex.Message})."); }
+                catch (Exception ex) { Logger.Warning(BackendText.Get("seatUsb.classRollbackFailed", instanceId, ex.Message)); }
                 throw;
             }
             finally { SetupDiDestroyDeviceInfoList(set); }
@@ -346,7 +346,7 @@ internal static class UsbCapture
             string cls = classGuid + "\0";
             fixed (char* pc = cls)
                 if (!SetupDiSetDeviceRegistryPropertyW(set, ref dev, SPDRP_CLASSGUID, (byte*)pc, cls.Length * 2))
-                    throw new InvalidOperationException($"no se pudo cambiar la clase ({Marshal.GetLastWin32Error()})");
+                    throw new InvalidOperationException(BackendText.Get("seatUsb.classChangeFailed", Marshal.GetLastWin32Error()));
             dev.ClassGuid = new Guid(classGuid);
         }
     }
@@ -384,14 +384,14 @@ internal sealed unsafe class UsbHidReader : IDisposable
             {
                 if (Open(out byte pipe, out int packet, out var layout) is { } error)
                 {
-                    if (error != lastError) Logger.Warning($"[SeatUsb] Esperando a {_instanceId}: {error}");
+                    if (error != lastError) Logger.Warning(BackendText.Get("seatUsb.readerWaiting", _instanceId, error));
                     lastError = error;
                     Close();
                     Thread.Sleep(1000);
                     continue;
                 }
                 lastError = null;
-                Logger.Log($"[SeatUsb] Leyendo {_instanceId} ({layout.Summary}).");
+                Logger.Log(BackendText.Get("seatUsb.readerStarted", _instanceId, layout.Summary));
                 var state = new HidTranslator(layout, _emit);
                 var managed = new byte[packet];
                 int traced = 0;
@@ -405,16 +405,16 @@ internal sealed unsafe class UsbHidReader : IDisposable
                         if (traced < 8)
                         {
                             traced++;
-                            Logger.Log($"[SeatUsb] informe de {read} bytes" + (layout.UsesReportIds ? $" (ID {managed[0]})." : "."));
+                            Logger.Log(BackendText.Get(layout.UsesReportIds ? "seatUsb.reportReadWithId" : "seatUsb.reportRead", read, layout.UsesReportIds ? managed[0] : 0));
                         }
                         state.OnReport(new ReadOnlySpan<byte>(buf, read));
                     }
                 state.ReleaseAll();
-                if (!_stopping) Logger.Warning($"[SeatUsb] {_instanceId} desconectado ({Marshal.GetLastWin32Error()}).");
+                if (!_stopping) Logger.Warning(BackendText.Get("seatUsb.readerDisconnected", _instanceId, Marshal.GetLastWin32Error()));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[SeatUsb] {_instanceId}: {ex.Message}");
+                Logger.Warning(BackendText.Get("seatUsb.readerError", _instanceId, ex.Message));
                 Thread.Sleep(1000);
             }
             finally { Close(); }
@@ -471,7 +471,7 @@ internal sealed unsafe class UsbHidReader : IDisposable
             ulong setProtocol = 0x21UL | (0x0BUL << 8) | (0UL << 16) | ((ulong)iface << 32);   // SET_PROTOCOL(boot)
             bool protoOk = WinUsb_ControlTransfer(winusb, setProtocol, null, 0, out _, IntPtr.Zero);
             layout = boot;
-            Logger.Warning($"[SeatUsb] {_instanceId}: sin descriptor HID (err {err}, longitud {want}); protocolo boot {(protoOk ? "activado" : $"rechazado ({Marshal.GetLastWin32Error()})")}.");
+            Logger.Warning(BackendText.Get(protoOk ? "seatUsb.noHidDescriptorBootEnabled" : "seatUsb.noHidDescriptorBootRejected", _instanceId, err, want, Marshal.GetLastWin32Error()));
         }
         return null;
     }
