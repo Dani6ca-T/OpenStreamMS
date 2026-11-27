@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "HKLM\\{0} Windows kayıt defteri anahtarı mevcut değil.",
   "steamIsolation.userRegistryNotLoaded": "Kullanıcının kayıt defteri kovanı yüklenmemiş.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell kullanılamıyor.",
-  "steamIsolation.shortcutDescription": "Diğer oturumlardan yalıtılmış Steam (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Diğer oturumlardan yalıtılmış Steam (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] '{1}' kaynağının sesi '{2}' klavye oturumuna iletildi.",
+  "compositeAudio.forwardFailed": "[{0}] '{1}' kaynağının sesi iletilemedi: {2}"
 }
