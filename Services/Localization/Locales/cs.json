@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Nepodařilo se zapsat {0} do HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP nevytvořil žádný výstup.",
-  "rdp.freeRdpOutputPrefix": "Výstup FreeRDP: "
+  "rdp.freeRdpOutputPrefix": "Výstup FreeRDP: ",
+  "seats.usbArrivalWatchUnavailable": "Nelze sledovat připojování USB zařízení: zachycená klávesnice nebo myš bude obnovena při příštím spuštění.",
+  "seats.usbDriversRestoreFailed": "Nepodařilo se obnovit ovladače USB: {0}",
+  "seats.reservedDevicesReleaseFailed": "Nepodařilo se uvolnit rezervovaná zařízení: {0}",
+  "seats.managerStarted": "Správce pracovišť spuštěn ({0} pracovišť).",
+  "seats.multiRdpCheckTimeout": "Kontrola multi-RDP nebyla dokončena za 120 s; pracoviště se přesto automaticky spustí.",
+  "seats.autoStartSameConsoleUser": "„{0}“ se nespustí automaticky: používá stejného uživatele jako konzole.",
+  "seats.autoStartFailed": "Automatické spuštění „{0}“ selhalo: {1}"
 }
