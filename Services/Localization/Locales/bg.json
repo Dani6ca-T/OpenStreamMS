@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Неуспешно премахване на резервациите на контролерите: {0}",
   "gamepad.padClaimed": "Контролер {0} → „{1}“ (сесия на Windows {2}): контролерът е прихванат от тази услуга.",
   "gamepad.padOwnerUnknown": "Не може да се установи коя сесия е създала контролер {0}; той остава видим във всички сесии.",
-  "gamepad.osmsPadOutsideSession": "Контролер OsmsPad {0} → сесия на Windows {1} (не принадлежи на сесия на OpenStreamMS)."
+  "gamepad.osmsPadOutsideSession": "Контролер OsmsPad {0} → сесия на Windows {1} (не принадлежи на сесия на OpenStreamMS).",
+  "gamepad.padAssignedCompositeMember": "Контролер {0} от „{1}“ ({2}) → сесия „{3}“ (Windows сесия {4}).",
+  "gamepad.padAssignedSession": "Контролер {0} → сесия „{1}“ (Windows сесия {2}).",
+  "gamepad.padRetargeted": "Контролер {0} ({1}) е преместен в сесия „{2}“ (Windows сесия {3}) поради промяна в съставната сесия."
 }
