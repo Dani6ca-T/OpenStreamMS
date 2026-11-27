@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "セッションをロックしています：シートでパスワードが必要になります…",
   "seats.statusActive": "アクティブ：映像、音声、周辺機器が接続されています。",
   "seats.statusDisconnectedFromSeat": "シートから切断されました。OpenStreamMS から再起動してください。",
-  "seats.statusStoppedAfterError": "停止しました：{0}。OpenStreamMS から再起動してください。"
+  "seats.statusStoppedAfterError": "停止しました：{0}。OpenStreamMS から再起動してください。",
+  "seats.consoleUserAutoStartError": "このシートはコンソールと同じユーザーを使用しているため、単独では起動できません。OpenStreamMS から起動するか、別のセッションを割り当ててください。",
+  "seats.monitorAlreadyAssigned": "モニターは既にシート「{0}」に割り当てられています。",
+  "seats.monitorAreaOverlap": "このモニター領域はシート「{0}」の領域と重複しています。",
+  "seats.notFound": "シート {0} は存在しません。"
 }
