@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Uzamykání relace: pracoviště bude vyžadovat heslo…",
   "seats.statusActive": "Aktivní: obraz, zvuk a periferie jsou připojeny.",
   "seats.statusDisconnectedFromSeat": "Odpojeno z pracoviště. Znovu jej zapněte z OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Vypnuto: {0}. Znovu jej zapněte z OpenStreamMS."
+  "seats.statusStoppedAfterError": "Vypnuto: {0}. Znovu jej zapněte z OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Toto pracoviště používá stejného uživatele jako konzole a nemůže se spustit samo. Spusťte jej z OpenStreamMS nebo mu přiřaďte jinou relaci.",
+  "seats.monitorAlreadyAssigned": "Monitor je již přiřazen pracovišti „{0}“.",
+  "seats.monitorAreaOverlap": "Tato část monitoru se překrývá s částí pracoviště „{0}“.",
+  "seats.notFound": "Pracoviště {0} neexistuje."
 }
