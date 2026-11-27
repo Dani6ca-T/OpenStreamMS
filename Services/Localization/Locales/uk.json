@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Блокування сеансу: місце вимагатиме пароль…",
   "seats.statusActive": "Активно: зображення, звук і периферію підключено.",
   "seats.statusDisconnectedFromSeat": "Від’єднано з боку місця. Увімкніть знову через OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Зупинено: {0}. Увімкніть знову через OpenStreamMS."
+  "seats.statusStoppedAfterError": "Зупинено: {0}. Увімкніть знову через OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Це місце використовує того самого користувача, що й консоль, тому не може запускатися самостійно. Запустіть його з OpenStreamMS або призначте інший сеанс.",
+  "seats.monitorAlreadyAssigned": "Монітор уже призначено місцю «{0}».",
+  "seats.monitorAreaOverlap": "Ця частина монітора перетинається з частиною місця «{0}».",
+  "seats.notFound": "Місце {0} не існує."
 }
