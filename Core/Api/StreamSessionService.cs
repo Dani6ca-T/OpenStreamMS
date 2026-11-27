@@ -681,7 +681,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             session.State = SessionState.Stopping;
             Interlocked.Increment(ref session.LifecycleGeneration);
         }
-        Logger.Log($"[{session.Name}] Deteniendo...", session.Id);
+        Logger.Log(BackendText.Get("session.logStopping", session.Name), session.Id);
         ForceStopInternal(session);
     }
 
@@ -692,7 +692,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
     public void Restart(Guid id)
     {
         var session = RequireSession(id);
-        Logger.Log($"[{session.Name}] Reinicio solicitado (estado actual: {session.State}).", session.Id);
+        Logger.Log(BackendText.Get("session.logRestartRequested", session.Name, session.State), session.Id);
         int generation;
         lock (session.LifecycleLock)
         {
@@ -719,7 +719,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 // Otra orden (detener, otro reinicio) llegó mientras tanto: manda ella.
                 if (Volatile.Read(ref session.LifecycleGeneration) != generation)
                 {
-                    Logger.Log($"[{session.Name}] Reinicio abandonado: llegó otra orden mientras se detenía.", session.Id);
+                    Logger.Log(BackendText.Get("session.logRestartSuperseded", session.Name), session.Id);
                     return;
                 }
                 session.State        = SessionState.Starting;
@@ -753,7 +753,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             {
                 var killTask = Task.Run(mgr.Stop);
                 if (!killTask.Wait(TimeSpan.FromSeconds(10)))
-                    Logger.Warning($"[{session.Name}] Timeout al matar Sunshine.", session.Id);
+                    Logger.Warning(BackendText.Get("session.logSunshineKillTimeout", session.Name), session.Id);
             }
             // Forzar recreación del SunshineManager en el próximo Start
             _sunshine.TryRemove(session.Id, out _);
@@ -767,7 +767,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             {
                 // La compuesta corre en la sesión de Windows de uno de sus miembros: tampoco se cierra.
                 if (!session.Local && !session.IsComposite && !StreamProfileSetup.LogoffSession(session.RdpSessionId))
-                    Logger.Warning($"[{session.Name}] La sesión Windows {session.RdpSessionId} no terminó de cerrarse.", session.Id);
+                    Logger.Warning(BackendText.Get("session.logWindowsSessionCloseTimeout", session.Name, session.RdpSessionId), session.Id);
                 session.RdpSessionId = 0;
             }
 
@@ -779,7 +779,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     if (!client.WaitForExit(2_000))
                     {
                         client.Kill();
-                        Logger.Log($"[{session.Name}] FreeRDP (PID {session.FreeRdpPid}) detenido.", session.Id);
+                        Logger.Log(BackendText.Get("session.logFreeRdpStopped", session.Name, session.FreeRdpPid), session.Id);
                     }
                 }
                 catch { }
@@ -796,7 +796,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[{session.Name}] Aviso al detener: {ex.Message}", session.Id);
+            Logger.Warning(BackendText.Get("session.logStopWarning", session.Name, ex.Message), session.Id);
         }
         finally
         {
@@ -804,7 +804,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             session.State     = SessionState.Stopped;
             session.StoppedAt = DateTime.UtcNow;
             session.SunshinePid = 0;
-            Logger.Log($"[{session.Name}] Detenida.", session.Id);
+            Logger.Log(BackendText.Get("session.logStopped", session.Name), session.Id);
         }
     }
 
