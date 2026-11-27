@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Det gick inte att säkerställa att TermService körs: {0}. Om Fjärrskrivbord är avstängt misslyckas loopback-anslutningen; aktivera det under System → Fjärrskrivbord eller starta om Windows.",
   "rdp.registryKeyOpenFailed": "Det gick inte att öppna HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Det gick inte att skriva {0} i HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Det gick inte att skriva {0} i HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP skrev ingen utdata.",
+  "rdp.freeRdpOutputPrefix": "FreeRDP-utdata: "
 }
