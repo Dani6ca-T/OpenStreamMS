@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -95,13 +96,11 @@ internal static class SteamXboxFilter
                 removed.Add(cls);
             }
             if (removed.Count > 0)
-                Logger.Log($"[Gamepad] Filtro {FilterName} de Steam quitado de {removed.Count} clase(s) de mandos mientras haya mandos aislados " +
-                           "en otras sesiones: los mandos que se conecten ahora no se publican a todas las sesiones por \\Device\\nvagipmanControl.");
+                Logger.Log(BackendText.Get("steamXboxFilter.removed", FilterName, removed.Count));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo quitar el filtro {FilterName} de Steam: {ex.Message}. " +
-                           "El Steam de otras sesiones (la consola incluida) puede seguir leyendo los mandos aislados.");
+            Logger.Warning(BackendText.Get("steamXboxFilter.removeFailed", FilterName, ex.Message));
         }
     }
 
@@ -129,11 +128,11 @@ internal static class SteamXboxFilter
                 saved.DeleteValue(cls, throwOnMissingValue: false);
             }
             if (restored > 0)
-                Logger.Log($"[Gamepad] Filtro {FilterName} de Steam restaurado en {restored} clase(s) de mandos (no quedan mandos aislados en otras sesiones).");
+                Logger.Log(BackendText.Get("steamXboxFilter.restored", FilterName, restored));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Gamepad] No se pudo restaurar el filtro {FilterName} de Steam: {ex.Message}. Se reintentará en el próximo arranque del servicio.");
+            Logger.Warning(BackendText.Get("steamXboxFilter.restoreFailed", FilterName, ex.Message));
         }
     }
 
