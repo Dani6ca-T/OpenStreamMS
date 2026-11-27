@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Неуспешно осигуряване на работата на TermService: {0}. Ако отдалеченият работен плот е изключен, loopback връзката ще се провали; включете го в Система → Отдалечен работен плот или рестартирайте Windows.",
   "rdp.registryKeyOpenFailed": "Неуспешно отваряне на HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Неуспешно записване на {0} в HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Неуспешно записване на {0} в HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP не изведе нищо.",
+  "rdp.freeRdpOutputPrefix": "Изход от FreeRDP: "
 }
