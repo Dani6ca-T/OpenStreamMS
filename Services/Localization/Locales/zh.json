@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "“{0}”：已将 {1} 个设备分配给会话 {2}。",
   "seats.devicePortEmpty": "“{0}”：设备“{1}”的端口没有连接任何设备（{2}, {3}）。如果已将其移至其他端口、集线器或扩展坞，请重新分配。",
   "seats.started": "座位“{0}”已激活。",
-  "seats.startFailed": "座位“{0}”启动失败：{1}"
+  "seats.startFailed": "座位“{0}”启动失败：{1}",
+  "seats.textureConfigMissing": "代理未发送纹理配置。",
+  "seats.textureHandlesMissing": "代理未提供纹理句柄。",
+  "seats.presenterReadyMissing": "呈现器未发送确认。",
+  "seats.microphoneDisconnected": "“{0}”：麦克风“{1}”未连接；座位将在没有麦克风的情况下启动。",
+  "seats.sessionResolutionRestoreFailed": "“{0}”：无法恢复会话分辨率：{1}",
+  "seats.stopped": "座位“{0}”已停止。",
+  "seats.vigemMissing": "“{0}”：未安装 ViGEmBus；控制器将通过 HidHide 隔离。",
+  "seats.sessionUserUnknown": "“{0}”：无法确定会话 {1} 的用户；其其他 USB 设备仍会在所有会话中可见。",
+  "seats.rawInputShared": "“{0}”：{1} 仍与控制台共享（Raw Input）。",
+  "seats.usbEventsSent": "已向“{1}”的代理发送 {0} 个事件（最后一个：类型={2} flags={3} dx={4} dy={5}）。",
+  "seats.usbInputSendFailed": "无法向“{0}”的代理发送输入：{1}",
+  "seats.inputInterfacesCaptured": "“{0}”：已将 {2} 个输入接口中的 {1} 个与控制台隔离。"
 }
