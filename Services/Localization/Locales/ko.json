@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "트레이 아이콘을 자동 시작에서 제거했습니다.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "실행 파일:",
-  "install.configPath": "구성:"
+  "install.configPath": "구성:",
+  "diagnostics.logGenerated": "진단 번들을 생성했습니다({0}KB, {1}일간의 이벤트).",
+  "diagnostics.logGenerateFailed": "진단 번들을 생성하지 못했습니다: {0}",
+  "hud.sessionRestarted": "HUD에서 세션 '{0}'을(를) 다시 시작했습니다.",
+  "hud.powerDenied": "'{0}'에서 전원 작업이 거부되었습니다. 세션에 권한이 없습니다.",
+  "hud.powerRequested": "'{1}'이(가) PC {0}을(를) 요청했습니다.",
+  "hud.powerCancelled": "'{0}'에서 종료/재시작을 취소했습니다.",
+  "power.cancelled": "종료/재시작이 취소되었습니다.",
+  "power.noPending": "취소할 대기 중인 종료가 없습니다({0}).",
+  "power.shutdownFailed": "shutdown.exe 오류: {0}",
+  "power.scheduled": "{1}초 후 {0} 예약됨.",
+  "settings.logLevelChanged": "로그 수준: {0} → {1}."
 }
