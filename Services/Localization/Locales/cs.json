@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "Neplatná délka zprávy v potrubí: {0} bajtů.",
   "seatIpc.invalidJsonObject": "Data JSON nejsou objekt.",
   "seatHost.frameLatencyName": "kompozice→displej",
-  "seatHost.cursorLatencyName": "vstup→displej"
+  "seatHost.cursorLatencyName": "vstup→displej",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "[AudioRelay] Odesílání zvuku z relace Windows {0}: {1}",
+  "audioRelay.playing": "[AudioRelay] Přehrávání na „{0}“: {1}",
+  "audioRelay.invalidHeader": "Neplatná hlavička zvukového přenosu.",
+  "audioRelay.noOutputDevice": "Relace klávesnice nemá zvukové výstupní zařízení.",
+  "audioRelay.invalidBlock": "Neplatný zvukový blok.",
+  "inputRelay.started": "[InputRelay] Přenos klávesnice a myši složené relace pro relaci Windows {0} ({1}).",
+  "inputRelay.createFailed": "[InputRelay] Nepodařilo se vytvořit {0}: {1}",
+  "inputRelay.invalidHeader": "Neplatná hlavička přenosu vstupu.",
+  "inputRelay.invalidBatch": "Neplatná dávka vstupu.",
+  "osmsPad.openFailed": "[OsmsPad] Ovladař se nepodařilo otevřít: chyba {0}.",
+  "vigem.openFailed": "[PadCapture] ViGEmBus se nepodařilo otevřít: {0}"
 }
