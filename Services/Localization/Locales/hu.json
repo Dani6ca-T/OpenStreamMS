@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "Munkamenet észlelve a(z) {0}. próbálkozáskor ({1}): {2} (FreeRDP PID={3})",
   "rdp.sessionModeRelaxed": "engedékeny mód",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "Várakozás a munkamenetre… {0}/20. próbálkozás"
+  "rdp.waitingSession": "Várakozás a munkamenetre… {0}/20. próbálkozás",
+  "rdp.frameRateConfigured": "Képkockasebesség={0} fps | intervallum={1} ms (kompozíció {2} Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, méretezés {3} %.",
+  "rdp.betterRdpPoliciesApplied": "A BetterRDP házirendek alkalmazva.",
+  "rdp.mstscClientPoliciesApplied": "Az mstsc ügyfélházirendek alkalmazva (nincsenek csatlakozás előtti párbeszédablakok).",
+  "rdp.mstscClientPoliciesFailed": "Nem sikerült alkalmazni az mstsc HKCU-házirendeket: {0}"
 }
