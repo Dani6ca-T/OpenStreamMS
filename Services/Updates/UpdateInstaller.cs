@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Updates;
 
@@ -106,12 +107,12 @@ public sealed class UpdateInstaller
 
             var file = Path.Combine(_dir, asset.Name);
             var part = file + ".part";
-            Logger.Info($"[Updates] Descargando {asset.Name} ({asset.Size / (1024 * 1024)} MB).");
+            Logger.Info(BackendText.Get("updates.downloading", asset.Name, asset.Size / (1024 * 1024)));
             var sha = await DownloadAsync(asset, part, version);
 
             Set(new UpdateInstallStatus("verifying", version, 100, null, null));
             if (!string.Equals(sha, asset.Sha256, StringComparison.OrdinalIgnoreCase))
-                throw new UpdateInstallException("hash", $"SHA-256 {sha} ≠ {asset.Sha256}");
+                throw new UpdateInstallException("hash", BackendText.Get("updates.hashMismatch", sha, asset.Sha256));
             File.Move(part, file, overwrite: true);
             SecureFile.RestrictToAdmins(file);
 
@@ -126,13 +127,13 @@ public sealed class UpdateInstaller
                 WorkingDirectory = _dir,
             };
             Set(new UpdateInstallStatus("installing", version, 100, null, log));
-            Logger.Warning($"[Updates] Instalando OpenStreamMS {version}: el servicio se va a reiniciar. Log: {log}");
-            if (!_launch(psi)) throw new UpdateInstallException("launch", "el instalador no arrancó");
+            Logger.Warning(BackendText.Get("updates.installing", version, log));
+            if (!_launch(psi)) throw new UpdateInstallException("launch", BackendText.Get("updates.installerNotStarted"));
         }
         catch (Exception ex)
         {
             var code = ex is UpdateInstallException u ? u.Code : ex is HttpRequestException or TaskCanceledException or IOException ? "download" : "launch";
-            Logger.Error($"[Updates] No se pudo actualizar a {version} ({code}): {ex.Message}");
+            Logger.Error(BackendText.Get("updates.installFailed", version, code, ex.Message));
             Set(new UpdateInstallStatus("failed", version, 0, code, log));
             try { File.Delete(Path.Combine(_dir, asset.Name + ".part")); } catch { }
         }
@@ -145,7 +146,7 @@ public sealed class UpdateInstaller
         for (int hop = 0; ; hop++)
         {
             if (uri.Scheme != Uri.UriSchemeHttps || !AllowedHosts.Contains(uri.Host))
-                throw new UpdateInstallException("download", $"servidor no permitido: {uri.Host}");
+                throw new UpdateInstallException("download", BackendText.Get("updates.serverNotAllowed", uri.Host));
             res = await _http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
             if ((int)res.StatusCode is >= 300 and < 400 && res.Headers.Location is { } next && hop < 5)
             {
@@ -157,9 +158,9 @@ public sealed class UpdateInstaller
         }
         using (res)
         {
-            if (!res.IsSuccessStatusCode) throw new UpdateInstallException("download", $"GitHub answered {(int)res.StatusCode}");
+            if (!res.IsSuccessStatusCode) throw new UpdateInstallException("download", BackendText.Get("updates.httpStatus", (int)res.StatusCode));
             if (res.Content.Headers.ContentLength is { } len && len != asset.Size)
-                throw new UpdateInstallException("size", $"{len} bytes, se esperaban {asset.Size}");
+                throw new UpdateInstallException("size", BackendText.Get("updates.sizeMismatch", len, asset.Size));
 
             using var sha = SHA256.Create();
             await using var src = await res.Content.ReadAsStreamAsync();
@@ -170,13 +171,13 @@ public sealed class UpdateInstaller
             while ((n = await src.ReadAsync(buf)) > 0)
             {
                 total += n;
-                if (total > asset.Size) throw new UpdateInstallException("size", "más grande de lo anunciado");
+                if (total > asset.Size) throw new UpdateInstallException("size", BackendText.Get("updates.sizeExceeded"));
                 sha.TransformBlock(buf, 0, n, null, 0);
                 await dst.WriteAsync(buf.AsMemory(0, n));
                 int pct = (int)(total * 100 / asset.Size);
                 if (pct != lastPct) { lastPct = pct; Set(new UpdateInstallStatus("downloading", version, pct, null, null)); }
             }
-            if (total != asset.Size) throw new UpdateInstallException("size", $"{total} bytes, se esperaban {asset.Size}");
+            if (total != asset.Size) throw new UpdateInstallException("size", BackendText.Get("updates.sizeMismatch", total, asset.Size));
             sha.TransformFinalBlock([], 0, 0);
             return Convert.ToHexStringLower(sha.Hash!);
         }
