@@ -1,6 +1,7 @@
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -42,7 +43,7 @@ public static class SeatAgent
     /// <param name="audio">false en la consola: su audio ya suena en local.</param>
     public static int Run(string pipeName, string? outputName = null, bool audio = true)
     {
-        Logger.Log($"[SeatAgent] Iniciando agente en sesión {Process.GetCurrentProcess().SessionId} (pid={Environment.ProcessId})");
+        Logger.Log(BackendText.Get("seatAgent.started", Process.GetCurrentProcess().SessionId, Environment.ProcessId));
         SeatChannel channel;
         try
         {
@@ -50,7 +51,7 @@ public static class SeatAgent
         }
         catch (Exception ex)
         {
-            Logger.Error($"[SeatAgent] No se pudo conectar a la tubería '{pipeName}': {ex.Message}");
+            Logger.Error(BackendText.Get("seatAgent.pipeConnectFailed", pipeName, ex.Message));
             return 1;
         }
 
@@ -84,8 +85,8 @@ public static class SeatAgent
             if (adapter is null || output is null)
             {
                 Logger.Error(outputName is null
-                    ? "[SeatAgent] No se encontró ninguna salida vinculada al escritorio de la sesión."
-                    : $"[SeatAgent] No se encontró la salida {outputName}.");
+                    ? BackendText.Get("seatAgent.outputNotFound")
+                    : BackendText.Get("seatAgent.namedOutputNotFound", outputName));
                 return 1;
             }
 
@@ -93,7 +94,7 @@ public static class SeatAgent
             int ow = od.DesktopCoordinates.Right - od.DesktopCoordinates.Left;
             int oh = od.DesktopCoordinates.Bottom - od.DesktopCoordinates.Top;
             var luid = adapter.Description1.Luid;
-            Logger.Log($"[SeatAgent] Salida detectada: {od.DeviceName} ({ow}x{oh}) en {adapter.Description1.Description}");
+            Logger.Log(BackendText.Get("seatAgent.outputDetected", od.DeviceName, ow, oh, adapter.Description1.Description));
 
             // 2. Crear dispositivo D3D11 y DDA
             D3D11.D3D11CreateDevice(adapter, DriverType.Unknown, DeviceCreationFlags.BgraSupport,
@@ -111,13 +112,13 @@ public static class SeatAgent
                 try
                 {
                     dupl = o1.DuplicateOutput(dev!);
-                    Logger.Log($"[SeatAgent] Captura en el escritorio '{desktop}'.");
+                    Logger.Log(BackendText.Get("seatAgent.captureDesktop", desktop));
                 }
                 catch (Exception ex)
                 {
                     if (attempt >= 20)
                     {
-                        Logger.Error($"[SeatAgent] DuplicateOutput falló en el escritorio '{desktop}': {ex.Message}");
+                        Logger.Error(BackendText.Get("seatAgent.duplicateOutputFailed", desktop, ex.Message));
                         return 1;
                     }
                     Thread.Sleep(250);
@@ -152,7 +153,7 @@ public static class SeatAgent
                 handles[i] = h.ToInt64();
             }
 
-            Logger.Log($"[SeatAgent] Anillo de {RingSize} texturas compartidas creado ({ow}x{oh}).");
+            Logger.Log(BackendText.Get("seatAgent.textureRingCreated", RingSize, ow, oh));
 
             // 4. Anunciar las texturas al servicio
             var initObj = new JsonObject
@@ -226,7 +227,7 @@ public static class SeatAgent
                                 if (injectLatency.Flush() is { Length: > 0 } st) Logger.Log($"[SeatAgent] 10 s:{st}");
                             }
                         }
-                        else Logger.Warning($"[SeatAgent] Mensaje de entrada de {data.Length} bytes (se esperaban {SeatInputEvent.Size}).");
+                        else Logger.Warning(BackendText.Get("seatAgent.invalidInputMessage", data.Length, SeatInputEvent.Size));
                         break;
 
                     case SeatMsg.Json:
@@ -253,7 +254,7 @@ public static class SeatAgent
             try { ctx?.Dispose(); } catch { }
             try { dev?.Dispose(); } catch { }
 
-            Logger.Log("[SeatAgent] Agente finalizado limpiamente.");
+            Logger.Log(BackendText.Get("seatAgent.stopped"));
             return 0;
         }
     }
@@ -396,7 +397,7 @@ public static class SeatAgent
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[SeatAgent] Error en AcquireNextFrame: {ex.Message}");
+                Logger.Warning(BackendText.Get("seatAgent.acquireFrameFailed", ex.Message));
             }
             finally
             {
@@ -455,7 +456,7 @@ public static class SeatAgent
                 catch { break; }   // tubería cerrada: el agente se está apagando
             }
         }
-        catch (Exception ex) { Logger.Warning($"[SeatAgent] Cursor rápido detenido: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("seatAgent.cursorPollerStopped", ex.Message)); }
         finally { timeEndPeriod(1); }
     }
 
@@ -469,10 +470,10 @@ public static class SeatAgent
         {
             using var dxgi = dev.QueryInterface<IDXGIDevice>();
             var r = dxgi.SetGPUThreadPriority(7);
-            Logger.Log(r.Success ? $"[Seats] Prioridad de GPU alta para el {who}."
-                                 : $"[Seats] Prioridad de GPU del {who} sin cambiar (0x{r.Code:X8}).");
+            Logger.Log(r.Success ? BackendText.Get("seatAgent.gpuPriorityRaised", who)
+                                 : BackendText.Get("seatAgent.gpuPriorityUnchanged", who, r.Code));
         }
-        catch (Exception ex) { Logger.Log($"[Seats] Prioridad de GPU del {who} sin cambiar: {ex.Message}"); }
+        catch (Exception ex) { Logger.Log(BackendText.Get("seatAgent.gpuPriorityUnchangedError", who, ex.Message)); }
     }
 
     /// <summary>Rehace la duplicación en el escritorio de entrada actual; null si el agente se está apagando.</summary>
@@ -485,13 +486,13 @@ public static class SeatAgent
             try
             {
                 var dupl = output.DuplicateOutput(dev);
-                Logger.Log($"[SeatAgent] Captura rehecha en el escritorio '{desktop}'.");
+                Logger.Log(BackendText.Get("seatAgent.captureRecreated", desktop));
                 return dupl;
             }
             catch (Exception ex)
             {
                 string err = $"{desktop}: {ex.Message}";
-                if (err != lastError) Logger.Warning($"[SeatAgent] Sin captura por ahora ({err}); reintentando.");
+                if (err != lastError) Logger.Warning(BackendText.Get("seatAgent.captureRetry", err));
                 lastError = err;
                 Thread.Sleep(250);
             }
@@ -541,12 +542,12 @@ public static class SeatAgent
             };
 
             cap.StartRecording();
-            Logger.Log($"[SeatAgent] Captura de audio loopback iniciada: {f}");
+            Logger.Log(BackendText.Get("seatAgent.loopbackStarted", f));
             return cap;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SeatAgent] No se pudo inicializar la captura de audio: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatAgent.audioCaptureFailed", ex.Message));
             return null;
         }
     }
@@ -662,9 +663,9 @@ internal sealed class Injector
             if (!string.Equals(input, current, StringComparison.OrdinalIgnoreCase))
             {
                 if (SetThreadDesktop(hDesk))
-                    Logger.Log($"[SeatAgent] Inyectando en el escritorio '{input}' (antes '{current}').");
+                    Logger.Log(BackendText.Get("seatAgent.switchInputDesktop", input, current));
                 else
-                    Logger.Warning($"[SeatAgent] No se pudo pasar al escritorio '{input}': {Marshal.GetLastWin32Error()}");
+                    Logger.Warning(BackendText.Get("seatAgent.switchInputDesktopFailed", input, Marshal.GetLastWin32Error()));
             }
             CloseDesktop(hDesk);   // si es el del hilo, el sistema lo mantiene abierto
         }
