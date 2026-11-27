@@ -1262,21 +1262,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     Domain   = ".",
                     Password = creds.Password,
                 };
-                Logger.Log($"[{session.Name}] Aislamiento nativo activo: usuario dedicado '{creds.Username}' " +
-                           $"(perfil {(session.IsolatedEphemeral ? "efímero" : "persistente")}).", session.Id);
-            }
-            else
-            {
-                user = new StreamUserConfig
-                {
-                    Username = session.Username,
-                    Domain   = session.Domain,
-                    Password = session.Password,
-                };
-                IsolatedUserManager.EnsureRemoteLogonForOwnAccount(session.Username, session.Domain);
-            }
-
-            Logger.Log(BackendText.Get("session.logCreatingRdpSession", session.Name, user.Username), session.Id);
+                Logger.Log(BackendText.Get("session.logNativeIsolationActive", session.Name, creds.Username, BackendText.Get(session.IsolatedEphemeral ? "session.ephemeral" : "session.persistent")), session.Id);
             session.StartPhase = "rdp";
 
             var rdpId = RdpSessionCreator.GetOrCreateSession(user,
@@ -1327,7 +1313,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             {
                 // El usuario dedicado ya tiene perfil/HKCU propios: la redirección
                 // de env vars es redundante y solo añade rutas raras. Omitida.
-                Logger.Log($"[{session.Name}] UseStreamProfile omitido: el aislamiento nativo ya proporciona perfil propio.", session.Id);
+                Logger.Log(BackendText.Get("session.logStreamProfileOmitted", session.Name), session.Id);
             }
             if (session.Isolated)
             {
@@ -1336,7 +1322,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             }
             else if (session.UseStreamProfile)
             {
-                Logger.Log($"[{session.Name}] Configurando perfil de stream independiente...", session.Id);
+                Logger.Log(BackendText.Get("session.logStreamProfileConfiguring", session.Name), session.Id);
                 profileOverrides = StreamProfileSetup.BuildOverrides(rdpId);
                 StreamProfileSetup.RestartExplorer(rdpId, profileOverrides);
             }
@@ -1411,7 +1397,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                     session.FailedPhase  = session.StartPhase ?? (session.Local ? "sunshine" : "user");
                 }
             }
-            Logger.Error($"[{session.Name}] Error al iniciar: {ex.Message}", session.Id);
+            Logger.Error(BackendText.Get("session.logStartFailed", session.Name, ex.Message), session.Id);
             if (failed && ex is NoConsoleUserException && session.Enabled)
             {
                 _awaitingConsoleUser[session.Id] = 0;
@@ -1436,7 +1422,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (!ConsoleSession.TryGetUser(out var consoleId, out var domain, out var username))
             throw new NoConsoleUserException(RequestCulture.T("error.noConsoleUser"));
 
-        Logger.Log($"[{session.Name}] Sesión local: escritorio de '{domain}\\{username}' (sesión de Windows {consoleId}).", session.Id);
+        Logger.Log(BackendText.Get("session.logLocalSessionDesktop", session.Name, domain, username, consoleId), session.Id);
         session.RdpSessionId = consoleId;
 
         session.StartPhase = "sunshine";
@@ -1475,347 +1461,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             AdoptStreamProtocolFromSunshine(session);
             AdoptGamepadTypeFromSunshine(session);
             if (session.WebRtcEnabled && !SupportsWebRtc(session))
-                Logger.Warning($"[{session.Name}] El protocolo incluye WebRTC pero el Sunshine configurado no lo soporta " +
-                               "(usa la build de sunshine-webrtc); solo funcionará Moonlight.", session.Id);
-            EnsureSunshineCredentials(session, session.RotateSunshineCredentials);
-            profileOverrides ??= BuildProfileOverridesForProcessLaunch(session);
-            return new SunshineManager(
-                GetSunshineInstanceExe(session.Id),
-                session.VddEnabled,
-                BuildSunshineConfig(session),
-                new SunshineConfigurator.SunshineCredentials(session.SunshineAuthUser, session.SunshineAuthPass),
-                profileOverrides,
-                GetSunshineStatePersistPath(session.Id),
-                GetSunshineStateAliasPath(session),
-                runAsSystem: UsesRemoteIdd(session),
-                uniqueIdTaken: id => UniqueIdTakenByOther(session.Id, id));
-        });
-
-    /// <summary>
-    /// Ruta persistente del <c>sunshine_state.json</c> fuera del instance dir. Vive en
-    /// <c>%ProgramData%\OpenStreamMS\state\&lt;sessionId&gt;\sunshine_state.json</c>: SYSTEM tiene
-    /// permisos, sobrevive a borrados de la carpeta sessions y a reinstalaciones del
-    /// servicio. SunshineManager lo usa como backup/restore para conservar named_devices.
-    /// </summary>
-    private static string GetSunshineStatePersistPath(Guid sessionId) =>
-        Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-            "OpenStreamMS", "state", sessionId.ToString(), "sunshine_state.json");
-
-    /// <summary>
-    /// Ruta alternativa independiente del Guid. Si una sesion se elimina y se crea
-    /// otra vez con la misma identidad logica, este backup permite recuperar el
-    /// sunshine_state.json anterior.
-    /// </summary>
-    private static string GetSunshineStateAliasPath(StreamSession session) =>
-        Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-            "OpenStreamMS", "state-index", BuildSunshineStateKey(session), "sunshine_state.json");
-
-    private static string BuildSunshineStateKey(StreamSession session)
-    {
-        static string Norm(string? value) => (value ?? "").Trim().ToLowerInvariant();
-
-        var identity = string.Join("|",
-            Norm(session.Domain),
-            Norm(session.Username),
-            Norm(session.Name),
-            session.SunshineStreamPort.ToString());
-
-        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(identity));
-        return Convert.ToHexString(hash).ToLowerInvariant();
-    }
-
-    private static Dictionary<string, string>? BuildProfileOverridesForProcessLaunch(StreamSession session)
-    {
-        // Con aislamiento nativo el usuario dedicado ya tiene perfil propio
-        if (!session.UseStreamProfile || session.Isolated || session.RdpSessionId == 0)
-            return null;
-
-        return StreamProfileSetup.BuildOverrides(session.RdpSessionId);
-    }
-
-    /// <summary>
-    /// Si la sesión todavía no tiene credenciales para el panel web de Sunshine,
-    /// las genera y las persiste. Idempotente: nunca regenera si ya existen.
-    /// </summary>
-    private void EnsureSunshineCredentials(StreamSession session, bool rotate)
-    {
-        if (!rotate &&
-            !string.IsNullOrEmpty(session.SunshineAuthUser) &&
-            !string.IsNullOrEmpty(session.SunshineAuthPass)) return;
-
-        var creds = SunshineConfigurator.GenerateCredentials();
-        session.SunshineAuthUser = creds.Username;
-        session.SunshineAuthPass = creds.PlainPassword;
-        Logger.Log(rotate
-            ? $"[{session.Name}] Credenciales de Sunshine rotadas (user={creds.Username})."
-            : $"[{session.Name}] Credenciales de Sunshine generadas (user={creds.Username}).",
-            session.Id);
-        SaveSessions();
-    }
-
-    /// <summary>
-    /// Borra las credenciales internas de Sunshine para esta sesión y **mata el proceso
-    /// de Sunshine** para forzar su relanzamiento con credenciales nuevas. El monitor
-    /// periódico (<see cref="MonitorAll"/>, cada 5 s) lo relanzará automáticamente si
-    /// la sesión sigue en estado <c>Running</c>: creará un nuevo <see cref="SunshineManager"/>,
-    /// generará credenciales frescas vía <see cref="EnsureSunshineCredentials"/>, escribirá
-    /// <c>sunshine_state.json</c> y arrancará Sunshine con todo sincronizado.
-    /// </summary>
-    public void ResetSunshineCredentials(Guid id)
-    {
-        var session = RequireSession(id);
-        session.SunshineAuthUser = "";
-        session.SunshineAuthPass = "";
-        session.SunshinePid = 0;
-
-        // Matar la Sunshine en curso: si la dejamos viva con las creds viejas, el
-        // siguiente intento vuelve a dar 401 y entramos en un bucle. El monitor la
-        // relanzará (con state.json recién escrito) en cuestión de segundos.
-        if (_sunshine.TryRemove(id, out var mgr))
-        {
-            try { mgr.Stop(); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] Aviso al parar Sunshine durante reset de creds: {ex.Message}", id); }
-        }
-
-        SaveSessions();
-        Logger.Log(BackendText.Get("session.logSunshineCredentialsReset", session.Name), id);
-    }
-
-    private static SunshineConfigurator.SunshineConfig BuildSunshineConfig(StreamSession s) =>
-        new(
-            StreamPort:               s.SunshineStreamPort,
-            Name:                     string.IsNullOrWhiteSpace(s.SunshineName) ? s.Name : s.SunshineName,
-            Capture:                  EffectiveCapture(s),
-            Encoder:                  s.Encoder,
-            OutputName:               s.OutputName,
-            OriginWebUiAllowed:       s.OriginWebUiAllowed,
-            // Sin audio_sink → Sunshine usa el default de la sesión RDP donde corre.
-            // Con el audio redirigido (mstsc, o FreeRDP /audio-mode:redirect), es "Remote Audio"
-            // (endpoint que crea Windows para el redirect). Loopback ahí captura el
-            // source del juego.
-            AudioSink: null,
-            // Las claves WebRTC solo se escriben para la build de sunshine-webrtc: un Sunshine sin
-            // el parche las rechazaría con avisos de opción desconocida en su log.
-            StreamProtocol:           SupportsWebRtc(s) ? s.StreamProtocol.ToConfigValue() : null,
-            WebRtcPort:               SupportsWebRtc(s) ? s.WebRtcPort : 0,
-            WebRtcMediaPortMin:       SupportsWebRtc(s) ? s.WebRtcMediaPortMin : 0,
-            WebRtcMediaPortMax:       SupportsWebRtc(s) ? s.WebRtcMediaPortMax : 0,
-            MinLogLevel:              SunshineConfigurator.ToSunshineLogLevel(Logger.Threshold),
-            Gamepad:                  s.GamepadType);
-
-    /// <summary>
-    /// Sesiones con Sunshine arrancando o activo, cuyos puertos están ocupados.
-    /// </summary>
-    private IEnumerable<StreamSession> ActiveSessions() =>
-        _sessions.Values.Where(s => s.State is SessionState.Starting or SessionState.Running);
-
-    /// <summary>
-    /// Lanza <see cref="InvalidOperationException"/> si los puertos de <paramref name="session"/> no son
-    /// válidos o chocan con los de <paramref name="others"/>.
-    /// </summary>
-    private static void EnsurePortsAvailable(StreamSession session, IEnumerable<StreamSession> others)
-    {
-        var problem = SunshinePorts.Validate(session) ?? SunshinePorts.FindConflict(session, others);
-        if (problem is not null)
-            throw new InvalidOperationException(problem);
-    }
-
-    private static string PortSignature(StreamSession s) =>
-        $"{s.StreamProtocol}|{s.SunshineStreamPort}|{s.WebRtcPort}|{s.WebRtcMediaPortMin}|{s.WebRtcMediaPortMax}";
-
-    private static void WriteStreamProtocolToInstance(StreamSession session)
-    {
-        if (!SupportsWebRtc(session)) return;
-        try
-        {
-            SunshineConfigurator.SetConfigValues(GetSunshineInstanceExe(session.Id),
-                new Dictionary<string, string>
-                {
-                    [SunshineConfigurator.StreamProtocolKey] = session.StreamProtocol.ToConfigValue(),
-                });
-        }
-        catch (Exception ex)
-        {
-            Logger.Warning($"[{session.Name}] No se pudo escribir stream_protocol en sunshine.conf: {ex.Message}", session.Id);
-        }
-    }
-
-    /// <summary>
-    /// El interruptor de protocolo del panel de Sunshine guarda <c>stream_protocol</c> en su
-    /// <c>sunshine.conf</c>. Antes de relanzar Sunshine, OpenStreamMS adopta ese valor si difiere
-    /// del suyo (el último cambio gana), salvo que choque con los puertos de otra sesión activa.
-    /// </summary>
-    /// <summary>
-    /// El tipo de mando también se puede cambiar desde el panel de Sunshine: si su sunshine.conf
-    /// dice otro, gana ese (es el último que se tocó, porque el panel de OpenStreamMS lo escribe
-    /// al momento). Sin clave es "auto", el valor por defecto de Sunshine, que su panel borra al guardar.
-    /// </summary>
-    private void AdoptGamepadTypeFromSunshine(StreamSession session)
-    {
-        var exe = GetSunshineInstanceExe(session.Id);
-        string? value = null;
-        if (File.Exists(exe))
-        {
-            try { value = SunshineConfigurator.ReadConfigValue(exe, SunshineConfigurator.GamepadKey); }
-            catch (Exception ex)
-            {
-                Logger.Warning($"[{session.Name}] No se pudo leer gamepad de sunshine.conf: {ex.Message}", session.Id);
-                return;
-            }
-        }
-        else if (session.GamepadType is not null) return;   // instancia nueva: se escribe la de la sesión
-
-        var fromConf = StreamSession.NormalizeGamepadType(value) ?? "auto";
-        if (fromConf == session.GamepadType) return;
-        Logger.Log($"[{session.Name}] Tipo de mando: {session.GamepadType ?? "sin ajuste"} → {fromConf} (sunshine.conf).", session.Id);
-        session.GamepadType = fromConf;
-        SaveSessions();
-    }
-
-    /// <summary>Escribe al momento el tipo de mando en el sunshine.conf de la sesión, si ya existe.</summary>
-    private static void WriteGamepadType(StreamSession session)
-    {
-        var exe = GetSunshineInstanceExe(session.Id);
-        if (session.GamepadType is not { } type || !File.Exists(exe)) return;
-        try
-        {
-            SunshineConfigurator.SetConfigValues(exe, new Dictionary<string, string> { [SunshineConfigurator.GamepadKey] = type });
-        }
-        catch (Exception ex)
-        {
-            Logger.Warning($"[{session.Name}] No se pudo escribir el tipo de mando en sunshine.conf: {ex.Message}", session.Id);
-        }
-    }
-
-    private void AdoptStreamProtocolFromSunshine(StreamSession session)
-    {
-        var exe = GetSunshineInstanceExe(session.Id);
-        if (!File.Exists(exe)) return;
-
-        string? value;
-        try { value = SunshineConfigurator.ReadConfigValue(exe, SunshineConfigurator.StreamProtocolKey); }
-        catch (Exception ex)
-        {
-            Logger.Warning($"[{session.Name}] No se pudo leer stream_protocol de sunshine.conf: {ex.Message}", session.Id);
-            return;
-        }
-
-        if (!StreamProtocolExtensions.TryParseConfigValue(value, out var protocol) ||
-            protocol == session.StreamProtocol)
-            return;
-
-        var candidate = new StreamSession
-        {
-            Id                 = session.Id,
-            Name               = session.Name,
-            SunshineStreamPort = session.SunshineStreamPort,
-            StreamProtocol     = protocol,
-            WebRtcPort         = session.WebRtcPort,
-            WebRtcMediaPortMin = session.WebRtcMediaPortMin,
-            WebRtcMediaPortMax = session.WebRtcMediaPortMax,
-        };
-        var problem = SunshinePorts.Validate(candidate) ??
-                      SunshinePorts.FindConflict(candidate, ActiveSessions());
-        if (problem is not null)
-        {
-            Logger.Warning($"[{session.Name}] Se ignora stream_protocol={value} del panel de Sunshine: {problem}", session.Id);
-            return;
-        }
-
-        Logger.Log($"[{session.Name}] Protocolo cambiado desde el panel de Sunshine: " +
-                   $"{session.StreamProtocol.ToConfigValue()} -> {protocol.ToConfigValue()}.", session.Id);
-        session.StreamProtocol = protocol;
-        SaveSessions();
-        AddFirewallRule(session);
-    }
-
-    private static string? NullIfBlank(string? s)
-    {
-        s = StripControlChars(s);
-        return string.IsNullOrWhiteSpace(s) ? null : s.Trim();
-    }
-
-    /// <summary>
-    /// Quita saltos de línea y demás caracteres de control: estos textos acaban como
-    /// <c>clave = valor</c> en sunshine.conf, y un salto de línea pegado sin querer añadiría
-    /// claves o rompería el fichero.
-    /// </summary>
-    private static string? StripControlChars(string? s) =>
-        s is null || !s.Any(char.IsControl) ? s : new string(s.Where(c => !char.IsControl(c)).ToArray());
-
-    /// <summary>
-    /// Captura RemoteIdd: el proveedor de RDP-Tcp da a la sesión del puesto el driver propio
-    /// de pantalla y Sunshine lee sus frames con capture = remoteidd. Es la captura de los
-    /// puestos RDP en auto-detección y con remoteidd elegido. Si el proveedor no está en
-    /// RDP-Tcp (no instalado, o se quitó al arrancar porque RDP-Tcp no escuchaba con él), el puesto usa la
-    /// captura por defecto.
-    /// </summary>
-    private static bool UsesRemoteIdd(StreamSession session) =>
-        WantsRemoteIdd(session) && RdpWrapperManager.IsRemoteIddUsable();
-
-    /// <summary>La sesión se captura con RemoteIdd (requisito de las sesiones compuestas).</summary>
-    public static bool CapturesWithRemoteIdd(StreamSession session) => UsesRemoteIdd(session);
-
-    /// <summary>Carpeta <c>config</c> del Sunshine de la sesión (la de <c>sunshine.conf</c>).</summary>
-    public static string SunshineConfigDir(Guid sessionId) =>
-        Path.Combine(GetSunshineInstanceDir(sessionId), "config");
-
-    private static bool WantsRemoteIdd(StreamSession session) =>
-        !session.Local &&
-        (string.IsNullOrWhiteSpace(session.Capture) || IsRemoteIddCapture(session));
-
-    private static bool IsRemoteIddCapture(StreamSession session) =>
-        string.Equals(session.Capture, "remoteidd", StringComparison.OrdinalIgnoreCase);
-
-    private static string? EffectiveCapture(StreamSession session)
-    {
-        if (UsesRemoteIdd(session)) return "remoteidd";
-        if (!IsRemoteIddCapture(session)) return session.Capture;
-        Logger.Warning($"[{session.Name}] Captura remoteidd sin RemoteIdd activo en RDP-Tcp: se usa la captura por defecto.", session.Id);
-        return null;
-    }
-
-    private static RdpDisplayOptions DisplayOptions(StreamSession session) =>
-        new(session.RdpDisplayScale, session.RdpComposition);
-
-    private static int NormalizeRdpFrameRate(int frameRate) =>
-        Math.Clamp(frameRate > 0 ? frameRate : 60, 1, RdpSessionCreator.MaxFrameRate);
-
-    private static int NormalizeRdpColorDepth(int colorDepth) => colorDepth switch
-    {
-        8 or 15 or 16 or 24 or 32 => colorDepth,
-        _ => 32
-    };
-
-    private static string GetSunshineInstanceDir(Guid sessionId) =>
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sessions", sessionId.ToString(), "Sunshine");
-
-    private static string GetSunshineInstanceExe(Guid sessionId) =>
-        Path.Combine(GetSunshineInstanceDir(sessionId), "sunshine.exe");
-
-    private static void EnsureSunshineInstance(StreamSession session,
-                                               string effectiveDomain, string effectiveUsername)
-    {
-        var instanceDir = GetSunshineInstanceDir(session.Id);
-        var instanceExe = GetSunshineInstanceExe(session.Id);
-
-        if (!File.Exists(instanceExe))
-        {
-            var templateDir = Path.GetDirectoryName(session.SunshineExePath)!;
-            if (!Directory.Exists(templateDir))
-                throw new DirectoryNotFoundException($"Directorio de Sunshine no encontrado: {templateDir}");
-
-            Logger.Log($"[{session.Name}] Copiando Sunshine a instancia propia: {instanceDir}", session.Id);
-            CopyDirectory(templateDir, instanceDir);
-            RemoveTemplateIdentity(instanceDir, session);
-        }
-        else if (TemplateChanged(session.SunshineExePath, instanceExe))
-        {
-            // Plantilla actualizada (p.ej. sustituida por la build de sunshine-webrtc): refrescar
-            // binarios y assets de la instancia sin tocar config/ (conf, estado, pareos, logs).
-            Logger.Log(BackendText.Get("session.logSunshineTemplateUpdated", session.Name, instanceDir), session.Id);
+                Logger.Warning(BackendText.Get("session.logWebRtcUnsupported", session.Name), session.Id);
             try { CopyDirectory(Path.GetDirectoryName(session.SunshineExePath)!, instanceDir, skipTopLevelDir: "config"); }
             catch (Exception ex) { Logger.Warning(BackendText.Get("session.logSunshineInstanceUpdateFailed", session.Name, ex.Message), session.Id); }
         }
