@@ -409,7 +409,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
 
             var texturesMsg = agentChannel.Receive();
             if (texturesMsg is null || texturesMsg.Value.Type != SeatMsg.Json)
-                throw new InvalidOperationException("El agente no envió la configuración de texturas.");
+                throw new InvalidOperationException(BackendText.Get("seats.textureConfigMissing"));
 
             var texJson = SeatChannel.ParseJson(texturesMsg.Value.Data);
             return new AgentLink(agentServer, agentChannel, agentPid,
@@ -418,7 +418,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                 texJson["luidLow"]?.GetValue<uint>() ?? 0,
                 texJson["luidHigh"]?.GetValue<int>() ?? 0,
                 texJson["handles"]?.AsArray().Select(h => h!.GetValue<long>()).ToArray()
-                    ?? throw new InvalidOperationException("El agente no proporcionó handles de texturas."));
+                    ?? throw new InvalidOperationException(BackendText.Get("seats.textureHandlesMissing")));
         }
         catch
         {
@@ -459,7 +459,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
 
         var hostReadyMsg = hostChannel.Receive();
         if (hostReadyMsg is null || hostReadyMsg.Value.Type != SeatMsg.Json)
-            throw new InvalidOperationException("El presentador no envió confirmación.");
+            throw new InvalidOperationException(BackendText.Get("seats.presenterReadyMissing"));
 
         // Duplicar handles de textura: agentPid -> hostPid
         var dupHandles = new long[agentHandles.Length];
@@ -519,7 +519,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
     {
         if (seat.AudioInId is not { } id) return null;
         if (SeatAudio.Inputs().Any(a => a.Id.Equals(id, StringComparison.OrdinalIgnoreCase))) return id;
-        Logger.Warning($"[Seats] '{seat.Name}': el micrófono '{seat.AudioInName}' no está conectado; el puesto arranca sin micrófono.");
+        Logger.Warning(BackendText.Get("seats.microphoneDisconnected", seat.Name, seat.AudioInName));
         return null;
     }
 
@@ -559,7 +559,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             if ((_resized.TryRemove(seat.Id, out _) | disconnectedFromSeat) && sessions.Get(sid) is { State: SessionState.Running } s)
             {
                 try { sessions.ReconnectRdp(sid, s.RdpWidth, s.RdpHeight, s.RdpFrameRate); }
-                catch (Exception ex) { Logger.Warning($"[Seats] '{seat.Name}': no se pudo restaurar la resolución de la sesión: {ex.Message}"); }
+                catch (Exception ex) { Logger.Warning(BackendText.Get("seats.sessionResolutionRestoreFailed", seat.Name, ex.Message)); }
             }
             if (seat.ExclusiveSession) sessions.ResumeSunshine(sid);
         }
@@ -569,7 +569,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         if (!restarting && !_seats.Values.Any(s => s.State is SeatState.Running or SeatState.Starting))
             ConsoleLockGuard.Release();
         Interlocked.Increment(ref _generation);   // los mandos del puesto vuelven a la consola
-        Logger.Log($"[Seats] Puesto '{seat.Name}' detenido.");
+        Logger.Log(BackendText.Get("seats.stopped", seat.Name));
 
         // Si quedan puestos en el principal, la consola vuelve con la parte que ahora quede libre.
         if (!restarting && seat.Monitor is { } m &&
@@ -597,7 +597,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         if (ports.Count == 0) return;
         if (!Gamepad.PadCapture.Available)
         {
-            Logger.Log($"[Seats] '{seat.Name}': ViGEmBus no está instalado; los mandos se aíslan con HidHide.");
+            Logger.Log(BackendText.Get("seats.vigemMissing", seat.Name));
             return;
         }
         Status(seat, "Separando los mandos del puesto…");
@@ -621,8 +621,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
 
         if (SeatDeviceAccess.UserSidOfSession(windowsSession) is not { } sid)
         {
-            Logger.Warning($"[Seats] '{seat.Name}': no se pudo saber el usuario de la sesión {windowsSession}; " +
-                           "sus otros dispositivos USB quedan visibles en todas las sesiones.");
+            Logger.Warning(BackendText.Get("seats.sessionUserUnknown", seat.Name, windowsSession));
             return;
         }
         Status(seat, "Reservando los dispositivos USB del puesto…");
@@ -648,7 +647,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         {
             if (!UsbCapture.Capture(node))
             {
-                Logger.Warning($"[Seats] '{seat.Name}': {node} sigue compartido con la consola (Raw Input).");
+                Logger.Warning(BackendText.Get("seats.rawInputShared", seat.Name, node));
                 continue;
             }
             active.Captured.Add(node);
@@ -661,16 +660,16 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                     ev.Qpc = Stopwatch.GetTimestamp();   // el informe acaba de llegar del aparato
                     active.AgentChannel.Send(SeatMsg.Input, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref ev, 1)));
                     if (++sent is 1 or 100 or 1000)
-                        Logger.Log($"[SeatUsb] {sent} evento(s) enviados al agente de '{seat.Name}' (último: tipo={ev.Kind} flags={ev.Flags:X} dx={ev.Dx} dy={ev.Dy}).");
+                        Logger.Log(BackendText.Get("seats.usbEventsSent", sent, seat.Name, ev.Kind, ev.Flags, ev.Dx, ev.Dy));
                 }
                 catch (Exception ex) when (!active.Cts.IsCancellationRequested)
                 {
-                    if (!failLogged) { failLogged = true; Logger.Warning($"[SeatUsb] No se pudo enviar la entrada al agente de '{seat.Name}': {ex.Message}"); }
+                    if (!failLogged) { failLogged = true; Logger.Warning(BackendText.Get("seats.usbInputSendFailed", seat.Name, ex.Message)); }
                 }
                 catch { /* el puesto se está apagando */ }
             }));
         }
-        Logger.Log($"[Seats] '{seat.Name}': {active.Captured.Count} de {nodes.Count} interfaz(es) de entrada separadas de la consola.");
+        Logger.Log(BackendText.Get("seats.inputInterfacesCaptured", seat.Name, active.Captured.Count, nodes.Count));
     }
 
     // ── Parte de la consola ─────────────────────────────────────────────────────
