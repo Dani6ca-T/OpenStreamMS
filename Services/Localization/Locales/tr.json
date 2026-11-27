@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Birincil monitör değiştirilemedi: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig (devre dışı bırakma) başarısız: {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitör masaüstünden kaldırıldı: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Monitör devre dışı bırakılamadı: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Monitör devre dışı bırakılamadı: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Ana bilgisayar denetim kanalı: konsol oturumunda olmadığı için {0} işlemi reddedildi.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp ana bilgisayar denetim kanalına bağlandı.",
+  "seatHostControl.controlPipeError": "[Seats] Ana bilgisayar denetim kanalı hatası: {0}",
+  "seatHostControl.openSeatSent": "[Seats] {0} koltuğu için 'open_seat' komutu TrayApp'e gönderildi.",
+  "seatHostControl.openSeatSendFailed": "[Seats] 'open_seat' komutu TrayApp'e gönderilemedi: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp bağlı değil; {0} konsol oturumunda bağımsız sunucu başlatılıyor...",
+  "seatHostControl.consoleUserMissing": "[Seats] Fiziksel konsolda oturum açmış kullanıcı yok.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Koltuk ana bilgisayarları denetim kanalına bağlandı.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Koltuk komutu işlenirken hata oluştu: {0}"
 }
