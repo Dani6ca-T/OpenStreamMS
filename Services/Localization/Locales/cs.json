@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "Relace zjištěna při pokusu {0} ({1}): {2} (FreeRDP PID={3})",
   "rdp.sessionModeRelaxed": "rozšířený režim",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "Čekání na relaci… pokus {0}/20"
+  "rdp.waitingSession": "Čekání na relaci… pokus {0}/20",
+  "rdp.frameRateConfigured": "Snímková frekvence {0} fps | interval {1} ms (kompozice {2} Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, měřítko {3} %.",
+  "rdp.betterRdpPoliciesApplied": "Zásady BetterRDP byly použity.",
+  "rdp.mstscClientPoliciesApplied": "Zásady klienta mstsc byly použity (bez dialogů před připojením).",
+  "rdp.mstscClientPoliciesFailed": "Nepodařilo se použít zásady HKCU mstsc: {0}"
 }
