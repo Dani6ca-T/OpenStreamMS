@@ -318,5 +318,14 @@
   "seats.managerStarted": "Sitzungsmanager gestartet ({0} Sitzplätze).",
   "seats.multiRdpCheckTimeout": "Die Multi-RDP-Prüfung wurde nicht innerhalb von 120 s abgeschlossen; Sitzplätze werden trotzdem automatisch gestartet.",
   "seats.autoStartSameConsoleUser": "„{0}“ wird nicht automatisch gestartet: verwendet denselben Benutzer wie die Konsole.",
-  "seats.autoStartFailed": "Autostart von „{0}“ fehlgeschlagen: {1}"
+  "seats.autoStartFailed": "Autostart von „{0}“ fehlgeschlagen: {1}",
+  "seats.monitorBusy": "Der Monitor wird von Sitzplatz „{0}“ verwendet.",
+  "seats.created": "Sitzplatz „{0}“ erstellt.",
+  "seats.deleted": "Sitzplatz „{0}“ gelöscht.",
+  "seats.microphoneAlreadyAssigned": "Das Mikrofon ist bereits Sitzplatz „{0}“ zugewiesen.",
+  "seats.monitorActivationFailed": "„{0}“: Monitor konnte nicht aktiviert werden; er wird trotzdem angezeigt, falls er bereits aktiv war.",
+  "seats.devicesAssigned": "„{0}“: {1} Gerät(e) Sitzung {2} zugewiesen.",
+  "seats.devicePortEmpty": "„{0}“: Am Anschluss von „{1}“ ist nichts angeschlossen ({2}, {3}). Wenn Sie es an einen anderen Anschluss, Hub oder Dock angeschlossen haben, weisen Sie es erneut zu.",
+  "seats.started": "Sitzplatz „{0}“ aktiv.",
+  "seats.startFailed": "Sitzplatz „{0}“ konnte nicht gestartet werden: {1}"
 }
