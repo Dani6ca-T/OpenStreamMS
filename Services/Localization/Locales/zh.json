@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "无法读取 HidHide 白名单：{0}",
   "gamepad.controllerToVkDisabled": "已禁用 ControllerToVKMapping（它会绕过按会话进行的控制器隔离）。",
   "gamepad.controllerToVkDisableFailed": "无法禁用 ControllerToVKMapping：{0}",
-  "gamepad.jailPrepareFailed": "无法为 ViGEm 控制器准备 HidHide jail：{0}"
+  "gamepad.jailPrepareFailed": "无法为 ViGEm 控制器准备 HidHide jail：{0}",
+  "gamepad.stateEnabled": "已启用",
+  "gamepad.stateDisabled": "已禁用",
+  "gamepad.stateEmpty": "空",
+  "gamepad.unknownVersion": "未知版本"
 }
