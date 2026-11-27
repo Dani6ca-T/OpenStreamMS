@@ -461,5 +461,15 @@
   "error.stopSeat": "Hãy dừng chỗ trước khi thay đổi cấu hình.",
   "error.primaryMonitor": "Không thể gán màn hình chính cho một chỗ.",
   "error.assigned": "Tài nguyên đã chọn đã được gán.",
-  "composite.logMemberAssignedToSlot": "[{0}] Đã gán \"{1}\" vào ô {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] Đã gán \"{1}\" vào ô {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Người dùng \"{0}\" không phải quản trị viên hoặc thành viên Remote Desktop Users; đang cấp quyền truy cập Máy tính từ xa để phiên có thể khởi chạy.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Không thể kiểm tra quyền truy cập Máy tính từ xa của \"{0}\": {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Không thể đọc quyền của RDP-Tcp (cả Security lẫn DefaultSecurity đều không đọc được); giữ nguyên, không thay đổi.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Không thể ẩn \"{0}\" khỏi màn hình đăng nhập: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Không thể điều chỉnh quyền truy cập của \"{0}\" đối với registry Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Đã chuẩn bị Steam cho \"{0}\": steam:// và {1} lối tắt sử dụng osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Không thể chuẩn bị Steam cho \"{0}\": {1}",
+  "service.started": "[Service] OpenStreamMS đã khởi động. API khả dụng trên cổng đã cấu hình.",
+  "service.multiRdpCheckFailed": "[Service] Kiểm tra Multi-RDP thất bại: {0}",
+  "service.stopped": "[Service] Đã dừng."
 }
