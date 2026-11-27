@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Windows oturumu {1} kapanmayı tamamlamadı.",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) durduruldu.",
   "session.logStopWarning": "[{0}] Durdurulurken uyarı: {1}",
-  "session.logStopped": "[{0}] Durduruldu."
+  "session.logStopped": "[{0}] Durduruldu.",
+  "session.logProtocolChanged": "[{0}] Akış protokolü: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Sunshine durdurulurken uyarı ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine {1} nedeniyle durduruldu; otomatik olarak yeniden başlatılacak.",
+  "session.logSunshinePauseWarning": "[{0}] Sunshine duraklatılırken uyarı: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine duraklatıldı ({1}).",
+  "session.logSunshineResumed": "[{0}] Sunshine devam ettirildi; otomatik olarak yeniden başlatılacak.",
+  "session.logMuteRdpClient": "[{0}] Ana bilgisayarda RDP istemcisinin (PID={1}) sesi kapatılıyor..."
 }
