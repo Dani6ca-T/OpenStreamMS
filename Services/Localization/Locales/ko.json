@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "OsmsPad 컨트롤러 {0} → Windows 세션 {1}(OpenStreamMS 세션에 속하지 않음).",
   "gamepad.padAssignedCompositeMember": "'{1}'의 컨트롤러 {0}({2}) → 세션 '{3}'(Windows 세션 {4}).",
   "gamepad.padAssignedSession": "컨트롤러 {0} → 세션 '{1}'(Windows 세션 {2}).",
-  "gamepad.padRetargeted": "복합 세션 변경으로 컨트롤러 {0}({1})이(가) 세션 '{2}'(Windows 세션 {3})으로 이동했습니다."
+  "gamepad.padRetargeted": "복합 세션 변경으로 컨트롤러 {0}({1})이(가) 세션 '{2}'(Windows 세션 {3})으로 이동했습니다.",
+  "gamepad.futurePadsReserved": "다음 Moonlight 컨트롤러는 세션을 확인할 때까지 미리 숨겨집니다({0}).",
+  "gamepad.futurePadReservationsReleased": "실행 중인 스트림이 없습니다. 다음 컨트롤러 예약을 해제했습니다.",
+  "gamepad.futurePadReservationFailed": "HidHide에서 다음 컨트롤러를 예약할 수 없습니다: {0}"
 }
