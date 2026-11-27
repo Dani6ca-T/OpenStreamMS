@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "물리 컨트롤러 {0}은(는) 좌석 또는 스트림 세션에 할당되어 세션 {1}에만 표시됩니다.",
   "gamepad.steamFilterWarning": "{0}의 장치 스택에 Steam 필터 {1}이(가) 있습니다. 콘솔을 포함한 다른 세션의 Steam도 계속 읽을 수 있습니다. 좌석 또는 스트림이 실행된 후 분리했다가 다시 연결하세요.",
   "gamepad.physicalPadRestarted": "{0}을(를) 다시 시작했습니다. 세션 {1}에서 더 이상 읽을 수 없습니다.",
-  "gamepad.physicalPadRestartFailed": "{0}을(를) 다시 시작할 수 없습니다: {1}. 이미 열어 둔 세션은 닫을 때까지 계속 볼 수 있습니다."
+  "gamepad.physicalPadRestartFailed": "{0}을(를) 다시 시작할 수 없습니다: {1}. 이미 열어 둔 세션은 닫을 때까지 계속 볼 수 있습니다.",
+  "gamepad.padRemoved": "컨트롤러 {0}이(가) 제거되었습니다. 해당 HID 노드를 HidHide 차단 목록에서 제거했습니다.",
+  "gamepad.staleJailsRemoved": "HidHide 차단 목록에서 오래된 항목 {0}개를 제거했습니다.",
+  "gamepad.absentPadAssigned": "물리 컨트롤러 {0}(현재 연결 해제됨)을(를) 세션 {1}에 할당했습니다. 다시 나타나면 해당 세션에 속합니다.",
+  "gamepad.knownNodesSaveFailed": "{0}을(를) 저장할 수 없습니다: {1}",
+  "gamepad.knownNodesReadFailed": "{0}을(를) 읽을 수 없습니다: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "HidHide 차단 목록을 업데이트할 수 없습니다: {0}"
 }
