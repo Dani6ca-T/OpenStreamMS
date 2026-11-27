@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Skonfigurowano Steam Big Picture ('{0}') z nieblokującym cofnięciem: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture sesji złożonej otwiera się i zamyka we wszystkich jej sesjach: {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Zaktualizowano aplikacje rozszerzeń ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Skonfigurowano aplikacje Reboot i Power Off: {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Skonfigurowano aplikacje Reboot i Power Off: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json zaktualizowano z izolowanym środowiskiem profilu: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json zaktualizowano bez izolowanego środowiska profilu: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort musi być większy od 0.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver przywrócono z osmspad do vigembus: kontrolery OsmsPad Xbox Series tracą XInput w sesjach streamingu.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] Usunięto capture = remoteidd: RemoteIdd nie jest aktywny w RDP-Tcp, więc Sunshine używa domyślnego przechwytywania.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] Zastosowano ustawienia domyślne OpenStreamMS: {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] sunshine.conf był już aktualny: {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] Zaktualizowano sunshine.conf ({0}) w: {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] Zaktualizowano sunshine.conf ({0}) w: {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: dane logowania są już aktualne (użytkownik={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: dane logowania są już aktualne; root wyczyszczony (użytkownik={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: ustawiono dane logowania (użytkownik={0})"
 }
