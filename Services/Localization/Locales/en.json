@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Startup abandoned before it began (another command arrived).",
   "session.logCreatingRdpSession": "[{0}] Starting RDP session for user \"{1}\"...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine failed to start: {1}",
-  "session.logAutoStartFailed": "[{0}] Automatic start failed: {1}"
+  "session.logAutoStartFailed": "[{0}] Automatic start failed: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Startup aborted (session was stopped during RDP creation).",
+  "session.logRdpSessionReused": "[{0}] Existing RDP session reused; no new RDP client was launched.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Startup aborted (session was stopped while launching Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Session active (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Startup aborted (session was stopped after launch completed).",
+  "session.logWaitingForConsoleUser": "[{0}] It will start when someone signs in to Windows.",
+  "session.logLocalSessionActive": "[{0}] Local session active (Windows session {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine credentials reset; Sunshine stopped and will restart automatically.",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine template changed; updating instance: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Could not update Sunshine instance: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Could not add firewall rule: {0}"
 }
