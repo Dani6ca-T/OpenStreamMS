@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "HKLM\\\\{1} konumuna {0} yazılamadı: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP hiçbir çıktı üretmedi.",
-  "rdp.freeRdpOutputPrefix": "FreeRDP çıktısı: "
+  "rdp.freeRdpOutputPrefix": "FreeRDP çıktısı: ",
+  "seats.usbArrivalWatchUnavailable": "USB aygıtlarının gelişini izleyemedi: yakalanan klavye veya fare sonraki başlangıçta geri yüklenecek.",
+  "seats.usbDriversRestoreFailed": "USB sürücüleri geri yüklenemedi: {0}",
+  "seats.reservedDevicesReleaseFailed": "Ayrılmış aygıtlar serbest bırakılamadı: {0}",
+  "seats.managerStarted": "Koltuk yöneticisi başlatıldı ({0} koltuk).",
+  "seats.multiRdpCheckTimeout": "Multi-RDP denetimi 120 saniye içinde tamamlanmadı; koltuklar yine de otomatik başlatılacak.",
+  "seats.autoStartSameConsoleUser": "'{0}' otomatik başlatılmayacak: konsolla aynı kullanıcıyı kullanıyor.",
+  "seats.autoStartFailed": "'{0}' otomatik başlatılamadı: {1}"
 }
