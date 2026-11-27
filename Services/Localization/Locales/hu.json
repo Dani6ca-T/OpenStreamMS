@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható.",
   "gamepad.consoleSessionChanged": "A konzolmunkamenet {0}-ról {1}-re változott: a fizikai vezérlők újrahozzárendelése folyamatban.",
   "gamepad.sideInputDriverRestored": "A(z) {0} (a vezérlő billentyűzete vagy egere) visszatér az illesztőprogramjához: a vezérlő a konzolhoz tartozik.",
-  "gamepad.sideInputCaptured": "A(z) {0} (a vezérlő billentyűzete vagy egere) elkülönítve, amíg a vezérlő másik munkamenetben van: a billentyűi (pl. a képernyőkép gomb) már nem jutnak el a konzolhoz."
+  "gamepad.sideInputCaptured": "A(z) {0} (a vezérlő billentyűzete vagy egere) elkülönítve, amíg a vezérlő másik munkamenetben van: a billentyűi (pl. a képernyőkép gomb) már nem jutnak el a konzolhoz.",
+  "gamepad.physicalPadConsole": "A(z) {0} fizikai vezérlő csak a konzolmunkamenetben ({1}) látható.",
+  "gamepad.physicalPadAssigned": "A(z) {0} fizikai vezérlő egy munkaállomáshoz vagy stream-munkamenethez van rendelve: csak a(z) {1} munkamenetben látható.",
+  "gamepad.steamFilterWarning": "A(z) {0} eszközveremében megtalálható a Steam {1} szűrője: a többi munkamenet Steamje (a konzolt is beleértve) továbbra is olvashatja. Húzza ki, majd csatlakoztassa újra, miután a munkaállomás vagy stream elindult.",
+  "gamepad.physicalPadRestarted": "A(z) {0} újraindult: a(z) {1} munkamenet már nem tudja olvasni.",
+  "gamepad.physicalPadRestartFailed": "Nem sikerült újraindítani: {0}: {1}. Az a munkamenet, amely már megnyitotta, továbbra is látja, amíg be nem zárja."
 }
