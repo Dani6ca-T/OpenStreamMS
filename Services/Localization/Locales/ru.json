@@ -359,5 +359,16 @@
   "seats.seatLost": "Место «{0}» выключается: {1}.",
   "seats.stopAfterLossFailed": "«{0}»: не удалось выключить после сбоя: {1}",
   "seats.sessionStartFailed": "Не удалось запустить сеанс.",
-  "seats.sessionStartTimeout": "Сеанс не стал активным вовремя."
+  "seats.sessionStartTimeout": "Сеанс не стал активным вовремя.",
+  "seats.statusStartingSession": "Запуск сеанса…",
+  "seats.statusPoweringMonitor": "Включение монитора…",
+  "seats.statusStartingAgent": "Запуск агента захвата и изображения…",
+  "seats.statusStartingPresenter": "Запуск презентера в консоли…",
+  "seats.statusSeparatingGamepads": "Изоляция контроллеров места…",
+  "seats.statusReservingUsb": "Резервирование USB-устройств места…",
+  "seats.statusSeparatingInput": "Изоляция мыши и клавиатуры места…",
+  "seats.statusLockingSession": "Блокировка сеанса: место запросит пароль…",
+  "seats.statusActive": "Активно: изображение, звук и периферия подключены.",
+  "seats.statusDisconnectedFromSeat": "Отключено со стороны места. Включите снова через OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Остановлено: {0}. Включите снова через OpenStreamMS."
 }
