@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Birleşik oturum değiştiği için denetleyici {0} ({1}), '{2}' oturumuna (Windows oturumu {3}) taşındı.",
   "gamepad.futurePadsReserved": "Sonraki Moonlight denetleyicileri oturumları belirlenene kadar önceden gizlenir ({0}).",
   "gamepad.futurePadReservationsReleased": "Çalışan akış yok: sonraki denetleyicilerin ayırmaları kaldırıldı.",
-  "gamepad.futurePadReservationFailed": "HidHide içinde sonraki denetleyiciler ayrılamadı: {0}"
+  "gamepad.futurePadReservationFailed": "HidHide içinde sonraki denetleyiciler ayrılamadı: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0}, ortaya çıktığından beri yalnızca '{1}' oturumunda ({2}) görünür; bu oturumun algılaması için yeniden başlatıldı.",
+  "gamepad.nodeVisibleAfterRestart": "{0} yalnızca '{1}' oturumunda ({2}) görünür; diğer oturumların tanıtıcılarını kapatmak için yeniden başlatıldı.",
+  "gamepad.nodeRestartDeferred": "{0} yalnızca '{1}' oturumunda ({2}) görünür, ancak başka bir işlem kullandığı için Windows yeniden başlatmayı erteledi; önceden açmış işlemler kapatana kadar görmeye devam eder.",
+  "gamepad.nodeLateRestartFailed": "{0} geç gizlendi ve yeniden başlatılamadı: {1}. Başka bir oturumda zaten açmış olan işlem onu görmeye devam eder.",
+  "gamepad.nodeVisibleSession": "{0} yalnızca '{1}' oturumunda ({2}) görünür."
 }
