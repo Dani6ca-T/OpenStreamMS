@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Đang khóa phiên: chỗ sẽ yêu cầu mật khẩu…",
   "seats.statusActive": "Đang hoạt động: đã kết nối hình ảnh, âm thanh và thiết bị ngoại vi.",
   "seats.statusDisconnectedFromSeat": "Đã ngắt kết nối từ chỗ. Bật lại từ OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Đã dừng: {0}. Bật lại từ OpenStreamMS."
+  "seats.statusStoppedAfterError": "Đã dừng: {0}. Bật lại từ OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Chỗ này dùng cùng người dùng với bảng điều khiển nên không thể tự khởi động. Hãy khởi động từ OpenStreamMS hoặc gán phiên khác.",
+  "seats.monitorAlreadyAssigned": "Màn hình đã được gán cho chỗ '{0}'.",
+  "seats.monitorAreaOverlap": "Phần màn hình này chồng lấn với phần của chỗ '{0}'.",
+  "seats.notFound": "Chỗ {0} không tồn tại."
 }
