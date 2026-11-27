@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "Engedélyezve a támogatott kliensgépeken (alapértelmezett)",
     "wan_encryption_mode_2": "Minden kliensgép számára kötelező",
     "wan_encryption_mode_desc": "Ez határozza meg, mikor használjunk titkosítást az interneten keresztüli streameléskor. A titkosítás csökkentheti a streamelés teljesítményét, különösen gyengébb gazdagépeken és klienseken."
+  ,
+    "port_webrtc_discovery": "Moonlight WebRTC TV-k keresése",
+    "port_webrtc_media": "Moonlight WebRTC videó és hang",
+    "port_webrtc_media_any": "Bármelyik",
+    "port_webrtc_signaling": "Moonlight WebRTC TV-kapcsolat",
+    "stream_protocol": "Streamelési protokollok",
+    "stream_protocol_both": "Mindkettő",
+    "stream_protocol_desc": "Mely klienseket szolgálja ki a Sunshine: Moonlight alkalmazásokat, Samsung Tizen TV-ken futó Moonlight WebRTC-t vagy mindkettőt. A kikapcsolt protokoll portjai zárva maradnak.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Moonlight WebRTC utolsó médiaportja",
+    "webrtc_media_port_max_desc": "Az utolsó UDP-port, amelyet a WebRTC videóhoz és hanghoz használhat. A 0 érték 65535-ig nyitva hagyja a tartományt.",
+    "webrtc_media_port_min": "Moonlight WebRTC első médiaportja",
+    "webrtc_media_port_min_desc": "Az első UDP-port, amelyet a WebRTC videóhoz és hanghoz használhat, így a tűzfalon csak ezt a tartományt kell megnyitni. Ha mindkét port 0, a WebRTC bármelyik portot választhatja.",
+    "webrtc_port": "Moonlight WebRTC TV-port",
+    "webrtc_port_desc": "A WebSocket TCP-portja, amelyhez a TV csatlakozik. A TV-alkalmazás a 8000-es portot használja, hacsak a PC címével együtt nincs másik port megadva. Tartomány: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "A Sunshine-nak jogosultságokra van szüksége",
