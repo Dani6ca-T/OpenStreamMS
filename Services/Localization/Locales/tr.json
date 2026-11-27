@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] apps.json içinde uzantı uygulamaları yapılandırılamadı: {0}",
   "sunshine.launching": "[Sunshine] {0} oturumunda başlatılıyor: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Başlatılamadı: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] Kodlayıcı günlükte doğrulanamadı; mevcut ayar korunuyor."
+  "sunshine.encoderUnconfirmed": "[Sunshine] Kodlayıcı günlükte doğrulanamadı; mevcut ayar korunuyor.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json mevcut değil; assets şablonu kullanılıyor.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] apps.json, virtual-display ile oluşturuldu: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] apps.json, virtual-display ile güncellendi: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "virtual-display apps.json içinde zaten yapılandırılmış; değişiklik yapılmadı.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') engellemeyen geri alma ile yapılandırıldı: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Birleşik oturumların Big Picture modu tüm oturumlarda açılır ve kapanır: {0}",
+  "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Uzantı uygulamaları güncellendi ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot ve Power Off uygulamaları yapılandırıldı: {0}"
 }
