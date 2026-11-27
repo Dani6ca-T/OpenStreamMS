@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Spuštění zrušeno ještě před zahájením (dorazil jiný příkaz).",
   "session.logCreatingRdpSession": "[{0}] Spouštění relace RDP pro uživatele \"{1}\"...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine se nepodařilo spustit: {1}",
-  "session.logAutoStartFailed": "[{0}] Automatické spuštění selhalo: {1}"
+  "session.logAutoStartFailed": "[{0}] Automatické spuštění selhalo: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Spuštění zrušeno (relace byla zastavena během vytváření RDP).",
+  "session.logRdpSessionReused": "[{0}] Byla znovu použita existující relace RDP; nový klient RDP nebyl spuštěn.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Spuštění zrušeno (relace byla zastavena během spouštění Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Relace aktivní (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Spuštění zrušeno (relace byla zastavena po dokončení spuštění).",
+  "session.logWaitingForConsoleUser": "[{0}] Spustí se, až se někdo přihlásí do Windows.",
+  "session.logLocalSessionActive": "[{0}] Místní relace aktivní (relace Windows {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Přihlašovací údaje Sunshine resetovány; Sunshine zastaven a automaticky se znovu spustí.",
+  "session.logSunshineTemplateUpdated": "[{0}] Šablona Sunshine se změnila; aktualizuje se instance: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Instanci Sunshine se nepodařilo aktualizovat: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Nepodařilo se přidat pravidlo brány firewall: {0}"
 }
