@@ -1,4 +1,5 @@
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +43,7 @@ namespace OpenStreamMS.Services.Sunshine
             {
                 root = JsonNode.Parse(File.ReadAllText(assetsFile))?.AsObject()
                        ?? new JsonObject();
-                Logger.Log("[SunshineCfg] apps.json no existe, usando template de assets");
+                Logger.Log(BackendText.Get("sunshineCfg.appsTemplateUsed"));
             }
             else
             {
@@ -60,7 +61,7 @@ namespace OpenStreamMS.Services.Sunshine
                     }
                 };
                 File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] apps.json creado con virtual-display en: {appsFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.appsCreated", appsFile));
                 return;
             }
 
@@ -81,11 +82,11 @@ namespace OpenStreamMS.Services.Sunshine
             if (modified)
             {
                 File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] apps.json actualizado con virtual-display en: {appsFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.appsVirtualDisplayUpdated", appsFile));
             }
             else
             {
-                Logger.Log("[SunshineCfg] apps.json ya tiene virtual-display configurado, sin cambios");
+                Logger.Log(BackendText.Get("sunshineCfg.appsVirtualDisplayUnchanged"));
             }
         }
 
@@ -163,7 +164,7 @@ namespace OpenStreamMS.Services.Sunshine
             if (modified)
             {
                 File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] Steam Big Picture configurado ('{cmd}') con undo no bloqueante: {appsFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.bigPictureConfigured", cmd, appsFile));
             }
         }
 
@@ -238,7 +239,7 @@ namespace OpenStreamMS.Services.Sunshine
             if (modified)
             {
                 File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] Steam Big Picture de la sesión compuesta: se abre y se cierra en todas sus sesiones: {appsFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.compositeBigPictureConfigured", appsFile));
             }
         }
 
@@ -287,7 +288,7 @@ namespace OpenStreamMS.Services.Sunshine
             if (MergeExtensionApps(apps, extApps))
             {
                 File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] Apps de extensiones actualizadas ({extApps.Count}): {appsFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.extensionAppsUpdated", extApps.Count, appsFile));
             }
         }
 
@@ -328,7 +329,7 @@ namespace OpenStreamMS.Services.Sunshine
             if (modified)
             {
                 File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] Apps Reboot y Power Off configuradas: {appsFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.powerAppsConfigured", appsFile));
             }
         }
 
