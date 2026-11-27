@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine, {1} içinde STATUS_BREAKPOINT ({0}) hatasıyla kapandı (PID={2}).",
   "sunshineCrash.fault": "Sunshine, {1} içinde {0} hatasıyla kapandı (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Application Error olayı okunamadı: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil {0} döndürdü: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil {0} döndürdü: {1}",
+  "sunshine.stateMirrorStarted": "sunshine_state.json durum yansıtması başlatıldı: {0}"
 }
