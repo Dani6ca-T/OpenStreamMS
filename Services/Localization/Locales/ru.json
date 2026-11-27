@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Конфигурация сеанса обновлена.",
   "session.logRestartAfterConfigFailed": "Не удалось перезапустить сеанс после обновления конфигурации: {0}",
   "session.alreadyInState": "Сеанс уже находится в состоянии {0}.",
-  "error.request": "Не удалось выполнить запрос."
+  "error.request": "Не удалось выполнить запрос.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Отложенное зеркалирование sunshine_state.json после изменения сопряжений завершено.",
+  "session.logPairingStateMirrorFailed": "[{0}] Ошибка отложенного зеркалирования sunshine_state.json после изменения сопряжений: {1}",
+  "session.logAutoStartingEnabled": "Автозапуск {0} включённых сеансов...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Обнаружен сеанс Windows ({1}); запускается локальный сеанс.",
+  "session.logConsoleSessionStartFailed": "[{0}] Не удалось запустить после входа в Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Ошибка мониторинга: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Загружено сеансов с диска: {0}.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Предупреждение при закрытии сеанса Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Запуск отменён до начала (поступила другая команда).",
+  "session.logCreatingRdpSession": "[{0}] Запуск сеанса RDP для пользователя «{1}»...",
+  "session.logSunshineLaunchFailed": "[{0}] Не удалось запустить Sunshine: {1}",
+  "session.logAutoStartFailed": "[{0}] Не удалось выполнить автозапуск: {1}"
 }
