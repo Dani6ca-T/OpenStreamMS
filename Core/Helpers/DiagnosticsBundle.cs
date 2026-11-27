@@ -4,6 +4,7 @@ using OpenStreamMS.Core.Api;
 using OpenStreamMS.Services;
 using OpenStreamMS.Services.Drivers;
 using OpenStreamMS.Services.Session;
+using OpenStreamMS.Services.Localization;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
@@ -553,10 +554,10 @@ internal static partial class DiagnosticsBundle
             RedirectStandardOutput = true, RedirectStandardError = true,
             UseShellExecute = false, CreateNoWindow = true,
         };
-        using var p = Process.Start(psi) ?? throw new InvalidOperationException($"no se pudo lanzar {exe}");
+        using var p = Process.Start(psi) ?? throw new InvalidOperationException(BackendText.Get("diagnostics.commandStartFailed", exe));
         var stderr = p.StandardError.ReadToEndAsync();
         var stdout = p.StandardOutput.ReadToEndAsync();
-        if (!p.WaitForExit(30_000)) { try { p.Kill(); } catch { } return $"({exe} {args}: no terminó en 30 s)"; }
+        if (!p.WaitForExit(30_000)) { try { p.Kill(); } catch { } return BackendText.Get("diagnostics.commandTimedOut", exe, args); }
         return $"> {exe} {args}  (código {p.ExitCode})\n{stdout.Result}{stderr.Result}";
     }
 
