@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide nie jest zainstalowany: kontrolery będą widoczne we wszystkich sesjach.",
   "gamepad.hidHideEnabled": "HidHide włączony.",
   "gamepad.hidHideConfigureFailed": "Nie udało się skonfigurować HidHide: {0}",
-  "gamepad.monitorFailed": "Błąd monitorowania kontrolerów: {0}"
+  "gamepad.monitorFailed": "Błąd monitorowania kontrolerów: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} jest dostępny: kontrolery są izolowane według sesji.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} nie obsługuje izolacji sesji (wymagana wersja {1} lub nowsza): kontrolery będą widoczne we wszystkich sesjach. Zaktualizuj HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: tryb odwrotny {0}; biała lista ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Programy z białej listy HidHide widzą kontrolery ze wszystkich sesji, nawet jeśli są przypisane do innej sesji.",
+  "gamepad.hidHideWhitelistReadFailed": "Nie można odczytać białej listy HidHide: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping wyłączono (omija izolację kontrolerów według sesji).",
+  "gamepad.controllerToVkDisableFailed": "Nie można wyłączyć ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Nie można przygotować jaila HidHide dla kontrolera ViGEm: {0}"
 }
