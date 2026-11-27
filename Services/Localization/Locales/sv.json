@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Det gick inte att frigöra handkontrollernas reservationer: {0}",
   "gamepad.padClaimed": "Handkontroll {0} → ”{1}” (Windows-session {2}): handkontrollen togs över av den här tjänsten.",
   "gamepad.padOwnerUnknown": "Det gick inte att avgöra vilken session som skapade handkontroll {0}; den förblir synlig i alla sessioner.",
-  "gamepad.osmsPadOutsideSession": "OsmsPad-handkontroll {0} → Windows-session {1} (tillhör inte någon OpenStreamMS-session)."
+  "gamepad.osmsPadOutsideSession": "OsmsPad-handkontroll {0} → Windows-session {1} (tillhör inte någon OpenStreamMS-session).",
+  "gamepad.padAssignedCompositeMember": "Handkontroll {0} från ”{1}” ({2}) → session ”{3}” (Windows-session {4}).",
+  "gamepad.padAssignedSession": "Handkontroll {0} → session ”{1}” (Windows-session {2}).",
+  "gamepad.padRetargeted": "Handkontroll {0} ({1}) flyttades till session ”{2}” (Windows-session {3}) när den sammansatta sessionen ändrades."
 }
