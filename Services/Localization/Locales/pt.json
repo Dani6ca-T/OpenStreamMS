@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} está visível apenas na sessão '{1}' ({2}).",
   "gamepad.consoleSessionChanged": "A sessão da consola mudou de {0} para {1}: os comandos físicos estão a ser reatribuídos.",
   "gamepad.sideInputDriverRestored": "{0} (teclado ou rato do comando) regressou ao seu controlador: o comando está na consola.",
-  "gamepad.sideInputCaptured": "{0} (teclado ou rato do comando) foi isolado enquanto o comando está noutra sessão: as teclas (por exemplo, o botão de captura) já não chegam à consola."
+  "gamepad.sideInputCaptured": "{0} (teclado ou rato do comando) foi isolado enquanto o comando está noutra sessão: as teclas (por exemplo, o botão de captura) já não chegam à consola.",
+  "gamepad.physicalPadConsole": "O comando físico {0} está visível apenas na sessão da consola ({1}).",
+  "gamepad.physicalPadAssigned": "O comando físico {0} está atribuído a um posto ou sessão de streaming: visível apenas na sessão {1}.",
+  "gamepad.steamFilterWarning": "{0} tem o filtro Steam {1} na sua pilha: o Steam das outras sessões (incluindo a consola) continua a lê-lo. Desligue-o e volte a ligá-lo depois de o posto ou stream estar ativo.",
+  "gamepad.physicalPadRestarted": "{0} foi reiniciado: a sessão {1} deixou de o conseguir ler.",
+  "gamepad.physicalPadRestartFailed": "Não foi possível reiniciar {0}: {1}. A sessão que já o tinha aberto continuará a vê-lo até o fechar."
 }
