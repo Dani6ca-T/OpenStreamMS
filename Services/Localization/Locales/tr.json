@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile atlandı: yerel yalıtım zaten ayrı bir profil sağlıyor.",
   "session.logStreamProfileConfiguring": "[{0}] Ayrı bir akış profili yapılandırılıyor...",
   "session.logStartFailed": "[{0}] Başlatma başarısız: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Seçilen protokol WebRTC içeriyor ancak yapılandırılan Sunshine derlemesi bunu desteklemiyor (sunshine-webrtc kullanın); yalnızca Moonlight çalışır."
+  "session.logWebRtcUnsupported": "[{0}] Seçilen protokol WebRTC içeriyor ancak yapılandırılan Sunshine derlemesi bunu desteklemiyor (sunshine-webrtc kullanın); yalnızca Moonlight çalışır.",
+  "session.logSaveFailed": "[SessionService] Oturumlar kaydedilemedi: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Okunamayan oturum dosyasının yedeği \"{0}\" konumuna kaydedildi.",
+  "session.logUnreadableBackupFailed": "[SessionService] Okunamayan oturum dosyası kenara taşınamadı: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Mevcut oturumlara WebRTC bağlantı noktaları atandı.",
+  "session.logLoadFailed": "[SessionService] Oturumlar yüklenemedi: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Yarım kalan başlatma sonrası Sunshine durdurulurken uyarı: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Sunshine örneği zaten burada mevcut: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Şablondan kopyalanan durum temizlenemedi: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] \"{0}\" için örnek izinleri ayarlandı (yazma yalnızca config için): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] {1} konumunda \"{0}\" izinleri ayarlanamadı: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Güvenlik duvarı ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine örneği güncelleniyor: {1} → {2} (config/, eşleştirmeler, kimlik bilgileri ve ayarlar korunur)."
 }
