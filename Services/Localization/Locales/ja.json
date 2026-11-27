@@ -697,5 +697,17 @@
   "seatIpc.invalidMessageLength": "パイプメッセージの長さが無効です: {0} バイト。",
   "seatIpc.invalidJsonObject": "JSON ペイロードがオブジェクトではありません。",
   "seatHost.frameLatencyName": "合成→ディスプレイ",
-  "seatHost.cursorLatencyName": "入力→ディスプレイ"
+  "seatHost.cursorLatencyName": "入力→ディスプレイ",
+  "audioRelay.operationFailed": "[AudioRelay] {0} {1}: {2}",
+  "audioRelay.sending": "Windows セッション {0} から音声を送信中: {1}",
+  "audioRelay.playing": "'{0}' で再生中: {1}",
+  "audioRelay.invalidHeader": "オーディオリレーのヘッダーが無効です。",
+  "audioRelay.noOutputDevice": "キーボードセッションにオーディオ出力デバイスがありません。",
+  "audioRelay.invalidBlock": "オーディオブロックが無効です。",
+  "inputRelay.started": "[InputRelay] Windows セッション {0} ({1}) の複合キーボード/マウスリレー。",
+  "inputRelay.createFailed": "{0} を作成できませんでした: {1}",
+  "inputRelay.invalidHeader": "入力リレーのヘッダーが無効です。",
+  "inputRelay.invalidBatch": "入力バッチが無効です。",
+  "osmsPad.openFailed": "[OsmsPad] ドライバーを開けませんでした: エラー {0}。",
+  "vigem.openFailed": "[PadCapture] ViGEmBus を開けませんでした: {0}"
 }
