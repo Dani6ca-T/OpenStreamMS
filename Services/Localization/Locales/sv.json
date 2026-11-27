@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') konfigurerades med icke-blockerande ångra: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture för sammansatta sessioner öppnas och stängs i alla sessioner: {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Tilläggsappar uppdaterade ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot- och Power Off-appar konfigurerade: {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot- och Power Off-appar konfigurerade: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json uppdaterades med isolerad profilmiljö: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json uppdaterades utan isolerad profilmiljö: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort måste vara större än 0.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver återställdes från osmspad till vigembus: OsmsPad Xbox Series-handkontroller förlorar XInput i strömningssessioner.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] capture = remoteidd togs bort: RemoteIdd är inte aktivt i RDP-Tcp, Sunshine använder standardinsamling.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] OpenStreamMS-standardvärden tillämpade: {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] sunshine.conf var redan uppdaterad: {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] sunshine.conf uppdaterades ({0}) i: {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf uppdaterades ({0}) i: {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter redan uppdaterade (användare={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter redan uppdaterade; root rensad (användare={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json: autentiseringsuppgifter angivna (användare={0})"
 }
