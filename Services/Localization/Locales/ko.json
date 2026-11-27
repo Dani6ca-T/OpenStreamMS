@@ -137,5 +137,6 @@
   "purge.removeRegistry": "HKLM\\SOFTWARE\\OpenStreamMS 제거",
   "purge.removeTemp": "임시 파일 제거",
   "serviceConfig.created": "기본 구성을 만들었습니다: {0}",
-  "serviceConfig.invalid": "잘못된 구성 파일입니다."
+  "serviceConfig.invalid": "잘못된 구성 파일입니다.",
+  "cli.help": "OpenStreamMS — 게임 스트리밍 서비스\n\n사용법:\n  OpenStreamMS.exe --run               서비스 및 REST API 실행\n  OpenStreamMS.exe --install           Windows 서비스 설치\n  OpenStreamMS.exe --uninstall         서비스 중지 및 제거\n  OpenStreamMS.exe --remove-deps       ViGEmBus 및 HidHide 제거\n  OpenStreamMS.exe --purge-data        프로그램 폴더 외부의 데이터 삭제\n  OpenStreamMS.exe --tray              시스템 트레이 아이콘 표시\n  OpenStreamMS.exe --open              제어판을 창으로 열기\n  OpenStreamMS.exe --diagnostics [file.zip] [--days N]  진단 아카이브 생성\n  OpenStreamMS.exe --seat-agent <pipe> [--output DISPLAY] [--no-audio]\n  OpenStreamMS.exe --seat-host <pipe>  로컬 좌석 호스트 실행\n  OpenStreamMS.exe --help              이 도움말 표시\n\n웹:\n  http://localhost:<ApiPort>/          제어판 (로그인 필요)\n  http://localhost:<ApiPort>/scalar/v1 대화형 API 문서\n\n구성 (service.config.json):\n  SunshineExePath — sunshine.exe 경로\n  RdpBackground   — RDP 창 숨기기\n  ApiPort         — 웹/API 서버 포트 (기본값: 5000)\n  AdminUsername   — 제어판 사용자\n  LogLevel        — Error, Warning, Info 또는 Off"
 }
