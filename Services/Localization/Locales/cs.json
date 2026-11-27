@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession relace {0} selhalo: {1}",
   "rdp.logoffCompleted": "Relace {0} byla odhlášena za {1} ms.",
   "rdp.logoffSessionCompleted": "Relace {0} byla odhlášena.",
-  "rdp.logoffWarning": "Upozornění WTSLogoffSession (relace {0}): {1}"
+  "rdp.logoffWarning": "Upozornění WTSLogoffSession (relace {0}): {1}",
+  "rdp.startFreeRdp": "Spouštění FreeRDP ({0}x{1}, {2} fps, {3} bpp, měřítko {4} %, bez gfx)…",
+  "rdp.freeRdpExecutableMissing": "Nepodařilo se spustit wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP skončil s ExitCode={0} (0x{1:X}) bez vytvoření relace pro „{2}“. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Relace pro „{0}“ se neobjevila do 30 s. Ověřte uživatele a heslo, povolenou vzdálenou plochu a členství ve skupině „Uživatelé vzdálené plochy“.",
+  "rdp.startMstsc": "Spouštění mstsc ({0}x{1}, {2} fps, {3} bpp, měřítko {4} %, hardwarové AVC444)…",
+  "rdp.mstscExecutableMissing": "Nepodařilo se spustit mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc skončil s ExitCode={0} bez vytvoření relace pro „{1}“. Možné neviditelné dialogové okno (certifikát/přihlašovací údaje) nebo odmítnutí NLA.",
+  "rdp.mstscSessionTimeout": "Relace pro „{0}“ se v mstsc neobjevila do 30 s. Možné neviditelné dialogové okno v Session 0."
 }
