@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Låser sessionen: platsen kommer att kräva ett lösenord…",
   "seats.statusActive": "Aktiv: bild, ljud och kringutrustning anslutna.",
   "seats.statusDisconnectedFromSeat": "Frånkopplad från platsen. Starta den igen från OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Stoppad: {0}. Starta den igen från OpenStreamMS."
+  "seats.statusStoppedAfterError": "Stoppad: {0}. Starta den igen från OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Den här platsen använder samma användare som konsolen och kan inte starta på egen hand. Starta den från OpenStreamMS eller tilldela den en annan session.",
+  "seats.monitorAlreadyAssigned": "Skärmen är redan tilldelad platsen ”{0}”.",
+  "seats.monitorAreaOverlap": "Det här skärmområdet överlappar området för platsen ”{0}”.",
+  "seats.notFound": "Plats {0} finns inte."
 }
