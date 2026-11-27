@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] „{0}“: {1} zůstává viditelné ve Windows (nepodařilo se přepnout na WinUSB).",
   "padCapture.captured": "[PadCapture] „{0}“: ovladač na portu {1} byl odebrán z Windows ({2} ovladačů a {3} dalších rozhraní ve WinUSB); do relace {4} je předáván jako virtuální ovladač.",
   "padCapture.restored": "[PadCapture] „{0}“: vrácených rozhraní ovladače do Windows: {1}.",
-  "steamXboxFilter.removed": "[Gamepad] Filtr Steam {0} byl odebrán z {1} tříd ovladačů, dokud jsou ovladače izolované. Nová zařízení již nejsou zveřejňována všem relacím přes \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Filtr Steam {0} byl odebrán z {1} tříd ovladačů, dokud jsou ovladače izolované. Nová zařízení již nejsou zveřejňována všem relacím přes \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Filtr Steam {0} se nepodařilo odebrat: {1}. Steam v jiných relacích (včetně konzole) může stále číst izolované ovladače.",
   "steamXboxFilter.restored": "[Gamepad] Filtr Steam {0} byl obnoven v {1} třídách ovladačů; v jiných relacích již nejsou izolované ovladače.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Filtr Steam {0} se nepodařilo obnovit: {1}. Opakování proběhne při příštím spuštění služby."
