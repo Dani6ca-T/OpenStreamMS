@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Giriş alındı: tür={0} bayraklar={1:X} dx={2} dy={3} kod={4:X}",
   "seatAgent.injectStats": "[SeatAgent] 10 sn giriş enjeksiyonu: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 sn: gönderilen={0} halka_meşgul={1} giriş={2} enjeksiyon_hataları={3} son_hata={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] 10 sn yakalama gecikmesi: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10 sn yakalama gecikmesi: {0}",
+  "seat.restartAdjustingResolution": "Oturum {0}x{1} @ {2} Hz değerine ayarlanıyor…",
+  "seat.restartRestartingSession": "Oturum yeniden başlatılıyor…",
+  "seatIpc.invalidMessageLength": "Geçersiz kanal iletisi uzunluğu: {0} bayt.",
+  "seatIpc.invalidJsonObject": "JSON yükü bir nesne değil.",
+  "seatHost.frameLatencyName": "bileşim→ekran",
+  "seatHost.cursorLatencyName": "giriş→ekran"
 }
