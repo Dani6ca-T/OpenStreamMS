@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "세션 잠금 중: 좌석에서 암호를 요구합니다…",
   "seats.statusActive": "활성: 영상, 오디오 및 주변 장치 연결됨.",
   "seats.statusDisconnectedFromSeat": "좌석에서 연결이 끊겼습니다. OpenStreamMS에서 다시 켜세요.",
-  "seats.statusStoppedAfterError": "중지됨: {0}. OpenStreamMS에서 다시 켜세요."
+  "seats.statusStoppedAfterError": "중지됨: {0}. OpenStreamMS에서 다시 켜세요.",
+  "seats.consoleUserAutoStartError": "이 좌석은 콘솔과 동일한 사용자를 사용하므로 단독으로 시작할 수 없습니다. OpenStreamMS에서 시작하거나 다른 세션을 할당하세요.",
+  "seats.monitorAlreadyAssigned": "모니터가 이미 좌석 '{0}'에 할당되어 있습니다.",
+  "seats.monitorAreaOverlap": "이 모니터 영역은 좌석 '{0}'에 할당된 영역과 겹칩니다.",
+  "seats.notFound": "좌석 {0}이(가) 존재하지 않습니다."
 }
