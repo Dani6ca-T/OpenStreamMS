@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Não foi possível libertar as reservas dos comandos: {0}",
   "gamepad.padClaimed": "Comando {0} → '{1}' (sessão do Windows {2}): comando capturado por este serviço.",
   "gamepad.padOwnerUnknown": "Não foi possível determinar que sessão criou o comando {0}; continua visível em todas as sessões.",
-  "gamepad.osmsPadOutsideSession": "Comando OsmsPad {0} → sessão do Windows {1} (não pertence a nenhuma sessão do OpenStreamMS)."
+  "gamepad.osmsPadOutsideSession": "Comando OsmsPad {0} → sessão do Windows {1} (não pertence a nenhuma sessão do OpenStreamMS).",
+  "gamepad.padAssignedCompositeMember": "Comando {0} de '{1}' ({2}) → sessão '{3}' (sessão do Windows {4}).",
+  "gamepad.padAssignedSession": "Comando {0} → sessão '{1}' (sessão do Windows {2}).",
+  "gamepad.padRetargeted": "O comando {0} ({1}) passou para a sessão '{2}' (sessão do Windows {3}) devido a uma alteração na sessão composta."
 }
