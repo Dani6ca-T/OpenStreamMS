@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Windows 세션 {2}에서 Steam '{1}' 작업 실패: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: {2}개 세션에서 '{1}'.",
   "composite.steamOpen": "열기",
-  "composite.steamClose": "닫기"
+  "composite.steamClose": "닫기",
+  "gamepad.hidHideNotOpen": "격리 서비스에서 HidHide를 열지 않았습니다. ViGEm 컨트롤러는 감지되는 즉시 격리됩니다.",
+  "gamepad.deviceArrivalWatchUnavailable": "장치 연결을 감시할 수 없습니다. 1초마다 확인만 수행합니다.",
+  "gamepad.hidHideNotInstalled": "HidHide가 설치되지 않았습니다. 컨트롤러가 모든 세션에 표시됩니다.",
+  "gamepad.hidHideEnabled": "HidHide가 활성화되었습니다.",
+  "gamepad.hidHideConfigureFailed": "HidHide를 구성하지 못했습니다: {0}",
+  "gamepad.monitorFailed": "컨트롤러 감시 중 오류: {0}"
 }
