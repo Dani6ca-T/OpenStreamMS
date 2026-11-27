@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] 已将“{1}”的音频转发到键盘会话“{2}”。",
   "compositeAudio.forwardFailed": "[{0}] 无法转发“{1}”的音频：{2}",
   "hud.launched": "[HUD] 已在 Windows 会话 {0} 中启动（PID {1}）：Ctrl+Alt+H 或 Guide + Back。",
-  "hud.launchFailed": "[HUD] 无法在 Windows 会话 {0} 中启动：{1}"
+  "hud.launchFailed": "[HUD] 无法在 Windows 会话 {0} 中启动：{1}",
+  "compositeInput.routed": "[{0}] 已将键盘和鼠标转发到“{1}”（Windows 会话 {2}）。",
+  "compositeInput.routeFailed": "[{0}] 无法将键盘和鼠标转发到“{1}”：{2}",
+  "compositeInput.writeFailed": "[{0}] 无法写入 {1}：{2}",
+  "compositeInput.deleteFailed": "[{0}] 无法删除 {1}：{2}"
 }
