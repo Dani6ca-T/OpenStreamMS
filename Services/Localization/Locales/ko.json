@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "HidHide의 세션별 게임패드 격리를 제거하고 Steam의 steamxbox 필터를 복원했습니다.",
   "uninstall.seatsRestored": "좌석 키보드/마우스, 콘솔 잠금 보호, 종료 권한 및 사용자당 단일 세션 설정을 복원했습니다.",
   "uninstall.trayRemoved": "트레이 아이콘을 자동 시작에서 제거했습니다.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "실행 파일:",
+  "install.configPath": "구성:"
 }
