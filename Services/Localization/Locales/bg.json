@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Звукът от „{1}“ е препратен към сесията на клавиатурата „{2}“.",
   "compositeAudio.forwardFailed": "[{0}] Звукът от „{1}“ не можа да бъде препратен: {2}",
   "hud.launched": "[HUD] Стартирано в сесия на Windows {0} (PID {1}): Ctrl+Alt+H или Guide + Back.",
-  "hud.launchFailed": "[HUD] Неуспешно стартиране в сесия на Windows {0}: {1}"
+  "hud.launchFailed": "[HUD] Неуспешно стартиране в сесия на Windows {0}: {1}",
+  "compositeInput.routed": "[{0}] Клавиатурата и мишката са пренасочени към „{1}“ (сесия на Windows {2}).",
+  "compositeInput.routeFailed": "[{0}] Клавиатурата и мишката не могат да бъдат пренасочени към „{1}“: {2}",
+  "compositeInput.writeFailed": "[{0}] Неуспешен запис на {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Неуспешно изтриване на {1}: {2}"
 }
