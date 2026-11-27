@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Ícone da área de notificação removido do arranque automático.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Executável:",
-  "install.configPath": "Configuração:"
+  "install.configPath": "Configuração:",
+  "diagnostics.logGenerated": "Pacote de diagnóstico gerado ({0} KB, eventos de {1} dia(s)).",
+  "diagnostics.logGenerateFailed": "Não foi possível gerar o pacote de diagnóstico: {0}",
+  "hud.sessionRestarted": "A sessão '{0}' foi reiniciada pelo HUD.",
+  "hud.powerDenied": "Desligamento/reinicialização recusado por '{0}': a sessão não tem permissão.",
+  "hud.powerRequested": "{0} do PC solicitado por '{1}'.",
+  "hud.powerCancelled": "Desligamento/reinicialização cancelado por '{0}'.",
+  "power.cancelled": "Desligamento/reinicialização cancelado.",
+  "power.noPending": "Não há desligamento pendente para cancelar ({0}).",
+  "power.shutdownFailed": "Falha do shutdown.exe: {0}",
+  "power.scheduled": "{0} agendado para daqui a {1}s.",
+  "settings.logLevelChanged": "Nível de log: {0} → {1}."
 }
