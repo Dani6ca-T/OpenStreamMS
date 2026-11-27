@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} är synlig endast i session ”{1}” ({2}).",
   "gamepad.consoleSessionChanged": "Konsolsessionen ändrades från {0} till {1}: fysiska handkontroller tilldelas på nytt.",
   "gamepad.sideInputDriverRestored": "{0} (handkontrollens tangentbord eller mus) återgår till sin drivrutin: handkontrollen finns vid konsolen.",
-  "gamepad.sideInputCaptured": "{0} (handkontrollens tangentbord eller mus) kopplades bort medan handkontrollen finns i en annan session: dess tangenter (t.ex. inspelningsknappen) når inte längre konsolen."
+  "gamepad.sideInputCaptured": "{0} (handkontrollens tangentbord eller mus) kopplades bort medan handkontrollen finns i en annan session: dess tangenter (t.ex. inspelningsknappen) når inte längre konsolen.",
+  "gamepad.physicalPadConsole": "Den fysiska handkontrollen {0} är synlig endast i konsolsessionen ({1}).",
+  "gamepad.physicalPadAssigned": "Den fysiska handkontrollen {0} är tilldelad en plats eller strömningssession: synlig endast i session {1}.",
+  "gamepad.steamFilterWarning": "{0} har Steam-filtret {1} i sin enhetsstack: Steam i andra sessioner (inklusive konsolen) kan fortfarande läsa den. Koppla ur och anslut igen när platsen eller strömmen körs.",
+  "gamepad.physicalPadRestarted": "{0} startades om: session {1} kan inte längre läsa den.",
+  "gamepad.physicalPadRestartFailed": "Det gick inte att starta om {0}: {1}. Sessionen som redan hade öppnat den fortsätter att se den tills den stängs."
 }
