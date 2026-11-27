@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile ignoré : l’isolation native fournit déjà un profil distinct.",
   "session.logStreamProfileConfiguring": "[{0}] Configuration d’un profil de streaming indépendant...",
   "session.logStartFailed": "[{0}] Échec du démarrage : {1}",
-  "session.logWebRtcUnsupported": "[{0}] Le protocole sélectionné inclut WebRTC, mais la version de Sunshine configurée ne le prend pas en charge (utilisez sunshine-webrtc) ; seul Moonlight fonctionnera."
+  "session.logWebRtcUnsupported": "[{0}] Le protocole sélectionné inclut WebRTC, mais la version de Sunshine configurée ne le prend pas en charge (utilisez sunshine-webrtc) ; seul Moonlight fonctionnera.",
+  "session.logSaveFailed": "[SessionService] Impossible d’enregistrer les sessions : {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Sauvegarde du fichier de sessions illisible enregistrée dans « {0} ».",
+  "session.logUnreadableBackupFailed": "[SessionService] Impossible de mettre de côté le fichier de sessions illisible : {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Ports WebRTC attribués aux sessions existantes.",
+  "session.logLoadFailed": "[SessionService] Impossible de charger les sessions : {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Avertissement lors de l’arrêt de Sunshine après un démarrage abandonné : {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] L’instance Sunshine existe déjà à l’emplacement : {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Impossible de nettoyer l’état copié du modèle : {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Autorisations de l’instance ajustées pour « {0} » (écriture uniquement dans config) : {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Impossible d’ajuster les autorisations de « {0} » dans {1} : {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Pare-feu ({0}) : {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Mise à jour de l’instance Sunshine : {1} → {2} (config/, associations, identifiants et paramètres sont conservés)."
 }
