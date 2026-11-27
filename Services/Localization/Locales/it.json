@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Impossibile garantire l'esecuzione di TermService: {0}. Se Desktop remoto è disattivato, la connessione loopback fallirà; abilitalo in Sistema → Desktop remoto o riavvia Windows.",
   "rdp.registryKeyOpenFailed": "Impossibile aprire HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Impossibile scrivere {0} in HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Impossibile scrivere {0} in HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP non ha prodotto alcun output.",
+  "rdp.freeRdpOutputPrefix": "Output di FreeRDP: "
 }
