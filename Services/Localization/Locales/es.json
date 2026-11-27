@@ -460,5 +460,6 @@
   "error.seatName": "El nombre del puesto es obligatorio.",
   "error.stopSeat": "Detén el puesto antes de cambiar su configuración.",
   "error.primaryMonitor": "No se puede asignar el monitor principal a un puesto.",
-  "error.assigned": "El recurso seleccionado ya está asignado."
+  "error.assigned": "El recurso seleccionado ya está asignado.",
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" asignado al hueco {2} ({3}x{4})."
 }
