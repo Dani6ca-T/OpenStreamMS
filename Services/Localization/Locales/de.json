@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "OsmsPad-Controller {0} → Windows-Sitzung {1} (gehört zu keiner OpenStreamMS-Sitzung).",
   "gamepad.padAssignedCompositeMember": "Controller {0} aus „{1}“ ({2}) → Sitzung „{3}“ (Windows-Sitzung {4}).",
   "gamepad.padAssignedSession": "Controller {0} → Sitzung „{1}“ (Windows-Sitzung {2}).",
-  "gamepad.padRetargeted": "Controller {0} ({1}) wurde aufgrund einer Änderung der zusammengesetzten Sitzung zu Sitzung „{2}“ (Windows-Sitzung {3}) verschoben."
+  "gamepad.padRetargeted": "Controller {0} ({1}) wurde aufgrund einer Änderung der zusammengesetzten Sitzung zu Sitzung „{2}“ (Windows-Sitzung {3}) verschoben.",
+  "gamepad.futurePadsReserved": "Nächste Moonlight-Controller werden vorab verborgen, bis ihre Sitzung bekannt ist ({0}).",
+  "gamepad.futurePadReservationsReleased": "Keine Streams aktiv: Vorabreservierung der nächsten Controller aufgehoben.",
+  "gamepad.futurePadReservationFailed": "Nächste Controller konnten in HidHide nicht reserviert werden: {0}"
 }
