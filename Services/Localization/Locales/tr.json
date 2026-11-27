@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] '{1}' kaynağının sesi '{2}' klavye oturumuna iletildi.",
   "compositeAudio.forwardFailed": "[{0}] '{1}' kaynağının sesi iletilemedi: {2}",
   "hud.launched": "[HUD] Windows {0} oturumunda başlatıldı (PID {1}): Ctrl+Alt+H veya Guide + Back.",
-  "hud.launchFailed": "[HUD] Windows {0} oturumunda başlatılamadı: {1}"
+  "hud.launchFailed": "[HUD] Windows {0} oturumunda başlatılamadı: {1}",
+  "compositeInput.routed": "[{0}] Klavye ve fare '{1}' hedefine yönlendirildi (Windows oturumu {2}).",
+  "compositeInput.routeFailed": "[{0}] Klavye ve fare '{1}' hedefine yönlendirilemedi: {2}",
+  "compositeInput.writeFailed": "[{0}] {1} yazılamadı: {2}",
+  "compositeInput.deleteFailed": "[{0}] {1} silinemedi: {2}"
 }
