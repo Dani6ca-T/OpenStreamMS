@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} yalnızca '{1}' oturumunda ({2}) görünür; diğer oturumların tanıtıcılarını kapatmak için yeniden başlatıldı.",
   "gamepad.nodeRestartDeferred": "{0} yalnızca '{1}' oturumunda ({2}) görünür, ancak başka bir işlem kullandığı için Windows yeniden başlatmayı erteledi; önceden açmış işlemler kapatana kadar görmeye devam eder.",
   "gamepad.nodeLateRestartFailed": "{0} geç gizlendi ve yeniden başlatılamadı: {1}. Başka bir oturumda zaten açmış olan işlem onu görmeye devam eder.",
-  "gamepad.nodeVisibleSession": "{0} yalnızca '{1}' oturumunda ({2}) görünür."
+  "gamepad.nodeVisibleSession": "{0} yalnızca '{1}' oturumunda ({2}) görünür.",
+  "gamepad.consoleSessionChanged": "Konsol oturumu {0} konumundan {1} konumuna geçti: fiziksel denetleyiciler yeniden atanıyor.",
+  "gamepad.sideInputDriverRestored": "{0} (denetleyicinin klavyesi veya faresi) sürücüsüne döndü: denetleyici konsolda.",
+  "gamepad.sideInputCaptured": "Denetleyici başka bir oturumdayken {0} (denetleyicinin klavyesi veya faresi) ayrıldı: tuşları (ör. yakalama düğmesi) artık konsola ulaşmıyor."
 }
