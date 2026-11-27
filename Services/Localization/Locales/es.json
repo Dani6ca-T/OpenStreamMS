@@ -617,5 +617,11 @@
   "seatUsb.readerDisconnected": "[SeatUsb] {0} desconectado ({1}).",
   "seatUsb.readerError": "[SeatUsb] {0}: {1}",
   "seatUsb.noHidDescriptorBootEnabled": "[SeatUsb] {0}: sin descriptor HID (error {1}, longitud {2}); protocolo boot activado.",
-  "seatUsb.noHidDescriptorBootRejected": "[SeatUsb] {0}: sin descriptor HID (error {1}, longitud {2}); protocolo boot rechazado ({3})."
+  "seatUsb.noHidDescriptorBootRejected": "[SeatUsb] {0}: sin descriptor HID (error {1}, longitud {2}); protocolo boot rechazado ({3}).",
+  "seatInput.registerFailed": "[SeatInput] RegisterRawInputDevices falló: {0}",
+  "seatInput.started": "[SeatInput] El enrutador de entrada y el escudo de consola están activos.",
+  "seatInput.createFailed": "[SeatInput] No se pudo crear el enrutador de entrada: {0}",
+  "seatInput.stopped": "[SeatInput] Enrutador de entrada detenido.",
+  "seatInput.createWindowFailed": "CreateWindowEx (escudo) falló",
+  "seatInput.rawInputError": "[SeatInput] {0}"
 }
