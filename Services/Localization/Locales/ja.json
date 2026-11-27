@@ -460,5 +460,6 @@
   "error.seatName": "シート名は必須です。",
   "error.stopSeat": "構成を変更する前にシートを停止してください。",
   "error.primaryMonitor": "プライマリモニターはシートに割り当てられません。",
-  "error.assigned": "選択したリソースは既に割り当てられています。"
+  "error.assigned": "選択したリソースは既に割り当てられています。",
+  "composite.logMemberAssignedToSlot": "[{0}] 「{1}」をスロット {2}（{3}x{4}）に割り当てました。"
 }
