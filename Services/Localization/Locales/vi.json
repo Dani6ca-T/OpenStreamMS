@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) thất bại: {1}",
   "rdp.mstscReconnectFailedFallback": "mstsc kết nối lại thất bại ({0}); đang thử lại bằng FreeRDP…",
   "rdp.reconnectWrongSession": "Kết nối lại vào phiên {0} thay vì {1}.",
-  "rdp.sessionReconnected": "Phiên {0} đã kết nối lại trong {1} ms."
+  "rdp.sessionReconnected": "Phiên {0} đã kết nối lại trong {1} ms.",
+  "rdp.freeRdpClientDisconnected": "Máy khách FreeRDP đã ngắt kết nối; phiên {0} vẫn hoạt động (VDD).",
+  "rdp.disconnectSessionWarning": "Cảnh báo WTSDisconnectSession: {0}",
+  "rdp.logoffFailed": "WTSLogoffSession cho phiên {0} thất bại: {1}",
+  "rdp.logoffCompleted": "Phiên {0} đã đăng xuất trong {1} ms.",
+  "rdp.logoffSessionCompleted": "Phiên {0} đã đăng xuất.",
+  "rdp.logoffWarning": "Cảnh báo WTSLogoffSession (phiên {0}): {1}"
 }
