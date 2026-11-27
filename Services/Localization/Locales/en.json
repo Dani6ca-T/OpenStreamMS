@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Seats] '{0}': could not start the seat again: {1}",
   "seat.waitingImageFailed": "[Seats] '{0}': could not show the waiting image: {1}",
   "seat.sessionDidNotRestart": "The session did not start again.",
-  "seat.sessionRestartTimeout": "The session restart timed out."
+  "seat.sessionRestartTimeout": "The session restart timed out.",
+  "composite.created": "[Composite sessions] Created composite session '{0}' ({1}) with: {2}",
+  "composite.updated": "[{0}] Composite session updated.",
+  "composite.startingMember": "[{0}] Starting '{1}' for the composite session…",
+  "composite.steamConfigFailed": "[{0}] Could not configure the composite session's Steam app: {1}",
+  "composite.startAborted": "[{0}] Start aborted (session was stopped while starting).",
+  "composite.started": "[{0}] Composite session active: {1}; keyboard and mouse from '{2}' (Windows session {3}).",
+  "composite.deleteFileFailed": "[{0}] Could not delete {1}: {2}",
+  "composite.stoppingMember": "[{0}] Stopping '{1}', which was started by the composite session.",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' could not return to its resolution: {2}",
+  "composite.keyboardStopped": "[{0}] The keyboard session stopped; stopping the composite session.",
+  "composite.keyboardSessionChanged": "[{0}] The keyboard session moved to Windows session {1}; relaunching Sunshine.",
+  "composite.watchFailed": "[{0}] Error watching the composite session: {1}",
+  "composite.waitingImageFailed": "[{0}] Could not prepare the waiting image for slot {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Steam action '{1}' failed in Windows session {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' in {2} session(s).",
+  "composite.steamOpen": "open",
+  "composite.steamClose": "close"
 }
