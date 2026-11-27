@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Місця] «{0}»: не вдалося знову запустити місце: {1}",
   "seat.waitingImageFailed": "[Місця] «{0}»: не вдалося показати зображення очікування: {1}",
   "seat.sessionDidNotRestart": "Сеанс не запустився повторно.",
-  "seat.sessionRestartTimeout": "Час очікування перезапуску сеансу вичерпано."
+  "seat.sessionRestartTimeout": "Час очікування перезапуску сеансу вичерпано.",
+  "composite.created": "[Складені сеанси] Створено складений сеанс «{0}» ({1}), учасники: {2}",
+  "composite.updated": "[{0}] Складений сеанс змінено.",
+  "composite.startingMember": "[{0}] Запуск «{1}» для складеного сеансу…",
+  "composite.steamConfigFailed": "[{0}] Не вдалося налаштувати програму Steam для складеного сеансу: {1}",
+  "composite.startAborted": "[{0}] Запуск перервано (сеанс зупинено під час запуску).",
+  "composite.started": "[{0}] Складений сеанс активний: {1}; клавіатура й миша від «{2}» (сеанс Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] Не вдалося видалити {1}: {2}",
+  "composite.stoppingMember": "[{0}] Зупинка «{1}», запущеного складеним сеансом.",
+  "composite.restoreResolutionFailed": "[{0}] Не вдалося відновити роздільну здатність «{1}»: {2}",
+  "composite.keyboardStopped": "[{0}] Сеанс клавіатури зупинився; складений сеанс також буде зупинено.",
+  "composite.keyboardSessionChanged": "[{0}] Сеанс клавіатури перейшов до сеансу Windows {1}; Sunshine буде перезапущено.",
+  "composite.watchFailed": "[{0}] Помилка спостереження за складеним сеансом: {1}",
+  "composite.waitingImageFailed": "[{0}] Не вдалося підготувати зображення очікування для слота {1}: {2}",
+  "composite.steamActionFailed": "[{0}] Не вдалося виконати дію Steam «{1}» у сеансі Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: «{1}» у сеансах ({2}).",
+  "composite.steamOpen": "відкриття",
+  "composite.steamClose": "закриття"
 }
