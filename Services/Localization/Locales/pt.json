@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "O comando {0} ({1}) passou para a sessão '{2}' (sessão do Windows {3}) devido a uma alteração na sessão composta.",
   "gamepad.futurePadsReserved": "Os próximos comandos do Moonlight são ocultados antecipadamente até a sessão ser identificada ({0}).",
   "gamepad.futurePadReservationsReleased": "Não há streams ativos: as reservas dos próximos comandos foram libertadas.",
-  "gamepad.futurePadReservationFailed": "Não foi possível reservar os próximos comandos no HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Não foi possível reservar os próximos comandos no HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} está visível apenas na sessão '{1}' ({2}) desde que apareceu; foi reiniciado para que essa sessão o detete.",
+  "gamepad.nodeVisibleAfterRestart": "{0} está visível apenas na sessão '{1}' ({2}); foi reiniciado para fechar os identificadores de outras sessões.",
+  "gamepad.nodeRestartDeferred": "{0} está visível apenas na sessão '{1}' ({2}), mas o Windows adiou o reinício porque outro processo o está a utilizar; os processos que já o abriram continuarão a vê-lo até o fecharem.",
+  "gamepad.nodeLateRestartFailed": "{0} foi ocultado tardiamente e não foi possível reiniciá-lo: {1}. Um processo de outra sessão que já o tinha aberto continua a vê-lo.",
+  "gamepad.nodeVisibleSession": "{0} está visível apenas na sessão '{1}' ({2})."
 }
