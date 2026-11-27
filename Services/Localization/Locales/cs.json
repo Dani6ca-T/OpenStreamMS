@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} je viditelný pouze v relaci „{1}“ ({2}); byl restartován, aby se zavřely handly ostatních relací.",
   "gamepad.nodeRestartDeferred": "{0} je viditelný pouze v relaci „{1}“ ({2}), ale Windows odložil restart (používá jej jiný proces); procesy, které jej již otevřely, jej uvidí, dokud jej nezavřou.",
   "gamepad.nodeLateRestartFailed": "{0} byl skryt pozdě a nepodařilo se jej restartovat: {1}. Proces z jiné relace, který jej již otevřel, jej stále vidí.",
-  "gamepad.nodeVisibleSession": "{0} je viditelný pouze v relaci „{1}“ ({2})."
+  "gamepad.nodeVisibleSession": "{0} je viditelný pouze v relaci „{1}“ ({2}).",
+  "gamepad.consoleSessionChanged": "Relace konzole se změnila z {0} na {1}: fyzické ovladače se znovu přiřazují.",
+  "gamepad.sideInputDriverRestored": "{0} (klávesnice nebo myš ovladače) se vrací ke svému ovladači: ovladač je v konzoli.",
+  "gamepad.sideInputCaptured": "{0} (klávesnice nebo myš ovladače) byla odpojena, zatímco je ovladač v jiné relaci: její klávesy (např. tlačítko snímku) již nedosáhnou do konzole."
 }
