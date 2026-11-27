@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Отримано ввід: тип={0} прапорці={1:X} dx={2} dy={3} код={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Введення за 10 с: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 с: надіслано={0} кільце_зайняте={1} ввід={2} помилки_введення={3} остання_помилка={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Затримка захоплення за 10 с: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Затримка захоплення за 10 с: {0}",
+  "seat.restartAdjustingResolution": "Налаштування сеансу до {0}x{1} @ {2} Гц…",
+  "seat.restartRestartingSession": "Перезапуск сеансу…",
+  "seatIpc.invalidMessageLength": "Недійсна довжина повідомлення каналу: {0} байт.",
+  "seatIpc.invalidJsonObject": "Дані JSON не є об’єктом.",
+  "seatHost.frameLatencyName": "композиція→екран",
+  "seatHost.cursorLatencyName": "ввід→екран"
 }
