@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] '{1}'의 오디오를 키보드 세션 '{2}'(으)로 전달했습니다.",
   "compositeAudio.forwardFailed": "[{0}] '{1}'의 오디오를 전달하지 못했습니다: {2}",
   "hud.launched": "[HUD] Windows 세션 {0}에서 시작했습니다(PID {1}): Ctrl+Alt+H 또는 Guide + Back.",
-  "hud.launchFailed": "[HUD] Windows 세션 {0}에서 시작하지 못했습니다: {1}"
+  "hud.launchFailed": "[HUD] Windows 세션 {0}에서 시작하지 못했습니다: {1}",
+  "compositeInput.routed": "[{0}] 키보드와 마우스를 '{1}'(으)로 전달했습니다(Windows 세션 {2}).",
+  "compositeInput.routeFailed": "[{0}] 키보드와 마우스를 '{1}'(으)로 전달하지 못했습니다: {2}",
+  "compositeInput.writeFailed": "[{0}] {1}을(를) 쓰지 못했습니다: {2}",
+  "compositeInput.deleteFailed": "[{0}] {1}을(를) 삭제하지 못했습니다: {2}"
 }
