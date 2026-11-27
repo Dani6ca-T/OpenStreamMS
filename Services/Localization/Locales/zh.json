@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] 无法更改主显示器：{0}",
   "displayTopology.deactivateConfigFailed": "[Seats] SetDisplayConfig（停用）失败：{0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] 已从桌面移除显示器：{0}",
-  "displayTopology.deactivateFailed": "[Seats] 无法停用显示器：{0}"
+  "displayTopology.deactivateFailed": "[Seats] 无法停用显示器：{0}",
+  "seatHostControl.rejectedProcess": "[Seats] 主机控制管道：已拒绝进程 {0}，因为它不属于控制台会话。",
+  "seatHostControl.trayConnected": "[Seats] TrayApp 已连接到主机控制管道。",
+  "seatHostControl.controlPipeError": "[Seats] 主机控制管道错误：{0}",
+  "seatHostControl.openSeatSent": "[Seats] 已向 TrayApp 发送工作位 {0} 的 'open_seat' 命令。",
+  "seatHostControl.openSeatSendFailed": "[Seats] 无法向 TrayApp 发送 'open_seat'：{0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp 尚未连接；正在控制台会话 {0} 中启动独立呈现器……",
+  "seatHostControl.consoleUserMissing": "[Seats] 物理控制台没有已登录的用户。",
+  "seatHostControl.trayHostConnected": "[TrayApp] 已连接到工作位主机控制管道。",
+  "seatHostControl.commandProcessingError": "[TrayApp] 处理工作位命令时出错：{0}"
 }
