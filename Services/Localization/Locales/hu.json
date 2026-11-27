@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "A tálcaikon eltávolítva az automatikus indításból.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Futtatható fájl:",
-  "install.configPath": "Konfiguráció:"
+  "install.configPath": "Konfiguráció:",
+  "diagnostics.logGenerated": "Diagnosztikai csomag létrehozva ({0} KB, {1} nap eseményei).",
+  "diagnostics.logGenerateFailed": "Nem sikerült létrehozni a diagnosztikai csomagot: {0}",
+  "hud.sessionRestarted": "A(z) „{0}” munkamenet újraindult a HUD-ból.",
+  "hud.powerDenied": "A leállítás/újraindítás elutasítva innen: „{0}”: a munkamenetnek nincs engedélye.",
+  "hud.powerRequested": "A számítógép {0} műveletét „{1}” kérte.",
+  "hud.powerCancelled": "A leállítást/újraindítást „{0}” megszakította.",
+  "power.cancelled": "Leállítás/újraindítás megszakítva.",
+  "power.noPending": "Nincs megszakítható függő leállítás ({0}).",
+  "power.shutdownFailed": "shutdown.exe hiba: {0}",
+  "power.scheduled": "{0} ütemezve {1} másodperc múlva.",
+  "settings.logLevelChanged": "Naplózási szint: {0} → {1}."
 }
