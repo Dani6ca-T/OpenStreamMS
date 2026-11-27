@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Nie można zagwarantować działania TermService: {0}. Jeśli Pulpit zdalny jest wyłączony, połączenie loopback nie powiedzie się; włącz go w System → Pulpit zdalny lub uruchom ponownie Windows.",
   "rdp.registryKeyOpenFailed": "Nie można otworzyć HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Nie można zapisać {0} w HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Nie można zapisać {0} w HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP nie wygenerował żadnego wyjścia.",
+  "rdp.freeRdpOutputPrefix": "Wyjście FreeRDP: "
 }
