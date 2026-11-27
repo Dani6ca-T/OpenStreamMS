@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "第 {0} 次尝试检测到会话（{1}）：{2}（FreeRDP PID={3}）",
   "rdp.sessionModeRelaxed": "宽松模式",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "正在等待会话…第 {0}/20 次尝试"
+  "rdp.waitingSession": "正在等待会话…第 {0}/20 次尝试",
+  "rdp.frameRateConfigured": "帧率={0} fps | 间隔={1} ms（合成 {2} Hz，{3}）",
+  "rdp.remoteIddModeConfigured": "RemoteIdd：{0}x{1} @ {2} Hz，缩放 {3}%。",
+  "rdp.betterRdpPoliciesApplied": "已应用 BetterRDP 策略。",
+  "rdp.mstscClientPoliciesApplied": "已应用 mstsc 客户端策略（连接前不显示对话框）。",
+  "rdp.mstscClientPoliciesFailed": "无法应用 mstsc HKCU 策略：{0}"
 }
