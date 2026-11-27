@@ -290,5 +290,12 @@
   "rdp.noVirtualAdapterFound": "Control\\\\Video altında sanal RDP bağdaştırıcısı bulunamadı — VRefresh değiştirilmedi. Oturum sürücünün varsayılan yenileme hızını kullanacak.",
   "rdp.refreshAppliedToAdapters": "VRefresh={0}, {1} sanal bağdaştırıcıya uygulandı.",
   "rdp.refreshRegistryFailed": "Kayıt defterinde VRefresh ayarlanırken hata: {0}",
-  "rdp.sessionTempResolveFailed": "{0} oturumu için TEMP çözümlenemedi: {1}"
+  "rdp.sessionTempResolveFailed": "{0} oturumu için TEMP çözümlenemedi: {1}",
+  "rdp.displayFrequencyChangeFailed": "{0} oturumunda ekran frekansı değiştirilemedi: {1}",
+  "rdp.displayFrequencyChangeLaunched": "ChangeDisplaySettings({0}Hz), {1} oturumunda başlatıldı (doğrulanmadı).",
+  "rdp.displayFrequencyResultMissing": "{0} oturumunda ChangeDisplaySettings: sonuç dosyası yok — betik tamamlanmadı.",
+  "rdp.displayFrequencyVerified": "ChangeDisplaySettings başarılı — {1} oturumunda ekran {0}Hz.",
+  "rdp.displayFrequencyMismatch": "ChangeDisplaySettings başarılı döndü ancak {2} oturumundaki ekran {0}Hz bildiriyor (istenen {1}Hz).",
+  "rdp.displayFrequencyFailed": "{0} oturumunda ChangeDisplaySettings başarısız: {1} (ekran {2}Hz).",
+  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings sonucu okunamadı: {0}"
 }
