@@ -1,3 +1,4 @@
+using OpenStreamMS.Services.Localization;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using OpenStreamMS.Core.Helpers;
@@ -88,7 +89,7 @@ public static class SeatIdentify
                 new ProcessInSession().LaunchInSession(consoleId, Environment.ProcessPath!, $"--identify {command}",
                                                        waitForExit: true, waitTimeoutMs: 20000);
             }
-            catch (Exception ex) { Logger.Warning($"[Seats] --identify {command} falló: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("seatIdentify.commandFailed", command, ex.Message)); }
         });
         return 0;
     }
@@ -109,7 +110,7 @@ public static class SeatIdentify
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Identify] {string.Join(' ', args.Skip(1))}: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatIdentify.operationFailed", string.Join(' ', args.Skip(1)), ex.Message));
             return 1;
         }
     }
@@ -123,12 +124,12 @@ public static class SeatIdentify
     {
         SetProcessDpiAwarenessContext(-4);   // PER_MONITOR_AWARE_V2: coordenadas en píxeles reales
         var display = DisplayTopology.Enumerate().FirstOrDefault(d => d.DevicePath == devicePath);
-        if (display is null) { Logger.Warning("[Identify] El monitor no está conectado."); return 1; }
+        if (display is null) { Logger.Warning(BackendText.Get("seatIdentify.displayNotConnected")); return 1; }
 
         bool activated = false;
         if (!display.Active)
         {
-            if (!DisplayTopology.Activate(devicePath)) { Logger.Warning($"[Identify] No se pudo encender '{display.FriendlyName}'."); return 1; }
+            if (!DisplayTopology.Activate(devicePath)) { Logger.Warning(BackendText.Get("seatIdentify.displayActivateFailed", display.FriendlyName)); return 1; }
             activated = true;
             // Windows tarda un momento en colocarlo en el escritorio.
             for (int i = 0; i < 20 && display is not { Active: true, Width: > 0 }; i++)
