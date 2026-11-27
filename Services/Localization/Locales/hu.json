@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "A munkamenetenkénti vezérlőizolálás eltávolítva a HidHide-ból; a Steam steamxbox szűrője visszaállítva.",
   "uninstall.seatsRestored": "A munkaállomások billentyűzetei/egerei, a konzolvédő, a leállítási jog és a felhasználónkénti egy munkamenet beállítás visszaállítva.",
   "uninstall.trayRemoved": "A tálcaikon eltávolítva az automatikus indításból.",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "Futtatható fájl:",
+  "install.configPath": "Konfiguráció:"
 }
