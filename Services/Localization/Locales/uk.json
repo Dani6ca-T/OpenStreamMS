@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] Не вдалося налаштувати програми розширень в apps.json: {0}",
   "sunshine.launching": "[Sunshine] Запуск у сеансі {0}: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Не вдалося запустити: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] Не вдалося підтвердити кодер у журналі; залишаємо поточне налаштування."
+  "sunshine.encoderUnconfirmed": "[Sunshine] Не вдалося підтвердити кодер у журналі; залишаємо поточне налаштування.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json відсутній; використовується шаблон з assets.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] Створено apps.json із virtual-display: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] Оновлено apps.json із virtual-display: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "virtual-display уже налаштовано в apps.json; змін немає.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') налаштовано з неблокувальним скасуванням: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "Big Picture складеного сеансу відкривається та закривається в усіх його сеансах: {0}",
+  "sunshineCfg.extensionAppsUpdated": "Оновлено програми розширень ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "Налаштовано програми Reboot і Power Off: {0}"
 }
