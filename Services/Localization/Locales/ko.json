@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] 차단하지 않는 실행 취소 기능으로 Steam Big Picture('{0}')를 구성했습니다: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "복합 세션의 Big Picture는 모든 세션에서 열리고 닫힙니다: {0}",
   "sunshineCfg.extensionAppsUpdated": "확장 앱을 업데이트했습니다({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "Reboot 및 Power Off 앱을 구성했습니다: {0}"
+  "sunshineCfg.powerAppsConfigured": "Reboot 및 Power Off 앱을 구성했습니다: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] 격리된 프로필 환경으로 apps.json을 업데이트했습니다: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] 격리된 프로필 환경 없이 apps.json을 업데이트했습니다: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort는 0보다 커야 합니다.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver를 osmspad에서 vigembus로 되돌렸습니다. OsmsPad Xbox Series 컨트롤러는 스트리밍 세션에서 XInput을 사용할 수 없습니다.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] capture = remoteidd를 제거했습니다. RemoteIdd가 RDP-Tcp에서 활성화되지 않아 Sunshine이 기본 캡처를 사용합니다.",
+  "sunshineCfg.defaultsApplied": "OpenStreamMS 기본값 적용: {0}",
+  "sunshineCfg.configAlreadyCurrent": "sunshine.conf가 이미 최신 상태입니다: {0}",
+  "sunshineCfg.configUpdated": "sunshine.conf 업데이트됨 ({0}): {1}",
+  "sunshineCfg.configValuesUpdated": "sunshine.conf 업데이트됨 ({0}): {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: 자격 증명이 이미 최신 상태입니다(사용자={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: 자격 증명이 이미 최신 상태이며 root를 정리했습니다(사용자={0})",
+  "sunshineCfg.credentialsSet": "sunshine_state.json: 자격 증명을 설정했습니다(사용자={0})"
 }
