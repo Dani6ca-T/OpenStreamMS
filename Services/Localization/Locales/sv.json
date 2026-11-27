@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} är synlig endast i session ”{1}” ({2}); startades om för att stänga handtag från andra sessioner.",
   "gamepad.nodeRestartDeferred": "{0} är synlig endast i session ”{1}” ({2}), men Windows sköt upp omstarten eftersom en annan process använder den; processer som redan öppnat den fortsätter att se den tills de stänger den.",
   "gamepad.nodeLateRestartFailed": "{0} doldes för sent och kunde inte startas om: {1}. En process i en annan session som redan öppnat den kan fortfarande se den.",
-  "gamepad.nodeVisibleSession": "{0} är synlig endast i session ”{1}” ({2})."
+  "gamepad.nodeVisibleSession": "{0} är synlig endast i session ”{1}” ({2}).",
+  "gamepad.consoleSessionChanged": "Konsolsessionen ändrades från {0} till {1}: fysiska handkontroller tilldelas på nytt.",
+  "gamepad.sideInputDriverRestored": "{0} (handkontrollens tangentbord eller mus) återgår till sin drivrutin: handkontrollen finns vid konsolen.",
+  "gamepad.sideInputCaptured": "{0} (handkontrollens tangentbord eller mus) kopplades bort medan handkontrollen finns i en annan session: dess tangenter (t.ex. inspelningsknappen) når inte längre konsolen."
 }
