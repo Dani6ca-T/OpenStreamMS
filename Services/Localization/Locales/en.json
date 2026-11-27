@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Input received: type={0} flags={1:X} dx={2} dy={3} code={4:X}",
   "seatAgent.injectStats": "[SeatAgent] 10 s input injection: {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: sent={0} ring_busy={1} input={2} injection_failures={3} last_error={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] 10 s capture latency: {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10 s capture latency: {0}",
+  "seat.restartAdjustingResolution": "Adjusting the session to {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "Restarting the session…",
+  "seatIpc.invalidMessageLength": "Invalid pipe message length: {0} bytes.",
+  "seatIpc.invalidJsonObject": "The JSON payload is not an object.",
+  "seatHost.frameLatencyName": "composition→display",
+  "seatHost.cursorLatencyName": "input→display"
 }
