@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Не вдалося зняти резервування контролерів: {0}",
   "gamepad.padClaimed": "Контролер {0} → «{1}» (сеанс Windows {2}): контролер захоплено цією службою.",
   "gamepad.padOwnerUnknown": "Не вдалося визначити, який сеанс створив контролер {0}; він залишається видимим в усіх сеансах.",
-  "gamepad.osmsPadOutsideSession": "Контролер OsmsPad {0} → сеанс Windows {1} (не належить до жодного сеансу OpenStreamMS)."
+  "gamepad.osmsPadOutsideSession": "Контролер OsmsPad {0} → сеанс Windows {1} (не належить до жодного сеансу OpenStreamMS).",
+  "gamepad.padAssignedCompositeMember": "Контролер {0} із сеансу «{1}» ({2}) → сеанс «{3}» (сеанс Windows {4}).",
+  "gamepad.padAssignedSession": "Контролер {0} → сеанс «{1}» (сеанс Windows {2}).",
+  "gamepad.padRetargeted": "Контролер {0} ({1}) переміщено до сеансу «{2}» (сеанс Windows {3}) через зміну складеного сеансу."
 }
