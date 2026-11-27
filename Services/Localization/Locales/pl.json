@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Usunięto filtr Steam {0} z {1} klas kontrolerów na czas izolowania kontrolerów. Nowe urządzenia nie są już udostępniane wszystkim sesjom przez \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Nie udało się usunąć filtru Steam {0}: {1}. Steam w innych sesjach (w tym w konsoli) może nadal odczytywać izolowane kontrolery.",
   "steamXboxFilter.restored": "Przywrócono filtr Steam {0} w {1} klasach kontrolerów; w innych sesjach nie ma już izolowanych kontrolerów.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Nie udało się przywrócić filtru Steam {0}: {1}. Ponowna próba nastąpi przy następnym uruchomieniu usługi."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Nie udało się przywrócić filtru Steam {0}: {1}. Ponowna próba nastąpi przy następnym uruchomieniu usługi.",
+  "gamepad.restartReasonPreviousSession": "aby sesja {0} nie mogła już go odczytywać"
 }
