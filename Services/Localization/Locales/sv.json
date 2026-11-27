@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Varning när Sunshine pausas: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine pausad ({1}).",
   "session.logSunshineResumed": "[{0}] Sunshine återupptogs; det startas om automatiskt.",
-  "session.logMuteRdpClient": "[{0}] Ljud av för RDP-klienten (PID={1}) på värddatorn..."
+  "session.logMuteRdpClient": "[{0}] Ljud av för RDP-klienten (PID={1}) på värddatorn...",
+  "session.logRdpDisplay": "[{0}] RDP-skärm: {1}x{2} vid {3} fps; mikrofon: {4}"
 }
