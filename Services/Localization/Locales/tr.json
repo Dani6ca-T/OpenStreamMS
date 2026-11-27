@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Denetleyici ayırmaları kaldırılamadı: {0}",
   "gamepad.padClaimed": "Denetleyici {0} → '{1}' (Windows oturumu {2}): denetleyici bu hizmet tarafından alındı.",
   "gamepad.padOwnerUnknown": "{0} denetleyicisini hangi oturumun oluşturduğu belirlenemedi; tüm oturumlarda görünür kalıyor.",
-  "gamepad.osmsPadOutsideSession": "OsmsPad denetleyicisi {0} → Windows oturumu {1} (herhangi bir OpenStreamMS oturumuna ait değil)."
+  "gamepad.osmsPadOutsideSession": "OsmsPad denetleyicisi {0} → Windows oturumu {1} (herhangi bir OpenStreamMS oturumuna ait değil).",
+  "gamepad.padAssignedCompositeMember": "'{1}' oturumundaki denetleyici {0} ({2}) → '{3}' oturumu (Windows oturumu {4}).",
+  "gamepad.padAssignedSession": "Denetleyici {0} → '{1}' oturumu (Windows oturumu {2}).",
+  "gamepad.padRetargeted": "Birleşik oturum değiştiği için denetleyici {0} ({1}), '{2}' oturumuna (Windows oturumu {3}) taşındı."
 }
