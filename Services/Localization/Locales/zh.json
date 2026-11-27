@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "无法将主显示器还给控制台；移除虚拟显示器时将恢复。",
   "seats.consoleMonitorRestored": "控制台重新拥有完整显示器。",
   "seats.sessionLocked": "“{0}”：会话已锁定；将要求输入“{1}”的密码。",
-  "seats.sessionLockFailed": "“{0}”：无法锁定会话：{1}"
+  "seats.sessionLockFailed": "“{0}”：无法锁定会话：{1}",
+  "seats.sessionDisconnectedFromSeat": "“{0}”：会话已从座位断开；座位将关闭，直到从 OpenStreamMS 重新启动。",
+  "seats.stopAfterDisconnectFailed": "“{0}”：断开连接后无法停止：{1}",
+  "seats.windowsSessionChanged": "“{0}”：Windows 会话从 {1} 更改为 {2}；正在重新分配控制器。",
+  "seats.monitorModeChanged": "“{0}”：显示器模式已更改；正在重新调整会话。",
+  "seats.readjustFailed": "无法重新调整座位：{0}",
+  "seats.agentDisconnected": "“{0}”：会话代理已断开。",
+  "seats.presenterDisconnected": "“{0}”：控制台呈现器已断开。",
+  "seats.consoleAreaLost": "控制台区域丢失图像（{0}）；控制台正在恢复其显示器。",
+  "seats.seatLost": "座位“{0}”正在关闭：{1}。",
+  "seats.stopAfterLossFailed": "“{0}”：中断后无法关闭：{1}",
+  "seats.sessionStartFailed": "会话启动失败。",
+  "seats.sessionStartTimeout": "会话未能及时变为活动状态。"
 }
