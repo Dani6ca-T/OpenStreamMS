@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Locking session: the seat will require a password…",
   "seats.statusActive": "Active: video, audio, and peripherals connected.",
   "seats.statusDisconnectedFromSeat": "Disconnected from the seat. Turn it on again from OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Stopped: {0}. Turn it on again from OpenStreamMS."
+  "seats.statusStoppedAfterError": "Stopped: {0}. Turn it on again from OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "This seat uses the same user as the console and cannot start on its own. Start it from OpenStreamMS or assign it another session.",
+  "seats.monitorAlreadyAssigned": "Monitor is already assigned to seat '{0}'.",
+  "seats.monitorAreaOverlap": "This monitor area overlaps the area assigned to seat '{0}'.",
+  "seats.notFound": "Seat {0} does not exist."
 }
