@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "Il controller fisico {0} (attualmente scollegato) è assegnato alla sessione {1}: vi apparterrà quando comparirà.",
   "gamepad.knownNodesSaveFailed": "Impossibile salvare {0}: {1}",
   "gamepad.knownNodesReadFailed": "Impossibile leggere {0}: {1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "Impossibile aggiornare la lista nera di HidHide: {0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "Impossibile aggiornare la lista nera di HidHide: {0}",
+  "gamepad.usbPortCycled": "{0}: un altro processo lo stava usando e Windows ha rinviato il riavvio; la porta USB è stata scollegata e ricollegata ({1}) {2}.",
+  "gamepad.usbPortCycleFailed": "{0}: Windows ha rinviato il riavvio (un altro processo lo sta usando) e non è stato possibile riavviare la porta USB ({1}). Il processo che lo aveva già aperto continua a vederlo finché non lo chiude."
 }
