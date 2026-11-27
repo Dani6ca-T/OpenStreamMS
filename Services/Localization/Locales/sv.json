@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "”{0}”: {1} enhet(er) tilldelade till session {2}.",
   "seats.devicePortEmpty": "”{0}”: inget är anslutet till porten för ”{1}” ({2}, {3}). Om du flyttade den till en annan port, hubb eller docka, tilldela den igen.",
   "seats.started": "Platsen ”{0}” är aktiv.",
-  "seats.startFailed": "Platsen ”{0}” kunde inte startas: {1}"
+  "seats.startFailed": "Platsen ”{0}” kunde inte startas: {1}",
+  "seats.textureConfigMissing": "Agenten skickade inte texturkonfigurationen.",
+  "seats.textureHandlesMissing": "Agenten tillhandahöll inga texturhandtag.",
+  "seats.presenterReadyMissing": "Presentatören skickade ingen bekräftelse.",
+  "seats.microphoneDisconnected": "”{0}”: mikrofonen ”{1}” är inte ansluten; platsen startar utan mikrofon.",
+  "seats.sessionResolutionRestoreFailed": "”{0}”: det gick inte att återställa sessionens upplösning: {1}",
+  "seats.stopped": "Platsen ”{0}” stoppad.",
+  "seats.vigemMissing": "”{0}”: ViGEmBus är inte installerat; handkontroller isoleras med HidHide.",
+  "seats.sessionUserUnknown": "”{0}”: det gick inte att fastställa användaren för session {1}; övriga USB-enheter är synliga i alla sessioner.",
+  "seats.rawInputShared": "”{0}”: {1} är fortfarande delad med konsolen (Raw Input).",
+  "seats.usbEventsSent": "{0} händelser skickades till agenten för ”{1}” (senast: typ={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Det gick inte att skicka indata till agenten för ”{0}”: {1}",
+  "seats.inputInterfacesCaptured": "”{0}”: {1} av {2} inmatningsgränssnitt separerades från konsolen."
 }
