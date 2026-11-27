@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "A HidHide nincs telepítve: a vezérlők minden munkamenetben láthatók lesznek.",
   "gamepad.hidHideEnabled": "HidHide aktiválva.",
   "gamepad.hidHideConfigureFailed": "A HidHide konfigurálása nem sikerült: {0}",
-  "gamepad.monitorFailed": "Hiba a vezérlők figyelésekor: {0}"
+  "gamepad.monitorFailed": "Hiba a vezérlők figyelésekor: {0}",
+  "gamepad.hidHideVersionSupported": "A HidHide {0} elérhető: a vezérlők munkamenetenként elkülönülnek.",
+  "gamepad.hidHideVersionUnsupported": "A HidHide {0} nem támogatja a munkamenetenkénti elkülönítést ({1} vagy újabb verzió szükséges): a vezérlők minden munkamenetben láthatók lesznek. Frissítse a HidHide-ot.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: fordított mód {0}; engedélyezőlista ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "A HidHide engedélyezőlistáján szereplő programok minden munkamenet vezérlőit látják, akkor is, ha azok másik munkamenethez vannak rendelve.",
+  "gamepad.hidHideWhitelistReadFailed": "Nem sikerült beolvasni a HidHide engedélyezőlistáját: {0}",
+  "gamepad.controllerToVkDisabled": "A ControllerToVKMapping letiltva (megkerüli a vezérlők munkamenetenkénti elkülönítését).",
+  "gamepad.controllerToVkDisableFailed": "Nem sikerült letiltani a ControllerToVKMapping szolgáltatást: {0}",
+  "gamepad.jailPrepareFailed": "Nem sikerült előkészíteni a HidHide jailt a ViGEm-vezérlőhöz: {0}"
 }
