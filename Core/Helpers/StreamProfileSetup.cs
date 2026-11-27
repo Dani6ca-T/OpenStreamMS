@@ -253,7 +253,7 @@ internal static class StreamProfileSetup
         var killed = new List<int>();
         if (!WTSEnumerateProcesses(IntPtr.Zero, 0, 1, out IntPtr pProcs, out int count))
         {
-            Logger.Warning($"[StreamProfile] WTSEnumerateProcesses falló ({Marshal.GetLastWin32Error()})");
+            Logger.Warning(BackendText.Get("streamProfile.enumerateProcessesFailed", Marshal.GetLastWin32Error()));
             return killed;
         }
 
