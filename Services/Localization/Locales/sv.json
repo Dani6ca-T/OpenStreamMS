@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp är inte ansluten; startar fristående presentatör i konsolsession {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Ingen användare är inloggad på den fysiska konsolen.",
   "seatHostControl.trayHostConnected": "[TrayApp] Ansluten till styrningsröret för arbetsplatsernas värdar.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Fel vid bearbetning av arbetsplatskommando: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Fel vid bearbetning av arbetsplatskommando: {0}",
+  "guideGuard.disabled": "[Seats] Guide-knapp: handkontrollens Game Bar inaktiverad för {0} medan arbetsplatser är aktiva.",
+  "guideGuard.disableFailed": "[Seats] Guide-knapp: det gick inte att inaktivera handkontrollens Game Bar för {0}: {1}",
+  "guideGuard.restored": "[Seats] Guide-knapp: handkontrollens Game Bar återställd för {0}.",
+  "guideGuard.restoreFailed": "[Seats] Guide-knapp: det gick inte att återställa handkontrollens Game Bar för {0}: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess misslyckades för käll-PID {0}.",
+  "handleBroker.openTargetFailed": "OpenProcess misslyckades för mål-PID {0}.",
+  "handleBroker.duplicateFailed": "DuplicateHandle misslyckades från PID {0} till PID {1}.",
+  "seatStore.readFailed": "[Seats] Det gick inte att läsa seats.json: {0}",
+  "seatStore.saveFailed": "[Seats] Det gick inte att spara seats.json: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Röret {0}: oväntad klientprocess {1} avvisades.",
+  "seatIpc.notServicePipe": "Röret tillhör inte tjänsten (process {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Indata mottagen: tangentbord",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Indata mottagen: typ={0} flaggor={1:X} dx={2} dy={3} kod={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Indatainjektion (10 s): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s: skickade={0} ring_upptagen={1} indata={2} injiceringsfel={3} senaste_fel={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Insamlingslatens (10 s): {0}"
 }
