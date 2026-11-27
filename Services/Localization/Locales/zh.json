@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} 仅在会话“{1}”（{2}）中可见；已重启设备以关闭其他会话持有的句柄。",
   "gamepad.nodeRestartDeferred": "{0} 仅在会话“{1}”（{2}）中可见，但其他进程正在使用它，Windows 因此推迟了重启；已打开它的进程会继续看到它，直到关闭设备。",
   "gamepad.nodeLateRestartFailed": "{0} 隐藏得太晚，无法重启：{1}。其他会话中已打开该设备的进程仍能看到它。",
-  "gamepad.nodeVisibleSession": "{0} 仅在会话“{1}”（{2}）中可见。"
+  "gamepad.nodeVisibleSession": "{0} 仅在会话“{1}”（{2}）中可见。",
+  "gamepad.consoleSessionChanged": "控制台会话从 {0} 切换到 {1}：正在重新分配物理控制器。",
+  "gamepad.sideInputDriverRestored": "{0}（控制器的键盘或鼠标）已恢复到其驱动程序：控制器位于控制台。",
+  "gamepad.sideInputCaptured": "控制器位于其他会话时，已隔离 {0}（控制器的键盘或鼠标）：其按键（例如捕获按钮）不再传送到控制台。"
 }
