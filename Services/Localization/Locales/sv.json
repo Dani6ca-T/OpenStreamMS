@@ -171,5 +171,13 @@
   "power.noPending": "Det finns ingen väntande avstängning att avbryta ({0}).",
   "power.shutdownFailed": "shutdown.exe misslyckades: {0}",
   "power.scheduled": "{0} schemalagd om {1} sek.",
-  "settings.logLevelChanged": "Loggnivå: {0} → {1}."
+  "settings.logLevelChanged": "Loggnivå: {0} → {1}.",
+  "seat.restartSession": "[Platser] Startar om sessionen '{1}' för platsen '{0}' utan att stänga av platsen.",
+  "seat.restartSizeMismatch": "Sessionen återkom i storleken {0}x{1} i stället för {2}x{3}.",
+  "seat.restartSessionDone": "[Platser] '{0}': sessionen har startats om; platsen är kvar i Windows-session {1}.",
+  "seat.restartSessionFailed": "[Platser] '{0}': sessionen kunde inte startas om utan att stänga av platsen ({1}); platsen återskapas.",
+  "seat.restartSeatFailed": "[Platser] '{0}': platsen kunde inte startas igen: {1}",
+  "seat.waitingImageFailed": "[Platser] '{0}': väntbilden kunde inte visas: {1}",
+  "seat.sessionDidNotRestart": "Sessionen startades inte igen.",
+  "seat.sessionRestartTimeout": "Tidsgränsen för omstart av sessionen överskreds."
 }
