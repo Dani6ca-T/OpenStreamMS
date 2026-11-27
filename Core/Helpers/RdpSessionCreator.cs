@@ -158,7 +158,7 @@ namespace OpenStreamMS.Core.Helpers
 
             if (FindConflictingConsoleSession(user) is { } conflict)
                 Logger.Log(
-                    BackendText.Get("rdp.consoleSessionConflict", FormatPrincipal(user), conflict.SessionId)");
+                    BackendText.Get("rdp.consoleSessionConflict", FormatPrincipal(user), conflict.SessionId));
 
             // Lo que se escribe en el registro para esta conexion es global (termsrv y RemoteIdd lo
             // leen al aceptarla): dos conexiones a la vez se pisarian los valores.
@@ -591,7 +591,7 @@ namespace OpenStreamMS.Core.Helpers
 
                 try { proc.Kill(entireProcessTree: true); } catch { /* ignorar */ }
                 throw new TimeoutException(
-                    BackendText.Get("rdp.freeRdpSessionTimeout", user.Username)");
+                    BackendText.Get("rdp.freeRdpSessionTimeout", user.Username));
             }
 
             freeRdpPid = proc.Id;
