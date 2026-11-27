@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Ключът в системния регистър на Windows HKLM\\{0} не съществува.",
   "steamIsolation.userRegistryNotLoaded": "Регистърът на потребителя не е зареден.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell не е наличен.",
-  "steamIsolation.shortcutDescription": "Steam, изолиран от останалите сесии (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Steam, изолиран от останалите сесии (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] Звукът от „{1}“ е препратен към сесията на клавиатурата „{2}“.",
+  "compositeAudio.forwardFailed": "[{0}] Звукът от „{1}“ не можа да бъде препратен: {2}"
 }
