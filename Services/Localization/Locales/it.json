@@ -471,5 +471,10 @@
   "steamIsolation.prepareFailed": "[SteamIsolation] Impossibile preparare Steam per \"{0}\": {1}",
   "service.started": "[Service] OpenStreamMS avviato. L’API è disponibile sulla porta configurata.",
   "service.multiRdpCheckFailed": "[Service] Controllo multi-RDP non riuscito: {0}",
-  "service.stopped": "[Service] Arrestato."
+  "service.stopped": "[Service] Arrestato.",
+  "isolatedUser.winStationsKeyMissing": "La chiave del Registro di Windows HKLM\\{0} non esiste.",
+  "isolatedUser.rdpTcpKeyMissing": "La chiave del Registro di Windows HKLM\\{0} non esiste.",
+  "steamIsolation.userRegistryNotLoaded": "L'hive del Registro dell'utente non è caricato.",
+  "steamIsolation.wscriptUnavailable": "WScript.Shell non è disponibile.",
+  "steamIsolation.shortcutDescription": "Steam isolato dalle altre sessioni (OpenStreamMS)"
 }
