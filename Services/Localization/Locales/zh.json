@@ -318,5 +318,14 @@
   "seats.managerStarted": "座位管理器已启动（{0} 个座位）。",
   "seats.multiRdpCheckTimeout": "multi-RDP 检查在 120 秒内未完成；座位仍将自动启动。",
   "seats.autoStartSameConsoleUser": "“{0}”不会自动启动：它使用与控制台相同的用户。",
-  "seats.autoStartFailed": "“{0}”自动启动失败：{1}"
+  "seats.autoStartFailed": "“{0}”自动启动失败：{1}",
+  "seats.monitorBusy": "显示器正由座位“{0}”使用。",
+  "seats.created": "已创建座位“{0}”。",
+  "seats.deleted": "已删除座位“{0}”。",
+  "seats.microphoneAlreadyAssigned": "麦克风已分配给座位“{0}”。",
+  "seats.monitorActivationFailed": "“{0}”：无法激活显示器；如果它原本已处于活动状态，仍会继续显示。",
+  "seats.devicesAssigned": "“{0}”：已将 {1} 个设备分配给会话 {2}。",
+  "seats.devicePortEmpty": "“{0}”：设备“{1}”的端口没有连接任何设备（{2}, {3}）。如果已将其移至其他端口、集线器或扩展坞，请重新分配。",
+  "seats.started": "座位“{0}”已激活。",
+  "seats.startFailed": "座位“{0}”启动失败：{1}"
 }
