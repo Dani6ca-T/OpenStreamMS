@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "{0}을(를) 읽을 수 없습니다: {1}",
   "gamepad.hidHideBlacklistUpdateFailed": "HidHide 차단 목록을 업데이트할 수 없습니다: {0}",
   "gamepad.usbPortCycled": "{0}: 다른 프로세스가 사용 중이어서 Windows가 다시 시작을 연기했습니다. USB 포트를 분리했다가 다시 연결했습니다({1}) {2}.",
-  "gamepad.usbPortCycleFailed": "{0}: Windows가 다시 시작을 연기했고(다른 프로세스가 사용 중), USB 포트를 재연결할 수 없습니다({1}). 이미 열어 둔 프로세스는 닫을 때까지 계속 볼 수 있습니다."
+  "gamepad.usbPortCycleFailed": "{0}: Windows가 다시 시작을 연기했고(다른 프로세스가 사용 중), USB 포트를 재연결할 수 없습니다({1}). 이미 열어 둔 프로세스는 닫을 때까지 계속 볼 수 있습니다.",
+  "gamepad.clearJailsFailed": "HidHide에서 세션 항목을 제거할 수 없습니다: {0}"
 }
