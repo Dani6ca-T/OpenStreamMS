@@ -591,7 +591,7 @@ namespace OpenStreamMS.Services.Sunshine
             if (!p.WaitForExit(15_000))
             {
                 try { p.Kill(entireProcessTree: true); } catch { }
-                throw new TimeoutException("sunshine.exe --creds no terminó en 15 s");
+                throw new TimeoutException(BackendText.Get("sunshine.credentialsTimeout"));
             }
 
             if (!string.IsNullOrWhiteSpace(stdout))
@@ -944,7 +944,7 @@ namespace OpenStreamMS.Services.Sunshine
                     TimeSpan.FromSeconds(5),
                     TimeSpan.FromSeconds(5));
 
-                Logger.Log($"[Sunshine] Mirror de sunshine_state.json activo: {string.Join(", ", targets)}");
+                Logger.Log(BackendText.Get("sunshine.stateMirrorStarted", string.Join(", ", targets)));
             }
             catch (Exception ex)
             {
