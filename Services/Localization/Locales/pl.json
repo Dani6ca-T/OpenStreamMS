@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Zaktualizowano konfigurację sesji.",
   "session.logRestartAfterConfigFailed": "Nie można ponownie uruchomić sesji po aktualizacji konfiguracji: {0}",
   "session.alreadyInState": "Sesja jest już w stanie {0}.",
-  "error.request": "Nie można wykonać żądania."
+  "error.request": "Nie można wykonać żądania.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Zakończono opóźnione kopiowanie sunshine_state.json po zmianie parowania.",
+  "session.logPairingStateMirrorFailed": "[{0}] Nie powiodło się opóźnione kopiowanie sunshine_state.json po zmianie parowania: {1}",
+  "session.logAutoStartingEnabled": "Automatyczne uruchamianie {0} włączonych sesji...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Wykryto sesję Windows ({1}); uruchamianie sesji lokalnej.",
+  "session.logConsoleSessionStartFailed": "[{0}] Nie udało się uruchomić po zalogowaniu do Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Błąd monitorowania: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Wczytano z dysku sesji: {0}.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Ostrzeżenie podczas zamykania sesji Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Uruchamianie anulowane przed rozpoczęciem (nadeszło inne polecenie).",
+  "session.logCreatingRdpSession": "[{0}] Uruchamianie sesji RDP dla użytkownika \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Nie można uruchomić Sunshine: {1}",
+  "session.logAutoStartFailed": "[{0}] Automatyczne uruchomienie nie powiodło się: {1}"
 }
