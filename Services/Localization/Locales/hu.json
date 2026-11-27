@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] UseStreamProfile kihagyva: a natív elkülönítés már külön profilt biztosít.",
   "session.logStreamProfileConfiguring": "[{0}] Külön streamingprofil konfigurálása...",
   "session.logStartFailed": "[{0}] Az indítás nem sikerült: {1}",
-  "session.logWebRtcUnsupported": "[{0}] A kiválasztott protokoll WebRTC-t tartalmaz, de a beállított Sunshine-build nem támogatja (használja a sunshine-webrtc buildet); csak a Moonlight fog működni."
+  "session.logWebRtcUnsupported": "[{0}] A kiválasztott protokoll WebRTC-t tartalmaz, de a beállított Sunshine-build nem támogatja (használja a sunshine-webrtc buildet); csak a Moonlight fog működni.",
+  "session.logSaveFailed": "[SessionService] Nem sikerült menteni a munkameneteket: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] A sérült munkamenetfájl biztonsági másolata ide mentve: \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] Nem sikerült félretenni az olvashatatlan munkamenetfájlt: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] WebRTC-portok hozzárendelve a meglévő munkamenetekhez.",
+  "session.logLoadFailed": "[SessionService] Nem sikerült betölteni a munkameneteket: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Figyelmeztetés a Sunshine leállításakor egy megszakadt indítás után: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] A Sunshine-példány már létezik itt: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Nem sikerült megtisztítani a sablonból másolt állapotot: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] A példány jogosultságai módosítva \"{0}\" számára (írás csak a config mappába): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Nem sikerült módosítani \"{0}\" jogosultságait itt: {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Tűzfal ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine-példány frissítése: {1} → {2} (a config/, párosítások, hitelesítő adatok és beállítások megmaradnak)."
 }
