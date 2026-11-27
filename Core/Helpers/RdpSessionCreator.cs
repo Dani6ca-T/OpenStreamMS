@@ -811,7 +811,7 @@ namespace OpenStreamMS.Core.Helpers
             foreach (var (path, name, value, kind) in entries)
                 WriteRegistry(path, name, value, kind);
 
-            Logger.Log($"[RDP] FrameRate={frameRate} fps | interval={frameIntervalMs} ms (composicion {compositionHz} Hz, {mode})");
+            Logger.Log(BackendText.Get("rdp.frameRateConfigured", frameRate, frameIntervalMs, compositionHz, mode));
         }
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace OpenStreamMS.Core.Helpers
             WriteRegistry(RdpTcpKey, "OsmsSeatHeight",   height, RegistryValueKind.DWord);
             WriteRegistry(RdpTcpKey, "OsmsRefreshHz",    hz,     RegistryValueKind.DWord);
             WriteRegistry(RdpTcpKey, "OsmsScalePercent", scale,  RegistryValueKind.DWord);
-            Logger.Log($"[RDP] RemoteIdd: {width}x{height} @ {hz} Hz, escala {scale} %.");
+            Logger.Log(BackendText.Get("rdp.remoteIddModeConfigured", width, height, hz, scale));
         }
 
         /// <summary>
@@ -946,7 +946,7 @@ namespace OpenStreamMS.Core.Helpers
             foreach (var (path, name, value) in entries)
                 WriteRegistry(path, name, value, RegistryValueKind.DWord);
 
-            Logger.Log("[RDP] Politicas BetterRDP aplicadas.");
+            Logger.Log(BackendText.Get("rdp.betterRdpPoliciesApplied"));
         }
 
         /// <summary>
@@ -994,11 +994,11 @@ namespace OpenStreamMS.Core.Helpers
                            @"Software\Microsoft\Terminal Server Client"))
                     key?.SetValue("AuthenticationLevelOverride", 0, RegistryValueKind.DWord);
 
-                Logger.Log("[RDP] Politicas de cliente mstsc aplicadas (sin dialogos pre-conexion).");
+                Logger.Log(BackendText.Get("rdp.mstscClientPoliciesApplied"));
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudieron aplicar politicas HKCU de mstsc: {ex.Message}");
+                Logger.Warning(BackendText.Get("rdp.mstscClientPoliciesFailed", ex.Message));
             }
         }
 
