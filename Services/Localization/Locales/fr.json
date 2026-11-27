@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} est visible uniquement dans la session « {1} » ({2}) ; redémarré pour fermer les handles des autres sessions.",
   "gamepad.nodeRestartDeferred": "{0} est visible uniquement dans la session « {1} » ({2}), mais Windows a différé son redémarrage car un autre processus l’utilise ; les processus qui l’ont déjà ouvert continueront de le voir jusqu’à sa fermeture.",
   "gamepad.nodeLateRestartFailed": "{0} a été masqué tardivement et n’a pas pu être redémarré : {1}. Un processus d’une autre session qui l’avait déjà ouvert le voit toujours.",
-  "gamepad.nodeVisibleSession": "{0} est visible uniquement dans la session « {1} » ({2})."
+  "gamepad.nodeVisibleSession": "{0} est visible uniquement dans la session « {1} » ({2}).",
+  "gamepad.consoleSessionChanged": "La session de la console passe de {0} à {1} : les manettes physiques sont réaffectées.",
+  "gamepad.sideInputDriverRestored": "{0} (clavier ou souris de la manette) revient à son pilote : la manette est sur la console.",
+  "gamepad.sideInputCaptured": "{0} (clavier ou souris de la manette) a été isolé pendant que la manette se trouve dans une autre session : ses touches (p. ex. le bouton de capture) n’atteignent plus la console."
 }
