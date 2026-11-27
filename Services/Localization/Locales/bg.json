@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp не е свързан; стартира се самостоятелен визуализатор в конзолната сесия {0}...",
   "seatHostControl.consoleUserMissing": "[Seats] Няма влязъл потребител във физическата конзола.",
   "seatHostControl.trayHostConnected": "[TrayApp] Свързан към канала за управление на хостовете на работните места.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Грешка при обработка на команда за работно място: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Грешка при обработка на команда за работно място: {0}",
+  "guideGuard.disabled": "[Seats] Бутон Guide: Game Bar на контролера е изключена за {0}, докато има активни работни места.",
+  "guideGuard.disableFailed": "[Seats] Бутон Guide: Game Bar на контролера не може да бъде изключена за {0}: {1}",
+  "guideGuard.restored": "[Seats] Бутон Guide: Game Bar на контролера е възстановена за {0}.",
+  "guideGuard.restoreFailed": "[Seats] Бутон Guide: Game Bar на контролера не може да бъде възстановена за {0}: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess не успя за изходния PID {0}.",
+  "handleBroker.openTargetFailed": "OpenProcess не успя за целевия PID {0}.",
+  "handleBroker.duplicateFailed": "DuplicateHandle не успя от PID {0} към PID {1}.",
+  "seatStore.readFailed": "[Seats] seats.json не може да бъде прочетен: {0}",
+  "seatStore.saveFailed": "[Seats] seats.json не може да бъде записан: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Канал {0}: отхвърлен е неочакван клиентски процес {1}.",
+  "seatIpc.notServicePipe": "Каналът не принадлежи на услугата (процес {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Получен вход: клавиатура",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Получен вход: тип={0} флагове={1:X} dx={2} dy={3} код={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Инжектиране на вход за 10 сек.: {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 сек.: изпратени={0} зает_буфер={1} вход={2} неуспешно_инжектиране={3} последна_грешка={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Латентност на заснемането за 10 сек.: {0}"
 }
