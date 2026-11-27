@@ -557,5 +557,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Capture audio en boucle démarrée : {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] Impossible d’initialiser la capture audio : {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Passage au bureau de saisie '{0}' (précédemment '{1}').",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Impossible de passer au bureau de saisie '{0}' : {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Impossible de passer au bureau de saisie '{0}' : {1}",
+  "seatAgent.audioDeviceMissing": "La session du poste ne dispose d’aucun périphérique de lecture (Windows n’a pas créé « Remote Audio ») ; le poste n’aura pas de son."
 }
