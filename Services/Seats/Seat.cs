@@ -1,4 +1,5 @@
 using System.Text.Json;
+using OpenStreamMS.Services.Localization;
 using System.Text.Json.Serialization;
 
 namespace OpenStreamMS.Services.Seats;
@@ -149,7 +150,7 @@ internal static class SeatStore
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] No se pudo leer seats.json: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatStore.readFailed", ex.Message));
             return [];
         }
     }
@@ -164,7 +165,7 @@ internal static class SeatStore
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seats] No se pudo guardar seats.json: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatStore.saveFailed", ex.Message));
         }
     }
 }
