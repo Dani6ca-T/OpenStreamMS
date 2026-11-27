@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} est visible uniquement dans la session « {1} » ({2}).",
   "gamepad.consoleSessionChanged": "La session de la console passe de {0} à {1} : les manettes physiques sont réaffectées.",
   "gamepad.sideInputDriverRestored": "{0} (clavier ou souris de la manette) revient à son pilote : la manette est sur la console.",
-  "gamepad.sideInputCaptured": "{0} (clavier ou souris de la manette) a été isolé pendant que la manette se trouve dans une autre session : ses touches (p. ex. le bouton de capture) n’atteignent plus la console."
+  "gamepad.sideInputCaptured": "{0} (clavier ou souris de la manette) a été isolé pendant que la manette se trouve dans une autre session : ses touches (p. ex. le bouton de capture) n’atteignent plus la console.",
+  "gamepad.physicalPadConsole": "La manette physique {0} est visible uniquement dans la session de la console ({1}).",
+  "gamepad.physicalPadAssigned": "La manette physique {0} est affectée à un poste ou à une session de stream : visible uniquement dans la session {1}.",
+  "gamepad.steamFilterWarning": "{0} contient le filtre Steam {1} dans sa pile : Steam des autres sessions (console comprise) peut toujours le lire. Débranchez-le puis rebranchez-le une fois le poste ou le stream démarré.",
+  "gamepad.physicalPadRestarted": "{0} a été redémarré : la session {1} ne peut plus le lire.",
+  "gamepad.physicalPadRestartFailed": "Impossible de redémarrer {0} : {1}. La session qui l’avait déjà ouvert continuera à le voir jusqu’à sa fermeture."
 }
