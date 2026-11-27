@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 using System.Security.Principal;
 
 namespace OpenStreamMS.Core.Helpers;
@@ -59,11 +60,11 @@ internal static class SteamIsolation
                 Directory.CreateDirectory(dir);
                 CreateShortcut(Path.Combine(dir, ShortcutName), steamExe);
             }
-            Logger.Log($"[SteamIsolation] Steam preparado para '{username}': steam:// y {places.Count} acceso(s) directo(s) por osms-steam.exe.", sessionId);
+            Logger.Log(BackendText.Get("steamIsolation.prepared", username, places.Count), sessionId);
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SteamIsolation] No se pudo preparar Steam para '{username}': {ex.Message}", sessionId);
+            Logger.Warning(BackendText.Get("steamIsolation.prepareFailed", username, ex.Message), sessionId);
         }
     }
 
