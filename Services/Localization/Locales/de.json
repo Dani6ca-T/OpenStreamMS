@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Sitzplätze] „{0}“: Sitzplatz konnte nicht erneut gestartet werden: {1}",
   "seat.waitingImageFailed": "[Sitzplätze] „{0}“: Wartbild konnte nicht angezeigt werden: {1}",
   "seat.sessionDidNotRestart": "Die Sitzung wurde nicht erneut gestartet.",
-  "seat.sessionRestartTimeout": "Zeitüberschreitung beim Neustart der Sitzung."
+  "seat.sessionRestartTimeout": "Zeitüberschreitung beim Neustart der Sitzung.",
+  "composite.created": "[Verbundsitzungen] Verbundsitzung „{0}“ ({1}) erstellt mit: {2}",
+  "composite.updated": "[{0}] Verbundsitzung geändert.",
+  "composite.startingMember": "[{0}] „{1}“ für die Verbundsitzung wird gestartet…",
+  "composite.steamConfigFailed": "[{0}] Steam-App für die Verbundsitzung konnte nicht konfiguriert werden: {1}",
+  "composite.startAborted": "[{0}] Start abgebrochen (Sitzung wurde während des Starts beendet).",
+  "composite.started": "[{0}] Verbundsitzung aktiv: {1}; Tastatur und Maus von „{2}“ (Windows-Sitzung {3}).",
+  "composite.deleteFileFailed": "[{0}] {1} konnte nicht gelöscht werden: {2}",
+  "composite.stoppingMember": "[{0}] „{1}“ wird beendet, da es von der Verbundsitzung gestartet wurde.",
+  "composite.restoreResolutionFailed": "[{0}] „{1}“ konnte die ursprüngliche Auflösung nicht wiederherstellen: {2}",
+  "composite.keyboardStopped": "[{0}] Die Tastatursitzung wurde beendet; die Verbundsitzung wird ebenfalls beendet.",
+  "composite.keyboardSessionChanged": "[{0}] Die Tastatursitzung wechselte zu Windows-Sitzung {1}; Sunshine wird neu gestartet.",
+  "composite.watchFailed": "[{0}] Fehler bei der Überwachung der Verbundsitzung: {1}",
+  "composite.waitingImageFailed": "[{0}] Wartebild für Slot {1} konnte nicht vorbereitet werden: {2}",
+  "composite.steamActionFailed": "[{0}] Steam-Aktion „{1}“ in Windows-Sitzung {2} fehlgeschlagen: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: Aktion „{1}“ in {2} Sitzung(en).",
+  "composite.steamOpen": "Öffnen",
+  "composite.steamClose": "Schließen"
 }
