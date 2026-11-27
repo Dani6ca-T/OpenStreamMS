@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} è visibile solo nella sessione '{1}' ({2}); riavviato per chiudere gli handle delle altre sessioni.",
   "gamepad.nodeRestartDeferred": "{0} è visibile solo nella sessione '{1}' ({2}), ma Windows ha rinviato il riavvio perché un altro processo lo usa; i processi che lo hanno già aperto continueranno a vederlo finché non lo chiudono.",
   "gamepad.nodeLateRestartFailed": "{0} è stato nascosto in ritardo e non è stato possibile riavviarlo: {1}. Un processo di un'altra sessione che lo aveva già aperto continua a vederlo.",
-  "gamepad.nodeVisibleSession": "{0} è visibile solo nella sessione '{1}' ({2})."
+  "gamepad.nodeVisibleSession": "{0} è visibile solo nella sessione '{1}' ({2}).",
+  "gamepad.consoleSessionChanged": "La sessione della console passa da {0} a {1}: riassegnazione dei controller fisici.",
+  "gamepad.sideInputDriverRestored": "{0} (tastiera o mouse del controller) torna al proprio driver: il controller è nella console.",
+  "gamepad.sideInputCaptured": "{0} (tastiera o mouse del controller) è stato isolato mentre il controller si trova in un'altra sessione: i suoi tasti (ad es. il pulsante di acquisizione) non raggiungono più la console."
 }
