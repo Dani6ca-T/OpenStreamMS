@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Nepodařilo se odebrat rezervace ovladačů: {0}",
   "gamepad.padClaimed": "Ovladač {0} → „{1}“ (relace Windows {2}): ovladač převzala tato služba.",
   "gamepad.padOwnerUnknown": "Nelze zjistit, která relace vytvořila ovladač {0}; zůstává viditelný ve všech relacích.",
-  "gamepad.osmsPadOutsideSession": "Ovladač OsmsPad {0} → relace Windows {1} (nepatří k žádné relaci OpenStreamMS)."
+  "gamepad.osmsPadOutsideSession": "Ovladač OsmsPad {0} → relace Windows {1} (nepatří k žádné relaci OpenStreamMS).",
+  "gamepad.padAssignedCompositeMember": "Ovladač {0} relace „{1}“ ({2}) → relace „{3}“ (relace Windows {4}).",
+  "gamepad.padAssignedSession": "Ovladač {0} → relace „{1}“ (relace Windows {2}).",
+  "gamepad.padRetargeted": "Ovladač {0} ({1}) byl přesunut do relace „{2}“ (relace Windows {3}) kvůli změně složené relace."
 }
