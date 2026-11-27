@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Configurazione della sessione aggiornata.",
   "session.logRestartAfterConfigFailed": "Impossibile riavviare la sessione dopo l’aggiornamento della configurazione: {0}",
   "session.alreadyInState": "La sessione è già nello stato {0}.",
-  "error.request": "Impossibile completare la richiesta."
+  "error.request": "Impossibile completare la richiesta.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Mirror differito di sunshine_state.json completato dopo la modifica dell’associazione.",
+  "session.logPairingStateMirrorFailed": "[{0}] Mirror differito di sunshine_state.json non riuscito dopo la modifica dell’associazione: {1}",
+  "session.logAutoStartingEnabled": "Avvio automatico di {0} sessioni abilitate...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Sessione Windows rilevata ({1}); avvio della sessione locale.",
+  "session.logConsoleSessionStartFailed": "[{0}] Impossibile avviare dopo l’accesso a Windows: {1}",
+  "session.logMonitorFailed": "[{0}] Errore di monitoraggio: {1}",
+  "session.logLoadedFromDisk": "[SessionService] Caricate {0} sessioni dal disco.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Avviso durante la chiusura della sessione Windows {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Avvio annullato prima dell’inizio (è arrivato un altro comando).",
+  "session.logCreatingRdpSession": "[{0}] Avvio della sessione RDP per l’utente \"{1}\"...",
+  "session.logSunshineLaunchFailed": "[{0}] Impossibile avviare Sunshine: {1}",
+  "session.logAutoStartFailed": "[{0}] Avvio automatico non riuscito: {1}"
 }
