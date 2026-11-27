@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "Could not release controller reservations: {0}",
   "gamepad.padClaimed": "Controller {0} → '{1}' (Windows session {2}): controller claimed by this service.",
   "gamepad.padOwnerUnknown": "Could not determine which session created controller {0}; it remains visible in all sessions.",
-  "gamepad.osmsPadOutsideSession": "OsmsPad controller {0} → Windows session {1} (not part of an OpenStreamMS session)."
+  "gamepad.osmsPadOutsideSession": "OsmsPad controller {0} → Windows session {1} (not part of an OpenStreamMS session).",
+  "gamepad.padAssignedCompositeMember": "Controller {0} from '{1}' ({2}) → session '{3}' (Windows session {4}).",
+  "gamepad.padAssignedSession": "Controller {0} → session '{1}' (Windows session {2}).",
+  "gamepad.padRetargeted": "Controller {0} ({1}) moved to session '{2}' (Windows session {3}) because the composite session changed."
 }
