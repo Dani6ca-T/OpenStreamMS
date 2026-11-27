@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings başarılı — {1} oturumunda ekran {0}Hz.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings başarılı döndü ancak {2} oturumundaki ekran {0}Hz bildiriyor (istenen {1}Hz).",
   "rdp.displayFrequencyFailed": "{0} oturumunda ChangeDisplaySettings başarısız: {1} (ekran {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings sonucu okunamadı: {0}"
+  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings sonucu okunamadı: {0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions hatası: {0}",
+  "rdp.sessionInfo": "Oturum {0} ({1}) protokol={2} kullanıcı='{3}'",
+  "rdp.sessionUnlocked": "Oturum {0} kilidi açıldı (flag={1}), {2} ms sonra.",
+  "rdp.sessionStillLocked": "Oturum {0}, {1} ms sonra hâlâ kilitli. Sunshine yazılım kodlamasına (libx264) dönebilir. Kilit ekranını kontrol edin.",
+  "rdp.userAlreadyHasOtherSession": "'{0}' zaten {1} oturumuna sahip ({2}).",
+  "rdp.disconnected": "bağlantısı kesildi",
+  "rdp.termServiceChangedToManual": "TermService Devre Dışı durumdaydı → El ile olarak değiştirildi.",
+  "rdp.termServiceStarted": "TermService başlatıldı (yerel Uzak Masaüstü).",
+  "rdp.termServiceEnsureFailed": "TermService'in çalışması sağlanamadı: {0}. Uzak Masaüstü kapalıysa loopback bağlantısı başarısız olur; Sistem → Uzak Masaüstü bölümünden etkinleştirin veya Windows'u yeniden başlatın.",
+  "rdp.registryKeyOpenFailed": "HKLM\\\\{0} açılamadı",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "HKLM\\\\{1} konumuna {0} yazılamadı: {2}"
 }
