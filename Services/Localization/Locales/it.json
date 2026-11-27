@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Blocco della sessione: il posto richiederà la password…",
   "seats.statusActive": "Attivo: video, audio e periferiche connessi.",
   "seats.statusDisconnectedFromSeat": "Disconnesso dal posto. Riaccendilo da OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Arrestato: {0}. Riaccendilo da OpenStreamMS."
+  "seats.statusStoppedAfterError": "Arrestato: {0}. Riaccendilo da OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "Questo posto usa lo stesso utente della console e non può avviarsi da solo. Avvialo da OpenStreamMS o assegnagli un'altra sessione.",
+  "seats.monitorAlreadyAssigned": "Il monitor è già assegnato al posto '{0}'.",
+  "seats.monitorAreaOverlap": "Questa parte del monitor si sovrappone a quella del posto '{0}'.",
+  "seats.notFound": "Il posto {0} non esiste."
 }
