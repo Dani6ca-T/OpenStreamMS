@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, ölçek {3} %.",
   "rdp.betterRdpPoliciesApplied": "BetterRDP ilkeleri uygulandı.",
   "rdp.mstscClientPoliciesApplied": "mstsc istemci ilkeleri uygulandı (bağlantı öncesi iletişim kutusu yok).",
-  "rdp.mstscClientPoliciesFailed": "mstsc HKCU ilkeleri uygulanamadı: {0}"
+  "rdp.mstscClientPoliciesFailed": "mstsc HKCU ilkeleri uygulanamadı: {0}",
+  "rdp.videoRegistryKeyMissing": "HKLM\\\\{0} bulunamadı.",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0}, HKLM\\\\{1} konumuna uygulandı ({2}).",
+  "rdp.noVirtualAdapterFound": "Control\\\\Video altında sanal RDP bağdaştırıcısı bulunamadı — VRefresh değiştirilmedi. Oturum sürücünün varsayılan yenileme hızını kullanacak.",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0}, {1} sanal bağdaştırıcıya uygulandı.",
+  "rdp.refreshRegistryFailed": "Kayıt defterinde VRefresh ayarlanırken hata: {0}",
+  "rdp.sessionTempResolveFailed": "{0} oturumu için TEMP çözümlenemedi: {1}"
 }
