@@ -460,5 +460,6 @@
   "error.seatName": "Název stanoviště je povinný.",
   "error.stopSeat": "Před změnou konfigurace stanoviště jej zastavte.",
   "error.primaryMonitor": "Primární monitor nelze přiřadit stanovišti.",
-  "error.assigned": "Vybraný prostředek je již přiřazen."
+  "error.assigned": "Vybraný prostředek je již přiřazen.",
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\" přiřazen do slotu {2} ({3}x{4})."
 }
