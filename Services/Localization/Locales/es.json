@@ -583,5 +583,15 @@
   "seatHost.consoleWindowsMoved": "[SeatHost] Se movieron {0} ventana(s) de la consola desde el monitor físico a su pantalla.",
   "seatHost.consoleWindowMoveFailed": "[SeatHost] No se puede mover una ventana de {0} a la pantalla de la consola (es posible que la aplicación esté elevada). Ciérrela y vuelva a abrirla para moverla a la pantalla correcta.",
   "seatHost.cursorShaderInitFailed": "[SeatHost] No se pudieron inicializar los sombreadores del cursor: {0}",
-  "seatHost.createWindowFailed": "Error en CreateWindowEx."
+  "seatHost.createWindowFailed": "Error en CreateWindowEx.",
+  "seatAccess.nothingConnected": "[SeatAccess] No hay nada conectado a {1} para '{0}'; se reservará cuando se conecte un dispositivo.",
+  "seatAccess.rootReserved": "[SeatAccess] {0} estaba reservado para un puesto; vuelve a estar disponible para todas las sesiones.",
+  "seatAccess.pendingNodes": "[SeatAccess] Hay {0} nodo(s) reservado(s) desconectado(s); se liberarán al conectarse.",
+  "seatAccess.restoreTargetFailed": "[SeatAccess] No se pudo restaurar {0}: {1}",
+  "seatAccess.deviceReserved": "[SeatAccess] '{0}': {1} reservado ({2} nodo(s)); las demás sesiones no pueden abrirlo.",
+  "seatAccess.reserveFailed": "[SeatAccess] '{0}': no se pudo reservar {1}: {2}",
+  "seatAccess.deviceReleased": "[SeatAccess] {0} vuelve a estar disponible para todas las sesiones.",
+  "seatAccess.releaseFailed": "[SeatAccess] No se pudo liberar {0}: {1}",
+  "seatAccess.securityDescriptorChangeFailed": "{0}: no se pudo cambiar su descriptor de seguridad",
+  "seatAccess.deviceNotFound": "{0}: no se encuentra el dispositivo"
 }
