@@ -1,4 +1,5 @@
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
@@ -75,7 +76,7 @@ internal static class StreamProfileSetup
 
         if (string.IsNullOrEmpty(localAppData) || string.IsNullOrEmpty(appData))
             throw new InvalidOperationException(
-                "[StreamProfile] No se pudieron leer las rutas de perfil de la sesión.");
+                BackendText.Get("streamProfile.sessionPathsUnavailable"));
 
         var userProfile    = ResolveUserProfile(sessionVars, localAppData);
         var streamProfile  = Path.Combine(userProfile, "_OpenStreamMS_Stream");
@@ -111,8 +112,8 @@ internal static class StreamProfileSetup
 
         var (homeDrive, homePath) = SplitHomePath(streamProfile);
 
-        Logger.Log($"[StreamProfile] Sandbox de perfil independiente: {streamProfile}");
-        Logger.Log($"[StreamProfile] AppData aislado: local={streamLocal}; roaming={streamRoaming}");
+        Logger.Log(BackendText.Get("streamProfile.sandboxCreated", streamProfile));
+        Logger.Log(BackendText.Get("streamProfile.appDataIsolated", streamLocal, streamRoaming));
 
         var overrides = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -147,7 +148,7 @@ internal static class StreamProfileSetup
     {
         var killed = KillInSession(sessionId, "explorer.exe");
         if (killed.Count == 0)
-            Logger.Warning($"[StreamProfile] No había Explorer que reiniciar en la sesión {sessionId}.");
+            Logger.Warning(BackendText.Get("streamProfile.explorerNotRunning", sessionId));
         // El nuevo Explorer solo hereda el entorno si es el shell: si el viejo sigue vivo, se le
         // pasa el control y sale, y las apps de la sesión comparten perfil con la consola.
         foreach (var pid in killed)
@@ -158,7 +159,7 @@ internal static class StreamProfileSetup
             Path.GetDirectoryName(Environment.SystemDirectory)!, "explorer.exe");
 
         new ProcessInSession().LaunchInSession(sessionId, explorerPath, arguments: null, envOverrides: overrides);
-        Logger.Log($"[StreamProfile] Explorer reiniciado en sesión {sessionId} con perfil de stream.");
+        Logger.Log(BackendText.Get("streamProfile.explorerRestarted", sessionId));
     }
 
     // ── Logoff ────────────────────────────────────────────────────────────────
@@ -181,15 +182,14 @@ internal static class StreamProfileSetup
         var account = RdpSessionCreator.GetSessionAccount(sessionId);
         if (RdpSessionCreator.LogoffAndWait(sessionId, TimeSpan.FromSeconds(30))) return true;
 
-        Logger.Warning($"[StreamProfile] La sesión {sessionId} no se cerró en 30 s; se terminan los procesos de " +
-                       $"'{account}' y se reintenta el logoff.");
+        Logger.Warning(BackendText.Get("streamProfile.logoffRetry", sessionId, account));
         int killed = account is null ? 0 : KillUserProcesses(sessionId, account);
         if (RdpSessionCreator.LogoffAndWait(sessionId, TimeSpan.FromSeconds(15)))
         {
-            Logger.Log($"[StreamProfile] Sesión {sessionId} cerrada tras terminar {killed} proceso(s) del usuario.");
+            Logger.Log(BackendText.Get("streamProfile.logoffCompleted", sessionId, killed));
             return true;
         }
-        Logger.Error($"[StreamProfile] La sesión {sessionId} sigue abierta tras el logoff.");
+        Logger.Error(BackendText.Get("streamProfile.logoffStillOpen", sessionId));
         return false;
     }
 
@@ -207,13 +207,13 @@ internal static class StreamProfileSetup
         try { userSid = (SecurityIdentifier)new NTAccount(account).Translate(typeof(SecurityIdentifier)); }
         catch (Exception ex)
         {
-            Logger.Warning($"[StreamProfile] No se pudo resolver el SID de '{account}': {ex.Message}");
+            Logger.Warning(BackendText.Get("streamProfile.sidResolveFailed", account, ex.Message));
             return 0;
         }
 
         if (!WTSEnumerateProcesses(IntPtr.Zero, 0, 1, out IntPtr pProcs, out int count))
         {
-            Logger.Warning($"[StreamProfile] WTSEnumerateProcesses falló ({Marshal.GetLastWin32Error()})");
+            Logger.Warning(BackendText.Get("streamProfile.enumerateProcessesFailed", Marshal.GetLastWin32Error()));
             return 0;
         }
 
@@ -274,13 +274,13 @@ internal static class StreamProfileSetup
                 IntPtr hProc = OpenProcess(PROCESS_TERMINATE, false, info.ProcessId);
                 if (hProc == IntPtr.Zero)
                 {
-                    Logger.Warning($"[StreamProfile] No se pudo abrir '{name}' (PID {info.ProcessId}): {Marshal.GetLastWin32Error()}");
+                    Logger.Warning(BackendText.Get("streamProfile.processOpenFailed", name, info.ProcessId, Marshal.GetLastWin32Error()));
                     continue;
                 }
                 if (TerminateProcess(hProc, 1)) killed.Add(info.ProcessId);
-                else Logger.Warning($"[StreamProfile] No se pudo terminar '{name}' (PID {info.ProcessId}): {Marshal.GetLastWin32Error()}");
+                else Logger.Warning(BackendText.Get("streamProfile.processTerminateFailed", name, info.ProcessId, Marshal.GetLastWin32Error()));
                 CloseHandle(hProc);
-                Logger.Log($"[StreamProfile] '{name}' (PID {info.ProcessId}) terminado en sesión {sessionId}.");
+                Logger.Log(BackendText.Get("streamProfile.processTerminated", name, info.ProcessId, sessionId));
             }
         }
         finally { WTSFreeMemory(pProcs); }
