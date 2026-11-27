@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Impossibile cambiare il monitor principale: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Errore SetDisplayConfig (disattivazione): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor rimosso dal desktop: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Impossibile disattivare il monitor: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Impossibile disattivare il monitor: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Pipe di controllo host: processo {0} rifiutato perché non appartiene alla sessione della console.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp connesso alla pipe di controllo host.",
+  "seatHostControl.controlPipeError": "[Seats] Errore nella pipe di controllo host: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Comando 'open_seat' inviato a TrayApp per il posto {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Impossibile inviare 'open_seat' a TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp non è connesso; avvio del presentatore autonomo nella sessione della console {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Nessun utente ha effettuato l'accesso alla console fisica.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Connesso alla pipe di controllo degli host dei posti.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Errore durante l'elaborazione del comando del posto: {0}"
 }
