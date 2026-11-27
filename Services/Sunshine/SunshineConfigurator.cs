@@ -415,8 +415,8 @@ namespace OpenStreamMS.Services.Sunshine
 
             File.WriteAllText(appsFile, root.ToJsonString(_writeOpts));
             Logger.Log(hasOverrides
-                ? $"[SunshineCfg] apps.json actualizado con entorno de perfil aislado: {appsFile}"
-                : $"[SunshineCfg] apps.json actualizado sin entorno de perfil aislado: {appsFile}");
+                ? BackendText.Get("sunshineCfg.profileEnvironmentUpdated", appsFile)
+                : BackendText.Get("sunshineCfg.profileEnvironmentRemoved", appsFile));
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace OpenStreamMS.Services.Sunshine
         public static void WriteConfig(string sunshineExePath, SunshineConfig cfg)
         {
             if (cfg.StreamPort <= 0)
-                throw new ArgumentException("StreamPort debe ser > 0", nameof(cfg));
+                throw new ArgumentException(BackendText.Get("sunshineCfg.invalidStreamPort"), nameof(cfg));
 
             string configDir = Path.Combine(Path.GetDirectoryName(sunshineExePath)!, "config");
             string confFile  = Path.Combine(configDir, "sunshine.conf");
@@ -568,7 +568,7 @@ namespace OpenStreamMS.Services.Sunshine
                 if (string.Equals(ReadConfValue(confFile, "gamepad_driver"), "osmspad", StringComparison.OrdinalIgnoreCase))
                 {
                     overrides["gamepad_driver"] = "vigembus";
-                    Logger.Log("[SunshineCfg] gamepad_driver vuelve de osmspad a vigembus: los mandos Xbox Series de OsmsPad pierden XInput en las sesiones de stream.");
+                    Logger.Log(BackendText.Get("sunshineCfg.gamepadDriverReverted"));
                 }
                 newlyApplied.Add(OsmsPadRevertedMarker);
             }
@@ -582,7 +582,7 @@ namespace OpenStreamMS.Services.Sunshine
                 !overrides.ContainsKey("capture") &&
                 string.Equals(ReadConfValue(confFile, "capture"), RemoteIddCapture, StringComparison.OrdinalIgnoreCase);
             if (dropStaleRemoteIdd)
-                Logger.Log("[SunshineCfg] Se quita capture = remoteidd: RemoteIdd no está activo en RDP-Tcp, Sunshine usa la captura por defecto.");
+                Logger.Log(BackendText.Get("sunshineCfg.staleCaptureRemoved"));
 
             // Puertos WebRTC: los gestiona OpenStreamMS (firewall y choques entre sesiones).
             if (cfg.WebRtcPort > 0)
@@ -642,20 +642,20 @@ namespace OpenStreamMS.Services.Sunshine
                 File.AppendAllLines(markerFile, newlyApplied);
                 var added = newlyApplied.Where(k => defaults.ContainsKey(k) && !present.Contains(k)).ToList();
                 if (added.Count > 0)
-                    Logger.Log($"[SunshineCfg] Defaults de OpenStreamMS aplicados: " +
-                               string.Join(", ", added.Select(k => $"{k}={defaults[k]}")));
+                    Logger.Log(Logger.Log(BackendText.Get("sunshineCfg.defaultsApplied",
+                               string.Join(", ", added.Select(k => $"{k}={defaults[k]}")))););
             }
 
             if (File.Exists(confFile) &&
                 File.ReadAllLines(confFile).SequenceEqual(lines))
             {
-                Logger.Log($"[SunshineCfg] sunshine.conf ya estaba actualizado: {confFile}");
+                Logger.Log(BackendText.Get("sunshineCfg.configAlreadyCurrent", confFile));
                 return;
             }
 
             File.WriteAllLines(confFile, lines);
             var summary = string.Join(", ", overrides.Select(kv => $"{kv.Key}={kv.Value}"));
-            Logger.Log($"[SunshineCfg] sunshine.conf actualizado ({summary}) en: {confFile}");
+            Logger.Log(BackendText.Get("sunshineCfg.configUpdated", summary, confFile));
         }
 
         /// <summary>
@@ -697,7 +697,7 @@ namespace OpenStreamMS.Services.Sunshine
                 return false;
 
             File.WriteAllLines(confFile, lines);
-            Logger.Log($"[SunshineCfg] sunshine.conf actualizado ({string.Join(", ", values.Select(kv => $"{kv.Key}={kv.Value}"))}) en: {confFile}");
+            Logger.Log(BackendText.Get("sunshineCfg.configValuesUpdated", string.Join(", ", values.Select(kv => $"{kv.Key}={kv.Value}")), confFile));
             return true;
         }
 
@@ -789,12 +789,12 @@ namespace OpenStreamMS.Services.Sunshine
             {
                 if (!RemoveLegacyRootCredentials(state))
                 {
-                    Logger.Log($"[SunshineCfg] sunshine_state.json: credenciales ya actualizadas (user={creds.Username})");
+                    Logger.Log(BackendText.Get("sunshineCfg.credentialsAlreadyCurrent", creds.Username));
                     return;
                 }
 
                 File.WriteAllText(stateFile, state.ToJsonString(_writeOpts));
-                Logger.Log($"[SunshineCfg] sunshine_state.json: credenciales ya actualizadas; root limpiado (user={creds.Username})");
+                Logger.Log(BackendText.Get("sunshineCfg.credentialsCurrentRootCleaned", creds.Username));
                 return;
             }
 
@@ -817,7 +817,7 @@ namespace OpenStreamMS.Services.Sunshine
             RemoveLegacyRootCredentials(state);
 
             File.WriteAllText(stateFile, state.ToJsonString(_writeOpts));
-            Logger.Log($"[SunshineCfg] sunshine_state.json: credenciales establecidas (user={creds.Username})");
+            Logger.Log(BackendText.Get("sunshineCfg.credentialsSet", creds.Username));
         }
 
         private static bool CredentialsMatch(JsonObject state, SunshineCredentials creds)
