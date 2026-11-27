@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "„{0}“: {1} zařízení přiřazeno k relaci {2}.",
   "seats.devicePortEmpty": "„{0}“: k portu zařízení „{1}“ není nic připojeno ({2}, {3}). Pokud jste jej přesunuli na jiný port, rozbočovač nebo dok, přiřaďte jej znovu.",
   "seats.started": "Pracoviště „{0}“ je aktivní.",
-  "seats.startFailed": "Pracoviště „{0}“ se nepodařilo spustit: {1}"
+  "seats.startFailed": "Pracoviště „{0}“ se nepodařilo spustit: {1}",
+  "seats.textureConfigMissing": "Agent neodeslal konfiguraci textur.",
+  "seats.textureHandlesMissing": "Agent neposkytl handly textur.",
+  "seats.presenterReadyMissing": "Prezentátor neodeslal potvrzení.",
+  "seats.microphoneDisconnected": "„{0}“: mikrofon „{1}“ není připojen; pracoviště se spustí bez mikrofonu.",
+  "seats.sessionResolutionRestoreFailed": "„{0}“: nepodařilo se obnovit rozlišení relace: {1}",
+  "seats.stopped": "Pracoviště „{0}“ zastaveno.",
+  "seats.vigemMissing": "„{0}“: ViGEmBus není nainstalován; ovladače jsou izolovány pomocí HidHide.",
+  "seats.sessionUserUnknown": "„{0}“: nelze zjistit uživatele relace {1}; jeho ostatní zařízení USB zůstávají viditelná ve všech relacích.",
+  "seats.rawInputShared": "„{0}“: {1} zůstává sdíleno s konzolí (Raw Input).",
+  "seats.usbEventsSent": "Agentovi „{1}“ odesláno {0} událostí (poslední: typ={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Nepodařilo se odeslat vstup agentovi „{0}“: {1}",
+  "seats.inputInterfacesCaptured": "„{0}“: {1} z {2} vstupních rozhraní odděleno od konzole."
 }
