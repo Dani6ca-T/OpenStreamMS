@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] Falha em WTSEnumerateProcesses ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Não foi possível abrir '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Não foi possível finalizar '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) finalizado na sessão {2}."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) finalizado na sessão {2}.",
+  "sunshine.configUpdateFailed": "[Sunshine] Não foi possível atualizar sunshine.conf: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Não foi possível provisionar as credenciais: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Não foi possível configurar o VDD em apps.json: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Não foi possível configurar o ambiente isolado em apps.json: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Não foi possível configurar a entrada do Steam em apps.json: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Não foi possível configurar as entradas Reboot/Power Off em apps.json: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Não foi possível configurar os aplicativos de extensões em apps.json: {0}",
+  "sunshine.launching": "[Sunshine] Iniciando na sessão {0}: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Falha ao iniciar: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] Não foi possível confirmar o codificador no log; mantendo a configuração atual."
 }
