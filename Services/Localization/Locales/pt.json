@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Filtro Steam {0} removido de {1} classe(s) de comandos enquanto houver comandos isolados. Os novos dispositivos deixam de ser publicados para todas as sessões através de \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Não foi possível remover o filtro Steam {0}: {1}. O Steam noutras sessões (incluindo a consola) ainda pode ler os comandos isolados.",
   "steamXboxFilter.restored": "Filtro Steam {0} restaurado em {1} classe(s) de comandos; já não existem comandos isolados noutras sessões.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Não foi possível restaurar o filtro Steam {0}: {1}. Será tentado novamente no próximo arranque do serviço."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Não foi possível restaurar o filtro Steam {0}: {1}. Será tentado novamente no próximo arranque do serviço.",
+  "gamepad.restartReasonPreviousSession": "para que a sessão {0} deixe de o conseguir ler"
 }
