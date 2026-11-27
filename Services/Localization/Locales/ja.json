@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "HidHide のブラックリストを更新できませんでした：{0}",
   "gamepad.usbPortCycled": "{0}：別のプロセスが使用中のため Windows が再起動を延期しました。USB ポートを切断して再接続しました（{1}）{2}。",
   "gamepad.usbPortCycleFailed": "{0}：Windows が再起動を延期し（別プロセスが使用中）、USB ポートを再接続できませんでした（{1}）。既に開いているプロセスには、閉じるまで引き続き表示されます。",
-  "gamepad.clearJailsFailed": "HidHide からセッションエントリを削除できませんでした：{0}"
+  "gamepad.clearJailsFailed": "HidHide からセッションエントリを削除できませんでした：{0}",
+  "rdp.remoteIddProviderMissing": "RDP-Tcp に RemoteIdd キャプチャプロバイダーがありません。Native/RemoteIdd/Provider/install.ps1 でインストールしてください。",
+  "rdp.consoleSessionConflict": "警告：「{0}」には既にコンソールセッションがあります（SessionId={1}）。音声の分離が部分的になる可能性があります。",
+  "rdp.sessionExists": "「{0}」の既存セッション：{1}",
+  "rdp.createViaMstsc": "「{0}」のセッションがありません。mstsc（AVC444 ハードウェア）で作成します…",
+  "rdp.mstscFailedFallback": "mstsc に失敗しました（{0}）。FreeRDP で再試行します…",
+  "rdp.createViaFreeRdp": "「{0}」のセッションがありません。FreeRDP で作成します…",
+  "rdp.microphoneForcesFreeRdp": "マイクが割り当てられているため FreeRDP で接続します（mstsc ではマイクを選択できません）。",
+  "rdp.reconnecting": "セッション {0} を {1}x{2}、{3} fps で再接続しています…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) に失敗しました：{1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc の再接続に失敗しました（{0}）。FreeRDP で再試行します…",
+  "rdp.reconnectWrongSession": "セッション {1} ではなくセッション {0} に再接続されました。",
+  "rdp.sessionReconnected": "セッション {0} を {1} ms で再接続しました。"
 }
