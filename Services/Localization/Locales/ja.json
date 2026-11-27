@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings 成功 — セッション {1} のディスプレイは {0}Hz です。",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings は成功を返しましたが、セッション {2} のディスプレイは {0}Hz を報告しています（要求 {1}Hz）。",
   "rdp.displayFrequencyFailed": "セッション {0} の ChangeDisplaySettings に失敗しました：{1}（ディスプレイ {2}Hz）。",
-  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings の結果を読み取れませんでした：{0}"
+  "rdp.displayFrequencyResultReadFailed": "ChangeDisplaySettings の結果を読み取れませんでした：{0}",
+  "rdp.enumerateSessionsFailed": "WTSEnumerateSessions エラー：{0}",
+  "rdp.sessionInfo": "セッション {0}（{1}）プロトコル={2} ユーザー='{3}'",
+  "rdp.sessionUnlocked": "セッション {0} のロックを解除しました（flag={1}、{2} ms）。",
+  "rdp.sessionStillLocked": "セッション {0} は {1} ms 経過後もロックされています。Sunshine はソフトウェアエンコード（libx264）に切り替わる可能性があります。ロック画面を確認してください。",
+  "rdp.userAlreadyHasOtherSession": "「{0}」には既にセッション {1}（{2}）があります。",
+  "rdp.disconnected": "切断",
+  "rdp.termServiceChangedToManual": "TermService は無効でした → 手動に変更しました。",
+  "rdp.termServiceStarted": "TermService を開始しました（ネイティブ リモートデスクトップ）。",
+  "rdp.termServiceEnsureFailed": "TermService の実行を保証できませんでした：{0}。リモートデスクトップがオフの場合、ループバック接続は失敗します。システム → リモートデスクトップで有効にするか、Windows を再起動してください。",
+  "rdp.registryKeyOpenFailed": "HKLM\\\\{0} を開けませんでした",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "HKLM\\\\{1} に {0} を書き込めませんでした：{2}"
 }
