@@ -137,5 +137,6 @@
   "purge.removeRegistry": "Xóa HKLM\\SOFTWARE\\OpenStreamMS",
   "purge.removeTemp": "Xóa tệp tạm",
   "serviceConfig.created": "Đã tạo cấu hình mặc định tại: {0}",
-  "serviceConfig.invalid": "Tệp cấu hình không hợp lệ."
+  "serviceConfig.invalid": "Tệp cấu hình không hợp lệ.",
+  "cli.help": "OpenStreamMS — Dịch vụ truyền phát trò chơi\n\nCách dùng:\n  OpenStreamMS.exe --run               Chạy dịch vụ và REST API\n  OpenStreamMS.exe --install           Cài đặt dịch vụ Windows\n  OpenStreamMS.exe --uninstall         Dừng và gỡ dịch vụ\n  OpenStreamMS.exe --remove-deps       Gỡ ViGEmBus và HidHide\n  OpenStreamMS.exe --purge-data        Xóa dữ liệu bên ngoài thư mục chương trình\n  OpenStreamMS.exe --tray              Hiện biểu tượng khay hệ thống\n  OpenStreamMS.exe --open              Mở bảng điều khiển trong cửa sổ\n  OpenStreamMS.exe --diagnostics [file.zip] [--days N]  Tạo gói chẩn đoán\n  OpenStreamMS.exe --seat-agent <pipe> [--output DISPLAY] [--no-audio]\n  OpenStreamMS.exe --seat-host <pipe>  Chạy máy chủ chỗ ngồi cục bộ\n  OpenStreamMS.exe --help              Hiển thị trợ giúp này\n\nWeb:\n  http://localhost:<ApiPort>/          Bảng điều khiển (cần đăng nhập)\n  http://localhost:<ApiPort>/scalar/v1 Tài liệu API tương tác\n\nCấu hình (service.config.json):\n  SunshineExePath — đường dẫn đến sunshine.exe\n  RdpBackground   — ẩn cửa sổ RDP\n  ApiPort         — cổng máy chủ web/API (mặc định: 5000)\n  AdminUsername   — người dùng bảng điều khiển\n  LogLevel        — Error, Warning, Info hoặc Off"
 }
