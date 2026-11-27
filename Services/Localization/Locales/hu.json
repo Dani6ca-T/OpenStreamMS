@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "A(z) {0} ({1}) vezérlő a(z) „{2}” munkamenetbe (Windows-munkamenet {3}) került az összetett munkamenet változása miatt.",
   "gamepad.futurePadsReserved": "A következő Moonlight-vezérlők előre rejtve vannak a munkamenetük azonosításáig ({0}).",
   "gamepad.futurePadReservationsReleased": "Nincs aktív stream: a következő vezérlők előzetes foglalása feloldva.",
-  "gamepad.futurePadReservationFailed": "Nem sikerült lefoglalni a következő vezérlőket a HidHide-ban: {0}"
+  "gamepad.futurePadReservationFailed": "Nem sikerült lefoglalni a következő vezérlőket a HidHide-ban: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "A(z) {0} megjelenése óta csak a(z) „{1}” munkamenetben ({2}) látható; újraindítva, hogy a munkamenet felismerje.",
+  "gamepad.nodeVisibleAfterRestart": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható; újraindítva a többi munkamenet foglalásainak lezárásához.",
+  "gamepad.nodeRestartDeferred": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható, de a Windows elhalasztotta az újraindítást, mert másik folyamat használja; a már megnyitott folyamatok bezárásig továbbra is látják.",
+  "gamepad.nodeLateRestartFailed": "A(z) {0} későn lett elrejtve, és nem sikerült újraindítani: {1}. Egy másik munkamenet már megnyitott folyamata továbbra is látja.",
+  "gamepad.nodeVisibleSession": "A(z) {0} csak a(z) „{1}” munkamenetben ({2}) látható."
 }
