@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using OpenStreamMS.Services.Localization;
 using Microsoft.Win32;
 
 namespace OpenStreamMS.Core.Helpers
@@ -31,36 +32,36 @@ namespace OpenStreamMS.Core.Helpers
 
         public static int Run()
         {
-            Console.WriteLine("[Purge] Borrando los datos de OpenStreamMS fuera de la carpeta de instalación...");
+            Console.WriteLine("[Purge] " + BackendText.Get("purge.started"));
 
             // Lo que los puestos cambian en el sistema se restaura antes de borrar los ficheros
             // de ProgramData donde se apunta (lo mismo hace --uninstall; repetirlo no hace nada).
-            Step("Restaurar ratones/teclados, bloqueo de consola y derecho de apagar", () =>
+            Step(BackendText.Get("purge.restoreSeats"), () =>
             {
                 OpenStreamMS.Services.Seats.UsbCapture.RestoreAll();
                 OpenStreamMS.Services.Seats.ConsoleLockGuard.Release();
                 ShutdownRight.Restore();
             });
 
-            Step("Cerrar las sesiones de los usuarios osms-", LogoffIsolatedSessions);
-            Step("Eliminar usuarios osms- y sus perfiles", RemoveIsolatedUsers);
-            Step("Eliminar carpetas _OpenStreamMS_Stream de los perfiles", RemoveStreamProfiles);
+            Step(BackendText.Get("purge.closeSessions"), LogoffIsolatedSessions);
+            Step(BackendText.Get("purge.removeUsers"), RemoveIsolatedUsers);
+            Step(BackendText.Get("purge.removeProfiles"), RemoveStreamProfiles);
 
             var programData = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenStreamMS");
-            Step($"Eliminar {programData}", () => DeleteDir(programData));
-            Step(@"Eliminar HKLM\SOFTWARE\OpenStreamMS", () =>
+            Step(BackendText.Get("purge.removeProgramData", programData), () => DeleteDir(programData));
+            Step(BackendText.Get("purge.removeRegistry"), () =>
                 Registry.LocalMachine.DeleteSubKeyTree(@"SOFTWARE\OpenStreamMS", throwOnMissingSubKey: false));
-            Step("Eliminar ficheros temporales", RemoveTempFiles);
+            Step(BackendText.Get("purge.removeTemp"), RemoveTempFiles);
 
-            Console.WriteLine("[Purge] Completado.");
+            Console.WriteLine("[Purge] " + BackendText.Get("purge.completed"));
             return 0;
         }
 
         static void Step(string what, Action action)
         {
-            try { action(); Console.WriteLine($"[Purge] {what}: OK"); }
-            catch (Exception ex) { Console.WriteLine($"[Purge] {what}: {ex.Message}"); }
+            try { action(); Console.WriteLine($"[Purge] {BackendText.Get("purge.stepOk", what)}"); }
+            catch (Exception ex) { Console.WriteLine($"[Purge] {BackendText.Get("purge.stepError", what, ex.Message)}"); }
         }
 
         /// <summary>Un perfil cargado no se puede borrar: primero se cierra su sesión.</summary>
@@ -81,7 +82,7 @@ namespace OpenStreamMS.Core.Helpers
                     if (user.StartsWith("osms-", StringComparison.OrdinalIgnoreCase))
                     {
                         WTSLogoffSession(IntPtr.Zero, info.SessionId, wait: true);
-                        Console.WriteLine($"[Purge]   sesión {info.SessionId} de '{user}' cerrada");
+                        Console.WriteLine("[Purge] " + BackendText.Get("purge.sessionClosed", info.SessionId, user));
                     }
                 }
             }
@@ -122,11 +123,11 @@ namespace OpenStreamMS.Core.Helpers
                         Thread.Sleep(2000);   // profsvc tarda unos segundos en soltar el perfil tras el logoff
                     }
                     IsolatedUserManager.RemoveUser(username);
-                    Console.WriteLine($"[Purge]   {username} eliminado");
+                    Console.WriteLine("[Purge] " + BackendText.Get("purge.userRemoved", username));
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[Purge]   {username}: {ex.Message}");
+                    Console.WriteLine("[Purge] " + BackendText.Get("purge.userError", username, ex.Message));
                 }
             }
 
@@ -135,11 +136,11 @@ namespace OpenStreamMS.Core.Helpers
                 try
                 {
                     IsolatedUserManager.DeleteOrphan(orphan.Key, []);
-                    Console.WriteLine($"[Purge]   perfil {orphan.Name} eliminado");
+                    Console.WriteLine("[Purge] " + BackendText.Get("purge.profileRemoved", orphan.Name));
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[Purge]   perfil {orphan.Name}: {ex.Message}");
+                    Console.WriteLine("[Purge] " + BackendText.Get("purge.profileError", orphan.Name, ex.Message));
                 }
             }
         }
@@ -156,7 +157,7 @@ namespace OpenStreamMS.Core.Helpers
                 if (Directory.Exists(dir))
                 {
                     DeleteDir(dir);
-                    Console.WriteLine($"[Purge]   {dir}");
+                    Console.WriteLine("[Purge] " + BackendText.Get("purge.folderRemoved", dir));
                 }
             }
         }
