@@ -481,7 +481,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo solicitar flush limpio antes de parar: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.cleanFlushRequestFailed", ex.Message));
             }
         }
 
@@ -584,7 +584,7 @@ namespace OpenStreamMS.Services.Sunshine
             psi.ArgumentList.Add(creds.PlainPassword);
 
             using var p = Process.Start(psi)
-                ?? throw new Exception("No se pudo lanzar sunshine.exe --creds");
+                ?? throw new Exception(BackendText.Get("sunshine.credentialsCliLaunchFailed"));
 
             string stdout = p.StandardOutput.ReadToEnd();
             string stderr = p.StandardError.ReadToEnd();
@@ -679,7 +679,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo restaurar root tras --creds: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.rootRestoreAfterCredentialsFailed", ex.Message));
             }
         }
 
@@ -711,7 +711,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo comprobar el uniqueid: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.uniqueIdCheckFailed", ex.Message));
             }
         }
 
@@ -766,7 +766,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo restaurar sunshine_state.json: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.stateRestoreFailed", ex.Message));
             }
         }
 
@@ -950,7 +950,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo iniciar mirror de sunshine_state.json: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.stateMirrorStartFailed", ex.Message));
             }
         }
 
@@ -1026,7 +1026,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo copiar {TvClientsFileName} a backup: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.tvClientsBackupCopyFailed", TvClientsFileName, ex.Message));
             }
         }
 
@@ -1053,7 +1053,7 @@ namespace OpenStreamMS.Services.Sunshine
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Sunshine] No se pudo restaurar {TvClientsFileName}: {ex.Message}");
+                Logger.Warning(BackendText.Get("sunshine.tvClientsRestoreFailed", TvClientsFileName, ex.Message));
             }
         }
 
