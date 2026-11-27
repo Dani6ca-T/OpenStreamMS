@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Cảnh báo khi tạm dừng Sunshine: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine đã tạm dừng ({1}).",
   "session.logSunshineResumed": "[{0}] Sunshine đã tiếp tục; sẽ tự động khởi chạy lại.",
-  "session.logMuteRdpClient": "[{0}] Đang tắt tiếng ứng dụng khách RDP (PID={1}) trên máy chủ..."
+  "session.logMuteRdpClient": "[{0}] Đang tắt tiếng ứng dụng khách RDP (PID={1}) trên máy chủ...",
+  "session.logRdpDisplay": "[{0}] Màn hình RDP: {1}x{2} ở {3} fps; micrô: {4}"
 }
