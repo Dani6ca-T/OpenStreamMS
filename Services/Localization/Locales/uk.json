@@ -480,5 +480,9 @@
   "compositeAudio.forwarded": "[{0}] Звук із «{1}» передано до сеансу клавіатури «{2}».",
   "compositeAudio.forwardFailed": "[{0}] Не вдалося передати звук із «{1}»: {2}",
   "hud.launched": "[HUD] Запущено в сеансі Windows {0} (PID {1}): Ctrl+Alt+H або Guide + Back.",
-  "hud.launchFailed": "[HUD] Не вдалося запустити в сеансі Windows {0}: {1}"
+  "hud.launchFailed": "[HUD] Не вдалося запустити в сеансі Windows {0}: {1}",
+  "compositeInput.routed": "[{0}] Клавіатуру й мишу перенаправлено до «{1}» (сеанс Windows {2}).",
+  "compositeInput.routeFailed": "[{0}] Не вдалося перенаправити клавіатуру й мишу до «{1}»: {2}",
+  "compositeInput.writeFailed": "[{0}] Не вдалося записати {1}: {2}",
+  "compositeInput.deleteFailed": "[{0}] Не вдалося видалити {1}: {2}"
 }
