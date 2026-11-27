@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] Не удалось настроить приложения расширений в apps.json: {0}",
   "sunshine.launching": "[Sunshine] Запуск в сеансе {0}: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Ошибка запуска: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] Не удалось подтвердить кодировщик по журналу; оставляем текущую настройку."
+  "sunshine.encoderUnconfirmed": "[Sunshine] Не удалось подтвердить кодировщик по журналу; оставляем текущую настройку.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json отсутствует; используется шаблон из assets.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] apps.json создан с virtual-display: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] apps.json обновлён: virtual-display включён, файл {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "[SunshineCfg] В apps.json уже настроен virtual-display; изменений не требуется.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture настроен ('{0}') с неблокирующим действием отмены: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture для составных сеансов: запуск и закрытие во всех сеансах: {0}",
+  "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Обновлены приложения расширений ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Настроены приложения Reboot и Power Off: {0}"
 }
