@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] 无法将键盘和鼠标转发到“{1}”：{2}",
   "compositeInput.writeFailed": "[{0}] 无法写入 {1}：{2}",
   "compositeInput.deleteFailed": "[{0}] 无法删除 {1}：{2}",
-  "rdp.mstscFailureContext": "{0} 之前的 mstsc 尝试失败：{1}"
+  "rdp.mstscFailureContext": "{0} 之前的 mstsc 尝试失败：{1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] 无法读取会话配置文件路径。",
+  "streamProfile.sandboxCreated": "[StreamProfile] 独立配置文件沙盒：{0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] 隔离的 AppData：本地={0}；漫游={1}",
+  "streamProfile.explorerNotRunning": "会话 {0} 中没有可重新启动的 Explorer 进程。",
+  "streamProfile.explorerRestarted": "[StreamProfile] 已在会话 {0} 中使用流媒体配置文件重新启动 Explorer。",
+  "streamProfile.logoffRetry": "[StreamProfile] 会话 {0} 在 30 秒内未注销；正在终止 '{1}' 的进程并重试注销。",
+  "streamProfile.logoffCompleted": "[StreamProfile] 终止 {1} 个用户进程后，会话 {0} 已注销。",
+  "streamProfile.logoffStillOpen": "[StreamProfile] 注销后会话 {0} 仍处于活动状态。",
+  "streamProfile.sidResolveFailed": "[StreamProfile] 无法解析 '{0}' 的 SID：{1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses 失败（{0}）。",
+  "streamProfile.processOpenFailed": "[StreamProfile] 无法打开 '{0}'（PID {1}）：{2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] 无法终止 '{0}'（PID {1}）：{2}",
+  "streamProfile.processTerminated": "[StreamProfile] 已在会话 {2} 中终止 '{0}'（PID {1}）。"
 }
