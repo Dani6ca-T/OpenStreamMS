@@ -370,5 +370,9 @@
   "seats.statusLockingSession": "Blokowanie sesji: stanowisko będzie wymagać hasła…",
   "seats.statusActive": "Aktywne: obraz, dźwięk i urządzenia peryferyjne połączone.",
   "seats.statusDisconnectedFromSeat": "Rozłączono ze stanowiska. Włącz je ponownie z OpenStreamMS.",
-  "seats.statusStoppedAfterError": "Zatrzymano: {0}. Włącz ponownie z OpenStreamMS."
+  "seats.statusStoppedAfterError": "Zatrzymano: {0}. Włącz ponownie z OpenStreamMS.",
+  "seats.consoleUserAutoStartError": "To stanowisko używa tego samego użytkownika co konsola i nie może uruchomić się samodzielnie. Uruchom je z OpenStreamMS lub przypisz mu inną sesję.",
+  "seats.monitorAlreadyAssigned": "Monitor jest już przypisany do stanowiska „{0}”.",
+  "seats.monitorAreaOverlap": "Ten obszar monitora nakłada się na obszar stanowiska „{0}”.",
+  "seats.notFound": "Stanowisko {0} nie istnieje."
 }
