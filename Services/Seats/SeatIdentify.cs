@@ -78,7 +78,7 @@ public static class SeatIdentify
     private static int Launch(string command, bool wait)
     {
         if (!ConsoleSession.TryGetUser(out var consoleId, out _, out _))
-            throw new InvalidOperationException(BackendText.Get("error.noConsoleUser"));
+            throw new InvalidOperationException(BackendText.Get("consoleDisplay.noConsoleUser"));
         if (!wait)
             return new ProcessInSession().LaunchInSession(consoleId, Environment.ProcessPath!, $"--identify {command}");
         // La prueba dura unos segundos: que no bloquee la petición del panel.
