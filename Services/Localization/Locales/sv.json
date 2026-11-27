@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Starten avbröts innan den började (ett annat kommando kom).",
   "session.logCreatingRdpSession": "[{0}] Startar RDP-session för användaren \"{1}\"...",
   "session.logSunshineLaunchFailed": "[{0}] Sunshine kunde inte startas: {1}",
-  "session.logAutoStartFailed": "[{0}] Automatisk start misslyckades: {1}"
+  "session.logAutoStartFailed": "[{0}] Automatisk start misslyckades: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Starten avbröts (sessionen stoppades under skapandet av RDP).",
+  "session.logRdpSessionReused": "[{0}] Befintlig RDP-session återanvändes; ingen ny RDP-klient startades.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Starten avbröts (sessionen stoppades medan Sunshine startades).",
+  "session.logSessionActiveRdp": "[{0}] Session aktiv (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Starten avbröts (sessionen stoppades efter att starten slutförts).",
+  "session.logWaitingForConsoleUser": "[{0}] Den startar när någon loggar in i Windows.",
+  "session.logLocalSessionActive": "[{0}] Lokal session aktiv (Windows-session {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine-autentiseringsuppgifter återställdes; Sunshine stoppades och startas om automatiskt.",
+  "session.logSunshineTemplateUpdated": "[{0}] Sunshine-mallen ändrades; uppdaterar instansen: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Det gick inte att uppdatera Sunshine-instansen: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Det gick inte att lägga till brandväggsregeln: {0}"
 }
