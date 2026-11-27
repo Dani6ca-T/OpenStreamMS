@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "Được kích hoạt cho các khách hàng được hỗ trợ (mặc định)",
     "wan_encryption_mode_2": "Yêu cầu đối với tất cả khách hàng",
     "wan_encryption_mode_desc": "Điều này xác định thời điểm mã hóa sẽ được sử dụng khi truyền phát qua Internet. Mã hóa có thể làm giảm hiệu suất truyền phát, đặc biệt là trên các máy chủ và thiết bị khách có cấu hình yếu."
+  ,
+    "port_webrtc_discovery": "Dò tìm TV Moonlight WebRTC",
+    "port_webrtc_media": "Video và âm thanh Moonlight WebRTC",
+    "port_webrtc_media_any": "Bất kỳ",
+    "port_webrtc_signaling": "Kết nối TV Moonlight WebRTC",
+    "stream_protocol": "Giao thức truyền phát",
+    "stream_protocol_both": "Cả hai",
+    "stream_protocol_desc": "Các máy khách Sunshine phục vụ: ứng dụng Moonlight, Moonlight WebRTC trên TV Samsung Tizen hoặc cả hai. Các cổng của giao thức đã tắt vẫn đóng.",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Cổng phương tiện cuối của Moonlight WebRTC",
+    "webrtc_media_port_max_desc": "Cổng UDP cuối cùng mà WebRTC có thể dùng cho video và âm thanh. Giá trị 0 mở phạm vi đến 65535.",
+    "webrtc_media_port_min": "Cổng phương tiện đầu của Moonlight WebRTC",
+    "webrtc_media_port_min_desc": "Cổng UDP đầu tiên mà WebRTC có thể dùng cho video và âm thanh, để tường lửa chỉ cần mở phạm vi này. Nếu cả hai cổng đều là 0, WebRTC có thể chọn bất kỳ cổng nào.",
+    "webrtc_port": "Cổng TV Moonlight WebRTC",
+    "webrtc_port_desc": "Cổng TCP của WebSocket mà TV kết nối tới. Ứng dụng TV dùng cổng 8000 trừ khi một cổng khác được nhập cùng địa chỉ PC. Phạm vi: 1024–65535."
   },
   "index": {
     "permissions_missing_title": "Sunshine cần quyền truy cập",
