@@ -461,5 +461,15 @@
   "error.stopSeat": "Зупиніть місце перед зміною його конфігурації.",
   "error.primaryMonitor": "Основний монітор не можна призначити місцю.",
   "error.assigned": "Вибраний ресурс уже призначено.",
-  "composite.logMemberAssignedToSlot": "[{0}] «{1}» призначено слоту {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] «{1}» призначено слоту {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Користувач «{0}» не є адміністратором і не входить до групи Remote Desktop Users; надаємо доступ до віддаленого робочого стола, щоб сеанс міг запуститися.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Не вдалося перевірити доступ до віддаленого робочого стола для «{0}»: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Не вдалося прочитати дозволи RDP-Tcp (ні Security, ні DefaultSecurity); залишаємо їх без змін.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Не вдалося приховати «{0}» на екрані входу: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Не вдалося змінити доступ «{0}» до реєстру Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam підготовлено для «{0}»: steam:// і {1} ярликів використовують osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Не вдалося підготувати Steam для «{0}»: {1}",
+  "service.started": "[Service] OpenStreamMS запущено. API доступний на налаштованому порту.",
+  "service.multiRdpCheckFailed": "[Service] Не вдалося перевірити Multi-RDP: {0}",
+  "service.stopped": "[Service] Зупинено."
 }
