@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Klavye ve fare '{1}' hedefine yönlendirilemedi: {2}",
   "compositeInput.writeFailed": "[{0}] {1} yazılamadı: {2}",
   "compositeInput.deleteFailed": "[{0}] {1} silinemedi: {2}",
-  "rdp.mstscFailureContext": "{0} Önceki mstsc denemesi başarısız oldu: {1}"
+  "rdp.mstscFailureContext": "{0} Önceki mstsc denemesi başarısız oldu: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Oturum profil yolları okunamadı.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Yalıtılmış profil alanı: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Yalıtılmış AppData: yerel={0}; dolaşım={1}",
+  "streamProfile.explorerNotRunning": "{0} oturumunda yeniden başlatılacak çalışan bir Explorer yoktu.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer, akış profiliyle {0} oturumunda yeniden başlatıldı.",
+  "streamProfile.logoffRetry": "[StreamProfile] {0} oturumu 30 saniye içinde kapatılmadı; '{1}' kullanıcısının işlemleri sonlandırılıp oturum kapatma yeniden denenecek.",
+  "streamProfile.logoffCompleted": "[StreamProfile] {0} oturumu, {1} kullanıcı işlemi sonlandırıldıktan sonra kapatıldı.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] {0} oturumu kapatma işleminden sonra hâlâ açık.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] '{0}' için SID çözümlenemedi: {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses başarısız oldu ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] '{0}' açılamadı (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] '{0}' sonlandırılamadı (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}), {2} oturumunda sonlandırıldı."
 }
