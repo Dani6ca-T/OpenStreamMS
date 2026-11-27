@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "La manette physique {0} est affectée à un poste ou à une session de stream : visible uniquement dans la session {1}.",
   "gamepad.steamFilterWarning": "{0} contient le filtre Steam {1} dans sa pile : Steam des autres sessions (console comprise) peut toujours le lire. Débranchez-le puis rebranchez-le une fois le poste ou le stream démarré.",
   "gamepad.physicalPadRestarted": "{0} a été redémarré : la session {1} ne peut plus le lire.",
-  "gamepad.physicalPadRestartFailed": "Impossible de redémarrer {0} : {1}. La session qui l’avait déjà ouvert continuera à le voir jusqu’à sa fermeture."
+  "gamepad.physicalPadRestartFailed": "Impossible de redémarrer {0} : {1}. La session qui l’avait déjà ouvert continuera à le voir jusqu’à sa fermeture.",
+  "gamepad.padRemoved": "Manette {0} retirée ; ses nœuds HID sont supprimés de la liste noire HidHide.",
+  "gamepad.staleJailsRemoved": "{0} anciennes entrées supprimées de la liste noire HidHide.",
+  "gamepad.absentPadAssigned": "La manette physique {0} (actuellement déconnectée) est affectée à la session {1} ; elle y sera dès sa réapparition.",
+  "gamepad.knownNodesSaveFailed": "Impossible d’enregistrer {0} : {1}",
+  "gamepad.knownNodesReadFailed": "Impossible de lire {0} : {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Impossible de mettre à jour la liste noire HidHide : {0}"
 }
