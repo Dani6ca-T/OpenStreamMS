@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Ostrzeżenie podczas wstrzymywania Sunshine: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine wstrzymany ({1}).",
   "session.logSunshineResumed": "[{0}] Wznowiono Sunshine; zostanie automatycznie uruchomiony ponownie.",
-  "session.logMuteRdpClient": "[{0}] Wyciszanie klienta RDP (PID={1}) na hoście..."
+  "session.logMuteRdpClient": "[{0}] Wyciszanie klienta RDP (PID={1}) na hoście...",
+  "session.logRdpDisplay": "[{0}] Obraz RDP: {1}x{2} przy {3} kl./s; mikrofon: {4}"
 }
