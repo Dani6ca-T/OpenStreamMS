@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') configuré avec une annulation non bloquante : {1}",
   "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture des sessions composites s’ouvre et se ferme dans toutes les sessions : {0}",
   "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Applications d’extensions mises à jour ({0}) : {1}",
-  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Applications Reboot et Power Off configurées : {0}"
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Applications Reboot et Power Off configurées : {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] apps.json mis à jour avec l’environnement de profil isolé : {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] apps.json mis à jour sans l’environnement de profil isolé : {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort doit être supérieur à 0.",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver rétabli de osmspad à vigembus : les manettes Xbox Series OsmsPad perdent XInput dans les sessions de streaming.",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] capture = remoteidd supprimé : RemoteIdd n’est pas actif dans RDP-Tcp, Sunshine utilise donc la capture par défaut.",
+  "sunshineCfg.defaultsApplied": "[SunshineCfg] Valeurs par défaut OpenStreamMS appliquées : {0}",
+  "sunshineCfg.configAlreadyCurrent": "[SunshineCfg] sunshine.conf était déjà à jour : {0}",
+  "sunshineCfg.configUpdated": "[SunshineCfg] sunshine.conf mis à jour ({0}) dans : {1}",
+  "sunshineCfg.configValuesUpdated": "[SunshineCfg] sunshine.conf mis à jour ({0}) dans : {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "[SunshineCfg] sunshine_state.json : identifiants déjà à jour (utilisateur={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "[SunshineCfg] sunshine_state.json : identifiants déjà à jour ; root nettoyé (utilisateur={0})",
+  "sunshineCfg.credentialsSet": "[SunshineCfg] sunshine_state.json : identifiants définis (utilisateur={0})"
 }
