@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Denetleyiciler yalıtılmışken Steam filtresi {0}, {1} denetleyici sınıfından kaldırıldı. Yeni aygıtlar artık \\Device\\nvagipmanControl üzerinden tüm oturumlara yayımlanmıyor.",
   "steamXboxFilter.removeFailed": "[Gamepad] Steam filtresi {0} kaldırılamadı: {1}. Diğer oturumlardaki Steam (konsol dahil) yalıtılmış denetleyicileri okumaya devam edebilir.",
   "steamXboxFilter.restored": "Steam filtresi {0}, {1} denetleyici sınıfına geri yüklendi; diğer oturumlarda yalıtılmış denetleyici kalmadı.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Steam filtresi {0} geri yüklenemedi: {1}. Hizmetin bir sonraki başlatılışında yeniden denenecek."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Steam filtresi {0} geri yüklenemedi: {1}. Hizmetin bir sonraki başlatılışında yeniden denenecek.",
+  "gamepad.restartReasonPreviousSession": "{0} oturumunun artık okuyamaması için"
 }
