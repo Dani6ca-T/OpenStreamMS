@@ -484,5 +484,6 @@
   "compositeInput.routed": "[{0}] Keyboard and mouse routed to '{1}' (Windows session {2}).",
   "compositeInput.routeFailed": "[{0}] Could not route keyboard and mouse to '{1}': {2}",
   "compositeInput.writeFailed": "[{0}] Could not write {1}: {2}",
-  "compositeInput.deleteFailed": "[{0}] Could not delete {1}: {2}"
+  "compositeInput.deleteFailed": "[{0}] Could not delete {1}: {2}",
+  "rdp.mstscFailureContext": "{0} Earlier mstsc attempt failed: {1}"
 }
