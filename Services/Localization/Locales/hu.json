@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Bemenet érkezett: típus={0} jelzők={1:X} dx={2} dy={3} kód={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Bemenetbefecskendezés (10 mp): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 mp: elküldve={0} gyűrű_foglalt={1} bemenet={2} befecskendezési_hibák={3} utolsó_hiba={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Rögzítési késleltetés (10 mp): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Rögzítési késleltetés (10 mp): {0}",
+  "seat.restartAdjustingResolution": "Munkamenet beállítása erre: {0}x{1} @ {2} Hz…",
+  "seat.restartRestartingSession": "Munkamenet újraindítása…",
+  "seatIpc.invalidMessageLength": "Érvénytelen csatornaüzenet-hossz: {0} bájt.",
+  "seatIpc.invalidJsonObject": "A JSON-adat nem objektum.",
+  "seatHost.frameLatencyName": "kompozíció→képernyő",
+  "seatHost.cursorLatencyName": "bemenet→képernyő"
 }
