@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "{0} oturumu için WTSLogoffSession başarısız: {1}",
   "rdp.logoffCompleted": "{0} oturumu {1} ms içinde kapatıldı.",
   "rdp.logoffSessionCompleted": "{0} oturumu kapatıldı.",
-  "rdp.logoffWarning": "WTSLogoffSession uyarısı (oturum {0}): {1}"
+  "rdp.logoffWarning": "WTSLogoffSession uyarısı (oturum {0}): {1}",
+  "rdp.startFreeRdp": "FreeRDP başlatılıyor ({0}x{1}, {2} fps, {3} bpp, ölçek {4}%, gfx yok)…",
+  "rdp.freeRdpExecutableMissing": "wfreerdp.exe başlatılamadı",
+  "rdp.freeRdpExitedNoSession": "FreeRDP ExitCode={0} (0x{1:X}) ile sonlandı ve '{2}' için oturum oluşturamadı. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "'{0}' oturumu 30 saniye içinde görünmedi. Kullanıcı adını ve parolayı, Uzak Masaüstü'nün etkin olduğunu ve kullanıcının Uzak Masaüstü Kullanıcıları grubunda olduğunu kontrol edin.",
+  "rdp.startMstsc": "mstsc başlatılıyor ({0}x{1}, {2} fps, {3} bpp, ölçek {4}%, AVC444 donanım)…",
+  "rdp.mstscExecutableMissing": "mstsc.exe başlatılamadı",
+  "rdp.mstscExitedNoSession": "mstsc ExitCode={0} ile sonlandı ve '{1}' için oturum oluşturamadı. Görünmeyen sertifika/kimlik bilgisi iletişim kutusu veya NLA reddi olabilir.",
+  "rdp.mstscSessionTimeout": "mstsc ile '{0}' oturumu 30 saniye içinde görünmedi. Session 0 içinde görünmeyen bir iletişim kutusu olabilir."
 }
