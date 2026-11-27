@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "Không thể cập nhật danh sách chặn HidHide: {0}",
   "gamepad.usbPortCycled": "{0}: tiến trình khác đang mở nên Windows hoãn khởi động lại; cổng USB đã được ngắt rồi kết nối lại ({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows hoãn khởi động lại (tiến trình khác đang mở thiết bị) và không thể làm mới cổng USB ({1}). Tiến trình đã mở thiết bị vẫn nhìn thấy cho đến khi đóng.",
-  "gamepad.clearJailsFailed": "Không thể xóa các mục phiên khỏi HidHide: {0}"
+  "gamepad.clearJailsFailed": "Không thể xóa các mục phiên khỏi HidHide: {0}",
+  "rdp.remoteIddProviderMissing": "RDP-Tcp thiếu nhà cung cấp ghi hình RemoteIdd: hãy cài đặt bằng Native/RemoteIdd/Provider/install.ps1.",
+  "rdp.consoleSessionConflict": "Cảnh báo: '{0}' đã có phiên bảng điều khiển (SessionId={1}). Việc cô lập âm thanh có thể không hoàn toàn.",
+  "rdp.sessionExists": "Phiên hiện có cho '{0}': {1}",
+  "rdp.createViaMstsc": "Không có phiên cho '{0}', đang tạo bằng mstsc (AVC444 phần cứng)…",
+  "rdp.mstscFailedFallback": "mstsc thất bại ({0}); đang thử lại bằng FreeRDP…",
+  "rdp.createViaFreeRdp": "Không có phiên cho '{0}', đang tạo bằng FreeRDP…",
+  "rdp.microphoneForcesFreeRdp": "Khi đã gán micrô, kết nối bằng FreeRDP (mstsc không cho chọn micrô).",
+  "rdp.reconnecting": "Đang kết nối lại phiên {0} ở {1}x{2} @ {3} fps…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) thất bại: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc kết nối lại thất bại ({0}); đang thử lại bằng FreeRDP…",
+  "rdp.reconnectWrongSession": "Kết nối lại vào phiên {0} thay vì {1}.",
+  "rdp.sessionReconnected": "Phiên {0} đã kết nối lại trong {1} ms."
 }
