@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] \"{0}\"의 인스턴스 권한 조정됨(config에만 쓰기 허용): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] {1}에서 \"{0}\"의 권한을 조정하지 못했습니다: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] 방화벽({0}): {1}({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Sunshine 인스턴스 업데이트 중: {1} → {2}(config/, 페어링, 자격 증명 및 설정 유지)."
+  "session.logSunshineInstanceUpdating": "[{0}] Sunshine 인스턴스 업데이트 중: {1} → {2}(config/, 페어링, 자격 증명 및 설정 유지).",
+  "session.logHudEnsureFailed": "[HUD] HUD를 초기화하지 못했습니다: {0}"
 }
