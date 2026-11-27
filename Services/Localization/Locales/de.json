@@ -460,5 +460,6 @@
   "error.seatName": "Ein Sitzplatzname ist erforderlich.",
   "error.stopSeat": "Beenden Sie den Sitzplatz, bevor Sie seine Konfiguration ändern.",
   "error.primaryMonitor": "Der primäre Monitor kann keinem Sitzplatz zugewiesen werden.",
-  "error.assigned": "Die ausgewählte Ressource ist bereits zugewiesen."
+  "error.assigned": "Die ausgewählte Ressource ist bereits zugewiesen.",
+  "composite.logMemberAssignedToSlot": "[{0}] „{1}“ Steckplatz {2} zugewiesen ({3}x{4})."
 }
