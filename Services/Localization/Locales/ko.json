@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "이 좌석은 콘솔과 동일한 사용자를 사용하므로 단독으로 시작할 수 없습니다. OpenStreamMS에서 시작하거나 다른 세션을 할당하세요.",
   "seats.monitorAlreadyAssigned": "모니터가 이미 좌석 '{0}'에 할당되어 있습니다.",
   "seats.monitorAreaOverlap": "이 모니터 영역은 좌석 '{0}'에 할당된 영역과 겹칩니다.",
-  "seats.notFound": "좌석 {0}이(가) 존재하지 않습니다."
+  "seats.notFound": "좌석 {0}이(가) 존재하지 않습니다.",
+  "session.logStopping": "[{0}] 중지 중...",
+  "session.logRestartRequested": "[{0}] 재시작 요청됨(현재 상태: {1}).",
+  "session.logRestartSuperseded": "[{0}] 중지 중 다른 명령이 도착하여 재시작이 취소되었습니다.",
+  "session.logSunshineKillTimeout": "[{0}] Sunshine 종료 시간이 초과되었습니다.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Windows 세션 {1}이(가) 완전히 종료되지 않았습니다.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP(PID {1}) 중지됨.",
+  "session.logStopWarning": "[{0}] 중지 중 경고: {1}",
+  "session.logStopped": "[{0}] 중지됨."
 }
