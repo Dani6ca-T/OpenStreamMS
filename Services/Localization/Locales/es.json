@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} solo es visible en la sesión '{1}' ({2}); se reinició para cerrar los identificadores de otras sesiones.",
   "gamepad.nodeRestartDeferred": "{0} solo es visible en la sesión '{1}' ({2}), pero Windows aplazó el reinicio porque otro proceso lo tiene abierto; los procesos que ya lo abrieron seguirán viéndolo hasta que lo cierren.",
   "gamepad.nodeLateRestartFailed": "{0} se ocultó tarde y no se pudo reiniciar: {1}. Un proceso de otra sesión que ya lo tenía abierto sigue viéndolo.",
-  "gamepad.nodeVisibleSession": "{0} solo es visible en la sesión '{1}' ({2})."
+  "gamepad.nodeVisibleSession": "{0} solo es visible en la sesión '{1}' ({2}).",
+  "gamepad.consoleSessionChanged": "La sesión de consola pasa de {0} a {1}: se reasignan los mandos físicos.",
+  "gamepad.sideInputDriverRestored": "{0} (teclado o ratón del mando) vuelve a su controlador: el mando está en la consola.",
+  "gamepad.sideInputCaptured": "{0} (teclado o ratón del mando) se apartó mientras el mando está en otra sesión: sus teclas (p. ej., el botón de captura) ya no llegan a la consola."
 }
