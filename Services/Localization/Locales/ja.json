@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "HKLM\\\\{1} に {0} を書き込めませんでした：{2}",
   "rdp.freeRdpNoOutput": "FreeRDP は何も出力しませんでした。",
-  "rdp.freeRdpOutputPrefix": "FreeRDP の出力："
+  "rdp.freeRdpOutputPrefix": "FreeRDP の出力：",
+  "seats.usbArrivalWatchUnavailable": "USB デバイスの到着を監視できません。取得されたキーボードまたはマウスは次回起動時に復元されます。",
+  "seats.usbDriversRestoreFailed": "USB ドライバーを復元できませんでした：{0}",
+  "seats.reservedDevicesReleaseFailed": "予約済みデバイスを解放できませんでした：{0}",
+  "seats.managerStarted": "シートマネージャーを起動しました（{0} シート）。",
+  "seats.multiRdpCheckTimeout": "multi-RDP の確認が 120 秒以内に完了しませんでした。シートは引き続き自動起動します。",
+  "seats.autoStartSameConsoleUser": "「{0}」は自動起動しません。コンソールと同じユーザーを使用しています。",
+  "seats.autoStartFailed": "「{0}」の自動起動に失敗しました：{1}"
 }
