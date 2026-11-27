@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Impossible de garantir l’exécution de TermService : {0}. Si le Bureau à distance est désactivé, la connexion loopback échouera ; activez-le dans Système → Bureau à distance ou redémarrez Windows.",
   "rdp.registryKeyOpenFailed": "Impossible d’ouvrir HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Impossible d’écrire {0} dans HKLM\\\\{1} : {2}"
+  "rdp.registryWriteFailed": "Impossible d’écrire {0} dans HKLM\\\\{1} : {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP n’a produit aucune sortie.",
+  "rdp.freeRdpOutputPrefix": "Sortie de FreeRDP : "
 }
