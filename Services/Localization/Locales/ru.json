@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] «{0}»: {1} остаётся видимым в Windows (не удалось переключить его на WinUSB).",
   "padCapture.captured": "[PadCapture] «{0}»: геймпад на порту {1} изолирован от Windows ({2} геймпад(а) и дополнительных интерфейсов: {3}); передан в сеанс {4} как виртуальный геймпад.",
   "padCapture.restored": "[PadCapture] «{0}»: интерфейсов геймпада возвращено в Windows: {1}.",
-  "steamXboxFilter.removed": "[Gamepad] Фильтр Steam {0} удалён из классов геймпадов: {1}. Пока активна изоляция, новые устройства не публикуются для всех сеансов через \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Фильтр Steam {0} удалён из классов геймпадов: {1}. Пока активна изоляция, новые устройства не публикуются для всех сеансов через \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Не удалось удалить фильтр Steam {0}: {1}. Steam в других сеансах (включая консоль) всё ещё может читать изолированные геймпады.",
   "steamXboxFilter.restored": "[Gamepad] Фильтр Steam {0} восстановлен в классах геймпадов: {1}; изолированных геймпадов в других сеансах больше нет.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Не удалось восстановить фильтр Steam {0}: {1}. Повторная попытка будет при следующем запуске службы."
