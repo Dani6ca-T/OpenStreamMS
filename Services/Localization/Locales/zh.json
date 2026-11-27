@@ -528,5 +528,13 @@
   "sunshineCfg.configValuesUpdated": "已更新 sunshine.conf（{0}）：{1}",
   "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json：凭据已是最新状态（用户={0}）",
   "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json：凭据已是最新状态；已清理 root（用户={0}）",
-  "sunshineCfg.credentialsSet": "sunshine_state.json：已设置凭据（用户={0}）"
+  "sunshineCfg.credentialsSet": "sunshine_state.json：已设置凭据（用户={0}）",
+  "sunshine.cleanFlushRequestFailed": "[Sunshine] 停止前无法请求正常刷新：{0}",
+  "sunshine.credentialsCliLaunchFailed": "无法启动 sunshine.exe --creds。",
+  "sunshine.rootRestoreAfterCredentialsFailed": "[Sunshine] --creds 后无法恢复 root：{0}",
+  "sunshine.uniqueIdCheckFailed": "无法验证唯一 ID：{0}",
+  "sunshine.stateRestoreFailed": "[Sunshine] 无法恢复 sunshine_state.json：{0}",
+  "sunshine.stateMirrorStartFailed": "[Sunshine] 无法启动 sunshine_state.json 镜像：{0}",
+  "sunshine.tvClientsBackupCopyFailed": "[Sunshine] 无法将 {0} 复制到备份：{1}",
+  "sunshine.tvClientsRestoreFailed": "[Sunshine] 无法恢复 {0}：{1}"
 }
