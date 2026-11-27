@@ -246,5 +246,6 @@
   "gamepad.knownNodesReadFailed": "无法读取 {0}：{1}",
   "gamepad.hidHideBlacklistUpdateFailed": "无法更新 HidHide 黑名单：{0}",
   "gamepad.usbPortCycled": "{0}：其他进程正在使用它，Windows 因此推迟了重启；USB 端口已断开并重新连接（{1}）{2}。",
-  "gamepad.usbPortCycleFailed": "{0}：Windows 推迟了重启（其他进程正在使用设备），且无法重新连接 USB 端口（{1}）。已经打开设备的进程会继续看到它，直到关闭设备。"
+  "gamepad.usbPortCycleFailed": "{0}：Windows 推迟了重启（其他进程正在使用设备），且无法重新连接 USB 端口（{1}）。已经打开设备的进程会继续看到它，直到关闭设备。",
+  "gamepad.clearJailsFailed": "无法从 HidHide 中删除会话条目：{0}"
 }
