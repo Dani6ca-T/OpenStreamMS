@@ -171,5 +171,13 @@
   "power.noPending": "Nessuno spegnimento in attesa da annullare ({0}).",
   "power.shutdownFailed": "Errore di shutdown.exe: {0}",
   "power.scheduled": "{0} pianificato tra {1}s.",
-  "settings.logLevelChanged": "Livello di registro: {0} → {1}."
+  "settings.logLevelChanged": "Livello di registro: {0} → {1}.",
+  "seat.restartSession": "[Postazioni] Riavvio della sessione '{1}' della postazione '{0}' senza spegnerla.",
+  "seat.restartSizeMismatch": "La sessione è tornata a {0}x{1} invece di {2}x{3}.",
+  "seat.restartSessionDone": "[Postazioni] '{0}': sessione riavviata; la postazione resta nella sessione Windows {1}.",
+  "seat.restartSessionFailed": "[Postazioni] '{0}': impossibile riavviare la sessione senza spegnere la postazione ({1}); la postazione verrà ricreata.",
+  "seat.restartSeatFailed": "[Postazioni] '{0}': impossibile riaccendere la postazione: {1}",
+  "seat.waitingImageFailed": "[Postazioni] '{0}': impossibile mostrare l'immagine di attesa: {1}",
+  "seat.sessionDidNotRestart": "La sessione non è stata riavviata.",
+  "seat.sessionRestartTimeout": "Tempo scaduto durante il riavvio della sessione."
 }
