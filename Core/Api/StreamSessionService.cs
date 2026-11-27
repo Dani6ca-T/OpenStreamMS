@@ -129,7 +129,7 @@ public partial class StreamSessionService
         };
         EnsurePortsAvailable(session, _sessions.Values);
         _sessions[session.Id] = session;
-        Logger.Log($"[SessionService] Sesión creada: '{name}' ({session.Id}) enabled={enabled}{(local ? " local" : "")}");
+        Logger.Log(BackendText.Get("session.logCreated", name, session.Id, enabled, local ? BackendText.Get("session.local") : ""));
         SaveSessions();
         return session;
     }
@@ -177,7 +177,7 @@ public partial class StreamSessionService
             ?? throw new InvalidOperationException(RequestCulture.T("error.reuseUser"));
         foreach (var rdpSession in RdpSessionCreator.FindUserSessions(entry.Name))
         {
-            Logger.Log($"[SessionService] Cerrando la sesión de Windows {rdpSession} de '{entry.Name}' (usuario dedicado sin sesión).");
+            Logger.Log(BackendText.Get("session.logOrphanLogoff", rdpSession, entry.Name));
             if (!RdpSessionCreator.LogoffAndWait(rdpSession, TimeSpan.FromSeconds(30)))
                 throw new InvalidOperationException(RequestCulture.T("error.orphanLogoff"));
         }
@@ -233,17 +233,17 @@ public partial class StreamSessionService
 
         // Aislamiento nativo: eliminar usuario dedicado + perfil + registro, o conservarlos.
         if (session.Isolated && keepUser)
-            Logger.Log($"[SessionService] Usuario dedicado '{session.GetIsolatedUser()}' conservado para reutilizarlo.");
+            Logger.Log(BackendText.Get("session.logDedicatedUserKept", session.GetIsolatedUser()));
         else if (session.Isolated)
             try { IsolatedUserManager.RemoveUser(session.GetIsolatedUser()); }
-            catch (Exception ex) { Logger.Warning($"[SessionService] No se pudo eliminar el usuario aislado: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logIsolatedUserRemoveFailed", ex.Message)); }
 
         var instanceDir = GetSunshineInstanceDir(id);
         if (Directory.Exists(instanceDir))
             try { Directory.Delete(instanceDir, recursive: true); }
-            catch (Exception ex) { Logger.Warning($"[SessionService] No se pudo eliminar instancia Sunshine: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logSunshineInstanceRemoveFailed", ex.Message)); }
 
-        Logger.Log($"[SessionService] Sesión eliminada: {id}");
+        Logger.Log(BackendText.Get("session.logDeleted", id));
         SaveSessions();
         return true;
     }
@@ -253,7 +253,7 @@ public partial class StreamSessionService
     {
         var session = RequireSession(id);
         session.Gamepads = gamepads;
-        Logger.Log($"[{session.Name}] Mandos físicos asignados: {(gamepads.Count == 0 ? "ninguno" : string.Join(", ", gamepads.Select(g => g.Label)))}.", id);
+        Logger.Log(BackendText.Get("session.logGamepadsAssigned", gamepads.Count == 0 ? BackendText.Get("session.none") : string.Join(", ", gamepads.Select(g => g.Label))), id);
         SaveSessions();
         return session;
     }
@@ -289,7 +289,7 @@ public partial class StreamSessionService
     {
         var session = RequireSession(id);
         session.Enabled = enabled;
-        Logger.Log($"[{session.Name}] Sesión {(enabled ? "habilitada" : "deshabilitada")} para auto-arranque.");
+        Logger.Log(BackendText.Get("session.logAutoStartToggled", enabled ? BackendText.Get("session.enabled") : BackendText.Get("session.disabled")));
         SaveSessions();
         return session;
     }
@@ -372,7 +372,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         // caliente. La validación va antes: un error no deja la sesión detenida.
         if (active)
         {
-            Logger.Log($"[{session.Name}] Deteniendo la sesión para aplicar la nueva configuración...", session.Id);
+            Logger.Log(BackendText.Get("session.logStoppingForConfig"), session.Id);
             Stop(id);
         }
 
@@ -416,15 +416,14 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         if (session.Isolated && !isolated)
         {
             try { IsolatedUserManager.RemoveUser(session.GetIsolatedUser()); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] No se pudo limpiar el usuario aislado: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logIsolatedUserCleanupFailed", ex.Message)); }
             session.IsolatedUsername = null;
         }
         session.Isolated          = isolated;
         session.IsolatedEphemeral = isolatedEphemeral;
         if (reuseIsolatedUser is not null)
         {
-            Logger.Log($"[{session.Name}] Usuario dedicado: '{session.GetIsolatedUser()}' → '{reuseIsolatedUser}' " +
-                       "(el anterior se conserva con su perfil).", session.Id);
+            Logger.Log(BackendText.Get("session.logDedicatedUserReassigned", session.GetIsolatedUser(), reuseIsolatedUser), session.Id);
             session.IsolatedUsername = reuseIsolatedUser;
         }
 
@@ -458,7 +457,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
                 AddFirewallRule(session);
         }
 
-        Logger.Log($"[{session.Name}] Configuración actualizada.");
+        Logger.Log(BackendText.Get("session.logConfigUpdated"));
         SaveSessions();
 
         if (active)
@@ -470,7 +469,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             {
                 // La configuración ya está guardada: la sesión se queda detenida con el motivo.
                 session.ErrorMessage = ex.Message;
-                Logger.Warning($"[{session.Name}] No se pudo volver a iniciar tras cambiar la configuración: {ex.Message}", session.Id);
+                Logger.Warning(BackendText.Get("session.logRestartAfterConfigFailed", ex.Message), session.Id);
             }
         }
         return session;
@@ -488,7 +487,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             // También mientras se detiene: arrancar a la vez que se cierra dejaba dos operaciones
             // peleando por la misma sesión de Windows.
             if (session.State is SessionState.Starting or SessionState.Running or SessionState.Stopping)
-                throw new InvalidOperationException($"La sesión ya está en estado '{session.State}'.");
+                throw new InvalidOperationException(BackendText.Get("session.alreadyInState", session.State));
 
             // Dos Sunshine activos no pueden compartir puertos: el segundo no arrancaría bien.
             EnsurePortsAvailable(session, ActiveSessions());
