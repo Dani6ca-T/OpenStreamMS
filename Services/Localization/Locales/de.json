@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] Eingabe empfangen: Typ={0} Flags={1:X} dx={2} dy={3} Code={4:X}",
   "seatAgent.injectStats": "[SeatAgent] Eingabeinjektion (10 s): {0}",
   "seatAgent.captureStats": "[SeatAgent] 10 s: gesendet={0} Ring_belegt={1} Eingabe={2} Injektionsfehler={3} letzter_Fehler={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] Erfassungslatenz (10 s): {0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] Erfassungslatenz (10 s): {0}",
+  "seat.restartAdjustingResolution": "Sitzung wird auf {0}x{1} bei {2} Hz angepasst…",
+  "seat.restartRestartingSession": "Sitzung wird neu gestartet…",
+  "seatIpc.invalidMessageLength": "Ungültige Länge der Pipe-Nachricht: {0} Byte.",
+  "seatIpc.invalidJsonObject": "Die JSON-Nutzlast ist kein Objekt.",
+  "seatHost.frameLatencyName": "Komposition→Anzeige",
+  "seatHost.cursorLatencyName": "Eingabe→Anzeige"
 }
