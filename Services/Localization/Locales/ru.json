@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Не удалось сменить основной монитор: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Ошибка SetDisplayConfig (деактивация): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Монитор отключён от рабочего стола: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Не удалось деактивировать монитор: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Не удалось деактивировать монитор: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Канал управления презентером: процесс {0} отклонён — он не принадлежит консольному сеансу.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp подключился к каналу управления презентером.",
+  "seatHostControl.controlPipeError": "[Seats] Ошибка канала управления презентером: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Команда 'open_seat' отправлена в TrayApp для рабочего места {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Не удалось отправить 'open_seat' в TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp не подключён; запускается автономный презентер в консольном сеансе {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] В физической консоли нет вошедшего в систему пользователя.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Подключено к каналу управления презентерами рабочих мест.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Ошибка обработки команды рабочего места: {0}"
 }
