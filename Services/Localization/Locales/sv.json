@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "Fysisk handkontroll {0} (för närvarande frånkopplad) tilldelas session {1}; den tillhör den sessionen när den dyker upp.",
   "gamepad.knownNodesSaveFailed": "Det gick inte att spara {0}: {1}",
   "gamepad.knownNodesReadFailed": "Det gick inte att läsa {0}: {1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "Det gick inte att uppdatera HidHides svartlista: {0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "Det gick inte att uppdatera HidHides svartlista: {0}",
+  "gamepad.usbPortCycled": "{0}: en annan process hade den öppen och Windows sköt upp omstarten; USB-porten kopplades från och anslöts igen ({1}) {2}.",
+  "gamepad.usbPortCycleFailed": "{0}: Windows sköt upp omstarten (en annan process använder den) och USB-porten kunde inte återställas ({1}). Processen som redan hade öppnat den kan fortfarande se den tills den stängs."
 }
