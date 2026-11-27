@@ -461,5 +461,15 @@
   "error.stopSeat": "Beenden Sie den Sitzplatz, bevor Sie seine Konfiguration ändern.",
   "error.primaryMonitor": "Der primäre Monitor kann keinem Sitzplatz zugewiesen werden.",
   "error.assigned": "Die ausgewählte Ressource ist bereits zugewiesen.",
-  "composite.logMemberAssignedToSlot": "[{0}] „{1}“ Steckplatz {2} zugewiesen ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] „{1}“ Steckplatz {2} zugewiesen ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Benutzer „{0}“ ist weder Administrator noch Mitglied von Remote Desktop Users; Remotedesktopzugriff wird gewährt, damit die Sitzung starten kann.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Remotedesktopzugriff für „{0}“ konnte nicht überprüft werden: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] RDP-Tcp-Berechtigungen sind nicht lesbar (weder Security noch DefaultSecurity); sie bleiben unverändert.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] „{0}“ konnte nicht auf dem Anmeldebildschirm ausgeblendet werden: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Zugriff von „{0}“ auf die Steam-Registrierung konnte nicht angepasst werden: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Steam für „{0}“ vorbereitet: steam:// und {1} Verknüpfungen verwenden osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Steam für „{0}“ konnte nicht vorbereitet werden: {1}",
+  "service.started": "[Service] OpenStreamMS gestartet. Die API ist am konfigurierten Port verfügbar.",
+  "service.multiRdpCheckFailed": "[Service] Multi-RDP-Prüfung fehlgeschlagen: {0}",
+  "service.stopped": "[Service] Beendet."
 }
