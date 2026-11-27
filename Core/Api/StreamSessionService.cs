@@ -946,7 +946,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         StartLocalsAwaitingConsoleUser();
         WatchComposites();
         try { EnsureHuds(); }
-        catch (Exception ex) { Logger.Warning($"[HUD] {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("session.logHudEnsureFailed", ex.Message)); }
         foreach (var session in _sessions.Values.Where(s => s.State == SessionState.Running &&
                                                              !_sunshineRelaunching.ContainsKey(s.Id) &&
                                                              !_sunshinePaused.ContainsKey(s.Id)))
