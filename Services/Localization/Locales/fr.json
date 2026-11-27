@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide n’est pas installé : les manettes seront visibles dans toutes les sessions.",
   "gamepad.hidHideEnabled": "HidHide activé.",
   "gamepad.hidHideConfigureFailed": "Impossible de configurer HidHide : {0}",
-  "gamepad.monitorFailed": "Erreur lors de la surveillance des manettes : {0}"
+  "gamepad.monitorFailed": "Erreur lors de la surveillance des manettes : {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} est disponible : les manettes sont isolées par session.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} ne prend pas en charge l’isolation par session (version {1} ou ultérieure requise) : les manettes seront visibles dans toutes les sessions. Mettez HidHide à jour.",
+  "gamepad.hidHideWhitelistStatus": "HidHide : mode inverse {0} ; liste blanche ({1}) : {2}.",
+  "gamepad.hidHideWhitelistWarning": "Les applications de la liste blanche HidHide voient les manettes de toutes les sessions, même lorsqu’elles sont affectées à une autre session.",
+  "gamepad.hidHideWhitelistReadFailed": "Impossible de lire la liste blanche HidHide : {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping désactivé (contourne l’isolation des manettes par session).",
+  "gamepad.controllerToVkDisableFailed": "Impossible de désactiver ControllerToVKMapping : {0}",
+  "gamepad.jailPrepareFailed": "Impossible de préparer le jail HidHide de la manette ViGEm : {0}"
 }
