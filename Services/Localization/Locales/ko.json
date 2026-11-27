@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "해당 카탈로그가 목록에 없습니다.",
   "ext.catalogEntryMissing": "카탈로그에 더 이상 {0}이(가) 없습니다.",
   "ext.invalidPackage": "패키지가 유효한 확장이 아닙니다: {0}",
-  "ext.noManifest": "패키지에 {0}이(가) 없습니다."
+  "ext.noManifest": "패키지에 {0}이(가) 없습니다.",
+  "cli.error.missingSeatAgentPipe": "오류: --seat-agent의 파이프 이름이 없습니다.",
+  "cli.error.missingSeatHostPipe": "오류: --seat-host의 파이프 이름이 없습니다.",
+  "cli.error.unknownCommand": "알 수 없는 명령: '{0}'",
+  "cli.error.helpHint": "사용 가능한 명령을 보려면 --help를 사용하세요.",
+  "cli.error.adminRequired": "오류: 이 작업에는 관리자 권한이 필요합니다.",
+  "cli.error.adminHint": ".exe 파일을 '관리자 권한으로 실행'으로 실행하세요."
 }
