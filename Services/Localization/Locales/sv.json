@@ -359,5 +359,16 @@
   "seats.seatLost": "Platsen ”{0}” stängs av: {1}.",
   "seats.stopAfterLossFailed": "”{0}”: det gick inte att stänga av efter avbrottet: {1}",
   "seats.sessionStartFailed": "Sessionen kunde inte startas.",
-  "seats.sessionStartTimeout": "Sessionen blev inte aktiv i tid."
+  "seats.sessionStartTimeout": "Sessionen blev inte aktiv i tid.",
+  "seats.statusStartingSession": "Startar session…",
+  "seats.statusPoweringMonitor": "Slår på skärmen…",
+  "seats.statusStartingAgent": "Startar inspelnings- och bildagent…",
+  "seats.statusStartingPresenter": "Startar presentatören i konsolen…",
+  "seats.statusSeparatingGamepads": "Separera platsens handkontroller…",
+  "seats.statusReservingUsb": "Reserverar platsens USB-enheter…",
+  "seats.statusSeparatingInput": "Separera platsens mus och tangentbord…",
+  "seats.statusLockingSession": "Låser sessionen: platsen kommer att kräva ett lösenord…",
+  "seats.statusActive": "Aktiv: bild, ljud och kringutrustning anslutna.",
+  "seats.statusDisconnectedFromSeat": "Frånkopplad från platsen. Starta den igen från OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Stoppad: {0}. Starta den igen från OpenStreamMS."
 }
