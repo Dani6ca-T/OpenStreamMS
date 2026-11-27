@@ -412,5 +412,17 @@
   "session.logConfigUpdated": "Sitzungskonfiguration aktualisiert.",
   "session.logRestartAfterConfigFailed": "Sitzung konnte nach der Konfigurationsänderung nicht neu gestartet werden: {0}",
   "session.alreadyInState": "Sitzung befindet sich bereits im Zustand {0}.",
-  "error.request": "Die Anfrage konnte nicht abgeschlossen werden."
+  "error.request": "Die Anfrage konnte nicht abgeschlossen werden.",
+  "session.logPairingStateMirrorCompleted": "[{0}] Verzögerte Spiegelung von sunshine_state.json nach der Kopplungsänderung abgeschlossen.",
+  "session.logPairingStateMirrorFailed": "[{0}] Verzögerte Spiegelung von sunshine_state.json nach der Kopplungsänderung fehlgeschlagen: {1}",
+  "session.logAutoStartingEnabled": "Automatischer Start von {0} aktivierten Sitzung(en)...",
+  "session.logConsoleSessionDetectedStartLocal": "[{0}] Windows-Sitzung erkannt ({1}); lokale Sitzung wird gestartet.",
+  "session.logConsoleSessionStartFailed": "[{0}] Start nach Windows-Anmeldung fehlgeschlagen: {1}",
+  "session.logMonitorFailed": "[{0}] Überwachungsfehler: {1}",
+  "session.logLoadedFromDisk": "[SessionService] {0} Sitzung(en) von Datenträger geladen.",
+  "session.logWindowsSessionCloseWarning": "[{0}] Warnung beim Schließen der Windows-Sitzung {1}: {2}",
+  "session.logStartAbandoned": "[{0}] Start vor Beginn abgebrochen (ein anderer Befehl ist eingetroffen).",
+  "session.logCreatingRdpSession": "[{0}] RDP-Sitzung für Benutzer „{1}“ wird gestartet...",
+  "session.logSunshineLaunchFailed": "[{0}] Sunshine konnte nicht gestartet werden: {1}",
+  "session.logAutoStartFailed": "[{0}] Automatischer Start fehlgeschlagen: {1}"
 }
