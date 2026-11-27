@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "OsmsPad denetleyicisi {0} → Windows oturumu {1} (herhangi bir OpenStreamMS oturumuna ait değil).",
   "gamepad.padAssignedCompositeMember": "'{1}' oturumundaki denetleyici {0} ({2}) → '{3}' oturumu (Windows oturumu {4}).",
   "gamepad.padAssignedSession": "Denetleyici {0} → '{1}' oturumu (Windows oturumu {2}).",
-  "gamepad.padRetargeted": "Birleşik oturum değiştiği için denetleyici {0} ({1}), '{2}' oturumuna (Windows oturumu {3}) taşındı."
+  "gamepad.padRetargeted": "Birleşik oturum değiştiği için denetleyici {0} ({1}), '{2}' oturumuna (Windows oturumu {3}) taşındı.",
+  "gamepad.futurePadsReserved": "Sonraki Moonlight denetleyicileri oturumları belirlenene kadar önceden gizlenir ({0}).",
+  "gamepad.futurePadReservationsReleased": "Çalışan akış yok: sonraki denetleyicilerin ayırmaları kaldırıldı.",
+  "gamepad.futurePadReservationFailed": "HidHide içinde sonraki denetleyiciler ayrılamadı: {0}"
 }
