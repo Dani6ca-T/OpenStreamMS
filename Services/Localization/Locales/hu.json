@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "„{0}”: {1} eszköz hozzárendelve a(z) {2}. munkamenethez.",
   "seats.devicePortEmpty": "„{0}”: nincs eszköz csatlakoztatva a(z) „{1}” portjához ({2}, {3}). Ha másik portra, hubra vagy dokkolóra helyezte, rendelje hozzá újra.",
   "seats.started": "A(z) „{0}” munkaállomás aktív.",
-  "seats.startFailed": "A(z) „{0}” munkaállomás indítása sikertelen: {1}"
+  "seats.startFailed": "A(z) „{0}” munkaállomás indítása sikertelen: {1}",
+  "seats.textureConfigMissing": "Az ügynök nem küldte el a textúrák konfigurációját.",
+  "seats.textureHandlesMissing": "Az ügynök nem adott meg textúrafogantyúkat.",
+  "seats.presenterReadyMissing": "A megjelenítő nem küldött visszaigazolást.",
+  "seats.microphoneDisconnected": "„{0}”: a(z) „{1}” mikrofon nincs csatlakoztatva; a munkaállomás mikrofon nélkül indul.",
+  "seats.sessionResolutionRestoreFailed": "„{0}”: nem sikerült visszaállítani a munkamenet felbontását: {1}",
+  "seats.stopped": "A(z) „{0}” munkaállomás leállt.",
+  "seats.vigemMissing": "„{0}”: a ViGEmBus nincs telepítve; a vezérlők elkülönítése HidHide-dal történik.",
+  "seats.sessionUserUnknown": "„{0}”: nem állapítható meg a(z) {1}. munkamenet felhasználója; a többi USB-eszköz minden munkamenetben látható marad.",
+  "seats.rawInputShared": "„{0}”: a(z) {1} továbbra is megosztott a konzollal (Raw Input).",
+  "seats.usbEventsSent": "{0} esemény elküldve a(z) „{1}” ügynöknek (utolsó: típus={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Nem sikerült bemenetet küldeni a(z) „{0}” ügynöknek: {1}",
+  "seats.inputInterfacesCaptured": "„{0}”: {1}/{2} bemeneti felület elkülönítve a konzoltól."
 }
