@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings zakończone powodzeniem — ekran {0}Hz w sesji {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings zwróciło powodzenie, ale ekran zgłasza {0}Hz (żądano {1}Hz) w sesji {2}.",
   "rdp.displayFrequencyFailed": "ChangeDisplaySettings nie powiodło się w sesji {0}: {1} (ekran {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Nie można odczytać wyniku ChangeDisplaySettings: {0}"
+  "rdp.displayFrequencyResultReadFailed": "Nie można odczytać wyniku ChangeDisplaySettings: {0}",
+  "rdp.enumerateSessionsFailed": "Błąd WTSEnumerateSessions: {0}",
+  "rdp.sessionInfo": "Sesja {0} ({1}) protokół={2} użytkownik='{3}'",
+  "rdp.sessionUnlocked": "Sesja {0} odblokowana (flag={1}) po {2} ms.",
+  "rdp.sessionStillLocked": "Sesja {0} nadal zablokowana po {1} ms. Sunshine może przełączyć się na kodowanie programowe (libx264). Sprawdź ekran blokady.",
+  "rdp.userAlreadyHasOtherSession": "„{0}” ma już sesję {1} ({2}).",
+  "rdp.disconnected": "rozłączona",
+  "rdp.termServiceChangedToManual": "TermService była wyłączona → zmieniono na Manual.",
+  "rdp.termServiceStarted": "Uruchomiono TermService (natywny Pulpit zdalny).",
+  "rdp.termServiceEnsureFailed": "Nie można zagwarantować działania TermService: {0}. Jeśli Pulpit zdalny jest wyłączony, połączenie loopback nie powiedzie się; włącz go w System → Pulpit zdalny lub uruchom ponownie Windows.",
+  "rdp.registryKeyOpenFailed": "Nie można otworzyć HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Nie można zapisać {0} w HKLM\\\\{1}: {2}"
 }
