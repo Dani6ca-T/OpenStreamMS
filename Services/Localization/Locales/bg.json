@@ -160,5 +160,16 @@
   "uninstall.trayRemoved": "Иконата в системната област е премахната от автоматичното стартиране.",
   "uninstall.driverError": "{0}: {1}",
   "install.executable": "Изпълним файл:",
-  "install.configPath": "Конфигурация:"
+  "install.configPath": "Конфигурация:",
+  "diagnostics.logGenerated": "Генериран е диагностичен пакет ({0} KB, събития за {1} дни).",
+  "diagnostics.logGenerateFailed": "Неуспешно генериране на диагностичен пакет: {0}",
+  "hud.sessionRestarted": "Сесия „{0}“ е рестартирана от HUD.",
+  "hud.powerDenied": "Отказано е изключване/рестартиране от „{0}“: сесията няма разрешение.",
+  "hud.powerRequested": "{0} е заявено от компютъра от „{1}“.",
+  "hud.powerCancelled": "Изключването/рестартирането е отменено от „{0}“.",
+  "power.cancelled": "Изключването/рестартирането е отменено.",
+  "power.noPending": "Няма чакащо изключване за отмяна ({0}).",
+  "power.shutdownFailed": "Грешка в shutdown.exe: {0}",
+  "power.scheduled": "{0} е планирано след {1} сек.",
+  "settings.logLevelChanged": "Ниво на журнала: {0} → {1}."
 }
