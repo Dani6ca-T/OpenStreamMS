@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "Physical controller {0} (currently disconnected) is assigned to session {1}; it will belong there when it appears.",
   "gamepad.knownNodesSaveFailed": "Could not save {0}: {1}",
   "gamepad.knownNodesReadFailed": "Could not read {0}: {1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "Could not update the HidHide blacklist: {0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "Could not update the HidHide blacklist: {0}",
+  "gamepad.usbPortCycled": "{0}: another process had it open and Windows deferred the restart; its USB port was disconnected and reconnected ({1}) {2}.",
+  "gamepad.usbPortCycleFailed": "{0}: Windows deferred the restart (another process has it open), and its USB port could not be cycled ({1}). The process that already had it open can still see it until it closes it."
 }
