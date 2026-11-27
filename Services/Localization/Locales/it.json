@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Questo posto usa lo stesso utente della console e non può avviarsi da solo. Avvialo da OpenStreamMS o assegnagli un'altra sessione.",
   "seats.monitorAlreadyAssigned": "Il monitor è già assegnato al posto '{0}'.",
   "seats.monitorAreaOverlap": "Questa parte del monitor si sovrappone a quella del posto '{0}'.",
-  "seats.notFound": "Il posto {0} non esiste."
+  "seats.notFound": "Il posto {0} non esiste.",
+  "session.logStopping": "[{0}] Arresto in corso...",
+  "session.logRestartRequested": "[{0}] Riavvio richiesto (stato attuale: {1}).",
+  "session.logRestartSuperseded": "[{0}] Riavvio annullato: è arrivato un altro comando durante l'arresto.",
+  "session.logSunshineKillTimeout": "[{0}] Timeout durante la terminazione di Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] La sessione Windows {1} non ha completato la chiusura.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) arrestato.",
+  "session.logStopWarning": "[{0}] Avviso durante l'arresto: {1}",
+  "session.logStopped": "[{0}] Arrestata."
 }
