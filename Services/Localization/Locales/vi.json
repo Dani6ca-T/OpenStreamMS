@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] Bỏ qua UseStreamProfile: tính năng cách ly gốc đã cung cấp hồ sơ riêng.",
   "session.logStreamProfileConfiguring": "[{0}] Đang cấu hình hồ sơ truyền phát riêng...",
   "session.logStartFailed": "[{0}] Khởi chạy thất bại: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Giao thức đã chọn có WebRTC nhưng bản dựng Sunshine được cấu hình không hỗ trợ (hãy dùng sunshine-webrtc); chỉ Moonlight hoạt động."
+  "session.logWebRtcUnsupported": "[{0}] Giao thức đã chọn có WebRTC nhưng bản dựng Sunshine được cấu hình không hỗ trợ (hãy dùng sunshine-webrtc); chỉ Moonlight hoạt động.",
+  "session.logSaveFailed": "[SessionService] Không thể lưu các phiên: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Đã lưu bản sao lưu của tệp phiên không đọc được tại \"{0}\".",
+  "session.logUnreadableBackupFailed": "[SessionService] Không thể di chuyển tệp phiên không đọc được: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Đã gán cổng WebRTC cho các phiên hiện có.",
+  "session.logLoadFailed": "[SessionService] Không thể tải các phiên: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Cảnh báo khi dừng Sunshine từ lần khởi chạy bị bỏ dở: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Phiên bản Sunshine đã tồn tại tại: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Không thể dọn dẹp trạng thái mẫu đã sao chép: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Đã điều chỉnh quyền phiên bản cho \"{0}\" (chỉ ghi vào config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Không thể điều chỉnh quyền của \"{0}\" tại {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Tường lửa ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Đang cập nhật phiên bản Sunshine: {1} → {2} (giữ nguyên config/, ghép đôi, thông tin xác thực và cài đặt)."
 }
