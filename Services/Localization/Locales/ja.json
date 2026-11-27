@@ -158,5 +158,7 @@
   "uninstall.gamepadRestored": "HidHide のセッション別ゲームパッド分離を解除し、Steam の steamxbox フィルターを復元しました。",
   "uninstall.seatsRestored": "シートのキーボード/マウス、コンソールロック保護、シャットダウン権限、ユーザーごとに 1 セッションの設定を復元しました。",
   "uninstall.trayRemoved": "通知領域アイコンを自動起動から削除しました。",
-  "uninstall.driverError": "{0}: {1}"
+  "uninstall.driverError": "{0}: {1}",
+  "install.executable": "実行ファイル:",
+  "install.configPath": "設定ファイル:"
 }
