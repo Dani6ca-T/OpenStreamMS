@@ -885,9 +885,9 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             if (now - _disconnectedSince.GetOrAdd(seat.Id, now) < DisconnectGraceMs) continue;
 
             _disconnectedSince.TryRemove(seat.Id, out _);
-            Logger.Log($"[Seats] '{seat.Name}': su sesión se desconectó desde el puesto; se apaga hasta que se encienda desde OpenStreamMS.");
+            Logger.Log(BackendText.Get("seats.sessionDisconnectedFromSeat", seat.Name));
             try { Stop(seat.Id, disconnectedFromSeat: true); }
-            catch (Exception ex) { Logger.Warning($"[Seats] '{seat.Name}': no se pudo apagar tras la desconexión: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("seats.stopAfterDisconnectFailed", seat.Name, ex.Message)); }
         }
     }
 
@@ -907,7 +907,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         uint previous = _seatWindowsSession.GetOrAdd(seat.Id, current);
         if (previous == current) return;
         _seatWindowsSession[seat.Id] = current;
-        Logger.Log($"[Seats] '{seat.Name}': la sesión de Windows pasa de {previous} a {current}; se reasignan sus mandos.");
+        Logger.Log(BackendText.Get("seats.windowsSessionChanged", seat.Name, previous, current));
         Interlocked.Increment(ref _generation);
     }
 
@@ -922,11 +922,11 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         {
             var seat = Require(id);
             if (seat.State != SeatState.Running) return;
-            Logger.Log($"[Seats] '{seat.Name}': el monitor cambió de modo; se reajusta la sesión.");
+            Logger.Log(BackendText.Get("seats.monitorModeChanged", seat.Name));
             Stop(id, restarting: true);
             Start(id);
         }
-        catch (Exception ex) { Logger.Warning($"[Seats] No se pudo reajustar el puesto: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("seats.readjustFailed", ex.Message)); }
         finally { _readjusting.TryRemove(id, out _); }
     }
 
@@ -954,7 +954,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
                 if (seat.State == SeatState.Running && !active.Cts.IsCancellationRequested &&
                     ReferenceEquals(channel, active.AgentChannel) && !_sessionRestarting.ContainsKey(seat.Id))
                 {
-                    Logger.Warning($"[Seats] '{seat.Name}': el agente de sesión se desconectó.");
+                    Logger.Warning(BackendText.Get("seats.agentDisconnected", seat.Name));
                     OnPresentationLost(seat, "se cerró el agente de captura de la sesión");
                 }
             }
@@ -991,7 +991,7 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             {
                 if (seat.State == SeatState.Running && !active.Cts.IsCancellationRequested)
                 {
-                    Logger.Warning($"[Seats] '{seat.Name}': el presentador de la consola se desconectó.");
+                    Logger.Warning(BackendText.Get("seats.presenterDisconnected", seat.Name));
                     OnPresentationLost(seat, "se cerró el presentador de la consola (icono de bandeja)");
                 }
             }
@@ -1015,16 +1015,16 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
             {
                 if (_consoleHalf?.Presentation == seat)
                 {
-                    Logger.Warning($"[Seats] La mitad de la consola se quedó sin imagen ({why}); la consola recupera su monitor.");
+                    Logger.Warning(BackendText.Get("seats.consoleAreaLost", why));
                     StopConsoleHalf();
                     return;
                 }
                 if (!_seats.ContainsKey(seat.Id) || seat.State != SeatState.Running) return;
-                Logger.Warning($"[Seats] '{seat.Name}' se apaga: {why}.");
+                Logger.Warning(BackendText.Get("seats.seatLost", seat.Name, why));
                 Stop(seat.Id);
                 seat.StatusDetail = $"Apagado: {why}. Enciéndelo de nuevo desde OpenStreamMS.";
             }
-            catch (Exception ex) { Logger.Warning($"[Seats] '{seat.Name}': no se pudo apagar tras el corte: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("seats.stopAfterLossFailed", seat.Name, ex.Message)); }
             finally { _lost.TryRemove(seat.Id, out _); }
         });
     }
@@ -1100,10 +1100,10 @@ public sealed partial class SeatManager(StreamSessionService sessions) : Backgro
         while (sw.ElapsedMilliseconds < timeoutMs)
         {
             if (session.State == SessionState.Running && session.RdpSessionId > 0) return;
-            if (session.State == SessionState.Error) throw new Exception(session.ErrorMessage ?? "La sesión falló al arrancar.");
+            if (session.State == SessionState.Error) throw new Exception(session.ErrorMessage ?? BackendText.Get("seats.sessionStartFailed"));
             Thread.Sleep(250);
         }
-        throw new TimeoutException("La sesión no llegó a estar activa a tiempo.");
+        throw new TimeoutException(BackendText.Get("seats.sessionStartTimeout"));
     }
 
     private void Status(Seat seat, string detail)
