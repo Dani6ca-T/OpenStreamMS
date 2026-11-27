@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "Контролер OsmsPad {0} → сеанс Windows {1} (не належить до жодного сеансу OpenStreamMS).",
   "gamepad.padAssignedCompositeMember": "Контролер {0} із сеансу «{1}» ({2}) → сеанс «{3}» (сеанс Windows {4}).",
   "gamepad.padAssignedSession": "Контролер {0} → сеанс «{1}» (сеанс Windows {2}).",
-  "gamepad.padRetargeted": "Контролер {0} ({1}) переміщено до сеансу «{2}» (сеанс Windows {3}) через зміну складеного сеансу."
+  "gamepad.padRetargeted": "Контролер {0} ({1}) переміщено до сеансу «{2}» (сеанс Windows {3}) через зміну складеного сеансу.",
+  "gamepad.futurePadsReserved": "Наступні контролери Moonlight заздалегідь приховано до визначення їхнього сеансу ({0}).",
+  "gamepad.futurePadReservationsReleased": "Активних потоків немає: попереднє резервування наступних контролерів знято.",
+  "gamepad.futurePadReservationFailed": "Не вдалося зарезервувати наступні контролери в HidHide: {0}"
 }
