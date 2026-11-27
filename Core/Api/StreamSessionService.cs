@@ -1296,7 +1296,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             // conocía aún esta sesión de Windows: se cierra aquí, o quedaría abierta sin dueño.
             if (!StartStillWanted(session, generation))
             {
-                Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida durante la creación RDP).", session.Id);
+                Logger.Log(BackendText.Get("session.logStartAbortedDuringRdp", session.Name), session.Id);
                 CleanUpAbandonedStart(session, rdpId, freeRdpPid);
                 return;
             }
@@ -1318,7 +1318,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             {
                 // Sesión RDP reutilizada: el cliente original sigue conectado y, si era
                 // mstsc, su hilo de silenciado sigue activo.
-                Logger.Log($"[{session.Name}] Sesión RDP reutilizada: no se lanzó cliente RDP nuevo.", session.Id);
+                Logger.Log(BackendText.Get("session.logRdpSessionReused", session.Name), session.Id);
             }
 
             session.StartPhase = "profile";
@@ -1364,7 +1364,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
 
             if (!StartStillWanted(session, generation))
             {
-                Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida durante el lanzamiento de Sunshine).", session.Id);
+                Logger.Log(BackendText.Get("session.logStartAbortedDuringSunshine", session.Name), session.Id);
                 CleanUpAbandonedStart(session, rdpId, freeRdpPid);
                 return;
             }
@@ -1388,13 +1388,13 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             }
             if (running)
             {
-                Logger.Log($"[{session.Name}] Sesión activa (RDP={rdpId}).", session.Id);
+                Logger.Log(BackendText.Get("session.logSessionActiveRdp", session.Name, rdpId), session.Id);
                 OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
                     OpenStreamMS.Services.Extensions.ExtensionEvent.SessionStart, HookContextFor(session));
             }
             else
             {
-                Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida al terminar el arranque).", session.Id);
+                Logger.Log(BackendText.Get("session.logStartAbortedAfterLaunch", session.Name), session.Id);
                 CleanUpAbandonedStart(session, rdpId, freeRdpPid);
             }
         }
@@ -1415,7 +1415,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
             if (failed && ex is NoConsoleUserException && session.Enabled)
             {
                 _awaitingConsoleUser[session.Id] = 0;
-                Logger.Log($"[{session.Name}] Se arrancará cuando alguien inicie sesión en Windows.", session.Id);
+                Logger.Log(BackendText.Get("session.logWaitingForConsoleUser", session.Name), session.Id);
             }
             // Detenida mientras arrancaba: el fallo es consecuencia de eso; se recoge lo que quedara.
             if (!failed) CleanUpAbandonedStart(session, startedRdpId, startedClientPid);
@@ -1458,12 +1458,12 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         if (!running)
         {
-            Logger.Log($"[{session.Name}] Inicio abortado (sesión detenida durante el lanzamiento de Sunshine).", session.Id);
+            Logger.Log(BackendText.Get("session.logStartAbortedDuringSunshine", session.Name), session.Id);
             CleanUpAbandonedStart(session, 0, 0);
             return;
         }
 
-        Logger.Log($"[{session.Name}] Sesión local activa (sesión de Windows {consoleId}).", session.Id);
+        Logger.Log(BackendText.Get("session.logLocalSessionActive", session.Name, consoleId), session.Id);
         OpenStreamMS.Services.Extensions.ExtensionManager.Fire(
             OpenStreamMS.Services.Extensions.ExtensionEvent.SessionStart, HookContextFor(session, $"{domain}\\{username}"));
     }
@@ -1580,7 +1580,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
 
         SaveSessions();
-        Logger.Log($"[{session.Name}] Credenciales Sunshine reseteadas; Sunshine detenido, se relanzará automáticamente.", id);
+        Logger.Log(BackendText.Get("session.logSunshineCredentialsReset", session.Name), id);
     }
 
     private static SunshineConfigurator.SunshineConfig BuildSunshineConfig(StreamSession s) =>
@@ -1815,9 +1815,9 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         {
             // Plantilla actualizada (p.ej. sustituida por la build de sunshine-webrtc): refrescar
             // binarios y assets de la instancia sin tocar config/ (conf, estado, pareos, logs).
-            Logger.Log($"[{session.Name}] La plantilla de Sunshine cambió; actualizando la instancia: {instanceDir}", session.Id);
+            Logger.Log(BackendText.Get("session.logSunshineTemplateUpdated", session.Name, instanceDir), session.Id);
             try { CopyDirectory(Path.GetDirectoryName(session.SunshineExePath)!, instanceDir, skipTopLevelDir: "config"); }
-            catch (Exception ex) { Logger.Warning($"[{session.Name}] No se pudo actualizar la instancia de Sunshine: {ex.Message}", session.Id); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("session.logSunshineInstanceUpdateFailed", session.Name, ex.Message), session.Id); }
         }
         else
         {
@@ -2059,7 +2059,7 @@ bool active = session.State is SessionState.Starting or SessionState.Running;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Sunshine] No se pudo añadir regla de firewall: {ex.Message}");
+            Logger.Warning(BackendText.Get("session.logFirewallRuleAddFailed", ex.Message));
         }
     }
 
