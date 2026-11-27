@@ -219,5 +219,8 @@
   "gamepad.releaseReservationsFailed": "无法释放控制器预留：{0}",
   "gamepad.padClaimed": "控制器 {0} → “{1}”（Windows 会话 {2}）：此服务已接管该控制器。",
   "gamepad.padOwnerUnknown": "无法确定创建控制器 {0} 的会话；它仍会在所有会话中可见。",
-  "gamepad.osmsPadOutsideSession": "OsmsPad 控制器 {0} → Windows 会话 {1}（不属于任何 OpenStreamMS 会话）。"
+  "gamepad.osmsPadOutsideSession": "OsmsPad 控制器 {0} → Windows 会话 {1}（不属于任何 OpenStreamMS 会话）。",
+  "gamepad.padAssignedCompositeMember": "来自“{1}”的控制器 {0}（{2}）→ 会话“{3}”（Windows 会话 {4}）。",
+  "gamepad.padAssignedSession": "控制器 {0} → 会话“{1}”（Windows 会话 {2}）。",
+  "gamepad.padRetargeted": "复合会话发生变化，控制器 {0}（{1}）已移至会话“{2}”（Windows 会话 {3}）。"
 }
