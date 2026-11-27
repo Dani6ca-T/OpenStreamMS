@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp ist nicht verbunden; eigenständiger Presenter wird in Konsolensitzung {0} gestartet...",
   "seatHostControl.consoleUserMissing": "[Seats] An der physischen Konsole ist kein Benutzer angemeldet.",
   "seatHostControl.trayHostConnected": "[TrayApp] Mit der Steuerpipe für Arbeitsplatz-Hosts verbunden.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Fehler beim Verarbeiten des Arbeitsplatzbefehls: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Fehler beim Verarbeiten des Arbeitsplatzbefehls: {0}",
+  "guideGuard.disabled": "[Seats] Guide-Taste: Controller-Game-Bar für {0} deaktiviert, solange Arbeitsplätze aktiv sind.",
+  "guideGuard.disableFailed": "[Seats] Guide-Taste: Controller-Game-Bar für {0} konnte nicht deaktiviert werden: {1}",
+  "guideGuard.restored": "[Seats] Guide-Taste: Controller-Game-Bar für {0} wiederhergestellt.",
+  "guideGuard.restoreFailed": "[Seats] Guide-Taste: Controller-Game-Bar für {0} konnte nicht wiederhergestellt werden: {1}",
+  "handleBroker.openSourceFailed": "OpenProcess für Quell-PID {0} fehlgeschlagen.",
+  "handleBroker.openTargetFailed": "OpenProcess für Ziel-PID {0} fehlgeschlagen.",
+  "handleBroker.duplicateFailed": "DuplicateHandle von PID {0} zu PID {1} fehlgeschlagen.",
+  "seatStore.readFailed": "[Seats] seats.json konnte nicht gelesen werden: {0}",
+  "seatStore.saveFailed": "[Seats] seats.json konnte nicht gespeichert werden: {0}",
+  "seatIpc.unexpectedClient": "[Seats] Pipe {0}: unerwarteter Clientprozess {1} wurde abgewiesen.",
+  "seatIpc.notServicePipe": "Die Pipe gehört nicht zum Dienst (Prozess {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Eingabe empfangen: Tastatur",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Eingabe empfangen: Typ={0} Flags={1:X} dx={2} dy={3} Code={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] Eingabeinjektion (10 s): {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 s: gesendet={0} Ring_belegt={1} Eingabe={2} Injektionsfehler={3} letzter_Fehler={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] Erfassungslatenz (10 s): {0}"
 }
