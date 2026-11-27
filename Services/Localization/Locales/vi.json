@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] Không thể cấu hình ứng dụng tiện ích mở rộng trong apps.json: {0}",
   "sunshine.launching": "[Sunshine] Đang khởi chạy trong phiên {0}: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Khởi chạy thất bại: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] Không thể xác nhận bộ mã hóa trong nhật ký; giữ nguyên cấu hình."
+  "sunshine.encoderUnconfirmed": "[Sunshine] Không thể xác nhận bộ mã hóa trong nhật ký; giữ nguyên cấu hình.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] Không có apps.json; đang dùng mẫu trong assets.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] Đã tạo apps.json có virtual-display tại: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] Đã cập nhật apps.json có virtual-display tại: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "virtual-display đã được cấu hình trong apps.json; không cần thay đổi.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Đã cấu hình Steam Big Picture ('{0}') với thao tác hoàn tác không chặn: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "Big Picture của phiên tổng hợp được mở và đóng trong tất cả các phiên: {0}",
+  "sunshineCfg.extensionAppsUpdated": "Đã cập nhật ứng dụng tiện ích mở rộng ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "Đã cấu hình ứng dụng Reboot và Power Off: {0}"
 }
