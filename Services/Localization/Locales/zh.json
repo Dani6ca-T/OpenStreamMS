@@ -339,5 +339,13 @@
   "seats.rawInputShared": "“{0}”：{1} 仍与控制台共享（Raw Input）。",
   "seats.usbEventsSent": "已向“{1}”的代理发送 {0} 个事件（最后一个：类型={2} flags={3} dx={4} dy={5}）。",
   "seats.usbInputSendFailed": "无法向“{0}”的代理发送输入：{1}",
-  "seats.inputInterfacesCaptured": "“{0}”：已将 {2} 个输入接口中的 {1} 个与控制台隔离。"
+  "seats.inputInterfacesCaptured": "“{0}”：已将 {2} 个输入接口中的 {1} 个与控制台隔离。",
+  "seats.consoleVirtualDisplayMissing": "虚拟显示器未出现在控制台中。",
+  "seats.consoleVirtualDisplayPrimaryFailed": "无法将虚拟显示器设为主显示器。",
+  "seats.consoleAreaApplied": "控制台使用“{1}”的区域 {0}，并使用自己的 {2}x{3} 显示器。遮挡区域：{4}",
+  "seats.consoleAreaFallback": "无法为控制台提供其区域（{0}）；保留备用方案。",
+  "seats.consoleMonitorRestoreFailed": "无法将主显示器还给控制台；移除虚拟显示器时将恢复。",
+  "seats.consoleMonitorRestored": "控制台重新拥有完整显示器。",
+  "seats.sessionLocked": "“{0}”：会话已锁定；将要求输入“{1}”的密码。",
+  "seats.sessionLockFailed": "“{0}”：无法锁定会话：{1}"
 }
