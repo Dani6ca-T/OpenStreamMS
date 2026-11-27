@@ -460,5 +460,6 @@
   "error.seatName": "Nazwa stanowiska jest wymagana.",
   "error.stopSeat": "Zatrzymaj stanowisko przed zmianą jego konfiguracji.",
   "error.primaryMonitor": "Nie można przypisać monitora głównego do stanowiska.",
-  "error.assigned": "Wybrany zasób jest już przypisany."
+  "error.assigned": "Wybrany zasób jest już przypisany.",
+  "composite.logMemberAssignedToSlot": "[{0}] „{1}” przypisano do miejsca {2} ({3}x{4})."
 }
