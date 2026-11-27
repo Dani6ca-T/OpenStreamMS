@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] Det gick inte att konfigurera tilläggsappar i apps.json: {0}",
   "sunshine.launching": "[Sunshine] Startar i session {0}: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Det gick inte att starta: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] Det gick inte att bekräfta kodaren i loggen; lämnar den oförändrad."
+  "sunshine.encoderUnconfirmed": "[Sunshine] Det gick inte att bekräfta kodaren i loggen; lämnar den oförändrad.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json finns inte; använder mallen från assets.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] apps.json skapades med virtual-display på: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] apps.json uppdaterades med virtual-display på: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "virtual-display är redan konfigurerat i apps.json; inga ändringar behövs.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') konfigurerades med icke-blockerande ångra: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Big Picture för sammansatta sessioner öppnas och stängs i alla sessioner: {0}",
+  "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Tilläggsappar uppdaterade ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Reboot- och Power Off-appar konfigurerade: {0}"
 }
