@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Klávesnici a myš se nepodařilo přesměrovat do „{1}“: {2}",
   "compositeInput.writeFailed": "[{0}] Nepodařilo se zapsat {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Nepodařilo se odstranit {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Předchozí pokus pomocí mstsc selhal: {1}"
+  "rdp.mstscFailureContext": "{0} Předchozí pokus pomocí mstsc selhal: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Nepodařilo se načíst cesty k profilu relace.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Izolované prostředí profilu: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Izolované AppData: místní={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "V relaci {0} neběžel žádný Explorer, který by bylo možné restartovat.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer byl restartován v relaci {0 s profilem streamu.",
+  "streamProfile.logoffRetry": "[StreamProfile] Relace {0} se do 30 s neodhlásila; procesy uživatele '{1}' budou ukončeny a odhlášení se zopakuje.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Relace {0} byla odhlášena po ukončení {1} uživatelských procesů.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Relace {0} zůstává po odhlášení aktivní.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Nepodařilo se zjistit SID účtu '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses selhalo ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Nepodařilo se otevřít '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Nepodařilo se ukončit '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) ukončen v relaci {2}."
 }
