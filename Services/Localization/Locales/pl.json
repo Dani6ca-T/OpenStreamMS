@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Nie można przekierować klawiatury i myszy do „{1}”: {2}",
   "compositeInput.writeFailed": "[{0}] Nie można zapisać {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Nie można usunąć {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Poprzednia próba mstsc zakończyła się niepowodzeniem: {1}"
+  "rdp.mstscFailureContext": "{0} Poprzednia próba mstsc zakończyła się niepowodzeniem: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Nie można odczytać ścieżek profilu sesji.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Izolowana piaskownica profilu: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Izolowane AppData: lokalne={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "W sesji {0} nie było uruchomionego procesu Explorer do ponownego uruchomienia.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer uruchomiono ponownie w sesji {0} z profilem streamingu.",
+  "streamProfile.logoffRetry": "[StreamProfile] Sesja {0} nie wylogowała się w ciągu 30 s; procesy użytkownika '{1}' zostaną zakończone i wylogowanie będzie ponowione.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Sesja {0} została wylogowana po zakończeniu {1} procesów użytkownika.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Sesja {0} nadal jest aktywna po wylogowaniu.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Nie można rozpoznać SID użytkownika '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] Wywołanie WTSEnumerateProcesses nie powiodło się ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Nie można otworzyć '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Nie można zakończyć '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) zakończono w sesji {2}."
 }
