@@ -516,5 +516,17 @@
   "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture ('{0}') を、ブロックしない取り消し処理で設定しました: {1}",
   "sunshineCfg.compositeBigPictureConfigured": "複合セッションの Big Picture は、すべてのセッションで開閉します: {0}",
   "sunshineCfg.extensionAppsUpdated": "拡張機能アプリを更新しました ({0}): {1}",
-  "sunshineCfg.powerAppsConfigured": "Reboot および Power Off アプリを設定しました: {0}"
+  "sunshineCfg.powerAppsConfigured": "Reboot および Power Off アプリを設定しました: {0}",
+  "sunshineCfg.profileEnvironmentUpdated": "[SunshineCfg] 分離プロファイル環境を使用して apps.json を更新しました: {0}",
+  "sunshineCfg.profileEnvironmentRemoved": "[SunshineCfg] 分離プロファイル環境なしで apps.json を更新しました: {0}",
+  "sunshineCfg.invalidStreamPort": "StreamPort は 0 より大きい必要があります。",
+  "sunshineCfg.gamepadDriverReverted": "[SunshineCfg] gamepad_driver を osmspad から vigembus に戻しました。OsmsPad Xbox Series コントローラーはストリーム セッションで XInput を失います。",
+  "sunshineCfg.staleCaptureRemoved": "[SunshineCfg] capture = remoteidd を削除しました。RemoteIdd は RDP-Tcp で有効ではないため、Sunshine は既定のキャプチャを使用します。",
+  "sunshineCfg.defaultsApplied": "OpenStreamMS の既定値を適用しました: {0}",
+  "sunshineCfg.configAlreadyCurrent": "sunshine.conf は既に最新です: {0}",
+  "sunshineCfg.configUpdated": "sunshine.conf を更新しました ({0}): {1}",
+  "sunshineCfg.configValuesUpdated": "sunshine.conf を更新しました ({0}): {1}",
+  "sunshineCfg.credentialsAlreadyCurrent": "sunshine_state.json: 認証情報は既に最新です (ユーザー={0})",
+  "sunshineCfg.credentialsCurrentRootCleaned": "sunshine_state.json: 認証情報は既に最新で、root をクリーンアップしました (ユーザー={0})",
+  "sunshineCfg.credentialsSet": "sunshine_state.json: 認証情報を設定しました (ユーザー={0})"
 }
