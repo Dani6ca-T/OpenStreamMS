@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "Session upptäckt vid försök {0} ({1}): {2} (FreeRDP PID={3})",
   "rdp.sessionModeRelaxed": "utökat läge",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "Väntar på session… försök {0}/20"
+  "rdp.waitingSession": "Väntar på session… försök {0}/20",
+  "rdp.frameRateConfigured": "Bildfrekvens={0} fps | intervall={1} ms (komposition {2} Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, skala {3} %.",
+  "rdp.betterRdpPoliciesApplied": "BetterRDP-principer tillämpade.",
+  "rdp.mstscClientPoliciesApplied": "mstsc-klientprinciper tillämpade (inga dialogrutor före anslutning).",
+  "rdp.mstscClientPoliciesFailed": "Det gick inte att tillämpa mstsc HKCU-principer: {0}"
 }
