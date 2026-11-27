@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Розділ реєстру Windows HKLM\\{0} не існує.",
   "steamIsolation.userRegistryNotLoaded": "Кущ реєстру користувача не завантажено.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell недоступний.",
-  "steamIsolation.shortcutDescription": "Steam, ізольований від інших сеансів (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Steam, ізольований від інших сеансів (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] Звук із «{1}» передано до сеансу клавіатури «{2}».",
+  "compositeAudio.forwardFailed": "[{0}] Не вдалося передати звук із «{1}»: {2}"
 }
