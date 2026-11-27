@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "Не удалось обеспечить работу TermService: {0}. Если удалённый рабочий стол выключен, loopback-подключение не удастся; включите его в Система → Удалённый рабочий стол или перезапустите Windows.",
   "rdp.registryKeyOpenFailed": "Не удалось открыть HKLM\\\\{0}",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "Не удалось записать {0} в HKLM\\\\{1}: {2}"
+  "rdp.registryWriteFailed": "Не удалось записать {0} в HKLM\\\\{1}: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP ничего не вывел.",
+  "rdp.freeRdpOutputPrefix": "Вывод FreeRDP: "
 }
