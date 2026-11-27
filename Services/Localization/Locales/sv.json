@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Den katalogen finns inte i listan.",
   "ext.catalogEntryMissing": "Katalogen listar inte längre {0}.",
   "ext.invalidPackage": "Paketet är inte ett giltigt tillägg: {0}",
-  "ext.noManifest": "Paketet saknar {0}."
+  "ext.noManifest": "Paketet saknar {0}.",
+  "cli.error.missingSeatAgentPipe": "FEL: Pipe-namnet för --seat-agent saknas.",
+  "cli.error.missingSeatHostPipe": "FEL: Pipe-namnet för --seat-host saknas.",
+  "cli.error.unknownCommand": "Okänt kommando: ”{0}”",
+  "cli.error.helpHint": "Använd --help för att visa tillgängliga kommandon.",
+  "cli.error.adminRequired": "FEL: Den här åtgärden kräver administratörsbehörighet.",
+  "cli.error.adminHint": "Kör .exe-filen med ”Kör som administratör”."
 }
