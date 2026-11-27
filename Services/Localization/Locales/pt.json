@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Arranque abandonado antes de começar (chegou outro comando).",
   "session.logCreatingRdpSession": "[{0}] A iniciar sessão RDP para o utilizador \"{1}\"...",
   "session.logSunshineLaunchFailed": "[{0}] Não foi possível iniciar o Sunshine: {1}",
-  "session.logAutoStartFailed": "[{0}] Falha no arranque automático: {1}"
+  "session.logAutoStartFailed": "[{0}] Falha no arranque automático: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Arranque cancelado (a sessão foi parada durante a criação do RDP).",
+  "session.logRdpSessionReused": "[{0}] Sessão RDP existente reutilizada; não foi iniciado um novo cliente RDP.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Arranque cancelado (a sessão foi parada durante o lançamento do Sunshine).",
+  "session.logSessionActiveRdp": "[{0}] Sessão ativa (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Arranque cancelado (a sessão foi parada após a conclusão do arranque).",
+  "session.logWaitingForConsoleUser": "[{0}] Será iniciada quando alguém iniciar sessão no Windows.",
+  "session.logLocalSessionActive": "[{0}] Sessão local ativa (sessão do Windows {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Credenciais do Sunshine repostas; Sunshine parado e será reiniciado automaticamente.",
+  "session.logSunshineTemplateUpdated": "[{0}] O modelo do Sunshine mudou; a atualizar a instância: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Não foi possível atualizar a instância do Sunshine: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Não foi possível adicionar a regra da firewall: {0}"
 }
