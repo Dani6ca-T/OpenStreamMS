@@ -471,7 +471,7 @@ public static class SeatAgent
             using var dxgi = dev.QueryInterface<IDXGIDevice>();
             var r = dxgi.SetGPUThreadPriority(7);
             Logger.Log(r.Success ? BackendText.Get("seatAgent.gpuPriorityRaised", who)
-                                 : BackendText.Get("seatAgent.gpuPriorityUnchanged", who, r.Code));
+                                 : BackendText.Get("seatAgent.gpuPriorityUnchanged", who, r.Code.ToString("X8")));
         }
         catch (Exception ex) { Logger.Log(BackendText.Get("seatAgent.gpuPriorityUnchangedError", who, ex.Message)); }
     }
@@ -513,8 +513,7 @@ public static class SeatAgent
                 // Sin "Remote Audio" en la sesión no hay nada que capturar y el puesto queda mudo.
                 // Es un fallo de Windows (pasa igual con mstsc), pero hay que dejarlo visible:
                 // con el nivel por defecto (Error) un Warning no llegaba al log.
-                const string msg = "La sesión del puesto no tiene ningún dispositivo de reproducción " +
-                                   "(Windows no creó \"Remote Audio\"): el puesto no tendrá sonido.";
+                string msg = BackendText.Get("seatAgent.audioDeviceMissing");
                 Logger.Error($"[SeatAgent] {msg}");
                 channel.SendJson(new JsonObject { ["op"] = "audio_missing", ["reason"] = msg });
                 return null;
