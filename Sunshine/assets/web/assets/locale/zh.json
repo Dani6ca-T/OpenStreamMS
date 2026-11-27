@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "为支持的客户端启用（默认）",
     "wan_encryption_mode_2": "强制所有客户端使用",
     "wan_encryption_mode_desc": "在公网串流时是否启用加密。加密可能会降低串流性能，尤其是在性能较弱的主机和客户端上。"
+  ,
+    "port_webrtc_discovery": "Moonlight WebRTC 电视发现",
+    "port_webrtc_media": "Moonlight WebRTC 视频和音频",
+    "port_webrtc_media_any": "任意",
+    "port_webrtc_signaling": "Moonlight WebRTC 电视连接",
+    "stream_protocol": "串流协议",
+    "stream_protocol_both": "两者",
+    "stream_protocol_desc": "Sunshine 服务的客户端：Moonlight 应用、Samsung Tizen 电视上的 Moonlight WebRTC，或两者。已关闭协议的端口将保持关闭。",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Moonlight WebRTC 最后媒体端口",
+    "webrtc_media_port_max_desc": "WebRTC 可用于视频和音频的最后一个 UDP 端口。设为 0 会将范围开放至 65535。",
+    "webrtc_media_port_min": "Moonlight WebRTC 第一个媒体端口",
+    "webrtc_media_port_min_desc": "WebRTC 可用于视频和音频的第一个 UDP 端口，因此防火墙只需开放此范围。如果两个端口都设为 0，WebRTC 可以选择任意端口。",
+    "webrtc_port": "Moonlight WebRTC 电视端口",
+    "webrtc_port_desc": "电视连接的 WebSocket TCP 端口。除非在 PC 地址中另行指定端口，否则电视应用使用 8000。范围：1024–65535。"
   },
   "index": {
     "permissions_missing_title": "Sunshine 需要权限",
