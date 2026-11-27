@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession für Sitzung {0} fehlgeschlagen: {1}",
   "rdp.logoffCompleted": "Sitzung {0} in {1} ms abgemeldet.",
   "rdp.logoffSessionCompleted": "Sitzung {0} abgemeldet.",
-  "rdp.logoffWarning": "WTSLogoffSession-Warnung (Sitzung {0}): {1}"
+  "rdp.logoffWarning": "WTSLogoffSession-Warnung (Sitzung {0}): {1}",
+  "rdp.startFreeRdp": "FreeRDP wird gestartet ({0}x{1}, {2} fps, {3} bpp, Skalierung {4} %, ohne gfx)…",
+  "rdp.freeRdpExecutableMissing": "wfreerdp.exe konnte nicht gestartet werden",
+  "rdp.freeRdpExitedNoSession": "FreeRDP wurde mit ExitCode={0} (0x{1:X}) beendet, ohne eine Sitzung für „{2}“ zu erstellen. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Sitzung für „{0}“ erschien nach 30 s nicht. Prüfen Sie Benutzer und Kennwort, aktiviertes Remotedesktop und die Mitgliedschaft in „Remotedesktopbenutzer“.",
+  "rdp.startMstsc": "mstsc wird gestartet ({0}x{1}, {2} fps, {3} bpp, Skalierung {4} %, AVC444-Hardware)…",
+  "rdp.mstscExecutableMissing": "mstsc.exe konnte nicht gestartet werden",
+  "rdp.mstscExitedNoSession": "mstsc wurde mit ExitCode={0} beendet, ohne eine Sitzung für „{1}“ zu erstellen. Möglich sind ein unsichtbarer Dialog (Zertifikat/Anmeldedaten) oder eine NLA-Ablehnung.",
+  "rdp.mstscSessionTimeout": "Sitzung für „{0}“ erschien mit mstsc nach 30 s nicht. Möglicherweise ist ein Dialog in Session 0 unsichtbar."
 }
