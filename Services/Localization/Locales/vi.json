@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Chỗ này dùng cùng người dùng với bảng điều khiển nên không thể tự khởi động. Hãy khởi động từ OpenStreamMS hoặc gán phiên khác.",
   "seats.monitorAlreadyAssigned": "Màn hình đã được gán cho chỗ '{0}'.",
   "seats.monitorAreaOverlap": "Phần màn hình này chồng lấn với phần của chỗ '{0}'.",
-  "seats.notFound": "Chỗ {0} không tồn tại."
+  "seats.notFound": "Chỗ {0} không tồn tại.",
+  "session.logStopping": "[{0}] Đang dừng...",
+  "session.logRestartRequested": "[{0}] Đã yêu cầu khởi động lại (trạng thái hiện tại: {1}).",
+  "session.logRestartSuperseded": "[{0}] Đã hủy khởi động lại: có lệnh khác đến trong khi đang dừng.",
+  "session.logSunshineKillTimeout": "[{0}] Hết thời gian chờ khi kết thúc Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Phiên Windows {1} chưa đóng xong.",
+  "session.logFreeRdpStopped": "[{0}] Đã dừng FreeRDP (PID {1}).",
+  "session.logStopWarning": "[{0}] Cảnh báo khi dừng: {1}",
+  "session.logStopped": "[{0}] Đã dừng."
 }
