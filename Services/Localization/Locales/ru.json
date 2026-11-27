@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide не установлен: контроллеры будут видны во всех сеансах.",
   "gamepad.hidHideEnabled": "HidHide активирован.",
   "gamepad.hidHideConfigureFailed": "Не удалось настроить HidHide: {0}",
-  "gamepad.monitorFailed": "Ошибка при отслеживании контроллеров: {0}"
+  "gamepad.monitorFailed": "Ошибка при отслеживании контроллеров: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} доступен: контроллеры изолированы по сеансам.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} не поддерживает изоляцию по сеансам (требуется версия {1} или новее): контроллеры будут видны во всех сеансах. Обновите HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: обратный режим {0}; белый список ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Программы из белого списка HidHide видят контроллеры всех сеансов, даже если те назначены другому сеансу.",
+  "gamepad.hidHideWhitelistReadFailed": "Не удалось прочитать белый список HidHide: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping отключён (обходит изоляцию контроллеров по сеансам).",
+  "gamepad.controllerToVkDisableFailed": "Не удалось отключить ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "Не удалось подготовить jail HidHide для контроллера ViGEm: {0}"
 }
