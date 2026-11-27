@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "„{0}“: {1} Gerät(e) Sitzung {2} zugewiesen.",
   "seats.devicePortEmpty": "„{0}“: Am Anschluss von „{1}“ ist nichts angeschlossen ({2}, {3}). Wenn Sie es an einen anderen Anschluss, Hub oder Dock angeschlossen haben, weisen Sie es erneut zu.",
   "seats.started": "Sitzplatz „{0}“ aktiv.",
-  "seats.startFailed": "Sitzplatz „{0}“ konnte nicht gestartet werden: {1}"
+  "seats.startFailed": "Sitzplatz „{0}“ konnte nicht gestartet werden: {1}",
+  "seats.textureConfigMissing": "Der Agent hat die Texturkonfiguration nicht gesendet.",
+  "seats.textureHandlesMissing": "Der Agent hat keine Textur-Handles bereitgestellt.",
+  "seats.presenterReadyMissing": "Der Presenter hat keine Bestätigung gesendet.",
+  "seats.microphoneDisconnected": "„{0}“: Mikrofon „{1}“ ist nicht verbunden; der Sitzplatz startet ohne Mikrofon.",
+  "seats.sessionResolutionRestoreFailed": "„{0}“: Sitzungsauflösung konnte nicht wiederhergestellt werden: {1}",
+  "seats.stopped": "Sitzplatz „{0}“ gestoppt.",
+  "seats.vigemMissing": "„{0}“: ViGEmBus ist nicht installiert; Controller werden mit HidHide isoliert.",
+  "seats.sessionUserUnknown": "„{0}“: Benutzer der Sitzung {1} konnte nicht ermittelt werden; andere USB-Geräte bleiben in allen Sitzungen sichtbar.",
+  "seats.rawInputShared": "„{0}“: {1} bleibt mit der Konsole geteilt (Raw Input).",
+  "seats.usbEventsSent": "{0} Ereignisse an Agent von „{1}“ gesendet (zuletzt: Typ={2} Flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Eingabe konnte nicht an Agent von „{0}“ gesendet werden: {1}",
+  "seats.inputInterfacesCaptured": "„{0}“: {1} von {2} Eingabeschnittstellen von der Konsole getrennt."
 }
