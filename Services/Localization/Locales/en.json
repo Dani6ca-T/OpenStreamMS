@@ -265,5 +265,13 @@
   "rdp.logoffFailed": "WTSLogoffSession for session {0} failed: {1}",
   "rdp.logoffCompleted": "Session {0} logged off in {1} ms.",
   "rdp.logoffSessionCompleted": "Session {0} logged off.",
-  "rdp.logoffWarning": "WTSLogoffSession warning (session {0}): {1}"
+  "rdp.logoffWarning": "WTSLogoffSession warning (session {0}): {1}",
+  "rdp.startFreeRdp": "Starting FreeRDP ({0}x{1}, {2} fps, {3} bpp, scale {4}%, no gfx)…",
+  "rdp.freeRdpExecutableMissing": "Could not start wfreerdp.exe",
+  "rdp.freeRdpExitedNoSession": "FreeRDP exited with ExitCode={0} (0x{1:X}) without creating a session for '{2}'. {3}{4}",
+  "rdp.freeRdpSessionTimeout": "Session for '{0}' did not appear after 30 seconds. Check the username and password, Remote Desktop being enabled, and membership in the Remote Desktop Users group.",
+  "rdp.startMstsc": "Starting mstsc ({0}x{1}, {2} fps, {3} bpp, scale {4}%, AVC444 hardware)…",
+  "rdp.mstscExecutableMissing": "Could not start mstsc.exe",
+  "rdp.mstscExitedNoSession": "mstsc exited with ExitCode={0} without creating a session for '{1}'. Possible invisible certificate/credentials dialog or NLA rejection.",
+  "rdp.mstscSessionTimeout": "Session for '{0}' did not appear after 30 seconds with mstsc. A dialog may be invisible in Session 0."
 }
