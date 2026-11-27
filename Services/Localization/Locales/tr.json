@@ -309,5 +309,7 @@
   "rdp.termServiceEnsureFailed": "TermService'in çalışması sağlanamadı: {0}. Uzak Masaüstü kapalıysa loopback bağlantısı başarısız olur; Sistem → Uzak Masaüstü bölümünden etkinleştirin veya Windows'u yeniden başlatın.",
   "rdp.registryKeyOpenFailed": "HKLM\\\\{0} açılamadı",
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
-  "rdp.registryWriteFailed": "HKLM\\\\{1} konumuna {0} yazılamadı: {2}"
+  "rdp.registryWriteFailed": "HKLM\\\\{1} konumuna {0} yazılamadı: {2}",
+  "rdp.freeRdpNoOutput": "FreeRDP hiçbir çıktı üretmedi.",
+  "rdp.freeRdpOutputPrefix": "FreeRDP çıktısı: "
 }
