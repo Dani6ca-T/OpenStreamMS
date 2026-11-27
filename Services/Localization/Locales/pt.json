@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "A chave do Registro do Windows HKLM\\{0} não existe.",
   "steamIsolation.userRegistryNotLoaded": "A seção do Registro do usuário não está carregada.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell não está disponível.",
-  "steamIsolation.shortcutDescription": "Steam isolado das outras sessões (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Steam isolado das outras sessões (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] Áudio de '{1}' encaminhado para a sessão do teclado '{2}'.",
+  "compositeAudio.forwardFailed": "[{0}] Não foi possível encaminhar o áudio de '{1}': {2}"
 }
