@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] '{0}': {1} continua visível no Windows (não foi possível mudar para WinUSB).",
   "padCapture.captured": "[PadCapture] '{0}': comando em {1} removido do Windows ({2} comando(s) e {3} interface(s) adicionais em WinUSB); entregue à sessão {4} como comando virtual.",
   "padCapture.restored": "[PadCapture] '{0}': {1} interface(s) de comando devolvida(s) ao Windows.",
-  "steamXboxFilter.removed": "[Gamepad] Filtro Steam {0} removido de {1} classe(s) de comandos enquanto houver comandos isolados. Os novos dispositivos deixam de ser publicados para todas as sessões através de \\\\Device\\\\nvagipmanControl.",
+  "steamXboxFilter.removed": "[Gamepad] Filtro Steam {0} removido de {1} classe(s) de comandos enquanto houver comandos isolados. Os novos dispositivos deixam de ser publicados para todas as sessões através de \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Não foi possível remover o filtro Steam {0}: {1}. O Steam noutras sessões (incluindo a consola) ainda pode ler os comandos isolados.",
   "steamXboxFilter.restored": "Filtro Steam {0} restaurado em {1} classe(s) de comandos; já não existem comandos isolados noutras sessões.",
   "steamXboxFilter.restoreFailed": "[Gamepad] Não foi possível restaurar o filtro Steam {0}: {1}. Será tentado novamente no próximo arranque do serviço."
