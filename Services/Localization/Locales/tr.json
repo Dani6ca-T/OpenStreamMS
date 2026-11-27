@@ -247,5 +247,17 @@
   "gamepad.hidHideBlacklistUpdateFailed": "HidHide kara listesi güncellenemedi: {0}",
   "gamepad.usbPortCycled": "{0}: başka bir işlem aygıtı açık tuttu ve Windows yeniden başlatmayı erteledi; USB bağlantı noktası çıkarılıp yeniden bağlandı ({1}) {2}.",
   "gamepad.usbPortCycleFailed": "{0}: Windows yeniden başlatmayı erteledi (başka bir işlem aygıtı kullanıyor) ve USB bağlantı noktası yeniden başlatılamadı ({1}). Aygıtı önceden açmış işlem, kapatana kadar görmeye devam eder.",
-  "gamepad.clearJailsFailed": "HidHide oturum girdileri kaldırılamadı: {0}"
+  "gamepad.clearJailsFailed": "HidHide oturum girdileri kaldırılamadı: {0}",
+  "rdp.remoteIddProviderMissing": "RDP-Tcp içinde RemoteIdd yakalama sağlayıcısı yok: Native/RemoteIdd/Provider/install.ps1 ile yükleyin.",
+  "rdp.consoleSessionConflict": "Uyarı: '{0}' zaten bir konsol oturumuna sahip (SessionId={1}). Ses yalıtımı kısmi olabilir.",
+  "rdp.sessionExists": "'{0}' için mevcut oturum: {1}",
+  "rdp.createViaMstsc": "'{0}' için oturum yok; mstsc (AVC444 donanım) ile oluşturuluyor…",
+  "rdp.mstscFailedFallback": "mstsc başarısız ({0}); FreeRDP ile yeniden deneniyor…",
+  "rdp.createViaFreeRdp": "'{0}' için oturum yok; FreeRDP ile oluşturuluyor…",
+  "rdp.microphoneForcesFreeRdp": "Mikrofon atanmışsa FreeRDP ile bağlanılır (mstsc mikrofon seçimine izin vermez).",
+  "rdp.reconnecting": "{0} oturumu {1}x{2} çözünürlükte, {3} fps ile yeniden bağlanıyor…",
+  "rdp.disconnectSessionFailed": "WTSDisconnectSession({0}) başarısız: {1}",
+  "rdp.mstscReconnectFailedFallback": "mstsc yeniden bağlanamadı ({0}); FreeRDP ile yeniden deneniyor…",
+  "rdp.reconnectWrongSession": "Yeniden bağlantı {1} yerine {0} oturumuna ulaştı.",
+  "rdp.sessionReconnected": "{0} oturumu {1} ms içinde yeniden bağlandı."
 }
