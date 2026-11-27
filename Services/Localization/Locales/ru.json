@@ -557,5 +557,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Запущен захват звука loopback: {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] Не удалось инициализировать захват звука: {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Переключение на входной рабочий стол «{0}» (предыдущий: «{1}»).",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Не удалось переключиться на входной рабочий стол «{0}»: {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Не удалось переключиться на входной рабочий стол «{0}»: {1}",
+  "seatAgent.audioDeviceMissing": "В сеансе рабочего места нет устройства воспроизведения (Windows не создала «Remote Audio»); звука на рабочем месте не будет."
 }
