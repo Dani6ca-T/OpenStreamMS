@@ -284,5 +284,11 @@
   "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Hz, мащаб {3} %.",
   "rdp.betterRdpPoliciesApplied": "Политиките BetterRDP са приложени.",
   "rdp.mstscClientPoliciesApplied": "Политиките на клиента mstsc са приложени (без диалози преди свързване).",
-  "rdp.mstscClientPoliciesFailed": "Неуспешно прилагане на HKCU политиките на mstsc: {0}"
+  "rdp.mstscClientPoliciesFailed": "Неуспешно прилагане на HKCU политиките на mstsc: {0}",
+  "rdp.videoRegistryKeyMissing": "HKLM\\\\{0} не е намерен.",
+  "rdp.refreshRegistryValueApplied": "VRefresh={0} е приложен към HKLM\\\\{1} ({2}).",
+  "rdp.noVirtualAdapterFound": "Не е намерен виртуален RDP адаптер в Control\\\\Video — VRefresh не е променен. Сесията ще използва честотата по подразбиране на драйвера.",
+  "rdp.refreshAppliedToAdapters": "VRefresh={0} е приложен към {1} виртуални адаптера.",
+  "rdp.refreshRegistryFailed": "Грешка при задаване на VRefresh в регистъра: {0}",
+  "rdp.sessionTempResolveFailed": "Неуспешно откриване на TEMP за сесия {0}: {1}"
 }
