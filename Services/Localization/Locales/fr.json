@@ -327,5 +327,17 @@
   "seats.devicesAssigned": "« {0} » : {1} périphérique(s) affecté(s) à la session {2}.",
   "seats.devicePortEmpty": "« {0} » : aucun périphérique n’est connecté au port de « {1} » ({2}, {3}). Si vous l’avez déplacé vers un autre port, hub ou dock, réaffectez-le.",
   "seats.started": "Poste « {0} » actif.",
-  "seats.startFailed": "Échec du démarrage du poste « {0} » : {1}"
+  "seats.startFailed": "Échec du démarrage du poste « {0} » : {1}",
+  "seats.textureConfigMissing": "L’agent n’a pas envoyé la configuration des textures.",
+  "seats.textureHandlesMissing": "L’agent n’a pas fourni les handles des textures.",
+  "seats.presenterReadyMissing": "Le présentateur n’a pas envoyé de confirmation.",
+  "seats.microphoneDisconnected": "« {0} » : le microphone « {1} » n’est pas connecté ; le poste démarre sans microphone.",
+  "seats.sessionResolutionRestoreFailed": "« {0} » : impossible de restaurer la résolution de la session : {1}",
+  "seats.stopped": "Poste « {0} » arrêté.",
+  "seats.vigemMissing": "« {0} » : ViGEmBus n’est pas installé ; les manettes sont isolées avec HidHide.",
+  "seats.sessionUserUnknown": "« {0} » : impossible de déterminer l’utilisateur de la session {1} ; ses autres périphériques USB restent visibles dans toutes les sessions.",
+  "seats.rawInputShared": "« {0} » : {1} reste partagé avec la console (Raw Input).",
+  "seats.usbEventsSent": "{0} événement(s) envoyé(s) à l’agent de « {1} » (dernier : type={2} flags={3} dx={4} dy={5}).",
+  "seats.usbInputSendFailed": "Impossible d’envoyer l’entrée à l’agent de « {0} » : {1}",
+  "seats.inputInterfacesCaptured": "« {0} » : {1} interface(s) d’entrée sur {2} séparée(s) de la console."
 }
