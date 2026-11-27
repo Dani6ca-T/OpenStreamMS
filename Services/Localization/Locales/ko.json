@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "{0}번째 시도({1})에서 세션 감지: {2}(FreeRDP PID={3})",
   "rdp.sessionModeRelaxed": "완화 모드",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "세션 대기 중… {0}/20번째 시도"
+  "rdp.waitingSession": "세션 대기 중… {0}/20번째 시도",
+  "rdp.frameRateConfigured": "프레임 속도={0}fps | 간격={1}ms(합성 {2}Hz, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2}Hz, 배율 {3}%.",
+  "rdp.betterRdpPoliciesApplied": "BetterRDP 정책을 적용했습니다.",
+  "rdp.mstscClientPoliciesApplied": "mstsc 클라이언트 정책을 적용했습니다(연결 전 대화상자 없음).",
+  "rdp.mstscClientPoliciesFailed": "mstsc HKCU 정책을 적용할 수 없습니다: {0}"
 }
