@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text.Json;
 using OpenStreamMS.Core.Helpers;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Updates;
 
@@ -172,7 +173,7 @@ public sealed class UpdateChecker
                     UpdateCheckException or JsonException or InvalidOperationException or KeyNotFoundException => "github",
                     _ => "offline",
                 };
-                Logger.Warning($"[Updates] No se pudo mirar si hay versión nueva en GitHub ({_error}): {ex.Message}");
+                Logger.Warning(BackendText.Get("updates.checkFailed", _error, ex.Message));
             }
             _checkedAt = now;
             return Status();
