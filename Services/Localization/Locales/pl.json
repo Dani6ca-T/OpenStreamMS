@@ -339,5 +339,13 @@
   "seats.rawInputShared": "„{0}”: {1} nadal współdzielone z konsolą (Raw Input).",
   "seats.usbEventsSent": "Wysłano {0} zdarzeń do agenta „{1}” (ostatnie: typ={2} flags={3} dx={4} dy={5}).",
   "seats.usbInputSendFailed": "Nie można wysłać wejścia do agenta „{0}”: {1}",
-  "seats.inputInterfacesCaptured": "„{0}”: {1} z {2} interfejsów wejściowych odseparowano od konsoli."
+  "seats.inputInterfacesCaptured": "„{0}”: {1} z {2} interfejsów wejściowych odseparowano od konsoli.",
+  "seats.consoleVirtualDisplayMissing": "Wirtualny ekran nie pojawił się w konsoli.",
+  "seats.consoleVirtualDisplayPrimaryFailed": "Nie można ustawić wirtualnego ekranu jako głównego.",
+  "seats.consoleAreaApplied": "Konsola zajmuje obszar {0} monitora „{1}” z własnym ekranem {2}x{3}. Zakryty obszar: {4}",
+  "seats.consoleAreaFallback": "Nie można przydzielić konsoli jej obszaru ({0}); pozostaje rozwiązanie zapasowe.",
+  "seats.consoleMonitorRestoreFailed": "Nie można przywrócić głównego monitora konsoli; zostanie odzyskany po usunięciu ekranu wirtualnego.",
+  "seats.consoleMonitorRestored": "Konsola znów ma cały monitor.",
+  "seats.sessionLocked": "„{0}”: sesja zablokowana; wymagane będzie hasło użytkownika „{1}”.",
+  "seats.sessionLockFailed": "„{0}”: nie można zablokować sesji: {1}"
 }
