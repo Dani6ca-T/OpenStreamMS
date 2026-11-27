@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "This seat uses the same user as the console and cannot start on its own. Start it from OpenStreamMS or assign it another session.",
   "seats.monitorAlreadyAssigned": "Monitor is already assigned to seat '{0}'.",
   "seats.monitorAreaOverlap": "This monitor area overlaps the area assigned to seat '{0}'.",
-  "seats.notFound": "Seat {0} does not exist."
+  "seats.notFound": "Seat {0} does not exist.",
+  "session.logStopping": "[{0}] Stopping...",
+  "session.logRestartRequested": "[{0}] Restart requested (current state: {1}).",
+  "session.logRestartSuperseded": "[{0}] Restart cancelled: another command arrived while stopping.",
+  "session.logSunshineKillTimeout": "[{0}] Timed out while terminating Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Windows session {1} did not finish closing.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) stopped.",
+  "session.logStopWarning": "[{0}] Warning while stopping: {1}",
+  "session.logStopped": "[{0}] Stopped."
 }
