@@ -675,5 +675,21 @@
   "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp bağlı değil; {0} konsol oturumunda bağımsız sunucu başlatılıyor...",
   "seatHostControl.consoleUserMissing": "[Seats] Fiziksel konsolda oturum açmış kullanıcı yok.",
   "seatHostControl.trayHostConnected": "[TrayApp] Koltuk ana bilgisayarları denetim kanalına bağlandı.",
-  "seatHostControl.commandProcessingError": "[TrayApp] Koltuk komutu işlenirken hata oluştu: {0}"
+  "seatHostControl.commandProcessingError": "[TrayApp] Koltuk komutu işlenirken hata oluştu: {0}",
+  "guideGuard.disabled": "[Seats] Guide düğmesi: koltuklar etkin olduğu sürece {0} için denetleyici Game Bar devre dışı bırakıldı.",
+  "guideGuard.disableFailed": "[Seats] Guide düğmesi: {0} için denetleyici Game Bar devre dışı bırakılamadı: {1}",
+  "guideGuard.restored": "[Seats] Guide düğmesi: {0} için denetleyici Game Bar geri yüklendi.",
+  "guideGuard.restoreFailed": "[Seats] Guide düğmesi: {0} için denetleyici Game Bar geri yüklenemedi: {1}",
+  "handleBroker.openSourceFailed": "Kaynak PID {0} için OpenProcess başarısız oldu.",
+  "handleBroker.openTargetFailed": "Hedef PID {0} için OpenProcess başarısız oldu.",
+  "handleBroker.duplicateFailed": "PID {0} konumundan PID {1} konumuna DuplicateHandle başarısız oldu.",
+  "seatStore.readFailed": "[Seats] seats.json okunamadı: {0}",
+  "seatStore.saveFailed": "[Seats] seats.json kaydedilemedi: {0}",
+  "seatIpc.unexpectedClient": "[Seats] {0} kanalı: beklenmeyen istemci işlemi {1} reddedildi.",
+  "seatIpc.notServicePipe": "Kanal hizmete ait değil (işlem {0}).",
+  "seatAgent.inputReceivedKeyboard": "[SeatAgent] Giriş alındı: klavye",
+  "seatAgent.inputReceivedDetails": "[SeatAgent] Giriş alındı: tür={0} bayraklar={1:X} dx={2} dy={3} kod={4:X}",
+  "seatAgent.injectStats": "[SeatAgent] 10 sn giriş enjeksiyonu: {0}",
+  "seatAgent.captureStats": "[SeatAgent] 10 sn: gönderilen={0} halka_meşgul={1} giriş={2} enjeksiyon_hataları={3} son_hata={4} {5}",
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10 sn yakalama gecikmesi: {0}"
 }
