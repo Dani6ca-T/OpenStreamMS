@@ -461,5 +461,15 @@
   "error.stopSeat": "Yapılandırmasını değiştirmeden önce koltuğu durdurun.",
   "error.primaryMonitor": "Birincil monitör bir koltuğa atanamaz.",
   "error.assigned": "Seçilen kaynak zaten atanmış.",
-  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\", {2} yuvasına atandı ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] \"{1}\", {2} yuvasına atandı ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] '{0}' kullanıcısı yönetici değil ve Remote Desktop Users üyesi değil; oturumun başlatılabilmesi için Uzak Masaüstü erişimi veriliyor.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] '{0}' kullanıcısının Uzak Masaüstü erişimi denetlenemedi: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] RDP-Tcp izinleri okunamıyor (ne Security ne de DefaultSecurity okunabiliyor); değiştirilmeden bırakılıyor.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] '{0}' oturum açma ekranından gizlenemedi: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] '{0}' kullanıcısının Steam kayıt defterine erişimi ayarlanamadı: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] '{0}' için Steam hazırlandı: steam:// ve {1} kısayol osms-steam.exe kullanıyor.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] '{0}' için Steam hazırlanamadı: {1}",
+  "service.started": "[Service] OpenStreamMS başlatıldı. API yapılandırılan bağlantı noktasında kullanılabilir.",
+  "service.multiRdpCheckFailed": "[Service] Multi-RDP denetimi başarısız oldu: {0}",
+  "service.stopped": "[Service] Durduruldu."
 }
