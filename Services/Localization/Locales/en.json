@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Removed Steam filter {0} from {1} controller class(es) while isolated controllers are active. New devices are no longer exposed to every session through \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Could not remove Steam filter {0}: {1}. Steam in other sessions (including the console) may still read isolated controllers.",
   "steamXboxFilter.restored": "[Gamepad] Restored Steam filter {0} on {1} controller class(es); no isolated controllers remain in other sessions.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Could not restore Steam filter {0}: {1}. It will be retried when the service next starts."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Could not restore Steam filter {0}: {1}. It will be retried when the service next starts.",
+  "gamepad.restartReasonPreviousSession": "so session {0} can no longer read it"
 }
