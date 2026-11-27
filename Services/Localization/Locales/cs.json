@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Relace Windows {1} se nedokončila.",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) zastaven.",
   "session.logStopWarning": "[{0}] Upozornění při zastavování: {1}",
-  "session.logStopped": "[{0}] Zastaveno."
+  "session.logStopped": "[{0}] Zastaveno.",
+  "session.logProtocolChanged": "[{0}] Protokol streamování: {1}.",
+  "session.logSunshineStopWarning": "[{0}] Upozornění při zastavování Sunshine ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] Sunshine zastaven kvůli {1}; automaticky se znovu spustí.",
+  "session.logSunshinePauseWarning": "[{0}] Upozornění při pozastavení Sunshine: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine pozastaven ({1}).",
+  "session.logSunshineResumed": "[{0}] Sunshine obnoven; automaticky se znovu spustí.",
+  "session.logMuteRdpClient": "[{0}] Ztlumení klienta RDP (PID={1}) na hostiteli..."
 }
