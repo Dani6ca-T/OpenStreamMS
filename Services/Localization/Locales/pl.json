@@ -498,5 +498,15 @@
   "streamProfile.enumerateProcessesFailed": "[StreamProfile] Wywołanie WTSEnumerateProcesses nie powiodło się ({0}).",
   "streamProfile.processOpenFailed": "[StreamProfile] Nie można otworzyć '{0}' (PID {1}): {2}",
   "streamProfile.processTerminateFailed": "[StreamProfile] Nie można zakończyć '{0}' (PID {1}): {2}",
-  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) zakończono w sesji {2}."
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) zakończono w sesji {2}.",
+  "sunshine.configUpdateFailed": "[Sunshine] Nie można zaktualizować sunshine.conf: {0}",
+  "sunshine.credentialsProvisionFailed": "[Sunshine] Nie można skonfigurować poświadczeń: {0}",
+  "sunshine.vddConfigFailed": "[Sunshine] Nie można skonfigurować VDD w apps.json: {0}",
+  "sunshine.isolatedEnvironmentConfigFailed": "[Sunshine] Nie można skonfigurować izolowanego środowiska w apps.json: {0}",
+  "sunshine.steamEntryConfigFailed": "[Sunshine] Nie można skonfigurować wpisu Steam w apps.json: {0}",
+  "sunshine.powerEntriesConfigFailed": "[Sunshine] Nie można skonfigurować wpisów Reboot/Power Off w apps.json: {0}",
+  "sunshine.extensionAppsConfigFailed": "[Sunshine] Nie można skonfigurować aplikacji rozszerzeń w apps.json: {0}",
+  "sunshine.launching": "[Sunshine] Uruchamianie w sesji {0}: {1} {2}",
+  "sunshine.launchFailed": "[Sunshine] Nie udało się uruchomić: {0}",
+  "sunshine.encoderUnconfirmed": "[Sunshine] Nie można potwierdzić kodera w dzienniku; pozostawiono bez zmian."
 }
