@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] Thao tác Steam '{1}' thất bại trong phiên Windows {2}: {3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' trong {2} phiên.",
   "composite.steamOpen": "mở",
-  "composite.steamClose": "đóng"
+  "composite.steamClose": "đóng",
+  "gamepad.hidHideNotOpen": "HidHide chưa được dịch vụ cách ly mở; bộ điều khiển ViGEm sẽ được cách ly khi xuất hiện.",
+  "gamepad.deviceArrivalWatchUnavailable": "Không thể theo dõi thiết bị mới; chỉ kiểm tra mỗi giây.",
+  "gamepad.hidHideNotInstalled": "Chưa cài đặt HidHide: bộ điều khiển sẽ hiển thị trong mọi phiên.",
+  "gamepad.hidHideEnabled": "Đã bật HidHide.",
+  "gamepad.hidHideConfigureFailed": "Không thể cấu hình HidHide: {0}",
+  "gamepad.monitorFailed": "Lỗi khi theo dõi bộ điều khiển: {0}"
 }
