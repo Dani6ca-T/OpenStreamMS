@@ -389,5 +389,6 @@
   "session.logSunshinePauseWarning": "[{0}] Upozornění při pozastavení Sunshine: {1}",
   "session.logSunshinePaused": "[{0}] Sunshine pozastaven ({1}).",
   "session.logSunshineResumed": "[{0}] Sunshine obnoven; automaticky se znovu spustí.",
-  "session.logMuteRdpClient": "[{0}] Ztlumení klienta RDP (PID={1}) na hostiteli..."
+  "session.logMuteRdpClient": "[{0}] Ztlumení klienta RDP (PID={1}) na hostiteli...",
+  "session.logRdpDisplay": "[{0}] Zobrazení RDP: {1}x{2} při {3} fps; mikrofon: {4}"
 }
