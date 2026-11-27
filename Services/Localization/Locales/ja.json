@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "物理コントローラー {0} はシートまたはストリームセッションに割り当てられています。セッション {1} のみに表示されます。",
   "gamepad.steamFilterWarning": "{0} のデバイススタックに Steam フィルター {1} があります。他セッション（コンソールを含む）の Steam からも読み取られます。シートまたはストリームの起動後に抜き差ししてください。",
   "gamepad.physicalPadRestarted": "{0} を再起動しました。セッション {1} から読み取れなくなりました。",
-  "gamepad.physicalPadRestartFailed": "{0} を再起動できませんでした：{1}。既に開いているセッションは閉じるまで引き続き認識します。"
+  "gamepad.physicalPadRestartFailed": "{0} を再起動できませんでした：{1}。既に開いているセッションは閉じるまで引き続き認識します。",
+  "gamepad.padRemoved": "コントローラー {0} を削除しました。その HID ノードを HidHide のブラックリストから削除しました。",
+  "gamepad.staleJailsRemoved": "HidHide のブラックリストから古いエントリ {0} 件を削除しました。",
+  "gamepad.absentPadAssigned": "物理コントローラー {0}（現在未接続）をセッション {1} に割り当てました。再接続時にそのセッションに属します。",
+  "gamepad.knownNodesSaveFailed": "{0} を保存できませんでした：{1}",
+  "gamepad.knownNodesReadFailed": "{0} を読み取れませんでした：{1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "HidHide のブラックリストを更新できませんでした：{0}"
 }
