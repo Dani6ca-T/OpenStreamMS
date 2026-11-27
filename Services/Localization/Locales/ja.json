@@ -727,7 +727,7 @@
   "padCapture.notCaptured": "[PadCapture] '{0}': {1} は Windows で引き続き表示されています (WinUSB に切り替えられませんでした)。",
   "padCapture.captured": "[PadCapture] '{0}': {1} のコントローラーを Windows から切り離しました (WinUSB にコントローラー {2} 台と追加インターフェイス {3} 個)。セッション {4} に仮想コントローラーとして渡します。",
   "padCapture.restored": "[PadCapture] '{0}': コントローラーインターフェイス {1} 個を Windows に戻しました。",
-  "steamXboxFilter.removed": "[Gamepad] コントローラーの分離中、Steam フィルター {0} をコントローラークラス {1} 個から削除しました。新しいデバイスは \\\\Device\\\\nvagipmanControl 経由で全セッションに公開されません。",
+  "steamXboxFilter.removed": "[Gamepad] コントローラーの分離中、Steam フィルター {0} をコントローラークラス {1} 個から削除しました。新しいデバイスは \\Device\\nvagipmanControl 経由で全セッションに公開されません。",
   "steamXboxFilter.removeFailed": "[Gamepad] Steam フィルター {0} を削除できませんでした: {1}。他のセッション (コンソールを含む) の Steam が分離されたコントローラーを読み取れる可能性があります。",
   "steamXboxFilter.restored": "Steam フィルター {0} をコントローラークラス {1} 個に復元しました。他のセッションに分離されたコントローラーはありません。",
   "steamXboxFilter.restoreFailed": "[Gamepad] Steam フィルター {0} を復元できませんでした: {1}。次回のサービス起動時に再試行します。"
