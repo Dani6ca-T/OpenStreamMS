@@ -799,5 +799,6 @@
   "sunshineCrash.breakpointFault": "Sunshine è terminato con STATUS_BREAKPOINT ({0}) in {1} (PID={2}).",
   "sunshineCrash.fault": "Sunshine è terminato con {0} in {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Impossibile leggere l'evento Application Error: {0}",
-  "sunshineCrash.wevtutilFailed": "wevtutil ha restituito {0}: {1}"
+  "sunshineCrash.wevtutilFailed": "wevtutil ha restituito {0}: {1}",
+  "sunshine.stateMirrorStarted": "Mirror di sunshine_state.json avviato: {0}"
 }
