@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Nepodařilo se vrátit hlavní monitor konzoli; obnoví se po odebrání virtuální obrazovky.",
   "seats.consoleMonitorRestored": "Konzole má opět celý svůj monitor.",
   "seats.sessionLocked": "„{0}“: relace je uzamčena; bude vyžadováno heslo uživatele „{1}“.",
-  "seats.sessionLockFailed": "„{0}“: nepodařilo se uzamknout relaci: {1}"
+  "seats.sessionLockFailed": "„{0}“: nepodařilo se uzamknout relaci: {1}",
+  "seats.sessionDisconnectedFromSeat": "„{0}“: relace byla odpojena z pracoviště; vypíná se, dokud ji znovu nespustíte z OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "„{0}“: po odpojení se nepodařilo vypnout: {1}",
+  "seats.windowsSessionChanged": "„{0}“: relace Windows se změnila z {1} na {2}; ovladače se znovu přiřazují.",
+  "seats.monitorModeChanged": "„{0}“: změnil se režim monitoru; relace se znovu nastavuje.",
+  "seats.readjustFailed": "Nepodařilo se znovu nastavit pracoviště: {0}",
+  "seats.agentDisconnected": "„{0}“: agent relace se odpojil.",
+  "seats.presenterDisconnected": "„{0}“: prezentátor konzole se odpojil.",
+  "seats.consoleAreaLost": "Část konzole ztratila obraz ({0}); konzole obnovuje svůj monitor.",
+  "seats.seatLost": "Pracoviště „{0}“ se vypíná: {1}.",
+  "seats.stopAfterLossFailed": "„{0}“: po přerušení se nepodařilo vypnout: {1}",
+  "seats.sessionStartFailed": "Relace se nepodařila spustit.",
+  "seats.sessionStartTimeout": "Relace se nestala aktivní včas."
 }
