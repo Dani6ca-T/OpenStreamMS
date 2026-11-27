@@ -196,5 +196,11 @@
   "composite.steamActionFailed": "[{0}] 在 Windows 会话 {2} 中执行 Steam“{1}”操作失败：{3}",
   "composite.steamActionDone": "[{0}] Steam Big Picture：在 {2} 个会话中执行“{1}”。",
   "composite.steamOpen": "打开",
-  "composite.steamClose": "关闭"
+  "composite.steamClose": "关闭",
+  "gamepad.hidHideNotOpen": "隔离服务未打开 HidHide；检测到 ViGEm 控制器时将对其进行隔离。",
+  "gamepad.deviceArrivalWatchUnavailable": "无法监听设备接入；仅每秒检查一次。",
+  "gamepad.hidHideNotInstalled": "未安装 HidHide：控制器将在所有会话中可见。",
+  "gamepad.hidHideEnabled": "HidHide 已启用。",
+  "gamepad.hidHideConfigureFailed": "无法配置 HidHide：{0}",
+  "gamepad.monitorFailed": "监视控制器时出错：{0}"
 }
