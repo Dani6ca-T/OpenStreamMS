@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Klíč registru Windows HKLM\\{0} neexistuje.",
   "steamIsolation.userRegistryNotLoaded": "Registr uživatele není načten.",
   "steamIsolation.wscriptUnavailable": "WScript.Shell není k dispozici.",
-  "steamIsolation.shortcutDescription": "Steam izolovaný od ostatních relací (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "Steam izolovaný od ostatních relací (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] Zvuk z „{1}“ byl předán do relace klávesnice „{2}“.",
+  "compositeAudio.forwardFailed": "[{0}] Zvuk z „{1}“ se nepodařilo předat: {2}"
 }
