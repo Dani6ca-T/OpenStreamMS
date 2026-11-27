@@ -273,5 +273,11 @@
   "rdp.startMstsc": "Spouštění mstsc ({0}x{1}, {2} fps, {3} bpp, měřítko {4} %, hardwarové AVC444)…",
   "rdp.mstscExecutableMissing": "Nepodařilo se spustit mstsc.exe",
   "rdp.mstscExitedNoSession": "mstsc skončil s ExitCode={0} bez vytvoření relace pro „{1}“. Možné neviditelné dialogové okno (certifikát/přihlašovací údaje) nebo odmítnutí NLA.",
-  "rdp.mstscSessionTimeout": "Relace pro „{0}“ se v mstsc neobjevila do 30 s. Možné neviditelné dialogové okno v Session 0."
+  "rdp.mstscSessionTimeout": "Relace pro „{0}“ se v mstsc neobjevila do 30 s. Možné neviditelné dialogové okno v Session 0.",
+  "rdp.cmdkeyFailed": "cmdkey {0} selhalo: {1}",
+  "rdp.freeRdpPrematureExit": "FreeRDP skončil předčasně. ExitCode={0}",
+  "rdp.sessionDetected": "Relace zjištěna při pokusu {0} ({1}): {2} (FreeRDP PID={3})",
+  "rdp.sessionModeRelaxed": "rozšířený režim",
+  "rdp.sessionModeRdp": "RDP",
+  "rdp.waitingSession": "Čekání na relaci… pokus {0}/20"
 }
