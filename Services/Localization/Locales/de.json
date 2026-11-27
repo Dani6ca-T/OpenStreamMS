@@ -230,5 +230,8 @@
   "gamepad.nodeVisibleAfterRestart": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar; wurde neu gestartet, um Handles anderer Sitzungen zu schließen.",
   "gamepad.nodeRestartDeferred": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar, aber Windows hat den Neustart aufgeschoben (ein anderer Prozess verwendet das Gerät); bereits geöffnete Handles bleiben bis zum Schließen sichtbar.",
   "gamepad.nodeLateRestartFailed": "{0} wurde verspätet verborgen und konnte nicht neu gestartet werden: {1}. Ein Prozess einer anderen Sitzung, der das Gerät bereits geöffnet hat, sieht es weiterhin.",
-  "gamepad.nodeVisibleSession": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar."
+  "gamepad.nodeVisibleSession": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar.",
+  "gamepad.consoleSessionChanged": "Konsolensitzung wechselt von {0} zu {1}: Physische Controller werden neu zugewiesen.",
+  "gamepad.sideInputDriverRestored": "{0} (Tastatur oder Maus des Controllers) kehrt zu seinem Treiber zurück: Der Controller befindet sich an der Konsole.",
+  "gamepad.sideInputCaptured": "{0} (Tastatur oder Maus des Controllers) wurde getrennt, während sich der Controller in einer anderen Sitzung befindet: Tasten (z. B. Screenshot-Taste) erreichen die Konsole nicht mehr."
 }
