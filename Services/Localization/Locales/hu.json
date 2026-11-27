@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Nem sikerült a billentyűzetet és az egeret ide irányítani: „{1}”: {2}",
   "compositeInput.writeFailed": "[{0}] Nem sikerült írni: {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Nem sikerült törölni: {1}: {2}",
-  "rdp.mstscFailureContext": "{0} A korábbi mstsc-próbálkozás nem sikerült: {1}"
+  "rdp.mstscFailureContext": "{0} A korábbi mstsc-próbálkozás nem sikerült: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Nem sikerült beolvasni a munkamenet profilútvonalait.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Elkülönített profilkörnyezet: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Elkülönített AppData: helyi={0}; roaming={1}",
+  "streamProfile.explorerNotRunning": "A(z) {0}. munkamenetben nem futott újraindítható Explorer.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Az Explorer újraindult a(z) {0}. munkamenetben a streamprofillal.",
+  "streamProfile.logoffRetry": "[StreamProfile] A(z) {0}. munkamenet 30 másodpercen belül nem jelentkezett ki; a(z) '{1}' folyamatai leállnak, majd a kijelentkezés újrapróbálkozik.",
+  "streamProfile.logoffCompleted": "[StreamProfile] A(z) {0}. munkamenet kijelentkezett {1} felhasználói folyamat leállítása után.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] A(z) {0}. munkamenet a kijelentkezés után is aktív.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Nem sikerült feloldani a(z) '{0}' SID-jét: {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] A WTSEnumerateProcesses sikertelen ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Nem sikerült megnyitni: '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Nem sikerült leállítani: '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) leállítva a(z) {2}. munkamenetben."
 }
