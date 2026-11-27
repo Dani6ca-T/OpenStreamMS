@@ -359,5 +359,16 @@
   "seats.seatLost": "Pracoviště „{0}“ se vypíná: {1}.",
   "seats.stopAfterLossFailed": "„{0}“: po přerušení se nepodařilo vypnout: {1}",
   "seats.sessionStartFailed": "Relace se nepodařila spustit.",
-  "seats.sessionStartTimeout": "Relace se nestala aktivní včas."
+  "seats.sessionStartTimeout": "Relace se nestala aktivní včas.",
+  "seats.statusStartingSession": "Spouštění relace…",
+  "seats.statusPoweringMonitor": "Zapínání monitoru…",
+  "seats.statusStartingAgent": "Spouštění agenta pro zachytávání a obraz…",
+  "seats.statusStartingPresenter": "Spouštění prezentátoru v konzoli…",
+  "seats.statusSeparatingGamepads": "Oddělování ovladačů pracoviště…",
+  "seats.statusReservingUsb": "Rezervování USB zařízení pracoviště…",
+  "seats.statusSeparatingInput": "Oddělování myši a klávesnice pracoviště…",
+  "seats.statusLockingSession": "Uzamykání relace: pracoviště bude vyžadovat heslo…",
+  "seats.statusActive": "Aktivní: obraz, zvuk a periferie jsou připojeny.",
+  "seats.statusDisconnectedFromSeat": "Odpojeno z pracoviště. Znovu jej zapněte z OpenStreamMS.",
+  "seats.statusStoppedAfterError": "Vypnuto: {0}. Znovu jej zapněte z OpenStreamMS."
 }
