@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "Il controller {0} ({1}) passa alla sessione '{2}' (sessione Windows {3}) a causa di una modifica della sessione composita.",
   "gamepad.futurePadsReserved": "I prossimi controller Moonlight vengono nascosti in anticipo finché non se ne conosce la sessione ({0}).",
   "gamepad.futurePadReservationsReleased": "Nessuno stream attivo: prenotazioni dei prossimi controller rimosse.",
-  "gamepad.futurePadReservationFailed": "Impossibile prenotare i prossimi controller in HidHide: {0}"
+  "gamepad.futurePadReservationFailed": "Impossibile prenotare i prossimi controller in HidHide: {0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} è visibile solo nella sessione '{1}' ({2}) fin dalla comparsa; riavviato affinché la sessione lo rilevi.",
+  "gamepad.nodeVisibleAfterRestart": "{0} è visibile solo nella sessione '{1}' ({2}); riavviato per chiudere gli handle delle altre sessioni.",
+  "gamepad.nodeRestartDeferred": "{0} è visibile solo nella sessione '{1}' ({2}), ma Windows ha rinviato il riavvio perché un altro processo lo usa; i processi che lo hanno già aperto continueranno a vederlo finché non lo chiudono.",
+  "gamepad.nodeLateRestartFailed": "{0} è stato nascosto in ritardo e non è stato possibile riavviarlo: {1}. Un processo di un'altra sessione che lo aveva già aperto continua a vederlo.",
+  "gamepad.nodeVisibleSession": "{0} è visibile solo nella sessione '{1}' ({2})."
 }
