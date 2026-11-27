@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Seats;
 
@@ -36,16 +37,16 @@ internal static class HandleBroker
     {
         IntPtr srcProc = OpenProcess(PROCESS_DUP_HANDLE, false, (uint)fromPid);
         if (srcProc == IntPtr.Zero)
-            throw new Win32Exception(Marshal.GetLastWin32Error(), $"OpenProcess(fromPid={fromPid}) falló");
+            throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("handleBroker.openSourceFailed", fromPid));
         try
         {
             IntPtr dstProc = OpenProcess(PROCESS_DUP_HANDLE, false, (uint)toPid);
             if (dstProc == IntPtr.Zero)
-                throw new Win32Exception(Marshal.GetLastWin32Error(), $"OpenProcess(toPid={toPid}) falló");
+                throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("handleBroker.openTargetFailed", toPid));
             try
             {
                 if (!DuplicateHandle(srcProc, handle, dstProc, out IntPtr dup, 0, false, DUPLICATE_SAME_ACCESS))
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), $"DuplicateHandle falló de pid {fromPid} a {toPid}");
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("handleBroker.duplicateFailed", fromPid, toPid));
                 return dup;
             }
             finally { CloseHandle(dstProc); }
