@@ -279,5 +279,10 @@
   "rdp.sessionDetected": "Сеанс обнаружен на попытке {0} ({1}): {2} (PID FreeRDP={3})",
   "rdp.sessionModeRelaxed": "расширенный режим",
   "rdp.sessionModeRdp": "RDP",
-  "rdp.waitingSession": "Ожидание сеанса… попытка {0}/20"
+  "rdp.waitingSession": "Ожидание сеанса… попытка {0}/20",
+  "rdp.frameRateConfigured": "Частота кадров={0} fps | интервал={1} мс (композиция {2} Гц, {3})",
+  "rdp.remoteIddModeConfigured": "RemoteIdd: {0}x{1} @ {2} Гц, масштаб {3} %.",
+  "rdp.betterRdpPoliciesApplied": "Политики BetterRDP применены.",
+  "rdp.mstscClientPoliciesApplied": "Политики клиента mstsc применены (без диалогов перед подключением).",
+  "rdp.mstscClientPoliciesFailed": "Не удалось применить политики HKCU для mstsc: {0}"
 }
