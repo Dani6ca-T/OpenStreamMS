@@ -225,5 +225,10 @@
   "gamepad.padRetargeted": "複合セッションの変更により、コントローラー {0}（{1}）をセッション「{2}」（Windows セッション {3}）に移動しました。",
   "gamepad.futurePadsReserved": "次の Moonlight コントローラーは、セッションが判明するまで事前に非表示になります（{0}）。",
   "gamepad.futurePadReservationsReleased": "実行中のストリームはありません。次のコントローラーの予約を解除しました。",
-  "gamepad.futurePadReservationFailed": "HidHide で次のコントローラーを予約できませんでした：{0}"
+  "gamepad.futurePadReservationFailed": "HidHide で次のコントローラーを予約できませんでした：{0}",
+  "gamepad.padVisibleAfterArrivalRestart": "{0} は出現時からセッション「{1}」（{2}）のみに表示されています。このセッションで検出できるよう再起動しました。",
+  "gamepad.nodeVisibleAfterRestart": "{0} はセッション「{1}」（{2}）のみに表示されています。他セッションのハンドルを閉じるため再起動しました。",
+  "gamepad.nodeRestartDeferred": "{0} はセッション「{1}」（{2}）のみに表示されていますが、別プロセスが使用中のため Windows が再起動を延期しました。既に開いているプロセスは閉じるまで引き続き認識します。",
+  "gamepad.nodeLateRestartFailed": "{0} は遅れて非表示になり、再起動できませんでした：{1}。別セッションで既に開いているプロセスには引き続き表示されます。",
+  "gamepad.nodeVisibleSession": "{0} はセッション「{1}」（{2}）のみに表示されています。"
 }
