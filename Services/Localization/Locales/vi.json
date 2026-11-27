@@ -171,5 +171,13 @@
   "power.noPending": "Không có lệnh tắt máy đang chờ để hủy ({0}).",
   "power.shutdownFailed": "shutdown.exe gặp lỗi: {0}",
   "power.scheduled": "Đã lên lịch {0} sau {1} giây.",
-  "settings.logLevelChanged": "Mức nhật ký: {0} → {1}."
+  "settings.logLevelChanged": "Mức nhật ký: {0} → {1}.",
+  "seat.restartSession": "[Vị trí] Đang khởi động lại phiên '{1}' của vị trí '{0}' mà không tắt vị trí.",
+  "seat.restartSizeMismatch": "Phiên trở lại ở kích thước {0}x{1} thay vì {2}x{3}.",
+  "seat.restartSessionDone": "[Vị trí] '{0}': phiên đã khởi động lại; vị trí vẫn ở phiên Windows {1}.",
+  "seat.restartSessionFailed": "[Vị trí] '{0}': không thể khởi động lại phiên mà không tắt vị trí ({1}); đang tạo lại vị trí.",
+  "seat.restartSeatFailed": "[Vị trí] '{0}': không thể khởi động lại vị trí: {1}",
+  "seat.waitingImageFailed": "[Vị trí] '{0}': không thể hiển thị hình ảnh chờ: {1}",
+  "seat.sessionDidNotRestart": "Phiên không khởi động lại.",
+  "seat.sessionRestartTimeout": "Đã hết thời gian chờ khởi động lại phiên."
 }
