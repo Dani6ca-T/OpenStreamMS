@@ -137,5 +137,6 @@
   "purge.removeRegistry": "HKLM\\SOFTWARE\\OpenStreamMS を削除",
   "purge.removeTemp": "一時ファイルを削除",
   "serviceConfig.created": "既定の構成を作成しました: {0}",
-  "serviceConfig.invalid": "構成ファイルが無効です。"
+  "serviceConfig.invalid": "構成ファイルが無効です。",
+  "cli.help": "OpenStreamMS — ゲームストリーミングサービス\n\n使用方法:\n  OpenStreamMS.exe --run               サービスと REST API を起動\n  OpenStreamMS.exe --install           Windows サービスをインストール\n  OpenStreamMS.exe --uninstall         サービスを停止して削除\n  OpenStreamMS.exe --remove-deps       ViGEmBus と HidHide をアンインストール\n  OpenStreamMS.exe --purge-data        プログラムフォルダー外のデータを削除\n  OpenStreamMS.exe --tray              通知領域アイコンを表示\n  OpenStreamMS.exe --open              コントロールパネルをウィンドウで開く\n  OpenStreamMS.exe --diagnostics [file.zip] [--days N]  診断アーカイブを作成\n  OpenStreamMS.exe --seat-agent <pipe> [--output DISPLAY] [--no-audio]\n  OpenStreamMS.exe --seat-host <pipe>  ローカルシートホストを起動\n  OpenStreamMS.exe --help              このヘルプを表示\n\nWeb:\n  http://localhost:<ApiPort>/          コントロールパネル（ログインが必要）\n  http://localhost:<ApiPort>/scalar/v1 対話型 API ドキュメント\n\n設定 (service.config.json):\n  SunshineExePath — sunshine.exe のパス\n  RdpBackground   — RDP ウィンドウを非表示にする\n  ApiPort         — Web/API サーバーのポート（既定: 5000）\n  AdminUsername   — コントロールパネルのユーザー\n  LogLevel        — Error、Warning、Info、Off"
 }
