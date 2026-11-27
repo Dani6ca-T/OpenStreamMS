@@ -297,5 +297,17 @@
   "rdp.displayFrequencyVerified": "ChangeDisplaySettings réussi — affichage à {0}Hz dans la session {1}.",
   "rdp.displayFrequencyMismatch": "ChangeDisplaySettings a renvoyé un succès, mais l’écran indique {0}Hz (demandé {1}Hz) dans la session {2}.",
   "rdp.displayFrequencyFailed": "Échec de ChangeDisplaySettings dans la session {0} : {1} (affichage à {2}Hz).",
-  "rdp.displayFrequencyResultReadFailed": "Impossible de lire le résultat de ChangeDisplaySettings : {0}"
+  "rdp.displayFrequencyResultReadFailed": "Impossible de lire le résultat de ChangeDisplaySettings : {0}",
+  "rdp.enumerateSessionsFailed": "Erreur WTSEnumerateSessions : {0}",
+  "rdp.sessionInfo": "Session {0} ({1}) protocole={2} utilisateur='{3}'",
+  "rdp.sessionUnlocked": "Session {0} déverrouillée (flag={1}) après {2} ms.",
+  "rdp.sessionStillLocked": "Session {0} toujours verrouillée après {1} ms. Sunshine peut basculer vers l’encodage logiciel (libx264). Vérifiez l’écran de verrouillage.",
+  "rdp.userAlreadyHasOtherSession": "« {0} » possède déjà la session {1} ({2}).",
+  "rdp.disconnected": "déconnectée",
+  "rdp.termServiceChangedToManual": "TermService était désactivé → passé en Manuel.",
+  "rdp.termServiceStarted": "TermService démarré (Bureau à distance natif).",
+  "rdp.termServiceEnsureFailed": "Impossible de garantir l’exécution de TermService : {0}. Si le Bureau à distance est désactivé, la connexion loopback échouera ; activez-le dans Système → Bureau à distance ou redémarrez Windows.",
+  "rdp.registryKeyOpenFailed": "Impossible d’ouvrir HKLM\\\\{0}",
+  "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
+  "rdp.registryWriteFailed": "Impossible d’écrire {0} dans HKLM\\\\{1} : {2}"
 }
