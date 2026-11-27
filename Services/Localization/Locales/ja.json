@@ -382,5 +382,12 @@
   "session.logWindowsSessionCloseTimeout": "[{0}] Windows セッション {1} の終了が完了しませんでした。",
   "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) を停止しました。",
   "session.logStopWarning": "[{0}] 停止中の警告: {1}",
-  "session.logStopped": "[{0}] 停止しました。"
+  "session.logStopped": "[{0}] 停止しました。",
+  "session.logProtocolChanged": "[{0}] ストリーミングプロトコル: {1}。",
+  "session.logSunshineStopWarning": "[{0}] Sunshine の停止中に警告 ({1}): {2}",
+  "session.logSunshineStoppedForRelaunch": "[{0}] {1} のため Sunshine を停止しました。自動的に再起動します。",
+  "session.logSunshinePauseWarning": "[{0}] Sunshine の一時停止中の警告: {1}",
+  "session.logSunshinePaused": "[{0}] Sunshine を一時停止しました ({1})。",
+  "session.logSunshineResumed": "[{0}] Sunshine を再開しました。自動的に再起動します。",
+  "session.logMuteRdpClient": "[{0}] ホスト上の RDP クライアント (PID={1}) をミュートしています..."
 }
