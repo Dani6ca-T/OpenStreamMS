@@ -557,5 +557,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Acquisizione audio loopback avviata: {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] Impossibile inizializzare l'acquisizione audio: {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Passaggio al desktop di input '{0}' (in precedenza '{1}').",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Impossibile passare al desktop di input '{0}': {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Impossibile passare al desktop di input '{0}': {1}",
+  "seatAgent.audioDeviceMissing": "La sessione della postazione non dispone di un dispositivo di riproduzione (Windows non ha creato «Remote Audio»); la postazione non avrà audio."
 }
