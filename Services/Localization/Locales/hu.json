@@ -238,5 +238,11 @@
   "gamepad.physicalPadAssigned": "A(z) {0} fizikai vezérlő egy munkaállomáshoz vagy stream-munkamenethez van rendelve: csak a(z) {1} munkamenetben látható.",
   "gamepad.steamFilterWarning": "A(z) {0} eszközveremében megtalálható a Steam {1} szűrője: a többi munkamenet Steamje (a konzolt is beleértve) továbbra is olvashatja. Húzza ki, majd csatlakoztassa újra, miután a munkaállomás vagy stream elindult.",
   "gamepad.physicalPadRestarted": "A(z) {0} újraindult: a(z) {1} munkamenet már nem tudja olvasni.",
-  "gamepad.physicalPadRestartFailed": "Nem sikerült újraindítani: {0}: {1}. Az a munkamenet, amely már megnyitotta, továbbra is látja, amíg be nem zárja."
+  "gamepad.physicalPadRestartFailed": "Nem sikerült újraindítani: {0}: {1}. Az a munkamenet, amely már megnyitotta, továbbra is látja, amíg be nem zárja.",
+  "gamepad.padRemoved": "A(z) {0} vezérlő eltávolítva; HID-csomópontjai kikerültek a HidHide tiltólistájáról.",
+  "gamepad.staleJailsRemoved": "{0} elavult bejegyzés eltávolítva a HidHide tiltólistájáról.",
+  "gamepad.absentPadAssigned": "A(z) {0} fizikai vezérlő (jelenleg nincs csatlakoztatva) a(z) {1} munkamenethez lett rendelve; megjelenésekor oda fog tartozni.",
+  "gamepad.knownNodesSaveFailed": "Nem sikerült menteni: {0}: {1}",
+  "gamepad.knownNodesReadFailed": "Nem sikerült beolvasni: {0}: {1}",
+  "gamepad.hidHideBlacklistUpdateFailed": "Nem sikerült frissíteni a HidHide tiltólistáját: {0}"
 }
