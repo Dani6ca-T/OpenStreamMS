@@ -691,5 +691,11 @@
   "seatAgent.inputReceivedDetails": "[SeatAgent] 已收到输入：类型={0} 标志={1:X} dx={2} dy={3} 代码={4:X}",
   "seatAgent.injectStats": "[SeatAgent] 10 秒输入注入：{0}",
   "seatAgent.captureStats": "[SeatAgent] 10 秒：已发送={0} 环形缓冲区繁忙={1} 输入={2} 注入失败={3} 上次错误={4} {5}",
-  "seatAgent.captureLatencyStats": "[SeatAgent] 10 秒捕获延迟：{0}"
+  "seatAgent.captureLatencyStats": "[SeatAgent] 10 秒捕获延迟：{0}",
+  "seat.restartAdjustingResolution": "正在将会话调整为 {0}x{1} @ {2} Hz……",
+  "seat.restartRestartingSession": "正在重新启动会话……",
+  "seatIpc.invalidMessageLength": "管道消息长度无效：{0} 字节。",
+  "seatIpc.invalidJsonObject": "JSON 负载不是对象。",
+  "seatHost.frameLatencyName": "合成→显示器",
+  "seatHost.cursorLatencyName": "输入→显示器"
 }
