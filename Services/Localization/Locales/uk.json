@@ -259,5 +259,11 @@
   "rdp.disconnectSessionFailed": "Помилка WTSDisconnectSession({0}): {1}",
   "rdp.mstscReconnectFailedFallback": "Не вдалося повторно підключитися через mstsc ({0}); повторна спроба через FreeRDP…",
   "rdp.reconnectWrongSession": "Повторне підключення відбулося до сеансу {0} замість {1}.",
-  "rdp.sessionReconnected": "Сеанс {0} повторно підключено за {1} мс."
+  "rdp.sessionReconnected": "Сеанс {0} повторно підключено за {1} мс.",
+  "rdp.freeRdpClientDisconnected": "Клієнт FreeRDP від’єднано; сеанс {0} залишається активним (VDD).",
+  "rdp.disconnectSessionWarning": "Попередження WTSDisconnectSession: {0}",
+  "rdp.logoffFailed": "WTSLogoffSession для сеансу {0} завершився помилкою: {1}",
+  "rdp.logoffCompleted": "Сеанс {0} завершено (вихід) за {1} мс.",
+  "rdp.logoffSessionCompleted": "Сеанс {0} завершено (вихід).",
+  "rdp.logoffWarning": "Попередження WTSLogoffSession (сеанс {0}): {1}"
 }
