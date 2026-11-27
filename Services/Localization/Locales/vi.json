@@ -455,5 +455,6 @@
   "session.logInstancePermissionsAdjusted": "[SessionService] Đã điều chỉnh quyền phiên bản cho \"{0}\" (chỉ ghi vào config): {1}",
   "session.logInstancePermissionsAdjustFailed": "[SessionService] Không thể điều chỉnh quyền của \"{0}\" tại {1}: {2}",
   "session.logFirewallRulesOpened": "[Sunshine] Tường lửa ({0}): {1} ({2})",
-  "session.logSunshineInstanceUpdating": "[{0}] Đang cập nhật phiên bản Sunshine: {1} → {2} (giữ nguyên config/, ghép đôi, thông tin xác thực và cài đặt)."
+  "session.logSunshineInstanceUpdating": "[{0}] Đang cập nhật phiên bản Sunshine: {1} → {2} (giữ nguyên config/, ghép đôi, thông tin xác thực và cài đặt).",
+  "session.logHudEnsureFailed": "[HUD] Không thể khởi tạo HUD: {0}"
 }
