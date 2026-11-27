@@ -666,5 +666,14 @@
   "displayTopology.primaryChangeFailed": "[Seats] Não foi possível alterar o monitor principal: {0}",
   "displayTopology.deactivateConfigFailed": "[Seats] Erro em SetDisplayConfig (desativar): {0}/{1}",
   "displayTopology.monitorDeactivated": "[Seats] Monitor removido do ambiente de trabalho: {0}",
-  "displayTopology.deactivateFailed": "[Seats] Não foi possível desativar o monitor: {0}"
+  "displayTopology.deactivateFailed": "[Seats] Não foi possível desativar o monitor: {0}",
+  "seatHostControl.rejectedProcess": "[Seats] Canal de controlo do anfitrião: processo {0} rejeitado por não pertencer à sessão da consola.",
+  "seatHostControl.trayConnected": "[Seats] TrayApp ligado ao canal de controlo do anfitrião.",
+  "seatHostControl.controlPipeError": "[Seats] Erro no canal de controlo do anfitrião: {0}",
+  "seatHostControl.openSeatSent": "[Seats] Comando 'open_seat' enviado ao TrayApp para o posto {0}.",
+  "seatHostControl.openSeatSendFailed": "[Seats] Não foi possível enviar 'open_seat' ao TrayApp: {0}",
+  "seatHostControl.trayNotConnectedLaunch": "[Seats] TrayApp não está ligado; a iniciar o apresentador autónomo na sessão da consola {0}...",
+  "seatHostControl.consoleUserMissing": "[Seats] Não existe nenhum utilizador com sessão iniciada na consola física.",
+  "seatHostControl.trayHostConnected": "[TrayApp] Ligado ao canal de controlo dos anfitriões dos postos.",
+  "seatHostControl.commandProcessingError": "[TrayApp] Erro ao processar o comando do posto: {0}"
 }
