@@ -435,5 +435,13 @@
   "session.logSunshineCredentialsReset": "[{0}] Sunshine 자격 증명이 초기화되었습니다. Sunshine이 중지되었으며 자동으로 다시 시작됩니다.",
   "session.logSunshineTemplateUpdated": "[{0}] Sunshine 템플릿이 변경되어 인스턴스를 업데이트합니다: {1}",
   "session.logSunshineInstanceUpdateFailed": "[{0}] Sunshine 인스턴스를 업데이트하지 못했습니다: {1}",
-  "session.logFirewallRuleAddFailed": "[Sunshine] 방화벽 규칙을 추가하지 못했습니다: {0}"
+  "session.logFirewallRuleAddFailed": "[Sunshine] 방화벽 규칙을 추가하지 못했습니다: {0}",
+  "session.logLocalSessionDesktop": "[{0}] 로컬 세션: \"{1}\\\\{2}\"의 데스크톱(Windows 세션 {3}).",
+  "session.logNativeIsolationActive": "[{0}] 기본 격리 활성화: 전용 사용자 \"{1}\"(프로필: {2}).",
+  "session.ephemeral": "임시",
+  "session.persistent": "영구",
+  "session.logStreamProfileOmitted": "[{0}] 기본 격리가 별도 프로필을 제공하므로 UseStreamProfile을 건너뜁니다.",
+  "session.logStreamProfileConfiguring": "[{0}] 별도의 스트리밍 프로필을 구성하는 중...",
+  "session.logStartFailed": "[{0}] 시작 실패: {1}",
+  "session.logWebRtcUnsupported": "[{0}] 선택한 프로토콜에 WebRTC가 포함되어 있지만 구성된 Sunshine 빌드에서 지원하지 않습니다(sunshine-webrtc 사용). Moonlight만 작동합니다."
 }
