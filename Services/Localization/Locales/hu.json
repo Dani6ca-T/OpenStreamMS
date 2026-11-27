@@ -424,5 +424,16 @@
   "session.logStartAbandoned": "[{0}] Indítás megszakítva a kezdete előtt (másik parancs érkezett).",
   "session.logCreatingRdpSession": "[{0}] RDP-munkamenet indítása a(z) \"{1}\" felhasználóhoz...",
   "session.logSunshineLaunchFailed": "[{0}] A Sunshine indítása nem sikerült: {1}",
-  "session.logAutoStartFailed": "[{0}] Az automatikus indítás nem sikerült: {1}"
+  "session.logAutoStartFailed": "[{0}] Az automatikus indítás nem sikerült: {1}",
+  "session.logStartAbortedDuringRdp": "[{0}] Indítás megszakítva (a munkamenet az RDP létrehozása közben leállt).",
+  "session.logRdpSessionReused": "[{0}] Meglévő RDP-munkamenet újrahasználva; új RDP-ügyfél nem indult.",
+  "session.logStartAbortedDuringSunshine": "[{0}] Indítás megszakítva (a munkamenet a Sunshine indítása közben leállt).",
+  "session.logSessionActiveRdp": "[{0}] Munkamenet aktív (RDP={1}).",
+  "session.logStartAbortedAfterLaunch": "[{0}] Indítás megszakítva (a munkamenet az indítás befejezése után leállt).",
+  "session.logWaitingForConsoleUser": "[{0}] Akkor indul el, amikor valaki bejelentkezik a Windowsba.",
+  "session.logLocalSessionActive": "[{0}] Helyi munkamenet aktív (Windows-munkamenet: {1}).",
+  "session.logSunshineCredentialsReset": "[{0}] Sunshine-hitelesítő adatok visszaállítva; a Sunshine leállt, és automatikusan újraindul.",
+  "session.logSunshineTemplateUpdated": "[{0}] A Sunshine-sablon megváltozott; példány frissítése: {1}",
+  "session.logSunshineInstanceUpdateFailed": "[{0}] Nem sikerült frissíteni a Sunshine-példányt: {1}",
+  "session.logFirewallRuleAddFailed": "[Sunshine] Nem sikerült hozzáadni a tűzfalszabályt: {0}"
 }
