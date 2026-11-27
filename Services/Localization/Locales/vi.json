@@ -347,5 +347,17 @@
   "seats.consoleMonitorRestoreFailed": "Không thể trả màn hình chính về bảng điều khiển; sẽ khôi phục khi xóa màn hình ảo.",
   "seats.consoleMonitorRestored": "Bảng điều khiển đã có lại toàn bộ màn hình.",
   "seats.sessionLocked": "'{0}': phiên đã khóa; sẽ yêu cầu mật khẩu của '{1}'.",
-  "seats.sessionLockFailed": "'{0}': không thể khóa phiên: {1}"
+  "seats.sessionLockFailed": "'{0}': không thể khóa phiên: {1}",
+  "seats.sessionDisconnectedFromSeat": "'{0}': phiên bị ngắt kết nối từ chỗ; chỗ sẽ tắt cho đến khi được bật lại từ OpenStreamMS.",
+  "seats.stopAfterDisconnectFailed": "'{0}': không thể dừng sau khi ngắt kết nối: {1}",
+  "seats.windowsSessionChanged": "'{0}': phiên Windows chuyển từ {1} sang {2}; đang gán lại tay cầm.",
+  "seats.monitorModeChanged": "'{0}': chế độ màn hình đã thay đổi; đang điều chỉnh lại phiên.",
+  "seats.readjustFailed": "Không thể điều chỉnh lại chỗ: {0}",
+  "seats.agentDisconnected": "'{0}': tác nhân phiên đã ngắt kết nối.",
+  "seats.presenterDisconnected": "'{0}': trình trình bày bảng điều khiển đã ngắt kết nối.",
+  "seats.consoleAreaLost": "Vùng bảng điều khiển mất hình ảnh ({0}); bảng điều khiển đang khôi phục màn hình.",
+  "seats.seatLost": "Chỗ '{0}' đang tắt: {1}.",
+  "seats.stopAfterLossFailed": "'{0}': không thể tắt sau sự cố: {1}",
+  "seats.sessionStartFailed": "Không thể khởi động phiên.",
+  "seats.sessionStartTimeout": "Phiên không hoạt động kịp thời."
 }
