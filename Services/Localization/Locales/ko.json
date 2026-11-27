@@ -557,5 +557,6 @@
   "seatAgent.loopbackStarted": "[SeatAgent] Loopback audio capture started: {0}",
   "seatAgent.audioCaptureFailed": "[SeatAgent] Could not initialize audio capture: {0}",
   "seatAgent.switchInputDesktop": "[SeatAgent] Switching to input desktop '{0}' (previously '{1}').",
-  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Could not switch to input desktop '{0}': {1}"
+  "seatAgent.switchInputDesktopFailed": "[SeatAgent] Could not switch to input desktop '{0}': {1}",
+  "seatAgent.audioDeviceMissing": "좌석 세션에 재생 장치가 없습니다(Windows에서 \"Remote Audio\"를 만들지 않았습니다). 좌석에서 소리가 나지 않습니다."
 }
