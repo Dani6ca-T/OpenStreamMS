@@ -461,5 +461,15 @@
   "error.stopSeat": "Zatrzymaj stanowisko przed zmianą jego konfiguracji.",
   "error.primaryMonitor": "Nie można przypisać monitora głównego do stanowiska.",
   "error.assigned": "Wybrany zasób jest już przypisany.",
-  "composite.logMemberAssignedToSlot": "[{0}] „{1}” przypisano do miejsca {2} ({3}x{4})."
+  "composite.logMemberAssignedToSlot": "[{0}] „{1}” przypisano do miejsca {2} ({3}x{4}).",
+  "isolatedUser.remoteLogonGrant": "[RDP] Użytkownik „{0}” nie jest administratorem ani członkiem grupy Remote Desktop Users; przyznawany jest dostęp do pulpitu zdalnego, aby sesja mogła się uruchomić.",
+  "isolatedUser.remoteLogonCheckFailed": "[RDP] Nie można sprawdzić dostępu do pulpitu zdalnego dla użytkownika „{0}”: {1}",
+  "isolatedUser.rdpTcpPermissionsUnreadable": "[IsolatedUser] Nie można odczytać uprawnień RDP-Tcp (ani Security, ani DefaultSecurity); pozostają bez zmian.",
+  "isolatedUser.loginScreenHideFailed": "[IsolatedUser] Nie można ukryć użytkownika „{0}” na ekranie logowania: {1}",
+  "isolatedUser.steamRegistryAccessFailed": "[IsolatedUser] Nie można zmienić dostępu użytkownika „{0}” do rejestru Steam: {1}",
+  "steamIsolation.prepared": "[SteamIsolation] Przygotowano Steam dla użytkownika „{0}”: steam:// i {1} skrótów używają osms-steam.exe.",
+  "steamIsolation.prepareFailed": "[SteamIsolation] Nie można przygotować Steam dla użytkownika „{0}”: {1}",
+  "service.started": "[Service] Uruchomiono OpenStreamMS. API jest dostępne na skonfigurowanym porcie.",
+  "service.multiRdpCheckFailed": "[Service] Nie powiodło się sprawdzanie Multi-RDP: {0}",
+  "service.stopped": "[Service] Zatrzymano."
 }
