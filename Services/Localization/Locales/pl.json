@@ -443,5 +443,17 @@
   "session.logStreamProfileOmitted": "[{0}] Pominięto UseStreamProfile: izolacja natywna zapewnia już osobny profil.",
   "session.logStreamProfileConfiguring": "[{0}] Konfigurowanie oddzielnego profilu strumieniowania...",
   "session.logStartFailed": "[{0}] Uruchomienie nie powiodło się: {1}",
-  "session.logWebRtcUnsupported": "[{0}] Wybrany protokół obejmuje WebRTC, ale skonfigurowana kompilacja Sunshine go nie obsługuje (użyj sunshine-webrtc); będzie działać tylko Moonlight."
+  "session.logWebRtcUnsupported": "[{0}] Wybrany protokół obejmuje WebRTC, ale skonfigurowana kompilacja Sunshine go nie obsługuje (użyj sunshine-webrtc); będzie działać tylko Moonlight.",
+  "session.logSaveFailed": "[SessionService] Nie można zapisać sesji: {0}",
+  "session.logUnreadableBackupSaved": "[SessionService] Kopię zapasową nieczytelnego pliku sesji zapisano w „{0}”.",
+  "session.logUnreadableBackupFailed": "[SessionService] Nie można odłożyć nieczytelnego pliku sesji: {0}",
+  "session.logWebRtcPortsAssigned": "[SessionService] Porty WebRTC przypisano do istniejących sesji.",
+  "session.logLoadFailed": "[SessionService] Nie można wczytać sesji: {0}",
+  "session.logAbandonedStartSunshineStopFailed": "[{0}] Ostrzeżenie podczas zatrzymywania Sunshine po porzuconym uruchomieniu: {1}",
+  "session.logSunshineInstanceAlreadyExists": "[{0}] Instancja Sunshine już istnieje w: {1}",
+  "session.logCopiedTemplateStateCleanupFailed": "[{0}] Nie można wyczyścić skopiowanego stanu szablonu: {1}",
+  "session.logInstancePermissionsAdjusted": "[SessionService] Dostosowano uprawnienia instancji dla „{0}” (zapis tylko do config): {1}",
+  "session.logInstancePermissionsAdjustFailed": "[SessionService] Nie można dostosować uprawnień „{0}” w {1}: {2}",
+  "session.logFirewallRulesOpened": "[Sunshine] Zapora ({0}): {1} ({2})",
+  "session.logSunshineInstanceUpdating": "[{0}] Aktualizowanie instancji Sunshine: {1} → {2} (config/, parowania, dane logowania i ustawienia zostaną zachowane)."
 }
