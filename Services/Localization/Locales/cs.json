@@ -210,5 +210,9 @@
   "gamepad.hidHideWhitelistReadFailed": "Nepodařilo se přečíst seznam povolených aplikací HidHide: {0}",
   "gamepad.controllerToVkDisabled": "ControllerToVKMapping byl deaktivován (obchází izolaci ovladačů podle relací).",
   "gamepad.controllerToVkDisableFailed": "Nepodařilo se deaktivovat ControllerToVKMapping: {0}",
-  "gamepad.jailPrepareFailed": "Nepodařilo se připravit jail HidHide pro ovladač ViGEm: {0}"
+  "gamepad.jailPrepareFailed": "Nepodařilo se připravit jail HidHide pro ovladač ViGEm: {0}",
+  "gamepad.stateEnabled": "zapnuto",
+  "gamepad.stateDisabled": "vypnuto",
+  "gamepad.stateEmpty": "prázdný",
+  "gamepad.unknownVersion": "neznámá verze"
 }
