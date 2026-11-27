@@ -1,5 +1,6 @@
 using OpenStreamMS.Core.Helpers;
 using OpenStreamMS.Services.Gamepad;
+using OpenStreamMS.Services.Localization;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -50,7 +51,7 @@ internal static class SeatDeviceAccess
         lock (_lock) _ports[usbPort] = userSid;
         if (UsbDeviceAt(usbPort) is not { } device)
         {
-            Logger.Log($"[SeatAccess] '{seatName}': nada conectado en {usbPort}; se reservará al conectarse.");
+            Logger.Log(BackendText.Get("seatAccess.nothingConnected", seatName, usbPort));
             return false;
         }
         return Apply(device, userSid, seatName);
@@ -72,12 +73,12 @@ internal static class SeatDeviceAccess
                            .Select(id => UsbRootOf(id) ?? id).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         foreach (var root in roots)
         {
-            Logger.Log($"[SeatAccess] {root} quedó reservado para un puesto: se devuelve a todas las sesiones.");
+            Logger.Log(BackendText.Get("seatAccess.rootReserved", root));
             Restore(root);
         }
         int pending = ReadJournal().Count;
         if (pending > 0)
-            Logger.Log($"[SeatAccess] {pending} nodo(s) reservados están desconectados; se liberarán al conectarse.");
+            Logger.Log(BackendText.Get("seatAccess.pendingNodes", pending));
     }
 
     /// <summary>
@@ -118,7 +119,7 @@ internal static class SeatDeviceAccess
                 }
                 else Restore(target);
             }
-            catch (Exception ex) { Logger.Warning($"[SeatAccess] {target}: {ex.Message}"); }
+            catch (Exception ex) { Logger.Warning(BackendText.Get("seatAccess.restoreTargetFailed", target, ex.Message)); }
             finally { lock (_lock) _busy.Remove(target); }
         });
     }
@@ -168,12 +169,12 @@ internal static class SeatDeviceAccess
             // abierto y Windows aplaza el reinicio, se recicla el puerto USB.
             GamepadSessionIsolation.DevSetup.RestartOrCycle(device, $"para reservarlo al puesto '{seatName}'");
             // Los hijos que aparezcan con otro id al reiniciar (raro) los cubre OnDeviceArrived.
-            Logger.Log($"[SeatAccess] '{seatName}': {device} reservado ({nodes.Count} nodo(s)); las demás sesiones no pueden abrirlo.");
+            Logger.Log(BackendText.Get("seatAccess.deviceReserved", seatName, device, nodes.Count));
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[SeatAccess] '{seatName}': no se pudo reservar {device}: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatAccess.reserveFailed", seatName, device, ex.Message));
             return false;
         }
         finally { lock (_lock) _busy.Remove(device); }
@@ -194,12 +195,12 @@ internal static class SeatDeviceAccess
                 Journal(remove: n);
             }
             GamepadSessionIsolation.DevSetup.RestartOrCycle(device, "para devolverlo a todas las sesiones");
-            Logger.Log($"[SeatAccess] {device} vuelve a estar disponible para todas las sesiones.");
+            Logger.Log(BackendText.Get("seatAccess.deviceReleased", device));
         }
         catch (Exception ex)
         {
             // Queda anotado: se reintenta al reconectarse o en el próximo arranque del servicio.
-            Logger.Warning($"[SeatAccess] No se pudo liberar {device}: {ex.Message}");
+            Logger.Warning(BackendText.Get("seatAccess.releaseFailed", device, ex.Message));
         }
         finally { lock (_lock) _busy.Remove(device); }
     }
@@ -317,7 +318,7 @@ internal static class SeatDeviceAccess
                 {
                     int err = Marshal.GetLastWin32Error();
                     if (sddl is null && err == 13 /*ERROR_INVALID_DATA: no tenía*/) return;
-                    throw new Win32Exception(err, $"{id}: no se pudo cambiar su descriptor de seguridad");
+                    throw new Win32Exception(err, BackendText.Get("seatAccess.securityDescriptorChangeFailed", id));
                 }
             });
         }
@@ -332,7 +333,7 @@ internal static class SeatDeviceAccess
             {
                 var d = new SP_DEVINFO_DATA { cbSize = Marshal.SizeOf<SP_DEVINFO_DATA>() };
                 if (!SetupDiOpenDeviceInfoW(set, id, IntPtr.Zero, 0, ref d))
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), $"{id}: no se encuentra");
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), BackendText.Get("seatAccess.deviceNotFound", id));
                 action(set, ref d);
             }
             finally { SetupDiDestroyDeviceInfoList(set); }
