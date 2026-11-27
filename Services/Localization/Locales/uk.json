@@ -311,5 +311,12 @@
   "rdp.registryValueWritten": "HKLM\\\\{0}\\\\{1} = {2}",
   "rdp.registryWriteFailed": "Не вдалося записати {0} у HKLM\\\\{1}: {2}",
   "rdp.freeRdpNoOutput": "FreeRDP нічого не вивів.",
-  "rdp.freeRdpOutputPrefix": "Вивід FreeRDP: "
+  "rdp.freeRdpOutputPrefix": "Вивід FreeRDP: ",
+  "seats.usbArrivalWatchUnavailable": "Не вдалося відстежувати появу USB-пристроїв: захоплену клавіатуру або мишу буде відновлено під час наступного запуску.",
+  "seats.usbDriversRestoreFailed": "Не вдалося відновити драйвери USB: {0}",
+  "seats.reservedDevicesReleaseFailed": "Не вдалося звільнити зарезервовані пристрої: {0}",
+  "seats.managerStarted": "Менеджер місць запущено (місць: {0}).",
+  "seats.multiRdpCheckTimeout": "Перевірка multi-RDP не завершилася за 120 с; місця все одно запускатимуться автоматично.",
+  "seats.autoStartSameConsoleUser": "«{0}» не запускається автоматично: використовує того самого користувача, що й консоль.",
+  "seats.autoStartFailed": "Не вдалося автоматично запустити «{0}»: {1}"
 }
