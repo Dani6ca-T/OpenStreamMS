@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Windows 注册表项 HKLM\\{0} 不存在。",
   "steamIsolation.userRegistryNotLoaded": "用户注册表配置单元尚未加载。",
   "steamIsolation.wscriptUnavailable": "WScript.Shell 不可用。",
-  "steamIsolation.shortcutDescription": "与其他会话隔离的 Steam (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "与其他会话隔离的 Steam (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] 已将“{1}”的音频转发到键盘会话“{2}”。",
+  "compositeAudio.forwardFailed": "[{0}] 无法转发“{1}”的音频：{2}"
 }
