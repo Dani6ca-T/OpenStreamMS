@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "đã bật",
   "gamepad.stateDisabled": "đã tắt",
   "gamepad.stateEmpty": "trống",
-  "gamepad.unknownVersion": "phiên bản không xác định"
+  "gamepad.unknownVersion": "phiên bản không xác định",
+  "gamepad.predictedPadClaimed": "{0} chỉ hiển thị trong phiên {1} ngay cả trước khi được cắm ('{2}').",
+  "gamepad.releaseReservationsFailed": "Không thể giải phóng các lượt giữ chỗ tay cầm: {0}",
+  "gamepad.padClaimed": "Tay cầm {0} → '{1}' (phiên Windows {2}): tay cầm được dịch vụ này tiếp nhận.",
+  "gamepad.padOwnerUnknown": "Không thể xác định phiên đã tạo tay cầm {0}; tay cầm vẫn hiển thị trong mọi phiên.",
+  "gamepad.osmsPadOutsideSession": "Tay cầm OsmsPad {0} → phiên Windows {1} (không thuộc phiên OpenStreamMS nào)."
 }
