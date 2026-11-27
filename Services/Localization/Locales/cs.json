@@ -478,5 +478,7 @@
   "steamIsolation.wscriptUnavailable": "WScript.Shell není k dispozici.",
   "steamIsolation.shortcutDescription": "Steam izolovaný od ostatních relací (OpenStreamMS)",
   "compositeAudio.forwarded": "[{0}] Zvuk z „{1}“ byl předán do relace klávesnice „{2}“.",
-  "compositeAudio.forwardFailed": "[{0}] Zvuk z „{1}“ se nepodařilo předat: {2}"
+  "compositeAudio.forwardFailed": "[{0}] Zvuk z „{1}“ se nepodařilo předat: {2}",
+  "hud.launched": "[HUD] Spuštěno v relaci Windows {0} (PID {1}): Ctrl+Alt+H nebo Guide + Back.",
+  "hud.launchFailed": "[HUD] Nelze spustit v relaci Windows {0}: {1}"
 }
