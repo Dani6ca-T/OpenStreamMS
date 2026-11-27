@@ -508,5 +508,13 @@
   "sunshine.extensionAppsConfigFailed": "[Sunshine] No se pudieron configurar las apps de extensiones en apps.json: {0}",
   "sunshine.launching": "[Sunshine] Lanzando en sesión {0}: {1} {2}",
   "sunshine.launchFailed": "[Sunshine] Error al lanzar: {0}",
-  "sunshine.encoderUnconfirmed": "[Sunshine] No se pudo confirmar el encoder en el log; se deja como está."
+  "sunshine.encoderUnconfirmed": "[Sunshine] No se pudo confirmar el encoder en el log; se deja como está.",
+  "sunshineCfg.appsTemplateUsed": "[SunshineCfg] apps.json no existe, usando template de assets.",
+  "sunshineCfg.appsCreated": "[SunshineCfg] apps.json creado con virtual-display en: {0}",
+  "sunshineCfg.appsVirtualDisplayUpdated": "[SunshineCfg] apps.json actualizado con virtual-display en: {0}",
+  "sunshineCfg.appsVirtualDisplayUnchanged": "[SunshineCfg] apps.json ya tiene virtual-display configurado, sin cambios.",
+  "sunshineCfg.bigPictureConfigured": "[SunshineCfg] Steam Big Picture configurado ('{0}') con undo no bloqueante: {1}",
+  "sunshineCfg.compositeBigPictureConfigured": "[SunshineCfg] Steam Big Picture de la sesión compuesta: se abre y se cierra en todas sus sesiones: {0}",
+  "sunshineCfg.extensionAppsUpdated": "[SunshineCfg] Apps de extensiones actualizadas ({0}): {1}",
+  "sunshineCfg.powerAppsConfigured": "[SunshineCfg] Apps Reboot y Power Off configuradas: {0}"
 }
