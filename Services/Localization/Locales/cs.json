@@ -374,5 +374,13 @@
   "seats.consoleUserAutoStartError": "Toto pracoviště používá stejného uživatele jako konzole a nemůže se spustit samo. Spusťte jej z OpenStreamMS nebo mu přiřaďte jinou relaci.",
   "seats.monitorAlreadyAssigned": "Monitor je již přiřazen pracovišti „{0}“.",
   "seats.monitorAreaOverlap": "Tato část monitoru se překrývá s částí pracoviště „{0}“.",
-  "seats.notFound": "Pracoviště {0} neexistuje."
+  "seats.notFound": "Pracoviště {0} neexistuje.",
+  "session.logStopping": "[{0}] Zastavování...",
+  "session.logRestartRequested": "[{0}] Požadován restart (aktuální stav: {1}).",
+  "session.logRestartSuperseded": "[{0}] Restart zrušen: během zastavování dorazil jiný příkaz.",
+  "session.logSunshineKillTimeout": "[{0}] Vypršel časový limit při ukončování Sunshine.",
+  "session.logWindowsSessionCloseTimeout": "[{0}] Relace Windows {1} se nedokončila.",
+  "session.logFreeRdpStopped": "[{0}] FreeRDP (PID {1}) zastaven.",
+  "session.logStopWarning": "[{0}] Upozornění při zastavování: {1}",
+  "session.logStopped": "[{0}] Zastaveno."
 }
