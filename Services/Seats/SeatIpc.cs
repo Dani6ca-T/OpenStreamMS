@@ -5,6 +5,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Seats;
 
@@ -145,7 +146,7 @@ internal static class SeatPipes
             int pid = OpenStreamMS.Core.Helpers.LocalCaller.PipeClientPid(server);
             if (pid > 0 && isExpected(pid)) return pid;
 
-            Logger.Warning($"[Seats] Tubería del {what}: rechazado el proceso {pid}, no es el esperado.");
+            Logger.Warning(BackendText.Get("seatIpc.unexpectedClient", what, pid));
             server.Disconnect();
         }
     }
@@ -174,7 +175,7 @@ internal static class SeatPipes
         {
             int pid = OpenStreamMS.Core.Helpers.LocalCaller.PipeServerPid(client);
             client.Dispose();
-            throw new UnauthorizedAccessException($"La tubería no es del servicio (proceso {pid}).");
+            throw new UnauthorizedAccessException(BackendText.Get("seatIpc.notServicePipe", pid));
         }
     }
 
