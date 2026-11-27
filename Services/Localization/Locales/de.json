@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "Physischer Controller {0} (derzeit nicht verbunden) wird Sitzung {1} zugewiesen und gehört beim nächsten Erscheinen dorthin.",
   "gamepad.knownNodesSaveFailed": "{0} konnte nicht gespeichert werden: {1}",
   "gamepad.knownNodesReadFailed": "{0} konnte nicht gelesen werden: {1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "HidHide-Sperrliste konnte nicht aktualisiert werden: {0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "HidHide-Sperrliste konnte nicht aktualisiert werden: {0}",
+  "gamepad.usbPortCycled": "{0}: Ein anderer Prozess hatte das Gerät geöffnet und Windows verschob den Neustart; der USB-Port wurde getrennt und erneut verbunden ({1}) {2}.",
+  "gamepad.usbPortCycleFailed": "{0}: Windows verschob den Neustart (ein anderer Prozess verwendet das Gerät), und der USB-Port konnte nicht neu verbunden werden ({1}). Der bereits zugreifende Prozess sieht es weiterhin, bis er es schließt."
 }
