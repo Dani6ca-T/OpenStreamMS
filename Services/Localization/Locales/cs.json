@@ -214,5 +214,10 @@
   "gamepad.stateEnabled": "zapnuto",
   "gamepad.stateDisabled": "vypnuto",
   "gamepad.stateEmpty": "prázdný",
-  "gamepad.unknownVersion": "neznámá verze"
+  "gamepad.unknownVersion": "neznámá verze",
+  "gamepad.predictedPadClaimed": "{0} je viditelný pouze v relaci {1} ještě před připojením („{2}“).",
+  "gamepad.releaseReservationsFailed": "Nepodařilo se odebrat rezervace ovladačů: {0}",
+  "gamepad.padClaimed": "Ovladač {0} → „{1}“ (relace Windows {2}): ovladač převzala tato služba.",
+  "gamepad.padOwnerUnknown": "Nelze zjistit, která relace vytvořila ovladač {0}; zůstává viditelný ve všech relacích.",
+  "gamepad.osmsPadOutsideSession": "Ovladač OsmsPad {0} → relace Windows {1} (nepatří k žádné relaci OpenStreamMS)."
 }
