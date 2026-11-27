@@ -233,5 +233,10 @@
   "gamepad.nodeVisibleSession": "{0} ist nur in Sitzung „{1}“ ({2}) sichtbar.",
   "gamepad.consoleSessionChanged": "Konsolensitzung wechselt von {0} zu {1}: Physische Controller werden neu zugewiesen.",
   "gamepad.sideInputDriverRestored": "{0} (Tastatur oder Maus des Controllers) kehrt zu seinem Treiber zurück: Der Controller befindet sich an der Konsole.",
-  "gamepad.sideInputCaptured": "{0} (Tastatur oder Maus des Controllers) wurde getrennt, während sich der Controller in einer anderen Sitzung befindet: Tasten (z. B. Screenshot-Taste) erreichen die Konsole nicht mehr."
+  "gamepad.sideInputCaptured": "{0} (Tastatur oder Maus des Controllers) wurde getrennt, während sich der Controller in einer anderen Sitzung befindet: Tasten (z. B. Screenshot-Taste) erreichen die Konsole nicht mehr.",
+  "gamepad.physicalPadConsole": "Physischer Controller {0} ist nur in der Konsolensitzung ({1}) sichtbar.",
+  "gamepad.physicalPadAssigned": "Physischer Controller {0} ist einem Arbeitsplatz oder einer Streaming-Sitzung zugewiesen: nur in Sitzung {1} sichtbar.",
+  "gamepad.steamFilterWarning": "{0} enthält den Steam-Filter {1} in seinem Stack: Steam anderer Sitzungen (einschließlich Konsole) kann ihn weiterhin lesen. Trennen Sie ihn und schließen Sie ihn erneut an, wenn Arbeitsplatz oder Stream bereits läuft.",
+  "gamepad.physicalPadRestarted": "{0} wurde neu gestartet: Sitzung {1} kann ihn nicht mehr lesen.",
+  "gamepad.physicalPadRestartFailed": "{0} konnte nicht neu gestartet werden: {1}. Die Sitzung, die ihn bereits geöffnet hat, sieht ihn weiterhin, bis sie ihn schließt."
 }
