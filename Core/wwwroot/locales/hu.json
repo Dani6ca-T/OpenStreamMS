@@ -284,7 +284,7 @@
   "log.last_1000": "Utolsó 1000 sor",
   "log.close": "Bezárás",
   "about.title": "Körülbelül",
-  "about.subtitle": "Game Streaming Service for Windows",
+  "about.subtitle": "Játékstreaming-szolgáltatás Windowsra",
   "about.description_html": "Windows szolgáltatás, amely izolált munkameneteket hoz létre és kezel a <strong>Sunshine</strong> és <strong>Moonlight</strong> számokkal, valamint helyi munkaállomásokkal, így többen is használhatják ugyanazt a számítógépet. Mindent webes felületről vagy REST API vezérelhet.",
   "about.feat1.title": "Izolált RDP ülések",
   "about.feat1.desc": "Minden munkamenet a saját Windows felhasználója alatt fut egy független Sunshine",
