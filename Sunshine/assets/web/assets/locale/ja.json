@@ -483,6 +483,22 @@
     "wan_encryption_mode_1": "サポートされているクライアントで有効になっています（デフォルト）",
     "wan_encryption_mode_2": "すべてのクライアントに必要です",
     "wan_encryption_mode_desc": "これは、インターネット経由でストリーミングする際に暗号化がいつ使用されるかを決定します。特に強力なホストやクライアントでは、暗号化によりストリーミングパフォーマンスが低下します。"
+  ,
+    "port_webrtc_discovery": "Moonlight WebRTC TV の検出",
+    "port_webrtc_media": "Moonlight WebRTC の映像と音声",
+    "port_webrtc_media_any": "任意",
+    "port_webrtc_signaling": "Moonlight WebRTC TV 接続",
+    "stream_protocol": "ストリーミングプロトコル",
+    "stream_protocol_both": "両方",
+    "stream_protocol_desc": "Sunshine がサービスを提供するクライアントを選択します: Moonlight アプリ、Samsung Tizen TV の Moonlight WebRTC、または両方。無効なプロトコルのポートは閉じたままになります。",
+    "stream_protocol_moonlight": "Moonlight",
+    "stream_protocol_webrtc": "WebRTC",
+    "webrtc_media_port_max": "Moonlight WebRTC 最終メディアポート",
+    "webrtc_media_port_max_desc": "WebRTC が映像と音声に使用できる最後の UDP ポートです。0 にすると 65535 まで範囲が開放されます。",
+    "webrtc_media_port_min": "Moonlight WebRTC 最初のメディアポート",
+    "webrtc_media_port_min_desc": "WebRTC が映像と音声に使用できる最初の UDP ポートです。ファイアウォールではこの範囲だけを開けばよくなります。両方のポートを 0 にすると、WebRTC は任意のポートを選択できます。",
+    "webrtc_port": "Moonlight WebRTC TV ポート",
+    "webrtc_port_desc": "TV が接続する WebSocket の TCP ポートです。PC のアドレスと別のポートを指定しない場合、TV アプリは 8000 を使用します。範囲: 1024～65535。"
   },
   "index": {
     "permissions_missing_title": "サンシャインのアクセス許可が必要です",
