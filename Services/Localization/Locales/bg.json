@@ -485,5 +485,18 @@
   "compositeInput.routeFailed": "[{0}] Клавиатурата и мишката не могат да бъдат пренасочени към „{1}“: {2}",
   "compositeInput.writeFailed": "[{0}] Неуспешен запис на {1}: {2}",
   "compositeInput.deleteFailed": "[{0}] Неуспешно изтриване на {1}: {2}",
-  "rdp.mstscFailureContext": "{0} Предишният опит с mstsc беше неуспешен: {1}"
+  "rdp.mstscFailureContext": "{0} Предишният опит с mstsc беше неуспешен: {1}",
+  "streamProfile.sessionPathsUnavailable": "[StreamProfile] Пътищата до профила на сесията не могат да бъдат прочетени.",
+  "streamProfile.sandboxCreated": "[StreamProfile] Изолирана среда на профила: {0}",
+  "streamProfile.appDataIsolated": "[StreamProfile] Изолиран AppData: локален={0}; роуминг={1}",
+  "streamProfile.explorerNotRunning": "В сесия {0} няма работещ Explorer за рестартиране.",
+  "streamProfile.explorerRestarted": "[StreamProfile] Explorer е рестартиран в сесия {0} с профила за поточно предаване.",
+  "streamProfile.logoffRetry": "[StreamProfile] Сесия {0} не се излезе за 30 сек.; процесите на '{1}' се прекратяват и излизането се повтаря.",
+  "streamProfile.logoffCompleted": "[StreamProfile] Сесия {0} приключи след прекратяване на {1} потребителски процеса.",
+  "streamProfile.logoffStillOpen": "[StreamProfile] Сесия {0} все още е активна след излизане.",
+  "streamProfile.sidResolveFailed": "[StreamProfile] Не може да се разреши SID за '{0}': {1}",
+  "streamProfile.enumerateProcessesFailed": "[StreamProfile] WTSEnumerateProcesses не успя ({0}).",
+  "streamProfile.processOpenFailed": "[StreamProfile] Не може да се отвори '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminateFailed": "[StreamProfile] Не може да се прекрати '{0}' (PID {1}): {2}",
+  "streamProfile.processTerminated": "[StreamProfile] '{0}' (PID {1}) е прекратен в сесия {2}."
 }
