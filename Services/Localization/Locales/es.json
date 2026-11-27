@@ -179,5 +179,22 @@
   "seat.restartSeatFailed": "[Puestos] '{0}': no se pudo volver a encender el puesto: {1}",
   "seat.waitingImageFailed": "[Puestos] '{0}': no se pudo mostrar la imagen de espera: {1}",
   "seat.sessionDidNotRestart": "La sesión no volvió a arrancar.",
-  "seat.sessionRestartTimeout": "Se agotó el tiempo de espera para reiniciar la sesión."
+  "seat.sessionRestartTimeout": "Se agotó el tiempo de espera para reiniciar la sesión.",
+  "composite.created": "[Sesiones compuestas] Sesión compuesta '{0}' ({1}) creada con: {2}",
+  "composite.updated": "[{0}] Sesión compuesta modificada.",
+  "composite.startingMember": "[{0}] Iniciando '{1}' para la sesión compuesta…",
+  "composite.steamConfigFailed": "[{0}] No se pudo configurar la aplicación Steam de la sesión compuesta: {1}",
+  "composite.startAborted": "[{0}] Inicio abortado (la sesión se detuvo mientras arrancaba).",
+  "composite.started": "[{0}] Sesión compuesta activa: {1}; teclado y ratón de '{2}' (sesión de Windows {3}).",
+  "composite.deleteFileFailed": "[{0}] No se pudo borrar {1}: {2}",
+  "composite.stoppingMember": "[{0}] Deteniendo '{1}', que inició la sesión compuesta.",
+  "composite.restoreResolutionFailed": "[{0}] '{1}' no pudo volver a su resolución: {2}",
+  "composite.keyboardStopped": "[{0}] La sesión del teclado se ha parado: se para la sesión compuesta.",
+  "composite.keyboardSessionChanged": "[{0}] La sesión del teclado pasó a la sesión de Windows {1}: se relanza Sunshine.",
+  "composite.watchFailed": "[{0}] Error vigilando la sesión compuesta: {1}",
+  "composite.waitingImageFailed": "[{0}] No se pudo preparar la imagen de espera del hueco {1}: {2}",
+  "composite.steamActionFailed": "[{0}] No se pudo realizar la acción '{1}' de Steam en la sesión de Windows {2}: {3}",
+  "composite.steamActionDone": "[{0}] Steam Big Picture: '{1}' en {2} sesión(es).",
+  "composite.steamOpen": "abrir",
+  "composite.steamClose": "cerrar"
 }
