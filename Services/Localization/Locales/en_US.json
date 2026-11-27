@@ -222,5 +222,20 @@
   "seatInput.createFailed": "[SeatInput] Could not create the input router: {0}",
   "seatInput.stopped": "[SeatInput] Input router stopped.",
   "seatInput.createWindowFailed": "CreateWindowEx (shield) failed",
-  "seatInput.rawInputError": "[SeatInput] {0}"
+  "seatInput.rawInputError": "[SeatInput] {0}",
+  "seatAudio.enumerateInputsFailed": "[Seats] Could not enumerate microphones: {0}",
+  "seatAudio.enumerateOutputsFailed": "[Seats] Could not enumerate audio outputs: {0}",
+  "consoleDisplay.noConsoleUser": "[Seats] No user is logged on to the console; displays cannot be managed.",
+  "consoleDisplay.noResult": "[Seats] --display {0} returned no result.",
+  "consoleDisplay.commandFailed": "[Seats] --display {0} failed: {1}",
+  "consoleDisplay.windowsMoved": "[Seats] Moved {0} console window(s) to the new display.",
+  "consoleDisplay.windowsMovedPartial": "[Seats] Moved {0} console window(s) to the new display; could not move: {1}.",
+  "consoleLock.noConsoleUser": "[Seats] No console user; console locking cannot be disabled.",
+  "consoleLock.userHiveNotLoaded": "The user's registry hive is not loaded.",
+  "consoleLock.engaged": "[Seats] Console locking disabled for '{0}' while seats are running.",
+  "consoleLock.engageFailed": "[Seats] Could not prevent the console from locking: {0}",
+  "consoleLock.journalEmpty": "Empty journal.",
+  "consoleLock.userNotLoggedOn": "[Seats] '{0}' has no active session; console locking will be restored later.",
+  "consoleLock.released": "[Seats] Console locking restored for '{0}'.",
+  "consoleLock.releaseFailed": "[Seats] Could not restore console locking: {0}"
 }
