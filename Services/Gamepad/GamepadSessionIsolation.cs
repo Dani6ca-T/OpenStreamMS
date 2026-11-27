@@ -818,8 +818,7 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
             if (restarted)
             {
                 foreach (var node in nodes) { pad.Hidden.Add(node); pad.Restarted.Add(node); }
-                Logger.Log($"[Gamepad] {pad.InstanceId} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}) " +
-                           "desde que apareció; reiniciado para que esa sesión lo detecte.", pad.Session);
+                Logger.Log(BackendText.Get("gamepad.padVisibleAfterArrivalRestart", pad.InstanceId, pad.SessionName, pad.WindowsSession), pad.Session);
                 return;
             }
         }
@@ -832,20 +831,18 @@ public sealed partial class GamepadSessionIsolation : BackgroundService
                 try
                 {
                     if (DevSetup.Restart(node))
-                        Logger.Log($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}); reiniciado para cerrar handles de otras sesiones.", pad.Session);
+                        Logger.Log(BackendText.Get("gamepad.nodeVisibleAfterRestart", node, pad.SessionName, pad.WindowsSession), pad.Session);
                     else
-                        Logger.Warning($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}), pero Windows aplazó su reinicio " +
-                                       "(otro proceso lo tiene abierto): quien ya lo tuviera abierto lo sigue viendo hasta que lo cierre.", pad.Session);
+                        Logger.Warning(BackendText.Get("gamepad.nodeRestartDeferred", node, pad.SessionName, pad.WindowsSession), pad.Session);
                 }
                 catch (Win32Exception ex)
                 {
-                    Logger.Warning($"[Gamepad] {node} ocultado tarde y no se pudo reiniciar: {ex.Message}. " +
-                                   "Un proceso de otra sesión que ya lo tuviera abierto lo sigue viendo.");
+                    Logger.Warning(BackendText.Get("gamepad.nodeLateRestartFailed", node, ex.Message));
                 }
             }
             else
             {
-                Logger.Log($"[Gamepad] {node} visible solo en la sesión '{pad.SessionName}' ({pad.WindowsSession}).", pad.Session);
+                Logger.Log(BackendText.Get("gamepad.nodeVisibleSession", node, pad.SessionName, pad.WindowsSession), pad.Session);
             }
         }
     }
