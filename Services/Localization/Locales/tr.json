@@ -359,5 +359,16 @@
   "seats.seatLost": "'{0}' koltuğu kapatılıyor: {1}.",
   "seats.stopAfterLossFailed": "'{0}': kesinti sonrası kapatılamadı: {1}",
   "seats.sessionStartFailed": "Oturum başlatılamadı.",
-  "seats.sessionStartTimeout": "Oturum zamanında etkinleşmedi."
+  "seats.sessionStartTimeout": "Oturum zamanında etkinleşmedi.",
+  "seats.statusStartingSession": "Oturum başlatılıyor…",
+  "seats.statusPoweringMonitor": "Monitör açılıyor…",
+  "seats.statusStartingAgent": "Yakalama ve görüntü aracısı başlatılıyor…",
+  "seats.statusStartingPresenter": "Konsolda sunucu başlatılıyor…",
+  "seats.statusSeparatingGamepads": "Koltuğun denetleyicileri ayrılıyor…",
+  "seats.statusReservingUsb": "Koltuğun USB aygıtları ayrılıyor…",
+  "seats.statusSeparatingInput": "Koltuğun faresi ve klavyesi ayrılıyor…",
+  "seats.statusLockingSession": "Oturum kilitleniyor: koltuk parola isteyecek…",
+  "seats.statusActive": "Etkin: video, ses ve çevre birimleri bağlı.",
+  "seats.statusDisconnectedFromSeat": "Koltuktan bağlantı kesildi. OpenStreamMS üzerinden yeniden açın.",
+  "seats.statusStoppedAfterError": "Durduruldu: {0}. OpenStreamMS üzerinden yeniden açın."
 }
