@@ -244,5 +244,7 @@
   "gamepad.absentPadAssigned": "A(z) {0} fizikai vezérlő (jelenleg nincs csatlakoztatva) a(z) {1} munkamenethez lett rendelve; megjelenésekor oda fog tartozni.",
   "gamepad.knownNodesSaveFailed": "Nem sikerült menteni: {0}: {1}",
   "gamepad.knownNodesReadFailed": "Nem sikerült beolvasni: {0}: {1}",
-  "gamepad.hidHideBlacklistUpdateFailed": "Nem sikerült frissíteni a HidHide tiltólistáját: {0}"
+  "gamepad.hidHideBlacklistUpdateFailed": "Nem sikerült frissíteni a HidHide tiltólistáját: {0}",
+  "gamepad.usbPortCycled": "{0}: egy másik folyamat használta, ezért a Windows elhalasztotta az újraindítást; az USB-port le- és újracsatlakozott ({1}) {2}.",
+  "gamepad.usbPortCycleFailed": "{0}: a Windows elhalasztotta az újraindítást (másik folyamat használja), és az USB-port újraindítása nem sikerült ({1}). A már megnyitott folyamat továbbra is látja, amíg be nem zárja."
 }
