@@ -202,5 +202,13 @@
   "gamepad.hidHideNotInstalled": "HidHide no está instalado: los mandos serán visibles en todas las sesiones.",
   "gamepad.hidHideEnabled": "HidHide activado.",
   "gamepad.hidHideConfigureFailed": "No se pudo configurar HidHide: {0}",
-  "gamepad.monitorFailed": "Error vigilando mandos: {0}"
+  "gamepad.monitorFailed": "Error vigilando mandos: {0}",
+  "gamepad.hidHideVersionSupported": "HidHide {0} disponible: mandos aislados por sesión.",
+  "gamepad.hidHideVersionUnsupported": "HidHide {0} no admite aislamiento por sesión (se necesita la versión {1} o posterior): los mandos serán visibles en todas las sesiones. Actualiza HidHide.",
+  "gamepad.hidHideWhitelistStatus": "HidHide: modo inverso {0}; lista blanca ({1}): {2}.",
+  "gamepad.hidHideWhitelistWarning": "Los programas de la lista blanca de HidHide ven los mandos de todas las sesiones, aunque estén asignados a otra.",
+  "gamepad.hidHideWhitelistReadFailed": "No se pudo leer la lista blanca de HidHide: {0}",
+  "gamepad.controllerToVkDisabled": "ControllerToVKMapping desactivado (omite el aislamiento de mandos por sesión).",
+  "gamepad.controllerToVkDisableFailed": "No se pudo desactivar ControllerToVKMapping: {0}",
+  "gamepad.jailPrepareFailed": "No se pudo preparar el jail de HidHide del mando ViGEm: {0}"
 }
