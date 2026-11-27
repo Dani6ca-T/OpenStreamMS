@@ -730,5 +730,6 @@
   "steamXboxFilter.removed": "[Gamepad] Đã gỡ bộ lọc Steam {0} khỏi {1} lớp bộ điều khiển khi bộ điều khiển được cách ly. Thiết bị mới không còn được công bố cho mọi phiên qua \\Device\\nvagipmanControl.",
   "steamXboxFilter.removeFailed": "[Gamepad] Không thể gỡ bộ lọc Steam {0}: {1}. Steam ở các phiên khác (bao gồm console) vẫn có thể đọc bộ điều khiển đã cách ly.",
   "steamXboxFilter.restored": "Đã khôi phục bộ lọc Steam {0} trên {1} lớp bộ điều khiển; không còn bộ điều khiển bị cách ly ở các phiên khác.",
-  "steamXboxFilter.restoreFailed": "[Gamepad] Không thể khôi phục bộ lọc Steam {0}: {1}. Sẽ thử lại khi dịch vụ khởi động lần tới."
+  "steamXboxFilter.restoreFailed": "[Gamepad] Không thể khôi phục bộ lọc Steam {0}: {1}. Sẽ thử lại khi dịch vụ khởi động lần tới.",
+  "gamepad.restartReasonPreviousSession": "để phiên {0} không còn có thể đọc thiết bị này"
 }
