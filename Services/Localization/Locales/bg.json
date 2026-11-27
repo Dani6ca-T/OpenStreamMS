@@ -112,5 +112,11 @@
   "ext.catalogNotFound": "Този каталог не е в списъка.",
   "ext.catalogEntryMissing": "Каталогът вече не съдържа {0}.",
   "ext.invalidPackage": "Пакетът не е валидно разширение: {0}",
-  "ext.noManifest": "Пакетът няма {0}."
+  "ext.noManifest": "Пакетът няма {0}.",
+  "cli.error.missingSeatAgentPipe": "ГРЕШКА: Липсва име на канал за --seat-agent.",
+  "cli.error.missingSeatHostPipe": "ГРЕШКА: Липсва име на канал за --seat-host.",
+  "cli.error.unknownCommand": "Непозната команда: „{0}“",
+  "cli.error.helpHint": "Използвайте --help, за да видите наличните команди.",
+  "cli.error.adminRequired": "ГРЕШКА: Тази операция изисква администраторски права.",
+  "cli.error.adminHint": "Стартирайте .exe файла чрез „Изпълни като администратор“."
 }
