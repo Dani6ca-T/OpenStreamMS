@@ -222,5 +222,8 @@
   "gamepad.osmsPadOutsideSession": "Mando OsmsPad {0} → sesión de Windows {1} (no pertenece a ninguna sesión de OpenStreamMS).",
   "gamepad.padAssignedCompositeMember": "Mando {0} de '{1}' ({2}) → sesión '{3}' (sesión de Windows {4}).",
   "gamepad.padAssignedSession": "Mando {0} → sesión '{1}' (sesión de Windows {2}).",
-  "gamepad.padRetargeted": "El mando {0} ({1}) pasa a la sesión '{2}' (sesión de Windows {3}) por un cambio en la sesión compuesta."
+  "gamepad.padRetargeted": "El mando {0} ({1}) pasa a la sesión '{2}' (sesión de Windows {3}) por un cambio en la sesión compuesta.",
+  "gamepad.futurePadsReserved": "Los próximos mandos de Moonlight se ocultan de antemano hasta conocer su sesión ({0}).",
+  "gamepad.futurePadReservationsReleased": "No hay streams activos: se quitó la reserva de los próximos mandos.",
+  "gamepad.futurePadReservationFailed": "No se pudieron reservar los próximos mandos en HidHide: {0}"
 }
