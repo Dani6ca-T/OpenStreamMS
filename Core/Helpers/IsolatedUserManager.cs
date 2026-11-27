@@ -602,13 +602,13 @@ internal static class IsolatedUserManager
             if (groups.Contains(GroupName(WellKnownSidType.BuiltinAdministratorsSid) ?? "") ||
                 groups.Contains(GroupName(WellKnownSidType.BuiltinRemoteDesktopUsersSid) ?? "")) return;
 
-            Logger.Log($"[RDP] '{username}' no es administrador ni está en Remote Desktop Users: se le da acceso por Escritorio remoto para que la sesión pueda iniciarse.");
+            Logger.Log(BackendText.Get("isolatedUser.remoteLogonGrant", username));
             if (!AddToLocalGroup(username, WellKnownSidType.BuiltinRemoteDesktopUsersSid, required: false))
                 GrantRemoteLogonRight(username);
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[RDP] No se pudo comprobar el acceso por Escritorio remoto de '{username}': {ex.Message}");
+            Logger.Warning(BackendText.Get("isolatedUser.remoteLogonCheckFailed", username, ex.Message));
         }
     }
 
@@ -726,7 +726,7 @@ internal static class IsolatedUserManager
         var currentBytes = rdpTcp.GetValue("Security") as byte[] ?? defaultBytes;
         if (currentBytes is null)
         {
-            Logger.Warning("[IsolatedUser] RDP-Tcp no tiene permisos legibles (ni Security ni DefaultSecurity); no se tocan.");
+            Logger.Warning(BackendText.Get("isolatedUser.rdpTcpPermissionsUnreadable"));
             return;
         }
 
@@ -774,7 +774,7 @@ internal static class IsolatedUserManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[IsolatedUser] No se pudo ocultar '{username}' de la pantalla de login: {ex.Message}");
+            Logger.Warning(BackendText.Get("isolatedUser.loginScreenHideFailed", username, ex.Message));
         }
     }
 
@@ -817,7 +817,7 @@ internal static class IsolatedUserManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[IsolatedUser] No se pudo ajustar el acceso de '{username}' al registro de Steam: {ex.Message}");
+            Logger.Warning(BackendText.Get("isolatedUser.steamRegistryAccessFailed", username, ex.Message));
         }
     }
 
