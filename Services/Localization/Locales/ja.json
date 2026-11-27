@@ -476,5 +476,7 @@
   "isolatedUser.rdpTcpKeyMissing": "Windows レジストリ キー HKLM\\{0} が存在しません。",
   "steamIsolation.userRegistryNotLoaded": "ユーザーのレジストリ ハイブが読み込まれていません。",
   "steamIsolation.wscriptUnavailable": "WScript.Shell を利用できません。",
-  "steamIsolation.shortcutDescription": "他のセッションから分離された Steam (OpenStreamMS)"
+  "steamIsolation.shortcutDescription": "他のセッションから分離された Steam (OpenStreamMS)",
+  "compositeAudio.forwarded": "[{0}] 「{1}」の音声をキーボード セッション「{2}」に転送しました。",
+  "compositeAudio.forwardFailed": "[{0}] 「{1}」の音声を転送できませんでした: {2}"
 }
