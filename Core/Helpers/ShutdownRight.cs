@@ -1,4 +1,5 @@
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
@@ -38,11 +39,11 @@ internal static class ShutdownRight
                 else if (policy.Has(sid, Privilege)) policy.Remove(sid, Privilege);
             }
             if (!allow) RestrictToAdministrators();
-            Logger.Log($"[Seguridad] '{username}' {(allow ? "puede" : "no puede")} apagar ni reiniciar el equipo.");
+            Logger.Log(BackendText.Get(allow ? "shutdownRight.userAllowed" : "shutdownRight.userDenied", username));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seguridad] No se pudo ajustar 'Apagar el sistema' para '{username}': {ex.Message}");
+            Logger.Warning(BackendText.Get("shutdownRight.setUserFailed", username, ex.Message));
         }
     }
 
@@ -57,11 +58,11 @@ internal static class ShutdownRight
             Directory.CreateDirectory(Path.GetDirectoryName(JournalPath)!);
             File.WriteAllText(JournalPath, DateTime.Now.ToString("O"));
             policy.Remove(Users, Privilege);
-            Logger.Log("[Seguridad] 'Apagar el sistema' retirado del grupo Usuarios (hay puestos exclusivos): lo conservan los administradores y los usuarios aislados que pueden.");
+            Logger.Log(BackendText.Get("shutdownRight.groupRestricted"));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seguridad] No se pudo retirar 'Apagar el sistema' del grupo Usuarios: {ex.Message}");
+            Logger.Warning(BackendText.Get("shutdownRight.restrictGroupFailed", ex.Message));
         }
     }
 
@@ -74,11 +75,11 @@ internal static class ShutdownRight
             using var policy = LsaPolicy.Open();
             policy.Add(Users, Privilege);
             File.Delete(JournalPath);
-            Logger.Log("[Seguridad] 'Apagar el sistema' devuelto al grupo Usuarios.");
+            Logger.Log(BackendText.Get("shutdownRight.groupRestored"));
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Seguridad] No se pudo devolver 'Apagar el sistema' al grupo Usuarios: {ex.Message}");
+            Logger.Warning(BackendText.Get("shutdownRight.restoreGroupFailed", ex.Message));
         }
     }
 }
