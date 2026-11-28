@@ -851,5 +851,7 @@
   "ext.iconTooLarge": "アイコンが最大サイズ {0} KB を超えています：{1}",
   "ext.invalidIconImage": "アイコンが有効な {0} 画像ではありません：{1}",
   "ext.hookSkippedNoSession": "{0}：Windows セッションがないためスキップしました。",
-  "ext.hookFailed": "拡張機能 '{0}' のフック {1} でエラーが発生しました：{2}"
+  "ext.hookFailed": "拡張機能 '{0}' のフック {1} でエラーが発生しました：{2}",
+  "driver.log.start": "{0} を開始しました：{1}。",
+  "driver.log.end": "{0} が完了しました：{1}。"
 }
