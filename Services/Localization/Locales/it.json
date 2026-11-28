@@ -842,5 +842,14 @@
   "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
   "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
   "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
-  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}",
+  "driver.operationFailed": "Operazione non riuscita: {0}",
+  "driver.actionFailed": "[{0}] Operazione {1} non riuscita: {2}",
+  "driver.timeout": "Il programma di installazione non è terminato entro {0} minuti ed è stato annullato. Se il driver risulta già installato, riavvia Windows.",
+  "ext.detectionFailed": "[Estensione: {0}] Rilevamento del componente non riuscito: {1}",
+  "ext.hookDispatchFailed": "[Estensioni] Avvio dell'hook {0} non riuscito: {1}",
+  "ext.manifestReadFailed": "[Estensione: {0}] Impossibile leggere il manifesto: {1}",
+  "ext.stateReadFailed": "[Estensioni] Impossibile leggere {0}: {1}",
+  "ext.secureRootFailed": "[Estensioni] Impossibile proteggere i permessi di {0}: {1}",
+  "ext.catalogLoadFailed": "Impossibile caricare il catalogo delle estensioni {0}: {1}"
 }
