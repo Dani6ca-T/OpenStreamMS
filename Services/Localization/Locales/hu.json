@@ -833,5 +833,14 @@
   "auth.loginFailed": "Login failed from {0}: '{1}'",
   "auth.loginSucceeded": "Login successful: {0}",
   "auth.setupRejected": "Initial setup attempt rejected from {0}.",
-  "auth.credentialsConfigured": "Credentials configured for '{0}'."
+  "auth.credentialsConfigured": "Credentials configured for '{0}'.",
+  "driver.operationFailed": "A művelet nem sikerült: {0}",
+  "driver.actionFailed": "[{0}] A(z) {1} művelet nem sikerült: {2}",
+  "driver.timeout": "A telepítő {0} percen belül nem fejeződött be, ezért megszakadt. Ha az illesztőprogram már telepítettként jelenik meg, indítsa újra a Windowst.",
+  "ext.detectionFailed": "[Bővítmény: {0}] Az összetevő észlelése nem sikerült: {1}",
+  "ext.hookDispatchFailed": "[Bővítmények] A(z) {0} esemény hookjának indítása nem sikerült: {1}",
+  "ext.manifestReadFailed": "[Bővítmény: {0}] A jegyzékfájl nem olvasható: {1}",
+  "ext.stateReadFailed": "[Bővítmények] A(z) {0} nem olvasható: {1}",
+  "ext.secureRootFailed": "[Bővítmények] A(z) {0} hozzáférési engedélyei nem védhetők: {1}",
+  "ext.catalogLoadFailed": "A(z) {0} bővítménykatalógus nem tölthető be: {1}"
 }
