@@ -851,5 +851,7 @@
   "ext.manifestReadFailed": "[Tillägg: {0}] Det gick inte att läsa manifestet: {1}",
   "ext.stateReadFailed": "[Tillägg] Det gick inte att läsa {0}: {1}",
   "ext.secureRootFailed": "[Tillägg] Det gick inte att skydda behörigheterna för {0}: {1}",
-  "ext.catalogLoadFailed": "Det gick inte att läsa in tilläggskatalogen {0}: {1}"
+  "ext.catalogLoadFailed": "Det gick inte att läsa in tilläggskatalogen {0}: {1}",
+  "driver.log.start": "Starting {0} at {1}.",
+  "driver.log.end": "Finished {0} at {1}."
 }
