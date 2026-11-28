@@ -842,5 +842,14 @@
   "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
   "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
   "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
-  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}",
+  "driver.operationFailed": "Не вдалося виконати операцію: {0}",
+  "driver.actionFailed": "[{0}] Не вдалося виконати дію «{1}»: {2}",
+  "driver.timeout": "Програмі встановлення не вдалося завершити роботу за {0} хв. Операцію скасовано. Якщо драйвер уже відображається як встановлений, перезавантажте Windows.",
+  "ext.detectionFailed": "[Розширення: {0}] Не вдалося виявити компонент: {1}",
+  "ext.hookDispatchFailed": "[Розширення] Не вдалося запустити обробник події {0}: {1}",
+  "ext.manifestReadFailed": "[Розширення: {0}] Не вдалося прочитати маніфест: {1}",
+  "ext.stateReadFailed": "[Розширення] Не вдалося прочитати {0}: {1}",
+  "ext.secureRootFailed": "[Розширення] Не вдалося захистити дозволи доступу до {0}: {1}",
+  "ext.catalogLoadFailed": "Не вдалося завантажити каталог розширень {0}: {1}"
 }
