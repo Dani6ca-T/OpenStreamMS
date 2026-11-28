@@ -280,5 +280,14 @@
   "auth.loginFailed": "來自 {0} 的登入失敗：'{1}'",
   "auth.loginSucceeded": "登入成功：{0}",
   "auth.setupRejected": "已拒絕來自 {0} 的初始設定嘗試。",
-  "auth.credentialsConfigured": "已為 '{0}' 設定認證資料。"
+  "auth.credentialsConfigured": "已為 '{0}' 設定認證資料。",
+  "driver.invalidPeDosHeader": "檔案沒有有效的 DOS 可執行檔標頭 (MZ)。",
+  "driver.invalidPeHeaderOffset": "PE 標頭位移超出檔案範圍。",
+  "driver.missingPeSignature": "找不到 PE 簽章。",
+  "driver.invalidPeSectionTable": "PE 區段表超出檔案範圍。",
+  "ext.missingPackageFile": "套件缺少必要檔案：{0}",
+  "ext.iconTooLarge": "圖示超過最大大小 {0} KB：{1}",
+  "ext.invalidIconImage": "圖示不是有效的 {0} 圖片：{1}",
+  "ext.hookSkippedNoSession": "{0}：因沒有 Windows 工作階段而略過。",
+  "ext.hookFailed": "擴充功能 '{0}' 的掛鉤 {1} 執行失敗：{2}"
 }
