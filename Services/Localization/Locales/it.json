@@ -885,5 +885,11 @@
   "ext.github.hostNotAllowed": "Download host is not allowed: {0}",
   "ext.github.rateLimit": "GitHub API rate limit reached; try again later",
   "ext.github.httpStatus": "GitHub returned HTTP status {0} for {1}",
-  "ext.github.redirectLimit": "Too many redirects while downloading the extension package"
+  "ext.github.redirectLimit": "Too many redirects while downloading the extension package",
+  "ext.format.categoryLimit": "{0}: no more than {1} categories are allowed",
+  "ext.format.categoryInvalid": "{0}: invalid category '{1}' (use lowercase letters, digits and hyphens)",
+  "ext.format.timeoutRange": "{0}: value must be between {1} and {2} seconds",
+  "ext.format.appsLimit": "{0}: no more than {1} apps are allowed",
+  "ext.format.appName": "{0}: every app must have a name of no more than {1} characters",
+  "ext.format.panelTitle": "{0}: panel.title is required and must be no longer than {1} characters"
 }
