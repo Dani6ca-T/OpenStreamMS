@@ -235,9 +235,9 @@ public static partial class ExtensionFormat
     static void ValidateCategories(List<string>? categories, Action<string> fail, string field)
     {
         if (categories is null) return;
-        if (categories.Count > MaxCategories) fail($"{field}: {MaxCategories} at most");
+        if (categories.Count > MaxCategories) fail(BackendText.Get("ext.format.categoryLimit", field, MaxCategories));
         foreach (var c in categories)
-            if (!IsValidId(c)) fail($"{field}: invalid category '{c}' (lowercase letters, digits and hyphens)");
+            if (!IsValidId(c)) fail(BackendText.Get("ext.format.categoryInvalid", field, c));
     }
 
     public static ExtensionManifest ParseManifest(string json)
@@ -298,7 +298,7 @@ public static partial class ExtensionFormat
             Script(c.Install, "component.install");
             Script(c.Uninstall, "component.uninstall");
             Script(c.Detect, "component.detect");
-            if (c.TimeoutSec is < 10 or > 3600) Fail("component.timeoutSec must be between 10 and 3600");
+            if (c.TimeoutSec is < 10 or > 3600) throw new ExtensionFormatException(BackendText.Get("ext.format.timeoutRange", $"{ManifestFile}: component.timeoutSec", 10, 3600));
         }
         if (m.Hooks is { } h)
         {
@@ -307,19 +307,19 @@ public static partial class ExtensionFormat
             Script(h.SeatStart, "hooks.seatStart");
             Script(h.SeatStop, "hooks.seatStop");
             if (h.RunAs is not ("system" or "user")) throw new ExtensionFormatException(BackendText.Get("ext.format.runAs", ManifestFile));
-            if (h.TimeoutSec is < 1 or > 600) Fail("hooks.timeoutSec must be between 1 and 600");
+            if (h.TimeoutSec is < 1 or > 600) throw new ExtensionFormatException(BackendText.Get("ext.format.timeoutRange", $"{ManifestFile}: hooks.timeoutSec", 1, 600));
         }
         if (m.Apps is { } apps)
         {
-            if (apps.Count > 20) Fail("apps: 20 at most");
+            if (apps.Count > 20) throw new ExtensionFormatException(BackendText.Get("ext.format.appsLimit", ManifestFile, 20));
             foreach (var a in apps)
-                if (string.IsNullOrWhiteSpace(a.Name) || a.Name.Length > 60) Fail("apps[].name is required (up to 60 characters)");
+                if (string.IsNullOrWhiteSpace(a.Name) || a.Name.Length > 60) throw new ExtensionFormatException(BackendText.Get("ext.format.appName", ManifestFile, 60));
             if (apps.Select(a => a.Name.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).Count() != apps.Count)
                 throw new ExtensionFormatException(BackendText.Get("ext.format.duplicateApps", ManifestFile));
         }
         if (m.Panel is { } p)
         {
-            if (string.IsNullOrWhiteSpace(p.Title) || p.Title.Length > 30) Fail("panel.title is required (up to 30 characters)");
+            if (string.IsNullOrWhiteSpace(p.Title) || p.Title.Length > 30) throw new ExtensionFormatException(BackendText.Get("ext.format.panelTitle", ManifestFile, 30));
             if (!IsSafeRelativePath(p.Entry) || !p.Entry.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
                 throw new ExtensionFormatException(BackendText.Get("ext.format.panelEntry", ManifestFile));
         }
