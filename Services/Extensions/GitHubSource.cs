@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Extensions;
 
@@ -148,7 +149,7 @@ public sealed class GitHubSource
         string refName;
         if (release is { } rel)
         {
-            refName = rel.GetProperty("tag_name").GetString() ?? throw new GitHubException("release without a tag");
+            refName = rel.GetProperty("tag_name").GetString() ?? throw new GitHubException(BackendText.Get("ext.github.releaseNoTag"));
         }
         else if (repo.Ref is not null)
         {
@@ -157,12 +158,12 @@ public sealed class GitHubSource
         else
         {
             var info = await GetJsonOrNullAsync($"repos/{repo.Slug}", ct)
-                       ?? throw new GitHubException($"{repo.Slug}: repository not found", HttpStatusCode.NotFound);
+                       ?? throw new GitHubException(BackendText.Get("ext.github.repositoryNotFound", repo.Slug), HttpStatusCode.NotFound);
             refName = info.GetProperty("default_branch").GetString() ?? "main";
         }
 
         var commitJson = await GetJsonOrNullAsync($"repos/{repo.Slug}/commits/{Uri.EscapeDataString(refName)}", ct)
-                         ?? throw new GitHubException($"{repo.Slug}: '{refName}' doesn't exist", HttpStatusCode.NotFound);
+                         ?? throw new GitHubException(BackendText.Get("ext.github.refNotFound", repo.Slug, refName), HttpStatusCode.NotFound);
         var commit = commitJson.GetProperty("sha").GetString()!;
 
         // Una release con un osms-extension.zip lo usa como paquete (puede llevar binarios
@@ -197,12 +198,12 @@ public sealed class GitHubSource
         var url = $"repos/{repo.Slug}/contents/{string.Join('/', path.Split('/').Select(Uri.EscapeDataString))}" +
                   (repo.Ref is null ? "" : $"?ref={Uri.EscapeDataString(repo.Ref)}");
         var json = await GetJsonOrNullAsync(url, ct)
-                   ?? throw new GitHubException($"{repo.Slug} has no {path}", HttpStatusCode.NotFound);
+                   ?? throw new GitHubException(BackendText.Get("ext.github.fileNotFound", repo.Slug, path), HttpStatusCode.NotFound);
         if (json.ValueKind != JsonValueKind.Object || json.GetProperty("type").GetString() != "file")
-            throw new GitHubException($"{repo.Slug}: {path} isn't a file");
+            throw new GitHubException(BackendText.Get("ext.github.notFile", repo.Slug, path));
         var b64 = json.GetProperty("content").GetString() ?? "";
         var bytes = Convert.FromBase64String(b64.Replace("\n", ""));
-        if (bytes.Length > 1024 * 1024) throw new GitHubException($"{path}: too large");
+        if (bytes.Length > 1024 * 1024) throw new GitHubException(BackendText.Get("ext.github.fileTooLarge", path, 1024 * 1024));
         return System.Text.Encoding.UTF8.GetString(bytes);
     }
 
@@ -216,7 +217,7 @@ public sealed class GitHubSource
         var url = $"https://raw.githubusercontent.com/{repo.Slug}/{Escape(repo.Ref ?? "HEAD")}/{Escape(path)}";
         using var resp = await SendFollowingRedirectsAsync(url, ct, allowNotFound: true);
         if (resp.StatusCode == HttpStatusCode.NotFound) return null;
-        if (resp.Content.Headers.ContentLength > maxBytes) throw new GitHubException($"{path}: too large");
+        if (resp.Content.Headers.ContentLength > maxBytes) throw new GitHubException(BackendText.Get("ext.github.fileTooLarge", path, maxBytes));
 
         await using var src = await resp.Content.ReadAsStreamAsync(ct);
         using var buf = new MemoryStream();
@@ -224,7 +225,7 @@ public sealed class GitHubSource
         int n;
         while ((n = await src.ReadAsync(chunk, ct)) > 0)
         {
-            if (buf.Length + n > maxBytes) throw new GitHubException($"{path}: too large");
+            if (buf.Length + n > maxBytes) throw new GitHubException(BackendText.Get("ext.github.fileTooLarge", path, maxBytes));
             buf.Write(chunk, 0, n);
         }
         return buf.ToArray();
@@ -237,7 +238,7 @@ public sealed class GitHubSource
     {
         using var resp = await SendFollowingRedirectsAsync(url, ct);
         if (resp.Content.Headers.ContentLength is > MaxPackageBytes)
-            throw new GitHubException("package too large");
+            throw new GitHubException(BackendText.Get("ext.github.packageTooLarge"));
 
         await using var src = await resp.Content.ReadAsStreamAsync(ct);
         await using var dst = new FileStream(file, FileMode.CreateNew, FileAccess.Write, FileShare.None);
@@ -248,7 +249,7 @@ public sealed class GitHubSource
         while ((n = await src.ReadAsync(buf, ct)) > 0)
         {
             total += n;
-            if (total > MaxPackageBytes) throw new GitHubException("package too large");
+            if (total > MaxPackageBytes) throw new GitHubException(BackendText.Get("ext.github.packageTooLarge"));
             sha.AppendData(buf, 0, n);
             await dst.WriteAsync(buf.AsMemory(0, n), ct);
         }
@@ -264,8 +265,8 @@ public sealed class GitHubSource
     {
         using var zip = ZipFile.OpenRead(zipFile);
         var files = zip.Entries.Where(e => !string.IsNullOrEmpty(e.Name)).ToList();
-        if (files.Count == 0) throw new ExtensionFormatException("empty package");
-        if (zip.Entries.Count > MaxEntries) throw new ExtensionFormatException("too many files in the package");
+        if (files.Count == 0) throw new ExtensionFormatException(BackendText.Get("ext.github.emptyPackage"));
+        if (zip.Entries.Count > MaxEntries) throw new ExtensionFormatException(BackendText.Get("ext.github.tooManyFiles", MaxEntries));
 
         static string Norm(string p) => p.Replace('\\', '/');
         var tops = files.Select(e => Norm(e.FullName).Split('/')[0]).Distinct().ToList();
@@ -281,18 +282,18 @@ public sealed class GitHubSource
             if (!name.StartsWith(prefix, StringComparison.Ordinal)) continue;
             var rel = name[prefix.Length..];
             if (!ExtensionFormat.IsSafeRelativePath(rel))
-                throw new ExtensionFormatException($"path not allowed in the package: {e.FullName}");
+                throw new ExtensionFormatException(BackendText.Get("ext.github.unsafePath", e.FullName));
             var target = Path.GetFullPath(Path.Combine(root, rel));
             if (!target.StartsWith(root, StringComparison.OrdinalIgnoreCase))
-                throw new ExtensionFormatException($"path not allowed in the package: {e.FullName}");
+                throw new ExtensionFormatException(BackendText.Get("ext.github.unsafePath", e.FullName));
             total += e.Length;
-            if (total > MaxExtractedBytes) throw new ExtensionFormatException("package too large when extracted");
+            if (total > MaxExtractedBytes) throw new ExtensionFormatException(BackendText.Get("ext.github.extractedTooLarge"));
             Directory.CreateDirectory(Path.GetDirectoryName(target)!);
             e.ExtractToFile(target, overwrite: false);
             written++;
         }
         if (written == 0)
-            throw new ExtensionFormatException(subPath is null ? "empty package" : $"folder '{subPath}' isn't in the package");
+            throw new ExtensionFormatException(subPath is null ? BackendText.Get("ext.github.emptyPackage") : BackendText.Get("ext.github.folderNotFound", subPath));
     }
 
     // ── HTTP ─────────────────────────────────────────────────────────────
@@ -312,7 +313,7 @@ public sealed class GitHubSource
         for (int hop = 0; hop < 6; hop++)
         {
             if (uri.Scheme != Uri.UriSchemeHttps || !AllowedHosts.Contains(uri.Host))
-                throw new GitHubException($"host not allowed: {uri.Host}");
+                throw new GitHubException(BackendText.Get("ext.github.hostNotAllowed", uri.Host));
 
             var req = new HttpRequestMessage(HttpMethod.Get, uri);
             if (uri.Host.Equals("api.github.com", StringComparison.OrdinalIgnoreCase))
@@ -333,9 +334,9 @@ public sealed class GitHubSource
                           resp.Headers.TryGetValues("x-ratelimit-remaining", out var rem) && rem.FirstOrDefault() == "0";
             resp.Dispose();
             throw new GitHubException(limited
-                ? "GitHub rate limit reached; try again in a while"
-                : $"GitHub answered {(int)status} for {uri.AbsolutePath}", status);
+                ? BackendText.Get("ext.github.rateLimit")
+                : BackendText.Get("ext.github.httpStatus", (int)status, uri.AbsolutePath), status);
         }
-        throw new GitHubException("too many redirects");
+        throw new GitHubException(BackendText.Get("ext.github.redirectLimit"));
     }
 }
