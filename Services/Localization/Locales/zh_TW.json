@@ -276,5 +276,9 @@
   "singleSession.deleteSavedFailed": "Could not delete the saved value of {0}: {1}",
   "singleSession.writeFailed": "Could not write {0}={1}: {2}",
   "singleSession.deleteValueFailed": "Could not delete {0}: {1}",
-  "singleSession.noValue": "no value"
+  "singleSession.noValue": "no value",
+  "auth.loginFailed": "來自 {0} 的登入失敗：'{1}'",
+  "auth.loginSucceeded": "登入成功：{0}",
+  "auth.setupRejected": "已拒絕來自 {0} 的初始設定嘗試。",
+  "auth.credentialsConfigured": "已為 '{0}' 設定認證資料。"
 }
