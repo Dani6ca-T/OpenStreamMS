@@ -829,5 +829,9 @@
   "singleSession.deleteSavedFailed": "No se pudo borrar el valor guardado de {0}: {1}",
   "singleSession.writeFailed": "No se pudo escribir {0}={1}: {2}",
   "singleSession.deleteValueFailed": "No se pudo borrar {0}: {1}",
-  "singleSession.noValue": "sin valor"
+  "singleSession.noValue": "sin valor",
+  "auth.loginFailed": "Inicio de sesión fallido desde {0}: '{1}'",
+  "auth.loginSucceeded": "Inicio de sesión correcto: {0}",
+  "auth.setupRejected": "Se rechazó el intento de configuración inicial desde {0}.",
+  "auth.credentialsConfigured": "Credenciales configuradas para '{0}'."
 }
