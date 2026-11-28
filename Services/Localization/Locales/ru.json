@@ -800,5 +800,17 @@
   "sunshineCrash.fault": "Сбой Sunshine: {0} в модуле {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Не удалось прочитать событие Application Error: {0}",
   "sunshineCrash.wevtutilFailed": "wevtutil вернул {0}: {1}",
-  "sunshine.stateMirrorStarted": "Запущено зеркалирование sunshine_state.json: {0}"
+  "sunshine.stateMirrorStarted": "Запущено зеркалирование sunshine_state.json: {0}",
+  "processInSession.environmentBlockFailed": "Не удалось создать блок окружения (ошибка {0}); используется пустое окружение.",
+  "processInSession.createProcessFailed": "Не удалось запустить процесс CreateProcessAsUser для «{0}»: ошибка {1}",
+  "processInSession.userTokenFailed": "Не удалось получить токен пользователя для сеанса {0}: ошибка {1}",
+  "processInSession.openProcessTokenFailed": "Не удалось открыть токен процесса: ошибка {0}",
+  "processInSession.duplicateTokenFailed": "Не удалось дублировать токен: ошибка {0}",
+  "processInSession.setTokenInformationFailed": "Не удалось задать TokenSessionId через SetTokenInformation: ошибка {0}",
+  "security.restrictPermissionsFailed": "Не удалось ограничить разрешения для «{0}»: {1}",
+  "isolatedPolicy.userHiveNotLoaded": "Раздел реестра пользователя не загружен.",
+  "isolatedPolicy.shutdownAvailability": "Для пользователя «{0}» выключение и перезагрузка {1}.",
+  "isolatedPolicy.removedFromMenu": "убраны из меню (эксклюзивное рабочее место)",
+  "isolatedPolicy.restrictShutdownFailed": "Не удалось запретить выключение и перезагрузку для пользователя «{0}»: {1}",
+  "common.available": "доступны"
 }
