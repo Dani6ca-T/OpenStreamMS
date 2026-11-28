@@ -851,5 +851,7 @@
   "ext.manifestReadFailed": "[Tiện ích mở rộng: {0}] Không thể đọc tệp kê khai: {1}",
   "ext.stateReadFailed": "[Tiện ích mở rộng] Không thể đọc {0}: {1}",
   "ext.secureRootFailed": "[Tiện ích mở rộng] Không thể bảo vệ quyền truy cập của {0}: {1}",
-  "ext.catalogLoadFailed": "Không thể tải danh mục tiện ích mở rộng {0}: {1}"
+  "ext.catalogLoadFailed": "Không thể tải danh mục tiện ích mở rộng {0}: {1}",
+  "driver.log.start": "Starting {0} at {1}.",
+  "driver.log.end": "Finished {0} at {1}."
 }
