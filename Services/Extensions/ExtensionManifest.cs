@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Services.Extensions;
 
@@ -243,8 +244,8 @@ public static partial class ExtensionFormat
     {
         ExtensionManifest? m;
         try { m = JsonSerializer.Deserialize<ExtensionManifest>(json, Json); }
-        catch (JsonException ex) { throw new ExtensionFormatException($"{ManifestFile}: {ex.Message}"); }
-        if (m is null) throw new ExtensionFormatException($"{ManifestFile}: empty");
+        catch (JsonException ex) { throw new ExtensionFormatException(BackendText.Get("ext.format.jsonInvalid", ManifestFile, ex.Message)); }
+        if (m is null) throw new ExtensionFormatException(BackendText.Get("ext.format.empty", ManifestFile));
         Validate(m);
         return m;
     }
@@ -253,17 +254,17 @@ public static partial class ExtensionFormat
     {
         ExtensionCatalog? c;
         try { c = JsonSerializer.Deserialize<ExtensionCatalog>(json, Json); }
-        catch (JsonException ex) { throw new ExtensionFormatException($"{CatalogFile}: {ex.Message}"); }
-        if (c is null) throw new ExtensionFormatException($"{CatalogFile}: empty");
-        if (c.Schema != 1) throw new ExtensionFormatException($"{CatalogFile}: unsupported schema {c.Schema}");
+        catch (JsonException ex) { throw new ExtensionFormatException(BackendText.Get("ext.format.jsonInvalid", CatalogFile, ex.Message)); }
+        if (c is null) throw new ExtensionFormatException(BackendText.Get("ext.format.empty", CatalogFile));
+        if (c.Schema != 1) throw new ExtensionFormatException(BackendText.Get("ext.format.schema", CatalogFile, c.Schema));
         foreach (var e in c.Extensions)
         {
             if (!GitHubRef.TryParse(e.Repo, out _))
-                throw new ExtensionFormatException($"{CatalogFile}: invalid repository '{e.Repo}'");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.invalidRepo", CatalogFile, e.Repo));
             if (e.Path is not null && !IsSafeRelativePath(e.Path))
-                throw new ExtensionFormatException($"{CatalogFile}: invalid path '{e.Path}'");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.invalidPath", CatalogFile, e.Path));
             if (e.Sha256 is not null && !IsSha256(e.Sha256))
-                throw new ExtensionFormatException($"{CatalogFile}: invalid sha256 for '{e.Repo}'");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.invalidSha", CatalogFile, e.Repo));
             if (e.Icon is not null && !IsIconPath(e.Icon))
                 throw new ExtensionFormatException($"{CatalogFile}: icon of '{e.Repo}' must be a relative path to a .png, .jpg, .webp, .gif or .svg");
             ValidateCategories(e.Categories, msg => throw new ExtensionFormatException($"{CatalogFile}: '{e.Repo}' {msg}"), "categories");
@@ -275,13 +276,13 @@ public static partial class ExtensionFormat
     {
         void Fail(string what) => throw new ExtensionFormatException($"{ManifestFile}: {what}");
 
-        if (m.Schema != 1) Fail($"unsupported schema {m.Schema}");
-        if (!IsValidId(m.Id)) Fail($"invalid id '{m.Id}' (lowercase letters, digits and hyphens, up to 48)");
-        if (string.IsNullOrWhiteSpace(m.Name) || m.Name.Length > 80) Fail("name is required (up to 80 characters)");
-        if (m.MinOsmsVersion is not null && !Version.TryParse(m.MinOsmsVersion, out _)) Fail("invalid minOsmsVersion");
-        if (m.Homepage is not null && !IsHttpsUrl(m.Homepage)) Fail("homepage must be https");
-        if (m.Capabilities.Count == 0) Fail("declares nothing to do (component, hooks, apps or panel)");
-        if (m.Icon is not null && !IsIconPath(m.Icon)) Fail("icon must be a relative path to a .png, .jpg, .webp, .gif or .svg in the package");
+        if (m.Schema != 1) throw new ExtensionFormatException(BackendText.Get("ext.format.schema", ManifestFile, m.Schema));
+        if (!IsValidId(m.Id)) throw new ExtensionFormatException(BackendText.Get("ext.format.invalidId", ManifestFile, m.Id));
+        if (string.IsNullOrWhiteSpace(m.Name) || m.Name.Length > 80) throw new ExtensionFormatException(BackendText.Get("ext.format.nameRequired", ManifestFile, 80));
+        if (m.MinOsmsVersion is not null && !Version.TryParse(m.MinOsmsVersion, out _)) throw new ExtensionFormatException(BackendText.Get("ext.format.invalidMinVersion", ManifestFile));
+        if (m.Homepage is not null && !IsHttpsUrl(m.Homepage)) throw new ExtensionFormatException(BackendText.Get("ext.format.homepageHttps", ManifestFile));
+        if (m.Capabilities.Count == 0) throw new ExtensionFormatException(BackendText.Get("ext.format.noCapabilities", ManifestFile));
+        if (m.Icon is not null && !IsIconPath(m.Icon)) throw new ExtensionFormatException(BackendText.Get("ext.format.invalidIcon", ManifestFile));
         ValidateCategories(m.Categories, Fail, "categories");
 
         void Script(string? path, string field)
@@ -293,7 +294,7 @@ public static partial class ExtensionFormat
 
         if (m.Component is { } c)
         {
-            if (string.IsNullOrWhiteSpace(c.Install)) Fail("component.install is required");
+            if (string.IsNullOrWhiteSpace(c.Install)) throw new ExtensionFormatException(BackendText.Get("ext.format.installRequired", ManifestFile));
             Script(c.Install, "component.install");
             Script(c.Uninstall, "component.uninstall");
             Script(c.Detect, "component.detect");
@@ -305,7 +306,7 @@ public static partial class ExtensionFormat
             Script(h.SessionStop, "hooks.sessionStop");
             Script(h.SeatStart, "hooks.seatStart");
             Script(h.SeatStop, "hooks.seatStop");
-            if (h.RunAs is not ("system" or "user")) Fail("hooks.runAs must be system or user");
+            if (h.RunAs is not ("system" or "user")) throw new ExtensionFormatException(BackendText.Get("ext.format.runAs", ManifestFile));
             if (h.TimeoutSec is < 1 or > 600) Fail("hooks.timeoutSec must be between 1 and 600");
         }
         if (m.Apps is { } apps)
@@ -314,13 +315,13 @@ public static partial class ExtensionFormat
             foreach (var a in apps)
                 if (string.IsNullOrWhiteSpace(a.Name) || a.Name.Length > 60) Fail("apps[].name is required (up to 60 characters)");
             if (apps.Select(a => a.Name.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).Count() != apps.Count)
-                Fail("apps: duplicate names");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.duplicateApps", ManifestFile));
         }
         if (m.Panel is { } p)
         {
             if (string.IsNullOrWhiteSpace(p.Title) || p.Title.Length > 30) Fail("panel.title is required (up to 30 characters)");
             if (!IsSafeRelativePath(p.Entry) || !p.Entry.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
-                Fail("panel.entry must be a relative path to an .html in the package");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.panelEntry", ManifestFile));
         }
     }
 
