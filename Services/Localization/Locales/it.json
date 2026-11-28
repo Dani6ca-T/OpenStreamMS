@@ -851,5 +851,7 @@
   "ext.manifestReadFailed": "[Estensione: {0}] Impossibile leggere il manifesto: {1}",
   "ext.stateReadFailed": "[Estensioni] Impossibile leggere {0}: {1}",
   "ext.secureRootFailed": "[Estensioni] Impossibile proteggere i permessi di {0}: {1}",
-  "ext.catalogLoadFailed": "Impossibile caricare il catalogo delle estensioni {0}: {1}"
+  "ext.catalogLoadFailed": "Impossibile caricare il catalogo delle estensioni {0}: {1}",
+  "driver.log.start": "Starting {0} at {1}.",
+  "driver.log.end": "Finished {0} at {1}."
 }
