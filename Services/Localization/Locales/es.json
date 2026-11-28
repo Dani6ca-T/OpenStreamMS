@@ -891,5 +891,6 @@
   "ext.format.timeoutRange": "{0}: el valor debe estar entre {1} y {2} segundos",
   "ext.format.appsLimit": "{0}: se permiten como máximo {1} aplicaciones",
   "ext.format.appName": "{0}: cada aplicación debe tener un nombre de hasta {1} caracteres",
-  "ext.format.panelTitle": "{0}: panel.title es obligatorio y no puede superar {1} caracteres"
+  "ext.format.panelTitle": "{0}: panel.title es obligatorio y no puede superar {1} caracteres",
+  "ext.format.scriptPath": "{0}: debe ser una ruta relativa segura a un archivo .ps1 del paquete"
 }
