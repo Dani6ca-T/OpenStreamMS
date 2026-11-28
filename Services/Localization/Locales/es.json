@@ -833,5 +833,14 @@
   "auth.loginFailed": "Inicio de sesión fallido desde {0}: '{1}'",
   "auth.loginSucceeded": "Inicio de sesión correcto: {0}",
   "auth.setupRejected": "Se rechazó el intento de configuración inicial desde {0}.",
-  "auth.credentialsConfigured": "Credenciales configuradas para '{0}'."
+  "auth.credentialsConfigured": "Credenciales configuradas para '{0}'.",
+  "driver.operationFailed": "Error en la operación: {0}",
+  "driver.actionFailed": "[{0}] Error al {1}: {2}",
+  "driver.timeout": "El instalador no terminó en {0} minutos y se canceló. Si el controlador ya aparece instalado, reinicia Windows.",
+  "ext.detectionFailed": "[Extensión: {0}] Error al detectar el componente: {1}",
+  "ext.hookDispatchFailed": "[Extensiones] Error al ejecutar el gancho {0}: {1}",
+  "ext.manifestReadFailed": "[Extensión: {0}] No se pudo leer el manifiesto: {1}",
+  "ext.stateReadFailed": "[Extensiones] No se pudo leer {0}: {1}",
+  "ext.secureRootFailed": "[Extensiones] No se pudieron proteger los permisos de {0}: {1}",
+  "ext.catalogLoadFailed": "No se pudo cargar el catálogo de extensiones {0}: {1}"
 }
