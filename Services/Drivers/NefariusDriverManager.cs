@@ -210,8 +210,8 @@ public abstract class NefariusDriverManager
         }
         catch (Exception ex)
         {
-            AppendLog($"ERROR: {ex.Message}");
-            Logger.Error($"[{Name}] Error en {action}: {ex}");
+            AppendLog(BackendText.Get("driver.operationFailed", ex.Message));
+            Logger.Error(BackendText.Get("driver.actionFailed", Name, action, ex));
         }
         finally
         {
@@ -280,9 +280,7 @@ public abstract class NefariusDriverManager
         {
             try { p.Kill(entireProcessTree: true); } catch { }
             throw new TimeoutException(
-                BackendText.Get("driver.errorDetail", 
-                    $"El instalador no terminó en {ProcessTimeout.TotalMinutes:0} minutos y se ha cancelado. " +
-                    "Si el driver ya aparece como instalado, basta con reiniciar el equipo."));
+                BackendText.Get("driver.timeout", ProcessTimeout.TotalMinutes));
         }
         return p.ExitCode;
     }
