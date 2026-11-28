@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 using System.Security.Principal;
 
 namespace OpenStreamMS.Core.Helpers;
@@ -22,14 +23,14 @@ internal static class IsolatedSessionPolicy
         {
             var sid = new NTAccount(username).Translate(typeof(SecurityIdentifier)).Value;
             using var key = Registry.Users.CreateSubKey($@"{sid}\{ExplorerPolicies}", writable: true)
-                ?? throw new InvalidOperationException("el registro del usuario no está cargado");
+                ?? throw new InvalidOperationException(BackendText.Get("isolatedPolicy.userHiveNotLoaded"));
             if (canShutdown) key.DeleteValue("NoClose", throwOnMissingValue: false);
             else key.SetValue("NoClose", 1, RegistryValueKind.DWord);
-            Logger.Log($"[IsolatedUser] '{username}': apagar y reiniciar {(canShutdown ? "disponibles" : "quitados del menú (puesto exclusivo)")}.", sessionId);
+            Logger.Log(BackendText.Get("isolatedPolicy.shutdownAvailability", username, BackendText.Get(canShutdown ? "common.available" : "isolatedPolicy.removedFromMenu")), sessionId);
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[IsolatedUser] No se pudo quitar apagar/reiniciar a '{username}': {ex.Message}", sessionId);
+            Logger.Warning(BackendText.Get("isolatedPolicy.restrictShutdownFailed", username, ex.Message), sessionId);
         }
     }
 }
