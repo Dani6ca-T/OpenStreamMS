@@ -885,5 +885,11 @@
   "ext.github.hostNotAllowed": "El host de descarga no está permitido: {0}",
   "ext.github.rateLimit": "Se alcanzó el límite de solicitudes de la API de GitHub; inténtelo más tarde",
   "ext.github.httpStatus": "GitHub devolvió el estado HTTP {0} para {1}",
-  "ext.github.redirectLimit": "Demasiadas redirecciones al descargar el paquete de extensión"
+  "ext.github.redirectLimit": "Demasiadas redirecciones al descargar el paquete de extensión",
+  "ext.format.categoryLimit": "{0}: se permiten como máximo {1} categorías",
+  "ext.format.categoryInvalid": "{0}: categoría no válida '{1}' (use minúsculas, números y guiones)",
+  "ext.format.timeoutRange": "{0}: el valor debe estar entre {1} y {2} segundos",
+  "ext.format.appsLimit": "{0}: se permiten como máximo {1} aplicaciones",
+  "ext.format.appName": "{0}: cada aplicación debe tener un nombre de hasta {1} caracteres",
+  "ext.format.panelTitle": "{0}: panel.title es obligatorio y no puede superar {1} caracteres"
 }
