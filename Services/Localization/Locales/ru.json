@@ -833,5 +833,14 @@
   "auth.loginFailed": "Неудачная попытка входа с адреса {0}: «{1}»",
   "auth.loginSucceeded": "Вход выполнен: {0}",
   "auth.setupRejected": "Отклонена попытка первоначальной настройки с адреса {0}.",
-  "auth.credentialsConfigured": "Учётные данные настроены для пользователя «{0}»."
+  "auth.credentialsConfigured": "Учётные данные настроены для пользователя «{0}».",
+  "driver.invalidPeDosHeader": "Файл не содержит корректный заголовок исполняемого файла DOS (MZ).",
+  "driver.invalidPeHeaderOffset": "Смещение заголовка PE выходит за пределы файла.",
+  "driver.missingPeSignature": "Отсутствует сигнатура PE.",
+  "driver.invalidPeSectionTable": "Таблица секций PE выходит за пределы файла.",
+  "ext.missingPackageFile": "В пакете отсутствует обязательный файл: {0}",
+  "ext.iconTooLarge": "Размер значка превышает допустимые {0} КБ: {1}",
+  "ext.invalidIconImage": "Файл значка не является корректным изображением формата {0}: {1}",
+  "ext.hookSkippedNoSession": "{0}: пропущено, поскольку сеанс Windows отсутствует.",
+  "ext.hookFailed": "Ошибка хука расширения «{0}» ({1}): {2}"
 }
