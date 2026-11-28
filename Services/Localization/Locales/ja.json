@@ -833,5 +833,14 @@
   "auth.loginFailed": "{0} からのログインに失敗しました：'{1}'",
   "auth.loginSucceeded": "ログインに成功しました：{0}",
   "auth.setupRejected": "{0} からの初期設定要求を拒否しました。",
-  "auth.credentialsConfigured": "'{0}' の認証情報を設定しました。"
+  "auth.credentialsConfigured": "'{0}' の認証情報を設定しました。",
+  "driver.operationFailed": "操作に失敗しました：{0}",
+  "driver.actionFailed": "[{0}] {1} に失敗しました：{2}",
+  "driver.timeout": "インストーラーは {0} 分以内に終了しなかったため、キャンセルされました。ドライバーが既にインストール済みと表示される場合は、Windows を再起動してください。",
+  "ext.detectionFailed": "[拡張機能: {0}] コンポーネントの検出に失敗しました：{1}",
+  "ext.hookDispatchFailed": "[拡張機能] イベント {0} のフック実行に失敗しました：{1}",
+  "ext.manifestReadFailed": "[拡張機能: {0}] マニフェストを読み取れませんでした：{1}",
+  "ext.stateReadFailed": "[拡張機能] {0} を読み取れませんでした：{1}",
+  "ext.secureRootFailed": "[拡張機能] {0} のアクセス許可を保護できませんでした：{1}",
+  "ext.catalogLoadFailed": "拡張機能カタログ {0} を読み込めませんでした：{1}"
 }
