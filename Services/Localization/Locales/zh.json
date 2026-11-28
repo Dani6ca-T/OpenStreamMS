@@ -891,5 +891,6 @@
   "ext.format.timeoutRange": "{0}：数值必须介于 {1} 到 {2} 秒之间",
   "ext.format.appsLimit": "{0}：应用最多允许 {1} 个",
   "ext.format.appName": "{0}：每个应用都必须有名称，且不超过 {1} 个字符",
-  "ext.format.panelTitle": "{0}：panel.title 为必填项，且不能超过 {1} 个字符"
+  "ext.format.panelTitle": "{0}：panel.title 为必填项，且不能超过 {1} 个字符",
+  "ext.format.scriptPath": "{0}：必须是指向包内 .ps1 文件的安全相对路径"
 }
