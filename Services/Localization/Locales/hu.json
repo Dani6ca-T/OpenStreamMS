@@ -842,5 +842,14 @@
   "ext.manifestReadFailed": "[Bővítmény: {0}] A jegyzékfájl nem olvasható: {1}",
   "ext.stateReadFailed": "[Bővítmények] A(z) {0} nem olvasható: {1}",
   "ext.secureRootFailed": "[Bővítmények] A(z) {0} hozzáférési engedélyei nem védhetők: {1}",
-  "ext.catalogLoadFailed": "A(z) {0} bővítménykatalógus nem tölthető be: {1}"
+  "ext.catalogLoadFailed": "A(z) {0} bővítménykatalógus nem tölthető be: {1}",
+  "driver.invalidPeDosHeader": "The file does not have a valid DOS executable header (MZ).",
+  "driver.invalidPeHeaderOffset": "The PE header offset is outside the file.",
+  "driver.missingPeSignature": "The PE signature is missing.",
+  "driver.invalidPeSectionTable": "The PE section table extends beyond the end of the file.",
+  "ext.missingPackageFile": "A required package file is missing: {0}",
+  "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
+  "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
+  "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
 }
