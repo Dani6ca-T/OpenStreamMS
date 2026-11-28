@@ -259,5 +259,22 @@
   "isolatedPolicy.shutdownAvailability": "'{0}': shutdown and restart are {1}.",
   "isolatedPolicy.removedFromMenu": "removed from the menu (exclusive seat)",
   "isolatedPolicy.restrictShutdownFailed": "Could not disable shutdown/restart for '{0}': {1}",
-  "common.available": "available"
+  "common.available": "available",
+  "shutdownRight.userAllowed": "'{0}' can shut down and restart the computer.",
+  "shutdownRight.userDenied": "'{0}' cannot shut down or restart the computer.",
+  "shutdownRight.setUserFailed": "Could not set the 'Shut down the system' right for '{0}': {1}",
+  "shutdownRight.groupRestricted": "'Shut down the system' right removed from the Users group while exclusive seats are active; administrators and permitted isolated users retain it.",
+  "shutdownRight.restrictGroupFailed": "Could not remove the 'Shut down the system' right from the Users group: {0}",
+  "shutdownRight.groupRestored": "'Shut down the system' right restored to the Users group.",
+  "shutdownRight.restoreGroupFailed": "Could not restore the 'Shut down the system' right to the Users group: {0}",
+  "singleSession.policyForcedWarning": "A policy forces {0}={1} (HKLM\\{2}). Windows will return the seat to the user's existing session. Disable the policy that restricts Remote Desktop Services users to one session, or use a different user for the seat.",
+  "singleSession.suspended": "{0}: {1} → 0 while the user's second session connects.",
+  "singleSession.legacyRestored": "{0} was left at 0 by an older OpenStreamMS version; restored the Windows default value (1).",
+  "singleSession.restoreFailed": "Could not restore {0}: {1}",
+  "singleSession.restored": "{0} restored: {1}.",
+  "singleSession.saveFailed": "Could not save the original value of {0}; it will not be changed: {1}",
+  "singleSession.deleteSavedFailed": "Could not delete the saved value of {0}: {1}",
+  "singleSession.writeFailed": "Could not write {0}={1}: {2}",
+  "singleSession.deleteValueFailed": "Could not delete {0}: {1}",
+  "singleSession.noValue": "no value"
 }
