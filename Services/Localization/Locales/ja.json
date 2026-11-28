@@ -891,5 +891,6 @@
   "ext.format.timeoutRange": "{0}: 値は {1}～{2} 秒にしてください",
   "ext.format.appsLimit": "{0}: アプリは最大 {1} 個です",
   "ext.format.appName": "{0}: 各アプリには {1} 文字以内の名前が必要です",
-  "ext.format.panelTitle": "{0}: panel.title は必須で、{1} 文字以内にしてください"
+  "ext.format.panelTitle": "{0}: panel.title は必須で、{1} 文字以内にしてください",
+  "ext.format.scriptPath": "{0}: パッケージ内の .ps1 ファイルへの安全な相対パスである必要があります"
 }
