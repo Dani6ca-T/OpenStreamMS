@@ -800,5 +800,17 @@
   "sunshineCrash.fault": "Sunshine falló con {0} en {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "No se pudo leer el evento Application Error: {0}",
   "sunshineCrash.wevtutilFailed": "wevtutil devolvió {0}: {1}",
-  "sunshine.stateMirrorStarted": "Mirror de sunshine_state.json iniciado: {0}"
+  "sunshine.stateMirrorStarted": "Mirror de sunshine_state.json iniciado: {0}",
+  "processInSession.environmentBlockFailed": "CreateEnvironmentBlock falló (error {0}); se usará un entorno vacío.",
+  "processInSession.createProcessFailed": "CreateProcessAsUser falló para '{0}': error {1}",
+  "processInSession.userTokenFailed": "WTSQueryUserToken falló para la sesión {0}: error {1}",
+  "processInSession.openProcessTokenFailed": "OpenProcessToken falló: error {0}",
+  "processInSession.duplicateTokenFailed": "DuplicateTokenEx falló: error {0}",
+  "processInSession.setTokenInformationFailed": "SetTokenInformation(TokenSessionId) falló: error {0}",
+  "security.restrictPermissionsFailed": "No se pudieron restringir los permisos de '{0}': {1}",
+  "isolatedPolicy.userHiveNotLoaded": "El registro del usuario no está cargado.",
+  "isolatedPolicy.shutdownAvailability": "Para '{0}', apagar y reiniciar están {1}.",
+  "isolatedPolicy.removedFromMenu": "quitados del menú (puesto exclusivo)",
+  "isolatedPolicy.restrictShutdownFailed": "No se pudo impedir apagar o reiniciar a '{0}': {1}",
+  "common.available": "disponibles"
 }
