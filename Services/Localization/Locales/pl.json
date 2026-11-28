@@ -833,5 +833,14 @@
   "auth.loginFailed": "Login failed from {0}: '{1}'",
   "auth.loginSucceeded": "Login successful: {0}",
   "auth.setupRejected": "Initial setup attempt rejected from {0}.",
-  "auth.credentialsConfigured": "Credentials configured for '{0}'."
+  "auth.credentialsConfigured": "Credentials configured for '{0}'.",
+  "driver.operationFailed": "Operacja nie powiodła się: {0}",
+  "driver.actionFailed": "[{0}] Nie udało się wykonać operacji {1}: {2}",
+  "driver.timeout": "Instalator nie zakończył pracy w ciągu {0} minut i został anulowany. Jeśli sterownik jest już oznaczony jako zainstalowany, uruchom ponownie system Windows.",
+  "ext.detectionFailed": "[Rozszerzenie: {0}] Nie udało się wykryć składnika: {1}",
+  "ext.hookDispatchFailed": "[Rozszerzenia] Nie udało się uruchomić haka zdarzenia {0}: {1}",
+  "ext.manifestReadFailed": "[Rozszerzenie: {0}] Nie można odczytać manifestu: {1}",
+  "ext.stateReadFailed": "[Rozszerzenia] Nie można odczytać {0}: {1}",
+  "ext.secureRootFailed": "[Rozszerzenia] Nie można zabezpieczyć uprawnień do {0}: {1}",
+  "ext.catalogLoadFailed": "Nie można załadować katalogu rozszerzeń {0}: {1}"
 }
