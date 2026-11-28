@@ -842,5 +842,14 @@
   "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
   "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
   "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
-  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}",
+  "driver.operationFailed": "İşlem başarısız: {0}",
+  "driver.actionFailed": "[{0}] {1} işlemi başarısız: {2}",
+  "driver.timeout": "Yükleyici {0} dakika içinde tamamlanmadığı için iptal edildi. Sürücü zaten yüklü görünüyorsa Windows'u yeniden başlatın.",
+  "ext.detectionFailed": "[Eklenti: {0}] Bileşen algılanamadı: {1}",
+  "ext.hookDispatchFailed": "[Eklentiler] {0} olayı kancası çalıştırılamadı: {1}",
+  "ext.manifestReadFailed": "[Eklenti: {0}] Bildirim dosyası okunamadı: {1}",
+  "ext.stateReadFailed": "[Eklentiler] {0} okunamadı: {1}",
+  "ext.secureRootFailed": "[Eklentiler] {0} için erişim izinleri korunamadı: {1}",
+  "ext.catalogLoadFailed": "{0} eklenti kataloğu yüklenemedi: {1}"
 }
