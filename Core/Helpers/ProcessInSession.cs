@@ -1,4 +1,5 @@
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -168,7 +169,7 @@ namespace OpenStreamMS.Core.Helpers
                 if (!CreateEnvironmentBlock(out envBlock, token, false))
                 {
                     envBlock = IntPtr.Zero;
-                    Logger.Warning($"[ProcessInSession] CreateEnvironmentBlock falló (error {Marshal.GetLastWin32Error()}), usando entorno vacío");
+                    Logger.Warning(BackendText.Get("processInSession.environmentBlockFailed", Marshal.GetLastWin32Error()));
                 }
 
                 if (envOverrides is { Count: > 0 } && envBlock != IntPtr.Zero)
@@ -212,7 +213,7 @@ namespace OpenStreamMS.Core.Helpers
                         IntPtr.Zero, IntPtr.Zero, false,
                         flags, envBlock, workDir,
                         ref si, out PROCESS_INFORMATION pi))
-                    throw new Exception($"CreateProcessAsUser falló para '{exe}': error {Marshal.GetLastWin32Error()}");
+                    throw new Exception(BackendText.Get("processInSession.createProcessFailed", exe, Marshal.GetLastWin32Error()));
 
                 CloseHandle(pi.hThread);
 
@@ -242,7 +243,7 @@ namespace OpenStreamMS.Core.Helpers
         static IntPtr UserToken(uint sessionId) =>
             WTSQueryUserToken(sessionId, out IntPtr token)
                 ? token
-                : throw new Exception($"WTSQueryUserToken falló para sesión {sessionId}: error {Marshal.GetLastWin32Error()}");
+                : throw new Exception(BackendText.Get("processInSession.userTokenFailed", sessionId, Marshal.GetLastWin32Error()));
 
         /// <summary>
         /// Token de SYSTEM (el del servicio) trasladado a otra sesión: el proceso corre como SYSTEM
@@ -252,17 +253,17 @@ namespace OpenStreamMS.Core.Helpers
         static IntPtr SystemTokenForSession(uint sessionId)
         {
             if (!OpenProcessToken(GetCurrentProcess(), MAXIMUM_ALLOWED, out IntPtr own))
-                throw new Exception($"OpenProcessToken falló: error {Marshal.GetLastWin32Error()}");
+                throw new Exception(BackendText.Get("processInSession.openProcessTokenFailed", Marshal.GetLastWin32Error()));
             try
             {
                 if (!DuplicateTokenEx(own, MAXIMUM_ALLOWED, IntPtr.Zero, SecurityImpersonation, TokenPrimary, out IntPtr dup))
-                    throw new Exception($"DuplicateTokenEx falló: error {Marshal.GetLastWin32Error()}");
+                    throw new Exception(BackendText.Get("processInSession.duplicateTokenFailed", Marshal.GetLastWin32Error()));
                 uint sid = sessionId;
                 if (!SetTokenInformation(dup, TokenSessionId, ref sid, sizeof(uint)))
                 {
                     int err = Marshal.GetLastWin32Error();
                     CloseHandle(dup);
-                    throw new Exception($"SetTokenInformation(TokenSessionId) falló: error {err}");
+                    throw new Exception(BackendText.Get("processInSession.setTokenInformationFailed", err));
                 }
                 return dup;
             }
