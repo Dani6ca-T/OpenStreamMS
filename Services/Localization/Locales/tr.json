@@ -851,5 +851,7 @@
   "ext.manifestReadFailed": "[Eklenti: {0}] Bildirim dosyası okunamadı: {1}",
   "ext.stateReadFailed": "[Eklentiler] {0} okunamadı: {1}",
   "ext.secureRootFailed": "[Eklentiler] {0} için erişim izinleri korunamadı: {1}",
-  "ext.catalogLoadFailed": "{0} eklenti kataloğu yüklenemedi: {1}"
+  "ext.catalogLoadFailed": "{0} eklenti kataloğu yüklenemedi: {1}",
+  "driver.log.start": "Starting {0} at {1}.",
+  "driver.log.end": "Finished {0} at {1}."
 }
