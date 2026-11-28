@@ -817,5 +817,17 @@
   "singleSession.deleteSavedFailed": "Could not delete the saved value of {0}: {1}",
   "singleSession.writeFailed": "Could not write {0}={1}: {2}",
   "singleSession.deleteValueFailed": "Could not delete {0}: {1}",
-  "singleSession.noValue": "no value"
+  "singleSession.noValue": "no value",
+  "processInSession.environmentBlockFailed": "CreateEnvironmentBlock に失敗しました（エラー {0}）。空の環境を使用します。",
+  "processInSession.createProcessFailed": "'{0}' の CreateProcessAsUser に失敗しました：エラー {1}",
+  "processInSession.userTokenFailed": "セッション {0} の WTSQueryUserToken に失敗しました：エラー {1}",
+  "processInSession.openProcessTokenFailed": "OpenProcessToken に失敗しました：エラー {0}",
+  "processInSession.duplicateTokenFailed": "DuplicateTokenEx に失敗しました：エラー {0}",
+  "processInSession.setTokenInformationFailed": "SetTokenInformation(TokenSessionId) に失敗しました：エラー {0}",
+  "security.restrictPermissionsFailed": "'{0}' のアクセス許可を制限できませんでした：{1}",
+  "isolatedPolicy.userHiveNotLoaded": "ユーザーのレジストリハイブが読み込まれていません。",
+  "isolatedPolicy.shutdownAvailability": "'{0}' のシャットダウンと再起動は{1}です。",
+  "isolatedPolicy.removedFromMenu": "メニューから削除されています（専用シート）",
+  "isolatedPolicy.restrictShutdownFailed": "'{0}' のシャットダウン／再起動を禁止できませんでした：{1}",
+  "common.available": "利用可能"
 }
