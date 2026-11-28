@@ -851,5 +851,7 @@
   "ext.manifestReadFailed": "[Розширення: {0}] Не вдалося прочитати маніфест: {1}",
   "ext.stateReadFailed": "[Розширення] Не вдалося прочитати {0}: {1}",
   "ext.secureRootFailed": "[Розширення] Не вдалося захистити дозволи доступу до {0}: {1}",
-  "ext.catalogLoadFailed": "Не вдалося завантажити каталог розширень {0}: {1}"
+  "ext.catalogLoadFailed": "Не вдалося завантажити каталог розширень {0}: {1}",
+  "driver.log.start": "Starting {0} at {1}.",
+  "driver.log.end": "Finished {0} at {1}."
 }
