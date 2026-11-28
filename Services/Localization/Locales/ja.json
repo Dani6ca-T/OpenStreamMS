@@ -885,5 +885,11 @@
   "ext.github.hostNotAllowed": "ダウンロードホストは許可されていません: {0}",
   "ext.github.rateLimit": "GitHub API のレート制限に達しました。後でもう一度お試しください",
   "ext.github.httpStatus": "GitHub が {1} に対して HTTP ステータス {0} を返しました",
-  "ext.github.redirectLimit": "拡張機能パッケージのダウンロード中にリダイレクトが多すぎます"
+  "ext.github.redirectLimit": "拡張機能パッケージのダウンロード中にリダイレクトが多すぎます",
+  "ext.format.categoryLimit": "{0}: カテゴリは最大 {1} 個です",
+  "ext.format.categoryInvalid": "{0}: カテゴリ '{1}' が無効です（小文字、数字、ハイフンを使用）",
+  "ext.format.timeoutRange": "{0}: 値は {1}～{2} 秒にしてください",
+  "ext.format.appsLimit": "{0}: アプリは最大 {1} 個です",
+  "ext.format.appName": "{0}: 各アプリには {1} 文字以内の名前が必要です",
+  "ext.format.panelTitle": "{0}: panel.title は必須で、{1} 文字以内にしてください"
 }
