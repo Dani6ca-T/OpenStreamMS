@@ -364,16 +364,16 @@ public sealed class ExtensionManager
         ];
         foreach (var f in files.OfType<string>())
             if (!File.Exists(Path.Combine(pkg, f)))
-                throw Err("ext.invalidPackage", $"missing file: {f}");
+                throw Err("ext.missingPackageFile", f);
 
         if (m.Icon is { } icon)
         {
             var file = Path.Combine(pkg, icon);
-            if (!File.Exists(file)) throw Err("ext.invalidPackage", $"missing file: {icon}");
+            if (!File.Exists(file)) throw Err("ext.missingPackageFile", icon);
             if (new FileInfo(file).Length > ExtensionFormat.MaxIconBytes)
-                throw Err("ext.invalidPackage", $"icon larger than {ExtensionFormat.MaxIconBytes / 1024} KB: {icon}");
+                throw Err("ext.iconTooLarge", ExtensionFormat.MaxIconBytes / 1024, icon);
             if (!ExtensionFormat.LooksLikeIcon(icon, File.ReadAllBytes(file)))
-                throw Err("ext.invalidPackage", $"icon isn't a valid {Path.GetExtension(icon)} image: {icon}");
+                throw Err("ext.invalidIconImage", Path.GetExtension(icon), icon);
         }
     }
 
@@ -718,7 +718,7 @@ public sealed class ExtensionManager
             {
                 if (ctx.WindowsSessionId == 0)
                 {
-                    WriteLog(e.Id, "hooks", $"{ev}: no Windows session, skipped");
+                    WriteLog(e.Id, "hooks", BackendText.Get("ext.hookSkippedNoSession", ev));
                     return;
                 }
                 var pis = new ProcessInSession();
@@ -736,7 +736,7 @@ public sealed class ExtensionManager
         catch (Exception ex)
         {
             WriteLog(e.Id, "hooks", $"{ev}: {ex.Message}");
-            Logger.Warning($"[Ext:{e.Id}] Gancho {ev}: {ex.Message}");
+            Logger.Warning(BackendText.Get("ext.hookFailed", e.Id, ev, ex.Message));
         }
     }
 
