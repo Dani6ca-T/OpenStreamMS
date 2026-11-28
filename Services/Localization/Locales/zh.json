@@ -851,5 +851,7 @@
   "ext.manifestReadFailed": "[擴充功能：{0}] 無法讀取資訊清單：{1}",
   "ext.stateReadFailed": "[擴充功能] 無法讀取 {0}：{1}",
   "ext.secureRootFailed": "[擴充功能] 無法保護 {0} 的存取權限：{1}",
-  "ext.catalogLoadFailed": "無法載入擴充功能目錄 {0}：{1}"
+  "ext.catalogLoadFailed": "無法載入擴充功能目錄 {0}：{1}",
+  "driver.log.start": "於 {1} 開始 {0}。",
+  "driver.log.end": "於 {1} 完成 {0}。"
 }
