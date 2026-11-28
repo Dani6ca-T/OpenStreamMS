@@ -842,5 +842,14 @@
   "ext.manifestReadFailed": "[확장 프로그램: {0}] 매니페스트를 읽을 수 없습니다: {1}",
   "ext.stateReadFailed": "[확장 프로그램] {0}을(를) 읽을 수 없습니다: {1}",
   "ext.secureRootFailed": "[확장 프로그램] {0}의 권한을 보호할 수 없습니다: {1}",
-  "ext.catalogLoadFailed": "확장 프로그램 카탈로그 {0}을(를) 불러올 수 없습니다: {1}"
+  "ext.catalogLoadFailed": "확장 프로그램 카탈로그 {0}을(를) 불러올 수 없습니다: {1}",
+  "driver.invalidPeDosHeader": "The file does not have a valid DOS executable header (MZ).",
+  "driver.invalidPeHeaderOffset": "The PE header offset is outside the file.",
+  "driver.missingPeSignature": "The PE signature is missing.",
+  "driver.invalidPeSectionTable": "The PE section table extends beyond the end of the file.",
+  "ext.missingPackageFile": "A required package file is missing: {0}",
+  "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
+  "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
+  "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
 }
