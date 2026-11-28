@@ -829,5 +829,9 @@
   "singleSession.deleteSavedFailed": "Could not delete the saved value of {0}: {1}",
   "singleSession.writeFailed": "Could not write {0}={1}: {2}",
   "singleSession.deleteValueFailed": "Could not delete {0}: {1}",
-  "singleSession.noValue": "no value"
+  "singleSession.noValue": "no value",
+  "auth.loginFailed": "Login failed from {0}: '{1}'",
+  "auth.loginSucceeded": "Login successful: {0}",
+  "auth.setupRejected": "Initial setup attempt rejected from {0}.",
+  "auth.credentialsConfigured": "Credentials configured for '{0}'."
 }
