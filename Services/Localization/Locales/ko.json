@@ -833,5 +833,14 @@
   "auth.loginFailed": "Login failed from {0}: '{1}'",
   "auth.loginSucceeded": "Login successful: {0}",
   "auth.setupRejected": "Initial setup attempt rejected from {0}.",
-  "auth.credentialsConfigured": "Credentials configured for '{0}'."
+  "auth.credentialsConfigured": "Credentials configured for '{0}'.",
+  "driver.operationFailed": "작업 실패: {0}",
+  "driver.actionFailed": "[{0}] {1} 작업 실패: {2}",
+  "driver.timeout": "설치 프로그램이 {0}분 내에 완료되지 않아 취소되었습니다. 드라이버가 이미 설치된 것으로 표시되면 Windows를 다시 시작하세요.",
+  "ext.detectionFailed": "[확장 프로그램: {0}] 구성 요소 감지 실패: {1}",
+  "ext.hookDispatchFailed": "[확장 프로그램] {0} 이벤트 후크 실행 실패: {1}",
+  "ext.manifestReadFailed": "[확장 프로그램: {0}] 매니페스트를 읽을 수 없습니다: {1}",
+  "ext.stateReadFailed": "[확장 프로그램] {0}을(를) 읽을 수 없습니다: {1}",
+  "ext.secureRootFailed": "[확장 프로그램] {0}의 권한을 보호할 수 없습니다: {1}",
+  "ext.catalogLoadFailed": "확장 프로그램 카탈로그 {0}을(를) 불러올 수 없습니다: {1}"
 }
