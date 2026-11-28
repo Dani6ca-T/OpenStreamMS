@@ -1,6 +1,7 @@
 using System.Security.AccessControl;
 using System.Security.Principal;
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Core.Helpers
 {
@@ -43,7 +44,7 @@ namespace OpenStreamMS.Core.Helpers
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[Security] No se pudieron restringir los permisos de '{path}': {ex.Message}");
+                Logger.Warning(BackendText.Get("security.restrictPermissionsFailed", path, ex.Message));
             }
         }
     }
