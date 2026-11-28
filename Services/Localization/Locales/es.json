@@ -812,5 +812,22 @@
   "isolatedPolicy.shutdownAvailability": "Para '{0}', apagar y reiniciar están {1}.",
   "isolatedPolicy.removedFromMenu": "quitados del menú (puesto exclusivo)",
   "isolatedPolicy.restrictShutdownFailed": "No se pudo impedir apagar o reiniciar a '{0}': {1}",
-  "common.available": "disponibles"
+  "common.available": "disponibles",
+  "shutdownRight.userAllowed": "'{0}' puede apagar y reiniciar el equipo.",
+  "shutdownRight.userDenied": "'{0}' no puede apagar ni reiniciar el equipo.",
+  "shutdownRight.setUserFailed": "No se pudo configurar el derecho 'Apagar el sistema' para '{0}': {1}",
+  "shutdownRight.groupRestricted": "Se retiró el derecho 'Apagar el sistema' al grupo Usuarios mientras haya puestos exclusivos; los administradores y los usuarios aislados autorizados lo conservan.",
+  "shutdownRight.restrictGroupFailed": "No se pudo retirar el derecho 'Apagar el sistema' al grupo Usuarios: {0}",
+  "shutdownRight.groupRestored": "Se devolvió el derecho 'Apagar el sistema' al grupo Usuarios.",
+  "shutdownRight.restoreGroupFailed": "No se pudo devolver el derecho 'Apagar el sistema' al grupo Usuarios: {0}",
+  "singleSession.policyForcedWarning": "Una directiva fuerza {0}={1} (HKLM\\{2}). Windows devolverá el puesto a la sesión que el usuario ya tiene abierta. Desactiva la directiva que limita a una sesión a los usuarios de Servicios de Escritorio remoto o usa otro usuario para el puesto.",
+  "singleSession.suspended": "{0}: {1} → 0 mientras se conecta la segunda sesión del usuario.",
+  "singleSession.legacyRestored": "Una versión anterior de OpenStreamMS dejó {0} en 0; se restaura el valor predeterminado de Windows (1).",
+  "singleSession.restoreFailed": "No se pudo restaurar {0}: {1}",
+  "singleSession.restored": "{0} restaurado: {1}.",
+  "singleSession.saveFailed": "No se pudo guardar el valor original de {0}; no se modificará: {1}",
+  "singleSession.deleteSavedFailed": "No se pudo borrar el valor guardado de {0}: {1}",
+  "singleSession.writeFailed": "No se pudo escribir {0}={1}: {2}",
+  "singleSession.deleteValueFailed": "No se pudo borrar {0}: {1}",
+  "singleSession.noValue": "sin valor"
 }
