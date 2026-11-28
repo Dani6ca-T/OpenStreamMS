@@ -842,5 +842,14 @@
   "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
   "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
   "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
-  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}",
+  "driver.operationFailed": "Åtgärden misslyckades: {0}",
+  "driver.actionFailed": "[{0}] {1} misslyckades: {2}",
+  "driver.timeout": "Installationsprogrammet blev inte klart inom {0} minuter och avbröts. Starta om Windows om drivrutinen redan visas som installerad.",
+  "ext.detectionFailed": "[Tillägg: {0}] Det gick inte att identifiera komponenten: {1}",
+  "ext.hookDispatchFailed": "[Tillägg] Det gick inte att köra händelsekroken {0}: {1}",
+  "ext.manifestReadFailed": "[Tillägg: {0}] Det gick inte att läsa manifestet: {1}",
+  "ext.stateReadFailed": "[Tillägg] Det gick inte att läsa {0}: {1}",
+  "ext.secureRootFailed": "[Tillägg] Det gick inte att skydda behörigheterna för {0}: {1}",
+  "ext.catalogLoadFailed": "Det gick inte att läsa in tilläggskatalogen {0}: {1}"
 }
