@@ -544,7 +544,7 @@ public sealed class ExtensionManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Ext:{id}] Detección: {ex.Message}");
+            Logger.Warning(BackendText.Get("ext.detectionFailed", id, ex.Message));
             return null;
         }
     }
@@ -655,7 +655,8 @@ public sealed class ExtensionManager
         }
         catch (Exception ex) when (ex is GitHubException or ExtensionFormatException or ExtensionException or HttpRequestException or TaskCanceledException)
         {
-            var view = new CatalogView(url, url, null, official, ex.Message, [], null);
+            var error = ex is ExtensionException ? ex.Message : RequestCulture.T("ext.catalogLoadFailed", url, ex.Message);
+            var view = new CatalogView(url, url, null, official, error, [], null);
             return (view, null);
         }
     }
@@ -694,7 +695,7 @@ public sealed class ExtensionManager
     public static void Fire(ExtensionEvent ev, HookContext ctx)
     {
         try { Instance?.FireHooks(ev, ctx); }
-        catch (Exception ex) { Logger.Warning($"[Ext] Ganchos {ev}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("ext.hookDispatchFailed", ev, ex.Message)); }
     }
 
     void RunHook(InstalledExtension e, ExtensionManifest m, ExtensionEvent ev, HookContext ctx)
@@ -922,7 +923,7 @@ public sealed class ExtensionManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Ext:{id}] No se pudo leer el manifiesto: {ex.Message}");
+            Logger.Warning(BackendText.Get("ext.manifestReadFailed", id, ex.Message));
         }
     }
 
@@ -935,7 +936,7 @@ public sealed class ExtensionManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Ext] No se pudo leer {StatePath}: {ex.Message}");
+            Logger.Warning(BackendText.Get("ext.stateReadFailed", StatePath, ex.Message));
             try { File.Copy(StatePath, $"{StatePath}.corrupt-{DateTime.Now:yyyyMMdd-HHmmss}", overwrite: true); } catch { }
         }
         return new();
@@ -975,7 +976,7 @@ public sealed class ExtensionManager
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[Ext] No se pudieron proteger los permisos de {root}: {ex.Message}");
+            Logger.Warning(BackendText.Get("ext.secureRootFailed", root, ex.Message));
         }
     }
 
