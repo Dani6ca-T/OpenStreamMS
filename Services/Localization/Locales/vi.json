@@ -842,5 +842,14 @@
   "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
   "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
   "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
-  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}",
+  "driver.operationFailed": "Thao tác thất bại: {0}",
+  "driver.actionFailed": "[{0}] Không thể thực hiện {1}: {2}",
+  "driver.timeout": "Trình cài đặt không hoàn tất trong {0} phút nên đã bị hủy. Nếu trình điều khiển đã hiển thị là được cài đặt, hãy khởi động lại Windows.",
+  "ext.detectionFailed": "[Tiện ích mở rộng: {0}] Không thể phát hiện thành phần: {1}",
+  "ext.hookDispatchFailed": "[Tiện ích mở rộng] Không thể chạy hook sự kiện {0}: {1}",
+  "ext.manifestReadFailed": "[Tiện ích mở rộng: {0}] Không thể đọc tệp kê khai: {1}",
+  "ext.stateReadFailed": "[Tiện ích mở rộng] Không thể đọc {0}: {1}",
+  "ext.secureRootFailed": "[Tiện ích mở rộng] Không thể bảo vệ quyền truy cập của {0}: {1}",
+  "ext.catalogLoadFailed": "Không thể tải danh mục tiện ích mở rộng {0}: {1}"
 }
