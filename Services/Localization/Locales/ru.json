@@ -829,5 +829,9 @@
   "singleSession.deleteSavedFailed": "Не удалось удалить сохранённое значение {0}: {1}",
   "singleSession.writeFailed": "Не удалось записать {0}={1}: {2}",
   "singleSession.deleteValueFailed": "Не удалось удалить {0}: {1}",
-  "singleSession.noValue": "значение отсутствует"
+  "singleSession.noValue": "значение отсутствует",
+  "auth.loginFailed": "Неудачная попытка входа с адреса {0}: «{1}»",
+  "auth.loginSucceeded": "Вход выполнен: {0}",
+  "auth.setupRejected": "Отклонена попытка первоначальной настройки с адреса {0}.",
+  "auth.credentialsConfigured": "Учётные данные настроены для пользователя «{0}»."
 }
