@@ -851,5 +851,7 @@
   "ext.iconTooLarge": "El icono supera el tamaño máximo de {0} KB: {1}",
   "ext.invalidIconImage": "El icono no es una imagen {0} válida: {1}",
   "ext.hookSkippedNoSession": "{0}: omitido porque no hay una sesión de Windows.",
-  "ext.hookFailed": "Error en el gancho {1} de la extensión '{0}': {2}"
+  "ext.hookFailed": "Error en el gancho {1} de la extensión '{0}': {2}",
+  "driver.log.start": "Inicio de {0}: {1}.",
+  "driver.log.end": "Fin de {0}: {1}."
 }
