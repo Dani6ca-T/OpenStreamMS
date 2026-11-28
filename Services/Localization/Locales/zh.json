@@ -842,5 +842,14 @@
   "ext.iconTooLarge": "圖示超過最大大小 {0} KB：{1}",
   "ext.invalidIconImage": "圖示不是有效的 {0} 圖片：{1}",
   "ext.hookSkippedNoSession": "{0}：因沒有 Windows 工作階段而略過。",
-  "ext.hookFailed": "擴充功能 '{0}' 的掛鉤 {1} 執行失敗：{2}"
+  "ext.hookFailed": "擴充功能 '{0}' 的掛鉤 {1} 執行失敗：{2}",
+  "driver.operationFailed": "操作失敗：{0}",
+  "driver.actionFailed": "[{0}] {1} 失敗：{2}",
+  "driver.timeout": "安裝程式在 {0} 分鐘內未完成，因此已取消。如果驅動程式已顯示為安裝，請重新啟動 Windows。",
+  "ext.detectionFailed": "[擴充功能：{0}] 元件偵測失敗：{1}",
+  "ext.hookDispatchFailed": "[擴充功能] 執行事件 {0} 的掛鉤失敗：{1}",
+  "ext.manifestReadFailed": "[擴充功能：{0}] 無法讀取資訊清單：{1}",
+  "ext.stateReadFailed": "[擴充功能] 無法讀取 {0}：{1}",
+  "ext.secureRootFailed": "[擴充功能] 無法保護 {0} 的存取權限：{1}",
+  "ext.catalogLoadFailed": "無法載入擴充功能目錄 {0}：{1}"
 }
