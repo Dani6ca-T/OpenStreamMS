@@ -833,5 +833,14 @@
   "auth.loginFailed": "Login failed from {0}: '{1}'",
   "auth.loginSucceeded": "Login successful: {0}",
   "auth.setupRejected": "Initial setup attempt rejected from {0}.",
-  "auth.credentialsConfigured": "Credentials configured for '{0}'."
+  "auth.credentialsConfigured": "Credentials configured for '{0}'.",
+  "driver.invalidPeDosHeader": "The file does not have a valid DOS executable header (MZ).",
+  "driver.invalidPeHeaderOffset": "The PE header offset is outside the file.",
+  "driver.missingPeSignature": "The PE signature is missing.",
+  "driver.invalidPeSectionTable": "The PE section table extends beyond the end of the file.",
+  "ext.missingPackageFile": "A required package file is missing: {0}",
+  "ext.iconTooLarge": "The icon exceeds the maximum size of {0} KB: {1}",
+  "ext.invalidIconImage": "The icon is not a valid {0} image: {1}",
+  "ext.hookSkippedNoSession": "{0}: skipped because there is no Windows session.",
+  "ext.hookFailed": "Extension '{0}' hook {1} failed: {2}"
 }
