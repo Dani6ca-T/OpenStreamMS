@@ -110,7 +110,7 @@ internal static class SingleSessionPerUser
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo restaurar {Name}: {ex.Message}");
+                Logger.Warning(BackendText.Get("singleSession.restoreFailed", Name, ex.Message));
             }
         }
     }
