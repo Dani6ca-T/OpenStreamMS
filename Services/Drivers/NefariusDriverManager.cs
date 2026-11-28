@@ -400,18 +400,18 @@ public abstract class NefariusDriverManager
     {
         using var fs = File.OpenRead(path);
         using var br = new BinaryReader(fs);
-        if (fs.Length < 0x40 || br.ReadUInt16() != 0x5A4D) throw new InvalidDataException("No es un ejecutable (MZ).");
+        if (fs.Length < 0x40 || br.ReadUInt16() != 0x5A4D) throw new InvalidDataException(BackendText.Get("driver.invalidPeDosHeader"));
         fs.Position = 0x3C;
         var pe = br.ReadInt32();
-        if (pe <= 0 || pe > fs.Length - 24) throw new InvalidDataException("Cabecera PE fuera del archivo.");
+        if (pe <= 0 || pe > fs.Length - 24) throw new InvalidDataException(BackendText.Get("driver.invalidPeHeaderOffset"));
         fs.Position = pe;
-        if (br.ReadUInt32() != 0x00004550) throw new InvalidDataException("Falta la firma PE.");
+        if (br.ReadUInt32() != 0x00004550) throw new InvalidDataException(BackendText.Get("driver.missingPeSignature"));
         fs.Position = pe + 6;
         int count = br.ReadUInt16();
         fs.Position = pe + 20;
         int optionalSize = br.ReadUInt16();
         long table = pe + 24 + optionalSize;
-        if (table + 40L * count > fs.Length) throw new InvalidDataException("Tabla de secciones fuera del archivo.");
+        if (table + 40L * count > fs.Length) throw new InvalidDataException(BackendText.Get("driver.invalidPeSectionTable"));
 
         var names = new List<string>(count);
         for (int i = 0; i < count; i++)
