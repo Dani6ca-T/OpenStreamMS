@@ -842,5 +842,14 @@
   "ext.manifestReadFailed": "[拡張機能: {0}] マニフェストを読み取れませんでした：{1}",
   "ext.stateReadFailed": "[拡張機能] {0} を読み取れませんでした：{1}",
   "ext.secureRootFailed": "[拡張機能] {0} のアクセス許可を保護できませんでした：{1}",
-  "ext.catalogLoadFailed": "拡張機能カタログ {0} を読み込めませんでした：{1}"
+  "ext.catalogLoadFailed": "拡張機能カタログ {0} を読み込めませんでした：{1}",
+  "driver.invalidPeDosHeader": "ファイルに有効な DOS 実行ファイルヘッダー (MZ) がありません。",
+  "driver.invalidPeHeaderOffset": "PE ヘッダーのオフセットがファイルの範囲外です。",
+  "driver.missingPeSignature": "PE 署名がありません。",
+  "driver.invalidPeSectionTable": "PE セクションテーブルがファイルの範囲外です。",
+  "ext.missingPackageFile": "パッケージに必要なファイルがありません：{0}",
+  "ext.iconTooLarge": "アイコンが最大サイズ {0} KB を超えています：{1}",
+  "ext.invalidIconImage": "アイコンが有効な {0} 画像ではありません：{1}",
+  "ext.hookSkippedNoSession": "{0}：Windows セッションがないためスキップしました。",
+  "ext.hookFailed": "拡張機能 '{0}' のフック {1} でエラーが発生しました：{2}"
 }
