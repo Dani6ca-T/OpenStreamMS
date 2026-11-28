@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using OpenStreamMS.Services;
+using OpenStreamMS.Services.Localization;
 
 namespace OpenStreamMS.Core.Helpers;
 
@@ -47,10 +48,7 @@ internal static class SingleSessionPerUser
         {
             if (ForcedByPolicy() is int forced && forced != 0)
             {
-                Logger.Warning($"[RDP] Una directiva fuerza {Name}={forced} (HKLM\\{PolicyKey}): Windows " +
-                               "devolverá al puesto la sesión que el usuario ya tiene abierta. Desactiva " +
-                               "\"Restringir a los usuarios de Servicios de Escritorio remoto a una única " +
-                               "sesión\" o usa para el puesto un usuario distinto.");
+                Logger.Warning(BackendText.Get("singleSession.policyForcedWarning", Name, forced, PolicyKey));
                 return Released.Instance;
             }
 
@@ -60,7 +58,7 @@ internal static class SingleSessionPerUser
                 if (current == 0) return Released.Instance;
                 if (!Save(current)) return Released.Instance;   // sin anotarlo no se toca
                 if (!Write(0)) { DeleteSaved(); return Released.Instance; }
-                Logger.Log($"[RDP] {Name}: {Describe(current)} → 0 mientras se conecta la segunda sesión del usuario.");
+                Logger.Log(BackendText.Get("singleSession.suspended", Name, Describe(current)));
             }
             _holders++;
             return new Holder();
@@ -89,13 +87,13 @@ internal static class SingleSessionPerUser
                     // No se sabe qué había antes: se vuelve al valor de Windows. Quien lo quiera
                     // a 0 puede volver a ponerlo; desde ahora se respeta.
                     if (Write(1))
-                        Logger.Log($"[RDP] {Name} estaba a 0 por versiones anteriores de OpenStreamMS: vuelve a 1 (el valor de Windows).");
+                        Logger.Log(BackendText.Get("singleSession.legacyRestored", Name));
                 }
                 saved.SetValue(SavedMigrated, 1, RegistryValueKind.DWord);
             }
             catch (Exception ex)
             {
-                Logger.Warning($"[RDP] No se pudo restaurar {Name}: {ex.Message}");
+                Logger.Warning(BackendText.Get("singleSession.restoreFailed", Name, ex.Message));
             }
         }
     }
@@ -122,7 +120,7 @@ internal static class SingleSessionPerUser
         bool ok = original == Missing ? DeleteValue() : Write(original);
         if (!ok) return;   // se reintenta en el siguiente arranque
         DeleteSaved();
-        Logger.Log($"[RDP] {Name} restaurado: {Describe(original)}.");
+        Logger.Log(BackendText.Get("singleSession.restored", Name, Describe(original)));
     }
 
     private static int ReadCurrent()
@@ -151,7 +149,7 @@ internal static class SingleSessionPerUser
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[RDP] No se pudo anotar {Name} antes de cambiarlo; no se toca: {ex.Message}");
+            Logger.Warning(BackendText.Get("singleSession.saveFailed", Name, ex.Message));
             return false;
         }
     }
@@ -163,7 +161,7 @@ internal static class SingleSessionPerUser
             using var saved = Registry.LocalMachine.OpenSubKey(SavedKey, writable: true);
             saved?.DeleteValue(SavedOriginal, throwOnMissingValue: false);
         }
-        catch (Exception ex) { Logger.Warning($"[RDP] No se pudo borrar la nota de {Name}: {ex.Message}"); }
+        catch (Exception ex) { Logger.Warning(BackendText.Get("singleSession.deleteSavedFailed", Name, ex.Message)); }
     }
 
     private static bool Write(int value)
@@ -176,7 +174,7 @@ internal static class SingleSessionPerUser
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[RDP] No se pudo escribir {Name}={value}: {ex.Message}");
+            Logger.Warning(BackendText.Get("singleSession.writeFailed", Name, value, ex.Message));
             return false;
         }
     }
@@ -191,12 +189,12 @@ internal static class SingleSessionPerUser
         }
         catch (Exception ex)
         {
-            Logger.Warning($"[RDP] No se pudo borrar {Name}: {ex.Message}");
+            Logger.Warning(BackendText.Get("singleSession.deleteValueFailed", Name, ex.Message));
             return false;
         }
     }
 
-    private static string Describe(int value) => value == Missing ? "sin valor" : value.ToString();
+    private static string Describe(int value) => value == Missing ? BackendText.Get("singleSession.noValue") : value.ToString();
 
     private sealed class Holder : IDisposable
     {
