@@ -247,5 +247,17 @@
   "virtualDisplay.createFailed": "[VirtualDisplay] Could not create the virtual display: {0}",
   "virtualDisplay.removeFailed": "[VirtualDisplay] Could not remove the virtual display: {0}",
   "virtualDisplay.removed": "[VirtualDisplay] Virtual display removed.",
-  "virtualDisplay.ioctlFailed": "SudoVDA IOCTL 0x{0}"
+  "virtualDisplay.ioctlFailed": "SudoVDA IOCTL 0x{0}",
+  "processInSession.environmentBlockFailed": "CreateEnvironmentBlock 失敗（錯誤 {0}）；將使用空白環境。",
+  "processInSession.createProcessFailed": "CreateProcessAsUser 無法啟動 '{0}'：錯誤 {1}",
+  "processInSession.userTokenFailed": "無法取得工作階段 {0} 的使用者權杖：錯誤 {1}",
+  "processInSession.openProcessTokenFailed": "OpenProcessToken 失敗：錯誤 {0}",
+  "processInSession.duplicateTokenFailed": "DuplicateTokenEx 失敗：錯誤 {0}",
+  "processInSession.setTokenInformationFailed": "SetTokenInformation(TokenSessionId) 失敗：錯誤 {0}",
+  "security.restrictPermissionsFailed": "無法限制 '{0}' 的權限：{1}",
+  "isolatedPolicy.userHiveNotLoaded": "使用者的登錄 hive 尚未載入。",
+  "isolatedPolicy.shutdownAvailability": "'{0}' 的關機與重新啟動功能{1}。",
+  "isolatedPolicy.removedFromMenu": "已從功能表移除（專用座席）",
+  "isolatedPolicy.restrictShutdownFailed": "無法禁止 '{0}' 關機或重新啟動：{1}",
+  "common.available": "可用"
 }
