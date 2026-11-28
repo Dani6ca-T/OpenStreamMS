@@ -800,5 +800,17 @@
   "sunshineCrash.fault": "Sunshine è terminato con {0} in {1} (PID={2}).",
   "sunshineCrash.readApplicationErrorFailed": "Impossibile leggere l'evento Application Error: {0}",
   "sunshineCrash.wevtutilFailed": "wevtutil ha restituito {0}: {1}",
-  "sunshine.stateMirrorStarted": "Mirror di sunshine_state.json avviato: {0}"
+  "sunshine.stateMirrorStarted": "Mirror di sunshine_state.json avviato: {0}",
+  "processInSession.environmentBlockFailed": "CreateEnvironmentBlock failed (error {0}); using an empty environment.",
+  "processInSession.createProcessFailed": "CreateProcessAsUser failed for '{0}': error {1}",
+  "processInSession.userTokenFailed": "WTSQueryUserToken failed for session {0}: error {1}",
+  "processInSession.openProcessTokenFailed": "OpenProcessToken failed: error {0}",
+  "processInSession.duplicateTokenFailed": "DuplicateTokenEx failed: error {0}",
+  "processInSession.setTokenInformationFailed": "SetTokenInformation(TokenSessionId) failed: error {0}",
+  "security.restrictPermissionsFailed": "Could not restrict permissions for '{0}': {1}",
+  "isolatedPolicy.userHiveNotLoaded": "The user's registry hive is not loaded.",
+  "isolatedPolicy.shutdownAvailability": "'{0}': shutdown and restart are {1}.",
+  "isolatedPolicy.removedFromMenu": "removed from the menu (exclusive seat)",
+  "isolatedPolicy.restrictShutdownFailed": "Could not disable shutdown/restart for '{0}': {1}",
+  "common.available": "available"
 }
