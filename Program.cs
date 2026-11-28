@@ -289,12 +289,12 @@ static async Task RunService(string[] args)
         AuthService.RecordAttempt(ip, ok);
         if (!ok)
         {
-            Logger.Warning($"[Auth] Login fallido desde {ip}: '{username}'");
+            Logger.Warning(BackendText.Get("auth.loginFailed", ip?.ToString() ?? "unknown", username));
             return Results.Redirect("/login.html?error=1");
         }
 
         AuthService.SetAuthCookie(ctx.Response, cfg, username);
-        Logger.Log($"[Auth] Login correcto: {username}");
+        Logger.Log(BackendText.Get("auth.loginSucceeded", username));
         return Results.Redirect("/");
     });
 
@@ -308,7 +308,7 @@ static async Task RunService(string[] args)
         // de este PC, no desde cualquier equipo de la red ni desde un puesto o sesión remota.
         if (!IsConsoleLocal(ctx))
         {
-            Logger.Warning($"[Auth] Intento de configuración inicial rechazado desde {ctx.Connection.RemoteIpAddress}.");
+            Logger.Warning(BackendText.Get("auth.setupRejected", ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown"));
             return Results.Redirect("/setup.html?error=remote");
         }
 
@@ -322,7 +322,7 @@ static async Task RunService(string[] args)
             return Results.Redirect("/setup.html?error=short");
 
         AuthService.SetCredentials(cfg, username, password);
-        Logger.Log($"[Auth] Credenciales configuradas para '{username}'.");
+        Logger.Log(BackendText.Get("auth.credentialsConfigured", username));
         return Results.Redirect("/login.html?setup=1");
     });
 
