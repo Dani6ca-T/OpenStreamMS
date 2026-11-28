@@ -842,5 +842,14 @@
   "ext.manifestReadFailed": "[Extensión: {0}] No se pudo leer el manifiesto: {1}",
   "ext.stateReadFailed": "[Extensiones] No se pudo leer {0}: {1}",
   "ext.secureRootFailed": "[Extensiones] No se pudieron proteger los permisos de {0}: {1}",
-  "ext.catalogLoadFailed": "No se pudo cargar el catálogo de extensiones {0}: {1}"
+  "ext.catalogLoadFailed": "No se pudo cargar el catálogo de extensiones {0}: {1}",
+  "driver.invalidPeDosHeader": "El archivo no contiene una cabecera ejecutable DOS válida (MZ).",
+  "driver.invalidPeHeaderOffset": "El desplazamiento de la cabecera PE está fuera del archivo.",
+  "driver.missingPeSignature": "Falta la firma PE.",
+  "driver.invalidPeSectionTable": "La tabla de secciones PE queda fuera del archivo.",
+  "ext.missingPackageFile": "Falta un archivo obligatorio del paquete: {0}",
+  "ext.iconTooLarge": "El icono supera el tamaño máximo de {0} KB: {1}",
+  "ext.invalidIconImage": "El icono no es una imagen {0} válida: {1}",
+  "ext.hookSkippedNoSession": "{0}: omitido porque no hay una sesión de Windows.",
+  "ext.hookFailed": "Error en el gancho {1} de la extensión '{0}': {2}"
 }
