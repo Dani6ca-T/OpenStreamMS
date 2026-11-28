@@ -332,5 +332,11 @@
   "ext.github.hostNotAllowed": "不允许使用下载主机：{0}",
   "ext.github.rateLimit": "已达到 GitHub API 速率限制，请稍后重试",
   "ext.github.httpStatus": "GitHub 对 {1} 返回了 HTTP 状态 {0}",
-  "ext.github.redirectLimit": "下载扩展包时重定向次数过多"
+  "ext.github.redirectLimit": "下载扩展包时重定向次数过多",
+  "ext.format.categoryLimit": "{0}：类别最多允许 {1} 个",
+  "ext.format.categoryInvalid": "{0}：类别“{1}”无效（请使用小写字母、数字和连字符）",
+  "ext.format.timeoutRange": "{0}：数值必须介于 {1} 到 {2} 秒之间",
+  "ext.format.appsLimit": "{0}：应用最多允许 {1} 个",
+  "ext.format.appName": "{0}：每个应用都必须有名称，且不超过 {1} 个字符",
+  "ext.format.panelTitle": "{0}：panel.title 为必填项，且不能超过 {1} 个字符"
 }
