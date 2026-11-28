@@ -266,8 +266,8 @@ public static partial class ExtensionFormat
             if (e.Sha256 is not null && !IsSha256(e.Sha256))
                 throw new ExtensionFormatException(BackendText.Get("ext.format.invalidSha", CatalogFile, e.Repo));
             if (e.Icon is not null && !IsIconPath(e.Icon))
-                throw new ExtensionFormatException($"{CatalogFile}: icon of '{e.Repo}' must be a relative path to a .png, .jpg, .webp, .gif or .svg");
-            ValidateCategories(e.Categories, msg => throw new ExtensionFormatException($"{CatalogFile}: '{e.Repo}' {msg}"), "categories");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.invalidIcon", CatalogFile));
+            ValidateCategories(e.Categories, msg => throw new ExtensionFormatException(msg), "categories");
         }
         return c;
     }
@@ -289,7 +289,7 @@ public static partial class ExtensionFormat
         {
             if (path is null) return;
             if (!IsSafeRelativePath(path) || !path.EndsWith(".ps1", StringComparison.OrdinalIgnoreCase))
-                Fail($"{field}: must be a relative path to a .ps1 in the package");
+                throw new ExtensionFormatException(BackendText.Get("ext.format.scriptPath", $"{ManifestFile}: {field}"));
         }
 
         if (m.Component is { } c)
