@@ -829,5 +829,9 @@
   "isolatedPolicy.shutdownAvailability": "'{0}' のシャットダウンと再起動は{1}です。",
   "isolatedPolicy.removedFromMenu": "メニューから削除されています（専用シート）",
   "isolatedPolicy.restrictShutdownFailed": "'{0}' のシャットダウン／再起動を禁止できませんでした：{1}",
-  "common.available": "利用可能"
+  "common.available": "利用可能",
+  "auth.loginFailed": "{0} からのログインに失敗しました：'{1}'",
+  "auth.loginSucceeded": "ログインに成功しました：{0}",
+  "auth.setupRejected": "{0} からの初期設定要求を拒否しました。",
+  "auth.credentialsConfigured": "'{0}' の認証情報を設定しました。"
 }
